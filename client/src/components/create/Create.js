@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { registerUser } from "../../actions/authActions";
+import { addMeal, getMeals } from "../../actions/mealActions";
 import classnames from "classnames";
 
 class Meals extends Component {
@@ -31,10 +31,10 @@ class Meals extends Component {
     e.preventDefault();
 
     const newMeal = {
-      name: this.state.mealName
+      mealName: this.state.mealName
     };
 
-    //this.props.registerUser(newUser, this.props.history);
+    this.props.addMeal(newMeal, this.props.history);
   };
 
   render() {
@@ -104,7 +104,7 @@ class Meals extends Component {
 }
 
 Meals.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
+  addMeal: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 
@@ -114,5 +114,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-//  { logoutUser }
-)(Meals);
+  { addMeal }
+)(withRouter(Meals));

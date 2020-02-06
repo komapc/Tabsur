@@ -2,10 +2,10 @@ import axios from "axios";
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
 
 // add a meal
-export const registerUser = (userData, history) => dispatch => {
+export const addMeal = (userData, history) => dispatch => {
   axios
-    .post("/api/meals/register", userData)
-    .then(res => history.push("/login"))
+    .post("/api/meals/addMeal", userData)
+    //.then(res => history.push("/login"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -17,7 +17,7 @@ export const registerUser = (userData, history) => dispatch => {
 //get
 export const getMeals = mealData => dispatch => {
   axios
-    .post("/api/meals/login", mealData)
+    .post("/api/meals/get", mealData)
     .then(res => {
      
     })
