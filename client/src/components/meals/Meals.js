@@ -18,7 +18,6 @@ class Meals extends Component {
                 List of meals
               </p>
             </h4>
-           
           </div>
         </div>
       </div>

@@ -11,10 +11,6 @@ const MealSchema = new Schema({
     type: String,
     required: false
   },
-  password: {
-    type: String,
-    required: true
-  },
   dateCreated: {
     type: Date,
     default: Date.now
