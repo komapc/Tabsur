@@ -55,10 +55,10 @@ router.post("/addMeal", (req, res) => {
 
   const mealName = req.body.mealName;
 
-   Meal.findOne({ mealName}).then(meal => {
+   Meal.findOne({ mealName:mealName}).then(meal => {
     // Check if user exists
     if (meal) {
-      return res.status(404).json({ mealFound: " meal found" });
+      return res.status(404).json({ mealFound: "Meal with name " + mealName + " already found" });
     }
     if(true)
     {
@@ -66,11 +66,11 @@ router.post("/addMeal", (req, res) => {
         //  id: meal.id,
           mealName: meal.mealName
         };
-        
+        return res.status(200).json(payload);
       } else {
         return res
           .status(400)
-          .json({ passwordincorrect: "An error" });
+          .json({ status: "An error" });
       }
     });
 });
