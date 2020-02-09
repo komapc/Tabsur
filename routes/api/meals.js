@@ -9,10 +9,10 @@ const validateMealInput = require("../../validation/meal");
 // Load Meal model
 const Meal = require("../../models/Meal")
 
-// @route POST api/users/addMeal
-// @desc add a meal
+// @route POST api/meals/get
+// @desc get a meal
 // @access Public
-router.post("/get", (req, res) => 
+router.get("/get", (req, res) => 
 { 
   // Find meal by name
   myCursor = Meal.find(function(err, meals) 
@@ -28,7 +28,7 @@ router.post("/get", (req, res) =>
 });
 
 
-// @route POST api/users/login
+// @route POST api/meals/addMeal
 // @desc Login user and return JWT token
 // @access Public
 router.post("/addMeal", (req, res) => {
