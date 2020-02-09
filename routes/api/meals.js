@@ -12,31 +12,19 @@ const Meal = require("../../models/Meal")
 // @route POST api/users/addMeal
 // @desc add a meal
 // @access Public
-router.post("/get", (req, res) => {
-  // Form validation
-
-  const { errors, isValid } = validateMealInput(req.body);
-
-  // Check validation
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
-
-
+router.post("/get", (req, res) => 
+{ 
   // Find meal by name
-  Meal.findOne({ mealName: req.body.mealName }).then(mealName => 
+  myCursor = Meal.find(function(err, meals) 
   {
-     if (mealName) 
-     {
-      return res.status(404).json({ mealFound: "meal already exists" });
-     }
-
-    
-    const payload = {
-        id: user.id,
-        mealName: user.mealName
-    }     
-});
+    if (err) 
+    {
+        console.log(err);
+    } else 
+    {
+        res.json(meals);
+    }
+  })
 });
 
 
@@ -44,34 +32,38 @@ router.post("/get", (req, res) => {
 // @desc Login user and return JWT token
 // @access Public
 router.post("/addMeal", (req, res) => {
-  // Form validation
+    // Form validation
 
-  const { errors, isValid } = validateMealInput(req.body);
+    const { errors, isValid } = validateMealInput(req.body);
 
-  // Check validation
-  if (!isValid) {
+    // Check validation
+    if (!isValid) {
     return res.status(400).json(errors);
-  }
+    }
 
-  const mealName = req.body.mealName;
+    const mealName = req.body.mealName;
 
-   Meal.findOne({ mealName:mealName}).then(meal => {
+    Meal.findOne({ mealName:mealName}).then(meal => {
     // Check if user exists
     if (meal) {
-      return res.status(404).json({ mealFound: "Meal with name " + mealName + " already found" });
+        return res.status(404).json({ mealFound: "Meal with name " + mealName + " already found" });
     }
     if(true)
     {
         const payload = {
-        //  id: meal.id,
-          mealName: meal.mealName
+        // id: meal.id,
+            mealName: mealName,
+            dateCreated: Date.now()
         };
-        return res.status(200).json(payload);
-      } else {
+        Meal.create(payload);
+        return res.status(201).json(payload);
+        } 
+        else 
+        {
         return res
-          .status(400)
-          .json({ status: "An error" });
-      }
+            .status(400)
+            .json({ status: "An error" });
+        }
     });
 });
 
