@@ -19,7 +19,7 @@ export const getMeals = mealData => dispatch => {
   axios
     .post("/api/meals/get", mealData)
     .then(res => {
-     
+     dispatch(res); 
     })
     .catch(err =>
       dispatch({

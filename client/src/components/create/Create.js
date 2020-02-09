@@ -42,7 +42,7 @@ class Meals extends Component {
     const { errors } = this.state;
     const { user } = this.props.auth;
     return (
-      <div style={{ height: "75vh" }} className="container valign-wrapper">
+      <div className="container valign-wrapper">
         <div className="row">
           <div className="landing-copy ">
             <h4>
@@ -81,16 +81,10 @@ class Meals extends Component {
                  
                   </div>
                 
-                  <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+                  <div className="col s12" >
                     <button
-                      style={{
-                        borderRadius: "3px",
-                        letterSpacing: "1.5px",
-                        marginTop: "1rem"
-                      }}
                       type="submit"
-                      className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-                    >
+                      className="btn btn-large waves-effect waves-light hoverable blue accent-3">
                       Add and invite!   
                     </button>
                   </div>
