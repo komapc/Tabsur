@@ -14,7 +14,8 @@ class Meals extends Component {
       mealName: "",
       type: "",
       location: "",
-      errors: {}
+      guests: 0, //max number of invited guests
+      errors: {},
     };
   }
 
@@ -31,7 +32,11 @@ class Meals extends Component {
     e.preventDefault();
 
     const newMeal = {
-      mealName: this.state.mealName
+      mealName: this.state.mealName,
+      host: this.props.auth.user.id,
+      guests: this.state.guests,
+      date: this.state.date,
+      location:  this.state.location || "here and now"
     };
 
     this.props.addMeal(newMeal, this.props.history);
@@ -70,16 +75,44 @@ class Meals extends Component {
                   <div className="input-field col s12">
                     <input
                       onChange={this.onChange}
-                      value={this.state.location}
+                      value={this.state.date}
                       error={errors.password}
-                      id="location"
+                      id="date"
                       type="date"
                       className={classnames("", {
                         invalid: errors.password
                       })}
                     />
-                 
+                   <label htmlFor="date">Date</label>
+                    <span className="red-text">{errors.name}</span>
                   </div>
+
+                  <div className="input-field col s12">
+                    <input
+                      onChange={this.onChange}
+                      value={this.state.location}
+                      error={errors.password}
+                      id="location"
+                      type="text"
+                     
+                    />
+                 <label htmlFor="location">Location</label>
+                    <span className="red-text">{errors.name}</span>
+                  </div>
+
+                  <div className="input-field col s12">
+                    <input min={0} max={10} 
+                      onChange={this.onChange}
+                      value={this.state.guests}
+                      error={errors.password}
+                      id="guests"
+                      type="number"
+                     
+                    />
+                 <label htmlFor="guests">Max number of guests</label>
+                    <span className="red-text">{errors.name}</span>
+                  </div>
+
                 
                   <div className="col s12" >
                     <button
