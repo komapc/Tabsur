@@ -12,10 +12,7 @@ class Meals extends Component {
     this.state = {
       meals: []
     };
-  }
-
-   
-
+  } 
     
   componentDidMount() {
     axios.get('/api/meals/get')
@@ -51,11 +48,6 @@ class Meals extends Component {
     );
   }
 }
-
-Meals.propTypes = {
-  //logoutUser: PropTypes.func.isRequired,
-  //auth: PropTypes.object.isRequired
-};
 
 const mapStateToProps = state => ({
   auth: state.auth,

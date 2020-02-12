@@ -15,6 +15,8 @@ import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import Meals from "./components/meals/Meals";
 import Create from "./components/create/Create";
+import About from "./components/about/About"
+import MyMeals from "./components/myMeals/MyMeals"
 import "./App.css";
 
 // Check for token to keep user logged in
@@ -50,6 +52,8 @@ class App extends Component {
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/meals" component={Meals} />
               <PrivateRoute exact path="/create" component={Create} />
+              <PrivateRoute exact path="/myMeals" component={MyMeals} />
+              <PrivateRoute exact path="/about" component={About} />
             </Switch>
           </div>
         </Router>
