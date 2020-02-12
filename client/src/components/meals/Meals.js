@@ -14,13 +14,7 @@ class Meals extends Component {
     };
   }
 
-    DataTable() {
-    //var p = getMeals();
-    var p =  axios.get("../api/meals/get");
-    /*return p.map( (res, i) => {
-      return <div obj={res} key={i} />;
-    });*/
-    }
+   
 
     
   componentDidMount() {
@@ -40,17 +34,16 @@ class Meals extends Component {
         <div className="row">
           <div className="landing-copy ">
             <h4>
-              <b>Hey there,</b> {user.name}
-              <div className="flow-text grey-text text-darken-1">
-                List of meals
+              Hey {user.name}
+              <ul className="flow-text grey-text text-darken-1">
+                List of available meals in your neighborhood:
                  {this.state.meals.map(meal =>
-                  <div key={meal._id}>
-                  <span> {meal.mealName}</span>
-                  <span> {meal.dateCreated}</span>
-                  </div>
+                 <li  key={meal._id} ><span className="mealName" > {meal.mealName}</span>
+                  <span> {new Date(meal.dateCreated).toUTCString()}</span>
+                  <button> attend</button>
+                  </li>
                 )}
-              </div>
-              {this.DataTable()}
+              </ul>
             </h4>
           </div>
         </div>

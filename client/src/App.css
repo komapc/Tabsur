@@ -11,3 +11,16 @@ button {
     .accent-3;
      */
 }
+.mealName {
+    font-weight: 900;
+    text-overflow: ellipsis;
+}
+ul {
+    list-style-type: none;
+    padding-left: 12px;
+}
+
+ul li span {
+    float: left;
+    width: 400px;
+}
