@@ -14,8 +14,16 @@ const MealSchema = new Schema({
   dateCreated: {
     type: Date,
     default: Date.now
-  }
-   
+  },
+  //meal time
+  time: {
+    type: Date,
+    default: Date.now
+  },
+  place: {
+    type: Date,
+    default: Date.now
+  }  
 });
 
 module.exports = Meal = mongoose.model("meals", MealSchema);
