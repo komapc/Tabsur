@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import axios from 'axios';
 
 class MyMeals extends Component {
 
@@ -27,10 +25,7 @@ class MyMeals extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  auth: state.auth,
- 
-});
+
 
 export default connect(
 )(MyMeals);

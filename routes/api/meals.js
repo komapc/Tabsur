@@ -13,7 +13,7 @@ const Meal = require("../../models/Meal")
 // @desc get a meal
 // @access Public
 router.get("/get", (req, res) => 
-{ 
+{
   // Find meal by name
   myCursor = Meal.find(function(err, meals) 
   {
@@ -38,7 +38,7 @@ router.post("/addMeal", (req, res) => {
 
     // Check validation
     if (!isValid) {
-    return res.status(400).json(errors);
+        return res.status(400).json(errors);
     }
 
     const mealName = req.body.mealName;
@@ -57,14 +57,35 @@ router.post("/addMeal", (req, res) => {
         };
         Meal.create(payload);
         return res.status(201).json(payload);
-        } 
-        else 
-        {
+    } 
+    else 
+    {
         return res
             .status(400)
             .json({ status: "An error" });
         }
     });
+});
+
+
+// @route DELETE api/meals/get
+// @desc delete a meal
+// @access Public (?)
+
+router.get("/delete/:id", (req, res) => 
+{ 
+//todo
+  // Find meal by name
+  myCursor = Meal.delete(function(err, meals) 
+  {
+    if (err) 
+    {
+        console.log(err);
+    } else 
+    {
+        res.json(meals);
+    }
+  })
 });
 
 module.exports = router;
