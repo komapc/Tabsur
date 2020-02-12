@@ -16,19 +16,27 @@ class Navbar extends Component {
             <Link
               to="/Meals"   
             >
-              Join a meal to join!
+              Choose a meal to join
             </Link>
             <span> ** </span>
             <Link
               to="/Create"   
             >
-              Create a  meal
-            </Link> <span> ** </span>
-            <Link
-              to="/YouMeals"   
-            >
-              Create a  meal
+              Create a meal
             </Link>
+            <span> ** </span>
+            <Link
+              to="/MyMeals"   
+            >
+            My meals
+            </Link>
+            
+              <span> ** </span> 
+            <Link
+              to="/About"   
+            >
+            About us
+            </Link> 
           </div>
         </nav>
       </div>
