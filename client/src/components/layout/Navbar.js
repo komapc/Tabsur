@@ -32,6 +32,13 @@ class Navbar extends Component {
             </Link>
             
               <span> ** </span> 
+              <Link
+              to="/Notifications"   
+            >
+            Notificaions
+            </Link>
+            
+              <span> ** </span> 
             <Link
               to="/About"   
             >
