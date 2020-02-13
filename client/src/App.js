@@ -14,8 +14,10 @@ import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import Meals from "./components/meals/Meals";
+import Attend from "./components/meals/Attend";
 import Create from "./components/create/Create";
 import About from "./components/about/About"
+import Notifications from "./components/notifications/Notifications"
 import MyMeals from "./components/myMeals/MyMeals"
 import "./App.css";
 
@@ -54,6 +56,8 @@ class App extends Component {
               <PrivateRoute exact path="/create" component={Create} />
               <PrivateRoute exact path="/myMeals" component={MyMeals} />
               <PrivateRoute exact path="/about" component={About} />
+              <PrivateRoute exact path="/attend" component={Attend} />
+              <PrivateRoute exact path="/notifications" component={Notifications} />
             </Switch>
           </div>
         </Router>
