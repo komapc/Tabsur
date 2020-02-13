@@ -5,6 +5,7 @@ const passport = require("passport");
 
 const users = require("./routes/api/users");
 const meals= require("./routes/api/meals");
+const attends= require("./routes/api/attends");
 const app = express();
 
 // Bodyparser middleware
@@ -36,6 +37,7 @@ require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
 app.use("/api/meals", meals);
+app.use("/api/atends", attends);
 
 const port = process.env.PORT || 5000;
 
