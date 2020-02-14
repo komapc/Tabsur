@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
+import {BrowserRouter} from 'react-router';
 
 class Attend extends Component {
     
@@ -14,7 +15,7 @@ class Attend extends Component {
         this.setState({ meals: res.data });
       });
   }
-
+    
   render() {
     const { user } = this.props.auth;
     
@@ -25,16 +26,12 @@ class Attend extends Component {
             <h4>
               Hey {user.name}
               <br/>
-              Meal info
+              Meal info 
             </h4>
           </div>
           <button
-          onClick={() => {          
-                 const history = useHistory();
-                 history.goBack()
-             }}
-             
-              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+          onClick={this.props.history.goBack}
+          className="btn btn-large waves-effect waves-light hoverable blue accent-3"
             >
               back to list
             </button>
@@ -42,6 +39,7 @@ class Attend extends Component {
       </div>
     );
   }
+  debugger;
 }
 
 const mapStateToProps = state => ({

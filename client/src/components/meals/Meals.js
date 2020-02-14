@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import axios from 'axios';
-
+import { useHistory } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 class Meals extends Component {
 
 
@@ -21,7 +22,7 @@ class Meals extends Component {
         this.setState({ meals: res.data });
       });
   }
-
+   
 
   render() {
     const { user } = this.props.auth;
@@ -37,8 +38,7 @@ class Meals extends Component {
                  {this.state.meals.map(meal =>
                  <li  key={meal._id} ><span className="mealName" > {meal.mealName}</span>
                   <span> {new Date(meal.dateCreated).toUTCString()}</span>
-                  <button> attend</button>
-                  <button> delete</button>
+                  <Link to={"/Attend/" + meal._id}> Attend</Link>
                   </li>
                 )}
               </ul>
