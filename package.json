@@ -1,7 +1,7 @@
 {
-  "name": "mern-auth",
+  "name": "coolanu",
   "version": "1.0.0",
-  "description": "Mern Auth Example",
+  "description": "Coolanu (table-surfing) alpha",
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
