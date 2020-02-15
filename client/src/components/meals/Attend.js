@@ -7,9 +7,15 @@ import { useHistory, withRouter } from 'react-router-dom';
 import {BrowserRouter} from 'react-router';
 
 class Attend extends Component {
-    
+    constructor(props) {
+        super(props);
+        this.state = {
+          meal_id: this.props.match.params.id
+    };
+  }
+
   componentDidMount() {
-    axios.get('/api/meals/get')
+    axios.get('/api/attends/get/' +this.props.match.params.id)
       .then(res => {
         console.log(res);
         this.setState({ meals: res.data });
@@ -18,7 +24,7 @@ class Attend extends Component {
     
   render() {
     const { user } = this.props.auth;
-    
+    //const {meal_id}= this.state.meal_id;
     return (
       <div className="container valign-wrapper">
         <div className="row">
@@ -26,7 +32,7 @@ class Attend extends Component {
             <h4>
               Hey {user.name}
               <br/>
-              Meal info 
+              Meal info:  ({this.state.meal_id}) 
             </h4>
           </div>
           <button
@@ -39,7 +45,6 @@ class Attend extends Component {
       </div>
     );
   }
-  debugger;
 }
 
 const mapStateToProps = state => ({
