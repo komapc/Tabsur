@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var attend = require('../../models/Attend.js');
 
-/* GET ALL attendS */
+/* GET ALL attends */
 router.get('/', function(req, res, next) {
   attend.find(function (err, products) {
     if (err) return next(err);

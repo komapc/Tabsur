@@ -3,18 +3,17 @@ const router = express.Router();
 const keys = require("../../config/keys");
 
 // Load input validation
-//const validateRegisterInput = require("../../validation/register");
 const validateMealInput = require("../../validation/meal");
 
 // Load Meal model
 const Meal = require("../../models/Meal")
 
-// @route POST api/meals/get
-// @desc get a meal
+// @route GET api/meals/get
+// @desc get a meal list
 // @access Public
 router.get("/get", (req, res) => 
 {
-  // Find meal by name
+  // Find meals
   myCursor = Meal.find(function(err, meals) 
   {
     if (err) 
@@ -25,6 +24,18 @@ router.get("/get", (req, res) =>
         res.json(meals);
     }
   })
+});
+
+
+
+// @route GET api/meals/get
+// @desc get a meal by id
+// @access Public
+router.get('/get/:id', function(req, res, next) {
+  Meal.findById(req.params.id, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
 });
 
 

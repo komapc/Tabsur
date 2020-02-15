@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useHistory, withRouter } from 'react-router-dom';
 import {BrowserRouter} from 'react-router';
 
+// info about meal + attend option
 class Attend extends Component {
     constructor(props) {
         super(props);
@@ -15,7 +16,7 @@ class Attend extends Component {
   }
 
   componentDidMount() {
-    axios.get('/api/attends/get/' +this.props.match.params.id)
+    axios.get('/api/meals/get/' +this.props.match.params.id)
       .then(res => {
         console.log(res);
         this.setState({ meals: res.data });
