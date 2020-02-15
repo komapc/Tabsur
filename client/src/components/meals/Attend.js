@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getMeals } from "../../actions/mealActions";
+//import { getMeals } from "../../actions/mealActions";
 import axios from 'axios';
 import { useHistory, withRouter } from 'react-router-dom';
 import {BrowserRouter} from 'react-router';
@@ -11,16 +11,19 @@ class Attend extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          meal_id: this.props.match.params.id
-    };
+            meal_id: this.props.match.params.id,
+            meal: []
+        };
+        axios.get('/api/meals/get/' +this.props.match.params.id)
+          .then(res => {
+            console.log(res);
+            console.log(res.data);
+            this.setState({ meal: res.data });
+          });
   }
 
   componentDidMount() {
-    axios.get('/api/meals/get/' +this.props.match.params.id)
-      .then(res => {
-        console.log(res);
-        this.setState({ meals: res.data });
-      });
+   
   }
     
   render() {
@@ -33,8 +36,14 @@ class Attend extends Component {
             <h4>
               Hey {user.name}
               <br/>
-              Meal info:  ({this.state.meal_id}) 
+              Meal info: 
+              <div>meal name: {this.state.meal.mealName} </div>
+              <div>meal host: {this.state.meal._id} </div>
+              <div>meal time: {this.state.meal.time} </div>
+              <div>meal address: {this.state.meal.place} </div>
             </h4>
+          </div>
+          <div>
           </div>
           <button
           onClick={this.props.history.goBack}
@@ -55,5 +64,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getMeals }
+ // { getMeals }
 )(Attend);
