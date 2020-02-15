@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-//import { getMeals } from "../../actions/mealActions";
+import { joinMeal } from "../../actions/mealActions";
 import axios from 'axios';
 import { useHistory, withRouter } from 'react-router-dom';
 import {BrowserRouter} from 'react-router';
@@ -14,29 +14,32 @@ class Attend extends Component {
             meal_id: this.props.match.params.id,
             meal: []
         };
-        axios.get('/api/meals/get/' +this.props.match.params.id)
+        axios.get('/api/meals/get/' + this.props.match.params.id)
           .then(res => {
             console.log(res);
             console.log(res.data);
             this.setState({ meal: res.data });
           });
-  }
-  joinMeal()
-  {
-      axios.get('/api/meals/get/' +this.props.match.params.id)
-          .then(res => {
-            console.log(res);
-            console.log(res.data);
-            this.setState({ meal: res.data });
-          });
-  }
-    
+    }
+   
+    onSubmit = e => {
+        e.preventDefault();
+
+        const newAttend = {
+          mealName: this.state.mealName,
+          host: this.props.auth.user.id,
+        };
+
+        this.props.joinMeal(newAttend, this.props.history);
+  };
+
   render() {
     const { user } = this.props.auth;
     //const {meal_id}= this.state.meal_id;
     return (
       <div className="container valign-wrapper">
         <div className="row">
+        <form  onSubmit={this.onSubmit}>
           <div className="landing-copy ">
             <h4>
               Hey {user.name}
@@ -50,18 +53,19 @@ class Attend extends Component {
           </div>
           <div>
           </div>
-           <button
-          onClick={this.joinMeal}
-          className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-            >
-             Join this meal
-            </button>
           <button
-          onClick={this.props.history}
+              onClick={this.joinMeal}
+              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                >
+                 Join this meal
+          </button>
+          <button type="submit"
+          onClick={this.props.history.goBack}
           className="btn btn-large waves-effect waves-light hoverable blue accent-3"
             >
               back to list
             </button>
+            </form>
         </div>
       </div>
     );
@@ -75,5 +79,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
- // { getMeals }
+  { joinMeal }
 )(Attend);
