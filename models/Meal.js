@@ -21,8 +21,12 @@ const MealSchema = new Schema({
     default: Date.now
   },
   place: {
-    type: Date,
-    default: Date.now
+    type: String,
+    default: "here and now"
+  },
+  guests: {
+    type: Number,
+    default:1
   }  
 });
 
