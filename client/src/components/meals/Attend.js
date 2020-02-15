@@ -21,9 +21,14 @@ class Attend extends Component {
             this.setState({ meal: res.data });
           });
   }
-
-  componentDidMount() {
-   
+  joinMeal()
+  {
+      axios.get('/api/meals/get/' +this.props.match.params.id)
+          .then(res => {
+            console.log(res);
+            console.log(res.data);
+            this.setState({ meal: res.data });
+          });
   }
     
   render() {
@@ -36,17 +41,23 @@ class Attend extends Component {
             <h4>
               Hey {user.name}
               <br/>
-              Meal info: 
-              <div>meal name: {this.state.meal.mealName} </div>
-              <div>meal host: {this.state.meal._id} </div>
-              <div>meal time: {this.state.meal.time} </div>
-              <div>meal address: {this.state.meal.place} </div>
             </h4>
+              Meal info: 
+              <div>Do you whant to attend <b>{this.state.meal.mealName}</b>? </div>
+              <div>It is hosted by <b> {this.state.meal._id}</b> </div>
+              <div> today at <b> {this.state.meal.time}</b> </div>
+              <div>at {this.state.meal.place} (see map)  </div>
           </div>
           <div>
           </div>
+           <button
+          onClick={this.joinMeal}
+          className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+            >
+             Join this meal
+            </button>
           <button
-          onClick={this.props.history.goBack}
+          onClick={this.props.history}
           className="btn btn-large waves-effect waves-light hoverable blue accent-3"
             >
               back to list
