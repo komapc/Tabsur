@@ -29,6 +29,19 @@ export const getMeals = mealData => dispatch => {
     );
 };
 
+// add a meal
+export const joinMeal = (attendData, history) => dispatch => {
+  axios
+    .post("/api/attends/", attendData)
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+
 // User loading
 export const setUserLoading = () => {
   return {
