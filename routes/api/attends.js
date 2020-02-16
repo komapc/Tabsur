@@ -19,6 +19,14 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
+/* GET sattend by meal */
+router.get('/meal/:meal_id', function(req, res, next) {
+  attend.find({meal_id:req.params.meal_id}, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
 /* SAVE attend */
 router.post('/', function(req, res, next) {
   attend.create(req.body, function (err, post) {

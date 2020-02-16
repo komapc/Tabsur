@@ -41,10 +41,14 @@ export const joinMeal = (attendData, history) => dispatch => {
     );
 };
 
-// add a meal
-export const getAttendsByMeal = (attendData, history) => dispatch => {
+
+//get
+export const getAttendByMeal = attendData => dispatch => {
   axios
-    .get("/api/attends/", attendData)
+    .get("/api/attends/meal/" + attendData.meal_id, attendData)
+    .then(res => {
+     dispatch(res); 
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -52,8 +56,6 @@ export const getAttendsByMeal = (attendData, history) => dispatch => {
       })
     );
 };
-
-
 
 // User loading
 export const setUserLoading = () => {
