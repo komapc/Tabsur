@@ -26,8 +26,8 @@ class Attend extends Component {
         e.preventDefault();
 
         const newAttend = {
-          mealName: this.state.mealName,
-          host: this.props.auth.user.id,
+          meal_id: this.state.mealName,
+          user_id: this.props.auth.user.id,
         };
 
         this.props.joinMeal(newAttend, this.props.history);
