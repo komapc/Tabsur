@@ -32,15 +32,15 @@ class Meals extends Component {
       meals: []
     };
   } 
-    
+
   componentDidMount() {
-    axios.get('/api/meals/get')
+      axios.get('/api/meals/get')
       .then(res => {
         console.log(res);
         this.setState({ meals: res.data });
       });
-  }
-   
+  } 
+    
 
   render() {
     const { user } = this.props.auth;
