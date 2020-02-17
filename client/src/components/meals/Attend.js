@@ -15,11 +15,16 @@ class Attend extends Component {
             meal: [],
             attends: []
         };
-               axios.get("/api/attends/meal/" + this.state.meal_id)
-       .then(res => 
-       {
+        axios.get("/api/meals/get/" + this.state.meal_id)
+        .then(res => 
+        {
+            this.setState({ meal: res.data })
+        })
+        axios.get("/api/attends/meal/" + this.state.meal_id)
+        .then(res => 
+        {
             this.setState({ attends: res.data })
-       })
+        })
     }
 
 
@@ -36,7 +41,6 @@ class Attend extends Component {
 
   render() {
     const { user } = this.props.auth;
-    //const {meal_id}= this.state.meal_id;
     return (
       <div className="container valign-wrapper">
         <div className="row">
@@ -47,8 +51,8 @@ class Attend extends Component {
               <br/>
             </h4>
               Meal info: 
-              <div>Do you whant to attend <b>{this.state.meal.mealName}</b>? </div>
-              <div>It is hosted by <b> {this.state.meal._id}</b> </div>
+              <div>Do you want to attend <b>{this.state.meal.mealName}</b>? </div>
+              <div>It is hosted by <b> {this.state.meal.host}</b> </div>
               <div> today at <b> {this.state.meal.time}</b> </div>
               <div>at {this.state.meal.place} (see map)  </div>
           </div>

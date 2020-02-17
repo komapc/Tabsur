@@ -35,7 +35,7 @@ class Meals extends Component {
       mealName: this.state.mealName,
       host: this.props.auth.user.id,
       guests: this.state.guests,
-      date: this.state.date,
+      dateCreated: this.state.date,
       location:  this.state.location || "here and now"
     };
 
