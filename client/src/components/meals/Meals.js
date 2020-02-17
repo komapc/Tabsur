@@ -50,9 +50,7 @@ class Meals extends Component {
         <div className="row">
           <div className="landing-copy " className="split left">
             <h4 className="caption">
-              Hey {user.name}, 
-                ACTIVE MEALS:
-              
+                ACTIVE MEALS:              
             </h4>
               <div className="flow-text grey-text text-darken-1">
                 {this.state.meals.map(meal =>
