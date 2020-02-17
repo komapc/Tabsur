@@ -15,19 +15,13 @@ class Attend extends Component {
             meal: [],
             attends: []
         };
-    }
-   
-    componentDidMount  () 
-    {
-       // getAttendByMeal(this.state.meal_id, this);
-       //this.setState({attends: a});
-
-        axios.get("/api/attends/meal/" + this.state.meal_id)
+               axios.get("/api/attends/meal/" + this.state.meal_id)
        .then(res => 
        {
             this.setState({ attends: res.data })
        })
     }
+
 
     onSubmit = e => {
         e.preventDefault();

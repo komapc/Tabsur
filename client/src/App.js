@@ -19,6 +19,7 @@ import Create from "./components/create/Create";
 import About from "./components/about/About"
 import Notifications from "./components/notifications/Notifications"
 import MyMeals from "./components/myMeals/MyMeals"
+import Profile from "./components/auth/Profile"
 import "./App.css";
 
 // Check for token to keep user logged in
@@ -49,15 +50,16 @@ class App extends Component {
             <Navbar />
             <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
-            <Route exact path="/login" component={Login} />
+            <Route exact path="/login" component={Login} />            
+            <Route exact path="/about" component={About} />
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/meals" component={Meals} />
               <PrivateRoute exact path="/create" component={Create} />
               <PrivateRoute exact path="/myMeals" component={MyMeals} />
-              <PrivateRoute exact path="/about" component={About} />
               <PrivateRoute exact path="/attend/:id" component={Attend} />
               <PrivateRoute exact path="/notifications" component={Notifications} />
+              <PrivateRoute exact path="/Profile" component={Profile} />
             </Switch>
           </div>
         </Router>
