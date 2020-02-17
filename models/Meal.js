@@ -24,6 +24,11 @@ const MealSchema = new Schema({
     type: String,
     default: "here and now"
   },
+  //host user id
+  host: {
+    type: String,
+    default: "-1"
+  },
   guests: {
     type: Number,
     default:1

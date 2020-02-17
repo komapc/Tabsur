@@ -26,6 +26,24 @@ router.get("/get", (req, res) =>
   })
 });
 
+// @route GET api/meals/get_my
+// @desc get a list of meals created by me
+// @access Public
+router.get("/get_my/:id", (req, res) => 
+{
+    // Find meals
+    myCursor = Meal.find({host:req.params.id}, function(err, meals) 
+    {
+        if (err) 
+        {
+            console.log(err);
+        } else 
+        {
+            res.json(meals);
+        }
+    })
+});
+
 
 
 // @route GET api/meals/get
@@ -61,11 +79,7 @@ router.post("/addMeal", (req, res) => {
     }
     if(true)
     {
-        const payload = {
-        // id: meal.id,
-            mealName: mealName,
-            dateCreated: Date.now()
-        };
+        const payload = req.body;
         Meal.create(payload);
         return res.status(201).json(payload);
     } 
