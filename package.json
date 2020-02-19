@@ -29,5 +29,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/komapc/MERN"
+  },
+  "engines": {
+    "node": "13.13.0"
   }
 }
