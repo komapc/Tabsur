@@ -11,7 +11,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "react-scripts build"
   },
-  "author": "",
+  "author": "Mark&Yana",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",

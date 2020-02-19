@@ -41,7 +41,7 @@ class Navbar extends Component {
               <span> ** </span> 
 
               <Link
-              to="/Profile"   
+              to="/MyProfile"   
             >
             Profile
             </Link>
