@@ -15,11 +15,12 @@ import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import Meals from "./components/meals/Meals";
 import Attend from "./components/meals/Attend";
-import Create from "./components/create/Create";
+import Create from "./components/meals/Create";
 import About from "./components/about/About"
 import Notifications from "./components/notifications/Notifications"
-import MyMeals from "./components/myMeals/MyMeals"
-import Profile from "./components/auth/Profile"
+import MyMeals from "./components/meals/MyMeals"
+import MyProfile from "./components/auth/MyProfile"
+import Profile from "./components/users/Profile"
 import "./App.css";
 
 // Check for token to keep user logged in
@@ -59,7 +60,8 @@ class App extends Component {
               <PrivateRoute exact path="/myMeals" component={MyMeals} />
               <PrivateRoute exact path="/attend/:id" component={Attend} />
               <PrivateRoute exact path="/notifications" component={Notifications} />
-              <PrivateRoute exact path="/Profile" component={Profile} />
+              <PrivateRoute exact path="/myProfile" component={MyProfile} />
+              <PrivateRoute exact path="/profile/:id" component={Profile} />
             </Switch>
           </div>
         </Router>

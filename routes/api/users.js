@@ -107,4 +107,30 @@ router.post("/login", (req, res) => {
   });
 });
 
+
+
+// @route GET api/users/get
+// @desc get public user properties
+// @access Public
+router.get("/get/:id", (req, res) => 
+{
+    // Find the user
+    User.find({_id:req.params.id},
+        function(err, user) 
+        {
+            if (err) 
+            {
+                console.log(err);
+            } else 
+            {
+                var payload =user[0];
+                payload.email = null;
+                payload.password = null;
+            }
+
+            res.json(payload);
+        }
+    )
+});
+
 module.exports = router;

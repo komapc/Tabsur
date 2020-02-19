@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { joinMeal, getAttendByMeal } from "../../actions/mealActions";
 import axios from 'axios';
-import { useHistory, withRouter } from 'react-router-dom';
+import { useHistory, withRouter, Link} from 'react-router-dom';
 import {BrowserRouter} from 'react-router';
 
 // info about meal + attend option
@@ -52,19 +52,19 @@ class Attend extends Component {
             </h4>
               Meal info: 
               <div>Do you want to attend <b>{this.state.meal.mealName}</b>? </div>
-              <div>It is hosted by <b> {this.state.meal.host}</b> </div>
+              <div>It is hosted by <Link to={"/Profile/"+this.state.meal.host}> {this.state.meal.host}</Link> </div>
               <div> today at <b> {this.state.meal.time}</b> </div>
               <div>at {this.state.meal.place} (see map)  </div>
           </div>
 
           <div> List of people who attended
-           {this.state.attends.map(attend =>
+            {this.state.attends.map(attend =>
                     <div key={attend._id}   >
                         <div>
                             <span className="mealName" > {attend.user_name || attend.user_id || "x"}</span>
                         </div>
                     </div>
-              )}
+                )}
 
 
 
