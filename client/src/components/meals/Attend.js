@@ -5,6 +5,7 @@ import { joinMeal, getAttendByMeal } from "../../actions/mealActions";
 import axios from 'axios';
 import { useHistory, withRouter, Link} from 'react-router-dom';
 import {BrowserRouter} from 'react-router';
+import config from "../../config";
 
 // info about meal + attend option
 class Attend extends Component {
@@ -15,12 +16,12 @@ class Attend extends Component {
             meal: [],
             attends: []
         };
-        axios.get("/api/meals/get/" + this.state.meal_id)
+        axios.get(`${config.SERVER_HOST}/api/meals/get/` + this.state.meal_id)
         .then(res => 
         {
             this.setState({ meal: res.data })
         })
-        axios.get("/api/attends/meal/" + this.state.meal_id)
+        axios.get(`${config.SERVER_HOST}/api/attends/meal/` + this.state.meal_id)
         .then(res => 
         {
             this.setState({ attends: res.data })
