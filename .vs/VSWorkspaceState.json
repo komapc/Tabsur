@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\client",
+    "\\client\\src",
+    "\\client\\src\\actions",
+    "\\client\\src\\components",
+    "\\client\\src\\components\\create",
+    "\\client\\src\\components\\layout",
+    "\\models",
+    "\\routes",
+    "\\routes\\api"
+  ],
+  "SelectedNode": "\\models\\Meal.js",
+  "PreviewInSolutionExplorer": false
+}
