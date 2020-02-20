@@ -1,10 +1,11 @@
 import axios from "axios";
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
+import config from "../config";
 
 // add a meal
 export const addMeal = (userData, history) => dispatch => {
   axios
-    .post("/api/meals/addMeal", userData)
+    .post(`${config.SERVER_HOST}/api/meals/addMeal`, userData)
     //.then(res => history.push("/login"))
     .catch(err =>
       dispatch({
@@ -17,7 +18,7 @@ export const addMeal = (userData, history) => dispatch => {
 //get
 export const getMeals = mealData => dispatch => {
   axios
-    .get("/api/meals/get", mealData)
+    .get(`${config.SERVER_HOST}/api/meals/get`, mealData)
     .then(res => {
      dispatch(res); 
     })
@@ -32,7 +33,7 @@ export const getMeals = mealData => dispatch => {
 // add a meal
 export const joinMeal = (attendData, history) => dispatch => {
   axios
-    .post("/api/attends/", attendData)
+    .post(`${config.SERVER_HOST}/api/attends/`, attendData)
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -45,7 +46,7 @@ export const joinMeal = (attendData, history) => dispatch => {
 //get
 export const getAttendByMeal = attendData => dispatch => {
   axios
-    .get("/api/attends/meal/" + attendData.meal_id, attendData)
+    .get(`${config.SERVER_HOST}/api/attends/meal/` + attendData.meal_id, attendData)
     .then(res => {
      dispatch(res); 
     })

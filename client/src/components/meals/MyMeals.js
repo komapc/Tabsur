@@ -5,6 +5,7 @@ import { getMeals } from "../../actions/mealActions";
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import MealListItem from "./MealListItem";
+import config from "../../config";
 
 class MyMeals extends Component {
 
@@ -14,7 +15,7 @@ class MyMeals extends Component {
         this.state = {
             meals: []
     };
-    axios.get('/api/meals/get_my/' +  this.props.auth.user.id)
+    axios.get(`${config.SERVER_HOST}/api/meals/get_my/` +  this.props.auth.user.id)
         .then(res => {
         console.log(res);
         this.setState({ meals: res.data });
