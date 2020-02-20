@@ -30,20 +30,20 @@ class MyMeals extends Component {
         <div className="row">
           <div className="landing-copy ">
             <h4>
-              Hey {user.name}
+              Hey {user.name}, 
+              your meals list:
             </h4>
           </div>
           <div>
-            Here is your meals list:
             <div className="flow-text grey-text text-darken-1">
-               {this.state.meals.map(meal =>
-                   <div key={meal._id}>
-                       <div key={meal._id}>
-                        <MealListItem meal={meal} />
-                    </div>
-                   </div>
-             )}
-              </div >
+                {this.state.meals.map(meal =>
+                    <div key={meal._id}>
+                        <div key={meal._id}>
+                            <MealListItem meal={meal} />
+                        </div>
+                </div>
+                )}
+            </div >
           </div>
         </div>
       </div>
