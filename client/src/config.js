@@ -4,7 +4,7 @@ export const env = process.env.NODE_ENV;
 
 switch(env) {
     case 'production':
-        config.SERVER_HOST = 'http://something.on.heroku';
+        config.SERVER_HOST = 'http://coolanu.herokuapp.com';
         break;
 
     case "development":
