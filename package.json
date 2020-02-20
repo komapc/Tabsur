@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
-    "start": "node server.js",
-    "server": "nodemon server.js",
+    "start": "export NODE_ENV=production && node server.js",
+    "server": "export NODE_ENV=production && nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "export NODE_ENV=production && npm run-script client-install && cd client && react-scripts build"
