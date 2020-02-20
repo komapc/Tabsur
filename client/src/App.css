@@ -53,9 +53,19 @@ ul li span {
 
 .meal_props {
     background-color: Gray;
-    border:ridge;
+    border: ridge;
     color: black;
+    border-radius: 8px;
+    transition-duration: 0.3s;
 }
+
+    .meal_props:hover {
+        background-color: #555050;
+        border-radius: 15px;
+        transform: scaleY(1.03);
+        transition-duration: 0.5s;
+    }
+
 .meal_image {
     width: 100px;
     height: 100px;
