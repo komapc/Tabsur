@@ -12,6 +12,7 @@ import {
   GoogleMap,
   Marker,
 } from "react-google-maps";
+import config from "../../config";
 
 const MapWithAMarker = withScriptjs(withGoogleMap(props =>
   <GoogleMap
@@ -35,7 +36,7 @@ class Meals extends Component {
   } 
 
   componentDidMount() {
-      axios.get('/api/meals/get')
+      axios.get(`${config.SERVER_HOST}/api/meals/get`)
       .then(res => {
         console.log(res);
         this.setState({ meals: res.data });
