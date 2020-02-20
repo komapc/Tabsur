@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import MealListItem from "./MealListItem";
 
 class MyMeals extends Component {
 
@@ -37,14 +38,9 @@ class MyMeals extends Component {
             <div className="flow-text grey-text text-darken-1">
                {this.state.meals.map(meal =>
                    <div key={meal._id}>
-                       <img src={"http://www.catsinsinks.com/cats/rotator.php?"+meal._id} className="meal_image"></img>
-                       <div className="meal_props">
-                           <span className="mealName" > {meal.mealName}</span>
-                           <br/>
-                           <span> {new Date(meal.dateCreated).toUTCString()}</span>
-                           <br/>
-                           <Link to={"/Attend/" + meal._id}> Attend</Link>    
-                       </div>
+                       <div key={meal._id}>
+                        <MealListItem meal={meal} />
+                    </div>
                    </div>
              )}
               </div >

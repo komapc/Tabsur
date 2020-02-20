@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
+import MealListItem from "./MealListItem";
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import {Link} from 'react-router-dom';
@@ -55,16 +56,10 @@ class Meals extends Component {
               <div className="flow-text grey-text text-darken-1">
                 {this.state.meals.map(meal =>
                     <div key={meal._id}>
-                        <img src={"http://www.catsinsinks.com/cats/rotator.php?"+meal._id} className="meal_image"></img>
-                        <div className="meal_props">
-                            <span className="mealName" > {meal.mealName}</span>
-                            <br/>
-                            <span> {new Date(meal.dateCreated).toUTCString()}</span>
-                            <br/>
-                            <Link to={"/Attend/" + meal._id}> Attend</Link>    
-                        </div>
+                        <MealListItem meal={meal} />
                     </div>
-              )}
+                    
+                )}
               </div >
           </div>
           <div className="split right">
