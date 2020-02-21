@@ -6,10 +6,11 @@
   "scripts": {
     "client-install": "npm install --prefix client",
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "nodemon server.js",
+    "server": "node server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "npm run-script client-install && cd client && react-scripts build; cd .."
+    "build": "npm run-script client-install && cd client && react-scripts build; cd ..",
+    "stop": "node server.stop.js"
   },
   "author": "Mark&Yana",
   "license": "MIT",
