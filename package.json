@@ -9,7 +9,7 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "npm run-script client-install && cd client && react-scripts build"
+    "build": "npm run-script client-install && cd client && react-scripts build; cd .."
   },
   "author": "Mark&Yana",
   "license": "MIT",
