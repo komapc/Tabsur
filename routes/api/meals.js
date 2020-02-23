@@ -50,10 +50,26 @@ router.get("/get_my/:id", (req, res) =>
 // @desc get a meal by id
 // @access Public
 router.get('/get/:id', function(req, res, next) {
+  
+    Meal.aggregate([
+    { $lookup:
+       {
+         from: 'users',
+         localField: 'host',
+         foreignField: '_id',
+         as: 'host_name'
+       }
+     }
+    ]).exec(function(err, res) {
+   console.log(res);
+    });
+
   Meal.findById(req.params.id, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
+
+
 });
 
 

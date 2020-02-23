@@ -19,6 +19,13 @@ class MyMeals extends Component {
             <h4>
               About us.
             </h4>
+            <div>
+              Welcome to Coolanu TableSurfing community!
+              <br />
+              If you have food - invite guests,
+              <br />
+              if you are hungry - find a host!
+            </div>
           </div>
         </div>
       </div>
