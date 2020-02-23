@@ -22,9 +22,9 @@ class MyMeals extends Component {
             <div>
               Welcome to Coolanu TableSurfing community!
               <br />
-              If you have food - invite guests,
+              If you have food &ndash; invite guests,
               <br />
-              if you are hungry - find a host!
+              if you are hungry &ndash; find a host!
             </div>
           </div>
         </div>
