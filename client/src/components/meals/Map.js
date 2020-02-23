@@ -28,6 +28,9 @@ class Map extends React.Component {
   componentDidMount() {
     Geocode.fromLatLng(this.state.mapPosition.lat, this.state.mapPosition.lng).then(
       response => {
+        if ((!response.results) || (response.results.length === 0)) {
+          return;
+        }
         const address = response.results[0].formatted_address,
           addressArray = response.results[0].address_components,
           city = this.getCity(addressArray),
@@ -76,6 +79,9 @@ class Map extends React.Component {
     */
   getCity = (addressArray) => {
     let city = '';
+    if (!addressArray) {
+      return "Unknown city"
+    }
     for (let i = 0; i < addressArray.length; i++) {
       if (addressArray[i].types[0] && 'administrative_area_level_2' === addressArray[i].types[0]) {
         city = addressArray[i].long_name;
@@ -91,6 +97,9 @@ class Map extends React.Component {
     */
   getArea = (addressArray) => {
     let area = '';
+    if (!addressArray) {
+      return "Unknown area"
+    }
     for (let i = 0; i < addressArray.length; i++) {
       if (addressArray[i].types[0]) {
         for (let j = 0; j < addressArray[i].types.length; j++) {
@@ -110,6 +119,9 @@ class Map extends React.Component {
     */
   getState = (addressArray) => {
     let state = '';
+    if (!addressArray) {
+      return "Unknown area"
+    }
     for (let i = 0; i < addressArray.length; i++) {
       for (let i = 0; i < addressArray.length; i++) {
         if (addressArray[i].types[0] && 'administrative_area_level_1' === addressArray[i].types[0]) {
@@ -138,6 +150,9 @@ class Map extends React.Component {
     * @param place
     */
   onPlaceSelected = (place) => {
+    if (!place || !place.geometry) {
+      return;
+    }
     const address = place.formatted_address,
       addressArray = place.address_components,
       city = this.getCity(addressArray),
@@ -202,23 +217,12 @@ class Map extends React.Component {
           >
             {/* For Auto complete Search Box */}
             <Autocomplete
-              style={{
-                width: '100%',
-                height: '40px',
-                paddingLeft: '16px',
-                marginTop: '2px',
-                marginBottom: '100px'
-              }}
+           
               onPlaceSelected={this.onPlaceSelected}
               types={['(regions)']}
             />
             {/*Marker*/}
-            <Marker google={this.props.google}
-              name={'Dolores park'}
-              draggable={true}
-              onDragEnd={this.onMarkerDragEnd}
-              position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
-            />
+           
             <Marker />
             {/* InfoWindow on top of marker */}
             <InfoWindow
@@ -226,7 +230,7 @@ class Map extends React.Component {
               position={{ lat: (this.state.markerPosition.lat + 0.0018), lng: this.state.markerPosition.lng }}
             >
               <div>
-                <span style={{ padding: 0, margin: 0 }}>{this.state.address}</span>
+                <span >{this.state.address}</span>
               </div>
             </InfoWindow>
           </GoogleMap>
