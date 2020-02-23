@@ -8,41 +8,40 @@ import axios from 'axios';
 import config from "../../config";
 
 class Profile extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            user_id:this.props.match.params.id,
-            errors: {}
-        };
+  constructor(props) {
+    super(props);
+    this.state = {
+      user_id: this.props.match.params.id,
+      errors: {}
+    };
 
-        axios.get(`${config.SERVER_HOST}/api/users/get/` + this.props.match.params.id)
-            .then(res => {
-            console.log(res.data);
-            this.setState({ user: res.data });
-            
+    axios.get(`${config.SERVER_HOST}/api/users/get/` + this.props.match.params.id)
+      .then(res => {
+        console.log(res.data);
+        this.setState({ user: res.data });
+
       });
-    }
+  }
 
 
   render() {
     const { errors } = this.state;
-    if (!this.state.user)
-    {
-        return <div> Loading </div>  
-	}
+    if (!this.state.user) {
+      return <div> Loading </div>
+    }
     return (
-        
+
       <div className="container">
         <div className="row">
           <h1>Profile</h1>
           <div className="col s8 offset-s2">
-           
-              <div className="input-field col s12">
-               User name: {this.state.user.name}
-              </div>
-              <div className="input-field col s12">
-               User address: {this.state.user.address || "unknown"}
-              </div>
+
+            <div className="input-field col s12">
+              User name: {this.state.user.name}
+            </div>
+            <div className="input-field col s12">
+              User address: {this.state.user.address || "unknown"}
+            </div>
           </div>
 
         </div>

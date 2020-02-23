@@ -8,50 +8,50 @@ class Navbar extends Component {
         <nav className="z-depth-0">
           <div >
             <Link
-              to="/"        
+              to="/"
             >
               Main
             </Link>
             <span> ** </span>
             <Link
-              to="/Meals"   
+              to="/Meals"
             >
               Choose a meal to join
             </Link>
             <span> ** </span>
             <Link
-              to="/Create"   
+              to="/Create"
             >
               Create a meal
             </Link>
             <span> ** </span>
             <Link
-              to="/MyMeals"   
+              to="/MyMeals"
             >
-            My meals
+              My meals
             </Link>
-            
-              <span> ** </span> 
-            <Link
-              to="/Notifications"   
-            >
-            Notificaions
-            </Link>
-            
-              <span> ** </span> 
 
-              <Link
-              to="/MyProfile"   
-            >
-            Profile
-            </Link>
-            
-              <span> ** </span> 
+            <span> ** </span>
             <Link
-              to="/About"   
+              to="/Notifications"
             >
-            About us
-            </Link> 
+              Notificaions
+            </Link>
+
+            <span> ** </span>
+
+            <Link
+              to="/MyProfile"
+            >
+              Profile
+            </Link>
+
+            <span> ** </span>
+            <Link
+              to="/About"
+            >
+              About us
+            </Link>
           </div>
         </nav>
       </div>
