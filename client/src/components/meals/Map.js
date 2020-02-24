@@ -4,6 +4,7 @@ import Autocomplete from 'react-google-autocomplete';
 import Geocode from "react-geocode";
 Geocode.setApiKey("AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4");
 Geocode.enableDebug();
+
 class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -19,8 +20,10 @@ class Map extends React.Component {
       markerPosition: {
         lat: this.props.center.lat,
         lng: this.props.center.lng
-      }
+      },
+      google: this.props.google
     }
+    
   }
   /**
     * Get the current address from the default map position and set those values in the state
@@ -50,6 +53,8 @@ class Map extends React.Component {
         console.error(error);
       }
     );
+
+   
   };
   /**
     * Component should only update ( meaning re-render ), when the user selects the address, or drags the pin
@@ -207,6 +212,11 @@ class Map extends React.Component {
       }
     );
   };
+
+  handleClick = (event) => {
+    debugger;
+    alert(2);
+  }
   render() {
     const AsyncMap = withScriptjs(
       withGoogleMap(
@@ -214,15 +224,17 @@ class Map extends React.Component {
           <GoogleMap google={this.props.google}
             defaultZoom={this.props.zoom}
             defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
+            onClick={(e) => this.state.handleClick(e)}
           >
+          
             {/* For Auto complete Search Box */}
             <Autocomplete
-           
+
               onPlaceSelected={this.onPlaceSelected}
-              types={['(regions)']}
+            //types={['(regions)']}
             />
             {/*Marker*/}
-           
+
             <Marker />
             {/* InfoWindow on top of marker */}
             <InfoWindow
@@ -240,7 +252,7 @@ class Map extends React.Component {
     let map;
     if (this.props.center.lat !== undefined) {
       map = <div>
-        
+
         <AsyncMap
           googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4&libraries=places"
           loadingElement={
@@ -257,6 +269,8 @@ class Map extends React.Component {
     } else {
       map = <div style={{ height: this.props.height }} />
     }
+
+   
     return (map)
   }
 }
