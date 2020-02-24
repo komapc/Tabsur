@@ -5,25 +5,8 @@ import MealListItem from "./MealListItem";
 import axios from 'axios';
 import Map from './Map';
 
-import {
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker,
-} from "react-google-maps";
 import config from "../../config";
-/*
-const MapWithAMarker = withScriptjs(withGoogleMap(props =>
-  <GoogleMap
-    defaultZoom={8}
-    defaultCenter={{ lat: 34.397, lng: 150.644 }}
-  >
-    <Marker
-      position={{ lat: 34.397, lng: 150.644 }}
-    />
-  </GoogleMap>
-));
-*/
+
 class Meals extends Component {
 
 
@@ -44,7 +27,6 @@ class Meals extends Component {
 
 
   render() {
-    const { user } = this.props.auth;
 
     return (
       <div className="container valign-wrapper">
@@ -62,14 +44,7 @@ class Meals extends Component {
               )}
             </div >
           </div>
-          <div className="split right">
-            {/*<MapWithAMarker
-              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4&v=3.exp&libraries=geometry,drawing,places"
-              loadingElement={<div style={{ height: '100%' }} />}
-              containerElement={<div style={{ height: '70%' }} />}
-              mapElement={<div style={{ height: '100%' }} />}
-            />
-            */}
+          <div className="split right">       
             <Map
               google={this.props.google}
               center={{ lat: 38.5204, lng: 38.8567 }}
