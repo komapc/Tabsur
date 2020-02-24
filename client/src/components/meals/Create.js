@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addMeal, getMeals } from "../../actions/mealActions";
 import classnames from "classnames";
+import Map from './Map';
 
 class Meals extends Component {
 
@@ -111,7 +112,14 @@ class Meals extends Component {
                 <label htmlFor="guests">Max number of guests</label>
                 <span className="red-text">{errors.name}</span>
               </div>
-
+              <div className="split right">
+                <Map
+                  google={this.props.google}
+                  center={{ lat: 32.09, lng: 34.808 }}
+                  height='300px'
+                  zoom={10}
+                />
+              </div>
 
               <div className="col s12" >
                 <button

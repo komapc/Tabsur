@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { joinMeal, getAttendByMeal } from "../../actions/mealActions";
 import axios from 'axios';
-import { useHistory, withRouter, Link } from 'react-router-dom';
-import { BrowserRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import config from "../../config";
 
 // info about meal + attend option

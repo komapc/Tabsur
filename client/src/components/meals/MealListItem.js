@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from 'react-router-dom';
-import PropTypes from "prop-types";
 
 
 class MealListItem extends React.Component {
@@ -9,7 +8,7 @@ class MealListItem extends React.Component {
     return (
       <span>
         <div className="meal_props">
-          <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal._id} className="meal_image"></img>
+          <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal._id} alt="Meal image" className="meal_image"></img>
           <span className="mealName" > {meal.mealName}</span>
           <br />
           <span> {new Date(meal.dateCreated).toUTCString()}</span>

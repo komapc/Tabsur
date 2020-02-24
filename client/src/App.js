@@ -21,6 +21,7 @@ import Notifications from "./components/notifications/Notifications"
 import MyMeals from "./components/meals/MyMeals"
 import MyProfile from "./components/auth/MyProfile"
 import Profile from "./components/users/Profile"
+import { Helmet } from "react-helmet";
 import "./App.css";
 
 // Check for token to keep user logged in
@@ -48,6 +49,11 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
+            <Helmet>
+              <meta charSet="utf-8" />
+              <title>Coolanu - food sharing app</title>
+              <link rel="canonical" href="http://coolany.com" />
+            </Helmet>
             <Navbar />
             <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
