@@ -21,7 +21,8 @@ class Map extends React.Component {
         lat: this.props.center.lat,
         lng: this.props.center.lng
       },
-      google: this.props.google
+      google: this.props.google,
+      zoom: this.props.zoom
     }
     
   }
@@ -64,17 +65,18 @@ class Map extends React.Component {
     * @return {boolean}
     */
   shouldComponentUpdate(nextProps, nextState) {
-    if (
-      this.state.markerPosition.lat !== this.props.center.lat ||
-      this.state.address !== nextState.address ||
-      this.state.city !== nextState.city ||
-      this.state.area !== nextState.area ||
-      this.state.state !== nextState.state
-    ) {
-      return true
-    } else if (this.props.center.lat === nextProps.center.lat) {
-      return false
-    }
+    //if (
+    //  this.state.markerPosition.lat !== this.props.center.lat ||
+    //  this.state.address !== nextState.address ||
+    //  this.state.city !== nextState.city ||
+    //  this.state.area !== nextState.area ||
+    //  this.state.state !== nextState.state
+    //) {
+    //  return true
+    //} else if (this.props.center.lat === nextProps.center.lat) {
+    //  return false
+    //}
+    return true;
   }
   /**
     * Get the city and set the city input value to the one selected
@@ -214,17 +216,35 @@ class Map extends React.Component {
   };
 
   handleClick = (event) => {
-    debugger;
-    alert(2);
+    //todo
+    let pos = event.latLng;
+    let latValue = pos.lat();
+    let lngValue = pos.lng(); 
+    this.setState({
+    
+      markerPosition: {
+        lat: latValue,
+        lng: lngValue
+      },
+      mapPosition: {
+        lat: latValue,
+        lng: lngValue
+      },
+    })
+
+
+    this.props.onClick(event);
   }
+
   render() {
     const AsyncMap = withScriptjs(
       withGoogleMap(
         props => (
           <GoogleMap google={this.props.google}
-            defaultZoom={this.props.zoom}
+            defaultZoom={this.state.zoom}
             defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
-            onClick={(e) => this.state.handleClick(e)}
+            center={this.state.mapPosition}
+            onClick={(event) => { this.handleClick(event) }}
           >
           
             {/* For Auto complete Search Box */}

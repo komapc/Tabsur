@@ -17,6 +17,7 @@ class Meals extends Component {
       location: "",
       guests: 0, //max number of invited guests
       errors: {},
+      latLng: [] //long/lat
     };
   }
 
@@ -24,6 +25,12 @@ class Meals extends Component {
     e.preventDefault();
     this.props.logoutUser();
   };
+
+
+  onMapClicked = (event) => {
+    var pos = event.latLng; 
+   // this.map.setCenter({ lat: 32.09, lng: 34.808 });
+  }
 
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
@@ -37,7 +44,8 @@ class Meals extends Component {
       host: this.props.auth.user.id,
       guests: this.state.guests,
       dateCreated: this.state.date,
-      location: this.state.location || "here and now"
+      location: this.state.location || "here and now",
+      position: [0,0]
     };
 
     this.props.addMeal(newMeal, this.props.history);
@@ -118,6 +126,7 @@ class Meals extends Component {
                   center={{ lat: 32.09, lng: 34.808 }}
                   height='300px'
                   zoom={10}
+                onClick={this.onMapClicked}
                 />
               </div>
 
@@ -129,7 +138,6 @@ class Meals extends Component {
                 </button>
               </div>
             </form>
-
           </div>
         </div>
       </div>
