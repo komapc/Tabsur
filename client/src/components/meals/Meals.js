@@ -16,6 +16,9 @@ class Meals extends Component {
       meals: []
     };
   }
+  onMapClicked = (event) => {
+    //nothing for now
+  }
 
   componentDidMount() {
     axios.get(`${config.SERVER_HOST}/api/meals/get`)
@@ -50,6 +53,7 @@ class Meals extends Component {
               center={{ lat: 38.5204, lng: 38.8567 }}
               height='300px'
               zoom={10}
+              onClick={this.onMapClicked}
             />
           </div>
         </div>
