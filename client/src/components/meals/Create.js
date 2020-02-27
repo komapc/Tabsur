@@ -57,12 +57,9 @@ class Meals extends Component {
     return (
       <div className="container valign-wrapper">
         <div className="row">
-          <div className="landing-copy ">
+          <div className="landing-copy split left">
             <h4>
-              <b>Create a meal,</b> {user.name.split(" ")[0]}
-              <p className="flow-text grey-text text-darken-1">
                 Add a meal:
-              </p>
             </h4>
             <form noValidate onSubmit={this.onSubmit}>
               <div className="input-field col s12">
@@ -120,16 +117,6 @@ class Meals extends Component {
                 <label htmlFor="guests">Max number of guests</label>
                 <span className="red-text">{errors.name}</span>
               </div>
-              <div className="split right">
-                <Map
-                  google={this.props.google}
-                  center={{ lat: 32.09, lng: 34.808 }}
-                  height='300px'
-                  zoom={10}
-                onClick={this.onMapClicked}
-                />
-              </div>
-
               <div className="col s12" >
                 <button
                   type="submit"
@@ -139,6 +126,17 @@ class Meals extends Component {
               </div>
             </form>
           </div>
+              <div className="split right">
+                <Map
+                  google={this.props.google}
+                  center={{ lat: 32.09, lng: 34.808 }}
+                  height='400px'
+                  zoom={10}
+                  onClick={this.onMapClicked}
+                />
+              </div>
+
+              
         </div>
       </div>
     );
