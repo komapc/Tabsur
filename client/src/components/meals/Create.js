@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { addMeal, getMeals } from "../../actions/mealActions";
+import { addMeal } from "../../actions/mealActions";
 import classnames from "classnames";
-import Map from './Map';
+import Map from './Map';  
+import { DatePicker, TimePicker } from 'antd';  
 
+import 'antd/es/date-picker/style/css'; // for css
 class Meals extends Component {
 
   constructor() {
@@ -17,19 +19,24 @@ class Meals extends Component {
       location: "",
       guests: 0, //max number of invited guests
       errors: {},
+      date:  new Date().getDate(),
       latLng: [] //long/lat
     };
   }
-
+  setStartDate = date =>
+  {
+    this.props.setState("date", date);
+  }
   onLogoutClick = e => {
     e.preventDefault();
     this.props.logoutUser();
   };
 
 
-  onMapClicked = (event) => {
-    var pos = event.latLng; 
-   // this.map.setCenter({ lat: 32.09, lng: 34.808 });
+  onMapClicked = (e, mapState) => {
+    var pos = e.latLng; 
+    this.setState({location:mapState.address});
+    // this.map.setCenter({ lat: 32.09, lng: 34.808 });
   }
 
   onChange = e => {
@@ -76,26 +83,15 @@ class Meals extends Component {
                 <label htmlFor="mealName">Meal name</label>
                 <span className="red-text">{errors.name}</span>
               </div>
-
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.date}
-                  error={errors.password}
-                  id="date"
-                  type="date"
-                  className={classnames("", {
-                    invalid: errors.password
-                  })}
-                />
-                <label htmlFor="date">Date</label>
-                <span className="red-text">{errors.name}</span>
+              <div className="col s12 picker">
+              <DatePicker className="picker" mode="date" showTime="true"
+              /> 
               </div>
-
+            
               <div className="input-field col s12">
                 <input
                   onChange={this.onChange}
-                  value={this.state.location}
+                  value={this.state.location || "default"}
                   error={errors.password}
                   id="location"
                   type="text"
@@ -117,7 +113,7 @@ class Meals extends Component {
                 <label htmlFor="guests">Max number of guests</label>
                 <span className="red-text">{errors.name}</span>
               </div>
-              <div className="col s12" >
+                <div className="col s12" >
                 <button
                   type="submit"
                   className="btn btn-large waves-effect waves-light hoverable blue accent-3">
