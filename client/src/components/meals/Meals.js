@@ -34,7 +34,7 @@ class Meals extends Component {
     return (
       <div className="container valign-wrapper">
         <div className="row">
-          <div className="landing-copy " className="split left">
+          <div className="landing-copy split left">
             <h4 className="caption">
               ACTIVE MEALS:
             </h4>
