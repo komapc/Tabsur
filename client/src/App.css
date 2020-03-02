@@ -71,3 +71,10 @@ ul li span {
     height: 100px;
     float: left;
 }
+.picker
+{
+    background-color: #555022;
+    border: ridge;
+    border-color: brown;
+    border-width: 3px;
+}
