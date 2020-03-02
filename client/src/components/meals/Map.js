@@ -4,7 +4,6 @@ import Autocomplete from 'react-google-autocomplete';
 import Geocode from "react-geocode";
 Geocode.setApiKey("AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4");
 Geocode.enableDebug();
-
 class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -169,7 +168,7 @@ class Map extends React.Component {
       lngValue = place.geometry.location.lng();
     // Set these values in the state.
     this.setState({
-      address: (address) ? address : '',
+      address: "adsf",//(address) ? address : '',
       area: (area) ? area : '',
       city: (city) ? city : '',
       state: (state) ? state : '',
@@ -222,18 +221,14 @@ class Map extends React.Component {
     let lngValue = pos.lng(); 
     this.setState({
     
-      markerPosition: {
-        lat: latValue,
-        lng: lngValue
-      },
-      mapPosition: {
-        lat: latValue,
-        lng: lngValue
-      },
+    markerPosition: {
+      lat: latValue,
+      lng: lngValue
+    },
+     
     })
 
-
-    this.props.onClick(event);
+    this.props.onClick(event, this.state);
   }
 
   render() {
