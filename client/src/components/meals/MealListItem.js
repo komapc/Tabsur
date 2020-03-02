@@ -8,7 +8,7 @@ class MealListItem extends React.Component {
     return (
       <span>
         <div className="meal_props">
-          <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal._id} alt="Meal image" className="meal_image"></img>
+          <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal._id} alt="Meal" className="meal_image"></img>
           <span className="mealName" > {meal.mealName}</span>
           <br />
           <span> {new Date(meal.dateCreated).toUTCString()}</span>
