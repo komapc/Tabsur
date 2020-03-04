@@ -23,12 +23,6 @@ class Map extends React.Component {
       google: this.props.google,
       zoom: this.props.zoom
     }
-    
-  }
-  /**
-    * Get the current address from the default map position and set those values in the state
-    */
-  componentDidMount() {
     Geocode.fromLatLng(this.state.mapPosition.lat, this.state.mapPosition.lng).then(
       response => {
         if ((!response.results) || (response.results.length === 0)) {
@@ -39,8 +33,6 @@ class Map extends React.Component {
           city = this.getCity(addressArray),
           area = this.getArea(addressArray),
           state = this.getState(addressArray);
-
-        console.log('city', city, area, state);
 
         this.setState({
           address: (address) ? address : '',
@@ -54,7 +46,13 @@ class Map extends React.Component {
       }
     );
 
-   
+  }
+  /**
+    * Get the current address from the default map position and set those values in the state
+    */
+  componentDidMount() {
+
+
   };
   /**
     * Component should only update ( meaning re-render ), when the user selects the address, or drags the pin
@@ -159,6 +157,7 @@ class Map extends React.Component {
     if (!place || !place.geometry) {
       return;
     }
+
     const address = place.formatted_address,
       addressArray = place.address_components,
       city = this.getCity(addressArray),
@@ -168,7 +167,7 @@ class Map extends React.Component {
       lngValue = place.geometry.location.lng();
     // Set these values in the state.
     this.setState({
-      address: "adsf",//(address) ? address : '',
+      address: (address) ? address : '',
       area: (area) ? area : '',
       city: (city) ? city : '',
       state: (state) ? state : '',
@@ -215,23 +214,22 @@ class Map extends React.Component {
   };
 
   handleClick = (event) => {
-    //todo
     let pos = event.latLng;
     let latValue = pos.lat();
-    let lngValue = pos.lng(); 
+    let lngValue = pos.lng();
     this.setState({
-    
-    markerPosition: {
-      lat: latValue,
-      lng: lngValue
-    },
-     
-    })
 
+      markerPosition: {
+        lat: latValue,
+        lng: lngValue
+      },
+
+    });
     this.props.onClick(event, this.state);
   }
 
   render() {
+
     const AsyncMap = withScriptjs(
       withGoogleMap(
         props => (
@@ -241,16 +239,14 @@ class Map extends React.Component {
             center={this.state.mapPosition}
             onClick={(event) => { this.handleClick(event) }}
           >
-          
+
             {/* For Auto complete Search Box */}
             <Autocomplete
 
               onPlaceSelected={this.onPlaceSelected}
             //types={['(regions)']}
             />
-            {/*Marker*/}
 
-            <Marker />
             {/* InfoWindow on top of marker */}
             <InfoWindow
               onClose={this.onInfoWindowClose}
@@ -260,6 +256,11 @@ class Map extends React.Component {
                 <span >{this.state.address}</span>
               </div>
             </InfoWindow>
+            {/*Marker*/}
+            <Marker 
+              draggable={true}
+              onDragEnd={ this.onMarkerDragEnd }
+              position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }} />
           </GoogleMap>
         )
       )
@@ -284,8 +285,6 @@ class Map extends React.Component {
     } else {
       map = <div style={{ height: this.props.height }} />
     }
-
-   
     return (map)
   }
 }
