@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addMeal } from "../../actions/mealActions";
 import classnames from "classnames";
 import Map from './Map';  
-import { DatePicker, TimePicker } from 'antd';  
+import { DatePicker } from 'antd';  
 
 import 'antd/es/date-picker/style/css'; // for css
 class Meals extends Component {
@@ -35,8 +35,7 @@ class Meals extends Component {
 
   onMapClicked = (e, mapState) => {
     var pos = e.latLng; 
-    this.setState({location:mapState.address});
-    // this.map.setCenter({ lat: 32.09, lng: 34.808 });
+    this.setState({location:mapState.address}); 
   }
 
   onChange = e => {
@@ -90,7 +89,7 @@ class Meals extends Component {
             
               <div className="input-field col s12">
                 <input
-                  onChange={this.onChange}
+                  onChange={this.onChange}  
                   value={this.state.location || "default"}
                   error={errors.password}
                   id="location"
@@ -131,8 +130,6 @@ class Meals extends Component {
                   onClick={this.onMapClicked}
                 />
               </div>
-
-              
         </div>
       </div>
     );
