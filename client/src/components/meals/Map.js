@@ -62,18 +62,17 @@ class Map extends React.Component {
     * @return {boolean}
     */
   shouldComponentUpdate(nextProps, nextState) {
-    //if (
-    //  this.state.markerPosition.lat !== this.props.center.lat ||
-    //  this.state.address !== nextState.address ||
-    //  this.state.city !== nextState.city ||
-    //  this.state.area !== nextState.area ||
-    //  this.state.state !== nextState.state
-    //) {
-    //  return true
-    //} else if (this.props.center.lat === nextProps.center.lat) {
-    //  return false
-    //}
-    return true;
+    if (
+     this.state.markerPosition.lat !== this.props.center.lat ||
+     this.state.address !== nextState.address ||
+     this.state.city !== nextState.city ||
+     this.state.area !== nextState.area ||
+     this.state.state !== nextState.state
+    ) {
+     return true
+    } else if (this.props.center.lat === nextProps.center.lat) {
+     return false
+    }
   }
   /**
     * Get the city and set the city input value to the one selected
@@ -200,12 +199,14 @@ class Map extends React.Component {
           city = this.getCity(addressArray),
           area = this.getArea(addressArray),
           state = this.getState(addressArray);
-        this.setState({
-          address: (address) ? address : '',
-          area: (area) ? area : '',
-          city: (city) ? city : '',
-          state: (state) ? state : ''
-        })
+         this.setState({
+            address: (address) ? address : '',
+            area: (area) ? area : '',
+            city: (city) ? city : '',
+            state: (state) ? state : '',
+            center: this.state.center,
+            zoom: 100
+         })
       },
       error => {
         console.error(error);
@@ -214,6 +215,7 @@ class Map extends React.Component {
   };
 
   handleClick = (event) => {
+    return;   
     let pos = event.latLng;
     let latValue = pos.lat();
     let lngValue = pos.lng();
@@ -270,7 +272,7 @@ class Map extends React.Component {
       map = <div>
 
         <AsyncMap
-          googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4&libraries=places"
+        d googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4&libraries=places"
           loadingElement={
             <div style={{ height: `100%` }} />
           }
