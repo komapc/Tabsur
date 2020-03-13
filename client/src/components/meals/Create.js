@@ -9,7 +9,6 @@ import { DatePicker } from 'antd';
 
 import 'antd/es/date-picker/style/css'; // for css
 class Meals extends Component {
-
   constructor() {
     super();
     this.state = {
@@ -24,9 +23,14 @@ class Meals extends Component {
     };
   }
 
+  onLocationUpdate = ({address, area, city, state}) => {
+    this.setState({address})
+  };
+
   onMapClicked = (e, mapState) => {
-    var pos = e.latLng; 
-    this.setState({location:mapState.address}); 
+    var pos = e.latLng;
+    console.error(pos.lat(), pos.lng())
+    this.setState({location:mapState.address});
   };
 
   onChange = e => {
@@ -76,17 +80,24 @@ class Meals extends Component {
               <div className="col s12 picker">
                 <DatePicker className="picker" mode="date" showTime="true" />
               </div>
-              {/* Location */}
+              {/* Address */}
               <div className="input-field col s12">
                 <input
                   onChange={this.onChange}
-                  value={this.state.location || "default"}
+                  value={this.state.address || "default"}
                   error={errors.password}
-                  id="location"
+                  id="address"
                   type="text"
                 />
-                <label htmlFor="location">Location</label>
+                <label htmlFor="location">Address</label>
                 <span className="red-text">{errors.name}</span>
+              </div>
+              {/* Location */}
+              <div className="col s12">
+                <div>
+                  {this.state.location}
+                </div>
+                <label htmlFor="location">Location</label>
               </div>
               {/* Number of guests */}
               <div className="input-field col s12">
@@ -111,11 +122,11 @@ class Meals extends Component {
           </div>
               <div className="split right">
                 <Map
-                  google={this.props.google}
                   center={{ lat: 32.09, lng: 34.808 }}
-                  height='400px'
-                  zoom={10}
-                  onClick={this.onMapClicked}
+                  height='90%'
+                  zoom={15}
+                  handleLocationUpdate={this.onLocationUpdate}
+                  address={this.state.address}
                 />
               </div>
         </div>

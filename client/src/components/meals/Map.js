@@ -2,17 +2,22 @@ import React from 'react'
 import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps";
 import Autocomplete from 'react-google-autocomplete';
 import Geocode from "react-geocode";
-Geocode.setApiKey("AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4");
+
+const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
+
+Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
 Geocode.enableDebug();
 class Map extends React.Component {
   constructor(props) {
     super(props);
+    this.map = React.createRef();
+
     this.state = {
       address: '',
       city: '',
       area: '',
       state: '',
-      mapPosition: {
+      center: {
         lat: this.props.center.lat,
         lng: this.props.center.lng
       },
@@ -21,9 +26,10 @@ class Map extends React.Component {
         lng: this.props.center.lng
       },
       google: this.props.google,
-      zoom: this.props.zoom
-    }
-    Geocode.fromLatLng(this.state.mapPosition.lat, this.state.mapPosition.lng).then(
+      zoom: this.props.zoom,
+    };
+
+    Geocode.fromLatLng(this.state.center.lat, this.state.center.lng).then(
       response => {
         if ((!response.results) || (response.results.length === 0)) {
           return;
@@ -45,16 +51,12 @@ class Map extends React.Component {
         console.error(error);
       }
     );
-
   }
-  /**
-    * Get the current address from the default map position and set those values in the state
-    */
-  componentDidMount() {
 
+  componentWillReceiveProps(nextProps) {
+  }
 
-  };
-  /**
+    /**
     * Component should only update ( meaning re-render ), when the user selects the address, or drags the pin
     *
     * @param nextProps
@@ -174,7 +176,7 @@ class Map extends React.Component {
         lat: latValue,
         lng: lngValue
       },
-      mapPosition: {
+      center: {
         lat: latValue,
         lng: lngValue
       },
@@ -192,6 +194,16 @@ class Map extends React.Component {
     let newLat = event.latLng.lat(),
       newLng = event.latLng.lng(),
       addressArray = [];
+
+    const zoom = this.map.current.getZoom();
+    const center = this.map.current.getCenter();
+    console.debug('zzz',center.lat(), center.lng())
+    this.setState({
+      zoom,
+      center: {lat: center.lat(), lng: center.lng()},
+      markerPosition: {lat: newLat, lng: newLng},
+    });
+
     Geocode.fromLatLng(newLat, newLng).then(
       response => {
         const address = response.results[0].formatted_address,
@@ -199,13 +211,13 @@ class Map extends React.Component {
           city = this.getCity(addressArray),
           area = this.getArea(addressArray),
           state = this.getState(addressArray);
+
+         this.props.handleLocationUpdate({address, area, city, state});
          this.setState({
             address: (address) ? address : '',
             area: (area) ? area : '',
             city: (city) ? city : '',
             state: (state) ? state : '',
-            center: this.state.center,
-            zoom: 100
          })
       },
       error => {
@@ -214,32 +226,16 @@ class Map extends React.Component {
     );
   };
 
-  handleClick = (event) => {
-    return;   
-    let pos = event.latLng;
-    let latValue = pos.lat();
-    let lngValue = pos.lng();
-    this.setState({
-
-      markerPosition: {
-        lat: latValue,
-        lng: lngValue
-      },
-
-    });
-    this.props.onClick(event, this.state);
-  }
-
   render() {
-
     const AsyncMap = withScriptjs(
       withGoogleMap(
         props => (
           <GoogleMap google={this.props.google}
             defaultZoom={this.state.zoom}
-            defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
-            center={this.state.mapPosition}
-            onClick={(event) => { this.handleClick(event) }}
+            defaultCenter={{ lat: this.state.center.lat, lng: this.state.center.lng }}
+            center={this.state.center}
+            zoom={this.state.zoom}
+            ref={this.map}
           >
 
             {/* For Auto complete Search Box */}
@@ -269,10 +265,10 @@ class Map extends React.Component {
     );
     let map;
     if (this.props.center.lat !== undefined) {
-      map = <div>
+      map =
 
         <AsyncMap
-        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4&libraries=places"
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`}
           loadingElement={
             <div style={{ height: `100%` }} />
           }
@@ -283,7 +279,7 @@ class Map extends React.Component {
             <div style={{ height: `100%` }} />
           }
         />
-      </div>
+
     } else {
       map = <div style={{ height: this.props.height }} />
     }
