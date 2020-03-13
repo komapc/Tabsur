@@ -1,16 +1,3 @@
-button {
-    borderRadius: "3px";
-    letterSpacing: "1.5px";
-    marginTop: "1rem";
-    /*   .btn ;
-    .btn-large; 
-    .waves-effect; 
-    .waves-light; 
-    .hoverable;
-    .blue; 
-    .accent-3;
-     */
-}
 .mealName {
     font-weight: 900;
     text-overflow: ellipsis;
