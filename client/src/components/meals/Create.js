@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addMeal } from "../../actions/mealActions";
-import classnames from "classnames";
+import classNames from "classnames";
 import Map from './Map';  
 import { DatePicker } from 'antd';  
 
@@ -23,20 +23,11 @@ class Meals extends Component {
       latLng: [] //long/lat
     };
   }
-  setStartDate = date =>
-  {
-    this.props.setState("date", date);
-  }
-  onLogoutClick = e => {
-    e.preventDefault();
-    this.props.logoutUser();
-  };
-
 
   onMapClicked = (e, mapState) => {
     var pos = e.latLng; 
     this.setState({location:mapState.address}); 
-  }
+  };
 
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
@@ -68,6 +59,7 @@ class Meals extends Component {
                 Add a meal:
             </h4>
             <form noValidate onSubmit={this.onSubmit}>
+              {/* Mealname */}
               <div className="input-field col s12">
                 <input
                   onChange={this.onChange}
@@ -75,31 +67,28 @@ class Meals extends Component {
                   error={errors.name}
                   id="mealName"
                   type="text"
-                  className={classnames("", {
-                    invalid: errors.name
-                  })}
+                  className={errors.name ? 'invalid' : ''}
                 />
                 <label htmlFor="mealName">Meal name</label>
                 <span className="red-text">{errors.name}</span>
               </div>
+              {/* Date and time */}
               <div className="col s12 picker">
-              <DatePicker className="picker" mode="date" showTime="true"
-              /> 
+                <DatePicker className="picker" mode="date" showTime="true" />
               </div>
-            
+              {/* Location */}
               <div className="input-field col s12">
                 <input
-                  onChange={this.onChange}  
+                  onChange={this.onChange}
                   value={this.state.location || "default"}
                   error={errors.password}
                   id="location"
                   type="text"
-
                 />
                 <label htmlFor="location">Location</label>
                 <span className="red-text">{errors.name}</span>
               </div>
-
+              {/* Number of guests */}
               <div className="input-field col s12">
                 <input min={0} max={10}
                   onChange={this.onChange}
@@ -107,7 +96,6 @@ class Meals extends Component {
                   error={errors.password}
                   id="guests"
                   type="number"
-
                 />
                 <label htmlFor="guests">Max number of guests</label>
                 <span className="red-text">{errors.name}</span>
