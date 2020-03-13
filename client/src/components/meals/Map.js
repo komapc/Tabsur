@@ -13,7 +13,7 @@ class Map extends React.Component {
     this.map = React.createRef();
 
     this.state = {
-      address: '',
+      address: this.props.address,
       city: '',
       area: '',
       state: '',
@@ -29,6 +29,16 @@ class Map extends React.Component {
       zoom: this.props.zoom,
     };
 
+    Geocode.fromAddress(this.state.address).then(
+        response => {
+          const { lat, lng } = response.results[0].geometry.location;
+          console.log(lat, lng);
+          this.setState({markerPosition: {lat, lng}});
+        },
+        error => {
+          console.error(error);
+        }
+    );
     Geocode.fromLatLng(this.state.center.lat, this.state.center.lng).then(
       response => {
         if ((!response.results) || (response.results.length === 0)) {
@@ -54,6 +64,17 @@ class Map extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    Geocode.fromAddress(this.state.address).then(
+        response => {
+          const { lat, lng } = response.results[0].geometry.location;
+          console.log(lat, lng);
+          this.setState({markerPosition: {lat, lng}, address: this.props.address});
+        },
+        error => {
+          console.error(error);
+        }
+    );
+
   }
 
     /**
