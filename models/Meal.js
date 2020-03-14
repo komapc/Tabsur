@@ -11,25 +11,26 @@ const MealSchema = new Schema({
     type: String,
     required: false
   },
-  dateCreated: {
+  createdAt: {
     type: Date,
     default: Date.now
   },
-  //meal time
-  time: {
+  date: {
     type: Date,
     default: Date.now
   },
-  place: {
+  address: {
     type: String,
     default: "here and now"
   },
-  //host user id
+  location: {
+    type: Map,
+  },
   host: {
     type: String,
     default: "-1"
   },
-  guests: {
+  guestCount: {
     type: Number,
     default:1
   }  

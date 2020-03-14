@@ -3,10 +3,9 @@ import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
 import config from "../config";
 
 // add a meal
-export const addMeal = (userData, history) => dispatch => {
+export const addMeal = (userData) => dispatch => {
   axios
     .post(`${config.SERVER_HOST}/api/meals/addMeal`, userData)
-    //.then(res => history.push("/login"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

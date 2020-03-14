@@ -89,22 +89,13 @@ router.post("/addMeal", (req, res) => {
     const mealName = req.body.mealName;
 
     Meal.findOne({ mealName:mealName}).then(meal => {
-    // Check if user exists
-    if (meal) {
-        return res.status(404).json({ mealFound: "Meal with name " + mealName + " already found" });
-    }
-    if(true)
-    {
+        if (meal) {
+            return res.status(404).json({ mealFound: "Meal with name " + mealName + " already found" });
+        }
+
         const payload = req.body;
         Meal.create(payload);
         return res.status(201).json(payload);
-    } 
-    else 
-    {
-        return res
-            .status(400)
-            .json({ status: "An error" });
-        }
     });
 });
 

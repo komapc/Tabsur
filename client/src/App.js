@@ -15,7 +15,7 @@ import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import Meals from "./components/meals/Meals";
 import Attend from "./components/meals/Attend";
-import Create from "./components/meals/Create";
+import Create from "./components/meals/CreateMeal";
 import About from "./components/about/About"
 import Notifications from "./components/notifications/Notifications"
 import MyMeals from "./components/meals/MyMeals"
