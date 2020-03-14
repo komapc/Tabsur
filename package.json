@@ -11,8 +11,9 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "npm run-script client-install && cd client && react-scripts build; cd ..",
     "stop": "node server.stop.js",
-    "start-db": "docker-compose -p coolanu -f tools/local-docker-compose.yaml up -d",
-    "stop-db": "docker-compose -p coolanu -f tools/local-docker-compose.yaml down"
+    "start-db": "docker-compose -p coolanu -f db/local-docker-compose.yaml up -d",
+    "stop-db": "docker-compose -p coolanu -f db/local-docker-compose.yaml down",
+    "migrate-local-db": "chmod +x db/migrate.sh && db/migrate.sh"
   },
   "author": "Mark&Yana",
   "license": "MIT",
