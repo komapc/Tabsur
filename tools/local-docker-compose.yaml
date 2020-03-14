@@ -1,0 +1,10 @@
+version: '3'
+services:
+  coolanu-db:
+    image: postgres:12.2
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: coolanu
+      POSTGRES_PASSWORD: coolanu
+      POSTGRES_DB: coolanu
