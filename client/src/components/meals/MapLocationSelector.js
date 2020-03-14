@@ -11,6 +11,8 @@ const MapLocationSelector = React.memo(({handleLocationUpdate, lng, lat}) => {
         let newLat = event.latLng.lat(),
             newLng = event.latLng.lng();
 
+        // TODO: Move outside
+
         Geocode.fromLatLng(newLat, newLng).then(
             response => {
                 const address = response.results[0].formatted_address;

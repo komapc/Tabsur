@@ -120,6 +120,10 @@ class Meals extends Component {
               </div>
             </form>
           </div>
+          {
+            // TODO: use user current location
+            // TODO: use current address from user input
+          }
               <div className="split right">
                 <MapLocationSelector
                   handleLocationUpdate={this.onLocationUpdate}
