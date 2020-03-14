@@ -3,12 +3,11 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addMeal } from "../../actions/mealActions";
-import classNames from "classnames";
-import Map from './Map';  
-import { DatePicker } from 'antd';  
+import { DatePicker } from 'antd';
+import MapLocationSelector from "./MapLocationSelector";
 
 import 'antd/es/date-picker/style/css';
-import {MapLocationSelector} from "./MarkerExample"; // for css
+
 class Meals extends Component {
   constructor() {
     super();
@@ -122,7 +121,12 @@ class Meals extends Component {
             </form>
           </div>
               <div className="split right">
-                <MapLocationSelector />
+                <MapLocationSelector
+                  handleLocationUpdate={this.onLocationUpdate}
+                  // address={this.state.address}
+                  lat={32.09}
+                  lng={34.808}
+                />
               </div>
         </div>
       </div>
