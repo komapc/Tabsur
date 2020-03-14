@@ -3,7 +3,7 @@ import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "reac
 import Autocomplete from 'react-google-autocomplete';
 import Geocode from "react-geocode";
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
+export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
 Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
 // Geocode.enableDebug();
