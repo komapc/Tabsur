@@ -11,19 +11,25 @@ class Attend extends Component {
     super(props);
     this.state = {
       meal_id: this.props.match.params.id,
-      meal: [],
+      meal: {
+        location: {lng: 0, lat: 0},
+        address: '',
+        guestCount: 0,
+      },
       attends: []
     };
+
+    // TODO: check if you can do API requests here in constructor
     axios.get(`${config.SERVER_HOST}/api/meals/get/` + this.state.meal_id)
       .then(res => {
         this.setState({ meal: res.data })
-      })
+      });
+
     axios.get(`${config.SERVER_HOST}/api/attends/meal/` + this.state.meal_id)
       .then(res => {
         this.setState({ attends: res.data })
       })
   }
-
 
   onSubmit = e => {
     e.preventDefault();
@@ -38,6 +44,7 @@ class Attend extends Component {
 
   render() {
     const { user } = this.props.auth;
+    console.log(this.state.meal)
     return (
       <div className="container valign-wrapper">
         <div className="row">
@@ -51,7 +58,9 @@ class Attend extends Component {
               <div>Do you want to attend <b>{this.state.meal.mealName}</b>? </div>
               <div>It is hosted by <Link to={"/Profile/" + this.state.meal.host}> {this.state.meal.host}</Link> </div>
               <div> today at <b> {this.state.meal.time}</b> </div>
-              <div>at {this.state.meal.place} (see map)  </div>
+              <div> Guest count <b> {this.state.meal.guestCount}</b> </div>
+              <div>at {this.state.meal.address}</div>
+              <div>at {this.state.meal.location.lng}, {this.state.meal.location.lat} (see map) </div>
             </div>
 
             <div> List of people who attended

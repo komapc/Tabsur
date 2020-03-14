@@ -97,7 +97,7 @@ class CreateMeal extends Component {
                   onChange={this.onChange}
                   value={this.state.guestCount}
                   error={errors.password}
-                  id="guestsCount"
+                  id="guestCount"
                   type="number"
                 />
                 <label htmlFor="guests">Max number of guests</label>
