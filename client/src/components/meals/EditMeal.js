@@ -11,7 +11,7 @@ class Meals extends Component {
     super();
     this.state = {
       user: "",
-      mealName: "",
+      name: "",
       type: "",
       location: "",
       guests: 0, //max number of invited guests
@@ -32,7 +32,7 @@ class Meals extends Component {
     e.preventDefault();
 
     const newMeal = {
-      mealName: this.state.mealName,
+      name: this.state.name,
       host: this.props.auth.user.id,
       guests: this.state.guests,
       createdAt: this.state.date,
@@ -59,13 +59,13 @@ class Meals extends Component {
                   onChange={this.onChange}
                   value={this.state.name}
                   error={errors.name}
-                  id="mealName"
+                  id="name"
                   type="text"
                   className={classnames("", {
                     invalid: errors.name
                   })}
                 />
-                <label htmlFor="mealName">Meal name</label>
+                <label htmlFor="name">Meal name</label>
                 <span className="red-text">{errors.name}</span>
               </div>
 

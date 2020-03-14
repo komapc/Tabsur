@@ -72,31 +72,38 @@ router.get('/get/:id', function(req, res, next) {
 
 });
 
+// TODO: Move to config file
+const pgConfig = {
+    host: '127.0.0.1',
+    port: 5432,
+    database: 'coolanu',
+    user: 'coolanu',
+    password: 'coolanu',
+};
+const {Client} = require('pg');
+const client = new Client(pgConfig);
 
 // @route POST api/meals/addMeal
-// @desc Login user and return JWT token
-// @access Public
-router.post("/addMeal", (req, res) => {
+router.post("/addMeal", async (req, response) => {
     // Form validation
 
     const { errors, isValid } = validateMealInput(req.body);
 
     // Check validation
     if (!isValid) {
-        return res.status(400).json(errors);
+        return response.status(400).json(errors);
     }
 
-    const mealName = req.body.mealName;
+    const meal = req.body;
+    await client.connect();
 
-    Meal.findOne({ mealName:mealName}).then(meal => {
-        if (meal) {
-            return res.status(404).json({ mealFound: "Meal with name " + mealName + " already found" });
-        }
+    await client.query('INSERT INTO meals (name, type, location, address, guest_count, host_id)' +
+        'VALUES($1, $2, $3, $4, $5, $6)',
+        [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`, meal.address, meal.guestCount, /*meal.host*/ 42]);
+    // TODO: fix user id
 
-        const payload = req.body;
-        Meal.create(payload);
-        return res.status(201).json(payload);
-    });
+    client.end();
+    return response.status(201).json(req.body);
 });
 
 

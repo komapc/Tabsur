@@ -3,7 +3,7 @@ CREATE TABLE meals (
     name VARCHAR NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     type VARCHAR NULL,
-    location VARCHAR NOT NULL,
+    location POINT NOT NULL,
     address VARCHAR NOT NULL,
     guest_count INT NOT NULL,
     host_id INTEGER NOT NULL
