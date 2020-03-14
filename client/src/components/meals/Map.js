@@ -6,7 +6,7 @@ import Geocode from "react-geocode";
 const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
 Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
-Geocode.enableDebug();
+// Geocode.enableDebug();
 class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -74,7 +74,6 @@ class Map extends React.Component {
           console.error(error);
         }
     );
-
   }
 
     /**
@@ -248,39 +247,41 @@ class Map extends React.Component {
   };
 
   render() {
+    const MealsMap = <GoogleMap google={this.props.google}
+                          defaultZoom={this.state.zoom}
+                          defaultCenter={{lat: this.state.center.lat, lng: this.state.center.lng}}
+                          center={this.state.center}
+                          zoom={this.state.zoom}
+                          ref={this.map}
+    >
+
+      {/* For Auto complete Search Box */}
+      <Autocomplete
+
+          onPlaceSelected={this.onPlaceSelected}
+          //types={['(regions)']}
+      />
+
+      {/* InfoWindow on top of marker */}
+      <InfoWindow
+          onClose={this.onInfoWindowClose}
+          position={{lat: (this.state.markerPosition.lat + 0.0018), lng: this.state.markerPosition.lng}}
+      >
+        <div>
+          <span>{this.state.address}</span>
+        </div>
+      </InfoWindow>
+      {/*Marker*/}
+      <Marker
+          draggable={true}
+          onDragEnd={this.onMarkerDragEnd}
+          position={{lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng}}/>
+    </GoogleMap>;
+
     const AsyncMap = withScriptjs(
       withGoogleMap(
         props => (
-          <GoogleMap google={this.props.google}
-            defaultZoom={this.state.zoom}
-            defaultCenter={{ lat: this.state.center.lat, lng: this.state.center.lng }}
-            center={this.state.center}
-            zoom={this.state.zoom}
-            ref={this.map}
-          >
-
-            {/* For Auto complete Search Box */}
-            <Autocomplete
-
-              onPlaceSelected={this.onPlaceSelected}
-            //types={['(regions)']}
-            />
-
-            {/* InfoWindow on top of marker */}
-            <InfoWindow
-              onClose={this.onInfoWindowClose}
-              position={{ lat: (this.state.markerPosition.lat + 0.0018), lng: this.state.markerPosition.lng }}
-            >
-              <div>
-                <span >{this.state.address}</span>
-              </div>
-            </InfoWindow>
-            {/*Marker*/}
-            <Marker 
-              draggable={true}
-              onDragEnd={ this.onMarkerDragEnd }
-              position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }} />
-          </GoogleMap>
+          MealsMap
         )
       )
     );
