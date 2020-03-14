@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
 import axios from 'axios';
-import Map from './Map';
+import MapLocationSelector from './MapLocationSelector';
 
 import config from "../../config";
 
@@ -48,8 +48,7 @@ class Meals extends Component {
             </div >
           </div>
           <div className="split right">       
-            <Map
-              google={this.props.google}
+            <MapLocationSelector
               center={{ lat: 38.5204, lng: 38.8567 }}
               height='300px'
               zoom={10}
