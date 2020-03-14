@@ -6,18 +6,17 @@ export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
 Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
 
-const MapLocationSelector = React.memo(({handleLocationUpdate, lng, lat}) => {
+const MapLocationSelector = React.memo(({handleLocationUpdate, defaultLocation}) => {
     const onMarkerDragEnd = (event) => {
-        let newLat = event.latLng.lat(),
-            newLng = event.latLng.lng();
+        let lat = event.latLng.lat(),
+            lng = event.latLng.lng();
 
         // TODO: Move outside
 
-        Geocode.fromLatLng(newLat, newLng).then(
+        Geocode.fromLatLng(lat, lng).then(
             response => {
                 const address = response.results[0].formatted_address;
-
-                handleLocationUpdate({address});
+                handleLocationUpdate({address, location: {lng, lat}});
             },
             error => {
                 console.error(error);
@@ -27,11 +26,11 @@ const MapLocationSelector = React.memo(({handleLocationUpdate, lng, lat}) => {
 
     const MyGoogleMap = (props) => <GoogleMap
         defaultZoom={8}
-        defaultCenter={{lat, lng}}
+        defaultCenter={{lat: defaultLocation.lat, lng: defaultLocation.lng}}
     >
         <Marker
             draggable
-            position={{lat, lng}}
+            position={{lat: defaultLocation.lat, lng: defaultLocation.lng}}
             onDragEnd={onMarkerDragEnd}
         />
     </GoogleMap>;

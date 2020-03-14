@@ -7,30 +7,23 @@ import { DatePicker } from 'antd';
 import MapLocationSelector from "./MapLocationSelector";
 
 import 'antd/es/date-picker/style/css';
+const defaultLocation = {lng: 34.808, lat: 32.09};
 
-class Meals extends Component {
+class CreateMeal extends Component {
   constructor() {
     super();
     this.state = {
-      user: "",
       mealName: "",
-      type: "",
-      location: "",
-      guests: 0, //max number of invited guests
+      location: defaultLocation,
+      address: "",
+      guestCount: 0,
       errors: {},
-      date:  new Date().getDate(),
-      latLng: [] //long/lat
+      date: new Date().getDate(),
     };
   }
 
-  onLocationUpdate = ({address, area, city, state}) => {
-    this.setState({address})
-  };
-
-  onMapClicked = (e, mapState) => {
-    var pos = e.latLng;
-    console.error(pos.lat(), pos.lng())
-    this.setState({location:mapState.address});
+  onLocationUpdate = ({address, location}) => {
+    this.setState({address, location})
   };
 
   onChange = e => {
@@ -42,19 +35,18 @@ class Meals extends Component {
 
     const newMeal = {
       mealName: this.state.mealName,
+      date: this.state.date,
+      address: this.state.address,
+      location: this.state.location,
       host: this.props.auth.user.id,
-      guests: this.state.guests,
-      dateCreated: this.state.date,
-      location: this.state.location || "here and now",
-      position: [0,0]
+      guestCount: this.state.guestCount,
     };
 
-    this.props.addMeal(newMeal, this.props.history);
+    this.props.addMeal(newMeal);
   };
 
   render() {
     const { errors } = this.state;
-    const { user } = this.props.auth;
     return (
       <div className="container valign-wrapper">
         <div className="row">
@@ -95,7 +87,7 @@ class Meals extends Component {
               {/* Location */}
               <div className="col s12">
                 <div>
-                  {this.state.location}
+                  Lat: {this.state.location.lat}, lng: {this.state.location.lng}
                 </div>
                 <label htmlFor="location">Location</label>
               </div>
@@ -103,9 +95,9 @@ class Meals extends Component {
               <div className="input-field col s12">
                 <input min={0} max={10}
                   onChange={this.onChange}
-                  value={this.state.guests}
+                  value={this.state.guestCount}
                   error={errors.password}
-                  id="guests"
+                  id="guestsCount"
                   type="number"
                 />
                 <label htmlFor="guests">Max number of guests</label>
@@ -128,8 +120,7 @@ class Meals extends Component {
                 <MapLocationSelector
                   handleLocationUpdate={this.onLocationUpdate}
                   // address={this.state.address}
-                  lat={32.09}
-                  lng={34.808}
+                  defaultLocation={defaultLocation}
                 />
               </div>
         </div>
@@ -138,7 +129,7 @@ class Meals extends Component {
   }
 }
 
-Meals.propTypes = {
+CreateMeal.propTypes = {
   addMeal: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
@@ -150,4 +141,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { addMeal }
-)(withRouter(Meals));
+)(withRouter(CreateMeal));

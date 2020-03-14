@@ -11,7 +11,7 @@ class MealListItem extends React.Component {
           <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal._id} alt="Meal" className="meal_image"></img>
           <span className="mealName" > {meal.mealName}</span>
           <br />
-          <span> {new Date(meal.dateCreated).toUTCString()}</span>
+          <span> {new Date(meal.createdAt).toUTCString()}</span>
           <br />
           <Link to={"/Attend/" + meal._id}> Attend</Link>
         </div>
