@@ -7,7 +7,8 @@ import classNames from "classnames";
 import Map from './Map';  
 import { DatePicker } from 'antd';  
 
-import 'antd/es/date-picker/style/css'; // for css
+import 'antd/es/date-picker/style/css';
+import {MapLocationSelector} from "./MarkerExample"; // for css
 class Meals extends Component {
   constructor() {
     super();
@@ -121,13 +122,7 @@ class Meals extends Component {
             </form>
           </div>
               <div className="split right">
-                <Map
-                  center={{ lat: 32.09, lng: 34.808 }}
-                  height='90%'
-                  zoom={15}
-                  handleLocationUpdate={this.onLocationUpdate}
-                  address={this.state.address}
-                />
+                <MapLocationSelector />
               </div>
         </div>
       </div>
