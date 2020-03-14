@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const MealSchema = new Schema({
-  mealName: { //meal name
+  name: { //meal name
     type: String,
     required: true
   },

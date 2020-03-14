@@ -30,6 +30,7 @@
     "mongoose": "^5.3.11",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "pg": "^7.18.2",
     "react-datepicker": "^2.13.0",
     "react-helmet": "^5.2.1",
     "react-scripts": "^3.4.0",

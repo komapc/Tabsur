@@ -3,6 +3,6 @@ CREATE TABLE users (
     name VARCHAR NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     password VARCHAR NOT NULL,
-    location VARCHAR NOT NULL,
+    location POINT NOT NULL,
     address VARCHAR NOT NULL
 );

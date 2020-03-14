@@ -5,12 +5,12 @@ module.exports = function validateMealInput(data) {
   let errors = {};
 
   // Convert empty fields to an empty string so we can use validator functions
-  data.mealName = !isEmpty(data.mealName) ? data.mealName : "";
+  data.name = !isEmpty(data.name) ? data.name : "";
 
 
   // Name checks
-  if (Validator.isEmpty(data.mealName)) {
-    errors.mealName = "Name field is required";
+  if (Validator.isEmpty(data.name)) {
+    errors.name = "Name field is required";
   }
 
   return {

@@ -13,7 +13,7 @@ class CreateMeal extends Component {
   constructor() {
     super();
     this.state = {
-      mealName: "",
+      name: "",
       location: defaultLocation,
       address: "",
       guestCount: 0,
@@ -34,7 +34,7 @@ class CreateMeal extends Component {
     e.preventDefault();
 
     const newMeal = {
-      mealName: this.state.mealName,
+      name: this.state.name,
       date: this.state.date,
       address: this.state.address,
       location: this.state.location,
@@ -55,17 +55,17 @@ class CreateMeal extends Component {
                 Add a meal:
             </h4>
             <form noValidate onSubmit={this.onSubmit}>
-              {/* Mealname */}
+              {/* name */}
               <div className="input-field col s12">
                 <input
                   onChange={this.onChange}
                   value={this.state.name}
                   error={errors.name}
-                  id="mealName"
+                  id="name"
                   type="text"
                   className={errors.name ? 'invalid' : ''}
                 />
-                <label htmlFor="mealName">Meal name</label>
+                <label htmlFor="name">Meal name</label>
                 <span className="red-text">{errors.name}</span>
               </div>
               {/* Date and time */}

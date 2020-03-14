@@ -55,7 +55,7 @@ class Attend extends Component {
                 <br />
               </h4>
               Meal info:
-              <div>Do you want to attend <b>{this.state.meal.mealName}</b>? </div>
+              <div>Do you want to attend <b>{this.state.meal.name}</b>? </div>
               <div>It is hosted by <Link to={"/Profile/" + this.state.meal.host}> {this.state.meal.host}</Link> </div>
               <div> today at <b> {this.state.meal.time}</b> </div>
               <div> Guest count <b> {this.state.meal.guestCount}</b> </div>
