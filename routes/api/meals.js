@@ -79,6 +79,7 @@ const pgConfig = {
     database: 'coolanu',
     user: 'coolanu',
     password: 'coolanu',
+    ssl: true,
 };
 const {Client} = require('pg');
 const client = new Client(pgConfig);
