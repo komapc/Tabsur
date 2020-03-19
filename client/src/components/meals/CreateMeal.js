@@ -114,7 +114,6 @@ class CreateMeal extends Component {
           </div>
           {
             // TODO: use user current location
-            // TODO: use current address from user input
           }
               <div className="split right">
                 <MapLocationSelector
