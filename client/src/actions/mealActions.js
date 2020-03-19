@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
+import { GET_ERRORS, USER_LOADING } from "./types";
 import config from "../config";
 
 // add a meal
