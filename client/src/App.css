@@ -39,19 +39,19 @@ ul li span {
 }
 
 .meal_props {
-    background-color: Gray;
+    background-color: whitesmoke;
     border: ridge;
     color: black;
-    border-radius: 8px;
-    transition-duration: 0.3s;
+    border-radius: 3px;
+    transition-duration: 0.5s;
+    font-size: normal;
 }
 
-    .meal_props:hover {
-        background-color: #555050;
-        border-radius: 15px;
-        transform: scaleY(1.03);
-        transition-duration: 0.5s;
-    }
+.meal_props:hover {
+    background-color: #d6cdcd;
+    border-radius: 5px;
+    transition-duration: 0.5s; 
+}
 
 .meal_image {
     width: 100px;
