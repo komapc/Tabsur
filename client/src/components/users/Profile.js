@@ -24,7 +24,7 @@ class Profile extends Component {
 
 
   render() {
-    const { errors } = this.state;
+    //const { errors } = this.state;
     if (!this.state.user) {
       return <div> Loading </div>
     }
