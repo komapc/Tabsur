@@ -9,7 +9,6 @@ import config from "../../config";
 
 class Meals extends Component {
 
-
   constructor(props) {
     super(props);
     this.state = {
@@ -47,14 +46,14 @@ class Meals extends Component {
               )}
             </div >
           </div>
-          <div className="split right">       
-            <MapLocationSelector
-              center={{ lat: 38.5204, lng: 38.8567 }}
-              height='300px'
-              zoom={10}
-              onClick={this.onMapClicked}
-            />
+           <div className="split right">       
+             {/* <MapLocationSelector
+                  handleLocationUpdate={this.onLocationUpdate}
+                  // address={this.state.address}
+                  defaultLocation={defaultLocation}
+                /> */}
           </div>
+         
         </div>
       </div>
     );
