@@ -5,6 +5,6 @@ module.exports = {
     database: 'coolanu',
     user: 'coolanu',
     password: 'coolanu',
-    ssl: true,
+    ssl: false,
 }
 };
