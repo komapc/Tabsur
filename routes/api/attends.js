@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var attend = require('../../models/Attend.js');
+const pgConfig=require("./../dbConfig.js");
+const {Client}=require("pg");
 
 /* GET ALL attends */
 router.get('/', function(req, res, next) {
