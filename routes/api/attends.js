@@ -30,7 +30,7 @@ router.get('/meal/:meal_id', function(req, res, next) {
 });
 
 /* SAVE attend */
-router.post('/', function(req, res, next) {
+router.post('/', async (req, response, next) => {
 
   // attend.create(req.body, function (err, post) {
   //   if (err) return next(err);
@@ -39,22 +39,14 @@ router.post('/', function(req, res, next) {
   console.log("Attend,  " +pgConfig.pgConfig.user );
     const attend = req.body;
     const client = new Client(pgConfig.pgConfig);
-    client.connect();
+    await client.connect();
     
     console.log("connected");
-    client.query('INSERT INTO attends ( meal_id, user_id)' +
-        'VALUES($1, $2)',
-        [attend.user, attend.meal_id]);
-    // TODO: fix user id
-    
-    // }
-    // catch(e)
-    // {
-    //   console.log("exception catched: " + e);
-    // }
-    console.log("query attend done");
-    client.end();
-    return response.status(201).json(req.body);
+    client.query('INSERT INTO attends ( meal_id, user_id, status)' +
+        'VALUES($1, $2, 0)',
+        [attend.meal_id, attend.user_id])
+    .catch(err => { console.log(err); return response.status(500).json("failed to attend"); })
+    .then(answer => { return response.status(201).json(answer); });
 });
 
 // /* UPDATE attend */
