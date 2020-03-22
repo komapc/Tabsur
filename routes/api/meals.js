@@ -37,7 +37,7 @@ router.get("/get", async  (req, response) =>
 // @route GET api/meals/get_my
 // @desc get a list of meals created by me
 // @access Public
-router.get("/get_my/:id", async (req, res) => 
+router.get("/get_my/:id", async (req, response) => 
 {
   const client = new Client(pgConfig.pgConfig);
 

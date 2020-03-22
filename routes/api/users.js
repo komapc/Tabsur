@@ -107,8 +107,6 @@ router.post("/login", async (req, response) => {
     });
 });
 
-
-
 // @route GET api/users/get
 // @desc get public user properties
 // @access Public
