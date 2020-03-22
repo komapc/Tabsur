@@ -10,9 +10,9 @@ class MealListItem extends React.Component {
           <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal._id} alt="Meal" className="meal_image"></img>
           <span className="mealName" > {meal.name}</span>
           <br />
-          <span> { meal.created_at }</span>
+          <span> {new Date(meal.created_at).toString()}</span>
           <br />
-          <Link to={"/Attend/" + meal._id}> Attend</Link>
+          <Link to={"/Attend/" + meal.id}> Attend</Link>
         </div>
     )
   };
