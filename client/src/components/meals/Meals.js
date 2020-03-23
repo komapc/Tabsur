@@ -34,7 +34,7 @@ class Meals extends Component {
         <div className="row">
             <div className="flow-text grey-text text-darken-1">
               {this.state.meals.map(meal =>
-                <div key={meal._id}>
+                <div key={meal.id}>
                   <MealListItem meal={meal} />
                 </div>
 

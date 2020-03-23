@@ -7,7 +7,8 @@ class MealListItem extends React.Component {
     const meal = this.props.meal;
     const dat=dateFormat(new Date(meal.created_at), "dddd, mmmm dS, yyyy, h:MM:ss TT");
     return (
-      <div className="meal_props"> <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal._id} alt="Meal" className="meal_image" />
+      <div className="meal_props"> <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal._id} 
+        alt="Meal" className="meal_image"/>
 
         <div>by <span>{meal.host_name}</span></div>
         <div className="mealName" > {meal.name}</div>
