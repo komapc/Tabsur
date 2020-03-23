@@ -33,7 +33,6 @@ class Meals extends Component {
     return (
       <div className="container valign-wrapper">
         <div className="row">
-          <div className="landing-copy split left">
             <h4 className="caption">
               ACTIVE MEALS:
             </h4>
@@ -44,16 +43,7 @@ class Meals extends Component {
                 </div>
 
               )}
-            </div >
           </div>
-           <div className="split right">       
-             {/* <MapLocationSelector
-                  handleLocationUpdate={this.onLocationUpdate}
-                  // address={this.state.address}
-                  defaultLocation={defaultLocation}
-                /> */}
-          </div>
-         
         </div>
       </div>
     );
