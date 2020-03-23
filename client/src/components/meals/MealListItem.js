@@ -13,7 +13,7 @@ class MealListItem extends React.Component {
         <div>by <span>{meal.host_name}</span></div>
         <div className="mealName" > {meal.name}</div>
         <div> date: {dat}</div>
-        <div> <span>🍽️</span>(5)</div>
+        <div> <span>🍽️</span>({meal.guest_count})</div>
         <Link to={"/Attend/" + meal.id}> Attend</Link>
       </div>
     )
