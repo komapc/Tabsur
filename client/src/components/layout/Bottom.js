@@ -32,7 +32,12 @@ class Bottom extends Component {
             >
                <span className={(window.location.pathname==="/Create")?"footerItem":"footerItemActive"} >➕</span>
             </Link>
-
+            <span> | </span>
+            <Link
+              to="/MyMeals"
+            >
+              My meals
+            </Link>
           </div>
         </nav>
       </div>
