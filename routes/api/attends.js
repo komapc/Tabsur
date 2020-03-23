@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var attend = require('../../models/Attend.js');
+//var attend = require('../../models/Attend.js');
 const pgConfig=require("./../dbConfig.js");
 const {Client}=require("pg");
 

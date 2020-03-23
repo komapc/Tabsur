@@ -8,7 +8,7 @@ const keys = require("../../config/keys");
 const validateMealInput = require("../../validation/meal");
 
 // Load Meal model
-const Meal = require("../../models/Meal")
+//const Meal = require("../../models/Meal")
 
 // @route GET api/meals/get
 // @desc get a meal list
