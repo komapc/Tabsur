@@ -104,3 +104,8 @@ ul li span {
     background-color: #73d763;
     font-weight:bold;
   }
+
+  .menuRight {
+    position: absolute;
+    right: 50px;
+  } 
