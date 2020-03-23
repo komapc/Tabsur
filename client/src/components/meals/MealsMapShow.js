@@ -17,7 +17,7 @@ const MealsMapShow = React.memo(({meals, defaultLocation}) => {
     {meals.map(meal =>
         <div key={meal.id}>
             <Marker 
-                position={{lat: meal.lat, lng: meal.lng}} 
+                position={{lat: meal.location.y, lng:meal.location.x}} 
                 />
         </div>
         )} 
