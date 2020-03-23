@@ -10,7 +10,7 @@ module.exports = {
     pgConfigProduction : {
     host: 'coolanu.c83ccb9pqvdz.us-east-1.rds.amazonaws.com',
     port: 5432,
-    database: 'postgres',
+    database: 'coolanu',
     user: 'production_db',
     password: 'jw8s0F4',
     ssl: false,

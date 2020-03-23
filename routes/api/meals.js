@@ -27,7 +27,7 @@ router.get("/get", async  (req, response) =>
 
   await client.connect();
 
-  client.query('SELECT m.*, u.name as host_name FROM meals as m join users as u on m.host_id = u.id')
+  client.query('SELECT m.*, u.name as host_name FROM meals  AS m JOIN users as u on m.host_id = u.id')
     .then(resp=>{
       response.json(resp.rows);
     })
@@ -45,7 +45,7 @@ router.get("/get_my/:id", async (req, response) =>
 
   await client.connect();
 
-  await client.query(`SELECT * from   meals where host_id=${req.params.id}`, (err, resp) => {
+  await client.query(`SELECT * FROM coolanu."meals" WHERE host_id=${req.params.id}`, (err, resp) => {
       if (err) {
         console.log(err.stack)
       } else {
