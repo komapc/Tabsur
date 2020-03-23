@@ -1,14 +1,29 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-class Navbar extends Component {
+class Bottom extends Component {
   render() {
     return (
-      <div className="navbar-fixed">
-        <nav className="z-depth-0">
-          <div >
-           
-           bottom
+      <div className="footer ">
+        <nav className="z-depth-0 footer">
+          <div > <Link
+            to="/MealsMap"
+          >
+            Map
+            </Link>
+            <span> | </span>
+            <Link
+              to="/Meals"
+            >
+              List
+            </Link>
+            <span> | </span>
+            <Link
+              to="/Create"
+            >
+              ➕
+            </Link>
+
           </div>
         </nav>
       </div>
@@ -16,4 +31,4 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+export default Bottom;

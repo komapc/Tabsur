@@ -38,7 +38,7 @@ class CreateMeal extends Component {
       date: this.state.date,
       address: this.state.address,
       location: this.state.location,
-      host: this.props.auth.user.id,
+      host_id: this.props.auth.user.id,
       guestCount: this.state.guestCount,
     };
 

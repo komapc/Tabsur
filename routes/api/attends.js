@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('mongoose');
 var attend = require('../../models/Attend.js');
 const pgConfig=require("./../dbConfig.js");
 const {Client}=require("pg");
@@ -45,7 +44,7 @@ router.post('/', async (req, response, next) => {
 });
 
 /* UPDATE attend */
-router.put('/:id', function(req, res, next) {  
+router.put('/:id', function(req, res, next) {   
   return response.status(500).json("failed to update - not implemented");
 });
 

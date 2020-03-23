@@ -77,5 +77,14 @@ ul li span {
     border-radius: 100%;
     user-select: none;
     transform: translate(-50%, -50%);
-  
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #83e773;
+    color: white;
+    text-align: center;
   }

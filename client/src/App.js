@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import Navbar from "./components/layout/Navbar";
+import Bottom from "./components/layout/Bottom";
 import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
@@ -55,12 +56,11 @@ class App extends Component {
               <link rel="canonical" href="http://coolanu.com" />
             </Helmet>
             <Navbar />
-            <Route exact path="/" component={Landing} />
+            <Route exact path="/" component={Meals} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />            
             <Route exact path="/about" component={About} />
-            <Switch>
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <Switch>>
               <PrivateRoute exact path="/meals" component={Meals} />
               <PrivateRoute exact path="/create" component={Create} />
               <PrivateRoute exact path="/myMeals" component={MyMeals} />
@@ -69,6 +69,7 @@ class App extends Component {
               <PrivateRoute exact path="/myProfile" component={MyProfile} />
               <PrivateRoute exact path="/profile/:id" component={Profile} />
             </Switch>
+            <Bottom />
           </div>
         </Router>
       </Provider>
