@@ -31,11 +31,10 @@ class MealsMap extends Component {
 
     return (
       <div className="mealsMap">
-      <MealsMapShow
-                  handleLocationUpdate={this.onLocationUpdate}
-                  // address={this.state.address}
-                  defaultLocation={defaultLocation}
-                /> 
+      <MealsMapShow   
+          meals={this.props.meals}
+          defaultLocation={defaultLocation}
+        /> 
       </div>  
     );  
   }
