@@ -1,52 +1,51 @@
 const pgConfig=require("./../dbConfig.js");
+let currentConfig = pgConfig.pgConfigLocal;
+
+if (process.env.MODE_ENV === "production")
+{
+  currentConfig = pgConfig.pgConfigProduction;
+}
 const {Client}=require("pg");
 const express = require("express");
 const router = express.Router();
-const keys = require("../../config/keys");
 
 // Load input validation
 const validateMealInput = require("../../validation/meal");
 
 // Load Meal model
-const Meal = require("../../models/Meal")
+//const Meal = require("../../models/Meal")
 
 // @route GET api/meals/get
 // @desc get a meal list
 // @access Public
 router.get("/get", async  (req, response) => 
 {
-  const client = new Client(pgConfig.pgConfig);
+  const client = new Client(currentConfig);
 
   const meal = req.body;
   console.log(meal);
 
   await client.connect();
 
-  await client.query('SELECT * from   meals '
-     // [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`, meal.address, meal.guestCount, /*meal.host*/ 42]);
-     , (err, resp) => {
-      if (err) {
-        console.log(err.stack)
-      } else {
-        console.log(resp.rows[0]);
-        response.json(resp.rows);
-      }
+  client.query('SELECT m.*, u.name as host_name FROM meals  AS m JOIN users as u on m.host_id = u.id')
+    .then(resp=>{
+      response.json(resp.rows);
     })
-})
+    .catch(err => { console.log(err); return response.status(500).json(newReq); });})
  
 // @route GET api/meals/get_my
 // @desc get a list of meals created by me
 // @access Public
 router.get("/get_my/:id", async (req, response) => 
 {
-  const client = new Client(pgConfig.pgConfig);
+  const client = new Client(currentConfig);
 
   const meal = req.body;
   console.log(meal);
 
   await client.connect();
 
-  await client.query(`SELECT * from   meals where host_id=${req.params.id}`, (err, resp) => {
+  await client.query(`SELECT * FROM coolanu."meals" WHERE host_id=${req.params.id}`, (err, resp) => {
       if (err) {
         console.log(err.stack)
       } else {
@@ -54,52 +53,38 @@ router.get("/get_my/:id", async (req, response) =>
         response.json(resp.rows);
       }
     })
-
-    // // Find meals
-    // myCursor = Meal.find({host:req.params.id}, function(err, meals) 
-    // {
-    //     if (err) 
-    //     {
-    //         console.log(err);
-    //     } else 
-    //     {
-    //         res.json(meals);
-    //     }
-    // })
 });
 
-
-
-// @route GET api/meals/get
-// @desc get a meal by id
-// @access Public
-router.get('/get/:id', function(req, res, next) {
+// // @route GET api/meals/get
+// // @desc get a meal by id
+// // @access Public
+// router.get('/get/:id', function(req, res, next) {
   
-    Meal.aggregate([
-    { $lookup:
-       {
-         from: 'users',
-         localField: 'host',
-         foreignField: '_id',
-         as: 'host_name'
-       }
-     }
-    ]).exec(function(err, res) {
-   console.log(res);
-    });
+//     Meal.aggregate([
+//     { $lookup:
+//        {
+//          from: 'users',
+//          localField: 'host',
+//          foreignField: '_id',
+//          as: 'host_name'
+//        }
+//      }
+//     ]).exec(function(err, res) {
+//    console.log(res);
+//     });
 
-  Meal.findById(req.params.id, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
+//   Meal.findById(req.params.id, function (err, post) {
+//     if (err) return next(err);
+//     res.json(post);
+//   });
 
 
-});
+// });
 
 // @route POST api/meals/addMeal
 router.post("/addMeal", async (req, response) => {
     // Form validation
-    const client = new Client(pgConfig.pgConfig);
+    const client = new Client(currentConfig);
     const { errors, isValid } = validateMealInput(req.body);
 
     // Check validation
@@ -108,7 +93,7 @@ router.post("/addMeal", async (req, response) => {
     }
     try{
       
-    console.log("addMeal - start,  " +pgConfig.pgConfig.user );
+    console.log("addMeal - start,  " + currentConfig );
     const meal = req.body;
     await client.connect();
     
@@ -137,7 +122,7 @@ router.get("/delete/:id",async(req, res) =>
 { 
 //todo
 
-const client = new Client(pgConfig);
+const client = new Client(currentConfig);
   await client.connect();
 
   await client.query('delete from meals where id=$1',

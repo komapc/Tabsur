@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
-import MealListItem from "./MealListItem";
 import axios from 'axios';
+import MealsMapShow from './MealsMapShow';
 
 import config from "../../config";
-
-class Meals extends Component {
+const defaultLocation = {lng: 34.808, lat: 32.09};
+class MealsMap extends Component {
 
   constructor(props) {
     super(props);
@@ -26,23 +26,15 @@ class Meals extends Component {
       });
   }
 
-
   render() {
-
     return (
-      <div className="container valign-wrapper">
-        <div className="row">
-            <div className="flow-text grey-text text-darken-1">
-              {this.state.meals.map(meal =>
-                <div key={meal.id}>
-                  <MealListItem meal={meal} />
-                </div>
-
-              )}
-          </div>
-        </div>
-      </div>
-    );
+      <div className="mealsMap">
+      <MealsMapShow   
+          meals={this.state.meals}
+          defaultLocation={defaultLocation}
+        /> 
+      </div>  
+    );  
   }
 }
 
@@ -54,4 +46,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getMeals }
-)(Meals);
+)(MealsMap);

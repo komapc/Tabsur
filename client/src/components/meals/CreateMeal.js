@@ -38,7 +38,7 @@ class CreateMeal extends Component {
       date: this.state.date,
       address: this.state.address,
       location: this.state.location,
-      host: this.props.auth.user.id,
+      host_id: this.props.auth.user.id,
       guestCount: this.state.guestCount,
     };
 
@@ -81,15 +81,8 @@ class CreateMeal extends Component {
                   id="address"
                   type="text"
                 />
-                <label htmlFor="location">Address</label>
+                <label htmlFor="address">Address</label>
                 <span className="red-text">{errors.name}</span>
-              </div>
-              {/* Location */}
-              <div className="col s12">
-                <div>
-                  Lat: {this.state.location.lat}, lng: {this.state.location.lng}
-                </div>
-                <label htmlFor="location">Location</label>
               </div>
               {/* Number of guests */}
               <div className="input-field col s12">
