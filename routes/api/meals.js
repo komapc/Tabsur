@@ -22,7 +22,7 @@ router.get("/get", async  (req, response) =>
 
   await client.connect();
 
-  await client.query('SELECT * FROM meals JOIN users ON meals.host_id = users.id', (err, resp) => {
+  await client.query('SELECT m.*, u.name as host_name FROM meals as m join users as u on m.host_id = u.id', (err, resp) => {
       if (err) {
         console.log(err.stack)
       } else {

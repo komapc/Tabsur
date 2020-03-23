@@ -33,9 +33,6 @@ class Meals extends Component {
     return (
       <div className="container valign-wrapper">
         <div className="row">
-            <h4 className="caption">
-              ACTIVE MEALS:
-            </h4>
             <div className="flow-text grey-text text-darken-1">
               {this.state.meals.map(meal =>
                 <div key={meal._id}>
