@@ -12,7 +12,7 @@ const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 
 // Load User model
-const User = require("../../models/User");
+//const User = require("../../models/User");
 
 // @route POST api/users/register
 // @desc Register user
@@ -68,7 +68,6 @@ router.post("/login", async (req, response) => {
   await client.connect();
   await client.query('select * from  users where email = $1  limit 1',
     [newReq.email])
-    //.then(user => {return response.status(201).json(newUser);})
     .then(user => {
       const row = user.rows[0];
       console.log("result: " + JSON.stringify(row));
