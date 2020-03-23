@@ -22,15 +22,11 @@ router.get("/get", async  (req, response) =>
 
   await client.connect();
 
-  await client.query('SELECT m.*, u.name as host_name FROM meals as m join users as u on m.host_id = u.id', (err, resp) => {
-      if (err) {
-        console.log(err.stack)
-      } else {
-        console.log(resp.rows[0]);
-        response.json(resp.rows);
-      }
+  client.query('SELECT m.*, u.name as host_name FROM meals as m join users as u on m.host_id = u.id')
+    .then(resp=>{
+      response.json(resp.rows);
     })
-})
+    .catch(err => { console.log(err); return response.status(500).json(newReq); });})
  
 // @route GET api/meals/get_my
 // @desc get a list of meals created by me
