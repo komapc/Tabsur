@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
-//var attend = require('../../models/Attend.js');
 const pgConfig=require("./../dbConfig.js");
+let currentConfig = pgConfig.pgConfigLocal;
 const {Client}=require("pg");
-
+if (process.env.MODE_ENV === "production")
+{
+  currentConfig = pgConfig.pgConfigProduction;
+}
 // /* GET ALL attends */
 // router.get('/', function(req, res, next) {
 //   attend.find(function (err, products) {
@@ -30,9 +33,9 @@ router.get('/meal/:meal_id', function(req, res, next) {
 
 /* SAVE attend */
 router.post('/', async (req, response, next) => {
-  console.log("Attend,  " +pgConfig.pgConfig.user );
+  console.log("Attend,  " +currentConfig.user );
   const attend = req.body;
-  const client = new Client(pgConfig.pgConfig);
+  const client = new Client(currentConfig);
   await client.connect();
   
   console.log("connected");
@@ -50,9 +53,9 @@ router.put('/:id', function(req, res, next) {
 
 /* DELETE attend */
 router.delete('/:id', async (req, res, next) => {
-  console.log("Attend,  " +pgConfig.pgConfig.user );
+  console.log("Attend,  " +currentConfig.user );
   const attend = req.body;
-  const client = new Client(pgConfig.pgConfig);
+  const client = new Client(currentConfig);
   await client.connect();
   
   console.log("connected");

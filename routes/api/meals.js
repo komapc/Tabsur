@@ -1,8 +1,13 @@
 const pgConfig=require("./../dbConfig.js");
+let currentConfig = pgConfig.pgConfigLocal;
+
+if (process.env.MODE_ENV === "production")
+{
+  currentConfig = pgConfig.pgConfigProduction;
+}
 const {Client}=require("pg");
 const express = require("express");
 const router = express.Router();
-const keys = require("../../config/keys");
 
 // Load input validation
 const validateMealInput = require("../../validation/meal");
@@ -15,7 +20,7 @@ const validateMealInput = require("../../validation/meal");
 // @access Public
 router.get("/get", async  (req, response) => 
 {
-  const client = new Client(pgConfig.pgConfig);
+  const client = new Client(currentConfig);
 
   const meal = req.body;
   console.log(meal);
@@ -33,7 +38,7 @@ router.get("/get", async  (req, response) =>
 // @access Public
 router.get("/get_my/:id", async (req, response) => 
 {
-  const client = new Client(pgConfig.pgConfig);
+  const client = new Client(currentConfig);
 
   const meal = req.body;
   console.log(meal);
@@ -79,7 +84,7 @@ router.get("/get_my/:id", async (req, response) =>
 // @route POST api/meals/addMeal
 router.post("/addMeal", async (req, response) => {
     // Form validation
-    const client = new Client(pgConfig.pgConfig);
+    const client = new Client(currentConfig);
     const { errors, isValid } = validateMealInput(req.body);
 
     // Check validation
@@ -88,7 +93,7 @@ router.post("/addMeal", async (req, response) => {
     }
     try{
       
-    console.log("addMeal - start,  " +pgConfig.pgConfig.user );
+    console.log("addMeal - start,  " + currentConfig );
     const meal = req.body;
     await client.connect();
     
@@ -117,7 +122,7 @@ router.get("/delete/:id",async(req, res) =>
 { 
 //todo
 
-const client = new Client(pgConfig);
+const client = new Client(currentConfig);
   await client.connect();
 
   await client.query('delete from meals where id=$1',
