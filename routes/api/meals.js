@@ -22,9 +22,7 @@ router.get("/get", async  (req, response) =>
 
   await client.connect();
 
-  await client.query('SELECT * from   meals '
-     // [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`, meal.address, meal.guestCount, /*meal.host*/ 42]);
-     , (err, resp) => {
+  await client.query('SELECT * FROM meals JOIN users ON meals.host_id = users.id', (err, resp) => {
       if (err) {
         console.log(err.stack)
       } else {
@@ -54,47 +52,33 @@ router.get("/get_my/:id", async (req, response) =>
         response.json(resp.rows);
       }
     })
-
-    // // Find meals
-    // myCursor = Meal.find({host:req.params.id}, function(err, meals) 
-    // {
-    //     if (err) 
-    //     {
-    //         console.log(err);
-    //     } else 
-    //     {
-    //         res.json(meals);
-    //     }
-    // })
 });
 
-
-
-// @route GET api/meals/get
-// @desc get a meal by id
-// @access Public
-router.get('/get/:id', function(req, res, next) {
+// // @route GET api/meals/get
+// // @desc get a meal by id
+// // @access Public
+// router.get('/get/:id', function(req, res, next) {
   
-    Meal.aggregate([
-    { $lookup:
-       {
-         from: 'users',
-         localField: 'host',
-         foreignField: '_id',
-         as: 'host_name'
-       }
-     }
-    ]).exec(function(err, res) {
-   console.log(res);
-    });
+//     Meal.aggregate([
+//     { $lookup:
+//        {
+//          from: 'users',
+//          localField: 'host',
+//          foreignField: '_id',
+//          as: 'host_name'
+//        }
+//      }
+//     ]).exec(function(err, res) {
+//    console.log(res);
+//     });
 
-  Meal.findById(req.params.id, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
+//   Meal.findById(req.params.id, function (err, post) {
+//     if (err) return next(err);
+//     res.json(post);
+//   });
 
 
-});
+// });
 
 // @route POST api/meals/addMeal
 router.post("/addMeal", async (req, response) => {
