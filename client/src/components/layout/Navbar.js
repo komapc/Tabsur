@@ -7,14 +7,6 @@ class Navbar extends Component {
       <div className="navbar-fixed">
         <nav className="z-depth-0">
           <div >
-           
-            <Link
-              to="/MyMeals"
-            >
-              My meals
-            </Link>
-
-            <span> / </span>
             <Link
               to="/Notifications"
             >
