@@ -8,12 +8,12 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import Navbar from "./components/layout/Navbar";
-import Landing from "./components/layout/Landing";
+import Bottom from "./components/layout/Bottom";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
-import Dashboard from "./components/dashboard/Dashboard";
 import Meals from "./components/meals/Meals";
+import MealsMap from "./components/meals/MealsMap";
 import Attend from "./components/meals/Attend";
 import Create from "./components/meals/CreateMeal";
 import About from "./components/about/About"
@@ -55,13 +55,13 @@ class App extends Component {
               <link rel="canonical" href="http://coolanu.com" />
             </Helmet>
             <Navbar />
-            <Route exact path="/" component={Landing} />
+            <Route exact path="/" component={Meals} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />            
             <Route exact path="/about" component={About} />
-            <Switch>
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <Switch>>
               <PrivateRoute exact path="/meals" component={Meals} />
+              <PrivateRoute exact path="/mealsMap" component={MealsMap} />
               <PrivateRoute exact path="/create" component={Create} />
               <PrivateRoute exact path="/myMeals" component={MyMeals} />
               <PrivateRoute exact path="/attend/:id" component={Attend} />
@@ -69,6 +69,7 @@ class App extends Component {
               <PrivateRoute exact path="/myProfile" component={MyProfile} />
               <PrivateRoute exact path="/profile/:id" component={Profile} />
             </Switch>
+            <Bottom />
           </div>
         </Router>
       </Provider>
