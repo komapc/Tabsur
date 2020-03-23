@@ -6,27 +6,27 @@ class Navbar extends Component {
     return (
       <div className="navbar-fixed">
         <nav className="z-depth-0">
-          <div >
+          <div className="menuRight">
+          <Link
+              to="/Address"
+            >
+               <span>🔍</span>
+            </Link>
+
+            <span> / </span>
             <Link
               to="/Notifications"
             >
                <span>🔔</span>
             </Link>
-
-            <span> / </span>
-
-            <Link
-              to="/MyProfile"
-            >
-               <span>🧍</span>
-            </Link>
-
             <span> / </span>
             <Link
-              to="/About"
+              to="/Menu"
             >
-              About us
+               <span>⋮</span>
             </Link>
+
+           
           </div>
         </nav>
       </div>

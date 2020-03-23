@@ -9,6 +9,7 @@ import store from "./store";
 
 import Navbar from "./components/layout/Navbar";
 import Bottom from "./components/layout/Bottom";
+import Menu from "./components/Menu";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
@@ -60,6 +61,7 @@ class App extends Component {
             <Route exact path="/login" component={Login} />            
             <Route exact path="/about" component={About} />
             <Switch>>
+              <PrivateRoute exact path="/menu" component={Menu} />
               <PrivateRoute exact path="/meals" component={Meals} />
               <PrivateRoute exact path="/mealsMap" component={MealsMap} />
               <PrivateRoute exact path="/create" component={Create} />
