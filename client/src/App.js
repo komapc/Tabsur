@@ -9,12 +9,11 @@ import store from "./store";
 
 import Navbar from "./components/layout/Navbar";
 import Bottom from "./components/layout/Bottom";
-import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
-import Dashboard from "./components/dashboard/Dashboard";
 import Meals from "./components/meals/Meals";
+import MealsMap from "./components/meals/MealsMap";
 import Attend from "./components/meals/Attend";
 import Create from "./components/meals/CreateMeal";
 import About from "./components/about/About"
@@ -62,6 +61,7 @@ class App extends Component {
             <Route exact path="/about" component={About} />
             <Switch>>
               <PrivateRoute exact path="/meals" component={Meals} />
+              <PrivateRoute exact path="/mealsMap" component={MealsMap} />
               <PrivateRoute exact path="/create" component={Create} />
               <PrivateRoute exact path="/myMeals" component={MyMeals} />
               <PrivateRoute exact path="/attend/:id" component={Attend} />

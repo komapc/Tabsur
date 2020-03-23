@@ -33,7 +33,13 @@ ul li span {
     background-color: Blue;
 }
 
-
+.mealsMap
+{
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    background-color: yellow;
+}
 .caption {
     background-color: Blue;
 }
@@ -76,7 +82,7 @@ ul li span {
     border: 2px solid #fff;
     border-radius: 100%;
     user-select: none;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%   , -50%);
 }
 
 .footer {
@@ -84,7 +90,17 @@ ul li span {
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: #83e773;
+    background-color: #a2d888;
     color: white;
     text-align: center;
+  }
+
+  .footerItem
+  {
+    font-size:initial;
+  }
+  .footerItemActive
+  {
+    background-color: #73d763;
+    font-weight:bold;
   }

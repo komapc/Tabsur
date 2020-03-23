@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
-import MealListItem from "./MealListItem";
 import axios from 'axios';
-import MapLocationSelector from './MapLocationSelector';
+import MealsMapShow from './MealsMapShow';
 
 import config from "../../config";
-
+const defaultLocation = {lng: 34.808, lat: 32.09};
 class MealsMap extends Component {
 
   constructor(props) {
@@ -31,12 +30,14 @@ class MealsMap extends Component {
   render() {
 
     return (
-      <MapLocationSelector
+      <div className="mealsMap">
+      <MealsMapShow
                   handleLocationUpdate={this.onLocationUpdate}
                   // address={this.state.address}
                   defaultLocation={defaultLocation}
                 /> 
-    );
+      </div>  
+    );  
   }
 }
 

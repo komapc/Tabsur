@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
 import axios from 'axios';
-import MapLocationSelector from './MapLocationSelector';
 
 import config from "../../config";
 
