@@ -5,8 +5,12 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 //const passport = require("passport");
 const pgConfig = require("./../dbConfig.js");
+let currentConfig = pgConfig.pgConfigLocal;
 const { Client } = require("pg");
-
+if (process.env.MODE_ENV === "production")
+{
+  currentConfig = pgConfig.pgConfigProduction;
+}
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
@@ -24,7 +28,7 @@ router.post("/register", async (req, response) => {
   const input = req.body;
 
 
-  const client = new Client(pgConfig.pgConfig);
+  const client = new Client(currentConfig);
 
   // Check validation
   if (!isValid) {
@@ -64,7 +68,7 @@ router.post("/login", async (req, response) => {
   // Form validation
   const newReq = req.body;
   console.log('Login: ' + newReq.email);
-  const client = new Client(pgConfig.pgConfig);
+  const client = new Client(currentConfig);
   await client.connect();
   await client.query('select * from  users where email = $1  limit 1',
     [newReq.email])
@@ -111,7 +115,8 @@ router.post("/login", async (req, response) => {
 // @access Public
 router.get("/get/:id", async (req, response) => {
   // Find the user
-
+  const client = new Client(currentConfig);
+  await client.connect();
   await client.query('select * from  users where email = $1  limit 1',
     [newReq.email])
     //.then(user => {return response.status(201).json(newUser);})
