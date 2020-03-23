@@ -26,13 +26,11 @@ class MealsMap extends Component {
       });
   }
 
-
   render() {
-
     return (
       <div className="mealsMap">
       <MealsMapShow   
-          meals={this.props.meals}
+          meals={this.state.meals}
           defaultLocation={defaultLocation}
         /> 
       </div>  
