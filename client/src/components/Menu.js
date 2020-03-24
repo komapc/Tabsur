@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { setCurrentUser, logoutUser } from "../actions/authActions";
+import { logoutUser } from "../actions/authActions";
 import store from "../store";
 class Menu extends Component {
 
