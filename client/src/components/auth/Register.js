@@ -33,6 +33,7 @@ class Register extends Component {
   }
 
   onChange = e => {
+    console.trace(this.state.errors);
     this.setState({ [e.target.id]: e.target.value });
   };
 
@@ -47,6 +48,8 @@ class Register extends Component {
     };
 
     this.props.registerUser(newUser, this.props.history);
+    console.trace(">>>>>>>>>>>>>>>>>>>Errors?" + JSON.stringify(this.props));
+    console.trace("newUser: " + JSON.stringify(newUser));
   };
 
   render() {
