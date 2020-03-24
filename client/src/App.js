@@ -9,7 +9,7 @@ import store from "./store";
 
 import Navbar from "./components/layout/Navbar";
 import Bottom from "./components/layout/Bottom";
-import Menu from "./components/Menu";
+import Menu from "./components/layout/Menu";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";

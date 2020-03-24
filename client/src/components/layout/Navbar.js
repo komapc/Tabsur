@@ -23,7 +23,7 @@ class Navbar extends Component {
             <Link
               to="/Menu"
             >
-               <span>⋮</span>
+               <span style={{float: "right",width: "30px",   padding:"5px"}}>⋮</span>
             </Link>
 
            
