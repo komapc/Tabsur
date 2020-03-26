@@ -3,7 +3,7 @@ var router = express.Router();
 const pgConfig=require("./../dbConfig.js");
 let currentConfig = pgConfig.pgConfigLocal;
 const {Client}=require("pg");
-if (process.env.MODE_ENV === "production")
+if (process.env.NODE_ENV === "production")
 {
   currentConfig = pgConfig.pgConfigProduction;
 }
