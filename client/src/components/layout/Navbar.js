@@ -8,20 +8,20 @@ class Navbar extends Component {
         <nav className="z-depth-0">
           <div className="menuRight">
           <Link
-              to="/Address"
+              to="/address"
             >
                <span>🔍</span>
             </Link>
 
             <span> / </span>
             <Link
-              to="/Notifications"
+              to="/otifications"
             >
                <span>🔔</span>
             </Link>
             <span> / </span>
             <Link
-              to="/Menu"
+              to="/menu"
             >
                <span style={{float: "right",width: "30px",   padding:"5px"}}>⋮</span>
             </Link>
