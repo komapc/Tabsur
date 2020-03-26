@@ -14,18 +14,17 @@ class Meals extends Component {
       meals: []
     };
   }
-  onMapClicked = (event) => {
-    //nothing for now
-  }
 
   componentDidMount() {
     axios.get(`${config.SERVER_HOST}/api/meals/get`)
       .then(res => {
         console.log(res);
         this.setState({ meals: res.data });
+      })
+      .catch(err =>{
+        console.log(err);
       });
   }
-
 
   render() {
 

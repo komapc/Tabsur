@@ -76,7 +76,7 @@ router.post("/login", async (req, response) => {
   console.log('Login: ' + newReq.email);
   const client = new Client(currentConfig);
   await client.connect();
-  await client.query('SELECT password FROM users WHERE email = $1 OR id = $2 LIMIT 1',
+  await client.query('SELECT * FROM users WHERE email = $1 OR id = $2 LIMIT 1',
     [newReq.email, newReq.id])
     .then(res => {
 
@@ -89,8 +89,8 @@ router.post("/login", async (req, response) => {
       
       // Check password
       const row=res.rows[0];
-      console.log('res : ' + JSON.stringify(res));
-      console.log('row : ' + JSON.stringify(row));
+      console.log('res: ' + JSON.stringify(res));
+      console.log('row: ' + JSON.stringify(row));
       bcrypt.compare(newReq.password, row.password).then(isMatch => {
         if (isMatch) {
           // User matched
@@ -120,7 +120,9 @@ router.post("/login", async (req, response) => {
             .json({ passwordincorrect: "Password incorrect" });
         }
       })
-        .catch(err => { console.log(err); return response.status(500).json(newReq); })
+        .catch(err => { 
+          console.log("bcrypt error:" + err); 
+          return response.status(500).json(newReq); })
         .then(() => client.end())
 
     });
