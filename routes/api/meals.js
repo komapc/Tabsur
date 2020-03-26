@@ -21,7 +21,7 @@ const validateMealInput = require("../../validation/meal");
 router.get("/get", async  (req, response) => 
 {
   const client = new Client(currentConfig);
-
+  console.log("get meals");
   const meal = req.body;
   console.log(meal);
 
@@ -39,47 +39,21 @@ router.get("/get", async  (req, response) =>
 router.get("/get_my/:id", async (req, response) => 
 {
   const client = new Client(currentConfig);
-
+  console.log("get meals by name: " + JSON.stringify(req.params)); 
+  if (req.params.id == "undefined")
+  {
+    console.log("error, empty id");
+    response.status(400).json("Error in get_my: empty");
+    return; 
+  }
   const meal = req.body;
-  console.log(meal);
-
   await client.connect();
-
-  await client.query(`SELECT * FROM coolanu."meals" WHERE host_id=${req.params.id}`, (err, resp) => {
-      if (err) {
-        console.log(err.stack)
-      } else {
-        console.log(resp.rows[0]);
-        response.json(resp.rows);
-      }
+  client.query(`SELECT * FROM meals WHERE host_id=${req.params.id}`)
+    .then(resp=>{
+      response.json(resp.rows);
     })
+    .catch(err => { console.log(err); return response.status(500).json(newReq); });
 });
-
-// // @route GET api/meals/get
-// // @desc get a meal by id
-// // @access Public
-// router.get('/get/:id', function(req, res, next) {
-  
-//     Meal.aggregate([
-//     { $lookup:
-//        {
-//          from: 'users',
-//          localField: 'host',
-//          foreignField: '_id',
-//          as: 'host_name'
-//        }
-//      }
-//     ]).exec(function(err, res) {
-//    console.log(res);
-//     });
-
-//   Meal.findById(req.params.id, function (err, post) {
-//     if (err) return next(err);
-//     res.json(post);
-//   });
-
-
-// });
 
 // @route POST api/meals/addMeal
 router.post("/addMeal", async (req, response) => {
@@ -114,7 +88,7 @@ router.post("/addMeal", async (req, response) => {
 });
 
 
-// @route DELETE api/meals/get
+// @route DELETE api/meals/delete:id
 // @desc delete a meal
 // @access Public (?)
 
