@@ -15,7 +15,7 @@ class Navbar extends Component {
 
             <span> / </span>
             <Link
-              to="/otifications"
+              to="/notifications"
             >
                <span>🔔</span>
             </Link>
@@ -25,8 +25,6 @@ class Navbar extends Component {
             >
                <span style={{float: "right",width: "30px",   padding:"5px"}}>⋮</span>
             </Link>
-
-           
           </div>
         </nav>
       </div>
