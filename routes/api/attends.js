@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-const pgConfig=require("./../dbConfig.js");
-let currentConfig = pgConfig.pgConfigLocal;
 const {Client}=require("pg");
-if (process.env.NODE_ENV === "production")
+const pgConfig=require("./../dbConfig.js");
+let currentConfig = pgConfig.pgConfigProduction;
+if (process.env.NODE_ENV === "debug")
 {
-  currentConfig = pgConfig.pgConfigProduction;
+  currentConfig = pgConfig.pgConfigLocal;
 }
 // /* GET ALL attends */
 // router.get('/', function(req, res, next) {

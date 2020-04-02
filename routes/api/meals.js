@@ -1,9 +1,9 @@
 const pgConfig=require("./../dbConfig.js");
-let currentConfig = pgConfig.pgConfigLocal;
+let currentConfig = pgConfig.pgConfigProduction;
 
-if (process.env.NODE_ENV === "production")
+if (process.env.NODE_ENV === "debug")
 {
-  currentConfig = pgConfig.pgConfigProduction;
+  currentConfig = pgConfig.pgConfigLocal;
 }
 const {Client}=require("pg");
 const express = require("express");
