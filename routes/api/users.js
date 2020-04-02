@@ -147,4 +147,25 @@ router.get("/get/:id", async (req, response) => {
     })
     .catch(err => { console.log(err); return response.status(500).json("No user"); });
 });
+
+
+
+// @route GET api/system
+// @desc system informaion
+// @access Public
+router.get("/system", async (req, response) => {
+  // Find the user
+  const client = new Client(currentConfig);
+  await client.connect();
+  await client.query('select * from  versions')
+    .then(ver => {
+      var payload = ver;
+
+      response.json(payload);
+    })
+    .catch(err => 
+    { 
+      console.log(err); 
+      return response.status(500).json("Failed to get version"); });
+});
 module.exports = router;
