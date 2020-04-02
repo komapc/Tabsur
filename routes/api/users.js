@@ -5,11 +5,12 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 //const passport = require("passport");
 const pgConfig = require("./../dbConfig.js");
-let currentConfig = pgConfig.pgConfigLocal;
 const { Client } = require("pg");
-if (process.env.NODE_ENV === "production")
+
+let currentConfig = pgConfig.pgConfigProduction;
+if (process.env.NODE_ENV === "debug")
 {
-  currentConfig = pgConfig.pgConfigProduction;
+  currentConfig = pgConfig.pgConfigLocal;
 }
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
