@@ -91,3 +91,19 @@ export const logoutUser = () => dispatch => {
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
 };
+
+
+// db version for "about" window
+export const system = userData => dispatch => {
+  axios
+    .post(`${config.SERVER_HOST}/api/system`, userData)
+    .then(res => {
+      dispatch({ payload: res});
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response
+      })
+    );
+};
