@@ -40,6 +40,17 @@ ul li span {
     width: 100%;
     background-color: #73d763;
 }
+
+
+.createMealsMap
+{
+    top: 400px;
+    position: fixed;
+    height: 800px;   
+    width: 100%;
+    background-color: #73d763;
+}
+
 .caption {
     background-color: Blue;
 }
@@ -107,5 +118,19 @@ ul li span {
 
   .menuRight {
     position: absolute;
-    right: 50px;
-  } 
+    right: 10px;
+  }
+
+  nav
+  {
+    background-color: #73d763;
+    
+  }
+
+  .navbar-fixed
+  {
+    position: absolute;
+    top:0px;
+    background-color: #73d763;
+
+  }
