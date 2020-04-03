@@ -28,7 +28,8 @@ app.use("/api/attends", attends);
 
 
 //serve static assets in production
-if (process.env.NODE_ENV === "production")
+console.log("server.js, env = " + process.env.NODE_ENV);
+if (process.env.NODE_ENV != "debug")
 {
     app.use(express.static('client/build'));
     app.get('*', (req, res) => {
