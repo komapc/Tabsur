@@ -48,7 +48,7 @@ class CreateMeal extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div className="container valign-wrapper">
+      <div >
         <div className="row">
           <div className="landing-copy split left">
             <h4>
@@ -94,7 +94,7 @@ class CreateMeal extends Component {
                   type="number"
                 />
                 <label htmlFor="guests">Max number of guests</label>
-                <span className="red-text">{errors.name}</span>
+                <span className="red-text">{errors.name}  </span>
               </div>
                 <div className="col s12" >
                 <button
@@ -108,12 +108,14 @@ class CreateMeal extends Component {
           {
             // TODO: use user current location
           }
-              <div className="split right">
+          <div className="createMealsMap">
+            <div className="mealsMap">
                 <MapLocationSelector
                   handleLocationUpdate={this.onLocationUpdate}
                   // address={this.state.address}
                   defaultLocation={defaultLocation}
                 />
+              </div> 
               </div>
         </div>
       </div>
