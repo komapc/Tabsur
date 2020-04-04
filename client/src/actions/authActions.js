@@ -12,6 +12,7 @@ import config from "../config";
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
+  console.log(`registerUser, ${config.SERVER_HOST}`);
   axios
     .post(`${config.SERVER_HOST}/api/users/register`, userData)
     .then(res => history.push("/login"))
@@ -25,6 +26,7 @@ export const registerUser = (userData, history) => dispatch => {
 
 // Login - get user token
 export const loginUser = userData => dispatch => {
+  console.log(`userData, ${config.SERVER_HOST}`);
   axios
     .post(`${config.SERVER_HOST}/api/users/login`, userData)
     .then(res => {
@@ -95,10 +97,11 @@ export const logoutUser = () => dispatch => {
 
 // db version for "about" window
 export const system = userData => dispatch => {
+  console.log(`system, ${config.SERVER_HOST}` );
   axios
     .post(`${config.SERVER_HOST}/api/system`, userData)
     .then(res => {
-      dispatch({ payload: res});
+      dispatch({ payload: res });
     })
     .catch(err =>
       dispatch({
