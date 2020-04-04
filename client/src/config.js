@@ -1,7 +1,9 @@
 const config = {};
 
-export const env = process.env.NODE_ENV;
-console.log("Config.js, env = " + env);
+//export const env = process.env.NODE_ENV;
+
+export const env = "production"; //hardcoded bullshit! TODO: 
+console.log("Config.js, env = " + JSON.stringify(process.env.NODE_ENV));
 switch(env) {
     case "development":
         config.SERVER_HOST = 'http://localhost:5000';
