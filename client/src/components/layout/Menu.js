@@ -6,7 +6,7 @@ class Menu extends Component {
 render() {
    
   return (
-    <div>
+    <div className="main">
       <Link to="/Login" onClick={   store.dispatch(logoutUser())}>Logout</Link> <br/>
       <Link to="/About">About</Link><br/>
       <Link to="/MyProfile"> <span>🧍</span>My profile</Link><br/>

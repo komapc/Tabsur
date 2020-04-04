@@ -48,9 +48,9 @@ class CreateMeal extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div >
+      <div className="main">
         <div className="row">
-          <div className="landing-copy split left">
+          <div >
             <h4>
                 Add a meal:
             </h4>
@@ -109,13 +109,11 @@ class CreateMeal extends Component {
             // TODO: use user current location
           }
           <div className="createMealsMap">
-            <div className="mealsMap">
                 <MapLocationSelector
                   handleLocationUpdate={this.onLocationUpdate}
                   // address={this.state.address}
                   defaultLocation={defaultLocation}
                 />
-              </div> 
               </div>
         </div>
       </div>

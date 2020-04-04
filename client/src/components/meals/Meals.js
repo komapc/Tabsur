@@ -29,7 +29,7 @@ class Meals extends Component {
   render() {
 
     return (
-      <div className="container valign-wrapper">
+      <div className="main">
         <div className="row">
             <div className="flow-text grey-text text-darken-1">
               {this.state.meals.map(meal =>
