@@ -46,7 +46,7 @@ class Meals extends Component {
     const { errors } = this.state;
     const { user } = this.props.auth;
     return (
-      <div className="container valign-wrapper">
+      <div className="main">
         <div className="row">
           <div className="landing-copy ">
             <h4>

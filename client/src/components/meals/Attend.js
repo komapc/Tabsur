@@ -46,7 +46,7 @@ class Attend extends Component {
     const { user } = this.props.auth;
     console.log(this.state.meal)
     return (
-      <div className="container valign-wrapper">
+      <div className="main">
         <div className="row">
           <form onSubmit={this.onSubmit}>
             <div className="landing-copy ">
@@ -71,8 +71,6 @@ class Attend extends Component {
                 </div>
               </div>
             )}
-
-
 
             </div>
             <button
