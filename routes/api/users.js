@@ -160,7 +160,7 @@ router.get("/system", async (req, response) => {
   await client.connect();
   await client.query('select * from  versions')
     .then(ver => {
-      var payload = ver;
+      var payload = ver.rows;
 
       response.json(payload);
     })

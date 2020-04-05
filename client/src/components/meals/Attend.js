@@ -75,13 +75,13 @@ class Attend extends Component {
             </div>
             <button
               onClick={this.joinMeal}
-              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+              className="button btn-large waves-effect waves-light hoverable accent-3"
             >
               Join this meal
           </button>
             <button type="submit"
               onClick={this.props.history.goBack}
-              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+              className="button btn-large waves-effect waves-light hoverable accent-3"
             >
               back to list
             </button>
