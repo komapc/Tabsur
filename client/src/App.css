@@ -137,10 +137,17 @@ ul li span {
 /* Main content */
 .main {
     margin-top: 60px; /* Add a top margin to avoid content overlay */
-  }
+}
 
+.menu
+{
+    background-color:#f75c06;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
 
- .button {
+.button {
     background-color:#f75c06;
     width: 100%;
     border:none;

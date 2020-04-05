@@ -10,7 +10,7 @@ handleLogout(event)
 render() {
    
   return (
-    <div className="main">
+    <div className="main menu">
       <Link to="/Login" onClick={this.handleLogout}>Logout</Link> <br/> 
       <Link to="/About">About</Link><br/>
       <Link to="/MyProfile"> <span>🧍</span>My profile</Link><br/>
