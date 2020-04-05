@@ -146,3 +146,9 @@ ul li span {
     border:none;
     height: 40px;
  }
+ .navbar-icons
+ {
+    height:70px;
+    margin-left: 0px;
+    border-style: none;
+ }
