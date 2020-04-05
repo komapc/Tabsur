@@ -19,7 +19,6 @@ class MealListItem extends React.Component {
         <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal._id}
           alt="Meal" className="meal_image"
         />
-
         <div>by <span className="meal-owner">{meal.host_name}</span></div>
         <div className="meal-name" > {meal.name}</div>
         <div className="dish-time"> <img className="dish-icon" src={time} alt={"date"} /> {dat}</div>
