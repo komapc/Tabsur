@@ -166,3 +166,17 @@ ul li span {
     margin-left: 20px;
     border-style: none;
  }
+ .dish-icon
+ {
+    height:20px;
+    width:20px;     
+ }
+
+ .meal-owner
+ {
+    color: green;
+ }
+ .dish-time
+ {
+     font-size: small;
+ }

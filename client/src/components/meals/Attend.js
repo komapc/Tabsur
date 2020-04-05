@@ -18,7 +18,7 @@ class Attend extends Component {
       },
       attends: []
     };
-
+    
     // TODO: check if you can do API requests here in constructor
     axios.get(`${config.SERVER_HOST}/api/meals/get/` + this.state.meal_id)
       .then(res => {
@@ -60,7 +60,7 @@ class Attend extends Component {
               <div> today at <b> {this.state.meal.time}</b> </div>
               <div> Guest count <b> {this.state.meal.guestCount}</b> </div>
               <div>at {this.state.meal.address}</div>
-              <div>at {this.state.meal.location.lng}, {this.state.meal.location.lat} (see map) </div>
+              {/* <div>at {this.state.meal.location.lng}, {this.state.meal.location.lat} (see map) </div> */}
             </div>
 
             <div> List of people who attended
