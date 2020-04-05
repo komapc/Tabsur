@@ -18,9 +18,6 @@ app.use(
 );
 app.use(bodyParser.json());
 
-// DB Config
-const db = require("./config/keys").mongoURI;
-
 // Routes
 app.use("/api/users", users);
 app.use("/api/meals", meals);
