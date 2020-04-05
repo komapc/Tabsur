@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import sandwich from "/resources/sandwich.png" 
 class Navbar extends Component {
   render() {
     return (
@@ -23,7 +23,7 @@ class Navbar extends Component {
             <Link
               to="/menu"
             >
-               <span style={{float: "right",width: "30px",   padding:"5px"}}>⋮</span>
+                <img src={sandwich} alt={"..."}/> 
             </Link>
           </div>
         </nav>
