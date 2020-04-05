@@ -1,7 +1,4 @@
-.mealName {
-    font-weight: 900;
-    text-overflow: ellipsis;
-}
+
 ul {
     list-style-type: none;
     padding-left: 12px;
@@ -180,3 +177,8 @@ ul li span {
  {
      font-size: small;
  }
+ .meal-name {
+    font-weight: 700;
+    color:black;
+    text-overflow: ellipsis;
+}
