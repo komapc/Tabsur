@@ -9,11 +9,11 @@ class Navbar extends Component {
         <nav>
           <div className="menuRight">
         
-            <Link
+            {/* <Link
               to="/notifications"
             >
                <span>🔔</span>
-            </Link>
+            </Link> */}
             <Link
               to="/meals"
             >
