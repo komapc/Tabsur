@@ -17,18 +17,20 @@ class About extends Component {
     .then(res => {
       console.log(res.data);
 
+    })
+    .catch(err => { 
+      console.log(err);
     });
   }
 
   render() {
-    const { user } = this.props.auth;
-    console.log("About log:" + user.name);
+    const user = (this.props.auth.isAuthenticated )? this.props.auth.user.name:" [anonymous]";
+    console.log("About log:"  + user);
     return (
-      <div className="container valign-wrapper">
-        <div className="row">
+      <div className="main">
           <div className="landing-copy ">
             <h4>  Hey, 
-              <small>{user.name}</small>
+              <small>{user}</small>
             </h4>
             <div>
               Welcome to Coolanu TableSurfing community!
@@ -38,7 +40,6 @@ class About extends Component {
               if you are hungry &ndash; find a host!
             </div>
           </div>
-        </div>
       </div>
     );
   }
