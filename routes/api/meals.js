@@ -27,7 +27,9 @@ router.get("/get", async  (req, response) =>
 
   await client.connect();
 
-  client.query('SELECT m.*, u.name as host_name FROM meals  AS m JOIN users as u on m.host_id = u.id')
+  client.query(`SELECT (select count (user_id) as "Atendee_count" from attends where meal_id=m.id),`+
+  `(select count (user_id) as "me" from attends where meal_id=m.id and u.id==${req.params.id}),`+
+	`m.*, u.name  as host_name FROM meals  AS m JOIN users as u on m.host_id = u.id;`)
     .then(resp=>{
       response.json(resp.rows);
     })
