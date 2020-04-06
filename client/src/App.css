@@ -30,14 +30,23 @@ ul li span {
     background-color: Blue;
 }
 
-.mealsMap
+.meals-map
 {
     height: 100%;
     position: fixed;
     width: 100%;
     background-color: #73d763;
+    transition:1s;
 }
 
+.meals-map-info
+{
+    transition:1s;
+    height: 75%;
+    position: fixed;
+    width: 100%;
+    background-color: #73d763;
+}
 
 .createMealsMap
 {
