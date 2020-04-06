@@ -5,8 +5,7 @@ import Geocode from "react-geocode";
 export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
 Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
-const MealsMapShow = React.memo(({meals, defaultLocation}) => {
-    
+const MealsMapShow = React.memo(({meals, defaultLocation, onMarkerClick}) => {
     const MyGoogleMap = (props) => 
      
     <GoogleMap
@@ -18,6 +17,7 @@ const MealsMapShow = React.memo(({meals, defaultLocation}) => {
         <div key={meal.id}>
             <Marker 
                 position={{lat: meal.location.y, lng:meal.location.x}} 
+                onClick={()=>onMarkerClick(meal, this)}
                 />
         </div>
         )} 
