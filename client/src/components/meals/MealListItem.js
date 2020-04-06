@@ -8,7 +8,7 @@ var dateFormat = require('dateformat');
 class MealListItem extends React.Component {
   handleAttend = () => {
     console.log(this.props.meal);
-    this.props.history.push("/Attend/" + this.props.meal.id);
+   // this.props.history.push("/Attend/" + this.props.meal.id);
   }
 
   render() {
@@ -25,7 +25,7 @@ class MealListItem extends React.Component {
         </span>
         <span >
         <div>by <span className="meal-owner">{meal.host_name}</span>
-        {/* <img className="attend-button" src={attend} alt={"attend"} /> */}
+        <img className="attend-button" src={attend} alt={"attend"} onClick={this.handleAttend}/> 
         </div>
           <div className="meal-name" > {meal.name}</div>
           <div className="dish-time"> <img className="dish-icon" src={time} alt={"date"} /> {dat}
