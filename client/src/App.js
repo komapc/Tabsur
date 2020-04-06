@@ -56,7 +56,6 @@ class App extends Component {
               <link rel="canonical" href="http://coolanu.com" />
             </Helmet>
             <Navbar />
-            {/* <Route exact path="/" component={Meals} /> */}
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />            
             <Route exact path="/about" component={About} />
