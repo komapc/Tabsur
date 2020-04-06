@@ -18,6 +18,11 @@ class MealsMap extends Component {
     //nothing for now
   }
 
+  onMarkerClicked = (event) => {
+    alert(JSON.stringify(event));
+    //nothing for now
+  }
+
   componentDidMount() {
     axios.get(`${config.SERVER_HOST}/api/meals/get`)
       .then(res => {
@@ -28,10 +33,11 @@ class MealsMap extends Component {
 
   render() {
     return (
-      <div className="mealsMap">
+      <div className="main mealsMap">
       <MealsMapShow   
           meals={this.state.meals}
           defaultLocation={defaultLocation}
+          onMarkerClick={this.onMarkerClicked}
         /> 
       </div>  
     );  

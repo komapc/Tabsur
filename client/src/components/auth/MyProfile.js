@@ -44,10 +44,10 @@ class MyProfile extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container">
+      <div className="main">
         <div className="row">
           <div className="col s8 offset-s2">
-          <h1>View and edit profile</h1>
+          <h2>Edit profile</h2>
           <form noValidate onSubmit={this.onSubmit}>
               <div className="input-field col s12">
                 <input
@@ -98,7 +98,7 @@ class MyProfile extends Component {
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                 <button
                   type="submit"
-                  className="button btn-large waves-effect waves-light hoverable accent-3"
+                  className="button waves-effect waves-light hoverable accent-3"
                 >
                   Save
                 </button>

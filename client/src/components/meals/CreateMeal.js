@@ -69,7 +69,7 @@ class CreateMeal extends Component {
                 <span className="red-text">{errors.name}</span>
               </div>
               {/* Date and time */}
-              <div className="col s12 picker">
+              <div className="">
                 <DatePicker className="picker" mode="date" showTime="true" />
               </div>
               {/* Address */}
@@ -99,8 +99,8 @@ class CreateMeal extends Component {
                 <div className="col s12" >
                 <button
                   type="submit"
-                  className="button btn-large waves-effect waves-light hoverable accent-3">
-                  Add and invite!
+                  className="button waves-effect waves-light hoverable accent-3">
+                  Open
                 </button>
               </div>
             </form>
