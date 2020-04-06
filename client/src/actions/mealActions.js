@@ -17,7 +17,7 @@ export const addMeal = (userData) => dispatch => {
 //get
 export const getMeals = mealData => dispatch => {
   axios
-    .get(`${config.SERVER_HOST}/api/meals/get`, mealData)
+    .get(`${config.SERVER_HOST}/api/meals/get/` + this.props.auth.user.id, mealData)
     .then(res => {
      dispatch(res); 
     })

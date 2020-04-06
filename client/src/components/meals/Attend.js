@@ -20,7 +20,7 @@ class Attend extends Component {
     };
     
     // TODO: check if you can do API requests here in constructor
-    axios.get(`${config.SERVER_HOST}/api/meals/get/` + this.state.meal_id)
+    axios.get(`${config.SERVER_HOST}/api/meals/get_my/` + this.state.meal_id)
       .then(res => {
         this.setState({ meal: res.data })
       });

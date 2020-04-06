@@ -18,7 +18,7 @@ const validateMealInput = require("../../validation/meal");
 // @route GET api/meals/get
 // @desc get a meal list
 // @access Public
-router.get("/get", async  (req, response) => 
+router.get("/get/:id", async  (req, response) => 
 {
   const client = new Client(currentConfig);
   console.log("get meals");
