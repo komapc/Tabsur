@@ -13,7 +13,8 @@
     "stop": "node server.stop.js",
     "start-db": "docker-compose -p coolanu-db -f db/local-docker-compose.yaml up -d ",
     "stop-db": "docker-compose -p coolanu-db -f db/local-docker-compose.yaml down",
-    "migrate-local-db": "bash ./db/migrate.sh"
+    "migrate-local-db": "bash ./db/migrate.sh",
+    "debug": "concurrently \"nodemon server.js\" \"npm run client\""
   },
   "author": "Mark&Yana",
   "license": "MIT",
