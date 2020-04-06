@@ -3,24 +3,24 @@ import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import axios from 'axios';
 import MealsMapShow from './MealsMapShow';
-
+import BottomMealInfo from './BottomMealInfo'
 import config from "../../config";
-const defaultLocation = {lng: 34.808, lat: 32.09};
+const defaultLocation = { lng: 34.808, lat: 32.09 };
 class MealsMap extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      meals: []
+      meals: [],
+      isSelected: false
     };
   }
   onMapClicked = (event) => {
-    //nothing for now
+    this.setState({ isSelected:false });
   }
 
   onMarkerClicked = (event) => {
-    alert(JSON.stringify(event));
-    //nothing for now
+    this.setState({ meal: event, isSelected:true });
   }
 
   componentDidMount() {
@@ -33,14 +33,20 @@ class MealsMap extends Component {
 
   render() {
     return (
-      <div className="main mealsMap">
-      <MealsMapShow   
+      <div className={"main " + (this.state.isSelected ? 'meals-map-info' : 'meals-map')}>
+        <MealsMapShow
           meals={this.state.meals}
           defaultLocation={defaultLocation}
           onMarkerClick={this.onMarkerClicked}
-        /> 
-      </div>  
-    );  
+          onMapClick={this.onMapClicked}
+        />
+
+        <div>
+           <BottomMealInfo  meal={this.state.meal} />
+        </div>
+      </div>
+     
+    );
   }
 }
 

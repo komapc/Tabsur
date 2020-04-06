@@ -5,12 +5,13 @@ import Geocode from "react-geocode";
 export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
 Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
-const MealsMapShow = React.memo(({meals, defaultLocation, onMarkerClick}) => {
+const MealsMapShow = React.memo(({meals, defaultLocation, onMarkerClick, onMapClick}) => {
     const MyGoogleMap = (props) => 
      
     <GoogleMap
         defaultZoom={8}
         defaultCenter={{lat: defaultLocation.lat, lng: defaultLocation.lng}}
+        onClick={()=>onMapClick(this)}
     >
 
     {meals.map(meal =>
