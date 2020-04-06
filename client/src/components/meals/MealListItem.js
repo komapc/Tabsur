@@ -5,8 +5,6 @@ import time from "../../resources/time.png"
 import { withRouter } from "react-router-dom";
 var dateFormat = require('dateformat');
 class MealListItem extends React.Component {
-
-
   handleAttend = () => {
     console.log(this.props.meal);
     this.props.history.push("/Attend/" + this.props.meal.id);
@@ -22,14 +20,11 @@ class MealListItem extends React.Component {
             alt="Meal" className="meal_image"
           />
           <div>
-            <img className="dish-icon" src={dishes} alt={"number of portions"} />({meal.guest_count})
+            <img className="dish-icon" src={dishes} alt={"number of portions"} />({meal.guest_count}/{meal.Atendee_count})
           </div>
         </span>
         <span >
-
-
-
-          <div>by <span className="meal-owner">{meal.host_name}</span></div>
+        <div>by <span className="meal-owner">{meal.host_name}</span></div>
           <div className="meal-name" > {meal.name}</div>
           <div className="dish-time"> <img className="dish-icon" src={time} alt={"date"} /> {dat}
           </div>
