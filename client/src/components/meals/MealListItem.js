@@ -50,14 +50,18 @@ class MealListItem extends React.Component {
           </div>
         </span>
         <span >
-        <div>by <span className="meal-owner">{meal.host_name}</span>
-        <img className="attend-button" src={attend} alt={"attend"} onClick={this.handleAttend}/> 
+          <img className="attend-button" src={attend} alt={"attend"} onClick={this.handleAttend}/>
+        <div className="meal-owner-div">by <span className="meal-owner">{meal.host_name}</span>
+         
         </div>
           <div className="meal-name" > {meal.name}</div>
-          <div className="dish-time"> <img className="dish-icon" src={time} alt={"date"} /> {dat}
+          <div>
+          <img className="dish-icon" src={time} alt={"date"} />
+          <span className="dish-time">  {dat} </span>
           </div>
-          <span>
-            <img className="location-icon" src={location} alt={"address"} />{meal.address}
+          <img className="location-icon" src={location} alt={"address"} />
+          <span className="location-text">
+          {meal.address}
           </span>
         </span>
 
