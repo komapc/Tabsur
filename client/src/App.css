@@ -202,10 +202,10 @@ ul li span {
     color:black;
     text-overflow: ellipsis;
 }
-/* .attend-button
+.attend-button
 {
     position: fixed;
-    right:80%;
+    left:90%; 
     height:30px;
     width:30px;
-} */
+} 
