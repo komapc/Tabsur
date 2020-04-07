@@ -39,12 +39,12 @@ class MealListItem extends React.Component {
     const dat = dateFormat(new Date(meal.created_at), "dddd, mmmm dS, yyyy, hh:MM");
     return (
       <div className="meal_props" >
-        <span >
+        <span className="meal-props-left">
           <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal._id}
             alt="Meal" className="meal_image"/>
-          <div className="meal-guests">
+          <div className="meal-dishes-div">
             <img className="dish-icon" src={dishes} alt={"number of portions"} />
-            ({meal.guest_count}/{meal.Atendee_count})
+            <span className="meal-guests">({meal.guest_count}/{meal.Atendee_count})</span>
           </div>
         </span>
         <span >
