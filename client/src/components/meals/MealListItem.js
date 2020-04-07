@@ -1,37 +1,39 @@
-import React from "react";
 import dishes from "../../resources/dishes.png"
 import location from "../../resources/location.png"
 import time from "../../resources/time.png"
 import attend from "../../resources/attend.png"
-import connect from 'react-redux'
 import { withRouter } from "react-router-dom";
-//import {joinMeal} from "../../actions/mealActions"
-import axios from "axios";
+import {joinMeal} from "../../actions/mealActions"
+import { connect } from "react-redux";
+
+import axios from 'axios';
 import config from "../../config";
+
+import React, { Component } from "react";
 var dateFormat = require('dateformat');
 class MealListItem extends React.Component {
   
   constructor(props) {
     super(props);
     this.state = {
+      auth:this.props.auth,
       meals: []
     };
   }
-
   
   handleAttend = () => {
-    console.log(this.props.meal);
+    console.log(this.props.meal +", "+ this.state.auth.user.id);
     //joinMeal(this.props.meal);
-    // this.props.history.push("/Attend/" + this.props.meal.id);
-    // debugger;
-    // axios.post(`${config.SERVER_HOST}/api/attends/get/` + this.props.auth.user.id)
-    //   .then(res => {
-    //     console.log(res);
-    //     this.setState({ meals: res.data });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    //this.props.history.push("/Attend/" + this.props.meal.id);
+    const attend={user_id:this.props.auth.user.id, meal_id:this.props.meal}
+    axios.post(`${config.SERVER_HOST}/api/attends/${this.props.auth.user.id}`, attend)
+      .then(res => {
+        console.log(res);
+        this.setState({ meals: res.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -66,8 +68,10 @@ class MealListItem extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-
+  auth: state.auth
 });
-export default withRouter(MealListItem);
-//export default connect(mapStateToProps)(MealListItem);
+
+export default connect(
+  mapStateToProps,
+  { joinMeal }
+)(withRouter(MealListItem));
