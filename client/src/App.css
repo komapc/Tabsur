@@ -62,7 +62,7 @@ ul li span {
 }
 
 .meal_props {
-    background-color: whitesmoke;
+    background-color: ivory;
     border: ridge;
     color: black;
     border-radius: 3px;
@@ -79,6 +79,7 @@ ul li span {
 }
 
 .meal_image {
+    margin: 10px;
     width: 80px;
     height: 80px;
     float: left;
@@ -185,6 +186,7 @@ ul li span {
  }
  .dish-icon
  {
+     margin:10px;
     height:20px;
     width:20px;     
  }
@@ -204,8 +206,18 @@ ul li span {
 }
 .attend-button
 {
-    position: fixed;
-    left:90%; 
+    position: absolute;
+    margin: 20px;
+    right:0px; 
     height:30px;
     width:30px;
 } 
+.meal-guests
+{
+margin-top: 3px;    
+}
+.location-icon
+{
+    height:40px;
+    width: 25px;
+}

@@ -1,3 +1,4 @@
+//this file is used only for AddMeal, but should be used everywhere.
 import axios from "axios";
 import { GET_ERRORS, USER_LOADING } from "./types";
 import config from "../config";
@@ -29,9 +30,9 @@ export const getMeals = mealData => dispatch => {
     );
 };
 
-// add a meal
+// join/unjoin the meal
 export const joinMeal = (attendData, history) => dispatch => {
-  console.log(JSON.stringify(attendData));
+  console.log("joinMeal: " + JSON.stringify(attendData));
   axios
     .post(`${config.SERVER_HOST}/api/attends/`, attendData)
     .catch(err =>

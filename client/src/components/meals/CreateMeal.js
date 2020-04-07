@@ -52,7 +52,7 @@ class CreateMeal extends Component {
         <div className="row">
           <div >
             <h4>
-                Add a meal:
+                Add a meal
             </h4>
             <form noValidate onSubmit={this.onSubmit}>
               {/* name */}
