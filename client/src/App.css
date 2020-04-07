@@ -80,9 +80,8 @@ ul li span {
 }
 
 .meal_image {
-    margin: 15px;
-    width: 80px;
-    height: 80px;
+    margin: 10%;
+    width: 80%;
     float: left;
 }
 
@@ -146,7 +145,6 @@ ul li span {
     top:0;
     background-color: #73d763;
   }
-
   
 /* Main content */
 .main {
@@ -223,7 +221,9 @@ ul li span {
 } 
 .meal-guests
 {
-margin-top: 3px;    
+    border:none ;  
+    /* position: absolute; */
+    /* top: -50px; */
 }
 .location-icon
 {
@@ -233,4 +233,14 @@ margin-top: 3px;
 .location-text
 {
     margin: 15px;
+}
+
+.meal-dishes-div{
+    border:none;
+    /* position: relative; */
+} 
+
+.meal-props-left
+{   
+    width: 33%;
 }
