@@ -7,6 +7,7 @@ ul {
 ul li span {
     float: left;
     width: 400px;
+
 }
 
 /* Split the screen in half */
@@ -184,13 +185,17 @@ ul li span {
  }
  .dish-icon
  {
-    margin:5px;
-    margin-bottom:10px;
-    height:20px;
-    width:20px;
-    margin-left: 10px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    height:18px;
+    width:18px;     
  }
 
+ .meal-owner-div
+ {
+    margin-top: 12px;
+    font-weight: bold;
+ }
  .meal-owner
  {
     color: green;
@@ -198,9 +203,11 @@ ul li span {
  .dish-time
  {
      font-size: small;
+     margin: 10px;
  }
  .meal-name {
-    font-weight: 700;
+    font-weight: bold;
+    font-size: 15px;
     color:black;
     text-overflow: ellipsis;
 }
@@ -209,8 +216,8 @@ ul li span {
     position: absolute;
     margin: 20px;
     right:0px; 
-    height:30px;
-    width:30px;
+    height:25px;
+    width:25px;
 } 
 .meal-guests
 {
@@ -220,8 +227,12 @@ ul li span {
 }
 .location-icon
 {
-    height:40px;
-    width: 25px;
+    height:15px;
+    width: 13px;
+}
+.location-text
+{
+    margin: 15px;
 }
 
 .meal-dishes-div{
