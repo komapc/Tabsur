@@ -31,6 +31,7 @@ export const getMeals = mealData => dispatch => {
 
 // add a meal
 export const joinMeal = (attendData, history) => dispatch => {
+  console.log(JSON.stringify(attendData));
   axios
     .post(`${config.SERVER_HOST}/api/attends/`, attendData)
     .catch(err =>

@@ -1,3 +1,4 @@
+//currently this file is not used.
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { joinMeal, getAttendByMeal } from "../../actions/mealActions";
