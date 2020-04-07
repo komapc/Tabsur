@@ -3,24 +3,48 @@ import dishes from "../../resources/dishes.png"
 import location from "../../resources/location.png"
 import time from "../../resources/time.png"
 import attend from "../../resources/attend.png"
+import connect from 'react-redux'
 import { withRouter } from "react-router-dom";
+//import {joinMeal} from "../../actions/mealActions"
+import axios from "axios";
+import config from "../../config";
 var dateFormat = require('dateformat');
 class MealListItem extends React.Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      meals: []
+    };
+  }
+
+  
   handleAttend = () => {
     console.log(this.props.meal);
-   // this.props.history.push("/Attend/" + this.props.meal.id);
+    //joinMeal(this.props.meal);
+    // this.props.history.push("/Attend/" + this.props.meal.id);
+    // debugger;
+    // axios.post(`${config.SERVER_HOST}/api/attends/get/` + this.props.auth.user.id)
+    //   .then(res => {
+    //     console.log(res);
+    //     this.setState({ meals: res.data });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   }
 
   render() {
     const meal = this.props.meal;
-    const dat = dateFormat(new Date(meal.created_at), "dddd, mmmm dS, yyyy, hh:MM:ss");
+    const dat = dateFormat(new Date(meal.created_at), "dddd, mmmm dS, yyyy, hh:MM");
     return (
-      <div className="meal_props" onClick={this.handleAttend}>
+      <div className="meal_props" >
         <span >
           <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal._id}
             alt="Meal" className="meal_image"/>
-          <div>
-            <img className="dish-icon" src={dishes} alt={"number of portions"} />({meal.guest_count}/{meal.Atendee_count})
+          <div className="meal-guests">
+            <img className="dish-icon" src={dishes} alt={"number of portions"} />
+            ({meal.guest_count}/{meal.Atendee_count})
           </div>
         </span>
         <span >
@@ -31,7 +55,7 @@ class MealListItem extends React.Component {
           <div className="dish-time"> <img className="dish-icon" src={time} alt={"date"} /> {dat}
           </div>
           <span>
-            <img className="dish-icon" src={location} alt={"address"} />{meal.address}
+            <img className="location-icon" src={location} alt={"address"} />{meal.address}
           </span>
         </span>
 
@@ -41,4 +65,9 @@ class MealListItem extends React.Component {
 
 }
 
+const mapStateToProps = state => ({
+  auth: state.auth,
+
+});
 export default withRouter(MealListItem);
+//export default connect(mapStateToProps)(MealListItem);

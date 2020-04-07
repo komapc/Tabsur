@@ -27,7 +27,6 @@ class Meals extends Component {
   }
 
   render() {
-
     return (
       <div className="main">
         <div className="row">
@@ -36,7 +35,6 @@ class Meals extends Component {
                 <div key={meal.id}>
                   <MealListItem meal={meal} />
                 </div>
-
               )}
           </div>
         </div>
