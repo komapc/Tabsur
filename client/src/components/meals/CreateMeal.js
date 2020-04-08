@@ -18,6 +18,7 @@ class CreateMeal extends Component {
       address: "",
       guestCount: 0,
       errors: {},
+      showMap: false,
       date: new Date().getDate(),
     };
   }
@@ -29,6 +30,11 @@ class CreateMeal extends Component {
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
+
+  onAddressClickHandle = e => {
+    this.setState({showMap: true });
+  }
+
 
   onSubmit = e => {
     e.preventDefault();
@@ -76,7 +82,8 @@ class CreateMeal extends Component {
               <div className="input-field col s12">
                 <input
                   onChange={this.onChange}
-                  value={this.state.address || "default"}
+                  onClick={this.onAddressClickHandle}
+                  value={this.state.address || ""}
                   error={errors.password}
                   id="address"
                   type="text"
@@ -96,19 +103,18 @@ class CreateMeal extends Component {
                 <label htmlFor="guests">Max number of guests</label>
                 <span className="red-text">{errors.name}  </span>
               </div>
-                <div className="col s12" >
+               {/*Submit button */}
                 <button
                   type="submit"
-                  className="button waves-effect waves-light hoverable accent-3">
+                  className="button hoverable accent-3">
                   Open
                 </button>
-              </div>
             </form>
           </div>
           {
             // TODO: use user current location
           }
-          <div className="createMealsMap">
+          <div className={this.state.showMap ? 'createMealsMap' : 'createMealsMap-hidden'}>
                 <MapLocationSelector
                   handleLocationUpdate={this.onLocationUpdate}
                   // address={this.state.address}
