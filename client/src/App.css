@@ -63,10 +63,10 @@ ul li span {
 }
 
 .meal_props {
-    background-color: ivory;
+    background-color: white;
     border: ridge;
-    color: black;
-    border-radius: 3px;
+    color: rgb(172, 14, 14);
+    border-radius: 1px;
     transition-duration: 0.5s;
     font-size: normal;
     display: flex;
