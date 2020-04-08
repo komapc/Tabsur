@@ -7,21 +7,6 @@ if (process.env.NODE_ENV === "debug")
 {
   currentConfig = pgConfig.pgConfigLocal;
 }
-// /* GET ALL attends */
-// router.get('/', function(req, res, next) {
-//   attend.find(function (err, products) {
-//     if (err) return next(err);
-//     res.json(products);
-//   });
-// });
-
-// /* GET SINGLE attend BY ID */
-// router.get('/:id', function(req, res, next) {
-//   attend.findById(req.params.id, function (err, post) {
-//     if (err) return next(err);
-//     res.json(post);
-//   });
-// });
 
 /* GET attend by meal */
 router.get('/meal/:meal_id', function(req, res, next) {
@@ -32,8 +17,9 @@ router.get('/meal/:meal_id', function(req, res, next) {
 });
 
 /* SAVE attend */
-router.post('/', async (req, response, next) => {
+router.post('/:id', async (req, response) => {
   console.log("Attend,  " +currentConfig.user );
+  console.log("\n\nRequest: " + JSON.stringify(req.body));
   const attend = req.body;
   const client = new Client(currentConfig);
   await client.connect();
@@ -42,7 +28,10 @@ router.post('/', async (req, response, next) => {
   client.query('INSERT INTO attends ( meal_id, user_id, status)' +
       'VALUES($1, $2, 0)',
       [attend.meal_id, attend.user_id])
-  .catch(err => { console.log(err); return response.status(500).json("failed to attend"); })
+  .catch(err => { 
+    console.log(err); 
+    return response.status(500).json("failed to attend"); 
+  })
   .then(answer => { return response.status(201).json(answer); });
 });
 
