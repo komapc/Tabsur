@@ -43,19 +43,30 @@ ul li span {
 .meals-map-info
 {
     transition:1s;
-    height: 75%;
+    height: 65%;
     position: fixed;
     width: 100%;
     background-color: #73d763;
 }
 
+.createMealsMap-hidden
+{
+    top: 700px;
+    position: fixed;
+    height: 0px;   
+    width: 100%;
+    background-color: black;
+    transition: ease-in-out 2s;
+}
+
 .createMealsMap
 {
-    top: 400px;
+    top: 100px;
     position: fixed;
     height: 800px;   
     width: 100%;
     background-color: #73d763;
+    transition: ease-in-out 2s;
 }
 
 .caption {
