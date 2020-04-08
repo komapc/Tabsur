@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
 import axios from 'axios';
-
 import config from "../../config";
 
 class Meals extends Component {
@@ -21,7 +20,7 @@ class Meals extends Component {
         console.log(res);
         this.setState({ meals: res.data });
       })
-      .catch(err =>{
+      .catch(err => {
         console.log(err);
       });
   }
@@ -30,12 +29,12 @@ class Meals extends Component {
     return (
       <div className="main">
         <div className="row">
-            <div className="flow-text grey-text text-darken-1">
-              {this.state.meals.map(meal =>
-                <div key={meal.id}>
-                  <MealListItem meal={meal} />
-                </div>
-              )}
+          <div className="flow-text grey-text text-darken-1">
+            {this.state.meals.map(meal =>
+              <div key={meal.id}>
+                <MealListItem meal={meal} />
+              </div>
+            )}
           </div>
         </div>
       </div>
