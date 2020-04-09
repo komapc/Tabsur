@@ -7,7 +7,7 @@ import { DatePicker } from 'antd';
 import MapLocationSelector from "./MapLocationSelector";
 
 import 'antd/es/date-picker/style/css';
-const defaultLocation = {lng: 34.808, lat: 32.09};
+const defaultLocation = { lng: 34.808, lat: 32.09 };
 
 class CreateMeal extends Component {
   constructor() {
@@ -23,8 +23,9 @@ class CreateMeal extends Component {
     };
   }
 
-  onLocationUpdate = ({address, location}) => {
-    this.setState({address, location})
+  onLocationUpdate = ({ address, location }) => {
+    alert(address);
+    this.setState({ address, location })
   };
 
   onChange = e => {
@@ -32,9 +33,12 @@ class CreateMeal extends Component {
   };
 
   onAddressClickHandle = e => {
-    this.setState({showMap: true });
+    this.setState({ showMap: true });
   }
-
+  onMapExit = (e) =>
+  {
+    this.setState({ showMap: false })
+  }
 
   onSubmit = e => {
     e.preventDefault();
@@ -58,7 +62,7 @@ class CreateMeal extends Component {
         <div className="row">
           <div >
             <h4>
-                Add a meal
+              Add a meal
             </h4>
             <form noValidate onSubmit={this.onSubmit}>
               {/* name */}
@@ -103,11 +107,11 @@ class CreateMeal extends Component {
                 <label htmlFor="guests">Max number of guests</label>
                 <span className="red-text">{errors.name}  </span>
               </div>
-               {/*Submit button */}
-                <button
-                  type="submit"
-                  className="button hoverable accent-3">
-                  Open
+              {/*Submit button */}
+              <button
+                type="submit"
+                className="button hoverable accent-3">
+                Open
                 </button>
             </form>
           </div>
@@ -115,12 +119,13 @@ class CreateMeal extends Component {
             // TODO: use user current location
           }
           <div className={this.state.showMap ? 'createMealsMap' : 'createMealsMap-hidden'}>
-                <MapLocationSelector
-                  handleLocationUpdate={this.onLocationUpdate}
-                  // address={this.state.address}
-                  defaultLocation={defaultLocation}
-                />
-              </div>
+            <MapLocationSelector
+              handleLocationUpdate={this.onLocationUpdate}
+              // address={this.state.address}
+              defaultLocation={defaultLocation}
+              handleExit={this.onMapExit}
+            />
+          </div>
         </div>
       </div>
     );
