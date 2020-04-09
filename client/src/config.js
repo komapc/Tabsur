@@ -1,8 +1,8 @@
 const config = {};
 
-//export const env = process.env.NODE_ENV;
+export const env = process.env.NODE_ENV;
 
-export const env = "production"; //hardcoded bullshit! TODO: 
+//export const env = "production"; //hardcoded bullshit! TODO: 
 console.log("Config.js, env = " + JSON.stringify(process.env.NODE_ENV));
 switch(env) {
     case "development":
