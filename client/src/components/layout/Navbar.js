@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import sandwich from "../../resources/sandwich.png" 
-import search from "../../resources/search.png" 
+import sandwich from "../../resources/menu.svg" 
+import search from "../../resources/search.svg" 
 class Navbar extends Component {
   render() {
     return (
