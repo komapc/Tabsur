@@ -45,7 +45,7 @@ class MealListItem extends React.Component {
           <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal._id}
             alt="Meal" className="meal_image"/>
           <div className="meal-dishes-div">
-            <img className="dish-icon" src={dishes} alt={"number of portions"} />
+            <img className="meal-info-icons" src={dishes} alt={"number of portions"} />
             <span className="meal-guests">({meal.guest_count}/{meal.Atendee_count})</span>
           </div>
         </span>
@@ -56,13 +56,13 @@ class MealListItem extends React.Component {
         </div>
           <div className="meal-name" > {meal.name}</div>
           <div>
-          <img className="dish-icon" src={time} alt={"date"} />
-          <span className="dish-time">  {dat} </span>
+          <img className="meal-info-icons" src={time} alt={"date"} />
+          <span className="meal-info">{dat}</span>
           </div>
-          <img className="location-icon" src={location} alt={"address"} />
-          <span className="location-text">
-          {meal.address}
-          </span>
+          <div>
+          <img className="meal-info-icons" src={location} alt={"address"} />
+          <span className="meal-info">{meal.address}  </span>
+       </div>
         </span>
 
       </div>
