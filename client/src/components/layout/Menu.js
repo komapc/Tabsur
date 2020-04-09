@@ -7,7 +7,7 @@ class Menu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showMenu:false
+      visible:this.props.visible
     };
   }
   handleLogout(event) {
@@ -16,7 +16,7 @@ class Menu extends Component {
   render() {
 
     return (
-      <div className={this.state.showMenu ? "menu" : "menu-hidden"}>
+      <div className={this.state.visible ? "menu" : "menu-hidden"}>
         <Link to="/Login" onClick={this.handleLogout}>Logout</Link> <br />
         <Link to="/About">About</Link><br />
         <Link to="/MyProfile"> <span>🧍</span>My profile</Link><br />
