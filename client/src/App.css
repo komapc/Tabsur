@@ -76,7 +76,7 @@ ul li span {
 .meal_props {
     background-color: white;
     border: ridge;
-    color: rgb(172, 14, 14);
+    color: black;
     border-radius: 1px;
     transition-duration: 0.5s;
     font-size: normal;
@@ -84,7 +84,7 @@ ul li span {
 }
 
 .meal_props:hover {
-    background-color: #d6cdcd;
+    background-color:#d7f7c9;
     border-radius: 5px;
     transition-duration: 0.5s; 
     font-size: small;
@@ -208,7 +208,7 @@ ul li span {
     margin-left: 20px;
     border-style: none;
  }
- .dish-icon
+ .meal-info-icons
  {
     margin-left: 15px;
     margin-bottom: 10px;
@@ -225,11 +225,7 @@ ul li span {
  {
     color: green;
  }
- .dish-time
- {
-     font-size: small;
-     margin: 10px;
- }
+ 
  .meal-name {
     font-weight: bold;
     font-size: 15px;
@@ -250,12 +246,8 @@ ul li span {
     /* position: absolute; */
     /* top: -50px; */
 }
-.location-icon
-{
-    height:15px;
-    width: 13px;
-}
-.location-text
+
+.meal-info
 {
     margin: 15px;
 }
