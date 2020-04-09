@@ -167,6 +167,7 @@ ul li span {
     background-color:#f75c06;
     position: fixed;
     right:0px;
+    top:40px;
     height: 80%;
     width: 50%;
     font-size: 220%;
@@ -176,13 +177,11 @@ ul li span {
 
 .menu-hidden
 {
-    background-color:#f75c06;
+    top:40px;
     position: fixed;
     right:0px;
     height: 0px;
     width: 0px;
-    font-size: 220%;
-    color: white;
     transition: 0.5s;
 }
 .menu:hover {
