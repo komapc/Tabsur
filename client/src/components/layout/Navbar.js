@@ -7,7 +7,7 @@ class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showMenu:false
+      visible:false
     };
   }
 
@@ -38,10 +38,11 @@ class Navbar extends Component {
             </span>
           </div>
         </nav>
-        <div>
-          
-          <Menu visible={this.state.showMenu}/>
-        </div>
+        <div> 
+          <Menu 
+            visible={this.state.showMenu} 
+            onItemClicked={()=>{this.setState({showMenu: false})}} />          
+         </div>
       </div>
     );
   }
