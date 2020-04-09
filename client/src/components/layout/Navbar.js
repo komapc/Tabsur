@@ -13,15 +13,14 @@ class Navbar extends Component {
 
   openMenu = () =>
   {
-    alert(1);
     this.setState({showMenu: true});
   }
   render() {
     return (
       <div className="navbar-fixed">
         <nav>
-          <div className="menuRight">
-        
+            <div className="menuRight">
+            <span>STATE:{this.state.showMenu?1:0}</span>
             {/* <Link
               to="/notifications"
             >
@@ -40,7 +39,8 @@ class Navbar extends Component {
           </div>
         </nav>
         <div>
-          <Menu/>
+          
+          <Menu visible={this.state.showMenu}/>
         </div>
       </div>
     );
