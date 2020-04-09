@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 22.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+	 viewBox="0 0 100 81" style="enable-background:new 0 0 100 81;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#FFFFFF;}
 </style>
 <g>
-	<path class="st0" d="M61.1,15.3c0,2.5-2.2,4.6-4.8,4.6H45.1c-2.6,0-4.8-2.1-4.8-4.6V4.6c0-2.5,2.2-4.6,4.8-4.6h11.2
-		c2.6,0,4.8,2.1,4.8,4.6V15.3z"/>
-	<path class="st0" d="M61.1,55.3c0,2.5-2.2,4.6-4.8,4.6H45.1c-2.6,0-4.8-2.1-4.8-4.6V44.7c0-2.5,2.2-4.6,4.8-4.6h11.2
-		c2.6,0,4.8,2.1,4.8,4.6V55.3z"/>
-	<path class="st0" d="M61.1,95.4c0,2.5-2.2,4.6-4.8,4.6H45.1c-2.6,0-4.8-2.1-4.8-4.6V84.7c0-2.5,2.2-4.6,4.8-4.6h11.2
-		c2.6,0,4.8,2.1,4.8,4.6V95.4z"/>
+	<path class="st0" d="M58.6,12.4c0,2-1.7,3.7-3.9,3.7h-9.1c-2.1,0-3.9-1.7-3.9-3.7V3.7c0-2,1.7-3.7,3.9-3.7h9.1
+		c2.1,0,3.9,1.7,3.9,3.7V12.4z"/>
+	<path class="st0" d="M58.6,44.8c0,2-1.7,3.7-3.9,3.7h-9.1c-2.1,0-3.9-1.7-3.9-3.7v-8.7c0-2,1.7-3.7,3.9-3.7h9.1
+		c2.1,0,3.9,1.7,3.9,3.7V44.8z"/>
+	<path class="st0" d="M58.6,77.3c0,2-1.7,3.7-3.9,3.7h-9.1c-2.1,0-3.9-1.7-3.9-3.7v-8.7c0-2,1.7-3.7,3.9-3.7h9.1
+		c2.1,0,3.9,1.7,3.9,3.7V77.3z"/>
 </g>
 </svg>
