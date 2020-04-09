@@ -15,7 +15,7 @@ class Bottom extends Component {
   render() {
 
     return (
-      <div className="footer ">
+      <div className="footer">
         <nav className="z-depth-0 footer">
           <Link to="/MealsMap">
             <img className="footer-icons" src={map} alt={"meals map"} />
