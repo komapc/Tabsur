@@ -4,6 +4,7 @@ import time from "../../resources/date_time_icon.svg"
 import attend from "../../resources/attend.png"
 import fullUp from "../../resources/full_up.svg"
 import touched  from "../../resources/touched_meal.svg"
+import myMeal  from "../../resources/my_meal.svg"
 import { withRouter } from "react-router-dom";
 import { joinMeal } from "../../actions/mealActions"
 import { connect } from "react-redux";
@@ -42,6 +43,11 @@ class MealListItem extends React.Component {
     if (meal.guest_count <= meal.Atendee_count)
     {
       attendStateIcon = fullUp;
+    }
+
+    if (meal.host_id == this.props.auth.user.id)
+    {
+      attendStateIcon = myMeal;
     }
     const dat = dateFormat(new Date(meal.created_at), "dddd, mmmm dS, yyyy, hh:MM");
     return (
