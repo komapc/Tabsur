@@ -60,9 +60,6 @@ class CreateMeal extends Component {
       <div className="main">
         <div className="row">
           <div >
-            <h4>
-              Add a meal
-            </h4>
             <form noValidate onSubmit={this.onSubmit}>
               {/* name */}
               <div className="input-field col s12">
@@ -101,7 +98,7 @@ class CreateMeal extends Component {
                   value={this.state.guestCount}
                   error={errors.password}
                   id="guestCount"
-                  type="number" pattern="[0-9]*"
+                  type="number" pattern="[0-9]*" maxlength="2"
                 />
                 <label htmlFor="guestCount">Max number of guests</label>
                 <span className="red-text">{errors.guestCount}  </span>

@@ -56,17 +56,18 @@ ul li span {
     height: 0px;   
     width: 100%;
     background-color: black;
-    transition: ease-in-out 2s;
+    transition: ease-in-out 0.3s;
 }
 
 .createMealsMap
 {
-    top: 100px;
+    top: 3px;
     position: fixed;
     height: 800px;   
     width: 100%;
     background-color: #73d763;
-    transition: ease-in-out 2s;
+    transition: ease-in-out 0.3s;
+    z-index: 1000;/*should cover the top menu*/
 }
 
 .caption {
@@ -271,6 +272,10 @@ ul li span {
 {
     color: white;
     font-weight: bold;
-    margin-left: 10%;
-    
+    margin-left: 10%;   
+}
+
+.search-bar
+{
+    width: 40px;
 }
