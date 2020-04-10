@@ -29,7 +29,7 @@ class Meals extends Component {
     return (
       <div className="main">
         <div className="row">
-          <div className="flow-text grey-text text-darken-1">
+          <div className="map-meal-info">
             {this.state.meals.map(meal =>
               <div key={meal.id}>
                 <MealListItem meal={meal} />

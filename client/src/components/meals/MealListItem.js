@@ -1,6 +1,6 @@
-import dishes from "../../resources/dishes.png"
-import location from "../../resources/location.png"
-import time from "../../resources/time.png"
+import dishes from "../../resources/servings_icon.svg"
+import location from "../../resources/location_icon.svg"
+import time from "../../resources/date_time_icon.svg"
 import attend from "../../resources/attend.png"
 import { withRouter } from "react-router-dom";
 import { joinMeal } from "../../actions/mealActions"
