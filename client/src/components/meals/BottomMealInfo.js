@@ -26,7 +26,7 @@ class BottomMealInfo extends React.Component {
     {
       return <div>Nothing is selected</div>
     }
-    const dat = dateFormat(new Date(meal.created_at), "dddd, mmmm dS, yyyy, hh:MM:ss");
+    
     return (
       <div className="meal_props" onClick={this.handleAttend}>
         <MealListItem  meal={meal}/>
