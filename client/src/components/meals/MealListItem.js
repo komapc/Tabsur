@@ -23,8 +23,6 @@ class MealListItem extends React.Component {
 
   handleAttend = () => {
     console.log(this.props.meal + ", " + this.state.auth.user.id);
-    //joinMeal(this.props.meal);
-    //this.props.history.push("/Attend/" + this.props.meal.id);
     const attend = { user_id: this.props.auth.user.id, meal_id: this.props.meal.id };
     axios.post(`${config.SERVER_HOST}/api/attends/${this.props.auth.user.id}`, attend)
       .then(res => {
