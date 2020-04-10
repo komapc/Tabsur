@@ -18,15 +18,15 @@ class Menu extends Component {
 
   handleLogout(event) {
     store.dispatch(logoutUser());
-    this.closeMenu(event);
+    this.closeMenu();
   }
   render() {
     const visible = this.props.visible;
     return (
       <div className={visible ? "menu" : "menu-hidden"}>
-        <Link to="/Login" onClick={this.handleLogout}>Logout</Link> <br />
-        <Link to="/About" onClick={this.closeMenu}>>About</Link><br />
-        <Link to="/MyProfile"  onClick={this.closeMenu}>> <span>🧍</span>My profile</Link><br />
+        <Link className="link" to="/Login" onClick={this.handleLogout}>Logout</Link> <br />
+        <Link className="link" to="/About" onClick={this.closeMenu}>About</Link><br />
+        <Link className="link" to="/MyProfile"  onClick={this.closeMenu}>My profile</Link>
       </div>
     );
   }
