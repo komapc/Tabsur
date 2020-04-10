@@ -20,7 +20,6 @@ class Navbar extends Component {
       <div className="navbar-fixed">
         <nav>
             <div className="menuRight">
-            <span>STATE:{this.state.showMenu?1:0}</span>
             {/* <Link
               to="/notifications"
             >

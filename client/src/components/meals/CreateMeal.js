@@ -24,7 +24,6 @@ class CreateMeal extends Component {
   }
 
   onLocationUpdate = ({ address, location }) => {
-    alert(address);
     this.setState({ address, location })
   };
 
@@ -104,8 +103,8 @@ class CreateMeal extends Component {
                   id="guestCount"
                   type="number"
                 />
-                <label htmlFor="guests">Max number of guests</label>
-                <span className="red-text">{errors.name}  </span>
+                <label htmlFor="guestCount">Max number of guests</label>
+                <span className="red-text">{errors.guestCount}  </span>
               </div>
               {/*Submit button */}
               <button
