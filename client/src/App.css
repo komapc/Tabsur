@@ -234,6 +234,8 @@ ul li span {
     font-size: 15px;
     color:black;
     text-overflow: ellipsis;
+    overflow: hidden;
+    width: 200px;
 }
 .attend-button
 {
@@ -264,7 +266,6 @@ ul li span {
 {   
     width: 33%;
 }
-
 
 .link
 {
