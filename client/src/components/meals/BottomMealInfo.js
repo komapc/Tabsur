@@ -1,11 +1,7 @@
 import React from "react";
-import dishes from "../../resources/dishes.png"
-import location from "../../resources/location.png"
-import time from "../../resources/time.png"
 import { withRouter } from "react-router-dom";
 
 import MealListItem from "./MealListItem";
-var dateFormat = require('dateformat');
 class BottomMealInfo extends React.Component {
 
   constructor(props) {
