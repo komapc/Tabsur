@@ -29,6 +29,23 @@ const MapLocationSelector = React.memo(({ handleLocationUpdate, defaultLocation,
             }
         );
     };
+    function onAutoCompleteSelect  (event)
+    {
+        const address = event.description;
+        console.log(address);
+        console.log("event: " + event);
+        setAddress(address);
+        let place = Geocode.fromAddress(address).then(response => {
+            const { lat, lng } = response.results[0].geometry.location;
+            console.log(lat, lng);
+            handleLocationUpdate({ address: event.description, location: { lng, lat } });
+            handleExit();
+          },
+          error => {
+            console.error(error);
+          });
+        
+    }
     function addressClickHandle() {
         handleExit();
     }
@@ -50,7 +67,7 @@ const MapLocationSelector = React.memo(({ handleLocationUpdate, defaultLocation,
             <div>
             <span onClick={addressClickHandle}>{"<--"}</span>
                 <GooglePlacesAutocomplete
-                    onSelect={console.log}
+                    onSelect={onAutoCompleteSelect}
                     initialValue= {address}
                     
                 />
