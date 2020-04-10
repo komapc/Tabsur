@@ -2,6 +2,8 @@ import dishes from "../../resources/servings_icon.svg"
 import location from "../../resources/location_icon.svg"
 import time from "../../resources/date_time_icon.svg"
 import attend from "../../resources/attend.png"
+import fullUp from "../../resources/full_up.svg"
+import touched  from "../../resources/touched_meal.svg"
 import { withRouter } from "react-router-dom";
 import { joinMeal } from "../../actions/mealActions"
 import { connect } from "react-redux";
@@ -36,6 +38,11 @@ class MealListItem extends React.Component {
 
   render() {
     const meal = this.props.meal;
+    let attendStateIcon = attend;
+    if (meal.guest_count <= meal.Atendee_count)
+    {
+      attendStateIcon = fullUp;
+    }
     const dat = dateFormat(new Date(meal.created_at), "dddd, mmmm dS, yyyy, hh:MM");
     return (
       <div className="meal_props" >
@@ -48,7 +55,7 @@ class MealListItem extends React.Component {
           </div>
         </span>
         <span >
-          <img className="attend-button" src={attend} alt={"attend"} onClick={this.handleAttend} />
+          <img className="attend-button" src={attendStateIcon} alt={"attend"} onClick={this.handleAttend} />
           <div className="meal-owner-div">by <span className="meal-owner">{meal.host_name}</span>
           </div>
           <div className="meal-name" > {meal.name}</div>
