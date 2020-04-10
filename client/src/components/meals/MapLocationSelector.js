@@ -1,14 +1,17 @@
-import React, { useState }  from "react"
+import React, { useState } from "react"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 import Geocode from "react-geocode";
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+// If you want to use the provided css
+import 'react-google-places-autocomplete/dist/index.min.css';
 
 export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
 Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
 
-const MapLocationSelector = React.memo(({handleLocationUpdate, defaultLocation, handleExit}) => {
+const MapLocationSelector = React.memo(({ handleLocationUpdate, defaultLocation, handleExit }) => {
 
-    const [address, setAddress] = useState("drag & drop the marker");
+    const [address, setAddress] = useState("");
 
     const onMarkerDragEnd = (event) => {
         let lat = event.latLng.lat(),
@@ -18,7 +21,7 @@ const MapLocationSelector = React.memo(({handleLocationUpdate, defaultLocation, 
             response => {
                 const addr = response.results[0].formatted_address;
                 console.log("onMarkerDragEnd, address: " + addr);
-                handleLocationUpdate({address:addr, location: {lng, lat}});
+                handleLocationUpdate({ address: addr, location: { lng, lat } });
                 setAddress(addr);
             },
             error => {
@@ -26,17 +29,16 @@ const MapLocationSelector = React.memo(({handleLocationUpdate, defaultLocation, 
             }
         );
     };
-    function  addressClickHandle()
-    {
+    function addressClickHandle() {
         handleExit();
     }
     const MyGoogleMap = (props) => <GoogleMap
         defaultZoom={8}
-        defaultCenter={{lat: defaultLocation.lat, lng: defaultLocation.lng}}
+        defaultCenter={{ lat: defaultLocation.lat, lng: defaultLocation.lng }}
     >
         <Marker
             draggable
-            position={{lat: defaultLocation.lat, lng: defaultLocation.lng}}
+            position={{ lat: defaultLocation.lat, lng: defaultLocation.lng }}
             onDragEnd={onMarkerDragEnd}
         />
     </GoogleMap>;
@@ -45,9 +47,15 @@ const MapLocationSelector = React.memo(({handleLocationUpdate, defaultLocation, 
 
     return (
         <span>
-            <span onClick={addressClickHandle}>
-                {address}
-            </span>
+            <div>
+            <span onClick={addressClickHandle}>{"<--"}</span>
+                <GooglePlacesAutocomplete
+                    onSelect={console.log}
+                    initialValue= {address}
+                    
+                />
+            </div>
+          
             <MapWithMarker
                 loadingElement={<div style={{ height: `100%` }} />}
                 containerElement={<div style={{ height: `90%` }} />}
