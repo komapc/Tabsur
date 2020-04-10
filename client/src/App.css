@@ -75,7 +75,9 @@ ul li span {
 
 .meal_props {
     background-color: white;
-    border: ridge;
+    border: solid;
+    border-width: 1px;
+    border-color: #73d763;
     color: black;
     border-radius: 1px;
     transition-duration: 0.5s;
@@ -160,6 +162,7 @@ ul li span {
 /* Main content */
 .main {
     margin-top: 60px; /* Add a top margin to avoid content overlay */
+    margin-bottom: 56px;
 }
 
 .menu
@@ -167,22 +170,24 @@ ul li span {
     background-color:#f75c06;
     position: fixed;
     right:0px;
-    top:40px;
-    height: 80%;
+    bottom: 56px;
+    height: 91%;
     width: 50%;
-    font-size: 220%;
+    font-size: 150%;
     color: white;
-    transition: 0.5s;
+    transition: 0.2s;
+    top: 0px;
+    padding-top: 56px;
 }
 
 .menu-hidden
 {
-    top:40px;
     position: fixed;
-    right:0px;
-    height: 0px;
+    right:-10px;
+    height: 91%;
     width: 0px;
-    transition: 0.5s;
+    transition: 0.2s;
+    top: 0px;
 }
 .menu:hover {
     color: black;
@@ -209,8 +214,8 @@ ul li span {
  }
  .meal-info-icons
  {
-    margin-left: 15px;
-    margin-bottom: 10px;
+     margin-bottom: 5px;
+  
     height:18px;
     width:18px;     
  }
@@ -259,4 +264,12 @@ ul li span {
 .meal-props-left
 {   
     width: 33%;
+}
+
+.link
+{
+    color: white;
+    font-weight: bold;
+    margin-left: 10%;
+    
 }
