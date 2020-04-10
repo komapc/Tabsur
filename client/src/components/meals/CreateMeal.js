@@ -101,7 +101,7 @@ class CreateMeal extends Component {
                   value={this.state.guestCount}
                   error={errors.password}
                   id="guestCount"
-                  type="number"
+                  type="number" pattern="[0-9]*"
                 />
                 <label htmlFor="guestCount">Max number of guests</label>
                 <span className="red-text">{errors.guestCount}  </span>
