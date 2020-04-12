@@ -3,8 +3,8 @@ import location from "../../resources/location_icon.svg"
 import time from "../../resources/date_time_icon.svg"
 import attend from "../../resources/attended.svg"
 import fullUp from "../../resources/full_up.svg"
-import touched  from "../../resources/touched_meal.svg"
-import myMeal  from "../../resources/my_meal.svg"
+import touched from "../../resources/touched_meal.svg"
+import myMeal from "../../resources/my_meal.svg"
 import { withRouter } from "react-router-dom";
 import { joinMeal } from "../../actions/mealActions"
 import { connect } from "react-redux";
@@ -37,18 +37,21 @@ class MealListItem extends React.Component {
       });
   }
 
-  render() {
-    const meal = this.props.meal;
-    let attendStateIcon = attend;
-    if (meal.guest_count <= meal.Atendee_count)
-    {
-      attendStateIcon = fullUp;
+  getMealIcon = (meal) =>
+  {
+    if (meal.guest_count <= meal.Atendee_count) {
+      return fullUp;
     }
 
-    if (meal.host_id == this.props.auth.user.id)
-    {
-      attendStateIcon = myMeal;
+    if (meal.host_id == this.props.auth.user.id) {
+      return myMeal;
     }
+    return attend;
+  }
+
+  render() {
+    const meal = this.props.meal;
+    const attendStateIcon = this.getMealIcon(meal);
     const dat = dateFormat(new Date(meal.created_at), "dddd, mmmm dS, yyyy, hh:MM");
     return (
       <div className="meal_props" >
@@ -77,7 +80,6 @@ class MealListItem extends React.Component {
       </div>
     )
   };
-
 }
 
 const mapStateToProps = state => ({
