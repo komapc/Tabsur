@@ -5,6 +5,9 @@ import { connect } from "react-redux";
 import { addMeal } from "../../actions/mealActions";
 import { DatePicker } from 'antd';
 import MapLocationSelector from "./MapLocationSelector";
+import * as Datetime from 'react-datetime';
+
+  
 import attend from "../../resources/attended.svg"
 
 import 'antd/es/date-picker/style/css';
@@ -81,6 +84,7 @@ class CreateMeal extends Component {
               </div>
               {/* Date and time */}
               <div className="">
+              {/* <Datetime /> */}
                 <DatePicker className="picker" mode="date" showTime="true" />
               </div>
               {/* Address */}
@@ -103,7 +107,7 @@ class CreateMeal extends Component {
                   value={this.state.guestCount}
                   error={errors.password}
                   id="guestCount"
-                  type="number" pattern="[0-9]*" maxlength="2"
+                  type="number" pattern="[0-9]*" maxLength="2"
                 />
                 <label htmlFor="guestCount">Max number of guests</label>
                 <span className="red-text">{errors.guestCount}  </span>
