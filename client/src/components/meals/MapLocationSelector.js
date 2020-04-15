@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 import Geocode from "react-geocode";
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import backArrowIcon from "../../resources/back_arrow.svg"
 // If you want to use the provided css
 import 'react-google-places-autocomplete/dist/index.min.css';
 
@@ -65,7 +66,7 @@ const MapLocationSelector = React.memo(({ handleLocationUpdate, defaultLocation,
     return (
         <span>
             <div>
-            <span onClick={addressClickHandle}>{"<--"}</span>
+            <img onClick={addressClickHandle} className="icon" src={backArrowIcon} alt="<--"></img>
                 <GooglePlacesAutocomplete
                     onSelect={onAutoCompleteSelect}
                     initialValue= {address}

@@ -29,8 +29,8 @@ class MealsMap extends Component {
         console.log(res);
         this.setState({ meals: res.data });
       });
-  }
-
+  } 
+  
   render() {
     return (
       <div className={"main " + (this.state.isSelected ? 'meals-map-info' : 'meals-map')}>
