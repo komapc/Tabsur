@@ -51,11 +51,10 @@ ul li span {
 
 .createMealsMap-hidden
 {
-    top: 700px;
-    position: fixed;
+    visibility: hidden;
+    position: fixed; 
     height: 0px;   
     width: 100%;
-    background-color: black;
     transition: ease-in-out 0.3s;
 }
 
@@ -277,4 +276,9 @@ ul li span {
 .search-bar
 {
     width: 40px;
+}
+
+.icon
+{
+    width: 10px;
 }
