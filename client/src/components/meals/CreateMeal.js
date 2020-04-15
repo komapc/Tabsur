@@ -6,6 +6,9 @@ import { addMeal } from "../../actions/mealActions";
 import { DatePicker } from 'antd';
 import MapLocationSelector from "./MapLocationSelector";
 import attend from "../../resources/attended.svg"
+import locationIcon from "../../resources/location_icon.svg"
+import dateIcon from "../../resources/date_time_icon.svg"
+import servingsIcon from "../../resources/servings_icon.svg"
 
 import 'antd/es/date-picker/style/css';
 const defaultLocation = { lng: 34.808, lat: 32.09 };
@@ -67,7 +70,7 @@ class CreateMeal extends Component {
           <div >
             <form noValidate onSubmit={this.onSubmit}>
               {/* name */}
-              <div className="input-field col s12">
+              <div className="name-input-field">
                 <input
                   onChange={this.onChange}
                   value={this.state.name}
@@ -79,12 +82,9 @@ class CreateMeal extends Component {
                 <label htmlFor="name">Meal name</label>
                 <span className="red-text">{errors.name}</span>
               </div>
-              {/* Date and time */}
-              <div className="">
-                <DatePicker className="picker" mode="date" showTime="true" />
-              </div>
               {/* Address */}
               <div className="input-field col s12">
+                <img className="meal-info-icons" src={locationIcon} alt="servings"/>  
                 <input
                   onChange={this.onChange}
                   onClick={this.onAddressClickHandle}
@@ -96,26 +96,41 @@ class CreateMeal extends Component {
                 <label htmlFor="address">Address</label>
                 <span className="red-text">{errors.name}</span>
               </div>
+              
               {/* Number of guests */}
-              <div className="input-field col s12">
-                <input min={0} max={10}
-                  onChange={this.onChange}
-                  value={this.state.guestCount}
-                  error={errors.password}
-                  id="guestCount"
-                  type="number" pattern="[0-9]*" maxlength="2"
-                />
-                <label htmlFor="guestCount">Max number of guests</label>
-                <span className="red-text">{errors.guestCount}  </span>
+              <div>
+                <span>
+                <img className="meal-info-icons" src={servingsIcon} alt="servings"/>
+                </span>
+                <span className="input-field-servings-div">
+                  <input classname="input-field-servings"
+                    min={0} max={10}
+                    onChange={this.onChange}
+                    value={this.state.guestCount}
+                    error={errors.password}
+                    id="guestCount"
+                    type="number" pattern="[0-9]*" maxLength="2"
+                  />
+                  {/* <label htmlFor="guestCount">Max number of guests</label>
+                  <span className="red-text">{errors.guestCount}  </span> */}
+                </span>
               </div>
+              {/* Date and time */}
+              <div className="">
+                <img className="meal-info-icons" src={dateIcon} alt="date"/>
+                <DatePicker className="picker" mode="date" showTime="true" />
+              </div>
+              
               {/*Submit button */}
+              <div className="button-div">
               {this.state.submitted?
               <img className="attend-button" src={attend} alt={"Done"}/>:
               <button
                 type="submit"
                 className="button hoverable accent-3">
-                Open
+                Open Meal
               </button>}
+              </div>
             </form>
           </div>
           {
