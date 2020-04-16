@@ -26,8 +26,16 @@ class MealListItem extends React.Component {
   }
 
   handleAttend = () => {
-    console.log(this.props.meal + ", " + this.state.auth.user.id);
-    const attend = { user_id: this.props.auth.user.id, meal_id: this.props.meal.id };
+    const user_id=this.state.auth.user.id;
+    if (meal.guest_count <= meal.Atendee_count) {
+      return;
+    }
+
+    if (meal.host_id === this.props.auth.user.id) {
+      return;
+    }
+    console.log(this.props.meal + ", " + user_id);
+    const attend = { user_id: user_id, meal_id: this.props.meal.id };
     this.props.joinMeal(attend);
     this.setState((prevState => {
       let meal = Object.assign({}, prevState.meal);  // creating copy 
