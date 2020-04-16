@@ -31,15 +31,16 @@ export const getMeals = (mealData, id) => dispatch => {
 };
 
 // join/unjoin the meal
-export const joinMeal = (attendData) => dispatch => {
+export const joinMeal = (attendData, id) => dispatch => {
   console.log("joinMeal: " + JSON.stringify(attendData));
   axios
-    .post(`${config.SERVER_HOST}/api/attends/`, attendData)
+    .post(`${config.SERVER_HOST}/api/attends/${id}`, attendData)
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
       })
+      .then(res=>dispatch(res))
     );
 };
 
