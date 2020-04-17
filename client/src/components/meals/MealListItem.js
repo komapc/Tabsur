@@ -6,35 +6,42 @@ import fullUp from "../../resources/full_up.svg"
 import touched from "../../resources/touched_meal.svg"
 import myMeal from "../../resources/my_meal.svg"
 import { withRouter } from "react-router-dom";
-import { joinMeal } from "../../actions/mealActions"
+import { joinMeal, getMeals } from "../../actions/mealActions"
 import { connect } from "react-redux";
 
 import axios from 'axios';
 import config from "../../config";
 
-import React, { Component } from "react";
+import React from "react";
 var dateFormat = require('dateformat');
 class MealListItem extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      meal: this.props.meal,
       auth: this.props.auth,
       meals: []
     };
   }
 
   handleAttend = () => {
-    console.log(this.props.meal + ", " + this.state.auth.user.id);
-    const attend = { user_id: this.props.auth.user.id, meal_id: this.props.meal.id };
-    axios.post(`${config.SERVER_HOST}/api/attends/${this.props.auth.user.id}`, attend)
-      .then(res => {
-        console.log(res);
-        this.setState({ meals: res.data });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    const user_id=this.state.auth.user.id;
+    if (this.state.meal.guest_count <= this.state.meal.Atendee_count) {
+      return;
+    }
+
+    if (this.state.meal.host_id === this.state.auth.user.id) {
+      return;
+    }
+    console.log(this.state.meal + ", " + user_id);
+    const attend = { user_id: user_id, meal_id: this.state.meal.id };
+    this.props.joinMeal(attend);
+    this.setState((prevState => {
+      let meal = Object.assign({}, prevState.meal);  // creating copy 
+      meal.Atendee_count++;                              
+      return { meal };                                  
+    }));
   }
 
   getMealIcon = (meal) =>
@@ -43,14 +50,14 @@ class MealListItem extends React.Component {
       return fullUp;
     }
 
-    if (meal.host_id == this.props.auth.user.id) {
+    if (meal.host_id === this.props.auth.user.id) {
       return myMeal;
     }
     return attend;
   }
 
   render() {
-    const meal = this.props.meal;
+    const meal = this.state.meal;
     const attendStateIcon = this.getMealIcon(meal);
     const dat = dateFormat(new Date(meal.created_at), "dddd, mmmm dS, yyyy, hh:MM");
     return (
