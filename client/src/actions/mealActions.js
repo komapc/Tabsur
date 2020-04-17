@@ -16,9 +16,9 @@ export const addMeal = (userData) => dispatch => {
 };
 
 //get
-export const getMeals = mealData => dispatch => {
+export const getMeals = (mealData, id) => dispatch => {
   axios
-    .get(`${config.SERVER_HOST}/api/meals/get/` + this.props.auth.user.id, mealData)
+    .get(`${config.SERVER_HOST}/api/meals/get/` + id, mealData)
     .then(res => {
      dispatch(res); 
     })
@@ -31,15 +31,16 @@ export const getMeals = mealData => dispatch => {
 };
 
 // join/unjoin the meal
-export const joinMeal = (attendData, history) => dispatch => {
+export const joinMeal = (attendData, id) => dispatch => {
   console.log("joinMeal: " + JSON.stringify(attendData));
   axios
-    .post(`${config.SERVER_HOST}/api/attends/`, attendData)
+    .post(`${config.SERVER_HOST}/api/attends/${id}`, attendData)
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
       })
+      .then(res=>dispatch(res))
     );
 };
 
