@@ -42,6 +42,7 @@ class MealsMap extends Component {
           defaultLocation={defaultLocation}
           onMarkerClick={this.onMarkerClicked}
           onMapClick={this.onMapClicked}
+          userId= {this.props.auth.user.id}
           selectedMeal={this.state.selectedMeal}
         />
 
