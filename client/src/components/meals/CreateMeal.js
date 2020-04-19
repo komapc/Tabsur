@@ -111,25 +111,25 @@ class CreateMeal extends Component {
 
           {/* Number of guests */}
           <div>
-              <img className="meal-info-location-icons" src={servingsIcon} alt="servings" />
+              <img className="meal-info-guests-icons" src={servingsIcon} alt="servings" />
               <span className="location-input-field input-field col s12">
-              <input 
-                min={0} max={10}
-                onChange={this.onChange}
-                value={this.state.guestCount}
-                error={errors.password}
-                id="guestCount"
-                type="number" pattern="[0-9]*" maxLength="2"
-              />
-              <label htmlFor="guestCount">Max number of guests</label>
-              <span className="red-text">{errors.guestCount}  </span>
+                <input 
+                  min={0} max={10}
+                  onChange={this.onChange}
+                  value={this.state.guestCount}
+                  error={errors.password}
+                  id="guestCount"
+                  type="number" pattern="[0-9]*" maxLength="2"
+                />
+                <label htmlFor="guestCount">Number of guests</label>
+                <span className="red-text">{errors.guestCount}  </span>
             </span> 
           </div> 
          
           {/*Submit button */}
           <div className="button-div">
             {this.state.submitted ?
-              <img className="attend-button" src={attend} alt={"Done"} /> :
+              <div  className="meal-created-icon"><img src={attend} alt={"Done"} /></div> :
               <button
                 type="submit"
                 className="button hoverable accent-3">
