@@ -102,10 +102,11 @@ class CreateMeal extends Component {
               
               {/* Number of guests */}
               <div>
-                <span>
-                <img className="meal-info-icons" src={servingsIcon} alt="servings"/>
-                </span>
+                 
+                
+               
                 <span className="input-field-servings-div">
+                <img className="meal-info-icons" src={servingsIcon} alt="servings"/>
                   <input classname="input-field-servings"
                     min={0} max={10}
                     onChange={this.onChange}
@@ -114,8 +115,8 @@ class CreateMeal extends Component {
                     id="guestCount"
                     type="number" pattern="[0-9]*" maxLength="2"
                   />
-                  {/* <label htmlFor="guestCount">Max number of guests</label>
-                  <span className="red-text">{errors.guestCount}  </span> */}
+                  <label htmlFor="guestCount">Max number of guests</label>
+                  <span className="red-text">{errors.guestCount}  </span> 
                 </span>
               </div>
               {/* Date and time */}

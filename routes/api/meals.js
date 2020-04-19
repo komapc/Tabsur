@@ -27,7 +27,6 @@ router.get("/get/:id", async  (req, response) =>
 
   const SQLquery=`SELECT (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), `+
   `(SELECT count (user_id) as "me" from attends where meal_id=m.id and u.id=${req.params.id}),`+
-  //`(SELECT count (user_id) AS "me" from attends where meal_id=m.id), `+
 	`m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id`;
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
