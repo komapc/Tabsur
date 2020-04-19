@@ -39,7 +39,8 @@ class MealListItem extends React.Component {
     this.props.joinMeal(attend);
     this.setState((prevState => {
       let meal = Object.assign({}, prevState.meal);  // creating copy 
-      meal.Atendee_count++;                              
+      meal.Atendee_count++; 
+      meal.me=1;        
       return { meal };                                  
     }));
   }
