@@ -1,24 +1,28 @@
 import React from "react";
 import Geocode from "react-geocode";
 import { GoogleMap, Marker, withGoogleMap, withScriptjs } from "react-google-maps";
-import attend from "../../resources/attended.svg";
+import attended from "../../resources/attended.svg";
 import fullUp from "../../resources/full_up.svg";
-import myMeal from "../../resources/my_meal.svg"
+import hosted from "../../resources/host_meal.svg"
+import available from "../../resources/available_meal.svg"
 
 export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
 Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
 const MealsMapShow = React.memo(({ meals, defaultLocation, onMarkerClick, onMapClick, userId }) => {
-    const getMealIcon = (meal) => {
+    const getMealIcon = (meal, userId) => {
         console.log(JSON.stringify(meal));
         if (meal.guest_count <= meal.Atendee_count) {
             return fullUp;
         }
 
-        if (meal.me > 0 ) {
-          return myMeal;
+        if (meal.host_id === userId) {
+            return hosted;
         }
-        return attend;
+        if (meal.me > 0 ) {
+          return attended;
+        }
+        return available;
     }
 
     const MyGoogleMap = (props) =>
@@ -30,11 +34,12 @@ const MealsMapShow = React.memo(({ meals, defaultLocation, onMarkerClick, onMapC
         >
 
             {meals.map(meal => {
-                let icon = getMealIcon(meal);
+               
+                let icon = getMealIcon(meal, userId);
                 return <div name="marker" key={meal.id} className="marker-style" title="meal-marker">
                     <Marker
                         position={{ lat: meal.location.y, lng: meal.location.x }}
-                        onClick={() => onMarkerClick(meal, this)}
+                        onClick={() => onMarkerClick(meal, userId)}
                         icon={
                             {
                                 url: icon,
