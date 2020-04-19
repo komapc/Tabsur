@@ -1,16 +1,14 @@
 import dishes from "../../resources/servings_icon.svg"
 import location from "../../resources/location_icon.svg"
 import time from "../../resources/date_time_icon.svg"
-import attend from "../../resources/attended.svg"
-import fullUp from "../../resources/full_up.svg"
-import touched from "../../resources/touched_meal.svg"
-import myMeal from "../../resources/my_meal.svg"
+import attended from "../../resources/attended.svg";
+import fullUp from "../../resources/full_up.svg";
+import hosted from "../../resources/host_meal.svg"
+import available from "../../resources/available_meal.svg"
+
 import { withRouter } from "react-router-dom";
 import { joinMeal, getMeals } from "../../actions/mealActions"
 import { connect } from "react-redux";
-
-import axios from 'axios';
-import config from "../../config";
 
 import React from "react";
 var dateFormat = require('dateformat');
@@ -45,21 +43,24 @@ class MealListItem extends React.Component {
     }));
   }
 
-  getMealIcon = (meal) =>
-  {
-    if (meal.guest_count <= meal.Atendee_count) {
+  getMealIcon = (meal, userId) => {
+  console.log(JSON.stringify(meal));
+  if (meal.guest_count <= meal.Atendee_count) {
       return fullUp;
-    }
-
-    if (meal.host_id === this.props.auth.user.id) {
-      return myMeal;
-    }
-    return attend;
   }
+
+  if (meal.host_id === userId) {
+      return hosted;
+  }
+  if (meal.me > 0 ) {
+    return attended;
+  }
+  return available;
+}
 
   render() {
     const meal = this.state.meal;
-    const attendStateIcon = this.getMealIcon(meal);
+    const attendStateIcon = this.getMealIcon(meal, this.props.auth.user.id);
     const dat = dateFormat(new Date(meal.created_at), "dddd, mmmm dS, yyyy, hh:MM");
     return (
       <div className="meal_props" >
