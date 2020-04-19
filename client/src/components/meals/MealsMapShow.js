@@ -14,11 +14,7 @@ const MealsMapShow = React.memo(({ meals, defaultLocation, onMarkerClick, onMapC
     const getMealIcon = (meal, userId, selectedMeal) => {
         console.log(JSON.stringify(meal));
         console.log(selectedMeal);
-        if (meal.id === selectedMeal)
-        {
-            console.log("selected");
-            return touched;
-        }
+       
         if (meal.guest_count <= meal.Atendee_count) {
             return fullUp;
         }
@@ -29,9 +25,12 @@ const MealsMapShow = React.memo(({ meals, defaultLocation, onMarkerClick, onMapC
         if (meal.me > 0 ) {
           return attended;
         }
-        return available;
+        return (meal.id === selectedMeal)?
+             touched: available;
     }
-
+    // const shouldComponentUpdate = (nextProps,nextState) =>{
+    //     return false;
+    // }
     const MyGoogleMap = (props) =>
 
         <GoogleMap

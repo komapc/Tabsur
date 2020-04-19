@@ -8,9 +8,11 @@ class BottomMealInfo extends React.Component {
 
   constructor(props) {
     super(props);
+    console.log("bottom: " + JSON.stringify(props));
     this.state = {
-      meal: {created_at:0}
+      meal: props.meal
     };
+
   }
 
   handleAttend = () => {
@@ -41,7 +43,6 @@ class BottomMealInfo extends React.Component {
       </div>
     )
   };
-
 }
 
 export default withRouter(BottomMealInfo);
