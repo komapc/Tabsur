@@ -135,11 +135,6 @@ ul li span {
   {
     font-size:initial;
   }
-  .footerItemActive
-  {
-    background-color: #73d763;
-    font-weight:bold;
-  }
 
   .menuRight {
     position: absolute;
@@ -216,7 +211,27 @@ ul li span {
  {
     height:33px;
     margin: 12px;
-    border-style: none;
+    margin-bottom: 0;
+    /* border-style: none; */
+    margin-bottom:11px;
+ }
+ 
+ nav a
+ {
+   width:20%;
+ }
+.active
+{
+    border-bottom:solid ;
+    border-color: white;
+    padding-bottom: 15px;
+    text-align: bottom;
+}
+
+
+ .botttom-menu-link
+ {
+     bottom:    -5px;
  }
  .meal-info-icons
  {
