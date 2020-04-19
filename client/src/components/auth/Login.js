@@ -13,10 +13,6 @@ class Login extends Component {
       password: "",
       errors: {}
     };
-    // // If logged in and user navigates to Login page, should redirect them to list
-    // if (this.props.auth.isAuthenticated) {
-    //   this.props.history.push("/Meals");
-    // }
   }
 
   componentWillReceiveProps(nextProps) {

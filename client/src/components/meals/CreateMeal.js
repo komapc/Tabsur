@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import { addMeal } from "../../actions/mealActions";
 import { DatePicker } from 'antd';
 import MapLocationSelector from "./MapLocationSelector";
+import * as Datetime from 'react-datetime';
+import TimePicker from 'react-time-picker';
 
-
-  
 import attend from "../../resources/attended.svg"
 import locationIcon from "../../resources/location_icon.svg"
 import dateIcon from "../../resources/date_time_icon.svg"
@@ -29,7 +29,7 @@ class CreateMeal extends Component {
       date: new Date().getDate(),
       submitted: false
     };
-    
+
   }
 
   onLocationUpdate = ({ address, location }) => {
@@ -60,95 +60,94 @@ class CreateMeal extends Component {
     };
 
     this.props.addMeal(newMeal);
-     
-    this.setState({submitted:true});
+
+    this.setState({ submitted: true });
   };
 
   render() {
     const { errors } = this.state;
     return (
       <div className="main">
+        <form noValidate onSubmit={this.onSubmit}>
+          <div className="vertical-spacer"/>
+          {/* name */}
+          <div className="name-input-field input-field col s12"> 
+            <input
+              onChange={this.onChange}
+              value={this.state.name}
+              error={errors.name}
+              id="name"
+              type="text"
+              className={errors.name ? 'invalid' : ''}
+            />
+            <label htmlFor="name">Meal name</label>
+            <span className="red-text">{errors.name}</span>
+          </div>
+           {/* Date and time */}
+           <div className="date-div">
+            <span><img className="meal-info-icons" src={dateIcon} alt="date" /></span>
+            <span><DatePicker className="picker" mode="date"/></span>
+            <span>
+              <TimePicker className="time-picker" disableClock="true" clockIcon="null" maxDetail="minute"/>
+            </span>
+          </div>
 
-        <div className="row">
-          <div >
-            <form noValidate onSubmit={this.onSubmit}>
-              {/* name */}
-              <div className="name-input-field">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.name}
-                  error={errors.name}
-                  id="name"
-                  type="text"
-                  className={errors.name ? 'invalid' : ''}
-                />
-                <label htmlFor="name">Meal name</label>
-                <span className="red-text">{errors.name}</span>
-              </div>
-              {/* Address */}
-              <div className="input-field col s12">
-                <img className="meal-info-icons" src={locationIcon} alt="servings"/>  
-                <input
-                  onChange={this.onChange}
-                  onClick={this.onAddressClickHandle}
-                  value={this.state.address || ""}
-                  error={errors.password}
-                  id="address"
-                  type="text"
-                />
-                <label htmlFor="address">Address</label>
-                <span className="red-text">{errors.name}</span>
-              </div>
-              
-              {/* Number of guests */}
-              <div>
-                 
-                
-               
-                <span className="input-field-servings-div">
-                <img className="meal-info-icons" src={servingsIcon} alt="servings"/>
-                  <input classname="input-field-servings"
-                    min={0} max={10}
-                    onChange={this.onChange}
-                    value={this.state.guestCount}
-                    error={errors.password}
-                    id="guestCount"
-                    type="number" pattern="[0-9]*" maxLength="2"
-                  />
-                  <label htmlFor="guestCount">Max number of guests</label>
-                  <span className="red-text">{errors.guestCount}  </span> 
-                </span>
-              </div>
-              {/* Date and time */}
-              <div className="">
-                <img className="meal-info-icons" src={dateIcon} alt="date"/>
-                <DatePicker className="picker" mode="date" showTime="true" />
-              </div>
-              
-              {/*Submit button */}
-              <div className="button-div">
-              {this.state.submitted?
-              <img className="attend-button" src={attend} alt={"Done"}/>:
+          {/* Address*/}
+          <div>
+            <img className="meal-info-location-icons" src={locationIcon} alt="location" />
+            <span className="location-input-field input-field col s12">
+              <input
+                onChange={this.onChange}
+                onClick={this.onAddressClickHandle}
+                value={this.state.address || ""}
+                error={errors.password}
+                id="address"
+                type="text"
+              />
+              <label htmlFor="address">Location</label>
+              <span className="red-text">{errors.name}</span>
+            </span> 
+          </div>
+
+          {/* Number of guests */}
+          <div>
+              <img className="meal-info-location-icons" src={servingsIcon} alt="servings" />
+              <span className="location-input-field input-field col s12">
+              <input 
+                min={0} max={10}
+                onChange={this.onChange}
+                value={this.state.guestCount}
+                error={errors.password}
+                id="guestCount"
+                type="number" pattern="[0-9]*" maxLength="2"
+              />
+              <label htmlFor="guestCount">Max number of guests</label>
+              <span className="red-text">{errors.guestCount}  </span>
+            </span> 
+          </div> 
+         
+          {/*Submit button */}
+          <div className="button-div">
+            {this.state.submitted ?
+              <img className="attend-button" src={attend} alt={"Done"} /> :
               <button
                 type="submit"
                 className="button hoverable accent-3">
                 Open Meal
               </button>}
-              </div>
-            </form>
           </div>
-          {
-            // TODO: use user current location
-          }
-          <div className={this.state.showMap ? 'createMealsMap' : 'createMealsMap-hidden'}>
-            <MapLocationSelector
-              handleLocationUpdate={this.onLocationUpdate}
-              // address={this.state.address}
-              defaultLocation={defaultLocation}
-              handleExit={this.onMapExit}
-            />
-          </div>
-        </div>
+        </form>
+        {
+          // TODO: use user current location
+        }
+        <div className={this.state.showMap ? 'createMealsMap' : 'createMealsMap-hidden'}>
+          <MapLocationSelector
+            handleLocationUpdate={this.onLocationUpdate}
+            // address={this.state.address}
+            defaultLocation={defaultLocation}
+            handleExit={this.onMapExit}
+          />
+        </div> 
       </div>
     );
   }
