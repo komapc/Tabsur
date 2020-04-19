@@ -18,8 +18,7 @@ class MealListItem extends React.Component {
     super(props);
     this.state = {
       meal: this.props.meal,
-      auth: this.props.auth,
-      meals: []
+      auth: this.props.auth
     };
   }
 
@@ -43,23 +42,30 @@ class MealListItem extends React.Component {
     }));
   }
 
-  getMealIcon = (meal, userId) => {
-  console.log(JSON.stringify(meal));
-  if (meal.guest_count <= meal.Atendee_count) {
-      return fullUp;
-  }
+   getMealIcon = (meal, userId) => {
+    console.log(JSON.stringify(meal));
+   
+    if (meal.guest_count <= meal.Atendee_count) {
+        return fullUp;
+    }
 
-  if (meal.host_id === userId) {
-      return hosted;
-  }
-  if (meal.me > 0 ) {
-    return attended;
-  }
-  return available;
+    if (meal.host_id === userId) {
+        return hosted;
+    }
+    if (meal.me > 0 ) {
+      return attended;
+    }
+    return  available;
 }
 
   render() {
-    const meal = this.state.meal;
+    
+    console.log("MealListItem"  + JSON.stringify(this.props.meal));
+    const meal = this.props.meal;
+    if (Object.keys(meal).length === 0)
+    { 
+      return <div></div>
+    }
     const attendStateIcon = this.getMealIcon(meal, this.props.auth.user.id);
     const dat = dateFormat(new Date(meal.created_at), "dddd, mmmm dS, yyyy, hh:MM");
     return (

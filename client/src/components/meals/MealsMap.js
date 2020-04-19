@@ -12,6 +12,7 @@ class MealsMap extends Component {
     super(props);
     this.state = {
       meals: [],
+      meal: {},
       isSelected: false,
       selectedMeal: 0
     };
@@ -33,6 +34,7 @@ class MealsMap extends Component {
   }
 
   render() {
+    console.log("Selected meal: " + JSON.stringify(this.state.meal));
     return (
       <div className={"main " + (this.state.isSelected ? 'meals-map-info' : 'meals-map')}>
         <MealsMapShow
