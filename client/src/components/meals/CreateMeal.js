@@ -23,7 +23,7 @@ class CreateMeal extends Component {
       name: "",
       location: defaultLocation,
       address: "",
-      guestCount: 0,
+      guestCount: "",
       errors: {},
       showMap: false,
       date: new Date().getDate(),

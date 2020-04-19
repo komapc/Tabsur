@@ -31,7 +31,7 @@ class BottomMealInfo extends React.Component {
   }
 
   render() {
-    const meal = this.props.meal;
+    const meal = this.state.meal;
     if (typeof meal === 'undefined')
     {
       return <div>Nothing is selected</div>
