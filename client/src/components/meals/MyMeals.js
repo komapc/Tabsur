@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from 'axios';
 import MealListItem from "./MealListItem";
+import { getMyMeals } from "../../actions/mealActions";
 import config from "../../config";
 
 class MyMeals extends Component {
@@ -21,7 +22,7 @@ class MyMeals extends Component {
         this.setState({ meals: res.data });
       }).catch(err =>{
         console.log(err);
-      }); ;
+      }); 
   }
   render() {
     const { user } = this.props.auth;

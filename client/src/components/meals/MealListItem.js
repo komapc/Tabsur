@@ -7,7 +7,7 @@ import hosted from "../../resources/host_meal.svg"
 import available from "../../resources/available_meal.svg"
 
 import { withRouter } from "react-router-dom";
-import { joinMeal, getMeals } from "../../actions/mealActions"
+import { joinMeal } from "../../actions/mealActions"
 import { connect } from "react-redux";
 
 import React from "react";
@@ -60,8 +60,8 @@ class MealListItem extends React.Component {
 
   render() {
     
-    console.log("MealListItem"  + JSON.stringify(this.props.meal));
-    const meal = this.props.meal;
+    console.log("MealListItem"  + JSON.stringify(this.state.meal));
+    const meal = this.state.meal;
     if (Object.keys(meal).length === 0)
     { 
       return <div></div>
