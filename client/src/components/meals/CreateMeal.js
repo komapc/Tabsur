@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { addMeal } from "../../actions/mealActions";
 import { DatePicker } from 'antd';
 import MapLocationSelector from "./MapLocationSelector";
-import * as Datetime from 'react-datetime';
+
 
   
 import attend from "../../resources/attended.svg"
