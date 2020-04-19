@@ -24,9 +24,8 @@ router.get("/get/:id", async  (req, response) =>
   console.log(`get meals for user ${req.params.id}`);
   const meal = req.body;
 
-
   const SQLquery=`SELECT (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), `+
-  `(SELECT count (user_id) as "me" from attends where meal_id=m.id and u.id=${req.params.id}),`+
+  `(SELECT count (user_id) as "me" from attends where meal_id=m.id and u.id=${req.params.id}),`+  
 	`m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id`;
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
@@ -53,8 +52,12 @@ router.get("/get_my/:id", async (req, response) =>
     return; 
   }
   const meal = req.body;
+  const SQLquery=`SELECT (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), `+
+  `(SELECT count (user_id) as "me" from attends where meal_id=m.id and u.id=${req.params.id}),`+  
+  `m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id` +
+  `host_id=${req.params.id}`;
   await client.connect();
-  client.query(`SELECT * FROM meals WHERE host_id=${req.params.id}`)
+  client.query(SQLquery)
     .then(resp=>{
       response.json(resp.rows);
     })
