@@ -32,7 +32,6 @@ const MealsMapShow = React.memo(({ meals, defaultLocation, onMarkerClick, onMapC
     //     return false;
     // }
     const MyGoogleMap = (props) =>
-
         <GoogleMap
             defaultZoom={8}
             defaultCenter={{ lat: defaultLocation.lat, lng: defaultLocation.lng }}
@@ -60,8 +59,6 @@ const MealsMapShow = React.memo(({ meals, defaultLocation, onMarkerClick, onMapC
         </GoogleMap>;
 
     const MapWithMarker = withScriptjs(withGoogleMap(MyGoogleMap));
-
-
 
     return (
         <MapWithMarker
