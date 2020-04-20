@@ -39,7 +39,6 @@ const MealsMapShow = React.memo(({ meals, defaultLocation, onMarkerClick, onMapC
         >
 
             {meals.map(meal => {
-               
                 const icon = getMealIcon(meal, userId, selectedMeal);
                 const markerSize= selectedMeal === meal.id?30:22;
                 return <div name="marker" key={meal.id} className="marker-style" title="meal marker">
