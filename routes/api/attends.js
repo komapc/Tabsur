@@ -24,7 +24,7 @@ router.post('/:id', async (req, response) => {
   const client = new Client(currentConfig);
   await client.connect();
   
-  console.log("connected");
+  console.log("Attend: connected");
   client.query('INSERT INTO attends ( meal_id, user_id, status)' +
       'VALUES($1, $2, 0)',
       [attend.meal_id, attend.user_id])
