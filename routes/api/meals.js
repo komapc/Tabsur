@@ -33,6 +33,7 @@ router.get("/get/:id", async  (req, response) =>
   client.query(SQLquery)
     .then(resp=>{
       response.json(resp.rows);
+      client.end();
     })
     .catch(err => { 
       console.log(err); 
@@ -60,6 +61,7 @@ router.get("/get_my/:id", async (req, response) =>
   client.query(SQLquery)
     .then(resp=>{
       response.json(resp.rows);
+      client.end();
     })
     .catch(err => { 
       console.log(err); 

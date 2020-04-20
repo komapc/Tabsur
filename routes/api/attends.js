@@ -30,7 +30,7 @@ router.post('/:id', async (req, response) => {
       [attend.meal_id, attend.user_id])
   .catch(err => { 
     console.log(err); 
-    return response.status(500).json("failed to attend"); 
+    return response.status(500).json("failed to attend: " + err); 
   })
   .then(answer => { return response.status(201).json(answer); });
 });
