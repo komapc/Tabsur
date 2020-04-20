@@ -18,7 +18,7 @@ class MealsMap extends Component {
     };
   }
   onMapClicked = (event) => {
-    this.setState({ isSelected: false });
+    this.setState({ isSelected: false, selectedMeal:{} });
   }
 
   onMarkerClicked = (event) => {
