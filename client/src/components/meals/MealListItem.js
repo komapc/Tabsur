@@ -7,7 +7,7 @@ import hosted from "../../resources/host_meal.svg"
 import available from "../../resources/available_meal.svg"
 
 import { withRouter } from "react-router-dom";
-import { joinMeal, getMeals } from "../../actions/mealActions"
+import { joinMeal } from "../../actions/mealActions"
 import { connect } from "react-redux";
 
 import React from "react";
@@ -22,8 +22,14 @@ class MealListItem extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if(prevProps.meal !== this.props.meal) {
+      this.setState({meal: this.props.meal});
+    }
+  }
+  
   handleAttend = () => {
-    const user_id=this.state.auth.user.id;
+    const user_id = this.state.auth.user.id;
     if (this.state.meal.guest_count <= this.state.meal.Atendee_count) {
       return;
     }
@@ -31,39 +37,42 @@ class MealListItem extends React.Component {
     if (this.state.meal.host_id === this.state.auth.user.id) {
       return;
     }
-    console.log(this.state.meal + ", " + user_id);
-    const attend = { user_id: user_id, meal_id: this.state.meal.id };
-    this.props.joinMeal(attend);
+
+    if (this.state.meal.me > 0) {
+      return;
+    }
+    console.log("handleAttend: " + JSON.stringify(this.state.meal) + ", " + user_id);
+    const attend = { user_id: user_id, meal_id: this.props.meal.id };
+    this.props.joinMeal(attend, user_id);
     this.setState((prevState => {
       let meal = Object.assign({}, prevState.meal);  // creating copy 
-      meal.Atendee_count++; 
-      meal.me=1;        
-      return { meal };                                  
+      meal.Atendee_count++;
+      meal.me = 1;
+      return { meal };
     }));
   }
 
-   getMealIcon = (meal, userId) => {
+  getMealIcon = (meal, userId) => {
     console.log(JSON.stringify(meal));
-   
+
     if (meal.guest_count <= meal.Atendee_count) {
-        return fullUp;
+      return fullUp;
     }
 
     if (meal.host_id === userId) {
-        return hosted;
+      return hosted;
     }
-    if (meal.me > 0 ) {
+    if (meal.me > 0) {
       return attended;
     }
-    return  available;
-}
+    return available;
+  }
 
   render() {
-    
-    console.log("MealListItem"  + JSON.stringify(this.props.meal));
-    const meal = this.props.meal;
-    if (Object.keys(meal).length === 0)
-    { 
+
+    const meal = this.state.meal;
+    console.log("MealListItem: " + JSON.stringify(meal));
+    if (Object.keys(meal).length === 0) {
       return <div></div>
     }
     const attendStateIcon = this.getMealIcon(meal, this.props.auth.user.id);

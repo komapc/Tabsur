@@ -30,6 +30,18 @@ export const getMeals = (mealData, id) => dispatch => {
     );
 };
 
+//get my meals
+export const getMyMeals = (mealData, id) => dispatch => {
+  axios.get(`${config.SERVER_HOST}/api/meals/get_my/` + this.props.auth.user.id)
+  .then(res => {
+    console.log(res.data);
+    this.setState({ meals: res.data });
+  }).catch(err =>{
+    console.log(err);
+  }); 
+};
+
+
 // join/unjoin the meal
 export const joinMeal = (attendData, id) => dispatch => {
   console.log("joinMeal: " + JSON.stringify(attendData));

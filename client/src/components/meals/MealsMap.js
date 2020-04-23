@@ -18,11 +18,15 @@ class MealsMap extends Component {
     };
   }
   onMapClicked = (event) => {
-    this.setState({ isSelected: false });
+    this.setState({ isSelected: false, selectedMeal:{} });
   }
 
   onMarkerClicked = (event) => {
-    this.setState({ meal: event, isSelected: true, selectedMeal: event.id});
+    this.setState({ 
+      meal: event, 
+      isSelected: true, 
+      selectedMeal: event.id});
+      console.log("onMarkerClicked" + JSON.stringify(this.state.meal));
   }
 
   componentDidMount() {
@@ -36,7 +40,9 @@ class MealsMap extends Component {
   render() {
     console.log("Selected meal: " + JSON.stringify(this.state.meal));
     return (
+     
       <div className={"main " + (this.state.isSelected ? 'meals-map-info' : 'meals-map')}>
+         
         <MealsMapShow
           meals={this.state.meals}
           defaultLocation={defaultLocation}
@@ -47,7 +53,8 @@ class MealsMap extends Component {
         />
 
         <div>
-          <BottomMealInfo meal={this.state.meal} />
+          <BottomMealInfo 
+            meal={this.state.meal} />
         </div>
       </div>
 
