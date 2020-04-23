@@ -1,48 +1,39 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-
-import axios from 'axios';
-import config from "../../config";
+import { connect } from 'react-redux';
 import MealListItem from "./MealListItem";
 class BottomMealInfo extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log("bottom: " + JSON.stringify(props));
     this.state = {
-      meal: props.meal
+      meal: this.props.meal,
+      auth: this.props.auth
     };
-
   }
 
-  handleAttend = () => {
-    // console.log(this.props.meal);
-    // this.props.history.push("/Attend/" + this.props.meal.id);
-    console.log(this.props.meal + ", " + this.state.auth.user.id);
-    const attend = { user_id: this.props.auth.user.id, meal_id: this.props.meal.id };
-    axios.post(`${config.SERVER_HOST}/api/attends/${this.props.auth.user.id}`, attend)
-      .then(res => {
-        console.log(res);
-        this.setState({ meals: res.data });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  componentDidUpdate(prevProps) {
+    if(prevProps.meal !== this.props.meal) {
+      this.setState({meal: this.props.meal});
+    }
   }
 
   render() {
-    const meal = this.props.meal;
+    const meal = this.state.meal;
     if (typeof meal === 'undefined')
     {
       return <div>Nothing is selected</div>
-    }
-    
+    } 
     return (
       <div className="meal_props" onClick={this.handleAttend}>
-        <MealListItem  meal={meal}/>
+        <MealListItem  meal={meal} />
       </div>
     )
   };
 }
+const mapStateToProps = state => ({
+  auth: state.auth,
 
-export default withRouter(BottomMealInfo);
+});
+
+export default withRouter(connect(mapStateToProps)(BottomMealInfo));

@@ -55,7 +55,7 @@ ul li span {
     position: fixed; 
     height: 0px;   
     width: 100%;
-    transition: ease-in-out 2s;
+    transition: ease-in-out 0.2s;
 }
 
 .createMealsMap
@@ -65,7 +65,7 @@ ul li span {
     height: 800px;   
     width: 100%;
     background-color: #73d763;
-    transition: ease-in-out 2s;
+    transition: ease-in-out 0.2s;
 }
 
 .caption {
@@ -102,12 +102,20 @@ ul li span {
 }
 .picker
 {
-    background-color: #555022;
-    border: ridge;
-    border-color: brown;
-    border-width: 3px;
+    background-color: white;
+    border:none;
+    width: 80%;
 }
-
+.time-picker
+{
+    padding: 30px;
+}
+.date-div
+{
+    position: relative;
+    left:10%;
+    width: 40%;
+}
 .marker {
     position: absolute;
     top: 50%;
@@ -134,11 +142,6 @@ ul li span {
   .footerItem
   {
     font-size:initial;
-  }
-  .footerItemActive
-  {
-    background-color: #73d763;
-    font-weight:bold;
   }
 
   .menuRight {
@@ -216,26 +219,69 @@ ul li span {
  {
     height:33px;
     margin: 12px;
-    border-style: none;
+    margin-bottom: 0;
+    /* border-style: none; */
+    margin-bottom:11px;
  }
+ 
+ nav a
+ {
+   width:20%;
+ }
+.active
+{
+    border-bottom:solid ;
+    border-color: white;
+    padding-bottom: 15px;
+    text-align: bottom;
+}
+
+
+ .botttom-menu-link
+ {
+     bottom:    -5px;
+ }
+
  .meal-info-icons
  {
-     margin-bottom: 5px;
-  
+    margin-bottom: 5px;
     height:18px;
     width:18px;     
  }
 
+  
+ .meal-info-location-icons
+ {
+    float: left;
+    margin-top: 1em;
+    margin-bottom: 5px;
+    margin-left: 10%;
+    height:18px;
+    width:18px;     
+ }
+
+ .meal-info-guests-icons
+ {
+    float: left;
+    margin-top: 2.5em;
+    margin-left: 10%;
+    height:20px;
+    width:20px;     
+ }
  .meal-owner-div
  {
-    margin-top: 12px;
+    margin-top: 22px;
     font-weight: bold;
  }
  .meal-owner
  {
     color: green;
  }
- 
+ .meal-created-icon
+ {
+     margin: auto;
+     width: 10%;
+ }
  .meal-name {
     font-weight: bold;
     font-size: 15px;
@@ -283,25 +329,46 @@ ul li span {
     margin-left: 10%;
     
 }
+.vertical-spacer
+{
+    padding: 12%;
+    border: none;
+}
 .name-input-field
 {
-    width: 320px;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-overflow:ellipsis;
     text-align: center;
     position: center;
 }
-.input-field-servings-div
+
+.location-input-field
+{ 
+    width: 70%;
+    margin-right: 10%;
+    text-overflow:ellipsis;
+    text-align: center;
+    position: center;
+    float: right;
+}
+input
 {
-    position: fixed;
-    width: 50px;
+    height: 1.5rem !important ;
 }
 
-.input-field-servings
+.input-field label
 {
-    
-    position: absolute;
-    width: 50px;
-    background-color: cadetblue;
+    left:0px !important;
+    transform: translateY(0px);
 }
+.input-field>.active
+{
+    padding-bottom:3px  !important;
+    border:none;
+}
+
 
 .icon
 {
