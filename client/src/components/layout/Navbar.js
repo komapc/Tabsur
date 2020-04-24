@@ -30,7 +30,7 @@ class Navbar extends Component {
               <Link
               to="/notifications"
             >
-                <img className="navbar-icons" src={notification} alt={"..."}/>
+                <img className="navbar-icons" src={notification} alt={"Notifications"}/>
                 </Link> 
             </span>
             <span

@@ -185,11 +185,16 @@ ul li span {
 .menu-hidden
 {
     position: fixed;
-    right:-10px;
+    bottom: 56px;
     height: 91%;
+    right:-10px;
     width: 0px;
     transition: 0.2s;
     top: 0px;
+    padding-top: 56px;
+}
+.menu-hidden img{
+    display: none;
 }
 .menu:hover {
     color: black;
@@ -369,6 +374,13 @@ input
     border:none;
 }
 
+.menu-close
+{
+    position: absolute;
+    top:14px;
+    right:10px;
+    height:30px;
+}
 
 .icon
 {
