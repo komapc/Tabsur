@@ -7,7 +7,6 @@ class Menu extends Component {
 
   constructor(props) {
     super(props);
-    console.log("MENU CONSTRUCTOR");
     this.state = {
       visible: this.props.visible,
       onItemClicked:this.props.onItemClicked,
