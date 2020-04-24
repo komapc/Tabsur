@@ -4,17 +4,25 @@ import sandwich from "../../resources/menu.svg"
 import search from "../../resources/search.svg" 
 import notification from "../../resources/notification.svg" 
 import Menu from "./Menu.js"
+import Notifications from "./Notifications";
 class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible:false
+      visible:false,
+      showMenu: false,
+      showNotifications: false
     };
   }
 
   openMenu = () =>
   {
     this.setState({showMenu: true});
+  }
+
+  openNotifications = () =>
+  {
+    this.setState({showNotifications: true});
   }
   render() {
     return (
@@ -26,16 +34,12 @@ class Navbar extends Component {
             >
                 <img className="navbar-icons" src={search} alt={"meals list"}/> 
             </Link>
-            <span> 
-              <Link
-              to="/notifications"
-            >
-                <img className="navbar-icons" src={notification} alt={"Notifications"}/>
-                </Link> 
-            </span>
             <span
-              onClick={this.openMenu}
-            >
+                onClick={this.openNotifications} >
+                <img className="navbar-icons" src={notification} alt={"Notifications"}/>
+              </span>
+            <span
+              onClick={this.openMenu}>
                 <img className="navbar-icons" src={sandwich} alt={"..."}/> 
             </span>
            
@@ -44,7 +48,11 @@ class Navbar extends Component {
         <div> 
           <Menu 
             visible={this.state.showMenu} 
-            onItemClicked={()=>{this.setState({showMenu: false})}} />          
+            onItemClicked={()=>{this.setState({showMenu: false})}} />
+            
+          <Notifications 
+            visible={this.state.showNotifications} 
+            onItemClicked={()=>{this.setState({showNotifications: false})}} />
          </div> 
       </div>
     );
