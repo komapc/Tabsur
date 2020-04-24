@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { logoutUser } from "../../actions/authActions";
-import store from "../../store";
 import menu from "../../resources/menu.svg" 
 class Notifications extends Component {
 
@@ -18,7 +17,7 @@ class Notifications extends Component {
   render() {
     const visible = this.props.visible;
     return (
-      <div className={visible ? "menu" : "menu-hidden"}>
+      <div className={visible ? "notes" : "notes-hidden"}>
         <div><img  className="menu-close" src={menu} onClick={this.closeMenu}/></div>
         No Notifications
       </div>
