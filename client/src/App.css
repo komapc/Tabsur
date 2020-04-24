@@ -200,6 +200,38 @@ ul li span {
     color: black;
 }
 
+.notes
+{
+    background-color:#BAE2A6;
+    position: fixed;
+    right:0px;
+    bottom: 56px;
+    height: 91%;
+    width: 50%;
+    font-size: 150%;
+    color: white;
+    transition: 0.2s;
+    top: 0px;
+    padding-top: 56px;
+}
+.notes-hidden
+{
+    position: fixed;
+    bottom: 56px;
+    height: 91%;
+    right:-10px;
+    width: 0px;
+    transition: 0.2s;
+    top: 0px;
+    padding-top: 56px;
+}
+.notes-hidden img{
+    display: none;
+}
+.notes:hover {
+    color: black;
+}
+
 .button {
     background-color:#f75c06;
     width: 40%;
