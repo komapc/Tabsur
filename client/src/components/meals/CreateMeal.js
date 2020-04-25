@@ -88,7 +88,7 @@ class CreateMeal extends Component {
             <span><img className="meal-info-icons" src={dateIcon} alt="date" /></span>
             <span><DatePicker className="picker" mode="date"/></span>
             <span>
-              <TimePicker className="time-picker" disableClock="true" clockIcon="null" maxDetail="minute"/>
+              <TimePicker className="time-picker"  clockIcon="null" maxDetail="minute"/>
             </span>
           </div>
 
