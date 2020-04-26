@@ -50,7 +50,10 @@ router.post("/register", async (req, response) => {
         client.query('INSERT INTO users (name, email, password, location, address)' +
           'VALUES ($1, $2, $3, $4, $5)',
           [newUser.name, newUser.email, hash, `33,33`, 'address'])
-          .then(user => { return response.status(201).json(newUser); })
+          .then(user => {       
+            client.end();
+            return response.status(201).json(newUser); 
+          })
           .catch(err => { console.log(err); return response.status(500).json(newUser); });
         // TODO: fix user id
       });
