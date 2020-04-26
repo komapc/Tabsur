@@ -52,7 +52,7 @@ router.post("/register", async (req, response) => {
           [newUser.name, newUser.email, hash, `33,33`, 'address'])
           .then(user => {       
             client.end();
-            return response.status(201).json(newUser); 
+            return response.status(201).json(user); 
           })
           .catch(err => { console.log(err); return response.status(500).json(newUser); });
         // TODO: fix user id
