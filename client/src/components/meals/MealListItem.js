@@ -80,7 +80,7 @@ class MealListItem extends React.Component {
     return (
       <div className="meal_props" >
         <span className="meal-props-left">
-          <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal._id}
+          <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal.id}
             alt="Meal" className="meal_image" />
           <div className="meal-dishes-div">
             <img className="meal-info-icons" src={dishes} alt={"number of portions"} />

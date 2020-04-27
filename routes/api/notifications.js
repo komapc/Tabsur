@@ -10,17 +10,43 @@ if (process.env.NODE_ENV === "debug")
 }
 
 // @route GET api/notifications/get
-// @desc get public user properties
+// @desc get list og user's notifications
 // @access Public
 router.get("/get/:id", async (req, response)=> {
   console.log("get notifications " + req.params.id);
-  // Find the user
   const client = new Client(currentConfig);
   await client.connect();
-  await client.query(`SELECT * FROM  notifications WHERE user_id=5`) //${req.params.id}
+  await client.query(`SELECT * FROM  notifications WHERE `+
+      `user_id=${req.params.id} AND status<3`)
     .then(resp => {
       console.log("got results " + JSON.stringify(resp.rows));
       response.json(resp.rows);
+      client.end();
+    })
+    .catch(err => 
+      {
+       console.log(err); 
+       client.end();
+       return response.status(500).json(err); 
+      });
+});
+
+
+// @route PUT api/notifications
+// @desc sets notification's status
+// @access Public!??
+router.put("/:id", async (req, response)=> {
+  const note=req.body;
+  console.log("change notification's status notifications " + 
+    req.params.id + " for " + JSON.stringify(note)); 
+  const client = new Client(currentConfig);
+  const query=`UPDATE notifications SET "status"=${note.status} WHERE "id"=${req.params.id}`;
+  console.log(query); 
+  await client.connect();
+  await client.query(query)
+    .then(resp => {
+      console.log("notification status done");
+      response.json("Done.");
       client.end();
     })
     .catch(err => 
