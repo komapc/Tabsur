@@ -18,21 +18,38 @@ router.get('/meal/:meal_id', function(req, res, next) {
 
 /* SAVE attend */
 router.post('/:id', async (req, response) => {
-  console.log("Attend,  " +currentConfig.user );
-  console.log("\n\nRequest: " + JSON.stringify(req.body));
   const attend = req.body;
+  var cache = [];
+
+  console.log("Attend, request: " + JSON.stringify(attend));
+  
   const client = new Client(currentConfig);
   await client.connect();
   
-  console.log("Attend: connected");
-  client.query('INSERT INTO attends ( meal_id, user_id, status)' +
-      'VALUES($1, $2, 0)',
-      [attend.meal_id, attend.user_id])
-  .catch(err => { 
-    console.log(err); 
-    return response.status(500).json("failed to attend: " + err); 
-  })
-  .then(answer => { return response.status(201).json(answer); });
+  client.query(`INSERT INTO attends ( meal_id, user_id, status) \
+      VALUES(${attend.meal_id}, ${attend.user_id}, 0)`)
+      .then
+      (
+        client.query('INSERT into notifications (meal_id, user_id, message_text, sender, note_type) \
+          VALUES ($1, $2, \'new guest whant to join your meal.\', 0, 5)',
+          [attend.meal_id, attend.user_id])
+          .catch(err => { 
+            console.log(err); 
+            client.end();
+            return response.status(500).json("failed to add notification: " + err); 
+            })
+          .then(answer => 
+          { 
+            client.end();
+            return response.status(201).json(answer); 
+          }
+        )
+      )
+      .catch(err => { 
+        console.log("Attend error" + err); 
+        client.end();
+        return response.status(500).json("failed to attend: " + err); 
+      });
 });
 
 /* UPDATE attend */
