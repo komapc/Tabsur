@@ -421,6 +421,6 @@ input
 
 .notification
 {
-    border:thin;
+    border:solid green;
     background-color: lawngreen;
 }
