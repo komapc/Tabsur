@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { logoutUser } from "../../actions/authActions";
+import config from "../../config";
+import { connect } from "react-redux";
+import axios from 'axios';
 import menu from "../../resources/menu.svg" 
 class Notifications extends Component {
 
@@ -9,8 +10,32 @@ class Notifications extends Component {
     this.state = {
       visible: this.props.visible,
       onItemClicked:this.props.onItemClicked,
+      notes: []
     };
   }
+
+  getNotifications = () =>
+  {
+    axios.get(`${config.SERVER_HOST}/api/notifications/get/` + this.props.auth.user.id)
+    .then(res => {
+      console.log(res.data);
+      this.setState({ notes: res.data });
+    }).catch(err =>{
+      console.log(err);
+    }); 
+  }
+  componentWillReceiveProps(nextProps) {
+    // You don't have to do this check first, but it can help prevent an unneeded render
+    if (nextProps.visible !== this.state.visible) {
+      //this.setState({ startTime: nextProps.startTime });
+      this.getNotifications();
+    }
+  }
+  
+  componentDidMount() {
+    this.getNotifications();
+  }
+
   closeMenu = () =>{
     this.state.onItemClicked();
   }
@@ -19,9 +44,21 @@ class Notifications extends Component {
     return (
       <div className={visible ? "notes" : "notes-hidden"}>
         <div><img  className="menu-close" src={menu} onClick={this.closeMenu}/></div>
-        No Notifications
+        {this.state.notes.map(note =>
+              <div key={note.id}>
+                <div className="notification">{note.message_text} </div>
+              </div>
+            )}
       </div>
     );
   }
 }
-export default Notifications;
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+
+});
+
+export default connect(
+  mapStateToProps,
+)(Notifications);

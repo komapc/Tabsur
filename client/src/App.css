@@ -418,3 +418,9 @@ input
 {
     width: 10px;
 }
+
+.notification
+{
+    border:thin;
+    background-color: lawngreen;
+}
