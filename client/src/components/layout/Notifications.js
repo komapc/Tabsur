@@ -24,6 +24,22 @@ class Notifications extends Component {
       console.log(err);
     }); 
   }
+
+  markAsRead = (id, status) =>
+  {
+    const note = {
+      status: status
+    };
+
+    axios.put(`${config.SERVER_HOST}/api/notifications/` + id, note)
+    .then(res => {
+      console.log(res.data);
+      this.setState({ notes: res.data });
+    }).catch(err =>{
+      console.log(err);
+    }); 
+  }
+
   componentWillReceiveProps(nextProps) {
     // You don't have to do this check first, but it can help prevent an unneeded render
     if (nextProps.visible !== this.state.visible) {
@@ -45,7 +61,7 @@ class Notifications extends Component {
       <div className={visible ? "notes" : "notes-hidden"}>
         <div><img  className="menu-close" src={menu} onClick={this.closeMenu}/></div>
         {this.state.notes.map(note =>
-              <div key={note.id}>
+              <div key={note.id} onClick={()=>this.markAsRead(note.id, 0)}>
                 <div className="notification">{note.message_text} </div>
               </div>
             )}
