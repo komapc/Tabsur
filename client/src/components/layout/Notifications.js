@@ -21,7 +21,6 @@ class NoteItem extends Component
     axios.put(`${config.SERVER_HOST}/api/notifications/` + note.id, note)
     .then(res => {
       console.log(res.data);
-      //this.setState({ notes: res.data });
     }).catch(err =>{
       console.log(err);
     }); 
@@ -30,8 +29,7 @@ class NoteItem extends Component
     const visible = this.props.visible;
     const note=this.props.note;
     return (
-      
-              <div key={note.id} onClick={()=>this.markAsRead(note, 2)}>
+              <div key={note.id} onClick={()=>this.markAsRead(note, 3)}>
                 <div className="notification">{note.message_text} </div>
               </div>
      
