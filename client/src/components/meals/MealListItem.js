@@ -6,7 +6,7 @@ import fullUp from "../../resources/full_up.svg";
 import hosted from "../../resources/host_meal.svg"
 import available from "../../resources/available_meal.svg"
 
-import { withRouter } from "react-router-dom";
+import { withRouter, useHistory   } from "react-router-dom";
 import { joinMeal } from "../../actions/mealActions"
 import { connect } from "react-redux";
 
@@ -67,6 +67,13 @@ class MealListItem extends React.Component {
     }
     return available;
   }
+  gotoMeal = (meal)=>
+  {
+    this.props.history.push({
+      pathname: '/Meal',
+      state: { meal:meal}});
+
+  }
 
   render() {
 
@@ -78,7 +85,7 @@ class MealListItem extends React.Component {
     const attendStateIcon = this.getMealIcon(meal, this.props.auth.user.id);
     const dat = dateFormat(new Date(meal.created_at), "dddd, mmmm dS, yyyy, hh:MM");
     return (
-      <div className="meal_props" >
+      <div className="meal_props" onClick={()=>{this.gotoMeal(meal)}}>
         <span className="meal-props-left">
           <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal.id}
             alt="Meal" className="meal_image" />
