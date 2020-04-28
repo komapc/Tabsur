@@ -3,6 +3,41 @@ import config from "../../config";
 import { connect } from "react-redux";
 import axios from 'axios';
 import menu from "../../resources/menu.svg" 
+
+class NoteItem extends Component
+{
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: this.props.visible,
+      note: this.props.note
+    };
+  }
+  
+  markAsRead = (note, status) =>
+  {
+    note.status = status;
+
+    axios.put(`${config.SERVER_HOST}/api/notifications/` + note.id, note)
+    .then(res => {
+      console.log(res.data);
+      //this.setState({ notes: res.data });
+    }).catch(err =>{
+      console.log(err);
+    }); 
+  }
+  render() {
+    const visible = this.props.visible;
+    const note=this.props.note;
+    return (
+      
+              <div key={note.id} onClick={()=>this.markAsRead(note, 2)}>
+                <div className="notification">{note.message_text} </div>
+              </div>
+     
+    );
+  }
+};
 class Notifications extends Component {
 
   constructor(props) {
@@ -25,25 +60,9 @@ class Notifications extends Component {
     }); 
   }
 
-  markAsRead = (id, status) =>
-  {
-    const note = {
-      status: status
-    };
-
-    axios.put(`${config.SERVER_HOST}/api/notifications/` + id, note)
-    .then(res => {
-      console.log(res.data);
-      this.setState({ notes: res.data });
-    }).catch(err =>{
-      console.log(err);
-    }); 
-  }
 
   componentWillReceiveProps(nextProps) {
-    // You don't have to do this check first, but it can help prevent an unneeded render
     if (nextProps.visible !== this.state.visible) {
-      //this.setState({ startTime: nextProps.startTime });
       this.getNotifications();
     }
   }
@@ -61,9 +80,7 @@ class Notifications extends Component {
       <div className={visible ? "notes" : "notes-hidden"}>
         <div><img  className="menu-close" src={menu} onClick={this.closeMenu}/></div>
         {this.state.notes.map(note =>
-              <div key={note.id} onClick={()=>this.markAsRead(note.id, 0)}>
-                <div className="notification">{note.message_text} </div>
-              </div>
+        <NoteItem   onClick={()=>this.markAsRead(note, 2)} note={note} visible={visible}></NoteItem>
             )}
       </div>
     );
