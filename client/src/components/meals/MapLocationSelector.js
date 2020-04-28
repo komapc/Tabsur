@@ -16,10 +16,10 @@ class MapLocationSelector extends Component {
         super(props);
         this.state = {
             defaultLocation: this.props.defaultLocation,
-            location:this.props.defaultLocation
+            location: this.props.defaultLocation
         };
     };
-    onMarkerDragEnd = (event) => {  
+    onMarkerDragEnd = (event) => {
         let lat = event.latLng.lat(),
             lng = event.latLng.lng();
         Geocode.fromLatLng(lat, lng).then(
@@ -59,33 +59,33 @@ class MapLocationSelector extends Component {
             );
     }
     addressClickHandle = () => {
-        alert()
         this.props.handleExit();
     }
 
     render() {
         return (
-            <span>
-                <div>
-                    <img onClick={this.props.addressClickHandle}
-                        className="icon" src={backArrowIcon} alt="<--"></img>
-                    <GooglePlacesAutocomplete
+            <span className="white">
+                <span className="autocomplete-bar">
+                    <img onClick={this.props.handleExit}
+                        className="autocomplete-icon" src={backArrowIcon} alt="<--"/>
+                    <GooglePlacesAutocomplete className="autocomplete-span"
                         onSelect={this.onAutoCompleteSelect}
                         initialValue={this.state.address}
                     />
-                </div>
+                </span>
 
                 <MapWithMarker
-                onDragEnd={this.onMarkerDragEnd}
-                    defaultLocation={{ 
-                        lng: this.state.defaultLocation.lng, 
-                        lat: this.state.defaultLocation.lat }}
-                        location={{
-                            lng: this.state.location.lng, 
-                            lat: this.state.location.lat 
-                        }}
+                    onDragEnd={this.onMarkerDragEnd}
+                    defaultLocation={{
+                        lng: this.state.defaultLocation.lng,
+                        lat: this.state.defaultLocation.lat
+                    }}
+                    location={{
+                        lng: this.state.location.lng,
+                        lat: this.state.location.lat
+                    }}
                     loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: `90%` }} />}
+                    containerElement={<div className="map-with-marker-container" />}
                     mapElement={<div style={{ height: `100%` }} />}
                     googleMapURL={`https://maps.googleapis.com/maps/api/js?libraries=places&key=${GOOGLE_MAPS_API_KEY}`}
                 />
