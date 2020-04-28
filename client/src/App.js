@@ -14,6 +14,7 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Meals from "./components/meals/Meals";
+import ShowMeal from "./components/meals/ShowMeal";
 import MealsMap from "./components/meals/MealsMap";
 import Attend from "./components/meals/Attend";
 import Create from "./components/meals/CreateMeal";
@@ -63,6 +64,7 @@ class App extends Component {
             <Route exact path="/" component={Meals} /> 
             <Switch>>
               <PrivateRoute exact path="/meals" component={Meals} />
+              <PrivateRoute exact path="/meal" component={ShowMeal} />
               <PrivateRoute exact path="/mealsMap" component={MealsMap} />
               <PrivateRoute exact path="/create" component={Create} />
               <PrivateRoute exact path="/myMeals" component={MyMeals} />
