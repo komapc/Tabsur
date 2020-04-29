@@ -12,9 +12,6 @@ const router = express.Router();
 // Load input validation
 const validateMealInput = require("../../validation/meal");
 
-// Load Meal model
-//const Meal = require("../../models/Meal")
-
 // @route GET api/meals/get
 // @desc get a meal list
 // @access Public
@@ -26,7 +23,7 @@ router.get("/get/:id", async  (req, response) =>
 
   const SQLquery=`SELECT (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), `+
   `(SELECT count (user_id) as "me" from attends where meal_id=m.id and attends.user_id=${req.params.id}),`+  
-	`m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id`;
+	`m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u on m.host_id = u.id`;
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
 
