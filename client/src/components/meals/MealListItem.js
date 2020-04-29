@@ -6,7 +6,7 @@ import fullUp from "../../resources/full_up.svg";
 import hosted from "../../resources/host_meal.svg"
 import available from "../../resources/available_meal.svg"
 
-import { withRouter, useHistory   } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { joinMeal } from "../../actions/mealActions"
 import { connect } from "react-redux";
 
@@ -72,9 +72,11 @@ class MealListItem extends React.Component {
     this.props.history.push({
       pathname: '/Meal',
       state: { meal:meal}});
-
   }
-
+  goToUser = (userId) =>
+  {
+    alert(userId);
+  }
   render() {
 
     const meal = this.state.meal;
@@ -96,7 +98,8 @@ class MealListItem extends React.Component {
         </span>
         <span >
           <img className="attend-button" src={attendStateIcon} alt={"attend"} onClick={this.handleAttend} />
-          <div className="meal-owner-div">by <span className="meal-owner">{meal.host_name}</span>
+          <div className="meal-owner-div">by <span className="meal-owner" 
+          onClick={()=>this.goToUser(meal.userId)}>{meal.host_name}</span>
           </div>
           <div className="meal-name" > {meal.name}</div>
           <div>
