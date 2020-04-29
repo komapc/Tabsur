@@ -67,15 +67,19 @@ class MealListItem extends React.Component {
     }
     return available;
   }
-  gotoMeal = (meal)=>
+  gotoMeal = (event, meal)=>
   {
+    alert("meal");
     this.props.history.push({
       pathname: '/Meal',
       state: { meal:meal}});
   }
-  goToUser = (userId) =>
+  goToUser = (event, host_id) =>
   {
-    alert(userId);
+    alert("user");
+    event.stopPropagation();
+    event.preventDefault();
+    this.props.history.push(`/user/${host_id}`);
   }
   render() {
 
@@ -87,7 +91,7 @@ class MealListItem extends React.Component {
     const attendStateIcon = this.getMealIcon(meal, this.props.auth.user.id);
     const dat = dateFormat(new Date(meal.created_at), "dddd, mmmm dS, yyyy, hh:MM");
     return (
-      <div className="meal_props" onClick={()=>{this.gotoMeal(meal)}}>
+      <div className="meal_props" onClick={(event)=>{this.gotoMeal(event, meal)}}>
         <span className="meal-props-left">
           <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal.id}
             alt="Meal" className="meal_image" />
@@ -97,9 +101,15 @@ class MealListItem extends React.Component {
           </div>
         </span>
         <span >
-          <img className="attend-button" src={attendStateIcon} alt={"attend"} onClick={this.handleAttend} />
+          
+        <span  className="attend-button">
+          <img 
+            src={attendStateIcon} 
+            alt={"attend"} 
+            onClick={this.handleAttend} />
+             </span>
           <div className="meal-owner-div">by <span className="meal-owner" 
-          onClick={()=>this.goToUser(meal.userId)}>{meal.host_name}</span>
+          onClick={(event)=>{this.goToUser(event, meal.host_id)}}>{meal.host_name}</span>
           </div>
           <div className="meal-name" > {meal.name}</div>
           <div>
