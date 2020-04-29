@@ -36,6 +36,7 @@ router.get("/get/:id", async  (req, response) =>
       client.end();
     })
     .catch(err => { 
+      client.end();
       console.log(err); 
       return response.status(500).json(err); });})
  
@@ -48,6 +49,7 @@ router.get("/get_my/:id", async (req, response) =>
   console.log("get meals by name: " + JSON.stringify(req.params)); 
   if (req.params.id == "undefined")
   {
+    client.end();
     console.log("error, empty id");
     response.status(400).json("Error in get_my: empty");
     return; 
@@ -65,8 +67,37 @@ router.get("/get_my/:id", async (req, response) =>
     })
     .catch(err => { 
       console.log(err); 
+      client.end();
       return response.status(500).json(err); });
 });
+
+// @route GET api/meals/get_users
+// @desc get a list of meals created by me
+// @access Public
+router.get("/get_users/:meal_id", async (req, response) => 
+{
+  const client = new Client(currentConfig);
+  console.log("get users by meal_id: " + JSON.stringify(req.params)); 
+  if (req.params.meal_id == "undefined")
+  {
+    console.log("error, empty id");
+    response.status(400).json("Error in get_my: empty");
+    return; 
+  }
+  const SQLquery=`SELECT * FROM attends WHERE meal_id=${req.params.meal_id}`;
+  console.log(SQLquery); 
+  await client.connect().catch(err =>{console.log("get_users: failed to connect.")});
+  client.query(SQLquery)
+    .then(resp=>{
+      response.json(resp.rows);
+      client.end();
+    })
+    .catch(err => { 
+      console.log(err); 
+      return response.status(500).json(err); }
+    )
+});
+
 
 // @route POST api/meals/addMeal
 router.post("/addMeal", async (req, response) => {
