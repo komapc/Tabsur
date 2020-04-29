@@ -33,7 +33,7 @@ class GuestList extends Component {
         {
            this.state.guests.map(guest =>
             <div key={guest.id}>
-              <Link to={`user\\${guest.user_id}`}> #{guest.name}</Link>
+              <Link to={`user/${guest.user_id}`}> #{guest.name}</Link>
             </div>
           )
         }
