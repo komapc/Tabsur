@@ -15,6 +15,7 @@ import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Meals from "./components/meals/Meals";
 import ShowMeal from "./components/meals/ShowMeal";
+import ShowUser from "./components/meals/ShowUser";
 import MealsMap from "./components/meals/MealsMap";
 import Attend from "./components/meals/Attend";
 import Create from "./components/meals/CreateMeal";
@@ -53,7 +54,7 @@ class App extends Component {
           <div className="App">
             <Helmet>
               <meta charSet="utf-8" />
-              <title>Coolanu - food sharing app</title>
+              <title>Coolanu - food sharing app or food sharing and social dinning</title>
               <link rel="canonical" href="http://coolanu.com" />
             </Helmet>
             <Navbar />
@@ -65,6 +66,7 @@ class App extends Component {
             <Switch>>
               <PrivateRoute exact path="/meals" component={Meals} />
               <PrivateRoute exact path="/meal" component={ShowMeal} />
+              <PrivateRoute exact path="/user/:id" component={ShowUser} />
               <PrivateRoute exact path="/mealsMap" component={MealsMap} />
               <PrivateRoute exact path="/create" component={Create} />
               <PrivateRoute exact path="/myMeals" component={MyMeals} />

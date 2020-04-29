@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addMeal, getMeals } from "../../actions/mealActions";
+import { addMeal } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
 import axios from 'axios';
 import config from "../../config";
@@ -28,12 +28,12 @@ class GuestList extends Component {
 
   render() {
     return (
-      <div >
+      <div className="main" >
         Guests list: 
         {
            this.state.guests.map(guest =>
             <div key={guest.id}>
-              <div> #{guest.user_name}</div>
+              <Link to={`ShowUser\\${guest.user_id}`}> #{guest.name}</Link>
             </div>
           )
         }
@@ -52,8 +52,8 @@ class ShowMeal extends Component {
   render() {
     return (
       <div className="main">
-      <MealListItem meal={this.state.meal} />
-      <GuestList mealId={this.state.meal.id}/>
+        <MealListItem meal={this.state.meal} />
+        <GuestList mealId={this.state.meal.id}/>
       </div>
     );
   }
@@ -64,6 +64,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps,
-  { addMeal }
 )(withRouter(ShowMeal));

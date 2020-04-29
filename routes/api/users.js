@@ -138,18 +138,23 @@ router.post("/login", async (req, response) => {
 router.get("/get/:id", async (req, response) => {
   // Find the user
   const client = new Client(currentConfig);
-  await client.connect();
-  await client.query('select * from  users where email = $1  limit 1',
-    [newReq.email])
-    //.then(user => {return response.status(201).json(newUser);})
+  await client.connect().catch(err => {
+   console.log(err); 
+   return response.status(500).json(err);
+  }
+   );
+  client.query(`SELECT id, name, 100 AS rate,
+    (SELECT COUNT (1) FROM meals WHERE host_id = 14) AS meals_created
+    FROM  users WHERE id = ${req.params.id}`)//
     .then(user => {
-      var payload = user.rows[0];
-      payload.email = null;
-      payload.password = null;
-
-      response.json(payload);
+      client.end();
+      response.json(user.rows);
     })
-    .catch(err => { console.log(err); return response.status(500).json("No user"); });
+    .catch(err => {
+        client.end();
+        console.log(err); 
+        return response.status(500).json("No user"); }
+       );
 });
 
 
