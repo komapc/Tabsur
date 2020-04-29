@@ -3,17 +3,40 @@ import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addMeal, getMeals } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
+import axios from 'axios';
+import config from "../../config";
 
 class GuestList extends Component {
   constructor(props) {
     super(props);
-    this.state = props;
-    this.state.guests=[];
+    this.state = 
+    { 
+      guests:[]
+    }
   }
+  componentDidMount() {
+    axios.get(`${config.SERVER_HOST}/api/meals/get_users/${this.props.mealId}`)
+      .then(res => {
+        console.log(res.data);
+        this.setState({ guests: res.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+
   render() {
     return (
       <div >
-        Guests list
+        Guests list: 
+        {
+           this.state.guests.map(guest =>
+            <div key={guest.id}>
+              <div> #{guest.user_name}</div>
+            </div>
+          )
+        }
       </div>
     );
   }
@@ -29,8 +52,8 @@ class ShowMeal extends Component {
   render() {
     return (
       <div className="main">
-      <MealListItem meal={this.props.meal} />
-      <GuestList mealId={this.props.meal.id}/>
+      <MealListItem meal={this.state.meal} />
+      <GuestList mealId={this.state.meal.id}/>
       </div>
     );
   }

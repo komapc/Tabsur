@@ -84,7 +84,9 @@ router.get("/get_users/:meal_id", async (req, response) =>
     response.status(400).json("Error in get_my: empty");
     return; 
   }
-  const SQLquery=`SELECT * FROM attends WHERE meal_id=${req.params.meal_id}`;
+
+  const SQLquery=`SELECT a.user_id, u.name FROM attends as a  
+   INNER JOIN users as u ON a.user_id=u.id WHERE meal_id=${req.params.meal_id}`;
   console.log(SQLquery); 
   await client.connect().catch(err =>{console.log("get_users: failed to connect.")});
   client.query(SQLquery)
