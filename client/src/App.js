@@ -16,7 +16,7 @@ import PrivateRoute from "./components/private-route/PrivateRoute";
 import Meals from "./components/meals/Meals";
 import ShowMeal from "./components/meals/ShowMeal";
 import ShowUser from "./components/meals/ShowUser";
-import MealsMap from "./components/meals/MealsMap";
+import MealMap from "./components/meals/MealMap";
 import Attend from "./components/meals/Attend";
 import Create from "./components/meals/CreateMeal";
 import About from "./components/about/About"
@@ -67,7 +67,7 @@ class App extends Component {
               <PrivateRoute exact path="/meals" component={Meals} />
               <PrivateRoute exact path="/meal" component={ShowMeal} />
               <PrivateRoute exact path="/user/:id" component={ShowUser} />
-              <PrivateRoute exact path="/mealsMap" component={MealsMap} />
+              <PrivateRoute exact path="/mealMap" component={MealMap} />
               <PrivateRoute exact path="/create" component={Create} />
               <PrivateRoute exact path="/myMeals" component={MyMeals} />
               <PrivateRoute exact path="/attend/:id" component={Attend} />

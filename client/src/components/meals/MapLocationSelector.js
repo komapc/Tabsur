@@ -64,7 +64,7 @@ class MapLocationSelector extends Component {
 
     render() {
         return (
-            <span className="white">
+            <span className="   ">
                 <span className="autocomplete-bar">
                     <img onClick={this.props.handleExit}
                         className="autocomplete-icon" src={backArrowIcon} alt="<--"/>
