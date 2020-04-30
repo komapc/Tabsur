@@ -18,7 +18,7 @@ router.get("/get_followers/:id", async  (req, response) =>
   console.log(`get followers for user ${req.params.id}`);
   const meal = req.body;
 
-  const SQLquery=`SELECT followers FROM follow WHERE followie = ${req.params.id}`;
+  const SQLquery=`SELECT follower FROM follow WHERE followie = ${req.params.id}`;
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
 
@@ -46,11 +46,7 @@ router.get("/get_followies/:id", async (req, response) =>
     response.status(400).json("Error in get followies: empty");
     return; 
   }
-  const meal = req.body;
-  const SQLquery=`SELECT (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), `+
-  `(SELECT count (user_id) as "me" from attends where meal_id=m.id and attends.user_id=${req.params.id}),`+  
-  `m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id ` +
-  ` WHERE host_id=${req.params.id}`;
+  const SQLquery=`SELECT follower FROM follow WHERE followie = ${req.params.id}`;
   await client.connect();
   client.query(SQLquery)
     .then(resp=>{
@@ -63,24 +59,20 @@ router.get("/get_followies/:id", async (req, response) =>
       return response.status(500).json(err); });
 });
 
-// @route GET api/meals/get_users
-// @desc get a list of meals created by me
-// @access Public
-router.get("/get_users/:meal_id", async (req, response) => 
-{
+// @route POST api/meals/addMeal
+router.post("/follower/:id", async (req, response) => {
   const client = new Client(currentConfig);
-  console.log("get users by meal_id: " + JSON.stringify(req.params)); 
-  if (req.params.meal_id == "undefined")
-  {
-    console.log("error, empty id");
-    response.status(400).json("Error in get_my: empty");
-    return; 
-  }
-
-  const SQLquery=`SELECT a.user_id, u.name FROM attends as a  
-   INNER JOIN users as u ON a.user_id=u.id WHERE meal_id=${req.params.meal_id}`;
-  console.log(SQLquery); 
-  await client.connect().catch(err =>{console.log("get_users: failed to connect.")});
+  const follower=req.params.id;
+  const followie=req.body.followie;
+  const status = req.body.status;
+  const SQLquery=`
+    INSERT INTO follow (follower, followie, status)
+    VALUES (${follower}, ${followie}, ${status}) 
+    ON CONFLICT (follower, followie) 
+    DO UPDATE SET 
+    status = ${status} WHERE follow.follower=${follower} AND follow.followie = ${followie}`;
+  console.log(JSON.stringify(SQLquery));
+  await client.connect();
   client.query(SQLquery)
     .then(resp=>{
       response.json(resp.rows);
@@ -88,72 +80,8 @@ router.get("/get_users/:meal_id", async (req, response) =>
     })
     .catch(err => { 
       console.log(err); 
-      return response.status(500).json(err); }
-    )
-});
-
-
-// @route POST api/meals/addMeal
-router.post("/addMeal", async (req, response) => {
-    // Form validation
-    const client = new Client(currentConfig);
-    const { errors, isValid } = validateMealInput(req.body);
-
-    // Check validation
-    if (!isValid) {
-        return response.status(400).json(errors);
-    }
-    try{
-      
-    console.log("addMeal - start,  " + currentConfig );
-    const meal = req.body;
-    await client.connect();
-    
-    console.log("connected");
-    await client.query('INSERT INTO meals (name, type, location, address, guest_count, host_id)' +
-        'VALUES($1, $2, $3, $4, $5, $6)',
-        [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`, meal.address, meal.guestCount, meal.host_id]);
-    // TODO: fix user id
-      
-    }
-    catch(e)
-    {
-      console.log("exception catched: " + e);
-    }
-    console.log("query done");
-    await client.end();
-    return response.status(201).json(req.body);
-});
-
-
-// @route DELETE api/meals/delete:id
-// @desc delete a meal
-// @access Public (?)
-
-router.get("/delete/:id",async(req, res) => 
-{ 
-//todo
-
-const client = new Client(currentConfig);
-  await client.connect();
-
-  await client.query('delete from meals where id=$1',
-      [req.id]);
-  // TODO: fix user id
-
-  client.end();
-
-  // Find meal by name
-  myCursor = Meal.delete(function(err, meals) 
-  {
-    if (err) 
-    {
-        console.log(err);
-    } else 
-    {
-        res.json(meals);
-    }
-  })
+      client.end();
+      return response.status(500).json(err); });
 });
 
 module.exports = router;

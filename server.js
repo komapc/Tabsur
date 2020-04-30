@@ -4,9 +4,10 @@ const path = require("path");
 const cors = require('cors');
 
 const users = require("./routes/api/users");
-const meals= require("./routes/api/meals");
-const attends= require("./routes/api/attends");
-const notifications= require("./routes/api/notifications");
+const meals = require("./routes/api/meals");
+const follow = require("./routes/api/follow");
+const attends = require("./routes/api/attends");
+const notifications = require("./routes/api/notifications");
 const app = express();
 
 app.use(cors());
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use("/api/users", users);
 app.use("/api/meals", meals);
 app.use("/api/attends", attends);
+app.use("/api/follow", follow);
 app.use("/api/notifications", notifications);
 
 
