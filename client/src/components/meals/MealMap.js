@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import axios from 'axios';
-import MealsMapShow from './MealsMapShow';
+import MealMapShow from './MealMapShow';
 import BottomMealInfo from './BottomMealInfo'
 import config from "../../config";
 const defaultLocation = { lng: 34.808, lat: 32.09 };
-class MealsMap extends Component {
+class MealMap extends Component {
 
   constructor(props) {
     super(props);
@@ -43,7 +43,7 @@ class MealsMap extends Component {
      
       <div className={"main " + (this.state.isSelected ? 'meals-map-info' : 'meals-map')}>
          
-        <MealsMapShow
+        <MealMapShow
           meals={this.state.meals}
           defaultLocation={defaultLocation}
           onMarkerClick={this.onMarkerClicked}
@@ -70,4 +70,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getMeals }
-)(MealsMap);
+)(MealMap);

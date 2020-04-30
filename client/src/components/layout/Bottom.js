@@ -19,7 +19,7 @@ class Bottom extends Component {
 
       <div className="footer">
         <nav>
-            <NavLink to="/MealsMap" activeClassName="active">
+            <NavLink to="/MealMap" activeClassName="active">
               <img className="footer-icons" src={map} alt={"meals map"} /></NavLink >
             <NavLink to="/Meals" activeClassName="active">
               <img className="footer-icons" src={list} alt={"meals list"} /> </NavLink >

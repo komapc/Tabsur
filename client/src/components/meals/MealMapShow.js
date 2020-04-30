@@ -10,7 +10,7 @@ import touched from "../../resources/touched_meal.svg"
 export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
 Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
-const MealsMapShow = React.memo(({ meals, defaultLocation, onMarkerClick, onMapClick, userId, selectedMeal }) => {
+const MealMapShow = React.memo(({ meals, defaultLocation, onMarkerClick, onMapClick, userId, selectedMeal }) => {
     const getMealIcon = (meal, userId, selectedMeal) => {
         console.log(JSON.stringify(meal));
         console.log(selectedMeal);
@@ -70,4 +70,4 @@ const MealsMapShow = React.memo(({ meals, defaultLocation, onMarkerClick, onMapC
     )
 });
 
-export default MealsMapShow;
+export default MealMapShow;
