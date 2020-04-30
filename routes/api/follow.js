@@ -9,21 +9,16 @@ const {Client}=require("pg");
 const express = require("express");
 const router = express.Router();
 
-// Load input validation
-const validateMealInput = require("../../validation/meal");
-
-// @route GET api/meals/get
+// @route GET api/follow/get
 // @desc get a meal list
 // @access Public
-router.get("/get/:id", async  (req, response) => 
+router.get("/get_followers/:id", async  (req, response) => 
 {
   const client = new Client(currentConfig);
-  console.log(`get meals for user ${req.params.id}`);
+  console.log(`get followers for user ${req.params.id}`);
   const meal = req.body;
 
-  const SQLquery=`SELECT (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), `+
-  `(SELECT count (user_id) as "me" from attends where meal_id=m.id and attends.user_id=${req.params.id}),`+  
-	`m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u on m.host_id = u.id`;
+  const SQLquery=`SELECT followers FROM follow WHERE followie = ${req.params.id}`;
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
 
@@ -40,15 +35,15 @@ router.get("/get/:id", async  (req, response) =>
 // @route GET api/meals/get_my
 // @desc get a list of meals created by me
 // @access Public
-router.get("/get_my/:id", async (req, response) => 
+router.get("/get_followies/:id", async (req, response) => 
 {
   const client = new Client(currentConfig);
-  console.log("get meals by name: " + JSON.stringify(req.params)); 
+  console.log("get followies by user id: " + JSON.stringify(req.params)); 
   if (req.params.id == "undefined")
   {
     client.end();
     console.log("error, empty id");
-    response.status(400).json("Error in get_my: empty");
+    response.status(400).json("Error in get followies: empty");
     return; 
   }
   const meal = req.body;

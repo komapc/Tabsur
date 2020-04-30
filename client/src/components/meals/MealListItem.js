@@ -69,14 +69,12 @@ class MealListItem extends React.Component {
   }
   gotoMeal = (event, meal)=>
   {
-    alert("meal");
     this.props.history.push({
       pathname: '/Meal',
       state: { meal:meal}});
   }
   goToUser = (event, host_id) =>
   {
-    alert("user");
     event.stopPropagation();
     event.preventDefault();
     this.props.history.push(`/user/${host_id}`);
@@ -107,7 +105,7 @@ class MealListItem extends React.Component {
             src={attendStateIcon} 
             alt={"attend"} 
             onClick={this.handleAttend} />
-             </span>
+            attend</span>
           <div className="meal-owner-div">by <span className="meal-owner" 
           onClick={(event)=>{this.goToUser(event, meal.host_id)}}>{meal.host_name}</span>
           </div>

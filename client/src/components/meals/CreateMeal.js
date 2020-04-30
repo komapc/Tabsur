@@ -140,7 +140,7 @@ class CreateMeal extends Component {
         {
           // TODO: use user current location
         }
-        <div className={this.state.showMap ? 'createMealMap' : 'createMealsMap-hidden'}>
+        <div className={this.state.showMap ? 'createMealMap' : 'createMealMap-hidden'}>
           <MapLocationSelector
             handleLocationUpdate={this.onLocationUpdate}
             // address={this.state.address}
