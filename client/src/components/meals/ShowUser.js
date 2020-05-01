@@ -6,25 +6,23 @@ import MealListItem from "./MealListItem";
 import axios from 'axios';
 import config from "../../config";
 
-
 class ShowUser extends Component {
 
   constructor(props) {
     super(props);
-    this.state={
-      id : this.props.match.params.id,
+    this.state = {
+      id: this.props.match.params.id,
       user: {},
       ...props
     };
   }
 
-  
   componentDidMount() {
     axios.get(`${config.SERVER_HOST}/api/users/get/${this.state.id}`)
       .then(res => {
         console.log(res.data);
         this.setState({ user: res.data[0] });
-        
+
         console.log(res.data);
       })
       .catch(err => {
@@ -32,12 +30,10 @@ class ShowUser extends Component {
       });
   }
 
-// };
-
   render() {
     return (
       <div className="main">
-        <div>Info about user {this.state.user.name}</div>
+        <div>Info about user <span className="meal-name">{this.state.user.name}</span></div>
         <div>Meals created: {this.state.user.meals_created}</div>
         <div>Rate {this.state.user.rate}/100</div>
       </div>

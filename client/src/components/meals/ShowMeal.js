@@ -11,18 +11,40 @@ class GuestList extends Component {
     super(props);
     this.state = 
     { 
-      guests:[]
+      guests:[],
+      followies:[],
+      userId:this.props.userId
     }
   }
-  componentDidMount() {
+
+  getGuests = ()=>
+  {
     axios.get(`${config.SERVER_HOST}/api/meals/get_users/${this.props.mealId}`)
-      .then(res => {
-        console.log(res.data);
-        this.setState({ guests: res.data });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    .then(res => {
+      console.log(res.data);
+      this.setState({ guests: res.data });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
+  getFollowies = ()=>
+  {
+    const user_id = this.state.userId;
+    axios.get(`${config.SERVER_HOST}/api/follow/followies/${user_id}`)
+    .then(res => {
+      console.log(res.data);
+      this.setState({ followies: res.data });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+  componentDidMount() {
+    this.getFollowies();
+    this.getGuests();
+
   }
 
 
@@ -53,7 +75,7 @@ class ShowMeal extends Component {
     return (
       <div className="main">
         <MealListItem meal={this.state.meal} />
-        <GuestList mealId={this.state.meal.id}/>
+        <GuestList mealId={this.state.meal.id} userId = {this.props.auth.user.id}/>
       </div>
     );
   }
@@ -64,4 +86,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
+  mapStateToProps
 )(withRouter(ShowMeal));
