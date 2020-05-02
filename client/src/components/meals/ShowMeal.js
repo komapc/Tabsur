@@ -13,6 +13,7 @@ class GuestList extends Component {
     { 
       guests:[],
       followies:[],
+      sorted:[], //list of guest with followies first
       userId:this.props.userId
     }
   }
@@ -34,7 +35,7 @@ class GuestList extends Component {
     const user_id = this.state.userId;
     axios.get(`${config.SERVER_HOST}/api/follow/followies/${user_id}`)
     .then(res => {
-      console.log(res.data);
+      console.log("followies: " + res.data);
       this.setState({ followies: res.data });
     })
     .catch(err => {
@@ -44,16 +45,18 @@ class GuestList extends Component {
   componentDidMount() {
     this.getFollowies();
     this.getGuests();
-
   }
 
 
   render() {
+    let  sorted = this.state.guests;
+    //sorted = sorted.concat(this.state.guests);
+    //const uniq = [...new Set(sorted)];
     return (
       <div className="main" >
         Guests list: 
         {
-           this.state.guests.map(guest =>
+           sorted.map(guest =>
             <div key={guest.id}>
               <Link to={`user/${guest.user_id}`}> #{guest.name}</Link>
             </div>
