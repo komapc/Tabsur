@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addMeal, getMeals } from "../../actions/mealActions";
-import MealListItem from "./MealListItem";
 import axios from 'axios';
 import config from "../../config";
 
@@ -13,16 +11,25 @@ class ShowUser extends Component {
     this.state = {
       id: this.props.match.params.id,
       user: {},
+      followStatus: 0,
       ...props
     };
   }
 
   componentDidMount() {
-    axios.get(`${config.SERVER_HOST}/api/users/get/${this.state.id}`)
+    this.getUserInfo();
+    this.getFollowStatus();
+  }
+
+  getFollowStatus() {
+    const userId = this.props.auth.user.id;
+    axios.get(`${config.SERVER_HOST}/api/follow/followies/${userId}`)
       .then(res => {
         console.log(res.data);
-        this.setState({ user: res.data[0] });
-
+        const followies = res.data[0];
+        const found = followies.find(element => element.followie===userId);
+        const followStatus = found?found.followStatus:0;
+        this.setState({ followStatus: followStatus });
         console.log(res.data);
       })
       .catch(err => {
@@ -30,17 +37,53 @@ class ShowUser extends Component {
       });
   }
 
+  follow(followie, status) {
+    const userId = this.props.auth.user.id;
+    const body = { followie: followie, status: status };
+    axios.post(`${config.SERVER_HOST}/api/follow/follower/${userId}`, body)
+      .then(res => {
+        console.log(res.data);
+        //change in DB, than change state
+        this.setState({followStatus:status});
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  getUserInfo() {
+    axios.get(`${config.SERVER_HOST}/api/users/get/${this.state.id}`)
+      .then(res => {
+        console.log(res.data);
+        this.setState({ user: res.data[0] });
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+
+
   render() {
     return (
       <div className="main">
         <div>Info about user <span className="meal-name">{this.state.user.name}</span></div>
         <div>Meals created: {this.state.user.meals_created}</div>
         <div>Rate {this.state.user.rate}/100</div>
+        <div>You follow him? {this.state.followStatus}</div>
+        <button onClick={()=>this.follow(this.state.user.id, 3)}>Follow</button>
+        <button onClick={()=>this.follow(this.state.user.id, 0)}>UnFollow</button>
       </div>
     );
   }
 }
 
 
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
 export default connect(
+  mapStateToProps
 )(withRouter(ShowUser));
