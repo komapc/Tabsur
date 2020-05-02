@@ -22,31 +22,35 @@ class ShowUser extends Component {
   }
 
   getFollowStatus() {
-    const userId = this.props.auth.user.id;
-    axios.get(`${config.SERVER_HOST}/api/follow/followies/${userId}`)
+    const myUserId = this.props.auth.user.id;
+    const thisUserId = this.state.id;  
+    axios.get(`${config.SERVER_HOST}/api/follow/get_followers/${thisUserId}`)
       .then(res => {
-        console.log(res.data);
-        const followies = res.data[0];
-        const found = followies.find(element => element.followie===userId);
+        console.log('getFollowStatus: ' + JSON.stringify(res.data));
+        const followies = res.data;
+        const found = followies.find(element => element.follower===myUserId);
         const followStatus = found?found.followStatus:0;
         this.setState({ followStatus: followStatus });
         console.log(res.data);
       })
       .catch(err => {
+        this.setState({followStatus:-1});
         console.log(err);
       });
   }
 
-  follow(followie, status) {
-    const userId = this.props.auth.user.id;
-    const body = { followie: followie, status: status };
-    axios.post(`${config.SERVER_HOST}/api/follow/follower/${userId}`, body)
+  follow(status) {
+    const myUserId = this.props.auth.user.id;
+    const thisUserId = this.state.id; 
+    const body = { followie: thisUserId, status: status };
+    axios.post(`${config.SERVER_HOST}/api/follow/follower/${myUserId}`, body)
       .then(res => {
         console.log(res.data);
         //change in DB, than change state
         this.setState({followStatus:status});
       })
       .catch(err => {
+        this.setState({followStatus:-1});
         console.log(err);
       });
   }
@@ -63,8 +67,6 @@ class ShowUser extends Component {
       });
   }
 
-
-
   render() {
     return (
       <div className="main">
@@ -72,8 +74,8 @@ class ShowUser extends Component {
         <div>Meals created: {this.state.user.meals_created}</div>
         <div>Rate {this.state.user.rate}/100</div>
         <div>You follow him? {this.state.followStatus}</div>
-        <button onClick={()=>this.follow(this.state.user.id, 3)}>Follow</button>
-        <button onClick={()=>this.follow(this.state.user.id, 0)}>UnFollow</button>
+        <button onClick={()=>this.follow(3)}>Follow</button>
+        <button onClick={()=>this.follow(0)}>UnFollow</button>
       </div>
     );
   }
