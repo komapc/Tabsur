@@ -21,9 +21,10 @@ router.get("/get/:id", async  (req, response) =>
   console.log(`get meals for user ${req.params.id}`);
   const meal = req.body;
 
-  const SQLquery=`SELECT (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), `+
-  `(SELECT count (user_id) as "me" from attends where meal_id=m.id and attends.user_id=${req.params.id}),`+  
-	`m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u on m.host_id = u.id`;
+  const SQLquery=`SELECT (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), 
+  (((SELECT status AS attend_status FROM attends WHERE meal_id=m.id AND attends.user_id=${req.params.id}) UNION 
+  (SELECT -1 AS attend_status) ORDER BY attend_status DESC)  LIMIT 1),
+	m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u on m.host_id = u.id`;
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
 
@@ -52,10 +53,9 @@ router.get("/get_my/:id", async (req, response) =>
     return; 
   }
   const meal = req.body;
-  const SQLquery=`SELECT (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), `+
-  `(SELECT count (user_id) as "me" from attends where meal_id=m.id and attends.user_id=${req.params.id}),`+  
-  `m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id ` +
-  ` WHERE host_id=${req.params.id}`;
+  const SQLquery=`SELECT (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), 
+  0 as attend_status, m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id 
+  WHERE host_id=${req.params.id}`;
   await client.connect();
   client.query(SQLquery)
     .then(resp=>{
@@ -69,7 +69,7 @@ router.get("/get_my/:id", async (req, response) =>
 });
 
 // @route GET api/meals/get_users
-// @desc get a list of meals created by me
+// @desc get a list of users attending a meal
 // @access Public
 router.get("/get_users/:meal_id", async (req, response) => 
 {
@@ -96,7 +96,6 @@ router.get("/get_users/:meal_id", async (req, response) =>
       return response.status(500).json(err); }
     )
 });
-
 
 // @route POST api/meals/addMeal
 router.post("/addMeal", async (req, response) => {
