@@ -32,25 +32,29 @@ class MealListItem extends React.Component {
     const status=3; //attend
     const user_id = this.state.auth.user.id;
     if (this.state.meal.guest_count <= this.state.meal.Atendee_count) {
+      alert ("Full-ap, you cannot attend this meal.");
       return;
     }
 
     if (this.state.meal.host_id === this.state.auth.user.id) {
+      alert ("You cannot attend your own meal.");  
       return;
     }
 
-    if (this.state.meal.me > 0) {
+    if (this.state.meal.status > 0) {
+      alert ("You already attend this meal.");
       return;
     }
     console.log("handleAttend: " + JSON.stringify(this.state.meal) + ", " + user_id);
     const attend = { user_id: user_id, meal_id: this.props.meal.id, status: status };
-    this.props.joinMeal(attend, user_id);
+    this.props.joinMeal(attend, user_id, status);
     this.setState((prevState => {
       let meal = Object.assign({}, prevState.meal);  // creating copy 
       meal.Atendee_count++;
-      meal.me = 1;
+      meal.status = status;
       return { meal };
     }));
+    alert ("Thank you for attending.");
   }
 
   getMealIcon = (meal, userId) => {
@@ -63,7 +67,7 @@ class MealListItem extends React.Component {
     if (meal.host_id === userId) {
       return hosted;
     }
-    if (meal.me > 0) {
+    if (meal.status > 0) {
       return attended;
     }
     return available;
