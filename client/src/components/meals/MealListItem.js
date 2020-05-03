@@ -29,6 +29,7 @@ class MealListItem extends React.Component {
   }
   
   handleAttend = () => {
+    const status=3; //attend
     const user_id = this.state.auth.user.id;
     if (this.state.meal.guest_count <= this.state.meal.Atendee_count) {
       return;
@@ -42,7 +43,7 @@ class MealListItem extends React.Component {
       return;
     }
     console.log("handleAttend: " + JSON.stringify(this.state.meal) + ", " + user_id);
-    const attend = { user_id: user_id, meal_id: this.props.meal.id };
+    const attend = { user_id: user_id, meal_id: this.props.meal.id, status: status };
     this.props.joinMeal(attend, user_id);
     this.setState((prevState => {
       let meal = Object.assign({}, prevState.meal);  // creating copy 
@@ -67,7 +68,7 @@ class MealListItem extends React.Component {
     }
     return available;
   }
-  gotoMeal = (event, meal)=>
+  gotoMeal = ( event, meal)=>
   {
     this.props.history.push({
       pathname: '/Meal',
