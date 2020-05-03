@@ -113,6 +113,7 @@ class MealListItem extends React.Component {
   render() {
 
     const meal = this.state.meal;
+    const owner = meal.host_id === this.props.auth.user.id? "YOU":meal.host_name;
     console.log("MealListItem: " + JSON.stringify(meal));
     if (Object.keys(meal).length === 0) {
       return <div></div>
@@ -129,22 +130,21 @@ class MealListItem extends React.Component {
           </div>
         </span>
         <span>
-
-          <AttendButton meal={meal} auth={this.props.auth} />
-          <div className="meal-owner-div">by <span className="meal-owner"
-            onClick={(event) => { this.goToUser(event, meal.host_id) }}>{meal.host_name} </span>
-          </div>
-          <div className="meal-name" > {meal.name}</div>
-          <div>
-            <img className="meal-info-icons" src={time} alt={"date"} />
-            <span className="meal-info">{dat}</span>
-          </div>
-          <div>
-            <img className="meal-info-icons" src={location} alt={"address"} />
-            <span className="meal-info">{meal.address}  </span>
-          </div>
-        </span>
-      </div>
+        <AttendButton meal={meal} auth={this.props.auth} />
+        <div className="meal-owner-div">by <span className="meal-owner"
+          onClick={(event) => { this.goToUser(event, meal.host_id) }}>{owner} </span>
+        </div>
+        <div className="meal-name" > {meal.name}</div>
+        <div>
+          <img className="meal-info-icons" src={time} alt={"date"} />
+          <span className="meal-info">{dat}</span>
+        </div>
+        <div>
+          <img className="meal-info-icons" src={location} alt={"address"} />
+          <span className="meal-info">{meal.address}  </span>
+        </div>
+      </span>
+    </div>
     )
   };
 }
