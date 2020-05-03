@@ -19,15 +19,20 @@ router.get('/meal/:meal_id', function(req, res, next) {
 /* SAVE attend */
 router.post('/:id', async (req, response) => {
   const attend = req.body;
-  var cache = [];
 
   console.log("Attend, request: " + JSON.stringify(attend));
   
   const client = new Client(currentConfig);
   await client.connect();
-  
-  client.query(`INSERT INTO attends ( meal_id, user_id, status) \
-      VALUES(${attend.meal_id}, ${attend.user_id}, 0)`)
+  const meal_id = attend.meal_id;
+  const user_id = attend.user_id;
+  const status = attend.status;
+  client.query(`
+  INSERT INTO attends (meal_id, user_id, status)
+    VALUES (${meal_id}, ${user_id}, ${status}) 
+    ON CONFLICT (meal_id, user_id) 
+    DO UPDATE SET 
+    status = ${status} WHERE attends.meal_id=${meal_id} AND attends.user_id = ${user_id}`)
       .then
       (
         client.query('INSERT into notifications (meal_id, user_id, message_text, sender, note_type) \
