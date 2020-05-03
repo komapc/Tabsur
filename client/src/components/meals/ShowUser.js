@@ -27,9 +27,9 @@ class ShowUser extends Component {
     axios.get(`${config.SERVER_HOST}/api/follow/get_followers/${thisUserId}`)
       .then(res => {
         console.log('getFollowStatus: ' + JSON.stringify(res.data));
-        const followies = res.data;
-        const found = followies.find(element => element.follower===myUserId);
-        const followStatus = found?found.followStatus:0;
+        const followers = res.data;
+        const found = followers.find(element => element.follower===myUserId);
+        const followStatus = found?found.status:0;
         this.setState({ followStatus: followStatus });
         console.log(res.data);
       })
