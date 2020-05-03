@@ -139,13 +139,12 @@ router.get("/get/:id", async (req, response) => {
   // Find the user
   const client = new Client(currentConfig);
   await client.connect().catch(err => {
-   console.log(err); 
-   return response.status(500).json(err);
-  }
-   );
+    console.log(err); 
+    return response.status(500).json(err);
+  });
   client.query(`SELECT id, name, 100 AS rate,
-    (SELECT COUNT (1) FROM meals WHERE host_id = 14) AS meals_created
-    FROM  users WHERE id = ${req.params.id}`)//
+    (SELECT COUNT (1) FROM meals WHERE host_id = $1) AS meals_created
+    FROM users WHERE id = $1`, [req.params.id])//
     .then(user => {
       client.end();
       response.json(user.rows);
