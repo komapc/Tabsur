@@ -37,8 +37,7 @@ router.get("/get/:id", async (req, response)=> {
 // @access Public!??
 router.put("/:id", async (req, response)=> {
   const note=req.body;
-  console.log("change notification's status notifications " + 
-    req.params.id + " for " + JSON.stringify(note)); 
+  console.log(`change notification's status ${req.params.id} for ${JSON.stringify(note)}`); 
   const client = new Client(currentConfig);
   const query=`UPDATE notifications SET "status"=${note.status} WHERE "id"=${req.params.id}`;
   console.log(query); 

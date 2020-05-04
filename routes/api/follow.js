@@ -44,9 +44,9 @@ router.get("/get_followies/:id", async (req, response) => {
     response.status(400).json("Error in get followies: empty");
     return;
   }
-  const SQLquery = `SELECT followie, status FROM follow WHERE followie = ${req.params.id}`;
+  const SQLquery = `SELECT followie, status FROM follow WHERE followie = $1`;
   await client.connect();
-  client.query(SQLquery)
+  client.query(SQLquery, [req.params.id])
     .then(resp => {
       response.json(resp.rows);
       client.end();
@@ -64,6 +64,11 @@ router.post("/follower/:id", async (req, response) => {
   const follower = req.params.id;
   const followie = req.body.followie;
   const status = req.body.status;
+
+  if (isNaN(follower) || isNaN(followie) || isNaN(status))
+  {
+    return response.status(500).json("Bad input");
+  }
   const SQLquery = `
     INSERT INTO follow (follower, followie, status)
     VALUES (${follower}, ${followie}, ${status}) 
