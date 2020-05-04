@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-class Notifications extends Component {
+class NotificationsScreen extends Component {
 
   constructor(props) {
     super(props);
@@ -14,7 +14,7 @@ class Notifications extends Component {
     const { user } = this.props.auth;
     
     return (
-      <div className="container valign-wrapper">
+      <div className="container valign-wrapper main">
         <div className="row">
           <div className="landing-copy ">
             <h4>
@@ -36,4 +36,4 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-)(Notifications);
+)(NotificationsScreen);
