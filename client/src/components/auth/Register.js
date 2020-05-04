@@ -48,7 +48,6 @@ class Register extends Component {
     };
 
     this.props.registerUser(newUser, this.props.history);
-    console.trace(">>>>>>>>>>>>>>>>>>>Errors?" + JSON.stringify(this.props));
     console.trace("newUser: " + JSON.stringify(newUser));
   };
 
@@ -141,11 +140,11 @@ class Register extends Component {
   }
 }
 
-Register.propTypes = {
-  registerUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
-};
+// Register.propTypes = {
+//   registerUser: PropTypes.func.isRequired,
+//   auth: PropTypes.object.isRequired,
+//   errors: PropTypes.object.isRequired
+// };
 
 const mapStateToProps = state => ({
   auth: state.auth,
