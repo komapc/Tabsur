@@ -99,9 +99,10 @@ class MealListItem extends React.Component {
     this.setState((prevState => {
       let meal = Object.assign({}, prevState.meal);  // creating copy
       meal.Atendee_count = +meal.Atendee_count + +increment;
-      meal.attend_status = status;
+      meal.status = status;
       return { meal };
     }));
+    alert("Thank you for attending.");
   }
   render() {
 
