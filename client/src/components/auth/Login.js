@@ -47,7 +47,7 @@ class Login extends Component {
 
     return (
       <div className="main">
-        <div  className="row">
+        <div className="row">
           <div className="col s8 offset-s2">
             <Link to="/Meals" className="btn-flat waves-effect">
               <i className="material-icons left">keyboard_backspace</i> Back to
@@ -97,7 +97,7 @@ class Login extends Component {
                 </span>
               </div>
               <div className="col s12">
-                <button    
+                <button
                   type="submit"
                   className="button waves-effect waves-light hoverable accent-3"
                 >

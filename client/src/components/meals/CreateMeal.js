@@ -29,7 +29,18 @@ class CreateMeal extends Component {
       date: new Date().getDate(),
       submitted: false
     };
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.auth.isAuthenticated) {
+      this.props.history.push("/Login");
+    }
+
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
   }
 
   onLocationUpdate = ({ address, location }) => {
@@ -60,8 +71,14 @@ class CreateMeal extends Component {
     };
 
     this.props.addMeal(newMeal);
+    // .then(
+    //   ()=>{
+        
+    //     this.setState({ submitted: true });
+    //     alert("Done");
+    //   })
+    // .error((err)=>{alert(err)});
 
-    this.setState({ submitted: true });
   };
 
   render() {
@@ -105,7 +122,7 @@ class CreateMeal extends Component {
                 type="text"
               />
               <label htmlFor="address">Location</label>
-              <span className="red-text">{errors.name}</span>
+              <span className="red-text">{errors.address}</span>
             </span> 
           </div>
 
@@ -159,7 +176,8 @@ CreateMeal.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 
 export default connect(
