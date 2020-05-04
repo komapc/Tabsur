@@ -22,13 +22,13 @@ router.get("/get/:id", async  (req, response) =>
   const meal = req.body;
 
   const SQLquery=`SELECT (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), 
-  (((SELECT status AS attend_status FROM attends WHERE meal_id=m.id AND attends.user_id=${req.params.id}) UNION 
+  (((SELECT status AS attend_status FROM attends WHERE meal_id=m.id AND attends.user_id=$1) UNION 
   (SELECT -1 AS attend_status) ORDER BY attend_status DESC)  LIMIT 1),
 	m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u on m.host_id = u.id`;
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
 
-  client.query(SQLquery)
+  client.query(SQLquery, [req.params.id])
     .then(resp=>{
       response.json(resp.rows);
       client.end();
@@ -55,9 +55,9 @@ router.get("/get_my/:id", async (req, response) =>
   const meal = req.body;
   const SQLquery=`SELECT (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), 
   0 as attend_status, m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id 
-  WHERE host_id=${req.params.id}`;
+  WHERE host_id=$1`;
   await client.connect();
-  client.query(SQLquery)
+  client.query(SQLquery, [req.params.id])
     .then(resp=>{
       response.json(resp.rows);
       client.end();
@@ -82,11 +82,12 @@ router.get("/get_users/:meal_id", async (req, response) =>
     return; 
   }
 
+  const meal_id=req.params.meal_id;
   const SQLquery=`SELECT a.user_id, u.name FROM attends as a  
-   INNER JOIN users as u ON a.user_id=u.id WHERE meal_id=${req.params.meal_id}`;
+   INNER JOIN users as u ON a.user_id=u.id WHERE meal_id=$1`;
   console.log(SQLquery); 
   await client.connect().catch(err =>{console.log("get_users: failed to connect.")});
-  client.query(SQLquery)
+  client.query(SQLquery, [meal_id])
     .then(resp=>{
       response.json(resp.rows);
       client.end();

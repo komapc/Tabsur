@@ -27,6 +27,11 @@ router.post('/:id', async (req, response) => {
   const meal_id = attend.meal_id;
   const user_id = attend.user_id;
   const status = attend.status;
+  if (isNaN(meal_id) || isNaN(user_id) || isNaN(status))
+  {
+    return response.status(500).json("Bad input");
+  }
+
   client.query(`
   INSERT INTO attends (meal_id, user_id, status)
     VALUES (${meal_id}, ${user_id}, ${status}) 
