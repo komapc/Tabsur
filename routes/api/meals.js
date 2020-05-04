@@ -122,7 +122,7 @@ router.post("/addMeal", async (req, response) => {
       return response.status(201).json(req.body);
     }
     )
-    .error((e) => {
+    .catch((e) => {
       client.end();
       console.log("exception catched: " + e);
       response.status(500).json(e);
