@@ -18,13 +18,14 @@ module.exports = function validateMealInput(data) {
   if (Validator.isEmpty(data.address)) {
     errors.address = "Address field is required";
 
-    
-  data.guestCount = (guestCount>0) ? data.guestCount : "";
-  if (guestCount < 0) {
-    errors.guestCount = "Number if invited guests should be a positive number";
+
+    data.guestCount = (guestCount > 0) ? data.guestCount : "";
+    if (guestCount < 0) {
+      errors.guestCount = "Number if invited guests should be a positive number";
+    }
+    return {
+      errors,
+      isValid: isEmpty(errors)
+    };
   }
-  return {
-    errors,
-    isValid: isEmpty(errors)
-  };
 };
