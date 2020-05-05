@@ -12,12 +12,12 @@ if (process.env.NODE_ENV === "debug")
 // @route GET api/notifications/get
 // @desc get list og user's notifications
 // @access Public
-router.get("/get/:id", async (req, response)=> {
+router.get("/:id", async (req, response)=> {
   console.log("get notifications " + req.params.id);
   const client = new Client(currentConfig);
   await client.connect();
-  await client.query(`SELECT * FROM  notifications WHERE `+
-      `user_id=${req.params.id} AND status<3`)
+  await client.query(`SELECT * FROM  notifications WHERE 
+      user_id=${req.params.id} AND status<3`)
     .then(resp => {
       console.log("got results " + JSON.stringify(resp.rows));
       response.json(resp.rows);

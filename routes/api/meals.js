@@ -38,16 +38,16 @@ router.get("/get/:id", async (req, response) => {
     });
 })
 
-// @route GET api/meals/get_my
+// @route GET api/meals/my
 // @desc get a list of meals created by me
 // @access Public
-router.get("/get_my/:id", async (req, response) => {
+router.get("/my/:id", async (req, response) => {
   const client = new Client(currentConfig);
   console.log("get meals by name: " + JSON.stringify(req.params));
   if (req.params.id == "undefined") {
     client.end();
     console.log("error, empty id");
-    response.status(400).json("Error in get_my: empty");
+    response.status(400).json("Error in geting my meals: empty");
     return;
   }
   const meal = req.body;
@@ -67,15 +67,15 @@ router.get("/get_my/:id", async (req, response) => {
     });
 });
 
-// @route GET api/meals/get_users
+// @route GET api/meals/guests
 // @desc get a list of users attending a meal
 // @access Public
-router.get("/get_users/:meal_id", async (req, response) => {
+router.get("/guests/:meal_id", async (req, response) => {
   const client = new Client(currentConfig);
   console.log("get users by meal_id: " + JSON.stringify(req.params));
-  if (req.params.meal_id == "undefined") {
+  if (isNaN(req.params.meal_id)) {
     console.log("error, empty id");
-    response.status(400).json("Error in get_my: empty");
+    response.status(400).json("Error in getting my meal: empty id");
     return;
   }
 
@@ -83,7 +83,7 @@ router.get("/get_users/:meal_id", async (req, response) => {
   const SQLquery = `SELECT a.user_id, u.name FROM attends as a  
    INNER JOIN users as u ON a.user_id=u.id WHERE meal_id=$1`;
   console.log(SQLquery);
-  await client.connect().catch(err => { console.log("get_users: failed to connect.") });
+  await client.connect().catch(err => { console.log("get guest for a meal: failed to connect.") });
   client.query(SQLquery, [meal_id])
     .then(resp => {
       response.json(resp.rows);
@@ -96,8 +96,8 @@ router.get("/get_users/:meal_id", async (req, response) => {
     )
 });
 
-// @route POST api/meals/addMeal
-router.post("/addMeal", async (req, response) => {
+// @route POST api/meals/add
+router.post("/add", async (req, response) => {
   // Form validation
   const meal = req.body;
   const { errors, isValid } = validateMealInput(meal);
@@ -108,7 +108,7 @@ router.post("/addMeal", async (req, response) => {
   }
   const client = new Client(currentConfig);
 
-  console.log(`addMeal - start, ${JSON.stringify(req.body)}`);
+  console.log(`add meal - start, ${JSON.stringify(req.body)}`);
   await client.connect();
 
   console.log("connected");
@@ -130,7 +130,7 @@ router.post("/addMeal", async (req, response) => {
 });
 
 
-// @route DELETE api/meals/delete:id
+// @route DELETE api/meals/id
 // @desc delete a meal
 // @access Public (?)
 router.delete("/:id", async (req, res) => {

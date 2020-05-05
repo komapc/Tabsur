@@ -6,7 +6,7 @@ import config from "../config";
 // add a meal
 export const addMeal = (userData) => dispatch => {
   axios
-    .post(`${config.SERVER_HOST}/api/meals/addMeal`, userData)
+    .post(`${config.SERVER_HOST}/api/meals/add`, userData)
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

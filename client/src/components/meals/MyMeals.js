@@ -15,7 +15,7 @@ class MyMeals extends Component {
   }
 
   componentDidMount() {
-    axios.get(`${config.SERVER_HOST}/api/meals/get_my/` + this.props.auth.user.id)
+    axios.get(`${config.SERVER_HOST}/api/meals/my/` + this.props.auth.user.id)
       .then(res => {
         console.log(res.data);
         this.setState({ meals: res.data });
