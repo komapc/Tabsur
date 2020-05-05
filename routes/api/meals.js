@@ -113,13 +113,13 @@ router.post("/addMeal", async (req, response) => {
 
   console.log("connected");
   client.query('INSERT INTO meals (name, type, location, address, guest_count, host_id)' +
-    'VALUES($1, $2, $3, $4, $5, $6)',
+    'VALUES($1, $2, $3, $4, $5, $6) RETURNING id',
     [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
     meal.address, meal.guestCount, meal.host_id])
-    .then(() => {
-      console.log("query done");
+    .then((res) => {
+      console.log(`query done: ${JSON.stringify(res).rows}`);
       client.end();
-      return response.status(201).json(req.body);
+      return response.status(201).json(res.rows[0]);
     }
     )
     .catch((e) => {
@@ -133,27 +133,33 @@ router.post("/addMeal", async (req, response) => {
 // @route DELETE api/meals/delete:id
 // @desc delete a meal
 // @access Public (?)
-
 router.get("/delete/:id", async (req, res) => {
-  //todo
+  const meal = req.body;
+  const { errors, isValid } = validateMealInput(meal);
 
+  // Check validation
+  if (!isValid) {
+    return response.status(400).json(errors);
+  }
   const client = new Client(currentConfig);
+
+  console.log(`delete - start, ${JSON.stringify(req.body)}`);
   await client.connect();
 
-  await client.query('delete from meals where id=$1',
-    [req.id]);
-  // TODO: fix user id
-
-  client.end();
-
-  // Find meal by name
-  myCursor = Meal.delete(function (err, meals) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.json(meals);
+  console.log("connected");
+  client.query('DELETE FROM meals WHERE id=$1',
+    [req.params.meal_id])
+    .then(() => {
+      console.log("deleted.");
+      client.end();
+      return response.status(201).json(req.body);
     }
-  })
+    )
+    .catch((e) => {
+      client.end();
+      console.log("exception catched: " + e);
+      response.status(500).json(e);
+    });
 });
 
 module.exports = router;
