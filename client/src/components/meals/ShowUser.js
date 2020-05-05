@@ -24,7 +24,7 @@ class ShowUser extends Component {
   getFollowStatus() {
     const myUserId = this.props.auth.user.id;
     const thisUserId = this.state.id;  
-    axios.get(`${config.SERVER_HOST}/api/follow/get_followers/${thisUserId}`)
+    axios.get(`${config.SERVER_HOST}/api/follow/${thisUserId}`)
       .then(res => {
         console.log('getFollowStatus: ' + JSON.stringify(res.data));
         const followers = res.data;
@@ -43,7 +43,7 @@ class ShowUser extends Component {
     const myUserId = this.props.auth.user.id;
     const thisUserId = this.state.id; 
     const body = { followie: thisUserId, status: status };
-    axios.post(`${config.SERVER_HOST}/api/follow/follower/${myUserId}`, body)
+    axios.post(`${config.SERVER_HOST}/api/follow/${myUserId}`, body)
       .then(res => {
         console.log(res.data);
         //change in DB, than change state

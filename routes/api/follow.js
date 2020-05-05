@@ -11,7 +11,7 @@ const router = express.Router();
 // @route GET api/follow/get
 // @desc get list of followers
 // @access Public
-router.get("/get_followers/:id", async (req, response) => {
+router.get("/:id", async (req, response) => {
   const client = new Client(currentConfig);
   console.log(`get followers for user ${req.params.id}`);
   const meal = req.body;
@@ -27,15 +27,15 @@ router.get("/get_followers/:id", async (req, response) => {
     })
     .catch(err => {
       client.end();
-      console.log("Failed to get_followers: " + err);
+      console.log("Failed to get followers: " + err);
       return response.status(500).json(err);
     });
 })
 
-// @route GET api/follow/get_followies
+// @route GET api/followies
 // @desc get a list of users I fllow
 // @access Public
-router.get("/get_followies/:id", async (req, response) => {
+router.get("/followies/:id", async (req, response) => {
   const client = new Client(currentConfig);
   console.log("get followies by user id: " + JSON.stringify(req.params));
   if (req.params.id == "undefined") {
@@ -59,7 +59,7 @@ router.get("/get_followies/:id", async (req, response) => {
 });
 
 // @route POST follow/unfollow
-router.post("/follower/:id", async (req, response) => {
+router.post("/:id", async (req, response) => {
   const client = new Client(currentConfig);
   const follower = req.params.id;
   const followie = req.body.followie;
