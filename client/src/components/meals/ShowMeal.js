@@ -71,12 +71,14 @@ class ShowMeal extends Component {
     super(props);
     this.state = props.location.state;
   }
+
   deleteMeal = (e) =>
   {    
     axios.delete(`${config.SERVER_HOST}/api/meals/${this.state.meal.id}`)
     .then(res => {
       console.log(res.data);
-      alert("The meal was deleted");
+      
+      this.props.history.push({pathname: '/MyMeals'});
     })
     .catch(err => {
       console.log(err);
