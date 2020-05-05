@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addMeal } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
 import axios from 'axios';
 import config from "../../config";
@@ -20,7 +19,7 @@ class GuestList extends Component {
 
   getGuests = ()=>
   {
-    axios.get(`${config.SERVER_HOST}/api/meals/get_users/${this.props.mealId}`)
+    axios.get(`${config.SERVER_HOST}/api/meals/guests/${this.props.mealId}`)
     .then(res => {
       console.log(res.data);
       this.setState({ guests: res.data });
