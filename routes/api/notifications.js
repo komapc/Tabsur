@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === "debug")
   currentConfig = pgConfig.pgConfigLocal;
 }
 
-// @route GET api/notifications/get
+// @route GET api/notifications
 // @desc get list og user's notifications
 // @access Public
 router.get("/:id", async (req, response)=> {
