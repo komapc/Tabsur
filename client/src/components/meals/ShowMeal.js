@@ -74,7 +74,7 @@ class ShowMeal extends Component {
   }
   deleteMeal = (e) =>
   {    
-    axios.delete(`${config.SERVER_HOST}/api/meals/${this.props.mealId}`)
+    axios.delete(`${config.SERVER_HOST}/api/meals/${this.state.meal.id}`)
     .then(res => {
       console.log(res.data);
       alert("The meal was deleted");

@@ -133,7 +133,7 @@ router.post("/addMeal", async (req, response) => {
 // @route DELETE api/meals/delete:id
 // @desc delete a meal
 // @access Public (?)
-router.get("/delete/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   const meal = req.body;
   const { errors, isValid } = validateMealInput(meal);
 
