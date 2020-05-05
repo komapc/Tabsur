@@ -47,7 +47,6 @@ class GuestList extends Component {
     this.getGuests();
   }
 
-
   render() {
     let  sorted = this.state.guests;
     //sorted = sorted.concat(this.state.guests);
@@ -56,10 +55,10 @@ class GuestList extends Component {
       <div className="main" >
         Guests list: 
         {
-           sorted.map(guest =>
-            <div key={guest.id}>
-              <Link to={`user/${guest.user_id}`}> #{guest.name}</Link>
-            </div>
+          sorted.map(guest =>
+          <div key={guest.id}>
+            <Link to={`user/${guest.user_id}`}> #{guest.name}</Link>
+          </div>
           )
         }
       </div>
@@ -73,12 +72,26 @@ class ShowMeal extends Component {
     super(props);
     this.state = props.location.state;
   }
-
+  deleteMeal = (e) =>
+  {    
+    axios.delete(`${config.SERVER_HOST}/api/meals/${this.props.mealId}`)
+    .then(res => {
+      console.log(res.data);
+      alert("The meal was deleted");
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
   render() {
     return (
       <div className="main">
         <MealListItem meal={this.state.meal} />
         <GuestList mealId={this.state.meal.id} userId = {this.props.auth.user.id}/>
+        {
+          (this.state.meal.host_id == this.props.auth.user.id)?
+          <button onClick={(e)=>this.deleteMeal(e)}> Delete meal </ button>:""
+        }
       </div>
     );
   }
