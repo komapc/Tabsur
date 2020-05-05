@@ -133,11 +133,11 @@ router.post("/add", async (req, response) => {
 // @route DELETE api/meals/id
 // @desc delete a meal
 // @access Public (?)
-router.delete("/:id", async (req, response) => {
+router.delete("/:meal_id", async (req, response) => {
   const meal = req.body;
   const mealId = req.params.meal_id;
   if (isNaN(mealId)) {
-    return response.status(400).json("errors: wrong meal id format.");
+    return response.status(400).json(`rors: wrong meal id format: ${mealId}.`);
   }
   const client = new Client(currentConfig);
 
