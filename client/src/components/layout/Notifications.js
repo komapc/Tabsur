@@ -49,7 +49,7 @@ class Notifications extends Component {
 
   getNotifications = () =>
   {
-    axios.get(`${config.SERVER_HOST}/api/notifications/get/` + this.props.auth.user.id)
+    axios.get(`${config.SERVER_HOST}/api/notifications/` + this.props.auth.user.id)
     .then(res => {
       console.log(res.data);
       this.setState({ notes: res.data });

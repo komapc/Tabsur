@@ -73,13 +73,13 @@ router.get("/my/:id", async (req, response) => {
 router.get("/guests/:meal_id", async (req, response) => {
   const client = new Client(currentConfig);
   console.log("get users by meal_id: " + JSON.stringify(req.params));
-  if (isNaN(req.params.meal_id)) {
+  const meal_id = req.params.meal_id;
+  if (isNaN(meal_id)) {
     console.log("error, empty id");
     response.status(400).json("Error in getting my meal: empty id");
     return;
   }
 
-  const meal_id = req.params.meal_id;
   const SQLquery = `SELECT a.user_id, u.name FROM attends as a  
    INNER JOIN users as u ON a.user_id=u.id WHERE meal_id=$1`;
   console.log(SQLquery);
@@ -135,20 +135,18 @@ router.post("/add", async (req, response) => {
 // @access Public (?)
 router.delete("/:id", async (req, res) => {
   const meal = req.body;
-  const { errors, isValid } = validateMealInput(meal);
-
-  // Check validation
-  if (!isValid) {
-    return response.status(400).json(errors);
+  const mealId = req.params.meal_id;
+  if (isNaN(mealId)) {
+    return response.status(400).json("errors: wrong meal id format.");
   }
   const client = new Client(currentConfig);
 
-  console.log(`delete - start, ${JSON.stringify(req.body)}`);
+  console.log(`delete - start, ${mealId}`);
   await client.connect();
 
   console.log("connected");
   client.query('DELETE FROM meals WHERE id=$1',
-    [req.params.meal_id])
+    [mealId])
     .then(() => {
       console.log("deleted.");
       client.end();
