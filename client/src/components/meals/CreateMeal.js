@@ -5,8 +5,11 @@ import { connect } from "react-redux";
 import { addMeal } from "../../actions/mealActions";
 import { DatePicker } from 'antd';
 import MapLocationSelector from "./MapLocationSelector";
-import * as Datetime from 'react-datetime';
-import TimePicker from 'react-time-picker';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  KeyboardTimePicker,
+  MuiPickersUtilsProvider
+} from '@material-ui/pickers';
 
 import attend from "../../resources/attended.svg"
 import locationIcon from "../../resources/location_icon.svg"
@@ -64,6 +67,7 @@ class CreateMeal extends Component {
     const newMeal = {
       name: this.state.name,
       date: this.state.date,
+      time: this.state.time,
       address: this.state.address,
       location: this.state.location,
       host_id: this.props.auth.user.id,
@@ -71,14 +75,7 @@ class CreateMeal extends Component {
     };
 
     this.props.addMeal(newMeal);
-    // .then(
-    //   ()=>{
-        
-    //     this.setState({ submitted: true });
-    //     alert("Done");
-    //   })
-    // .error((err)=>{alert(err)});
-
+    this.props.history.push({ pathname: '/MyMeals' });
   };
 
   render() {
@@ -86,9 +83,9 @@ class CreateMeal extends Component {
     return (
       <div className="main">
         <form noValidate onSubmit={this.onSubmit}>
-          <div className="vertical-spacer"/>
+          <div className="vertical-spacer" />
           {/* name */}
-          <div className="name-input-field input-field col s12"> 
+          <div className="name-input-field input-field col s12">
             <input
               onChange={this.onChange}
               value={this.state.name}
@@ -100,12 +97,24 @@ class CreateMeal extends Component {
             <label htmlFor="name">Meal name</label>
             <span className="red-text">{errors.name}</span>
           </div>
-           {/* Date and time */}
-           <div className="date-div">
+          {/* Date and time */}
+          <div className="date-div">
             <span><img className="meal-info-icons" src={dateIcon} alt="date" /></span>
-            <span><DatePicker className="picker" mode="date"/></span>
+            <span><DatePicker className="picker" mode="date" /></span>
             <span>
-              <TimePicker className="time-picker"  clockIcon="null" maxDetail="minute"/>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardTimePicker
+                  margin="normal"
+                  id="time"
+                  label="Time"
+                  // value={selectedDate}
+                  onChange={(time)=>{this.setState({time: time})}}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change time',
+                  }}
+
+                />
+              </MuiPickersUtilsProvider>
             </span>
           </div>
 
@@ -123,30 +132,30 @@ class CreateMeal extends Component {
               />
               <label htmlFor="address">Location</label>
               <span className="red-text">{errors.address}</span>
-            </span> 
+            </span>
           </div>
 
           {/* Number of guests */}
           <div>
-              <img className="meal-info-guests-icons" src={servingsIcon} alt="servings" />
-              <span className="location-input-field input-field col s12">
-                <input 
-                  min={0} max={10}
-                  onChange={this.onChange}
-                  value={this.state.guestCount}
-                  error={errors.password}
-                  id="guestCount"
-                  type="number" pattern="[0-9]*" maxLength="2"
-                />
-                <label htmlFor="guestCount">Number of guests</label>
-                <span className="red-text">{errors.guestCount}  </span>
-            </span> 
-          </div> 
-         
+            <img className="meal-info-guests-icons" src={servingsIcon} alt="servings" />
+            <span className="location-input-field input-field col s12">
+              <input
+                min={0} max={10}
+                onChange={this.onChange}
+                value={this.state.guestCount}
+                error={errors.password}
+                id="guestCount"
+                type="number" pattern="[0-9]*" maxLength="2"
+              />
+              <label htmlFor="guestCount">Number of guests</label>
+              <span className="red-text">{errors.guestCount}  </span>
+            </span>
+          </div>
+
           {/*Submit button */}
           <div className="button-div">
             {this.state.submitted ?
-              <div  className="meal-created-icon"><img src={attend} alt={"Done"} /></div> :
+              <div className="meal-created-icon"><img src={attend} alt={"Done"} /></div> :
               <button
                 type="submit"
                 className="button hoverable accent-3">
@@ -164,7 +173,7 @@ class CreateMeal extends Component {
             defaultLocation={defaultLocation}
             handleExit={this.onMapExit}
           />
-        </div> 
+        </div>
       </div>
     );
   }

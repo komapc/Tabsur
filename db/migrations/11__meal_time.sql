@@ -1,0 +1,3 @@
+ALTER TABLE meals
+ADD COLUMN date TIMESTAMPTZ 
+DEFAULT  NOW() + interval '1' day 
