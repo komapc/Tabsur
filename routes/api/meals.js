@@ -17,7 +17,6 @@ const validateMealInput = require("../../validation/meal");
 router.get("/get/:id", async (req, response) => {
   const client = new Client(currentConfig);
   console.log(`get meals for user ${req.params.id}`);
-  const meal = req.body;
 
   const SQLquery = `SELECT (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), 
   (((SELECT status AS attend_status FROM attends WHERE meal_id=m.id AND attends.user_id=$1) UNION 
@@ -57,12 +56,12 @@ router.get("/my/:id", async (req, response) => {
   await client.connect();
   client.query(SQLquery, [req.params.id])
     .then(resp => {
-      response.json(resp.rows);
       client.end();
+      return response.json(resp.rows);
     })
     .catch(err => {
-      console.log(err);
       client.end();
+      console.log(err);
       return response.status(500).json(err);
     });
 });
@@ -86,10 +85,11 @@ router.get("/guests/:meal_id", async (req, response) => {
   await client.connect().catch(err => { console.log("get guest for a meal: failed to connect.") });
   client.query(SQLquery, [meal_id])
     .then(resp => {
-      response.json(resp.rows);
       client.end();
+      return response.json(resp.rows);
     })
     .catch(err => {
+      client.end();
       console.log(err);
       return response.status(500).json(err);
     }
@@ -112,13 +112,13 @@ router.post("/add", async (req, response) => {
   await client.connect();
 
   console.log("connected");
-  client.query('INSERT INTO meals (name, type, location, address, guest_count, host_id)' +
-    'VALUES($1, $2, $3, $4, $5, $6) RETURNING id',
+  client.query('INSERT INTO meals (name, type, location, address, guest_count, host_id, date)' +
+    'VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id',
     [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
-    meal.address, meal.guestCount, meal.host_id])
+    meal.address, meal.guestCount, meal.host_id, meal.date])
     .then((res) => {
-      console.log(`query done: ${JSON.stringify(res).rows}`);
       client.end();
+      console.log(`query done: ${JSON.stringify(res).rows}`);
       return response.status(201).json(res.rows[0]);
     }
     )
@@ -137,7 +137,7 @@ router.delete("/:meal_id", async (req, response) => {
   const meal = req.body;
   const mealId = req.params.meal_id;
   if (isNaN(mealId)) {
-    return response.status(400).json(`rors: wrong meal id format: ${mealId}.`);
+    return response.status(400).json(`mealId: wrong meal id format: ${mealId}.`);
   }
   const client = new Client(currentConfig);
 
@@ -148,8 +148,8 @@ router.delete("/:meal_id", async (req, response) => {
   client.query('DELETE FROM meals WHERE id=$1',
     [mealId])
     .then(() => {
-      console.log("deleted.");
       client.end();
+      console.log("deleted.");
       return response.status(201).json(req.body);
     }
     )
