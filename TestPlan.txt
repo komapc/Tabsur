@@ -1,0 +1,16 @@
+All tests should be done from mobile.
+
+
+* Key features:
+Create user
+Log-in
+Meal list
+Map
+
+Create meals
+Delete
+Attend
+Notifications
+Friends
+Extended meal info
+Extended user info
