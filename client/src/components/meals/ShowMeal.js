@@ -90,7 +90,7 @@ class ShowMeal extends Component {
         <MealListItem meal={this.state.meal} />
         <GuestList mealId={this.state.meal.id} userId = {this.props.auth.user.id}/>
         {
-          (this.state.meal.host_id == this.props.auth.user.id)?
+          (this.state.meal.host_id === this.props.auth.user.id)?
           <button onClick={(e)=>this.deleteMeal(e)}> Delete meal </ button>:""
         }
       </div>

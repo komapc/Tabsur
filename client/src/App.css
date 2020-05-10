@@ -101,22 +101,7 @@ ul li span {
 .meal_props   span {
     font-size: small;
 }
-.picker
-{
-    background-color: white;
-    border:none;
-    width: 80%;
-}
-.time-picker
-{
-    padding: 30px;
-}
-.date-div
-{
-    position: relative;
-    left:10%;
-    width: 40%;
-}
+
 .marker {
     position: absolute;
     top: 50%;
