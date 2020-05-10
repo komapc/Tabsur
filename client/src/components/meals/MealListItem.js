@@ -112,7 +112,7 @@ class MealListItem extends React.Component {
     if (Object.keys(meal).length === 0) {
       return <div></div>
     }
-    const dat = dateFormat(new Date(meal.created_at), "dddd, mmmm dS, yyyy, hh:MM");
+    const dat = dateFormat(new Date(meal.date), "dddd, mmmm dS, yyyy, hh:MM");
     return (
       <div className="meal_props" onClick={(event) => { this.gotoMeal(event, meal) }}>
         <span className="meal-props-left">

@@ -1,22 +1,21 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addMeal } from "../../actions/mealActions";
-import { DatePicker } from 'antd';
 import MapLocationSelector from "./MapLocationSelector";
 import DateFnsUtils from '@date-io/date-fns';
 import {
-  KeyboardTimePicker,
+  KeyboardDateTimePicker,
   MuiPickersUtilsProvider
 } from '@material-ui/pickers';
 
+import Grid from '@material-ui/core/Grid';
 import attend from "../../resources/attended.svg"
 import locationIcon from "../../resources/location_icon.svg"
 import dateIcon from "../../resources/date_time_icon.svg"
 import servingsIcon from "../../resources/servings_icon.svg"
 
-import 'antd/es/date-picker/style/css';
 const defaultLocation = { lng: 34.808, lat: 32.09 };
 
 class CreateMeal extends Component {
@@ -29,7 +28,7 @@ class CreateMeal extends Component {
       guestCount: "",
       errors: {},
       showMap: false,
-      date: new Date().getDate(),
+      selectedDate: Date.now(),
       submitted: false
     };
   }
@@ -63,11 +62,9 @@ class CreateMeal extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-
     const newMeal = {
       name: this.state.name,
-      date: this.state.date,
-      time: this.state.time,
+      date: this.state.selectedDate,
       address: this.state.address,
       location: this.state.location,
       host_id: this.props.auth.user.id,
@@ -100,22 +97,25 @@ class CreateMeal extends Component {
           {/* Date and time */}
           <div className="date-div">
             <span><img className="meal-info-icons" src={dateIcon} alt="date" /></span>
-            <span><DatePicker className="picker" mode="date" /></span>
-            <span>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardTimePicker
-                  margin="normal"
-                  id="time"
-                  label="Time"
-                  // value={selectedDate}
-                  onChange={(time)=>{this.setState({time: time})}}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change time',
-                  }}
-
+           <span>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid container justify="space-around">
+                <KeyboardDateTimePicker
+                  variant="dialog"
+                  ampm={false}
+                  label="date & time"
+                  id="selectedDate"
+                  value={this.state.selectedDate}
+                  onChange={(value) => { this.setState({ selectedDate: value }) }}
+                  onError={console.log}
+                  disablePast
+                  showTodayButton
+                  autoOk
+                  format="yyyy/MM/dd HH:mm"
                 />
-              </MuiPickersUtilsProvider>
-            </span>
+              </Grid>
+            </MuiPickersUtilsProvider>
+          </span>
           </div>
 
           {/* Address*/}
