@@ -11,6 +11,43 @@ Create meals
 Delete
 Attend
 Notifications
-Friends
+Friends   
 Extended meal info
-Extended user info
+Extended user info	
+
+
+
+///
+
+SANITY
+1. press menu: menu appears
+2. choose logout: menu is closed, redirect to Login page
+3. press Register: redirect to Sign In page
+4. press "sign in" without filling fields: error appears
+5. fill all fields (e.g. testUser1), press "Register": redirect to Log-in
+6. Log-in: redirects to Meal List
+7. Click Map: redirects to Map with active meals
+8. My meals: redirects to empty list
+9. Menu->About: about window; menu closes
+10. Menu->My Profile: my profile
+11. Notifications: empty
+12. Close menu: menu closes
+
+CREATE MEAL
+1. Press Create Meal: redirect to Add meal page
+2. Press Open Meal: error message appears
+3. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
