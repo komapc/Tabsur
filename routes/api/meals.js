@@ -113,7 +113,7 @@ router.post("/add", async (req, response) => {
 
   const query=`INSERT INTO meals (name, type, location, address, guest_count, host_id, date)
   VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id`;
-  console.log(`connected; running [$(query)]`);
+  console.log(`connected; running [${query}]`);
   
   client.query('query',
     [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
