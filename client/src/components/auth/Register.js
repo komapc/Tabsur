@@ -55,7 +55,7 @@ class Register extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container">
+      <div className="main">
         <div className="row">
           <div className="col s8 offset-s2">            
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
@@ -123,12 +123,11 @@ class Register extends Component {
                 <label htmlFor="password2">Confirm Password</label>
                 <span className="red-text">{errors.password2}</span>
               </div>
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+              <div className="col s12" >
                 <button
                 
                   type="submit"
-                  className="button btn-large waves-effect waves-light hoverable accent-3"
-                >
+                  className="button waves-effect waves-light hoverable accent-3">
                   Sign up
                 </button>
               </div>

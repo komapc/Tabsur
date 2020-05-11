@@ -62,9 +62,11 @@ class CreateMeal extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    const formattedDate=new Date(this.state.selectedDate);
+
     const newMeal = {
       name: this.state.name,
-      date: this.state.selectedDate,
+      date: formattedDate,
       address: this.state.address,
       location: this.state.location,
       host_id: this.props.auth.user.id,
@@ -72,6 +74,11 @@ class CreateMeal extends Component {
     };
 
     this.props.addMeal(newMeal);
+    alert(formattedDate);
+    if (!this.state.isValid) {
+      alert(JSON.stringify(this.state.errors));
+      return;
+    }
     this.props.history.push({ pathname: '/MyMeals' });
   };
 
@@ -96,26 +103,26 @@ class CreateMeal extends Component {
           </div>
           {/* Date and time */}
           <div className="date-div">
-            <span><img className="meal-info-icons" src={dateIcon} alt="date" /></span>
-           <span>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <Grid container justify="space-around">
-                <KeyboardDateTimePicker
-                  variant="dialog"
-                  ampm={false}
-                  label="date & time"
-                  id="selectedDate"
-                  value={this.state.selectedDate}
-                  onChange={(value) => { this.setState({ selectedDate: value }) }}
-                  onError={console.log}
-                  disablePast
-                  showTodayButton
-                  autoOk
-                  format="yyyy/MM/dd HH:mm"
-                />
-              </Grid>
-            </MuiPickersUtilsProvider>
-          </span>
+            {/* <span><img className="meal-info-icons" src={dateIcon} alt="date" /></span> */}
+            <span>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid container justify="space-around">
+                  <KeyboardDateTimePicker
+                    variant="dialog"
+                    ampm={false}
+                    label="date & time"
+                    id="selectedDate"
+                    value={this.state.selectedDate}
+                    onChange={(value) => { this.setState({ selectedDate: value }) }}
+                    onError={console.log}
+                    disablePast
+                    showTodayButton
+                    autoOk
+                    format="yyyy/MM/dd HH:mm"
+                  />
+                </Grid>
+              </MuiPickersUtilsProvider>
+            </span>
           </div>
 
           {/* Address*/}
