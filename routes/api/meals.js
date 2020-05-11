@@ -112,7 +112,7 @@ router.post("/add", async (req, response) => {
   await client.connect();
 
   const query=`INSERT INTO meals (name, type, location, address, guest_count, host_id, date)
-  VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id`;
+  VALUES($1, $2, $3, $4, $5, $6, (to_timestamp($7/ 1000.0))) RETURNING id`;
   console.log(`connected; running [${query}]`);
   
   client.query('query',
