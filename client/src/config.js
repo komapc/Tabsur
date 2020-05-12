@@ -1,8 +1,8 @@
 const config = {};
 
-//export const env = process.env.NODE_ENV;
+export const env = process.env.NODE_ENV;
 
-export const env = "production"; //hardcoded bullshit! TODO: 
+//export const env = "production"; //hardcoded bullshit! TODO: 
 const host=document.location.protocol +"//" + document.location.host;
 console.log(`host: ${host}`);
 
