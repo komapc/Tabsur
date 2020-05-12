@@ -44,6 +44,25 @@ CREATE MEAL
 7. attend to the new meal
 8. user A receives notification
 
+ATTEND
+1. Attend from MAP
+2. Attend from List, check that full-up, available and my meals appear properly
+3. Open MEAL from Map
+4. Open MEAL from LIST
+5. Open MEAL from My Meals
+6. Open user from Meal
+7. Attend from MEAL
+8. Unattend
+9. open USER from guest list
+10. follow/unfollow
+
+NOTIFICATIONS
+1. User attends your meal
+2. A person you follow opens a meal
+3. You are followed
+4. New meal is opened in your area
+
+
 NEXT
 1. EDIT PROFILE, change user name
 2. EDIT MEAL, change time
