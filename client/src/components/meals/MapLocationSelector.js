@@ -28,6 +28,18 @@ class MapLocationSelector extends Component {
             console.log("geolocation is: ", JSON.stringify(p));
             //
             this.setState({defaultLocation:p, location:p});
+            Geocode.fromLatLng(p.lat, p.lng).then(
+                response => {
+                    console.log("fromLatLng.");
+                    const addr = response.results[0].formatted_address;
+                    console.log("onMarkerDragEnd, address: " + addr);
+                    this.props.handleLocationUpdate({ address: addr, location:p });
+                    this.setState({ address: addr, location: p});
+                },
+                error => {
+                    console.error(error);
+                }
+            );
           });
         }
         else {
