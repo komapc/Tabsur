@@ -18,10 +18,21 @@ module.exports = function validateMealInput(data) {
     errors.address = "Address field is required";
   }
 
-  data.guestCount = (data.guestCount > 0) ? data.guestCount : "";
-  if (data.guestCount < 0) {
-    errors.guestCount = "Number if invited guests should be a positive number";
+  if (isEmpty(data.guestCount))
+  {
+    errors.guestCount = "Number if invited guests is empty";
   }
+  else if (isNaN(data.guestCount) || data.guestCount === "") {
+    errors.guestCount = "Number if invited guests is not a number";
+  }
+  else 
+  {
+    data.guestCount = (data.guestCount > 0) ? data.guestCount : "0";
+    if (data.guestCount < 0) {
+      errors.guestCount = "Number if invited guests should be a positive number";
+    }
+  }
+  console.log("validate: " + JSON.stringify(errors));
   return {
     errors,
     isValid: isEmpty(errors)
