@@ -73,11 +73,6 @@ class CreateMeal extends Component {
     };
 
     this.props.addMeal(newMeal);
-    if (!this.state.isValid) {
-      console.log("add meal error:" + JSON.stringify(this.state.errors));
-      return;
-    }
-    this.props.history.push({ pathname: '/MyMeals' });
   };
 
   render() {
