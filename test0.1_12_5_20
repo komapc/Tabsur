@@ -1,0 +1,55 @@
+SANITY
+1. menu appears+
+2. menu is closed, redirect to Login page+
+3. press Register: redirect to Sign In page +
+4. press "sign up" without filling fields: error appears+
+5. fill all fields (e.g. testUser1), press "Register": redirect to Log-in+
+6a. Log-in with wrong password: error appears+
+6b. Log-in with proper password: redirects to Meal List+
+7. Click Map: redirects to Map with active meals+
+8. My meals: redirects to empty list+
+9. Menu->About: about window; menu closes+
+10. Menu->My Profile: my profile+
+11. Notifications: empty+
+12. Close menu: menu closes+
+
+CREATE MEAL
+1. Press Create Meal: redirect to Add meal page+
+2. Press Open Meal: error message appears+
+3. Create meal:meal name error
+4. See it in List
+5. See it on Map
+6. Login from another user (B)
+7. attend to the new meal
+8. user A receives notification
+9. location search field partly invisible
+
+ATTEND
+1. Attend from MAP+
+2a. Attend from List+
+2b. full-up - reduce pop-up
+2c. available appear properly+
+2d. my meals ?
+3. Open MEAL from Map+
+4. Open MEAL from LIST+
+5. Open MEAL from My Meals -
+6. Open user from Meal +
+7. Attend from MEAL +
+8. Unattend +
+9. open USER from guest list +
+10a. follow/unfollow +  
+10b. reduce opportunity to follow/unfollow yourself
+11. create my meal list
+
+NOTIFICATIONS
+1. User attends your meal
+2. A person you follow opens a meal
+3. You are followed
+4. New meal is opened in your area
+
+
+NEXT
+1. EDIT PROFILE, change user name
+2. EDIT MEAL, change time
+3. EDIT MEAL, change name
+4. EDIT MEAL, change place
