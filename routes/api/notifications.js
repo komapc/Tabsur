@@ -13,11 +13,17 @@ if (process.env.NODE_ENV === "debug")
 // @desc get list og user's notifications
 // @access Public
 router.get("/:id", async (req, response)=> {
-  console.log("get notifications " + req.params.id);
+  const id = req.params.id;
+  if (isNaN(id)) {
+    console.log("error, empty id");
+    response.status(400).json("Error in getting notifications: empty id");
+    return;
+  }
+  console.log("get notifications " + id);
   const client = new Client(currentConfig);
   await client.connect();
   await client.query(`SELECT * FROM  notifications WHERE 
-      user_id=${req.params.id} AND status<3`)
+      user_id=${id} AND status<3`)
     .then(resp => {
       console.log("got results " + JSON.stringify(resp.rows));
       response.json(resp.rows);
@@ -36,10 +42,16 @@ router.get("/:id", async (req, response)=> {
 // @desc sets notification's status
 // @access Public!??
 router.put("/:id", async (req, response)=> {
+  const id = req.params.id;
+  if (isNaN(id)) {
+    console.log("error, empty id");
+    response.status(400).json("Error in getting notifications: empty id");
+    return;
+  }
   const note=req.body;
-  console.log(`change notification's status ${req.params.id} for ${JSON.stringify(note)}`); 
+  console.log(`change notification's status ${id} for ${JSON.stringify(note)}`); 
   const client = new Client(currentConfig);
-  const query=`UPDATE notifications SET "status"=${note.status} WHERE "id"=${req.params.id}`;
+  const query=`UPDATE notifications SET "status"=${note.status} WHERE "id"=${id}`;
   console.log(query); 
   await client.connect();
   await client.query(query)
