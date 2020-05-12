@@ -31,6 +31,7 @@ router.get("/get/:id", async (req, response) => {
 
   client.query(SQLquery, [req.params.id])
     .then(resp => {
+      console.log(JSON.stringify(resp.rows));
       response.json(resp.rows);
       client.end();
     })
@@ -48,12 +49,10 @@ router.get("/my/:id", async (req, response) => {
   const client = new Client(currentConfig);
   console.log("get meals by name: " + JSON.stringify(req.params));
   if (req.params.id == "undefined") {
-    client.end();
     console.log("error, empty id");
     response.status(400).json("Error in geting my meals: empty");
     return;
   }
-  const meal = req.body;
   const SQLquery = `SELECT 
     (SELECT count (user_id) AS "Atendee_count" FROM attends 
     WHERE meal_id=m.id), 
