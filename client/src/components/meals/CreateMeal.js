@@ -72,12 +72,7 @@ class CreateMeal extends Component {
       guestCount: this.state.guestCount,
     };
 
-    this.props.addMeal(newMeal);
-    if (!this.state.isValid) {
-      console.log("add meal error:" + JSON.stringify(this.state.errors));
-      return;
-    }
-    this.props.history.push({ pathname: '/MyMeals' });
+    this.props.addMeal(newMeal, this.props.history);
   };
 
   render() {
