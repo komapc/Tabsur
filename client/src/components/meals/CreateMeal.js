@@ -66,7 +66,7 @@ class CreateMeal extends Component {
 
     const newMeal = {
       name: this.state.name,
-      date: formattedDate,
+      date: this.state.selectedDate,
       address: this.state.address,
       location: this.state.location,
       host_id: this.props.auth.user.id,
@@ -76,7 +76,7 @@ class CreateMeal extends Component {
     this.props.addMeal(newMeal);
     alert(formattedDate);
     if (!this.state.isValid) {
-      alert(JSON.stringify(this.state.errors));
+      alert(JSON.stringify(this.state.selectedDate));
       return;
     }
     this.props.history.push({ pathname: '/MyMeals' });

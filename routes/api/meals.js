@@ -113,14 +113,14 @@ router.post("/add", async (req, response) => {
 
   const query=`INSERT INTO meals (name, type, location, address, guest_count, host_id, date)
   VALUES($1, $2, $3, $4, $5, $6, (to_timestamp($7/ 1000.0))) RETURNING id`;
-  console.log(`connected; running [${query}]`);
+  console.log(`connected running [${query}]`);
   
-  client.query('query',
+  client.query(query,
     [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
     meal.address, meal.guestCount, meal.host_id, meal.date])
     .then((res) => {
       client.end();
-      console.log(`query done: ${JSON.stringify(res)}`);
+      console.log(`query done: ${JSON.stringify(res.rows)}`);
       return response.status(201).json(res.rows[0]);
     }
     )
