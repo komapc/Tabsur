@@ -72,7 +72,7 @@ class CreateMeal extends Component {
       guestCount: this.state.guestCount,
     };
 
-    this.props.addMeal(newMeal);
+    this.props.addMeal(newMeal, this.props.history);
   };
 
   render() {
