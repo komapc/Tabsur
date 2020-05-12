@@ -62,7 +62,6 @@ class CreateMeal extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const formattedDate=new Date(this.state.selectedDate);
 
     const newMeal = {
       name: this.state.name,
@@ -74,9 +73,8 @@ class CreateMeal extends Component {
     };
 
     this.props.addMeal(newMeal);
-    alert(formattedDate);
     if (!this.state.isValid) {
-      alert(JSON.stringify(this.state.selectedDate));
+      console.log("add meal error:" + JSON.stringify(this.state.errors));
       return;
     }
     this.props.history.push({ pathname: '/MyMeals' });
@@ -149,10 +147,11 @@ class CreateMeal extends Component {
               <input
                 min={0} max={10}
                 onChange={this.onChange}
+                pattern='[0-9][0-9][0-9]'
                 value={this.state.guestCount}
-                error={errors.password}
+                error={errors.guestCount}
                 id="guestCount"
-                type="number" pattern="[0-9]*" maxLength="2"
+                type="number"  maxLength="2"
               />
               <label htmlFor="guestCount">Number of guests</label>
               <span className="red-text">{errors.guestCount}  </span>

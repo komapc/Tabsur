@@ -20,8 +20,8 @@ router.get("/get/:id", async (req, response) => {
 
   const SQLquery = `SELECT (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), 
   (((SELECT status AS attend_status FROM attends WHERE meal_id=m.id AND attends.user_id=$1) UNION 
-  (SELECT -1 AS attend_status) ORDER BY attend_status DESC)  LIMIT 1),
-	m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u on m.host_id = u.id`;
+  (SELECT -1 AS attend_status) ORDER BY attend_status DESC) LIMIT 1),
+	m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id`;
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
 
