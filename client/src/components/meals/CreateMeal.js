@@ -62,10 +62,10 @@ class CreateMeal extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-
+    const formatedDate=new Date(this.state.selectedDate).getTime();
     const newMeal = {
       name: this.state.name,
-      date: this.state.selectedDate,
+      date: formatedDate,
       address: this.state.address,
       location: this.state.location,
       host_id: this.props.auth.user.id,
