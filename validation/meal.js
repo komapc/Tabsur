@@ -9,7 +9,7 @@ module.exports = function validateMealInput(data) {
 
   // Name checks
   if (Validator.isEmpty(data.name)) {
-    errors.name = "Name field is required";
+    errors.name = `Name field is required, "${data.name}" is given`;
   }
 
   data.address = !isEmpty(data.address) ? data.address : "";
@@ -20,16 +20,16 @@ module.exports = function validateMealInput(data) {
 
   if (isEmpty(data.guestCount))
   {
-    errors.guestCount = "Number if invited guests is empty";
+    errors.guestCount = "Number of invited guests is empty";
   }
   else if (isNaN(data.guestCount) || data.guestCount === "") {
-    errors.guestCount = "Number if invited guests is not a number";
+    errors.guestCount = `Number of invited guests is not a number, "${data.name}" is given`;
   }
   else 
   {
     data.guestCount = (data.guestCount > 0) ? data.guestCount : "0";
     if (data.guestCount < 0) {
-      errors.guestCount = "Number if invited guests should be a positive number";
+      errors.guestCount = "Number of invited guests should be a positive number";
     }
   }
   console.log("validate: " + JSON.stringify(errors));

@@ -57,7 +57,7 @@ class Register extends Component {
     return (
       <div className="main">
         <div className="row">
-          <div className="col s8 offset-s2">            
+          <div className="col s8 offset-s2">
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
               <h4>
                 <b>Register</b>
@@ -125,7 +125,7 @@ class Register extends Component {
               </div>
               <div className="col s12" >
                 <button
-                
+
                   type="submit"
                   className="button waves-effect waves-light hoverable accent-3">
                   Sign up

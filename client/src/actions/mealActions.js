@@ -4,9 +4,14 @@ import { GET_ERRORS, USER_LOADING } from "./types";
 import config from "../config";
 
 // add a meal
-export const addMeal = (userData) => dispatch => {
+export const addMeal = (userData, history) => dispatch => {
   axios
     .post(`${config.SERVER_HOST}/api/meals/add`, userData)
+    .then(res => 
+      {
+        console.log(`add meal: [${res}]`);
+        history.push("/MyMeals");
+      })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
