@@ -16,14 +16,17 @@ import locationIcon from "../../resources/location_icon.svg"
 import dateIcon from "../../resources/date_time_icon.svg"
 import servingsIcon from "../../resources/servings_icon.svg"
 
-const defaultLocation = { lng: 34.808, lat: 32.09 };
 
 class CreateMeal extends Component {
+  
   constructor() {
     super();
+    
+    const defaultLocationConst = { lng: 34.808, lat: 32.09 };
     this.state = {
       name: "",
-      location: defaultLocation,
+      location: defaultLocationConst,
+      defaultLocation:defaultLocationConst,
       address: "",
       guestCount: "",
       errors: {},
@@ -171,7 +174,7 @@ class CreateMeal extends Component {
           <MapLocationSelector
             handleLocationUpdate={this.onLocationUpdate}
             // address={this.state.address}
-            defaultLocation={defaultLocation}
+            defaultLocation={this.state.defaultLocation}
             handleExit={this.onMapExit}
           />
         </div>
