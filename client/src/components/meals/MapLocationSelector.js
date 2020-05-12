@@ -19,6 +19,21 @@ class MapLocationSelector extends Component {
             location: this.props.defaultLocation
         };
     };
+    componentDidMount() {
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition( (position)=>{
+    
+            const p = { lng: position.coords.longitude, lat: position.coords.latitude };
+    
+            console.log("geolocation is: ", JSON.stringify(p));
+            //
+            this.setState({defaultLocation:p, location:p});
+          });
+        }
+        else {
+          console.log("geolocation is not available.");
+        }
+      }
     onMarkerDragEnd = (event) => {
         let lat = event.latLng.lat(),
             lng = event.latLng.lng();
