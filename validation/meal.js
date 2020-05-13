@@ -19,7 +19,7 @@ module.exports = function validateMealInput(data) {
   }
 
   if (isEmpty(data.guestCount))
-  {
+  { 
     errors.guestCount = "Number of invited guests is empty";
   }
   else if (isNaN(data.guestCount) || data.guestCount === "") {
