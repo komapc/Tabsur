@@ -69,10 +69,8 @@ class MapLocationSelector extends Component {
         console.log("event: " + event);
         //setAddress(addr);
         this.setState({ address: addr });
-        let place = Geocode.fromAddress(addr).then(response => {
+        Geocode.fromAddress(addr).then(response => {
             const { lat, lng } = response.results[0].geometry.location;
-            console.log("place.");
-            console.log(lat, lng);
             this.props.handleLocationUpdate({ address: event.description, location: { lng, lat } });
             this.setState({ location: { lng, lat } });
             console.log("onAutoCompleteSelect." + JSON.stringify(this.state.location));
