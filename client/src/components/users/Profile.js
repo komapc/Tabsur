@@ -14,7 +14,7 @@ class Profile extends Component {
       errors: {}
     };
 
-    axios.get(`${config.SERVER_HOST}/api/users/get/` + this.props.match.params.id)
+    axios.get(`${config.SERVER_HOST}/api/users/` + this.props.match.params.id)
       .then(res => {
         console.log(res.data);
         this.setState({ user: res.data });

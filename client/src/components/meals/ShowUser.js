@@ -56,7 +56,7 @@ class ShowUser extends Component {
   }
 
   getUserInfo() {
-    axios.get(`${config.SERVER_HOST}/api/users/get/${this.state.id}`)
+    axios.get(`${config.SERVER_HOST}/api/users/${this.state.id}`)
       .then(res => {
         console.log(res.data);
         this.setState({ user: res.data[0] });
