@@ -133,7 +133,7 @@ ul li span {
   .menu-right {
     position: absolute;
     right: 10px;
-    top:10px
+    top: 10px
   }
 
   nav
@@ -426,9 +426,11 @@ input
 .google-places-autocomplete
 {
     position: absolute;
+    top: 5px;
     left:30px  !important;
     width: 90% !important;
     float: right !important;
+    height: 40px !important;
 } 
 .google-places-autocomplete :focus {
 
@@ -446,8 +448,8 @@ input
 .map-with-marker-container
 {
     position: relative;
-    top: 25px;
+    top: 35px;
     left: -5%;
-    height: 75%;
+    height: 90%;
     width: 105%;
 }

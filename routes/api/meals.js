@@ -11,10 +11,10 @@ const router = express.Router();
 // Load input validation
 const validateMealInput = require("../../validation/meal");
 
-// @route GET api/meals/get
+// @route GET api/meals/
 // @desc get a meal list
 // @access Public
-router.get("/get/:id", async (req, response) => {
+router.get("/:id", async (req, response) => {
   const client = new Client(currentConfig);
   console.log(`get meals for user ${req.params.id}`);
 
@@ -47,7 +47,7 @@ router.get("/get/:id", async (req, response) => {
 // @access Public
 router.get("/my/:id", async (req, response) => {
   const client = new Client(currentConfig);
-  console.log("get meals by name: " + JSON.stringify(req.params));
+  console.log("get my meals by user id: " + JSON.stringify(req.params));
   if (req.params.id == "undefined") {
     console.log("error, empty id");
     response.status(400).json("Error in geting my meals: empty");
@@ -58,6 +58,37 @@ router.get("/my/:id", async (req, response) => {
     WHERE meal_id=m.id), 
   0 as attend_status, m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id 
   WHERE m.date>now() AND host_id=$1`;
+  await client.connect();
+  client.query(SQLquery, [req.params.id])
+    .then(resp => {
+      client.end();
+      return response.json(resp.rows);
+    })
+    .catch(err => {
+      client.end();
+      console.log(err);
+      return response.status(500).json(err);
+    });
+});
+
+// @route GET api/meals/attends
+// @desc get a list of meals created the user attends
+// @access Public
+router.get("/attends/:id", async (req, response) => {
+  const client = new Client(currentConfig);
+  console.log("get meals where user attends: " + JSON.stringify(req.params));
+  if (req.params.id == "undefined") {
+    console.log("error, empty id");
+    response.status(400).json("Error in geting attended meals: empty");
+    return;
+  }
+  const SQLquery = `SELECT * FROM (
+    SELECT
+        (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id),
+        (SELECT status AS attend_status FROM attends
+           WHERE  meal_id=m.id AND attends.user_id=$1),
+        m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
+      ) AS sel WHERE attend_status > 0`;
   await client.connect();
   client.query(SQLquery, [req.params.id])
     .then(resp => {
