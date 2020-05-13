@@ -91,10 +91,10 @@ class MapLocationSelector extends Component {
 
     render() {
         return (
-            <span className="   ">
+            <span className="main">
                 <span className="autocomplete-bar">
                     <img onClick={this.props.handleExit}
-                        className="autocomplete-icon" src={backArrowIcon} alt="<--"/>
+                        className="autocomplete-icon" src={backArrowIcon} alt="back"/>
                     <GooglePlacesAutocomplete className="autocomplete-span"
                         onSelect={this.onAutoCompleteSelect}
                         initialValue={this.state.address}
