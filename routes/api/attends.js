@@ -40,9 +40,10 @@ router.post('/:id', async (req, response) => {
     status = ${status} WHERE attends.meal_id=${meal_id} AND attends.user_id = ${user_id}`)
       .then
       (
-        client.query('INSERT into notifications (meal_id, user_id, message_text, sender, note_type) \
-          VALUES ($1, $2, \'new guest whant to join your meal.\', 0, 5)',
-          [attend.meal_id, attend.user_id])
+        client.query(`
+        INSERT into notifications (meal_id, user_id, message_text, sender, note_type) 
+                VALUES ($1, (select host_id from meals where id=$1), 'new guest (${attend.user_id}) wants to join your meal.', 0, 5)`,
+          [attend.meal_id])
           .catch(err => { 
             console.log(err); 
             client.end();
@@ -69,7 +70,7 @@ router.put('/:id', function(req, res, next) {
 
 /* DELETE attend */
 router.delete('/:id', async (req, res, next) => {
-  console.log("Attend,  " +currentConfig.user );
+  console.log("Attend,  " + currentConfig.user );
   const attend = req.body;
   const client = new Client(currentConfig);
   await client.connect();
