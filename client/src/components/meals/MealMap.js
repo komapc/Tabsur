@@ -36,7 +36,7 @@ class MealMap extends Component {
   }
 
   componentDidMount() {
-    axios.get(`${config.SERVER_HOST}/api/meals/get/` + this.props.auth.user.id)
+    axios.get(`${config.SERVER_HOST}/api/meals/` + this.props.auth.user.id)
       .then(res => {
         console.log(res);
         this.setState({ meals: res.data });
