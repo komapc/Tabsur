@@ -132,10 +132,10 @@ router.post("/login", async (req, response) => {
     });
 });
 
-// @route GET api/users/get
+// @route GET api/users
 // @desc get public user properties
 // @access Public
-router.get("/get/:id", async (req, response) => {
+router.get("/:id", async (req, response) => {
   // Find the user
   const client = new Client(currentConfig);
   await client.connect().catch(err => {

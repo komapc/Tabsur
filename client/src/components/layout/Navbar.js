@@ -28,7 +28,7 @@ class Navbar extends Component {
     return (
       <div className="navbar-fixed">
         <nav>
-            <div className="menu-right">
+            <div className="menu-r ight">
             <Link
               to="/meals"
             >

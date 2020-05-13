@@ -23,7 +23,7 @@ export const addMeal = (userData, history) => dispatch => {
 //get
 export const getMeals = (mealData, id) => dispatch => {
   axios
-    .get(`${config.SERVER_HOST}/api/meals/get/` + id, mealData)
+    .get(`${config.SERVER_HOST}/api/meals/` + id, mealData)
     .then(res => {
      dispatch(res); 
     })
