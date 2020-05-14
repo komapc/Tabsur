@@ -102,7 +102,7 @@ class CreateMeal extends Component {
             {/* <span><img className="meal-info-icons" src={dateIcon} alt="date" /></span> */}
             <span>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid container justify="space-around">
+                <Grid container justify="space-around"><span><img className="meal-info-icons" src={dateIcon} alt="date" /></span>
                   <KeyboardDateTimePicker
                     variant="dialog"
                     ampm={false}
@@ -167,10 +167,8 @@ class CreateMeal extends Component {
               </button>}
           </div>
         </form>
-        {
-          // TODO: use user current location
-        }
-        <div className={this.state.showMap ? 'createMealMap' : 'createMealMap-hidden'}>
+       
+       <div className={this.state.showMap ? 'createMealMap' : 'createMealMap-hidden'}>
           <MapLocationSelector
             handleLocationUpdate={this.onLocationUpdate}
             // address={this.state.address}

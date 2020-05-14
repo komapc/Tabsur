@@ -21,31 +21,30 @@ class MapLocationSelector extends Component {
     };
     componentDidMount() {
         if ("geolocation" in navigator) {
-          navigator.geolocation.getCurrentPosition( (position)=>{
-    
-            const p = { lng: position.coords.longitude, lat: position.coords.latitude };
-    
-            console.log("geolocation is: ", JSON.stringify(p));
-            //
-            this.setState({defaultLocation:p, location:p});
-            Geocode.fromLatLng(p.lat, p.lng).then(
-                response => {
-                    console.log("fromLatLng.");
-                    const addr = response.results[0].formatted_address;
-                    console.log("onMarkerDragEnd, address: " + addr);
-                    this.props.handleLocationUpdate({ address: addr, location:p });
-                    this.setState({ address: addr, location: p});
-                },
-                error => {
-                    console.error(error);
-                }
-            );
-          });
+            navigator.geolocation.getCurrentPosition((position) => {
+
+                const p = { lng: position.coords.longitude, lat: position.coords.latitude };
+
+                console.log("geolocation is: ", JSON.stringify(p));
+                //
+                Geocode.fromLatLng(p.lat, p.lng).then(
+                    response => {
+                        console.log("fromLatLng.");
+                        const addr = response.results[0].formatted_address;
+                        console.log("onMarkerDragEnd, address: " + addr);
+                        this.props.handleLocationUpdate(
+                            { defaultLocation: p, address: addr, location: p });
+                    },
+                    error => {
+                        console.error(error);
+                    }
+                );
+            });
         }
         else {
-          console.log("geolocation is not available.");
+            console.log("geolocation is not available.");
         }
-      }
+    }
     onMarkerDragEnd = (event) => {
         let lat = event.latLng.lat(),
             lng = event.latLng.lng();
@@ -92,7 +91,7 @@ class MapLocationSelector extends Component {
             <span className="main">
                 <span className="autocomplete-bar">
                     <img onClick={this.props.handleExit}
-                        className="autocomplete-icon" src={backArrowIcon} alt="back"/>
+                        className="autocomplete-icon" src={backArrowIcon} alt="back" />
                     <GooglePlacesAutocomplete className="autocomplete-span"
                         onSelect={this.onAutoCompleteSelect}
                         initialValue={this.state.address}
