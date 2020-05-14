@@ -13,7 +13,7 @@ switch(env) {
         break;
     case 'production':
     default:
-        config.SERVER_HOST = host;//'http://coolanu.herokuapp.com';
+        config.SERVER_HOST = host;
     
 }
 

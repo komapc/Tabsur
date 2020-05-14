@@ -116,7 +116,7 @@ class MealListItem extends React.Component {
     return (
       <div className="meal_props" onClick={(event) => { this.gotoMeal(event, meal) }}>
         <span className="meal-props-left">
-          <img src={"http://www.catsinsinks.com/cats/rotator.php?" + meal.id}
+          <img src={"https://www.catsinsinks.com/cats/rotator.php?" + meal.id}
             alt="Meal" className="meal_image" />
           <div className="meal-dishes-div">
             <img className="meal-info-icons" src={dishes} alt={"number of portions"} />
