@@ -52,7 +52,6 @@ class MyMeals extends Component {
             </div >
           </div>
           <h4>
-            Hey {user.name},
               Meals you attend:
             </h4>
           <div>
