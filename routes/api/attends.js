@@ -42,8 +42,10 @@ router.post('/:id', async (req, response) => {
       (
         client.query(`
         INSERT into notifications (meal_id, user_id, message_text, sender, note_type) 
-                VALUES ($1, (select host_id from meals where id=$1), 'new guest (${attend.user_id}) wants to join your meal.', 0, 5)`,
-          [attend.meal_id])
+                VALUES ($1, (select host_id from meals where id=$1), 
+                CONCAT  ((select name from users where id=$2), ' wants to join your meal.'),
+                0, 5)`,
+          [attend.meal_id, attend.user_id])
           .catch(err => { 
             console.log(err); 
             client.end();
@@ -52,7 +54,7 @@ router.post('/:id', async (req, response) => {
           .then(answer => 
           { 
             client.end();
-            return response.status(201).json(answer); 
+            return response.status(201).json(answer.rows); 
           }
         )
       )
