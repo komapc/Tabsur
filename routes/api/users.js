@@ -161,18 +161,20 @@ router.get("/:id", async (req, response) => {
 // @route GET api/system
 // @desc system informaion
 // @access Public
-router.get("/system", async (req, response) => {
+router.get("/system/:id", async (req, response) => {
   // Find the user
   const client = new Client(currentConfig);
   await client.connect();
-  await client.query('select * from  versions')
+  client.query('SELECT * FROM versions')
     .then(ver => {
+      client.end();
       var payload = ver.rows;
 
       response.json(payload);
     })
     .catch(err => 
     { 
+      client.end();
       console.log(err); 
       return response.status(500).json("Failed to get version"); });
 });
