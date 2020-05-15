@@ -55,7 +55,7 @@ class App extends Component {
             <Helmet>
               <meta charSet="utf-8" />
               <title>Coolanu - food sharing app or food sharing and social dinning</title>
-              <link rel="canonical" href="http://coolanu.com" />
+              <link rel="canonical" href="https://coolanu.com" />
             </Helmet>
             <Navbar />
             <Route exact path="/register" component={Register} />
