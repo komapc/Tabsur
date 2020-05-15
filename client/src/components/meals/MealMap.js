@@ -5,7 +5,6 @@ import axios from 'axios';
 import MealMapShow from './MealMapShow';
 import BottomMealInfo from './BottomMealInfo'
 import config from "../../config";
-import { geolocated } from "react-geolocated";
 class MealMap extends Component {
 
   constructor(props) {
@@ -48,7 +47,6 @@ class MealMap extends Component {
           const p = { lng: position.coords.longitude, lat: position.coords.latitude };
 
           console.log("geolocation is: ", JSON.stringify(p));
-          //
           this.setState({defaultLocation:p});
         });
       }

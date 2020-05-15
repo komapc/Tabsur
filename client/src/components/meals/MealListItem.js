@@ -21,7 +21,6 @@ class AttendButton extends React.Component {
     event.stopPropagation();
     const user_id = this.props.auth.user.id;
     console.log("handleAttend: " + JSON.stringify(this.props.meal) + ", " + user_id);
-    const attend = { user_id: user_id, meal_id: this.props.meal.id, status: status };
     
     this.props.onJoin(this.props.meal, status);
   }

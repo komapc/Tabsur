@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { NavLink } from 'react-router-dom';
 import map from "../../resources/bottom_menu/map_bar.svg"
 import list from "../../resources/bottom_menu/list_bar.svg"

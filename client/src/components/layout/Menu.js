@@ -24,7 +24,7 @@ class Menu extends Component {
     const visible = this.props.visible;
     return (
       <div className={visible ? "menu" : "menu-hidden"}>
-        <div><img className="menu-close" src={menu} onClick={this.closeMenu} /></div>
+        <div><img className="menu-close" src={menu} onClick={this.closeMenu} alt="X"/></div>
         <Link className="link" to="/Login" onClick={this.handleLogout}>Logout</Link> <br />
         <Link className="link" to="/About" onClick={this.closeMenu}>About</Link><br />
         <Link className="link" to="/MyProfile" onClick={this.closeMenu}>My profile</Link>
