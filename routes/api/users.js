@@ -8,8 +8,7 @@ const pgConfig = require("./../dbConfig.js");
 const { Client } = require("pg");
 
 let currentConfig = pgConfig.pgConfigProduction;
-if (process.env.NODE_ENV === "debug")
-{
+if (process.env.NODE_ENV === "debug") {
   currentConfig = pgConfig.pgConfigLocal;
 }
 // Load input validation
@@ -49,10 +48,10 @@ router.post("/register", async (req, response) => {
         //input.password = hash;
         client.query('INSERT INTO users (name, email, password, location, address)' +
           'VALUES ($1, $2, $3, $4, $5)',
-          [newUser.name, newUser.email, hash, `33,33`, 'address'])
-          .then(user => {       
+          [newUser.name, newUser.email, hash, newUser.location, newUser.address])
+          .then(user => {
             client.end();
-            return response.status(201).json(user); 
+            return response.status(201).json(user);
           })
           .catch(err => { console.log(err); return response.status(500).json(newUser); });
         // TODO: fix user id
@@ -86,13 +85,13 @@ router.post("/login", async (req, response) => {
 
       //no record found
       if (res.rows === undefined || res.rows.length == 0) {
-        console.log(`error: user doesn't exist`, [newReq.email]); 
+        console.log(`error: user doesn't exist`, [newReq.email]);
         errors.email = "email not found";//emailnotfound
         return response.status(500).json(errors);
       }
-      
+
       // Check password
-      const row=res.rows[0];
+      const row = res.rows[0];
       console.log('res: ' + JSON.stringify(res));
       console.log('row: ' + JSON.stringify(row));
       bcrypt.compare(newReq.password, row.password).then(isMatch => {
@@ -124,11 +123,11 @@ router.post("/login", async (req, response) => {
             .json({ passwordincorrect: "Password incorrect" });
         }
       })
-        .catch(err => { 
-          console.log("bcrypt error:" + err); 
-          return response.status(500).json(newReq); })
+        .catch(err => {
+          console.log("bcrypt error:" + err);
+          return response.status(500).json(newReq);
+        })
         .then(() => client.end())
-
     });
 });
 
@@ -139,7 +138,7 @@ router.get("/:id", async (req, response) => {
   // Find the user
   const client = new Client(currentConfig);
   await client.connect().catch(err => {
-    console.log(err); 
+    console.log(err);
     return response.status(500).json(err);
   });
   client.query(`SELECT id, name, 100 AS rate,
@@ -150,13 +149,12 @@ router.get("/:id", async (req, response) => {
       response.json(user.rows);
     })
     .catch(err => {
-        client.end();
-        console.log(err); 
-        return response.status(500).json("No user"); }
-       );
+      client.end();
+      console.log(err);
+      return response.status(500).json("No user");
+    }
+    );
 });
-
-
 
 // @route GET api/system
 // @desc system informaion
@@ -172,10 +170,10 @@ router.get("/system/:id", async (req, response) => {
 
       response.json(payload);
     })
-    .catch(err => 
-    { 
+    .catch(err => {
       client.end();
-      console.log(err); 
-      return response.status(500).json("Failed to get version"); });
+      console.log(err);
+      return response.status(500).json("Failed to get version");
+    });
 });
 module.exports = router;
