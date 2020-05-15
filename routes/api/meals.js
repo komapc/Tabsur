@@ -155,9 +155,25 @@ router.post("/add", async (req, response) => {
     [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
     meal.address, meal.guestCount, meal.host_id, meal.date, meal.visibility])
     .then((res) => {
-      client.end();
+
       console.log(`query done: ${JSON.stringify(res.rows)}`);
-      return response.status(201).json(res.rows[0]);
+      const notificationQuery=`
+      INSERT INTO notifications 
+        (meal_id, message_text, user_id, status, note_type) 
+        (SELECT 0, 'New meal in your area.', users.id, 3, 6  FROM users )`;
+      console.log(`Notifications: [${notificationQuery}]`);
+      client.query(notificationQuery)
+          .catch(err => { 
+            console.log(err); 
+            client.end();
+            return response.status(500).json("failed to add notification: " + err); 
+            })
+          .then(answer => 
+          { 
+            client.end();
+            return response.status(201).json(answer.rows); 
+          }
+        )
     }
     )
     .catch((e) => {
