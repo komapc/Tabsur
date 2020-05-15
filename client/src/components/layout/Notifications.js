@@ -72,7 +72,7 @@ class Notifications extends Component {
     const visible = this.props.visible;
     return (
       <div className={visible ? "notes" : "notes-hidden"}>
-        <div><img className="menu-close" src={menu} onClick={this.closeMenu} /></div>
+        <div><img className="menu-close" src={menu} onClick={this.closeMenu} alt="X"/></div>
         {this.state.notes.map(note =>
           <NoteItem key={note.id} onClick={() => this.markAsRead(note, 2)} note={note} visible={visible}></NoteItem>
         )}
