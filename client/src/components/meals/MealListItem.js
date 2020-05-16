@@ -18,29 +18,32 @@ class AttendButton extends React.Component {
     };
   }
 
-  handleAttend = (event, status) => {
+  handleAttend = (event, new_status) => {
     event.stopPropagation();
     const user_id = this.props.auth.user.id;
-    this.setState({status:status});
-    console.log("handleAttend: " + JSON.stringify(this.props.meal) + ", " + user_id);
-
-    this.props.onJoin(this.props.meal, status);
+    console.log("handleAttend: " + JSON.stringify(this.state.meal) + ", " + user_id); 
+    this.props.onJoin(this.state.meal, new_status);
   }
 
   render() {
-    const meal = this.state.meal;
+    const meal = this.props.meal;
     const status = meal.attend_status;
     const isOwner = meal.host_id === this.props.auth.user.id;
-    let attendButton = <span></span>;
+    let attendButton = <span/>;
     if (meal.guest_count <= meal.Atendee_count) {
       attendButton = <img
         className="attend-button"
         src={fullUp}
         alt={"attend"}
-        onClick={(event) => { this.handleAttend(event) }} />
+        onClick={
+          (event) => {
+           this.handleAttend(event, 0) 
+          }
+          } 
+      />
     }
     else if (isOwner) {
-      attendButton = <span></span>
+      attendButton = <span/>;
     }
     else if (status <= 0) {
       attendButton = <button
@@ -86,16 +89,18 @@ class MealListItem extends React.Component {
     this.props.history.push(`/user/${host_id}`);
   }
 
-  onJoin = (meal, status) => {
+  onJoin = (meal, new_status) => {
+    const status=meal.attend_status;
     const user_id = this.props.auth.user.id;
-    const attend = { user_id: user_id, meal_id: meal.id, status: status };
+    alert("joining: " + status + "; " + new_status);
+    const attend = { user_id: user_id, meal_id: meal.id, status: new_status };
 
-    this.props.joinMeal(attend, user_id, status);
+    this.props.joinMeal(attend, user_id);
     const increment = status > 0 ? 1 : -1;
     this.setState((prevState => {
       let meal = Object.assign({}, prevState.meal);  // creating copy
       meal.Atendee_count = +meal.Atendee_count + +increment;
-      meal.status = status;
+      meal.attend_status = new_status;
       return { meal };
     }));
     //alert("Thank you for attending.");
