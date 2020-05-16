@@ -12,7 +12,7 @@ class GuestList extends Component {
     { 
       guests:[],
       followies:[],
-      sorted:[], //list of guest with followies first
+      sorted:["Loading"], //list of guest with followies first
       userId:this.props.userId
     }
   }
@@ -55,7 +55,7 @@ class GuestList extends Component {
         Guests list: 
         {
           sorted.map(guest =>
-          <div key={guest.id}>
+          <div key={guest.user_id}>
             <Link to={`user/${guest.user_id}`}> #{guest.name}</Link>
           </div>
           )

@@ -61,7 +61,6 @@ export const joinMeal = (attendData, id) => dispatch => {
     );
 };
 
-
 //get
 export const getAttendByMeal = attendData => dispatch => {
   axios
