@@ -1,9 +1,10 @@
 -- Table: public.meals
 
 -- table to claim "hungry situation"
+--drop table hungry;
 CREATE TABLE hungry
 (
-    id integer NOT NULL DEFAULT nextval('meals_id_seq'::regclass),
+    id SERIAL PRIMARY KEY,
     name varchar(200),
     created_at timestamp with time zone DEFAULT now(),
     type character varying COLLATE pg_catalog."default",
@@ -11,11 +12,6 @@ CREATE TABLE hungry
     address character varying COLLATE pg_catalog."default" NOT NULL,
     user_id integer NOT NULL,
     date timestamp with time zone DEFAULT now(),
-    visibility integer,
-    CONSTRAINT hungry_pkey PRIMARY KEY (id)
+	until timestamp with time zone DEFAULT (now() + '1 day'::interval day),
+    visibility integer
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE public.meals
-    OWNER to coolanu;
