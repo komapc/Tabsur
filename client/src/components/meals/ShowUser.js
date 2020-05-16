@@ -39,15 +39,15 @@ class ShowUser extends Component {
       });
   }
 
-  follow(status) {
+  follow(new_status) {
     const myUserId = this.props.auth.user.id;
     const thisUserId = this.state.id; 
-    const body = { followie: thisUserId, status: status };
+    const body = { followie: thisUserId, status: new_status };
     axios.post(`${config.SERVER_HOST}/api/follow/${myUserId}`, body)
       .then(res => {
         console.log(res.data);
         //change in DB, than change state
-        this.setState({followStatus:status});
+        this.setState({followStatus:new_status});
       })
       .catch(err => {
         this.setState({followStatus:-1});
@@ -74,8 +74,9 @@ class ShowUser extends Component {
         <div>Meals created: {this.state.user.meals_created}</div>
         <div>Rate {this.state.user.rate}/100</div>
         <div>You follow him? {this.state.followStatus}</div>
-        <button onClick={()=>this.follow(3)}>Follow</button>
-        <button onClick={()=>this.follow(0)}>UnFollow</button>
+        {this.state.followStatus?
+        <button onClick={()=>this.follow(0)}>UnFollow</button>:
+        <button onClick={()=>this.follow(3)}>Follow</button>}
       </div>
     );
   }
