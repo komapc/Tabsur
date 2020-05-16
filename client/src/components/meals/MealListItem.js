@@ -14,26 +14,27 @@ class AttendButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      meal:props.meal
     };
   }
 
   handleAttend = (event, status) => {
     event.stopPropagation();
     const user_id = this.props.auth.user.id;
+    this.setState({status:status});
     console.log("handleAttend: " + JSON.stringify(this.props.meal) + ", " + user_id);
-    
+
     this.props.onJoin(this.props.meal, status);
   }
 
   render() {
-    const meal = this.props.meal;
+    const meal = this.state.meal;
     const status = meal.attend_status;
     const isOwner = meal.host_id === this.props.auth.user.id;
-    let attendButton =<span></span>;
-    if (meal.guest_count <= meal.Atendee_count)  
-    {
+    let attendButton = <span></span>;
+    if (meal.guest_count <= meal.Atendee_count) {
       attendButton = <img
-      className="attend-button"
+        className="attend-button"
         src={fullUp}
         alt={"attend"}
         onClick={(event) => { this.handleAttend(event) }} />
@@ -41,20 +42,18 @@ class AttendButton extends React.Component {
     else if (isOwner) {
       attendButton = <span></span>
     }
-    else if (status <= 0) 
-    {
+    else if (status <= 0) {
       attendButton = <button
-      onClick={(event) => { this.handleAttend(event, 3) }} >Attend</button>;
+        onClick={(event) => { this.handleAttend(event, 3) }} >Attend</button>;
     }
-    else 
-    {
+    else {
       attendButton = <button
-      onClick={(event) => { this.handleAttend(event, 0) }} >Unattend</button>;
+        onClick={(event) => { this.handleAttend(event, 0) }} >Unattend</button>;
     }
 
     return <span className="attend-button">
-        {attendButton}
-      </span>
+      {attendButton}
+    </span>
   }
 };
 
@@ -73,7 +72,6 @@ class MealListItem extends React.Component {
     }
   }
 
- 
   gotoMeal = (event, meal) => {
     event.stopPropagation();
     event.preventDefault();
@@ -88,25 +86,24 @@ class MealListItem extends React.Component {
     this.props.history.push(`/user/${host_id}`);
   }
 
-  onJoin = (meal, status) =>
-  {
-    const user_id=this.props.auth.user.id;
+  onJoin = (meal, status) => {
+    const user_id = this.props.auth.user.id;
     const attend = { user_id: user_id, meal_id: meal.id, status: status };
-   
+
     this.props.joinMeal(attend, user_id, status);
-    const increment = status>0?1:-1;
+    const increment = status > 0 ? 1 : -1;
     this.setState((prevState => {
       let meal = Object.assign({}, prevState.meal);  // creating copy
       meal.Atendee_count = +meal.Atendee_count + +increment;
       meal.status = status;
       return { meal };
     }));
-    alert("Thank you for attending.");
+    //alert("Thank you for attending.");
   }
   render() {
 
     const meal = this.state.meal;
-    const owner = meal.host_id === this.props.auth.user.id? "YOU":meal.host_name;
+    const owner = meal.host_id === this.props.auth.user.id ? "YOU" : meal.host_name;
     console.log("MealListItem: " + JSON.stringify(meal));
     if (Object.keys(meal).length === 0) {
       return <div></div>
@@ -115,7 +112,7 @@ class MealListItem extends React.Component {
     return (
       <div className="meal_props" onClick={(event) => { this.gotoMeal(event, meal) }}>
         <span className="meal-props-left">
-          <img src={`https://picsum.photos/200`}
+          <img src={`https://picsum.photos/200`}  //todo: imageID
             alt="Meal" className="meal_image" />
           <div className="meal-dishes-div">
             <img className="meal-info-icons" src={dishes} alt={"number of portions"} />
@@ -123,24 +120,24 @@ class MealListItem extends React.Component {
           </div>
         </span>
         <span>
-        <AttendButton 
-          meal={meal} 
-          auth={this.props.auth} 
-          onJoin={this.onJoin}/>
-        <div className="meal-owner-div">by <span className="meal-owner"
-          onClick={(event) => { this.goToUser(event, meal.host_id) }}>{owner} </span>
-        </div>
-        <div className="meal-name" > {meal.name}</div>
-        <div>
-          <img className="meal-info-icons" src={time} alt={"date"} />
-          <span className="meal-info">{dat}</span>
-        </div>
-        <div>
-          <img className="meal-info-icons" src={location} alt={"address"} />
-          <span className="meal-info">{meal.address}  </span>
-        </div>
-      </span>
-    </div>
+          <AttendButton
+            meal={meal}
+            auth={this.props.auth}
+            onJoin={this.onJoin} />
+          <div className="meal-owner-div">by <span className="meal-owner"
+            onClick={(event) => { this.goToUser(event, meal.host_id) }}>{owner} </span>
+          </div>
+          <div className="meal-name" > {meal.name}</div>
+          <div>
+            <img className="meal-info-icons" src={time} alt={"date"} />
+            <span className="meal-info">{dat}</span>
+          </div>
+          <div>
+            <img className="meal-info-icons" src={location} alt={"address"} />
+            <span className="meal-info">{meal.address}  </span>
+          </div>
+        </span>
+      </div>
     )
   };
 }

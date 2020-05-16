@@ -23,6 +23,7 @@ class CreateMeal extends Component {
     super();
     
     const defaultLocationConst = { lng: 34.808, lat: 32.09 };
+    const now = Date.now();
     this.state = {
       name: "",
       location: defaultLocationConst,
@@ -31,7 +32,7 @@ class CreateMeal extends Component {
       guestCount: "",
       errors: {},
       showMap: false,
-      selectedDate: Date.now(),
+      selectedDate: new Date(now + 86400000),
       submitted: false
     };
   }
