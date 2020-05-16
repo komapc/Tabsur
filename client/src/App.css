@@ -245,9 +245,7 @@ ul li span {
  {
     height:33px;
     margin: 12px;
-    margin-bottom: 0;
-    /* border-style: none; */
-    margin-bottom:11px;
+    margin-bottom:1px;
  }
 
  nav a
@@ -256,12 +254,9 @@ ul li span {
  }
 .active
 {
-    border-bottom:solid ;
+    border-bottom:solid;
     border-color: white;
-    padding-bottom: 15px;
-    text-align: bottom;
 }
-
 
  .botttom-menu-link
  {
