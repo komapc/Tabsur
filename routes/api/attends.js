@@ -27,7 +27,7 @@ router.post('/:id', async (req, response) => {
   const user_id = attend.user_id;
   const status = attend.status;
   if (isNaN(meal_id) || isNaN(user_id) || isNaN(status)) {
-    return response.status(500).json("Bad input");
+    return response.status(500).json("Bad input, one of the parameters is not numeric.");
   }
 
   client.query(`

@@ -67,7 +67,7 @@ router.post("/:id", async (req, response) => {
 
   if (isNaN(follower) || isNaN(followie) || isNaN(status))
   {
-    return response.status(500).json("Bad input");
+    return response.status(500).json("Bad input, some input parameter are not null.");
   }
   const SQLquery = `
     INSERT INTO follow (follower, followie, status)
