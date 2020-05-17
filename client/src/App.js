@@ -23,6 +23,7 @@ import About from "./components/about/About"
 import NotificationScreen from "./components/notifications/NotificationScreen"; //Not used yet
 import MyMeals from "./components/meals/MyMeals"
 import MyProfile from "./components/auth/MyProfile"
+import Stats from "./components/users/Stats"
 import Profile from "./components/users/Profile"
 import { Helmet } from "react-helmet";
 import "./App.css";
@@ -74,6 +75,7 @@ class App extends Component {
               <PrivateRoute exact path="/notifications" component={NotificationScreen} /> */}
               <PrivateRoute exact path="/myProfile" component={MyProfile} />
               <PrivateRoute exact path="/profile/:id" component={Profile} />
+              <PrivateRoute exact path="/Stats/:id" component={Stats} />
             </Switch>
             <Bottom />
           </div>
