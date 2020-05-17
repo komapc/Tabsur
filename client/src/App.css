@@ -43,7 +43,7 @@ ul li span {
 .meals-map-info
 {
     transition:1s;
-    height: 66%;
+    height: 70%;
     position: fixed;
     width: 100%;
     background-color: #73d763;
@@ -73,7 +73,7 @@ ul li span {
     background-color: Blue;
 }
 
-.meal_props {
+.meal-props {
     background-color: white;
     border: solid;
     border-width: 1px;
@@ -85,20 +85,20 @@ ul li span {
     display: flex;
 }
 
-.meal_props:hover {
+.meal-props:hover {
     background-color:#d7f7c9;
     border-radius: 5px;
     transition-duration: 0.5s;
     font-size: small;
 }
 
-.meal_image {
+.meal-image {
     margin: 10%;
     width: 80%;
     float: left;
 }
 
-.meal_props   span {
+.meal-props   span {
     font-size: small;
 }
 

@@ -25,7 +25,7 @@ class BottomMealInfo extends React.Component {
       return <div>Nothing is selected</div>
     } 
     return (
-      <div className="meal_props" onClick={this.handleAttend}>
+      <div className="meal-props" onClick={this.handleAttend}>
         <MealListItem  meal={meal} />
       </div>
     )

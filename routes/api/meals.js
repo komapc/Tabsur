@@ -20,6 +20,7 @@ router.get("/:id", async (req, response) => {
 
   const SQLquery = `
   SELECT 
+    (SELECT im.path FROM meal_images as mi, images as im WHERE im.status>=0 and mi.meal_id=m.id limit 1) as path,
     (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), 
     (((SELECT status AS attend_status FROM attends 
        WHERE  meal_id=m.id AND attends.user_id=$1) UNION 
@@ -146,7 +147,7 @@ router.post("/add", async (req, response) => {
 
   console.log(`add meal - start, ${JSON.stringify(req.body)}`);
   await client.connect();
-
+  //todo: insert image
   const query=`INSERT INTO meals (name, type, location, address, guest_count, host_id, date, visibility)
   VALUES($1, $2, $3, $4, $5, $6, (to_timestamp($7/ 1000.0)), $8) RETURNING id`;
   console.log(`connected running [${query}]`);

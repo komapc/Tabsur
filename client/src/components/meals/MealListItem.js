@@ -119,12 +119,13 @@ class MealListItem extends React.Component {
     if (Object.keys(meal).length === 0) {
       return <div></div>
     }
-    const dat = dateFormat(new Date(meal.date), "dddd, mmmm dS, yyyy, hh:MM");
+    
+    const dat = dateFormat(new Date(meal.date), "yyyy-MM-dd HH:mm");
     return (
-      <div className="meal_props" onClick={(event) => { this.gotoMeal(event, meal) }}>
+      <div className="meal-props" onClick={(event) => { this.gotoMeal(event, meal) }}>
         <span className="meal-props-left">
-          <img src={`https://picsum.photos/200`}  //todo: imageID
-            alt="Meal" className="meal_image" />
+          <img src={meal.image}  //todo: imageID
+            alt="Meal" className="meal-image" />
           <div className="meal-dishes-div">
             <img className="meal-info-icons" src={dishes} alt={"number of portions"} />
             <span className="meal-guests">({meal.guest_count}/{meal.Atendee_count})</span>
