@@ -1,7 +1,5 @@
-# mern-auth
-
-![Final App](https://i.postimg.cc/tybZb8dL/final-MERNAuth.gif)
-Full-stack MERN app with authentication using passport and JWTs.
+# coolanu
+Food sharing / social dining app
 
 This project uses the following technologies:
 
