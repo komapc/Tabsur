@@ -76,7 +76,7 @@ class App extends Component {
               <PrivateRoute exact path="/myProfile" component={MyProfile} />
               <PrivateRoute exact path="/profile/:id" component={Profile} />
               <PrivateRoute exact path="/Stats/:id" component={Stats} />
-              <Redirect to='/' />
+              {/* <Redirect to='/' /> */}
             </Switch>
             <Bottom />
           </div>
