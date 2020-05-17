@@ -25,7 +25,7 @@ class CreateMeal extends Component {
     const defaultLocationConst = { lng: 34.808, lat: 32.09 };
     const now = Date.now();
     this.state = {
-      name: "",
+      name: `My meal`,
       location: defaultLocationConst,
       defaultLocation:defaultLocationConst,
       address: "",
