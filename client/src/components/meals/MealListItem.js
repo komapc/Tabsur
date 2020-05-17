@@ -124,7 +124,7 @@ class MealListItem extends React.Component {
     return (
       <div className="meal-props" onClick={(event) => { this.gotoMeal(event, meal) }}>
         <span className="meal-props-left">
-          <img src={meal.image}  //todo: imageID
+          <img src={meal.path} 
             alt="Meal" className="meal-image" />
           <div className="meal-dishes-div">
             <img className="meal-info-icons" src={dishes} alt={"number of portions"} />
