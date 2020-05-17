@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 
@@ -76,6 +76,7 @@ class App extends Component {
               <PrivateRoute exact path="/myProfile" component={MyProfile} />
               <PrivateRoute exact path="/profile/:id" component={Profile} />
               <PrivateRoute exact path="/Stats/:id" component={Stats} />
+              {/* <Redirect to='/' /> */}
             </Switch>
             <Bottom />
           </div>
