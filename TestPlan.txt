@@ -55,6 +55,7 @@ ATTEND
 8. Unattend
 9. open USER from guest list
 10. follow/unfollow
+11. Open meal info and check if guest list updated with new guest 
 
 NOTIFICATIONS
 1. User attends your meal
