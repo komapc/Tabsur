@@ -55,6 +55,7 @@ router.get("/my/:id", async (req, response) => {
     return;
   }
   const SQLquery = `SELECT 
+    (SELECT im.path FROM meal_images as mi, images as im WHERE im.status>=0 and mi.meal_id=m.id limit 1) as path,
     (SELECT count (user_id) AS "Atendee_count" FROM attends 
     WHERE meal_id=m.id), 
   0 as attend_status, m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id 
@@ -151,7 +152,7 @@ router.post("/add", async (req, response) => {
   const query=`INSERT INTO meals (name, type, location, address, guest_count, host_id, date, visibility)
   VALUES($1, $2, $3, $4, $5, $6, (to_timestamp($7/ 1000.0)), $8) RETURNING id`;
   console.log(`connected running [${query}]`);
-  
+  //todo: add image
   client.query(query,
     [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
     meal.address, meal.guestCount, meal.host_id, meal.date, meal.visibility])
@@ -196,10 +197,9 @@ router.delete("/:meal_id", async (req, response) => {
   }
   const client = new Client(currentConfig);
 
-  console.log(`delete - start, ${mealId}`);
+  console.log(`delete ${mealId}`);
   await client.connect();
 
-  console.log("connected");
   client.query('DELETE FROM meals WHERE id=$1',
     [mealId])
     .then(() => {
