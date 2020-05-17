@@ -10,7 +10,7 @@ class MealMap extends Component {
   constructor(props) {
     super(props);
     const position = { lng: 31.808, lat: 32.09 };
-    let selected=0;
+    let  selected=0;
     const params=this.props.match.params;
     if (this.props.selectedMeal>0)
     {
@@ -24,20 +24,20 @@ class MealMap extends Component {
       meals: [],
       meal: {},
       isSelected: selected>0,
-      selectedMeal: selected,
+      selectedMealId: selected,
       defaultLocation: position
     };
 
   }
   onMapClicked = (event) => {
-    this.setState({ isSelected: false, selectedMeal: {} });
+    this.setState({ isSelected: false, selectedMealId: {} });
   }
 
   onMarkerClicked = (event) => {
     this.setState({
       meal: event,
       isSelected: true,
-      selectedMeal: event.id
+      selectedMealId: event.id
     });
     console.log("onMarkerClicked" + JSON.stringify(this.state.meal));
   }
@@ -47,10 +47,15 @@ class MealMap extends Component {
       .then(res => {
         console.log(res);
         this.setState({ meals: res.data });
-        if (this.state.isSelected)
+        if (!this.state.isSelected)
         {
-          this.setState({ meal: this.state.meals[this.state.selectedMeal] });
+          return;
         }
+        const obj = this.state.meals.filter(m => {
+          return m.id === parseInt(this.state.selectedMealId);
+        })
+        console.log("componentDidMount: " + JSON.stringify(obj));
+        this.setState({ meal: obj[0]});
       });
 
       if ("geolocation" in navigator) {
@@ -79,7 +84,7 @@ class MealMap extends Component {
           onMarkerClick={this.onMarkerClicked}
           onMapClick={this.onMapClicked}
           userId={this.props.auth.user.id}
-          selectedMeal={this.state.selectedMeal}
+          selectedMeal={this.state.selectedMealId}
         />
 
         <div>

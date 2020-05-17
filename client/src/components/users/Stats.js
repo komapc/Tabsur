@@ -8,7 +8,7 @@ class Stats extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: []
+      users: ["Loading..."]
     };
   }
 
@@ -35,7 +35,8 @@ class Stats extends Component {
                   <th>name</th>
                   <th>followers</th>
                   <th>followies</th>
-                  <th>meals_hosted</th>
+                  <th>meals hosted</th>
+                  <th>attends</th>
                 </tr>
               </thead>
               <tbody>
@@ -46,6 +47,7 @@ class Stats extends Component {
                     <td>{user.followers} </td>
                     <td>{user.followies} </td>
                     <td>{user.meals_hosted} </td>
+                    <td>{user.attends} </td>
                   </tr>
                 )}
               </tbody>
