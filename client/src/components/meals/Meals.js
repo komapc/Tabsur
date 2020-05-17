@@ -4,13 +4,15 @@ import { getMeals } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
 import axios from 'axios';
 import config from "../../config";
-
+import Img from 'react-image'
+import loadingGIF from "../../resources/animation/loading.gif";
 class Meals extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      meals: []
+      meals: [],
+      loading: true
     };
   }
 
@@ -18,7 +20,7 @@ class Meals extends Component {
     axios.get(`${config.SERVER_HOST}/api/meals/` + this.props.auth.user.id)
       .then(res => {
         console.log(res.data);
-        this.setState({ meals: res.data });
+        this.setState({ meals: res.data, loading: false });
       })
       .catch(err => {
         console.log(err);
@@ -29,13 +31,16 @@ class Meals extends Component {
     return (
       <div className="main">
         <div className="row">
-          <div className="map-meal-info">
-            {this.state.meals.map(meal =>
-              <div key={meal.id}>
-                <MealListItem meal={meal} />
-              </div>
-            )}
-          </div>
+          {
+            this.state.loading ?
+              <img src={loadingGIF} alt="loading" /> :
+              <div className="map-meal-info">
+                {this.state.meals.map(meal =>
+                  <div key={meal.id}>
+                    <MealListItem meal={meal} />
+                  </div>
+                )}
+              </div>}
         </div>
       </div>
     );

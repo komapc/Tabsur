@@ -20,7 +20,9 @@ router.get("/:id", async (req, response) => {
 
   const SQLquery = `
   SELECT 
-    (SELECT im.path FROM meal_images as mi, images as im WHERE im.status>=0 and mi.meal_id=m.id limit 1) as path,
+    (SELECT im.path 
+      FROM meal_images as mi, images as im 
+      WHERE im.id=mi.meal_id  and im.status>=0 and mi.meal_id=m.id limit 1) as path,
     (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), 
     (((SELECT status AS attend_status FROM attends 
        WHERE  meal_id=m.id AND attends.user_id=$1) UNION 
