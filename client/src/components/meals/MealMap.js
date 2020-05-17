@@ -9,14 +9,22 @@ class MealMap extends Component {
 
   constructor(props) {
     super(props);
-    const position = { lng: 31.808, lat: 32.09 };    
-
-    console.log("Position is: ", JSON.stringify(position));
+    const position = { lng: 31.808, lat: 32.09 };
+    let selected=0;
+    const params=this.props.match.params;
+    if (this.props.selectedMeal>0)
+    {
+      selected=this.props.selectedMeal;
+    }
+    else if (!isNaN(params.meal_id))
+    {
+      selected = params.meal_id;
+    };
     this.state = {
       meals: [],
       meal: {},
-      isSelected: false,
-      selectedMeal: 0,
+      isSelected: selected>0,
+      selectedMeal: selected,
       defaultLocation: position
     };
 
@@ -39,6 +47,10 @@ class MealMap extends Component {
       .then(res => {
         console.log(res);
         this.setState({ meals: res.data });
+        if (this.state.isSelected)
+        {
+          this.setState({ meal: this.state.meals[this.state.selectedMeal] });
+        }
       });
 
       if ("geolocation" in navigator) {

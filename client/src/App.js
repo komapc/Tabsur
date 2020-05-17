@@ -67,7 +67,7 @@ class App extends Component {
               <PrivateRoute exact path="/meals" component={Meals} />
               <PrivateRoute exact path="/meal" component={ShowMeal} />
               <PrivateRoute exact path="/user/:id" component={ShowUser} />
-              <PrivateRoute exact path="/mealMap" component={MealMap} />
+              <PrivateRoute exact path="/mealMap/:meal_id?" component={MealMap} />
               <PrivateRoute exact path="/create" component={Create} />
               <PrivateRoute exact path="/myMeals" component={MyMeals} />
               <PrivateRoute exact path="/attend/:id" component={Attend} />

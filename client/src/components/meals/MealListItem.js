@@ -48,7 +48,7 @@ class AttendButton extends React.Component {
     else if (status <= 0) {
       attendButton = <button
         onClick={(event) => { this.handleAttend(event, 3) }} >Attend</button>;
-    }
+  }
     else {
       attendButton = <button
         onClick={(event) => { this.handleAttend(event, 0) }} >Unattend</button>;
@@ -87,6 +87,12 @@ class MealListItem extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     this.props.history.push(`/user/${host_id}`);
+  }
+
+  goToMaps = (event, id) => {
+    event.stopPropagation();
+    event.preventDefault();
+    this.props.history.push(`/MealMap/${id}`);
   }
 
   onJoin = (meal, new_status) => {
@@ -139,7 +145,10 @@ class MealListItem extends React.Component {
           </div>
           <div>
             <img className="meal-info-icons" src={location} alt={"address"} />
-            <span className="meal-info">{meal.address}  </span>
+            <span  
+              onClick={(event) => {this.goToMaps(event, meal.id) }}
+              className="meal-info">{meal.address} 
+              </span>
           </div>
         </span>
       </div>
