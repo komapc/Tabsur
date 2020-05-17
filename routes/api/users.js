@@ -176,4 +176,36 @@ router.get("/system/:id", async (req, response) => {
       return response.status(500).json("Failed to get version");
     });
 });
+
+// @route GET api/system
+// @desc system informaion
+// @access Public
+router.get("/stats/:id", async (req, response) => {
+  if (req.params.id != 12345)
+  {
+    return response.status(500).json("access denied.");
+  }
+  // Find the user
+  const client = new Client(currentConfig);
+  await client.connect();
+  client.query(`select id, name,
+	(select count (1) from follow where followie=u.id) as followers,
+	(select count (1) from follow where follower=u.id) as followies, 
+	(select count (1) from meals where host_id=u.id) as meals_hosted,
+	(select count (1) from attends where user_id=u.id) as attends
+from users as u;
+`)
+    .then(res => {
+      client.end();
+      var payload = res.rows;
+      console.log("Sending stats");
+      response.json(payload);
+    })
+    .catch(err => {
+      client.end();
+      console.log(err);
+      return response.status(500).json("Failed to get stats");
+    });
+});
+
 module.exports = router;
