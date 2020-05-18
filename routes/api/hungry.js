@@ -68,7 +68,7 @@ router.get("/user/:id", async (req, response) => {
     });
 });
 
-// @route POST api/meals/add
+// @route POST api/hungry/
 router.post("/", async (req, response) => {
   // Form validation
   const hungry = req.body;
