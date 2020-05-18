@@ -20,10 +20,9 @@ router.get("/:id", async (req, response) => {
 
   const SQLquery = `
   SELECT 
-    (SELECT im.path 
-      FROM meal_images as mi, images as im 
-      WHERE im.id=mi.meal_id  and im.status>=0 and mi.meal_id=m.id limit 1) as path,
-    (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id), 
+    (SELECT images.path
+      FROM meal_images as mi, images 
+      WHERE mi.meal_id=m.id and images.id=image_id and images.status>=0 limit 1), 
     (((SELECT status AS attend_status FROM attends 
        WHERE  meal_id=m.id AND attends.user_id=$1) UNION 
       (SELECT -1 AS attend_status) ORDER BY attend_status DESC) LIMIT 1),
@@ -34,7 +33,6 @@ router.get("/:id", async (req, response) => {
 
   client.query(SQLquery, [req.params.id])
     .then(resp => {
-      console.log(JSON.stringify(resp.rows));
       response.json(resp.rows);
       client.end();
     })
@@ -57,11 +55,13 @@ router.get("/my/:id", async (req, response) => {
     return;
   }
   const SQLquery = `SELECT 
-    (SELECT im.path FROM meal_images as mi, images as im WHERE im.status>=0 and mi.meal_id=m.id limit 1) as path,
+    (SELECT images.path
+      FROM meal_images as mi, images 
+      WHERE mi.meal_id=m.id and images.id=image_id and images.status>=0 limit 1),
     (SELECT count (user_id) AS "Atendee_count" FROM attends 
-    WHERE meal_id=m.id), 
-  0 as attend_status, m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id 
-  WHERE m.date>now() AND host_id=$1`;
+      WHERE meal_id=m.id), 
+    0 as attend_status, m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id 
+    WHERE m.date>now() AND host_id=$1`;
   await client.connect();
   client.query(SQLquery, [req.params.id])
     .then(resp => {
@@ -136,8 +136,56 @@ router.get("/guests/:meal_id", async (req, response) => {
     )
 });
 
-// @route POST api/meals/add
-router.post("/add", async (req, response) => {
+// @route POST api/meals/image
+router.post("/image", async (req, response) => {
+  console.log(`query: ${JSON.stringify(req.body)}`);
+  if (!req.body.meal_id)
+  {
+    return response.status(500).json(`Empty input.`);
+  }
+  const meal_id=req.body.meal_id;
+  let image_path=req.body.image_path;
+  let image_id=req.body.image_id;
+  const client = new Client(currentConfig);
+  await client.connect();
+  if (image_path==="#RANDOM")
+  {
+    console.log(`selecting random image`);
+
+    const query=`select id, path, status from images  offset (
+                select floor(random() * (select count(1) from images))::int) limit 1`
+    await client.query(query)
+      .then((res) => {
+        console.log(`random image query done: ${JSON.stringify(res.rows)}`);
+        image_path=res.rows[0].path;
+        image_id = res.rows[0].id;
+      })
+      .catch(err => { 
+        console.log(err); 
+        client.end();
+        return response.status(500).json("failed to select random image: " + err); 
+        })
+  }
+  if (isNaN(image_id) ||isNaN(meal_id) )
+  {
+    return response.status(500).json("Bad params"); 
+  }
+  const query=`insert into meal_images (meal_id, image_id) values ($1, $2) returning id`
+  client.query(query, [meal_id, image_id])
+    .then((res) => {
+      client.end();
+      console.log(`insert query done: ${JSON.stringify(res.rows)}`);
+      image_path=res.rows[0].path;
+      return response.status(200).json(res.rows); 
+    })
+    .catch(err => { 
+      console.log(err); 
+      client.end();
+      return response.status(500).json("failed to select random image: " + err); 
+      })
+});
+// @route POST api/meals/
+router.post("/", async (req, response) => {
   // Form validation
   const meal = req.body;
   const { errors, isValid } = validateMealInput(meal);
@@ -154,13 +202,13 @@ router.post("/add", async (req, response) => {
   const query=`INSERT INTO meals (name, type, location, address, guest_count, host_id, date, visibility)
   VALUES($1, $2, $3, $4, $5, $6, (to_timestamp($7/ 1000.0)), $8) RETURNING id`;
   console.log(`connected running [${query}]`);
-  //todo: add image
+  
   client.query(query,
     [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
     meal.address, meal.guestCount, meal.host_id, meal.date, meal.visibility])
     .then((res) => {
 
-      console.log(`query done: ${JSON.stringify(res.rows)}`);
+      console.log(`query done.`);
       const notificationQuery=`
       INSERT INTO notifications 
         (meal_id, message_text, user_id, status, note_type) 
@@ -175,7 +223,7 @@ router.post("/add", async (req, response) => {
           .then(answer => 
           { 
             client.end();
-            return response.status(201).json(answer.rows); 
+            return response.status(201).json(res.rows); 
           }
         )
     }
