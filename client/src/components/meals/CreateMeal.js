@@ -74,6 +74,7 @@ class CreateMeal extends Component {
       location: this.state.location,
       host_id: this.props.auth.user.id,
       guestCount: this.state.guestCount,
+      image_path: "#RANDOM"
     };
 
     this.props.addMeal(newMeal, this.props.history);

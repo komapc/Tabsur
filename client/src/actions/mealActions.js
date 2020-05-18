@@ -3,15 +3,22 @@ import axios from "axios";
 import { GET_ERRORS, USER_LOADING } from "./types";
 import config from "../config";
 
-// add a meal
+// add a meal and image
 export const addMeal = (userData, history) => dispatch => {
+  console.log("Adding meal");
   axios
-    .post(`${config.SERVER_HOST}/api/meals/add`, userData)
-    .then(res => 
-      {
-        console.log(`add meal: [${res}]`);
-        history.push("/MyMeals");
-      })
+    .post(`${config.SERVER_HOST}/api/meals/`, userData)
+    .then(res => {
+      const meal_id=res.data[0].id;
+      console.log(`meal added: ${JSON.stringify(meal_id)}`);
+      userData.meal_id = res.meal_id;
+      userData.meal_id = meal_id;
+      axios.post(`${config.SERVER_HOST}/api/meals/image/`, userData)
+        .then(res2 => {
+          console.log(`add image: [${JSON.stringify(res2)}]`);
+          history.push("/MyMeals");
+        })
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -25,7 +32,7 @@ export const getMeals = (mealData, id) => dispatch => {
   axios
     .get(`${config.SERVER_HOST}/api/meals/` + id, mealData)
     .then(res => {
-     dispatch(res); 
+      dispatch(res);
     })
     .catch(err =>
       dispatch({
@@ -38,12 +45,12 @@ export const getMeals = (mealData, id) => dispatch => {
 //get my meals
 export const getMyMeals = (mealData, id) => dispatch => {
   axios.get(`${config.SERVER_HOST}/api/meals/my/` + this.props.auth.user.id)
-  .then(res => {
-    console.log(res.data);
-    this.setState({ meals: res.data });
-  }).catch(err =>{
-    console.log(err);
-  }); 
+    .then(res => {
+      console.log(res.data);
+      this.setState({ meals: res.data });
+    }).catch(err => {
+      console.log(err);
+    });
 };
 
 
@@ -57,7 +64,7 @@ export const joinMeal = (attendData, id) => dispatch => {
         type: GET_ERRORS,
         payload: err.response.data
       })
-      .then(res=>dispatch(res))
+        .then(res => dispatch(res))
     );
 };
 
@@ -66,7 +73,7 @@ export const getAttendByMeal = attendData => dispatch => {
   axios
     .get(`${config.SERVER_HOST}/api/attends/meal/` + attendData.meal_id, attendData)
     .then(res => {
-     dispatch(res); 
+      dispatch(res);
     })
     .catch(err =>
       dispatch({
