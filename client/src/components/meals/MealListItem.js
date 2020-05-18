@@ -117,7 +117,7 @@ class MealListItem extends React.Component {
     const owner = meal.host_id === this.props.auth.user.id ? "YOU" : meal.host_name;
     console.log("MealListItem: " + JSON.stringify(meal));
     if (Object.keys(meal).length === 0) {
-      return <div></div>
+      return <div>NO MEALS YET</div>
     }
     
     const dat = dateFormat(new Date(meal.date), "yyyy-MM-dd HH:mm");
@@ -125,7 +125,7 @@ class MealListItem extends React.Component {
       <div className="meal-props" onClick={(event) => { this.gotoMeal(event, meal) }}>
         <span className="meal-props-left">
           <img src={meal.path} 
-            alt="Meal" className="meal-image" />
+            alt={"image: " + meal.path} className="meal-image" />
           <div className="meal-dishes-div">
             <img className="meal-info-icons" src={dishes} alt={"number of portions"} />
             <span className="meal-guests">({meal.guest_count}/{meal.Atendee_count})</span>
