@@ -29,7 +29,7 @@ class CreateMeal extends Component {
       name: `My meal`,
       location: defaultLocationConst,
       defaultLocation:defaultLocationConst,
-      address: "",
+      address: " ",
       guestCount: 2,
       errors: {},
       showMap: false,
@@ -135,6 +135,7 @@ class CreateMeal extends Component {
                 error={errors.password}
                 id="address"
                 type="text"
+                notched
               />
               <label htmlFor="address" shrink>Location</label>
               <span className="red-text">{errors.address}</span>
