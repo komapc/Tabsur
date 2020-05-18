@@ -15,6 +15,7 @@ import attend from "../../resources/attended.svg"
 import locationIcon from "../../resources/location_icon.svg"
 import dateIcon from "../../resources/date_time_icon.svg"
 import servingsIcon from "../../resources/servings_icon.svg"
+import InputLabel from '@material-ui/core/InputLabel';
 
 
 class CreateMeal extends Component {
@@ -29,7 +30,7 @@ class CreateMeal extends Component {
       location: defaultLocationConst,
       defaultLocation:defaultLocationConst,
       address: "",
-      guestCount: "",
+      guestCount: 2,
       errors: {},
       showMap: false,
       selectedDate: new Date(now + 86400000),
@@ -96,7 +97,7 @@ class CreateMeal extends Component {
               type="text"
               className={errors.name ? 'invalid' : ''}
             />
-            <label htmlFor="name">Meal name</label>
+            <label htmlFor="name" shrink >Meal name</label>
             <span className="red-text">{errors.name}</span>
           </div>
           {/* Date and time */}
@@ -130,12 +131,12 @@ class CreateMeal extends Component {
               <input
                 onChange={this.onChange}
                 onClick={this.onAddressClickHandle}
-                value={this.state.address || ""}
+                value={this.state.address }
                 error={errors.password}
                 id="address"
                 type="text"
               />
-              <label htmlFor="address">Location</label>
+              <label htmlFor="address" shrink>Location</label>
               <span className="red-text">{errors.address}</span>
             </span>
           </div>
@@ -153,7 +154,7 @@ class CreateMeal extends Component {
                 id="guestCount"
                 type="number"  maxLength="2"
               />
-              <label htmlFor="guestCount">Number of guests</label>
+              <label htmlFor="guestCount"  shrink>Number of guests</label>
               <span className="red-text">{errors.guestCount}  </span>
             </span>
           </div>
