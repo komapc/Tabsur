@@ -96,8 +96,9 @@ class CreateMeal extends Component {
               id="name"
               type="text"
               className={errors.name ? 'invalid' : ''}
+              notched="true"
             />
-            <label htmlFor="name" shrink >Meal name</label>
+            <label htmlFor="name" shrink="true">Meal name</label>
             <span className="red-text">{errors.name}</span>
           </div>
           {/* Date and time */}
@@ -135,9 +136,9 @@ class CreateMeal extends Component {
                 error={errors.password}
                 id="address"
                 type="text"
-                notched
+                notched="true"
               />
-              <label htmlFor="address" shrink>Location</label>
+              <label htmlFor="address" shrink="true">Location</label>
               <span className="red-text">{errors.address}</span>
             </span>
           </div>
@@ -152,9 +153,10 @@ class CreateMeal extends Component {
                 pattern='[0-9][0-9][0-9]'
                 value={this.state.guestCount}
                 error={errors.guestCount}
-                id="guestCount"
+                id="guestCount" name="guestCount"
                 type="number"  maxLength="2"
-              />
+                notched="true"
+              /> 
               <label htmlFor="guestCount"  shrink>Number of guests</label>
               <span className="red-text">{errors.guestCount}  </span>
             </span>
