@@ -364,6 +364,11 @@ ul li span {
     position: center;
 }
 
+/*temporary solution, overcomes material-ui bugs*/
+.input-field>label 
+{
+    position: relative !important;
+}
 .location-input-field
 {
     width: 70%;

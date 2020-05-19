@@ -98,7 +98,6 @@ class MealListItem extends React.Component {
   onJoin = (meal, new_status) => {
     const status=meal.attend_status;
     const user_id = this.props.auth.user.id;
-    alert("joining: " + status + "; " + new_status);
     const attend = { user_id: user_id, meal_id: meal.id, status: new_status };
 
     this.props.joinMeal(attend, user_id);
