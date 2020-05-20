@@ -11,24 +11,32 @@ const CreateMealWizard = () => {
     ...state,
     SW,
   });
+  const submit =(e)=>
+  {
+    alert(JSON.stringify(this.props));
+    //addMeal
+  }
+  const update = (e) => {
+    updateState({ [e.id]: e.value });
+  };
 
   const { SW } = state;
 
   return (
     <div className='main container'>
       <h3>Create Meal </h3>
-      {(SW) && <Navigator SW={SW} />}
+      {(SW) ? <Navigator SW={SW} />:<div>No SW?</div>}
       <div>
         <div className='row'>
           <div className={`col-12 col-sm-6 offset-sm-3 }`}>
             <StepWizard
-              transitions={state.transitions} // comment out for default transitions
+              transitions={state.transitions}
               instance={setInstance}
             >
-              <NameStep />
-              <LocationStep />
-              <TimeStep />
-              <GuestStep />
+              <NameStep  update={update} />
+              <LocationStep update={update} />
+              <TimeStep update={update} />
+              <GuestStep update={update} />
             </StepWizard>
           </div>
         </div>
@@ -53,25 +61,24 @@ const Navigator = ({ SW }) => (
 /** Steps */
 const NameStep = props => {
   const update = (e) => {
-    props.update(e.target.name, e.target.value);
-  };
-
+     props.update(e.target);
+  }
   return (
     <div>
 
       <label>Meal Name</label>
-      <input type='text' className='form-control'
+      <input type='text' className='form-control' id="name"
         onChange={update} />
 
       <label>Description</label>
-      <input type='text' className='form-control'
+      <input type='text' className='form-control' id="descripion"
         onChange={update} />
     </div>
   );
 };
 const LocationStep = props => {
   const update = (e) => {
-    props.update(e.target.name, e.target.value);
+    props.update(e.target);
   };
 
   return (
@@ -97,8 +104,8 @@ const GuestStep = props => {
 
       <label>Number of guests</label>
       <input type='text' className='form-control'
-        onChange={update} />
-      <button onClick="submit">submit</button>
+        onChange={(e)=>{this.props.update(e)}} />
+      <button onClick={(e)=>{this.props.submit(e)}}>submit</button>
     </div>
   );
 };
