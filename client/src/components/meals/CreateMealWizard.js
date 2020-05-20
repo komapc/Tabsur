@@ -17,7 +17,15 @@ const CreateMealWizard = () => {
     //addMeal
   }
   const update = (e) => {
-    updateState({ [e.id]: e.value });
+    //alert(JSON.stringify(SW));
+    //updateState({ [e.id]: e.value });
+    const { form } = state;
+
+    form[e.id] = e.value;
+    updateState({
+        ...state,
+        form,
+    });
   };
 
   const { SW } = state;
@@ -35,8 +43,8 @@ const CreateMealWizard = () => {
             >
               <NameStep  update={update} />
               <LocationStep update={update} />
-              <TimeStep update={update} />
-              <GuestStep update={update} />
+              {/* <TimeStep update={update} />
+              <GuestStep update={update} /> */}
             </StepWizard>
           </div>
         </div>
