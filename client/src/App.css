@@ -457,11 +457,14 @@ input
 /*wizard*/
 .wizard-caption
 {
+    /* position: fixed; */
     width: 100%;
     text-align: center;
-    size:15px;
-    color:green;
+    font-size:1.1em; /* TODO: 30% */
+    color:#a2d888;
     text-transform: uppercase;
+    margin-top: 1em;
+    margin-bottom: 2em;
 }
 .wizard-progress
 {
@@ -472,5 +475,38 @@ input
 {
     text-align: center;
     width: 100%;
+}
 
+.wizard-middle
+{
+    height: 30%;
+    background-color: #efefef;
+}
+
+.wizard-bottom
+{
+    position:fixed;
+    width:90%;
+    bottom:10px;
+}
+
+.wizard-bottom-next
+{
+    width:50px;    
+    height:50px;
+    float: right;
+    margin:2px;
+}
+
+.wizard-bottom-prev
+{
+    width:50px;    
+    height:50px;
+    float: left;
+    margin:2px;
+}
+.wizard-container
+{
+    background-color: #b92a2a;
+    height: 50%;
 }
