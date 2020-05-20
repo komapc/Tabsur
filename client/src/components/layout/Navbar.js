@@ -9,6 +9,7 @@ class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      hideNavBar: false,
       visible:false,
       showMenu: false,
       showNotifications: false
@@ -29,11 +30,7 @@ class Navbar extends Component {
       <div className="navbar-fixed">
         <nav>
             <div className="menu-right">
-            <Link
-              to="/meals"
-            >
-                <img className="navbar-icons" src={search} alt={"meals list"}/> 
-            </Link>
+          
             <span
                 onClick={this.openNotifications} >
                 <img className="navbar-icons" src={notification} alt={"Notifications"}/>
@@ -46,8 +43,7 @@ class Navbar extends Component {
           </div>
         </nav>
         <div> 
-          <Menu 
-            visible={this.state.showMenu} 
+          <Menu visible={this.state.showMenu} 
             onItemClicked={()=>{this.setState({showMenu: false})}} />
             
           <Notifications 
