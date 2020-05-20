@@ -453,3 +453,24 @@ input
     height: 90%;
     width: 105%;
 }
+
+/*wizard*/
+.wizard-caption
+{
+    width: 100%;
+    text-align: center;
+    size:15px;
+    color:green;
+    text-transform: uppercase;
+}
+.wizard-progress
+{
+    height:100px;
+}
+
+.wizard-progress-container
+{
+    text-align: center;
+    width: 100%;
+
+}

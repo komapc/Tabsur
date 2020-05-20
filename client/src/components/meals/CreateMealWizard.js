@@ -1,5 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
-/* eslint react/prop-types: 0 */
+import backArrowIcon from "../../resources/back_arrow.svg"
+import imageStep1 from "../../resources/wizard/wizard_1.svg";
+import imageStep2 from "../../resources/wizard/wizard_2.svg";
+import imageStep3 from "../../resources/wizard/wizard_3.svg";
+import imageStep4 from "../../resources/wizard/wizard_4.svg";
+import imageStep5 from "../../resources/wizard/wizard_5.svg";
 
 import StepWizard from 'react-step-wizard';
 const CreateMealWizard = () => {
@@ -14,11 +19,9 @@ const CreateMealWizard = () => {
   const submit =(e)=>
   {
     alert(JSON.stringify(this.props));
-    //addMeal
+    //todo: addMeal
   }
   const update = (e) => {
-    //alert(JSON.stringify(SW));
-    //updateState({ [e.id]: e.value });
     const { form } = state;
 
     form[e.id] = e.value;
@@ -32,8 +35,7 @@ const CreateMealWizard = () => {
 
   return (
     <div className='main container'>
-      <h3>Create Meal </h3>
-      {(SW) ? <Navigator SW={SW} />:<div>No SW?</div>}
+      {SW && <TopHeader SW={SW} />}
       <div>
         <div className='row'>
           <div className={`col-12 col-sm-6 offset-sm-3 }`}>
@@ -43,28 +45,35 @@ const CreateMealWizard = () => {
             >
               <NameStep  update={update} />
               <LocationStep update={update} />
-              {/* <TimeStep update={update} />
-              <GuestStep update={update} /> */}
+              <TimeStep update={update} />
+              <GuestStep update={update} /> 
             </StepWizard>
           </div>
         </div>
       </div>
-
+      {(SW) ? <Navigator SW={SW} />:<div>Error</div>}
     </div>
   );
 };
 
 export default CreateMealWizard;
 
-const Navigator = ({ SW }) => (
+const TopHeader = ({ SW, onExit }) => (
   <Fragment>
-    <h4>....</h4>
-    <button className={'btn btn-secondary'} onClick={SW.previousStep}>Prev</button>
+    <img onClick={onExit}
+      className="autocomplete-icon" src={backArrowIcon} alt="back" />
+    <h4 class="wizard-caption">Create Meal</h4>
+    <div class="wizard-progress-container"><img src={imageStep1} alt={SW.step} class="wizard-progress"/></div>
+     </Fragment>
+);
+
+const Navigator = ({ SW, onExit }) => (
+  <Fragment>
+   <button className={'btn btn-secondary'} onClick={SW.previousStep}>Prev</button>
         &nbsp;
     <button className={'btn btn-secondary'} onClick={SW.nextStep}>Next</button>
   </Fragment>
 );
-
 
 /** Steps */
 const NameStep = props => {
@@ -73,10 +82,9 @@ const NameStep = props => {
   }
   return (
     <div>
-
       <label>Meal Name</label>
       <input type='text' className='form-control' id="name"
-        onChange={update} />
+        onChange={update} /> 
 
       <label>Description</label>
       <input type='text' className='form-control' id="descripion"
@@ -125,7 +133,7 @@ const TimeStep = props => {
 
   return (
     <div>
-      <h3 className='text-center  '>Time and Date</h3>
+      <h3 className='text-center'>Time and Date</h3>
 
       <label>Time and Date</label>
       <input type='text' className='form-control'
