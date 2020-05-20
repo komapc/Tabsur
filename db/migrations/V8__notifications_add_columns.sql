@@ -8,4 +8,4 @@ alter table notifications add column status integer default 0; -- 0 - created; 1
 
 -- 0 - system; 1 - new user; 2 - message; 3 - new meal;
 -- 4 - new hungry; 5 - request approved; 6 - rejected; 7 - reminder
-alter table notifications add column note_type integer;
+alter table notifications add column note_type integer not null default 0;
