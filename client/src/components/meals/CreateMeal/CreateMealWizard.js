@@ -1,5 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import TimeStep from './TimeStep';
+import NameStep from './NameStep';
+import LocationStep from './LocationStep';
 import backArrowIcon from "../../../resources/back_arrow.svg"
 import imageStep1 from "../../../resources/wizard/wizard_1.svg";
 import imageStep2 from "../../../resources/wizard/wizard_2.svg";
@@ -61,7 +63,7 @@ const CreateMealWizard = () => {
             onStepChange={onStepChange}
             transitions={state.transitions}
             instance={setInstance}>
-            <NameStep update={update} />
+            <NameStep update={update} mealName = "My meal"/>
             <LocationStep update={update} />
             <TimeStep update={update} form={state.form}/>
             <GuestStep update={update} />
@@ -101,36 +103,8 @@ const Navigator = ({ SW }) => (
 );
 
 /** Steps */
-const NameStep = props => {
-  const update = (e) => {
-    props.update(e.target);
-  }
-  return (
-    <div className="wizard-container">
-      <label>Meal Name</label>
-      <input type='text' className='form-control' id="name"
-        onChange={update} />
 
-      <label>Description</label>
-      <input type='text' className='form-control' id="description"
-        onChange={update} />
-    </div>
-  );
-};
-const LocationStep = props => {
-  const update = (e) => {
-    props.update(e.target);
-  };
 
-  return (
-    <div  className="wizard-container">
-
-      <label>Location</label>
-      <input type='text' className='form-control' id="location"
-        onChange={update} />
-    </div>
-  );
-};
 
 const GuestStep = props => {
   const update = (e) => {
