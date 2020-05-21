@@ -19,7 +19,7 @@ import ShowUser from "./components/meals/ShowUser";
 import MealMap from "./components/meals/MealMap";
 import Attend from "./components/meals/Attend";
 import Create from "./components/meals/CreateMeal";
-import CreateMealWizard from "./components/meals/CreateMealWizard";
+import CreateMealWizard from "./components/meals/CreateMeal/CreateMealWizard";
 import About from "./components/about/About"
 import NotificationScreen from "./components/notifications/NotificationScreen"; //Not used yet
 import MyMeals from "./components/meals/MyMeals"

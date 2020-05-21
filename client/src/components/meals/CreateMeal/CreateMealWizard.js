@@ -133,7 +133,7 @@ const LocationStep = props => {
 
 const GuestStep = props => {
   const update = (e) => {
-    props.update(e.target.name, e.target.value);
+    props.update(e.target);
   };
 
   return (
@@ -148,7 +148,7 @@ const GuestStep = props => {
 
 const ImageStep = props => {
   const update = (e) => {
-    props.update(e.target.name, e.target.value);
+    props.update(e.target);
   };
 
   const submit = (e) => {
@@ -167,17 +167,41 @@ const ImageStep = props => {
 
 const TimeStep = props => {
   const update = (e) => {
-    props.update(e.target.name, e.target.value);
+    props.update(e.target);
   };
 
   return (
-    <div className="wizard-container">
-      <label> Date</label>
-      <input type='text' className='form-control' id="date"
-        onChange={update} />
-      <label>Time  </label>
-      <input type='text' className='form-control' id="time"
-        onChange={update} />
-    </div>
-  );
+    // <div className="wizard-container">
+    //   <label> Date</label>
+    //   <input type='text' className='form-control' id="date"
+    //     onChange={update} />
+    //   <label>Time  </label>
+    //   <input type='text' className='form-control' id="time"
+    //     onChange={update} />
+    // </div>
+    
+    
+    <div className="date-div">
+            {/* <span><img className="meal-info-icons" src={dateIcon} alt="date" /></span> */}
+            <span>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid container justify="space-around"><span><img className="meal-info-icons" src={dateIcon} alt="date" /></span>
+                  <KeyboardDateTimePicker
+                    variant="dialog"
+                    ampm={false}
+                    label="date & time"
+                    id="selectedDate"
+                    value={this.state.selectedDate}
+                    onChange={(value) => { this.setState({ selectedDate: value }) }}
+                    onError={console.log}
+                    disablePast
+                    showTodayButton
+                    autoOk
+                    format="yyyy/MM/dd HH:mm"
+                  />
+                </Grid>
+              </MuiPickersUtilsProvider>
+            </span>
+          </div>
+    );
 };
