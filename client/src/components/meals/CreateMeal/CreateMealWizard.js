@@ -2,6 +2,9 @@ import React, { Fragment, useState, useEffect } from 'react';
 import TimeStep from './TimeStep';
 import NameStep from './NameStep';
 import LocationStep from './LocationStep';
+import GuestStep from './GuestStep';
+import ImageStep from './ImageStep';
+
 import backArrowIcon from "../../../resources/back_arrow.svg"
 import imageStep1 from "../../../resources/wizard/wizard_1.svg";
 import imageStep2 from "../../../resources/wizard/wizard_2.svg";
@@ -102,22 +105,5 @@ const Navigator = ({ SW }) => (
   </div>
 );
 
-/** Steps */
-
-
-
-const GuestStep = props => {
-  const update = (e) => {
-    props.update(e.target);
-  };
-
-  return (
-    <div  className="wizard-container">
-      <label>Number of guests</label>
-      <input type='text' className='form-control' id="guests"
-        onChange={(e) => { update(e) }} />
-    </div>
-  );
-};
 
 
