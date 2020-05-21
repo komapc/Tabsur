@@ -1,25 +1,27 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import backArrowIcon from "../../resources/back_arrow.svg"
-import imageStep1 from "../../resources/wizard/wizard_1.svg";
-import imageStep2 from "../../resources/wizard/wizard_2.svg";
-import imageStep3 from "../../resources/wizard/wizard_3.svg";
-import imageStep4 from "../../resources/wizard/wizard_4.svg";
-import imageStep5 from "../../resources/wizard/wizard_5.svg";
-import wizard_time from "../../resources/wizard/wizard_time.svg";
-import wizard_back from "../../resources/wizard/wizard_back.svg";
-import wizard_back_arrow from "../../resources/wizard/wizard_back_arrow.svg";
-import wizard_date from "../../resources/wizard/wizard_date.svg";
-import wizard_done from "../../resources/wizard/wizard_done.svg";
-import wizard_location from "../../resources/wizard/wizard_location.svg";
-import wizard_meal_name from "../../resources/wizard/wizard_meal_name.svg";
-import wizard_next from "../../resources/wizard/wizard_next.svg";
+import TimeStep from './TimeStep';
+import backArrowIcon from "../../../resources/back_arrow.svg"
+import imageStep1 from "../../../resources/wizard/wizard_1.svg";
+import imageStep2 from "../../../resources/wizard/wizard_2.svg";
+import imageStep3 from "../../../resources/wizard/wizard_3.svg";
+import imageStep4 from "../../../resources/wizard/wizard_4.svg";
+import imageStep5 from "../../../resources/wizard/wizard_5.svg";
+import wizard_time from "../../../resources/wizard/wizard_time.svg";
+import wizard_back from "../../../resources/wizard/wizard_back.svg";
+import wizard_back_arrow from "../../../resources/wizard/wizard_back_arrow.svg";
+import wizard_date from "../../../resources/wizard/wizard_date.svg";
+import wizard_done from "../../../resources/wizard/wizard_done.svg";
+import wizard_location from "../../../resources/wizard/wizard_location.svg";
+import wizard_meal_name from "../../../resources/wizard/wizard_meal_name.svg";
+import wizard_next from "../../../resources/wizard/wizard_next.svg";
 import transitions from './transitions.css';
 import StepWizard from 'react-step-wizard';
 const CreateMealWizard = () => {
   const [state, updateState] = useState({
     form: {},
-    transitions: {
-  },
+	transitions: {
+	},
+    selectedDate : new Date(Date.now() + 86400000)
   });
 
   const setInstance = SW => updateState({
@@ -58,13 +60,12 @@ const CreateMealWizard = () => {
           <StepWizard
             onStepChange={onStepChange}
             transitions={state.transitions}
-            instance={setInstance}
-          >
+            instance={setInstance}>
             <NameStep update={update} />
             <LocationStep update={update} />
-            <TimeStep update={update} />
+            <TimeStep update={update} form={state.form}/>
             <GuestStep update={update} />
-            <ImageStep update={update} submit={submit} />
+            <ImageStep update={update} submit={submit} selectedDate={state.selectedDate} />
           </StepWizard>
         </div>
       </div>
@@ -111,7 +112,7 @@ const NameStep = props => {
         onChange={update} />
 
       <label>Description</label>
-      <input type='text' className='form-control' id="descripion"
+      <input type='text' className='form-control' id="description"
         onChange={update} />
     </div>
   );
@@ -163,45 +164,4 @@ const ImageStep = props => {
       <button onClick={(e) => { submit(e) }}>submit</button>
     </div>
   );
-};
-
-const TimeStep = props => {
-  const update = (e) => {
-    props.update(e.target);
-  };
-
-  return (
-    // <div className="wizard-container">
-    //   <label> Date</label>
-    //   <input type='text' className='form-control' id="date"
-    //     onChange={update} />
-    //   <label>Time  </label>
-    //   <input type='text' className='form-control' id="time"
-    //     onChange={update} />
-    // </div>
-    
-    
-    <div className="date-div">
-            {/* <span><img className="meal-info-icons" src={dateIcon} alt="date" /></span> */}
-            <span>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid container justify="space-around"><span><img className="meal-info-icons" src={dateIcon} alt="date" /></span>
-                  <KeyboardDateTimePicker
-                    variant="dialog"
-                    ampm={false}
-                    label="date & time"
-                    id="selectedDate"
-                    value={this.state.selectedDate}
-                    onChange={(value) => { this.setState({ selectedDate: value }) }}
-                    onError={console.log}
-                    disablePast
-                    showTodayButton
-                    autoOk
-                    format="yyyy/MM/dd HH:mm"
-                  />
-                </Grid>
-              </MuiPickersUtilsProvider>
-            </span>
-          </div>
-    );
 };
