@@ -24,9 +24,9 @@ import StepWizard from 'react-step-wizard';
 const CreateMealWizard = () => {
   const [state, updateState] = useState({
     form: {},
-	transitions: {
-	},
-    selectedDate : new Date(Date.now() + 86400000)
+    transitions: {
+    },
+    selectedDate: new Date(Date.now() + 86400000)
   });
 
   const setInstance = SW => updateState({
@@ -66,9 +66,9 @@ const CreateMealWizard = () => {
             onStepChange={onStepChange}
             transitions={state.transitions}
             instance={setInstance}>
-            <NameStep update={update} mealName = "My meal"/>
+            <NameStep update={update} mealName="My meal" />
             <LocationStep update={update} />
-            <TimeStep update={update} form={state.form}/>
+            <TimeStep update={update} form={state.form} />
             <GuestStep update={update} />
             <ImageStep update={update} submit={submit} selectedDate={state.selectedDate} />
           </StepWizard>
@@ -93,7 +93,6 @@ const TopHeader = ({ SW, onExit }) => {
     </Fragment>)
 }
 
-
 const Navigator = ({ SW }) => (
   <div className="wizard-bottom">
     {SW.state.activeStep > 0 ?
@@ -104,6 +103,3 @@ const Navigator = ({ SW }) => (
         className={'wizard-bottom-next'} onClick={SW.nextStep} /> : ""}
   </div>
 );
-
-
-
