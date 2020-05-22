@@ -62,6 +62,8 @@ class App extends Component {
             <Switch>
               <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
               <Navbar />
+            </Switch>
+              <Switch>>
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />            
                 <Route exact path="/about" component={About} />
@@ -79,10 +81,10 @@ class App extends Component {
                 <PrivateRoute exact path="/profile/:id" component={Profile} />
                 <PrivateRoute exact path="/Stats/:id" component={Stats} />
               </Switch>
-              <Switch>{/*Borom menu for everybody except the wizard */}
-              <PrivateRoute exact path="/createMealWizard" component={() => { return <span/>}}  />
-              <Bottom />
-              </Switch>
+              <Switch>{/* Bottom menu for everybody except the wizard                */}
+                <PrivateRoute exact path="/createMealWizard" component={() => { return <span/>}}  />
+                <Bottom />
+              </Switch> 
           </div>
         </Router>
       </Provider>
