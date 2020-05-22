@@ -8,23 +8,29 @@ const ImageStep = props => {
   const submit = (e) => {
     props.submit(e);
   };
-
+  const getImage = e => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      //this.setState({ file });
+    }
+  };
   return (
     <div className="wizard-container">
       <label>Upload image</label>
       {/* <input type='text' className='form-control' id="image"
         onChange={(e) => { update(e) }} /> */}
 
-<React.Fragment>
-        <h1>Upload an image to AWS S3 bucket</h1>
+      <React.Fragment>
+       
         <input
           id='upload-image'
           type='file'
           accept='image/*'
-          onChange={this.getImage}
+          onChange={getImage}
         />
-        <p>{this.state.message}</p>
-        <form onSubmit={this.uploadFile}>
+        <p>{"state.message"}</p>
+        <form onSubmit={update}>
           <button id='file-upload-button'>Upload</button>
         </form>
       </React.Fragment>

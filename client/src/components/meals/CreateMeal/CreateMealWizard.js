@@ -69,7 +69,7 @@ const CreateMealWizard = () => {
             <NameStep update={update} mealName="My meal" />
             <LocationStep update={update} />
             <TimeStep update={update} form={state.form} />
-            <GuestStep update={update} />
+            <GuestStep update={update} guests="3"/>
             <ImageStep update={update} submit={submit} selectedDate={state.selectedDate} />
           </StepWizard>
         </div>
