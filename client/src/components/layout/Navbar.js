@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import sandwich from "../../resources/menu.svg" 
-import search from "../../resources/search.svg" 
 import notification from "../../resources/notification.svg" 
 import Menu from "./Menu.js"
 import Notifications from "./Notifications";
