@@ -16,11 +16,11 @@ const NameStep = props => {
     
         <label>Meal Name</label>
         <input type='text' className='form-control' id="name"
-          onChange={update} value={props.mealName}/>
+          onChange={update} value={props.form.name}/>
 
         <label>Description</label>
         <input type='text' className='form-control' id="description"
-          onChange={update} value={props.description}/>
+          onChange={update} value={props.form.description}/>
       </div>
   );
 };

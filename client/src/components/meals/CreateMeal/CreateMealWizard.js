@@ -23,8 +23,20 @@ import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
 const CreateMealWizard = ({ auth }) => {
+  const formatedDate = new Date() + 86400000;
   const [state, updateState] = useState({
-    form: {},
+    form: {
+      name: auth.name + "'s meal",
+      description: "",
+      date: formatedDate,
+      time: formatedDate,
+      address: "",
+      location: "",
+      host_id: auth.user.id,
+      guestCount: 3,
+      image_path: "#RANDOM"
+
+    },
     transitions: {
     },
     selectedDate: new Date(Date.now() + 86400000)
@@ -46,14 +58,16 @@ const CreateMealWizard = ({ auth }) => {
       e.preventDefault();
       const formatedDate=new Date(state.selectedDate).getTime();
       const newMeal = {
-        name: state.name,
+        name: state.form.name,
+        name: state.form.description,
         date: formatedDate,
-        address: state.address,
-        location: state.location,
+        address: state.form.address,
+        location: state.form.location,
         host_id: auth.user.id,
-        guestCount: state.guestCount,
+        guestCount: state.form.guestCount,
         image_path: "#RANDOM"
       };
+      alert("Form:" + JSON.stringify(state.form));
       alert(JSON.stringify(newMeal));
       //this.props.addMeal(newMeal, this.props.history);
   }
@@ -78,11 +92,11 @@ const CreateMealWizard = ({ auth }) => {
             onStepChange={onStepChange}
             transitions={state.transitions}
             instance={setInstance}>
-            <NameStep update={update} mealName="My meal" />
+            <NameStep update={update}form={state.form} />
             <LocationStep update={update} />
             <TimeStep update={update} form={state.form} />
-            <GuestStep update={update} guests="3"/>
-            <ImageStep update={update} submit={submit} selectedDate={state.selectedDate} />
+            <GuestStep update={update} form={state.form}/>
+            <ImageStep update={update} submit={submit} form={state.form} />
           </StepWizard>
         </div>
       </div>

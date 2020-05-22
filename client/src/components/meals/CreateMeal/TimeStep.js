@@ -35,7 +35,7 @@ const TimeStep = props => {
                 ampm={false}
                 label="date"
                 id="date"
-                value={props.selectedDate}
+                value={props.form.date}
                 //onChange={(value) => { updateState({ selectedDate: value }) }}
                 onChange={update}
                 onError={console.log}
@@ -53,7 +53,7 @@ const TimeStep = props => {
                 ampm={false}
                 label="date & time"
                 id="time"
-                value={state.selectedDate}
+                value={props.form.time}
                 //onChange={(value) => { updateState({ selectedDate: value }) }}
                 onChange={(e) => { update("id", e) }}
                 onError={console.log}
