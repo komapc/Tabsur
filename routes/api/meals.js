@@ -26,6 +26,8 @@ router.get("/:id", async (req, response) => {
     (((SELECT status AS attend_status FROM attends 
        WHERE  meal_id=m.id AND attends.user_id=$1) UNION 
       (SELECT -1 AS attend_status) ORDER BY attend_status DESC) LIMIT 1),
+      (SELECT count (user_id) AS "Atendee_count" FROM attends 
+      WHERE meal_id=m.id), 
     m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
   WHERE m.date>now()`;
   console.log(`SQLquery: [${SQLquery}]`);
