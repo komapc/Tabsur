@@ -17,7 +17,7 @@ const NameStep = props => {
         <label>Number of guests</label>
         
         <input type='number' className='form-control' id="guests"
-          onChange={update} value={props.guests}/>
+          onChange={update} value={props.form.guestCount}/>
       </div>
   );
 };
