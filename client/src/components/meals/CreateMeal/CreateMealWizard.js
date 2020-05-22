@@ -15,13 +15,14 @@ import wizard_time from "../../../resources/wizard/wizard_time.svg";
 import wizard_back from "../../../resources/wizard/wizard_back.svg";
 import wizard_back_arrow from "../../../resources/wizard/wizard_back_arrow.svg";
 import wizard_date from "../../../resources/wizard/wizard_date.svg";
-import wizard_done from "../../../resources/wizard/wizard_done.svg";
 import wizard_location from "../../../resources/wizard/wizard_location.svg";
 import wizard_meal_name from "../../../resources/wizard/wizard_meal_name.svg";
 import wizard_next from "../../../resources/wizard/wizard_next.svg";
 import transitions from './transitions.css';
 import StepWizard from 'react-step-wizard';
-const CreateMealWizard = () => {
+import { connect } from "react-redux";
+import { addMeal } from "../../../actions/mealActions";
+const CreateMealWizard = ({ auth }) => {
   const [state, updateState] = useState({
     form: {},
     transitions: {
@@ -42,8 +43,19 @@ const CreateMealWizard = () => {
   };
 
   const submit = (e) => {
-    alert(JSON.stringify(state.form));
-    //todo: addMeal
+      e.preventDefault();
+      const formatedDate=new Date(state.selectedDate).getTime();
+      const newMeal = {
+        name: state.name,
+        date: formatedDate,
+        address: state.address,
+        location: state.location,
+        host_id: auth.user.id,
+        guestCount: state.guestCount,
+        image_path: "#RANDOM"
+      };
+      alert(JSON.stringify(newMeal));
+      //this.props.addMeal(newMeal, this.props.history);
   }
   const update = (e) => {
     const { form } = state;
@@ -79,7 +91,6 @@ const CreateMealWizard = () => {
   );
 };
 
-export default CreateMealWizard;
 
 const TopHeader = ({ SW, onExit }) => {
   const images = [imageStep1, imageStep2, imageStep3, imageStep4, imageStep5];
@@ -103,3 +114,11 @@ const Navigator = ({ SW }) => (
         className={'wizard-bottom-next'} onClick={SW.nextStep} /> : ""}
   </div>
 );
+
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(mapStateToProps)(CreateMealWizard);

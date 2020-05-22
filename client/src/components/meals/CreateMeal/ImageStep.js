@@ -1,5 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
+import wizard_done from "../../../resources/wizard/wizard_done.svg";
+
+
 const ImageStep = props => {
   const update = (e) => {
     props.update(e.target);
@@ -18,25 +21,25 @@ const ImageStep = props => {
   return (
     <div className="wizard-container">
       <label>Upload image</label>
-      {/* <input type='text' className='form-control' id="image"
-        onChange={(e) => { update(e) }} /> */}
+      <input type='text' className='form-control' id="image"
+        onChange={(e) => { update(e) }} />
 
       <React.Fragment>
-       
+
         <input
           id='upload-image'
           type='file'
           accept='image/*'
           onChange={getImage}
         />
-        <p>{"state.message"}</p>
-        <form onSubmit={update}>
+        {/* <form onSubmit={update}>
           <button id='file-upload-button'>Upload</button>
-        </form>
+        </form> */}
       </React.Fragment>
 
-
-      <button onClick={(e) => { submit(e) }}>submit</button>
+      <div>
+        <img width="30px" src={wizard_done} alt="submit" onClick={(e) => { submit(e) }} />
+      </div>
     </div>
   );
 };
