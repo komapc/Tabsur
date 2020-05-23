@@ -22,6 +22,7 @@ import transitions from './transitions.css';
 import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
+ 
 const CreateMealWizard = ({ auth }) => {
   const formatedDate = new Date() + 86400000;
   const [state, updateState] = useState({
@@ -108,6 +109,7 @@ const CreateMealWizard = ({ auth }) => {
 
 const TopHeader = ({ SW, onExit }) => {
   const images = [imageStep1, imageStep2, imageStep3, imageStep4, imageStep5];
+  const stepIcons=[wizard_meal_name, wizard_time,  wizard_date, wizard_location, wizard_location]
   return (
     <Fragment>
       <img onClick={onExit}
@@ -115,6 +117,8 @@ const TopHeader = ({ SW, onExit }) => {
       <h4 className="wizard-caption">Create Meal</h4>
       <div className="wizard-progress-container">
         <img src={images[SW.state.activeStep]} alt={SW.step} className="wizard-progress" /></div>
+     <div className="wizard-progress-container">
+        <img src={stepIcons[SW.state.activeStep]} alt={SW.step} className="wizard-icon" /></div>
     </Fragment>)
 }
 

@@ -476,11 +476,16 @@ input
     text-align: center;
     width: 100%;
 }
+.wizard-icon
+{
+    text-align: center;
+    height: 50px;
+    margin-top:30px;
+}
 
 .wizard-middle
 {
     height: 30%;
-    background-color: #efefef;
 }
 
 .wizard-bottom
@@ -508,4 +513,8 @@ input
 .wizard-container
 {
     height: 50%;
+}
+.wizard-description
+{
+    width:100%;
 }
