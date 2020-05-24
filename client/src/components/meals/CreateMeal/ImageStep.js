@@ -8,21 +8,31 @@ const ImageStep = props => {
     props.update(e.target);
   };
 
+  const [state, updateState] = useState({
+  });
+
   const submit = (e) => {
     props.submit(e);
   };
   const getImage = e => {
+    //alert(JSON.stringify(e.target.files[0].name));
+    //var url = reader.readAsDataURL(file);
+    
     const files = e.target.files;
-    if (files && files.length > 0) {
-      const file = files[0];
+    const file=URL.createObjectURL(files[0]);
+    //debugger;
+    console.log("Path: " + JSON.stringify(file));
+    
+      updateState({ "file": file });
       //this.setState({ file });
-    }
+    
   };
   return (
     <div className="wizard-container">
+      <img width="50px" height="50px" src={state.file} alt="Uploaded image"/>
       <label>Upload image</label>
-      <input type='text' className='form-control' id="image"
-        onChange={(e) => { update(e) }} />
+      {/* <input type='text' className='form-control' id="image"
+        onChange={(e) => { update(e) }} /> */}
 
       <React.Fragment>
 

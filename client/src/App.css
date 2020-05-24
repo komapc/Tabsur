@@ -58,6 +58,15 @@ ul li span {
     transition: ease-in-out 0.2s;
 }
 
+.createMealMap-small
+{
+    position: fixed;
+    top: 50%;
+    height: 50%;
+    width: 90%;
+    transition: ease-in-out 0.2s;
+}
+
 .createMealMap
 {
     top: 0px;

@@ -9,36 +9,38 @@ const LocationStep = props => {
   };
   const [showMap, setMapVisibility] = useState(0);
   const defaultLocationConst = { lng: 34.808, lat: 32.09 };
-  
+
   const location = defaultLocationConst;
   const defaultLocation = defaultLocationConst;
   let errors = {};
-  let address = "";
+  const [state, updateState] = useState({
+  });
   const onLocationUpdate = ({ address, location }) => {
-    //this.setState({ address, location })
+    // alert(JSON.stringify("Location: " + JSON.stringify(location)));
+    // updateState({ address: address, location: location });
+    
+    const e = {"id":"address", "value":address}; 
+    // alert(JSON.stringify(e));
+    // update(1234, e);
+    // //update({id:"location", "value":location});
   };
 
   const onMapExit = (e) => {
-    setMapVisibility( false);
+    setMapVisibility(false);
   }
 
   const onChange = e => {
-    //  this.setState({ [e.target.id]: e.target.value });
+   // alert(JSON.stringify(e.target.id, e.target.value));
+    // updateState(e.target.id, e.target.value);
+    update(e.target);
   };
 
-
   const onAddressClickHandle = e => {
-    setMapVisibility( true);
+    setMapVisibility(true);
   }
 
   return (
-    <span>
-      {/* <div className="wizard-container">
-
-      <label>Location</label>
-      <input type='text' className='form-control' id="location"
-        onChange={update} />
-    </div> */}
+    <span>      
       {/* Address*/}
       <div>
         <img className="meal-info-location-icons" src={locationIcon} alt="location" />
@@ -46,7 +48,7 @@ const LocationStep = props => {
           <input
             onChange={onChange}
             onClick={onAddressClickHandle}
-            value={address}
+            value={props.form.address}
             error={errors.password}
             id="address"
             type="text"
@@ -54,6 +56,8 @@ const LocationStep = props => {
           />
           <label htmlFor="address" shrink="true">Location</label>
           <span className="red-text">{errors.address}</span>
+
+          <span  >{props.form.location}</span>
         </span>
       </div>
       <div className={showMap ? 'createMealMap' : 'createMealMap-hidden'}>

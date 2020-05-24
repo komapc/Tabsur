@@ -87,14 +87,14 @@ const CreateMealWizard = ({ auth }) => {
   return (
     <div className=' container'>
       {SW && <TopHeader SW={SW} />}
-      <div className=' col-12 col-sm-6 offset-sm-3'>
+    <div className=' col-12 col-sm-6 offset-sm-3'>
         <div className="wizard-middle">
           <StepWizard
             onStepChange={onStepChange}
             transitions={state.transitions}
             instance={setInstance}>
             <NameStep update={update}form={state.form} />
-            <LocationStep update={update} />
+            <LocationStep update={update}  form={state.form}/>
             <TimeStep update={update} form={state.form} />
             <GuestStep update={update} form={state.form}/>
             <ImageStep update={update} submit={submit} form={state.form} />
