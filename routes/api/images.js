@@ -1,94 +1,60 @@
-var express = require('express');
+const express = require('express');
+const app = express();
+const AWS = require('aws-sdk');
+const fs = require('fs');
+const keys = require("../../config/keys");
+const fileType = require('file-type');
+const bluebird = require('bluebird');
+const multiparty = require('multiparty');
+
 var router = express.Router();
-const { Client } = require("pg");
-const pgConfig = require("./../dbConfig.js");
-let currentConfig = pgConfig.pgConfigProduction;
-if (process.env.NODE_ENV === "debug") {
-  currentConfig = pgConfig.pgConfigLocal;
-}
-
-/* GET attend by meal */
-router.get('/meal/:meal_id', function (req, res, next) {
-  attend.find({ meal_id: req.params.meal_id }, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
+// configure the keys for accessing AWS
+AWS.config.update({
+  accessKeyId: keys.AWS_KEY,//process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 
-/* SAVE attend */
-router.post('/:id', async (req, response) => {
-  const attend = req.body;
 
-  console.log("Attend, request: " + JSON.stringify(attend));
 
-  const client = new Client(currentConfig);
-  await client.connect();
-  const meal_id = attend.meal_id;
-  const user_id = attend.user_id;
-  const status = attend.status;
-  if (isNaN(meal_id) || isNaN(user_id) || isNaN(status)) {
-    return response.status(500).json("Bad input, one of the parameters is not numeric.");
-  }
+// configure AWS to work with promises
+AWS.config.setPromisesDependency(bluebird);
 
-  client.query(`
-  INSERT INTO attends (meal_id, user_id, status)
-    VALUES (${meal_id}, ${user_id}, ${status}) 
-    ON CONFLICT (meal_id, user_id) 
-    DO UPDATE SET 
-    status = ${status} WHERE attends.meal_id=${meal_id} AND attends.user_id = ${user_id}`)
-    .then
-    ((ans) => {
+// create S3 instance
+const s3 = new AWS.S3();
 
-      if (status) {
-        client.query(`
-          INSERT into notifications (meal_id, user_id, message_text, sender, note_type) 
-                  VALUES ($1, (select host_id from meals where id=$1), 
-                  CONCAT  ((select name from users where id=$2), ' wants to join your meal.'),
-                  0, 5)`,
-          [attend.meal_id, attend.user_id])
-          .catch(err => {
-            console.log(err);
-            client.end();
-            return response.status(500).json("failed to add notification: " + err);
-          })
-          .then(answer => {
-            client.end();
-            return response.status(201).json(answer.rows);
-          }
-          )
-      }
-      else //no notification on unnattend
-      {
-        client.end();
-        return response.status(201).json(ans.rows);
-      }
+
+// abstracts function to upload a file returning a promise
+const uploadFile = (buffer, name, type) => {
+  const params = {
+    ACL: 'public-read',
+    Body: buffer,
+    Bucket: process.env.S3_BUCKET,
+    ContentType: type.mime,
+    Key: `${name}.${type.ext}`
+  };
+  return s3.upload(params).promise();
+};
+
+
+// Define POST route
+app.post('/upload', (request, response) => {
+  const form = new multiparty.Form();
+  form.parse(request, async (error, fields, files) => {
+    if (error) throw new Error(error);
+    try {
+      const path = files.file[0].path;
+      const buffer = fs.readFileSync(path);
+      const type = fileType(buffer);
+      const timestamp = Date.now().toString();
+      const fileName = `bucketFolder/${timestamp}-lg`;
+      const data = await uploadFile(buffer, fileName, type);
+      return response.status(200).send(data);
+    } 
+    catch (error) 
+    {
+      return response.status(400).send(error);
     }
-    )
-    .catch(err => {
-      console.log("Attend error" + err);
-      client.end();
-      return response.status(500).json("failed to attend: " + err);
-    });
-});
-
-/* UPDATE attend */
-router.put('/:id', function (req, res, next) {
-  return response.status(500).json("failed to update - not implemented");
-});
-
-/* DELETE attend */
-router.delete('/:id', async (req, res, next) => {
-  console.log("Attend,  " + currentConfig.user);
-  const attend = req.body;
-  const client = new Client(currentConfig);
-  await client.connect();
-
-  console.log("connected");
-  client.query('DELETE FROM attends WHERE ' +
-    'meal_id = $1 AND user_id=$2',
-    [attend.meal_id, attend.user_id])
-    .catch(err => { console.log(err); return response.status(500).json("failed to delete"); })
-    .then(answer => { return response.status(201).json(answer); });
+  });
 });
 
 module.exports = router;

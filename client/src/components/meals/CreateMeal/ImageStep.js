@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import wizard_done from "../../../resources/wizard/wizard_done.svg";
 
+import axios from 'axios';
+import config from "../../../config";
+
 const ImageStep = props => {
  
   const [state, updateState] = useState({
@@ -10,9 +13,6 @@ const ImageStep = props => {
     props.submit(e);
   };
   const getImage = e => {
-    //alert(JSON.stringify(e.target.files[0].name));
-    //var url = reader.readAsDataURL(file);
-    
     const files = e.target.files;
     const file=URL.createObjectURL(files[0]);
     //debugger;
@@ -22,6 +22,21 @@ const ImageStep = props => {
       //this.setState({ file });
     
   };
+
+  const submitFile = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('file', state.file);
+    axios.post(`${config.SERVER_HOST}/api/meals/upload`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(response => {
+      alert(response);
+    }).catch(error => {
+      alert("error: " + error);
+    });
+  }
 
   return (
     <div className="wizard-container">
@@ -38,9 +53,9 @@ const ImageStep = props => {
           accept='image/*'
           onChange={getImage}
         />
-        {/* <form onSubmit={update}>
+         <form onSubmit={submitFile}>
           <button id='file-upload-button'>Upload</button>
-        </form> */}
+        </form>  
       </React.Fragment>
 
       <div>
