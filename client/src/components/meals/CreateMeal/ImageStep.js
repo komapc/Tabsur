@@ -1,13 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import wizard_done from "../../../resources/wizard/wizard_done.svg";
 
-
 const ImageStep = props => {
-  const update = (e) => {
-    props.update(e.target);
-  };
-
+ 
   const [state, updateState] = useState({
   });
 
@@ -27,6 +22,7 @@ const ImageStep = props => {
       //this.setState({ file });
     
   };
+
   return (
     <div className="wizard-container">
       <img width="50px" height="50px" src={state.file} alt="Uploaded image"/>
