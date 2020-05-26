@@ -1,27 +1,25 @@
 import React, { useState } from 'react';
-import wizard_done from "../../../resources/wizard/wizard_done.svg";
 
+import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import config from "../../../config";
-
+import placeholder from "../../../resources/wizard/image_placeholder.png"
 const ImageStep = props => {
- 
-  const [state, updateState] = useState({ });
 
+  const [state, updateState] = useState({ "file": placeholder });
   const submit = (e) => {
     props.submit(e);
   };
   const getImage = e => {
     const files = e.target.files;
-    const file=URL.createObjectURL(files[0]);
+    const file = URL.createObjectURL(files[0]);
     //debugger;
     console.log("Path: " + JSON.stringify(file));
-    
+
     updateState({ "file": file });
 
-    submitFile(e,files[0] );
+    submitFile(e, files[0]);
     //this.setState({ file });
-    
   };
 
   const submitFile = (event, files) => {
@@ -40,24 +38,25 @@ const ImageStep = props => {
   }
 
   return (
+
     <div className="wizard-container">
-      <img width="50px" height="50px" src={state.file} alt="Uploaded"/>
-      <label>Upload image</label>
-      {/* <input type='text' className='form-control' id="image"
-        onChange={(e) => { update(e) }} /> */}
+      <div className="wizard-image-placeholder-containter">
+        <img className="wizard-image-placeholder" src={state.file} alt="Uploaded" />
+      </div>
 
-      <React.Fragment>
-
-        <input
-          id='upload-image'
-          type='file'
-          accept='image/*'
+      <Button
+        variant="flat"
+        component="label"
+      >
+        Choose File <input
+          type="file"
+          style={{ display: "none" }}
           onChange={getImage}
         />
-      </React.Fragment>
+      </Button>
 
       <div>
-        <img width="30px" src={wizard_done} alt="submit" onClick={(e) => { submit(e) }} />
+        {/* <img width="30px" src={wizard_done} alt="submit" onClick={(e) => { submit(e) }} /> */}
       </div>
     </div>
   );

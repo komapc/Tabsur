@@ -12,23 +12,20 @@ AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 
-
-
 // configure AWS to work with promises
 AWS.config.setPromisesDependency(bluebird);
 
 // create S3 instance
 const s3 = new AWS.S3();
 
-
 // abstracts function to upload a file returning a promise
 const uploadFile = (buffer, name, type) => {
-  type.ext="jpeg";
-  type.mime="image/jpeg";
+  type.ext = "jpeg";
+  type.mime = "image/jpeg";
   const params = {
     ACL: 'public-read',
     Body: buffer,
-    Bucket: "dining.philosophers.com",//keys.S3_BUCKET,
+    Bucket: "images.dining.philosophers.com",
     ContentType: type.mime,
     Key: `${name}.${type.ext}`
   };
@@ -41,11 +38,10 @@ const uploadFile = (buffer, name, type) => {
 router.post("/upload", async (request, response) => {
   console.log("Uploading: " + request.formData);
   const form = new multiparty.Form();
-  console.log("parsing form: " + JSON.stringify(form) );
+  console.log("parsing form: " + JSON.stringify(form));
   form.parse(request, async (error, fields, files) => {
-    if (error) 
-    {
-      console.log("parsing error: " + JSON.stringify(fields) );
+    if (error) {
+      console.log("parsing error: " + JSON.stringify(fields));
       throw new Error(error);
     }
     try {
@@ -55,29 +51,27 @@ router.post("/upload", async (request, response) => {
       const buffer = fs.readFileSync(path);
       console.log("send file: 2 ");
       const type = "jpeg"//await fileType(buffer);
-      console.log("send file:3 "  +  type);
+      console.log("send file:3 " + type);
       const timestamp = Date.now().toString();
       console.log("send file: 4");
       const fileName = `images/${timestamp}-lg`;
       console.log("send file: 5");
       const data =
-       uploadFile(buffer, fileName, type)
-      .then(res=>{
+        uploadFile(buffer, fileName, type)
+          .then(res => {
 
-        console.log("send file:6 " + res);
+            console.log("send file:6 " + res);
 
-        return response.status(200).send(data);
-       })
-       .error(error=>
-       {
-        console.log("uploadFile error: " + JSON.stringify(error) );
-        return response.status(400).send(error);
-       }
-       )
-    } 
-    catch (error) 
-    {
-      console.log("Uploading error: " + JSON.stringify(error) );
+            return response.status(200).send(data);
+          })
+          .error(error => {
+            console.log("uploadFile error: " + JSON.stringify(error));
+            return response.status(400).send(error);
+          }
+          )
+    }
+    catch (error) {
+      console.log("Uploading error: " + JSON.stringify(error));
       return response.status(400).send(error);
     }
   });

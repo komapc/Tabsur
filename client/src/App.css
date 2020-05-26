@@ -488,8 +488,14 @@ input
 .wizard-icon
 {
     text-align: center;
-    height: 50px;
+    width: 40px;
     margin-top:30px;
+}
+
+.wizard-small-icon
+{
+    height: 20px;
+    margin: 3px;
 }
 
 .wizard-middle
@@ -502,22 +508,49 @@ input
     position:fixed;
     width:90%;
     bottom:10px;
+    vertical-align: bottom;
+    display: table-cell;
+    bottom:20px;
 }
 
 .wizard-bottom-next
 {
+    position: absolute;
     width:50px;    
     height:50px;
+    right:33px;
     float: right;
-    margin:2px;
+    margin: 10%;
+    bottom:30px;
+}
+
+.wizard-bottom-last
+{
+    position: absolute;
+    width:50px;    
+    height:50px;
+    right:25px;
+    float: right;
+    margin: calc(10% + 12px);
+    bottom:30px;
 }
 
 .wizard-bottom-prev
 {
+    position: absolute;
     width:50px;    
     height:50px;
-    float: left;
-    margin:2px;
+    left:33px;
+    margin: 10%;
+    bottom:30px;
+}
+.wizard-image-placeholder-containter
+{
+    text-align: center;
+}
+.wizard-image-placeholder
+{
+    width: 90px;
 }
 .wizard-container
 {
@@ -527,3 +560,11 @@ input
 {
     width:100%;
 }
+.buttonStyle 
+{
+    min-width: 56px;
+    width: 56px;
+    min-height: 56px;
+    height: 56px;
+    border-radius: 8px;
+};

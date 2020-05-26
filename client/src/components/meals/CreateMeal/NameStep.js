@@ -1,12 +1,9 @@
 import React from 'react';
 
 const NameStep = props => {
-
-
   const update = (e) => {
     props.update(  e.target );
   };
-
 
   return (
     <div className="wizard-container">
