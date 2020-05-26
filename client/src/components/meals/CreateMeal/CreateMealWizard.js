@@ -17,6 +17,7 @@ import wizard_date from "../../../resources/wizard/wizard_date.svg";
 import wizard_location from "../../../resources/wizard/wizard_location.svg";
 import wizard_meal_name from "../../../resources/wizard/wizard_meal_name.svg";
 import wizard_next from "../../../resources/wizard/wizard_next.svg";
+import wizard_done from "../../../resources/wizard/wizard_done.svg";
 import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
@@ -120,16 +121,20 @@ const TopHeader = ({ SW, onExit }) => {
     </Fragment>)
 }
 
-const Navigator = ({ SW }) => (
-  <div className="wizard-bottom">
-    {SW.state.activeStep > 0 ?
+const Navigator = ({ SW }) => 
+  {
+  const last = SW.state.activeStep < 4;
+  const first = SW.state.activeStep > 0;
+  return  <div className="wizard-bottom">
+    {first?
       <img src={wizard_back} alt="next"
         className={'wizard-bottom-prev'} onClick={SW.previousStep} /> : ""}
-    {SW.state.activeStep < 4 ?
-      <img src={wizard_next} alt="next"
-        className={'wizard-bottom-next'} onClick={SW.nextStep} /> : ""}
+    
+      <img src={ last?wizard_next: wizard_done} alt="next"
+        className={last?'wizard-bottom-next':'wizard-bottom-last'} onClick={SW.nextStep} /> 
   </div>
-);
+}
+
 
 
 const mapStateToProps = state => ({
