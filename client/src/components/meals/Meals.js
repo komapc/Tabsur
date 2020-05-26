@@ -4,7 +4,6 @@ import { getMeals } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
 import axios from 'axios';
 import config from "../../config";
-import Img from 'react-image'
 import loadingGIF from "../../resources/animation/loading.gif";
 class Meals extends Component {
 

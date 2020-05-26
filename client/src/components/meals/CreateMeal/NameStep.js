@@ -1,12 +1,7 @@
-
-import React, { useState, useEffect } from 'react';
-
-import { TextInput } from 'react';
+import React from 'react';
 
 const NameStep = props => {
 
-  const [state, updateState] = useState({
-  });
 
   const update = (e) => {
     props.update(  e.target );

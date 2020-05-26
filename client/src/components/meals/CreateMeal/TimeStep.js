@@ -1,5 +1,5 @@
 
-import React, { Fragment, useState, useEffect } from 'react';
+import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   KeyboardDatePicker,
@@ -8,13 +8,8 @@ import {
 } from '@material-ui/pickers';
 
 import Grid from '@material-ui/core/Grid';
-import locationIcon from "../../../resources/location_icon.svg"
 import dateIcon from "../../../resources/date_time_icon.svg"
-import servingsIcon from "../../../resources/servings_icon.svg"
 const TimeStep = props => {
-
-  const [state, updateState] = useState({
-  });
 
   const update = (id, value) => {
     alert(id, value);

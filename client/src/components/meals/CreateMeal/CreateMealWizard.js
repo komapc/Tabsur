@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState } from 'react';
 import TimeStep from './TimeStep';
 import NameStep from './NameStep';
 import LocationStep from './LocationStep';
@@ -13,12 +13,10 @@ import imageStep4 from "../../../resources/wizard/wizard_4.svg";
 import imageStep5 from "../../../resources/wizard/wizard_5.svg";
 import wizard_time from "../../../resources/wizard/wizard_time.svg";
 import wizard_back from "../../../resources/wizard/wizard_back.svg";
-import wizard_back_arrow from "../../../resources/wizard/wizard_back_arrow.svg";
 import wizard_date from "../../../resources/wizard/wizard_date.svg";
 import wizard_location from "../../../resources/wizard/wizard_location.svg";
 import wizard_meal_name from "../../../resources/wizard/wizard_meal_name.svg";
 import wizard_next from "../../../resources/wizard/wizard_next.svg";
-import transitions from './transitions.css';
 import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
@@ -60,7 +58,7 @@ const CreateMealWizard = ({ auth }) => {
       const formatedDate=new Date(state.selectedDate).getTime();
       const newMeal = {
         name: state.form.name,
-        name: state.form.description,
+        description: state.form.description,
         date: formatedDate,
         address: state.form.address,
         location: state.form.location,
