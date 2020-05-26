@@ -6,8 +6,7 @@ import config from "../../../config";
 
 const ImageStep = props => {
  
-  const [state, updateState] = useState({
-  });
+  const [state, updateState] = useState({ });
 
   const submit = (e) => {
     props.submit(e);
@@ -18,16 +17,18 @@ const ImageStep = props => {
     //debugger;
     console.log("Path: " + JSON.stringify(file));
     
-      updateState({ "file": file });
-      //this.setState({ file });
+    updateState({ "file": file });
+
+    submitFile(e,files[0] );
+    //this.setState({ file });
     
   };
 
-  const submitFile = (event) => {
+  const submitFile = (event, files) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('file', state.file);
-    axios.post(`${config.SERVER_HOST}/api/meals/upload`, formData, {
+    formData.append('file', files);
+    axios.post(`${config.SERVER_HOST}/api/images/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -53,9 +54,6 @@ const ImageStep = props => {
           accept='image/*'
           onChange={getImage}
         />
-         <form onSubmit={submitFile}>
-          <button id='file-upload-button'>Upload</button>
-        </form>  
       </React.Fragment>
 
       <div>
