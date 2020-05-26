@@ -1,16 +1,14 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import MapLocationSelector from "./../MapLocationSelector";
 import locationIcon from "../../../resources/location_icon.svg"
 const LocationStep = props => {
   const [showMap, setMapVisibility] = useState(0);
   const defaultLocationConst = { lng: 34.808, lat: 32.09 };
 
-  const location = defaultLocationConst;
   //const defaultLocation = defaultLocationConst;
   const [defaultLocation, updateDefaultLocation] = useState(defaultLocationConst);
   let errors = {};
-  const [state, updateState] = useState({});
+  //const [state, updateState] = useState({});
   const onLocationUpdate = ({ address, location }) => {
     props.update({ "id": "address", "value": address });
     props.update({ "id": "location", "value": location });
@@ -22,7 +20,7 @@ const LocationStep = props => {
   }
 
   const onChange = e => {
-    updateState({ [e.target.id]: e.target.value });
+   // updateState({ [e.target.id]: e.target.value });
     props.update(e.target);
     onMapExit();
   };

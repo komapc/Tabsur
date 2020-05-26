@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import wizard_done from "../../../resources/wizard/wizard_done.svg";
 
 import axios from 'axios';
@@ -41,7 +41,7 @@ const ImageStep = props => {
 
   return (
     <div className="wizard-container">
-      <img width="50px" height="50px" src={state.file} alt="Uploaded image"/>
+      <img width="50px" height="50px" src={state.file} alt="Uploaded"/>
       <label>Upload image</label>
       {/* <input type='text' className='form-control' id="image"
         onChange={(e) => { update(e) }} /> */}
