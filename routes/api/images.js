@@ -25,7 +25,7 @@ const uploadFile = (buffer, name, type) => {
   const params = {
     ACL: 'public-read',
     Body: buffer,
-    Bucket: "images.dining.philosophers.com",
+    Bucket: keys.S3_BUCKET,
     ContentType: type.mime,
     Key: `${name}.${type.ext}`
   };
@@ -47,15 +47,10 @@ router.post("/upload", async (request, response) => {
     try {
       console.log("Uploading file: " + JSON.stringify(files));
       const path = files.file[0].path;
-      console.log("send file:1 " + path);
       const buffer = fs.readFileSync(path);
-      console.log("send file: 2 ");
       const type = "jpeg"//await fileType(buffer);
-      console.log("send file:3 " + type);
       const timestamp = Date.now().toString();
-      console.log("send file: 4");
       const fileName = `images/${timestamp}-lg`;
-      console.log("send file: 5");
       const data =
         uploadFile(buffer, fileName, type)
           .then(res => {
@@ -76,5 +71,26 @@ router.post("/upload", async (request, response) => {
     }
   });
 });
+
+router.get('/:imageId', function (req, res, next) {
+  // ACL: 'public-read',
+  //   Body: buffer,
+  //   Bucket: "images.dining.philosophers.com",
+  //   ContentType: type.mime,
+  //   Key: `${name}.${type.ext}`
+  console.log("Getting   " + JSON.stringify(req.params.imageId ));
+  var params = { Bucket: keys.S3_BUCKET, Key: "images/"+req.params.imageId };
+  s3.getObject(params, function(err, data) {
+      if (!data)
+      {
+        res.status(404).send("empty data");
+        return;
+      }
+      res.writeHead(200, {'Content-Type': 'image/jpeg'});
+      res.write(data.Body, 'binary');
+      res.end(null, 'binary');
+  });
+});
+
 
 module.exports = router;
