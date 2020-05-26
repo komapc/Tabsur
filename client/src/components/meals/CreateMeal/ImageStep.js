@@ -49,7 +49,7 @@ const ImageStep = props => {
         component="label"
       >
         Choose File <input
-          type="file"
+          type="file" accept="image/*"
           style={{ display: "none" }}
           onChange={getImage}
         />
