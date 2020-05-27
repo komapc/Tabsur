@@ -69,7 +69,7 @@ const CreateMealWizard = ({ auth }) => {
       };
       alert("Form:" + JSON.stringify(state.form));
       alert(JSON.stringify(newMeal));
-      //this.props.addMeal(newMeal, this.props.history);
+      this.props.addMeal(newMeal, this.props.history);
   }
   const update = (e) => {
     const { form } = state;
