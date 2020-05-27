@@ -96,11 +96,11 @@ const CreateMealWizard = ({ auth }) => {
             <LocationStep update={update}  form={state.form}/>
             <TimeStep update={update} form={state.form} />
             <GuestStep update={update} form={state.form}/>
-            <ImageStep update={update} submit={submit} form={state.form} />
+            <ImageStep update={update} form={state.form} />
           </StepWizard>
         </div>
       </div>
-      {(SW) ? <Navigator SW={SW} /> : <div>Error</div>}
+      {(SW) ? <Navigator SW={SW}  submit={submit} /> : <div>Error</div>}
     </div>
   );
 };
@@ -121,7 +121,7 @@ const TopHeader = ({ SW, onExit }) => {
     </Fragment>)
 }
 
-const Navigator = ({ SW }) => 
+const Navigator = ({ SW,submit }) => 
   {
   const last = SW.state.activeStep < 4;
   const first = SW.state.activeStep > 0;
@@ -129,9 +129,12 @@ const Navigator = ({ SW }) =>
     {first?
       <img src={wizard_back} alt="next"
         className={'wizard-bottom-prev'} onClick={SW.previousStep} /> : ""}
-    
-      <img src={ last?wizard_next: wizard_done} alt="next"
-        className={last?'wizard-bottom-next':'wizard-bottom-last'} onClick={SW.nextStep} /> 
+      {last?
+       <img src={ wizard_next} alt="next"
+       className={'wizard-bottom-next'} onClick={SW.nextStep} />: 
+       <img src={wizard_done} alt="submit"
+       className={'wizard-bottom-last'} onClick={submit} /> 
+      }
   </div>
 }
 
