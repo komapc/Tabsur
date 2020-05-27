@@ -46,8 +46,6 @@ const LocationStep = props => {
           />
           <label htmlFor="address" shrink="true">Location</label>
           <span className="red-text">{errors.address}</span>
-
-          {/* <span>{JSON.stringify(props.form.location) }</span> */}
         </span>
       </div>
       <div className={showMap ? 'createMealMap' : 'createMealMap-hidden'}>

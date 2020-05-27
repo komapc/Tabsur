@@ -22,7 +22,7 @@ class Bottom extends Component {
             <img className="footer-icons" src={map} alt={"meals map"} /></NavLink >
           <NavLink to="/Meals" activeClassName="active">
             <img className="footer-icons" src={list} alt={"meals list"} /> </NavLink >
-          <NavLink to="/Create" activeClassName="active">
+          <NavLink to="/createMealWizard" activeClassName="active">
             <img className="footer-icons" src={plus} alt={"add meal"} /></NavLink >
           <NavLink to="/MyMeals" activeClassName="active">
             <img className="footer-icons" src={myMeals} alt={"my meals"} /> </NavLink >

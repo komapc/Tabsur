@@ -72,7 +72,7 @@ class MapLocationSelector extends Component {
             const { lat, lng } = response.results[0].geometry.location;
             this.props.handleLocationUpdate({ address: event.description, location: { lng, lat } });
             this.setState({ location: { lng, lat } });
-            console.log("onAutoCompleteSelect." + JSON.stringify(this.state.location));
+            console.log("onAutoCompleteSelect:" + JSON.stringify(this.state.location));
             this.props.handleExit();
         },
             error => {
