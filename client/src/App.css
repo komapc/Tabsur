@@ -70,8 +70,9 @@ ul li span {
 .createMealMap
 {
     top: 0px;
+    left:0px;
     position: fixed;
-    height: 800px;
+    height:100%;
     width: 100%;
     background-color: #73d763;
     transition: ease-in-out 0.2s;
@@ -456,17 +457,16 @@ input
 
 .map-with-marker-container
 {
-    position: relative;
+    position: absolute;
     top: 35px;
-    left: -5%;
-    height: 90%;
-    width: 105%;
+    left: 0%;
+    height: 95%;
+    width: 100%;
 }
 
 /*wizard*/
 .wizard-caption
 {
-    /* position: fixed; */
     width: 100%;
     text-align: center;
     font-size:1.1em; /* TODO: 30% */

@@ -1,10 +1,12 @@
 import React, { Fragment, useState } from 'react';
+import { useHistory } from "react-router-dom";
 import TimeStep from './TimeStep';
 import NameStep from './NameStep';
 import LocationStep from './LocationStep';
 import GuestStep from './GuestStep';
 import ImageStep from './ImageStep';
 
+import PropTypes from "prop-types";
 import backArrowIcon from "../../../resources/back_arrow.svg"
 import imageStep1 from "../../../resources/wizard/wizard_1.svg";
 import imageStep2 from "../../../resources/wizard/wizard_2.svg";
@@ -21,9 +23,13 @@ import wizard_done from "../../../resources/wizard/wizard_done.svg";
 import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
- 
-const CreateMealWizard = ({ auth }) => {
+import axios from "axios";
+import { GET_ERRORS, USER_LOADING } from "../../../actions/types";
+import config from "../../../config";
+
+const CreateMealWizard = ({ auth,dispatch } ) => {
   const formatedDate = new Date() + 86400000;
+  const history = useHistory();
   const [state, updateState] = useState({
     form: {
       name: auth.user.name + "'s meal",
@@ -35,12 +41,39 @@ const CreateMealWizard = ({ auth }) => {
       host_id: auth.user.id,
       guestCount: 3,
       image_path: "#RANDOM"
-
     },
     transitions: {
     },
+    history:history,
+    dispatch:dispatch,
     selectedDate: new Date(Date.now() + 86400000)
   });
+
+  const addMealInternal = (userData, history) =>
+  {
+    console.log("Adding meal");
+    axios
+      .post(`${config.SERVER_HOST}/api/meals/`, userData)
+      .then(res => {
+        const meal_id = res.data[0].id;
+        console.log(`meal added: ${JSON.stringify(meal_id)}`);
+        userData.meal_id = res.meal_id;
+        userData.meal_id = meal_id;
+        axios.post(`${config.SERVER_HOST}/api/meals/image/`, userData)
+          .then(res2 => {
+            console.log(`add image: [${JSON.stringify(res2)}]`);
+            history.push("/MyMeals");
+          })
+      })
+      .catch(err => {
+        console.log(`Error in addMeal: ${JSON.stringify(err)}`);
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        })
+      }
+      );
+  };
 
   const setInstance = SW => updateState({
     ...state,
@@ -67,9 +100,10 @@ const CreateMealWizard = ({ auth }) => {
         guestCount: state.form.guestCount,
         image_path: "#RANDOM"
       };
-      alert("Form:" + JSON.stringify(state.form));
-      alert(JSON.stringify(newMeal));
-      this.props.addMeal(newMeal, this.props.history);
+      console.log(JSON.stringify(newMeal));
+      //addMeal(newMeal, state.history);debugger;
+      addMealInternal(newMeal, state.history);
+ 
   }
   const update = (e) => {
     const { form } = state;
@@ -144,5 +178,16 @@ const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
+CreateMealWizard.propTypes = {
+  addMeal: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
 
-export default connect(mapStateToProps)(CreateMealWizard);
+function mapDispatchToProps(dispatch) {
+  return {
+    addMealProp: (form, history) => dispatch(addMeal(form, history))
+  };
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateMealWizard);

@@ -7,9 +7,7 @@ import placeholder from "../../../resources/wizard/image_placeholder.png"
 const ImageStep = props => {
 
   const [state, updateState] = useState({ "file": placeholder });
-  const submit = (e) => {
-    props.submit(e);
-  };
+
   const getImage = e => {
     const files = e.target.files;
     const file = URL.createObjectURL(files[0]);

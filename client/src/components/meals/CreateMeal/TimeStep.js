@@ -12,10 +12,8 @@ import dateIcon from "../../../resources/date_time_icon.svg"
 const TimeStep = props => {
 
   const update = (id, value) => {
-    alert(id, value);
     props.update({ "id": id, "value": value });
   };
-
 
   return (
     <div className="wizard-container">
