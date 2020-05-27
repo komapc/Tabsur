@@ -26,7 +26,7 @@ const CreateMealWizard = ({ auth }) => {
   const formatedDate = new Date() + 86400000;
   const [state, updateState] = useState({
     form: {
-      name: auth.name + "'s meal",
+      name: auth.user.name + "'s meal",
       description: "",
       date: formatedDate,
       time: formatedDate,
@@ -92,7 +92,7 @@ const CreateMealWizard = ({ auth }) => {
             onStepChange={onStepChange}
             transitions={state.transitions}
             instance={setInstance}>
-            <NameStep update={update}form={state.form} />
+            <NameStep update={update} form={state.form}/>
             <LocationStep update={update}  form={state.form}/>
             <TimeStep update={update} form={state.form} />
             <GuestStep update={update} form={state.form}/>
