@@ -55,9 +55,9 @@ router.post("/upload", async (request, response) => {
         uploadFile(buffer, fileName, type)
           .then(res => {
 
-            console.log("send file:6 " + res);
+            console.log(`send file ${fileName}, res; ${JSON.stringify(res)}`);
 
-            return response.status(200).send(data);
+            return response.status(200).send(res);
           })
           .error(error => {
             console.log("uploadFile error: " + JSON.stringify(error));
@@ -72,25 +72,18 @@ router.post("/upload", async (request, response) => {
   });
 });
 
-router.get('/:imageId', function (req, res, next) {
-  // ACL: 'public-read',
-  //   Body: buffer,
-  //   Bucket: "images.dining.philosophers.com",
-  //   ContentType: type.mime,
-  //   Key: `${name}.${type.ext}`
-  console.log("Getting   " + JSON.stringify(req.params.imageId ));
-  var params = { Bucket: keys.S3_BUCKET, Key: "images/"+req.params.imageId };
-  s3.getObject(params, function(err, data) {
-      if (!data)
-      {
-        res.status(404).send("empty data");
-        return;
-      }
-      res.writeHead(200, {'Content-Type': 'image/jpeg'});
-      res.write(data.Body, 'binary');
-      res.end(null, 'binary');
+router.get('/:imageId(.*)', function (req, res, next) {
+  console.log("Getting   " + JSON.stringify(req.params.imageId));
+  var params = { Bucket: keys.S3_BUCKET, Key: "images/" + req.params.imageId };
+  s3.getObject(params, function (err, data) {
+    if (!data) {
+      res.status(404).send("empty data");
+      return;
+    }
+    res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+    res.write(data.Body, 'binary');
+    res.end(null, 'binary');
   });
 });
-
 
 module.exports = router;
