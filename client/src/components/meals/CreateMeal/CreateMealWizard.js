@@ -27,7 +27,7 @@ import axios from "axios";
 import { GET_ERRORS, USER_LOADING } from "../../../actions/types";
 import config from "../../../config";
 
-const CreateMealWizard = ({ auth,dispatch } ) => {
+const CreateMealWizard = ({ auth, dispatch }) => {
   const formatedDate = new Date() + 86400000;
   const history = useHistory();
   const [state, updateState] = useState({
@@ -44,13 +44,12 @@ const CreateMealWizard = ({ auth,dispatch } ) => {
     },
     transitions: {
     },
-    history:history,
-    dispatch:dispatch,
+    history: history,
+    dispatch: dispatch,
     selectedDate: new Date(Date.now() + 86400000)
   });
 
-  const addMealInternal = (userData, history) =>
-  {
+  const addMealInternal = (userData, history) => {
     console.log("Adding meal");
     axios
       .post(`${config.SERVER_HOST}/api/meals/`, userData)
@@ -88,22 +87,25 @@ const CreateMealWizard = ({ auth,dispatch } ) => {
   };
 
   const submit = (e) => {
-      e.preventDefault();
-      const formatedDate=new Date(state.selectedDate).getTime();
-      const newMeal = {
-        name: state.form.name,
-        description: state.form.description,
-        date: formatedDate,
-        address: state.form.address,
-        location: state.form.location,
-        host_id: auth.user.id,
-        guestCount: state.form.guestCount,
-        image_path: "#RANDOM"
-      };
-      console.log(JSON.stringify(newMeal));
-      //addMeal(newMeal, state.history);debugger;
-      addMealInternal(newMeal, state.history);
- 
+    e.preventDefault();
+    var summedDate = new Date(state.form.date);
+    summedDate.setHours(state.form.time.getHours());
+    summedDate.setMinutes(state.form.time.getMinutes());
+    const formatedDate = new Date(summedDate).getTime();
+    const newMeal = {
+      name: state.form.name,
+      description: state.form.description,
+      date: formatedDate,
+      address: state.form.address,
+      location: state.form.location,
+      host_id: auth.user.id,
+      guestCount: state.form.guestCount,
+      image_path: "#RANDOM"
+    };
+    console.log(JSON.stringify(newMeal));
+    //addMeal(newMeal, state.history);debugger;
+    addMealInternal(newMeal, state.history);
+
   }
   const update = (e) => {
     const { form } = state;
@@ -118,23 +120,23 @@ const CreateMealWizard = ({ auth,dispatch } ) => {
   const { SW } = state;
 
   return (
-    <div className=' container'>
+    <div className='container'>
       {SW && <TopHeader SW={SW} />}
-    <div className=' col-12 col-sm-6 offset-sm-3'>
+      <div className='col-12 col-sm-6 offset-sm-3'>
         <div className="wizard-middle">
           <StepWizard
             onStepChange={onStepChange}
             transitions={state.transitions}
             instance={setInstance}>
-            <NameStep update={update} form={state.form}/>
-            <LocationStep update={update}  form={state.form}/>
+            <NameStep update={update} form={state.form} />
+            <LocationStep update={update} form={state.form} />
             <TimeStep update={update} form={state.form} />
-            <GuestStep update={update} form={state.form}/>
+            <GuestStep update={update} form={state.form} />
             <ImageStep update={update} form={state.form} />
           </StepWizard>
         </div>
       </div>
-      {(SW) ? <Navigator SW={SW}  submit={submit} /> : <div>Error</div>}
+      {(SW) ? <Navigator SW={SW} submit={submit} /> : <div>Error</div>}
     </div>
   );
 };
@@ -142,7 +144,7 @@ const CreateMealWizard = ({ auth,dispatch } ) => {
 
 const TopHeader = ({ SW, onExit }) => {
   const images = [imageStep1, imageStep2, imageStep3, imageStep4, imageStep5];
-  const stepIcons=[wizard_meal_name, wizard_time,  wizard_date, wizard_location, wizard_location]
+  const stepIcons = [wizard_meal_name, wizard_time, wizard_date, wizard_location, wizard_location]
   return (
     <Fragment>
       <img onClick={onExit}
@@ -150,25 +152,24 @@ const TopHeader = ({ SW, onExit }) => {
       <h4 className="wizard-caption">Create Meal</h4>
       <div className="wizard-progress-container">
         <img src={images[SW.state.activeStep]} alt={SW.step} className="wizard-progress" /></div>
-     <div className="wizard-progress-container">
+      <div className="wizard-progress-container">
         <img src={stepIcons[SW.state.activeStep]} alt={SW.step} className="wizard-icon" /></div>
     </Fragment>)
 }
 
-const Navigator = ({ SW,submit }) => 
-  {
+const Navigator = ({ SW, submit }) => {
   const last = SW.state.activeStep < 4;
   const first = SW.state.activeStep > 0;
-  return  <div className="wizard-bottom">
-    {first?
+  return <div className="wizard-bottom">
+    {first ?
       <img src={wizard_back} alt="next"
         className={'wizard-bottom-prev'} onClick={SW.previousStep} /> : ""}
-      {last?
-       <img src={ wizard_next} alt="next"
-       className={'wizard-bottom-next'} onClick={SW.nextStep} />: 
-       <img src={wizard_done} alt="submit"
-       className={'wizard-bottom-last'} onClick={submit} /> 
-      }
+    {last ?
+      <img src={wizard_next} alt="next"
+        className={'wizard-bottom-next'} onClick={SW.nextStep} /> :
+      <img src={wizard_done} alt="submit"
+        className={'wizard-bottom-last'} onClick={submit} />
+    }
   </div>
 }
 
@@ -188,6 +189,5 @@ function mapDispatchToProps(dispatch) {
     addMealProp: (form, history) => dispatch(addMeal(form, history))
   };
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateMealWizard);

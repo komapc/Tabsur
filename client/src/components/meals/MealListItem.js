@@ -14,14 +14,14 @@ class AttendButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      meal:props.meal
+      meal: props.meal
     };
   }
 
   handleAttend = (event, new_status) => {
     event.stopPropagation();
     const user_id = this.props.auth.user.id;
-    console.log("handleAttend: " + JSON.stringify(this.state.meal) + ", " + user_id); 
+    console.log("handleAttend: " + JSON.stringify(this.state.meal) + ", " + user_id);
     this.props.onJoin(this.state.meal, new_status);
   }
 
@@ -29,7 +29,7 @@ class AttendButton extends React.Component {
     const meal = this.props.meal;
     const status = meal.attend_status;
     const isOwner = meal.host_id === this.props.auth.user.id;
-    let attendButton = <span/>;
+    let attendButton = <span />;
     if (meal.guest_count <= meal.Atendee_count) {
       attendButton = <img
         className="attend-button"
@@ -37,18 +37,18 @@ class AttendButton extends React.Component {
         alt={"attend"}
         onClick={
           (event) => {
-           this.handleAttend(event, 0) 
+            this.handleAttend(event, 0)
           }
-          } 
+        }
       />
     }
     else if (isOwner) {
-      attendButton = <span/>;
+      attendButton = <span />;
     }
     else if (status <= 0) {
       attendButton = <button
         onClick={(event) => { this.handleAttend(event, 3) }} >Attend</button>;
-  }
+    }
     else {
       attendButton = <button
         onClick={(event) => { this.handleAttend(event, 0) }} >Unattend</button>;
@@ -96,7 +96,7 @@ class MealListItem extends React.Component {
   }
 
   onJoin = (meal, new_status) => {
-    const status=meal.attend_status;
+    const status = meal.attend_status;
     const user_id = this.props.auth.user.id;
     const attend = { user_id: user_id, meal_id: meal.id, status: new_status };
 
@@ -118,12 +118,12 @@ class MealListItem extends React.Component {
     if (Object.keys(meal).length === 0) {
       return <div>NO MEALS YET</div>
     }
-    
-    const dat = dateFormat(new Date(meal.date), "yyyy-MM-dd HH:mm");
+
+    const dat = dateFormat(new Date(meal.date), "dd-MM-yyyy HH:mm");
     return (
       <div className="meal-props" onClick={(event) => { this.gotoMeal(event, meal) }}>
         <span className="meal-props-left">
-          <img src={meal.path} 
+          <img src={meal.path}
             alt={"image: " + meal.path} className="meal-image" />
           <div className="meal-dishes-div">
             <img className="meal-info-icons" src={dishes} alt={"number of portions"} />
@@ -145,10 +145,10 @@ class MealListItem extends React.Component {
           </div>
           <div>
             <img className="meal-info-icons" src={location} alt={"address"} />
-            <span  
-              onClick={(event) => {this.goToMaps(event, meal.id) }}
-              className="meal-info">{meal.address} 
-              </span>
+            <span
+              onClick={(event) => { this.goToMaps(event, meal.id) }}
+              className="meal-info">{meal.address}
+            </span>
           </div>
         </span>
       </div>

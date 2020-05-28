@@ -29,9 +29,9 @@ const ImageStep = props => {
         'Content-Type': 'multipart/form-data'
       }
     }).then(response => {
-      alert(response);
+      console.log(response);
     }).catch(error => {
-      alert("error: " + error);
+      console.log("error: " + error);
     });
   }
 
