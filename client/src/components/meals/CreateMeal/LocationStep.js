@@ -5,10 +5,8 @@ const LocationStep = props => {
   const [showMap, setMapVisibility] = useState(0);
   const defaultLocationConst = { lng: 34.808, lat: 32.09 };
 
-  //const defaultLocation = defaultLocationConst;
   const [defaultLocation, updateDefaultLocation] = useState(defaultLocationConst);
   let errors = {};
-  //const [state, updateState] = useState({});
   const onLocationUpdate = ({ address, location }) => {
     props.update({ "id": "address", "value": address });
     props.update({ "id": "location", "value": location });
@@ -20,7 +18,6 @@ const LocationStep = props => {
   }
 
   const onChange = e => {
-   // updateState({ [e.target.id]: e.target.value });
     props.update(e.target);
     onMapExit();
   };

@@ -9,9 +9,9 @@ import {
 
 import Grid from '@material-ui/core/Grid';
 import dateIcon from "../../../resources/date_time_icon.svg"
-const TimeStep = props => {
-
-  const update = (id, value) => {
+const TimeStep = (props) => {
+  const update = (id, value) => {    
+    console.log(id + ", " + value);
     props.update({ "id": id, "value": value });
   };
 
@@ -30,12 +30,12 @@ const TimeStep = props => {
                 id="date"
                 value={props.form.date}
                 //onChange={(value) => { updateState({ selectedDate: value }) }}
-                onChange={update}
+                onChange={(e) => { update("date", e) }}
                 onError={console.log}
                 disablePast
                 showTodayButton
                 autoOk
-                format="yyyy/MM/dd"
+                format="dd/MM/yyyy"
               />
             </Grid>
 
@@ -48,7 +48,7 @@ const TimeStep = props => {
                 id="time"
                 value={props.form.time}
                 //onChange={(value) => { updateState({ selectedDate: value }) }}
-                onChange={(e) => { update("id", e) }}
+                onChange={(e) => { update("time", e) }}
                 onError={console.log}
                 disablePast
                 showTodayButton

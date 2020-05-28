@@ -30,7 +30,7 @@ router.get("/:id", async (req, response) => {
       WHERE meal_id=m.id), 
     m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
   WHERE m.date>now()`;
-  console.log(`SQLquery: [${SQLquery}]`);
+  console.log(`get, SQLquery: [${SQLquery}]`);
   await client.connect();
 
   client.query(SQLquery, [req.params.id])
