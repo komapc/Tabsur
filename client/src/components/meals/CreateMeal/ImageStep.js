@@ -22,14 +22,15 @@ const ImageStep = (props) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append('file', files);
-    formData.append('uploader',  props.form.host_id);
+    formData.append('uploader', props.form.host_id);
     axios.post(`${config.SERVER_HOST}/api/images/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
-      }}
+      }
+    }
     ).then(response => {
       console.log(response.data);
-      props.update({ "id": "image_path", "value": response.data.Location });
+      props.update({ "id": "image_id", "value": response.data });
     }).catch(error => {
       console.log("error: " + error);
     });
