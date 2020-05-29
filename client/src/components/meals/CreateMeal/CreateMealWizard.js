@@ -28,7 +28,7 @@ import { GET_ERRORS, USER_LOADING } from "../../../actions/types";
 import config from "../../../config";
 
 const CreateMealWizard = ({ auth, dispatch }) => {
-  const formatedDate = new Date() + 86400000;
+  const formatedDate = new Date();
   const history = useHistory();
   const [state, updateState] = useState({
     form: {
@@ -100,7 +100,7 @@ const CreateMealWizard = ({ auth, dispatch }) => {
       location: state.form.location,
       host_id: auth.user.id,
       guestCount: state.form.guestCount,
-      image_path: "#RANDOM"
+      image_path: state.image_path?state.image_path:"#RANDOM"
     };
     console.log(JSON.stringify(newMeal));
     //addMeal(newMeal, state.history);debugger;
@@ -132,7 +132,7 @@ const CreateMealWizard = ({ auth, dispatch }) => {
             <LocationStep update={update} form={state.form} />
             <TimeStep update={update} form={state.form} />
             <GuestStep update={update} form={state.form} />
-            <ImageStep update={update} form={state.form} />
+            <ImageStep update={update} form={state.form} auth={state.auth}/>
           </StepWizard>
         </div>
       </div>

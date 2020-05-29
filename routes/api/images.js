@@ -6,6 +6,15 @@ const fileType = require('file-type');
 const bluebird = require('bluebird');
 const multiparty = require('multiparty');
 const router = express.Router();
+
+const pgConfig = require("./../dbConfig.js");
+let currentConfig = pgConfig.pgConfigProduction;
+
+if (process.env.NODE_ENV === "debug") {
+  currentConfig = pgConfig.pgConfigLocal;
+}
+const { Client } = require("pg");
+
 // configure the keys for accessing AWS
 AWS.config.update({
   accessKeyId: keys.AWS_KEY,//process.env.AWS_ACCESS_KEY_ID,
@@ -33,30 +42,53 @@ const uploadFile = (buffer, name, type) => {
   return s3.upload(params).promise();
 };
 
+insertImageIntoDB = (imageName, uploader) => {
+  console.log(`Inserting image ${imageName} from user [${uploader}]`);
+  const client = new Client(currentConfig);
 
-// Define POST route
+  client.connect();
+  const query = `INSERT INTO images (path, status, uploader) 
+  VALUES($1, 1, $2) RETURNING id`;
+  console.log(`connected running [${query}]`);
+
+  client.query(query,
+    [imageName, Number(uploader)])
+    .then((res) => {
+
+      console.log(`image inserted, id=${JSON.stringify(res.rows[0])}.`);
+      return res.rows[0].id;
+    })
+    .catch((e) => {
+      client.end();
+      console.log(`inserting image into db failed; exception catched: ${e}`);
+      response.status(500).json(e);
+    });
+};
+
+//POST route
 router.post("/upload", async (request, response) => {
-  console.log("Uploading: " + request.formData);
   const form = new multiparty.Form();
-  console.log("parsing form: " + JSON.stringify(form));
+  console.log("Uploading: " +  JSON.stringify(form));
   form.parse(request, async (error, fields, files) => {
     if (error) {
       console.log("parsing error: " + JSON.stringify(fields));
       throw new Error(error);
     }
     try {
+      console.log("parsed: " + JSON.stringify(fields));
       console.log("Uploading file: " + JSON.stringify(files));
       const path = files.file[0].path;
       const buffer = fs.readFileSync(path);
       const type = "jpeg"//await fileType(buffer);
       const timestamp = Date.now().toString();
       const fileName = `images/${timestamp}-lg`;
+      const uploader = fields.uploader;
       const data =
         uploadFile(buffer, fileName, type)
           .then(res => {
-
             console.log(`send file ${fileName}, res; ${JSON.stringify(res)}`);
-
+            insertedImageID = insertImageIntoDB(path, uploader);
+            res.insertedImageID = insertedImageID;
             return response.status(200).send(res);
           })
           .error(error => {
@@ -66,7 +98,7 @@ router.post("/upload", async (request, response) => {
           )
     }
     catch (error) {
-      console.log("Uploading error: " + JSON.stringify(error));
+      console.log(`Uploading error:${JSON.stringify(error)}`);
       return response.status(400).send(error);
     }
   });

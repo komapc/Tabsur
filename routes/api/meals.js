@@ -141,50 +141,47 @@ router.get("/guests/:meal_id", async (req, response) => {
 // @route POST api/meals/image
 router.post("/image", async (req, response) => {
   console.log(`query: ${JSON.stringify(req.body)}`);
-  if (!req.body.meal_id)
-  {
+  if (!req.body.meal_id) {
     return response.status(500).json(`Empty input.`);
   }
-  const meal_id=req.body.meal_id;
-  let image_path=req.body.image_path;
-  let image_id=req.body.image_id;
+  const meal_id = req.body.meal_id;
+  let image_path = req.body.image_path;
+  let image_id = req.body.image_id;
   const client = new Client(currentConfig);
   await client.connect();
-  if (image_path==="#RANDOM")
-  {
+  if (image_path === "#RANDOM") {
     console.log(`selecting random image`);
 
-    const query=`select id, path, status from images  offset (
+    const query = `select id, path, status from images  offset (
                 select floor(random() * (select count(1) from images))::int) limit 1`
     await client.query(query)
       .then((res) => {
         console.log(`random image query done: ${JSON.stringify(res.rows)}`);
-        image_path=res.rows[0].path;
+        image_path = res.rows[0].path;
         image_id = res.rows[0].id;
       })
-      .catch(err => { 
-        console.log(err); 
+      .catch(err => {
+        console.log(err);
         client.end();
-        return response.status(500).json("failed to select random image: " + err); 
-        })
+        return response.status(500).json("failed to select random image: " + err);
+      })
   }
-  if (isNaN(image_id) ||isNaN(meal_id) )
-  {
-    return response.status(500).json("Bad params"); 
+  if (isNaN(image_id) || isNaN(meal_id)) {
+    return response.status(500).json("Bad params");
   }
-  const query=`insert into meal_images (meal_id, image_id) values ($1, $2) returning id`
+  const query = `insert into meal_images (meal_id, image_id) values ($1, $2) returning id`
   client.query(query, [meal_id, image_id])
     .then((res) => {
       client.end();
       console.log(`insert query done: ${JSON.stringify(res.rows)}`);
-      image_path=res.rows[0].path;
-      return response.status(200).json(res.rows); 
+      image_path = res.rows[0].path;
+      return response.status(200).json(res.rows);
     })
-    .catch(err => { 
-      console.log(err); 
+    .catch(err => {
+      console.log(err);
       client.end();
-      return response.status(500).json("failed to select random image: " + err); 
-      })
+      return response.status(500).json("failed to select random image: " + err);
+    })
 });
 // @route POST api/meals/
 router.post("/", async (req, response) => {
@@ -201,32 +198,31 @@ router.post("/", async (req, response) => {
   console.log(`add meal - start, ${JSON.stringify(req.body)}`);
   await client.connect();
   //todo: insert image
-  const query=`INSERT INTO meals (name, type, location, address, guest_count, host_id, date, visibility)
+  const query = `INSERT INTO meals (name, type, location, address, guest_count, host_id, date, visibility)
   VALUES($1, $2, $3, $4, $5, $6, (to_timestamp($7/ 1000.0)), $8) RETURNING id`;
   console.log(`connected running [${query}]`);
-  
+
   client.query(query,
     [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
     meal.address, meal.guestCount, meal.host_id, meal.date, meal.visibility])
     .then((res) => {
 
       console.log(`query done.`);
-      const notificationQuery=`
+      const notificationQuery = `
       INSERT INTO notifications 
         (meal_id, message_text, user_id, status, note_type) 
-        (SELECT 0, 'New meal in your area.', users.id, 3, 6  FROM users )`;
+        (SELECT 0, 'New meal in your area.', users.id, 3, 6 FROM users )`;
       console.log(`Notifications: [${notificationQuery}]`);
       client.query(notificationQuery)
-          .catch(err => { 
-            console.log(err); 
-            client.end();
-            return response.status(500).json("failed to add notification: " + err); 
-            })
-          .then(answer => 
-          { 
-            client.end();
-            return response.status(201).json(res.rows); 
-          }
+        .catch(err => {
+          console.log(err);
+          client.end();
+          return response.status(500).json("failed to add notification: " + err);
+        })
+        .then(answer => {
+          client.end();
+          return response.status(201).json(res.rows);
+        }
         )
     }
     )
