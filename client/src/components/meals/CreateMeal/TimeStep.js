@@ -18,7 +18,6 @@ const TimeStep = (props) => {
   return (
     <div className="wizard-container">
       <div className="date-div">
-        {/* <span><img className="meal-info-icons" src={dateIcon} alt="date" /></span> */}
         <span>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid container justify="space-around"><span><img className="meal-info-icons"
@@ -29,7 +28,6 @@ const TimeStep = (props) => {
                 label="date"
                 id="date"
                 value={props.form.date}
-                //onChange={(value) => { updateState({ selectedDate: value }) }}
                 onChange={(e) => { update("date", e) }}
                 onError={console.log}
                 disablePast
@@ -47,7 +45,6 @@ const TimeStep = (props) => {
                 label="date & time"
                 id="time"
                 value={props.form.time}
-                //onChange={(value) => { updateState({ selectedDate: value }) }}
                 onChange={(e) => { update("time", e) }}
                 onError={console.log}
                 disablePast
