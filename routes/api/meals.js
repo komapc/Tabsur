@@ -149,25 +149,9 @@ router.post("/image", async (req, response) => {
   let image_id = req.body.image_id;
   const client = new Client(currentConfig);
   await client.connect();
-  if (image_path === "#RANDOM") {
-    console.log(`selecting random image`);
-
-    const query = `select id, path, status from images  offset (
-                select floor(random() * (select count(1) from images))::int) limit 1`
-    await client.query(query)
-      .then((res) => {
-        console.log(`random image query done: ${JSON.stringify(res.rows)}`);
-        image_path = res.rows[0].path;
-        image_id = res.rows[0].id;
-      })
-      .catch(err => {
-        console.log(err);
-        client.end();
-        return response.status(500).json("failed to select random image: " + err);
-      })
-  }
+ 
   if (isNaN(image_id) || isNaN(meal_id)) {
-    return response.status(500).json("Bad params");
+    return response.status(500).json("Bad params: image_id");
   }
   const query = `insert into meal_images (meal_id, image_id) values ($1, $2) returning id`
   client.query(query, [meal_id, image_id])

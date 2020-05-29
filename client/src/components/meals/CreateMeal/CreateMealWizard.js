@@ -40,7 +40,7 @@ const CreateMealWizard = ({ auth, dispatch }) => {
       location: "",
       host_id: auth.user.id,
       guestCount: 3,
-      image_path: "#RANDOM"
+      image_id: -1
     },
     transitions: {
     },
@@ -49,6 +49,7 @@ const CreateMealWizard = ({ auth, dispatch }) => {
     selectedDate: new Date(Date.now() + 86400000)
   });
 
+  //add to "images"
   const addMealInternal = (userData, history) => {
     console.log("Adding meal");
     axios
@@ -66,13 +67,14 @@ const CreateMealWizard = ({ auth, dispatch }) => {
       })
       .catch(err => {
         console.log(`Error in addMeal: ${JSON.stringify(err)}`);
-        dispatch({
-          type: GET_ERRORS,
-          payload: err.response.data
-        })
+        // dispatch({
+        //   type: GET_ERRORS,
+        //   payload: err.response.data
+        // })
       }
       );
   };
+
 
   const setInstance = SW => updateState({
     ...state,
@@ -100,10 +102,10 @@ const CreateMealWizard = ({ auth, dispatch }) => {
       location: state.form.location,
       host_id: auth.user.id,
       guestCount: state.form.guestCount,
-      image_path: state.image_path?state.image_path:"#RANDOM"
+      image_id: state.form.image_id? state.form.image_id:-2
     };
     console.log(JSON.stringify(newMeal));
-    //addMeal(newMeal, state.history);debugger;
+    //addMeal(newMeal, state.history);
     addMealInternal(newMeal, state.history);
 
   }

@@ -6,6 +6,7 @@ import fullUp from "../../resources/full_up.svg";
 import { withRouter } from "react-router-dom";
 import { joinMeal } from "../../actions/mealActions"
 import { connect } from "react-redux";
+import config from "../../config";
 
 import React from "react";
 var dateFormat = require('dateformat');
@@ -123,7 +124,7 @@ class MealListItem extends React.Component {
     return (
       <div className="meal-props" onClick={(event) => { this.gotoMeal(event, meal) }}>
         <span className="meal-props-left">
-          <img src={meal.path}
+          <img src={`${config.SERVER_HOST}/api/${meal.path}.undefined`}
             alt={"image: " + meal.path} className="meal-image" />
           <div className="meal-dishes-div">
             <img className="meal-info-icons" src={dishes} alt={"number of portions"} />
