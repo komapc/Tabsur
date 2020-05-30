@@ -31,6 +31,7 @@
     "file-type": "^14.5.0",
     "fs": "0.0.1-security",
     "helmet": "^3.22.0",
+    "heroku-ssl-redirect": "0.0.4",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.9.7",
