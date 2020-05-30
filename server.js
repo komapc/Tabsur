@@ -30,7 +30,8 @@ app.use("/api/attends", attends);
 app.use("/api/follow", follow);
 app.use("/api/notifications", notifications);
 app.use("/api/images", images);
-
+var sslRedirect = require(`heroku-ssl-redirect`);
+app.use(sslRedirect());
 //serve static assets in production
 console.log("server.js, env = " + process.env.NODE_ENV);
 if (process.env.NODE_ENV != "debug")
