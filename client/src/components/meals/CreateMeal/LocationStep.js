@@ -31,7 +31,8 @@ const LocationStep = props => {
       {/* Address*/}
       <div>
         <img className="meal-info-location-icons" src={locationIcon} alt="location" />
-        <span className="location-input-field input-field col s12">
+        <span className="location-input-field input-field col s12 ">
+          <div  className="wizard-container">
           <input
             onChange={onChange}
             onClick={onAddressClickHandle}
@@ -43,6 +44,7 @@ const LocationStep = props => {
           />
           <label htmlFor="address" shrink="true">Location</label>
           <span className="red-text">{errors.address}</span>
+          </div>
         </span>
       </div>
       <div className={showMap ? 'createMealMap' : 'createMealMap-hidden'}>

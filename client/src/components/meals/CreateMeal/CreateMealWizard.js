@@ -121,13 +121,14 @@ const CreateMealWizard = ({ auth, dispatch }) => {
   const { SW } = state;
 
   return (
-    <div className='container'>
+    <div >
       {SW && <TopHeader SW={SW} />}
       
       {SW && <Navigator SW={SW} submit={submit} /> }
       <div className='col-12 col-sm-6 offset-sm-3'>
         <div className="wizard-middle">
           <StepWizard
+          style={{ alignItems: 'flex-end', width: 200 }}
             onStepChange={onStepChange}
             transitions={state.transitions}
             instance={setInstance}>
@@ -164,7 +165,8 @@ const Navigator = ({ SW, submit }) => {
   return <div className="wizard-bottom">
     {first ?
       <img src={wizard_back} alt="next"
-        className={'wizard-bottom-prev'} onClick={SW.previousStep} /> : ""}
+        className={'wizard-bottom-prev'} onClick={SW.previousStep} /> : 
+        <span className={'wizard-bottom-prev'}/>}
     {last ?
       <img src={wizard_next} alt="next"
         className={'wizard-bottom-next'} onClick={SW.nextStep} /> :
