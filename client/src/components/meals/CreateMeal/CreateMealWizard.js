@@ -28,7 +28,7 @@ import { GET_ERRORS, USER_LOADING } from "../../../actions/types";
 import config from "../../../config";
 
 const CreateMealWizard = ({ auth, dispatch }) => {
-  const formatedDate = new Date();
+  const formatedDate = new Date(Date.now() + 86400000);
   const history = useHistory();
   const [state, updateState] = useState({
     form: {
@@ -46,7 +46,6 @@ const CreateMealWizard = ({ auth, dispatch }) => {
     },
     history: history,
     dispatch: dispatch,
-    selectedDate: new Date(Date.now() + 86400000)
   });
 
   //add to "images"
