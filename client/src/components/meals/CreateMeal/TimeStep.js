@@ -38,11 +38,11 @@ const TimeStep = (props) => {
             </Grid>
 
             <Grid container justify="space-around"><span><img className="meal-info-icons"
-              src={dateIcon} alt="date" /></span>
+              src={dateIcon} alt="time" /></span>
               <KeyboardTimePicker
                 variant="dialog"
                 ampm={false}
-                label="date & time"
+                label="time"
                 id="time"
                 value={props.form.time}
                 onChange={(e) => { update("time", e) }}
