@@ -463,7 +463,87 @@ input
     height: 95%;
     width: 100%;
 }
+/*user info/meal info*/
+.info-back-div
+{
+    height: 50px;
+    width: 100%;
+    vertical-align: middle;
+    text-align: center;
+    padding: 13px;
+}
+.info-back
+{
+    position:fixed;
+    left:30px;
+    height: 18px;
+    vertical-align: middle;
+}
+.info-caption
+{
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #009245;
+    width: 100%;
+    font-size: 15px;
+}
+.info-main-image
+{
+    position: absolute;
+    top:100px;
+    text-align: center;
+    height:120px;
+    width:100%;
+}
 
+.info-main-name
+{
+    position: absolute;
+    top: 250px;
+    width: 100%;
+    text-align: center;
+    vertical-align: bottom;
+    color: white;
+    font-family: 'Calibri';
+    font-size: 20px;
+    font-weight: 800;
+    font-style: italic;
+}
+.info-fields
+{
+    margin:40px;
+    color:#009245;
+}
+
+.info-column {
+    float: left;
+    width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.info-main
+{
+    position: absolute;
+    top:0px;
+    width: 100%;
+}
+.info-top
+{
+    background-color: #009245;
+    width: 100%;
+    height: 260px;
+}
+
+.info-text
+{
+    color: #009245;
+}
 /*wizard*/
 .wizard-caption
 {
@@ -553,7 +633,7 @@ input
 .wizard-container
 {
     height: 50%;
-    min-height: 200px;
+    min-height: 400px;
 }
 .wizard-description
 {

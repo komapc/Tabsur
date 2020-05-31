@@ -3,6 +3,8 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from 'axios';
 import config from "../../config";
+import backButton from "../../resources/back_button.svg";
+import defaultImage from "../../resources/userpic_empty.svg";
 
 class ShowUser extends Component {
 
@@ -23,34 +25,34 @@ class ShowUser extends Component {
 
   getFollowStatus() {
     const myUserId = this.props.auth.user.id;
-    const thisUserId = this.state.id;  
+    const thisUserId = this.state.id;
     axios.get(`${config.SERVER_HOST}/api/follow/${thisUserId}`)
       .then(res => {
-        console.log('getFollowStatus: ' + JSON.stringify(res.data));
+        console.log(`getFollowStatus: ${JSON.stringify(res.data)}`);
         const followers = res.data;
-        const found = followers.find(element => element.follower===myUserId);
-        const followStatus = found?found.status:0;
+        const found = followers.find(element => element.follower === myUserId);
+        const followStatus = found ? found.status : 0;
         this.setState({ followStatus: followStatus });
         console.log(res.data);
       })
       .catch(err => {
-        this.setState({followStatus:-1});
+        this.setState({ followStatus: -1 });
         console.log(err);
       });
   }
 
   follow(new_status) {
     const myUserId = this.props.auth.user.id;
-    const thisUserId = this.state.id; 
+    const thisUserId = this.state.id;
     const body = { followie: thisUserId, status: new_status };
     axios.post(`${config.SERVER_HOST}/api/follow/${myUserId}`, body)
       .then(res => {
         console.log(res.data);
         //change in DB, than change state
-        this.setState({followStatus:new_status});
+        this.setState({ followStatus: new_status });
       })
       .catch(err => {
-        this.setState({followStatus:-1});
+        this.setState({ followStatus: -1 });
         console.log(err);
       });
   }
@@ -69,14 +71,32 @@ class ShowUser extends Component {
 
   render() {
     return (
-      <div className="main">
-        <div>Info about user <span className="meal-name">{this.state.user.name}</span></div>
-        <div>Meals created: {this.state.user.meals_created}</div>
-        <div>Rate {this.state.user.rate}/100</div>
-        <div>You follow him? {this.state.followStatus}</div>
-        {this.state.followStatus?
-        <button onClick={()=>this.follow(0)}>UnFollow</button>:
-        <button onClick={()=>this.follow(3)}>Follow</button>}
+      <div className="info-all">
+         <div className="info-back-div"><img
+         className="info-back"
+          alt="back"
+          onClick={this.props.history.goBack}
+          src={backButton}
+        />
+        <span className="info-caption">profile</span>
+        </div>
+        <div className="info-top">
+          <img className="info-main-image" src={defaultImage}/>
+          <span className="info-main-name">{this.state.user.name}</span>
+        </div>
+        <div className="info-fields">
+        <div class="row">
+          <div class="info-column ">Meals created
+          </div>
+          <div class="info-column ">
+          {this.state.user.meals_created}
+          </div>
+      </div>
+          <div>You follow him?</div>
+          {this.state.followStatus ?
+            <button onClick={() => this.follow(0)}>UnFollow</button> :
+            <button onClick={() => this.follow(3)}>Follow</button>}
+        </div>
       </div>
     );
   }

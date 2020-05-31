@@ -59,8 +59,9 @@ class App extends Component {
               <title>Coolanu - food sharing app or food sharing and social dinning</title>
               <link rel="canonical" href="https://coolanu.com" />
             </Helmet>
-            <Switch>
+            <Switch>{/*screens without top bar */}
               <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
+              <PrivateRoute exact path="/user/:id" component={ShowUser} />
               <Navbar />
             </Switch>
               <Switch>>
@@ -71,7 +72,6 @@ class App extends Component {
                 <Route exact path="/" component={Meals} /> 
                 <PrivateRoute exact path="/meals" component={Meals} />
                 <PrivateRoute exact path="/meal" component={ShowMeal} />
-                <PrivateRoute exact path="/user/:id" component={ShowUser} />
                 <PrivateRoute exact path="/mealMap/:meal_id?" component={MealMap} />
                 {/* <PrivateRoute exact path="/create" component={CreateMealWizard} /> */}
                 <PrivateRoute exact path="/myMeals" component={MyMeals} />
@@ -83,6 +83,7 @@ class App extends Component {
               </Switch>
               <Switch>{/* Bottom menu for everybody except the wizard                */}
                 <PrivateRoute exact path="/createMealWizard" component={() => { return <span/>}}  />
+                <PrivateRoute exact path="/user/:id" component={() => { return <span/>}}  />
                 <Bottom />
               </Switch> 
           </div>
