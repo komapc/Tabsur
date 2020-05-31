@@ -58,11 +58,21 @@ ul li span {
     transition: ease-in-out 0.2s;
 }
 
+.createMealMap-small
+{
+    position: fixed;
+    top: 50%;
+    height: 50%;
+    width: 90%;
+    transition: ease-in-out 0.2s;
+}
+
 .createMealMap
 {
     top: 0px;
+    left:0px;
     position: fixed;
-    height: 800px;
+    height:100%;
     width: 100%;
     background-color: #73d763;
     transition: ease-in-out 0.2s;
@@ -447,9 +457,113 @@ input
 
 .map-with-marker-container
 {
-    position: relative;
+    position: absolute;
     top: 35px;
-    left: -5%;
-    height: 90%;
-    width: 105%;
+    left: 0%;
+    height: 95%;
+    width: 100%;
 }
+
+/*wizard*/
+.wizard-caption
+{
+    width: 100%;
+    text-align: center;
+    font-size:1.1em; /* TODO: 30% */
+    color:#a2d888;
+    text-transform: uppercase;
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+.wizard-progress
+{
+    height:100px;
+}
+
+.wizard-progress-container
+{
+    text-align: center;
+    width: 100%;
+}
+.wizard-icon
+{
+    text-align: center;
+    width: 40px;
+    margin-top:30px;
+}
+
+.wizard-small-icon
+{
+    height: 20px;
+    margin: 3px;
+}
+
+.wizard-middle
+{
+    height: 30%;
+}
+
+.wizard-bottom
+{
+    width:90%;
+    vertical-align: bottom;
+    bottom:20px;
+}
+
+.wizard-bottom-next
+{
+    position: relative;
+    display: block;
+    width:50px;    
+    height:50px;
+    right:33px;
+    float: right;
+    margin: 10%;
+    bottom:30px;
+}
+
+.wizard-bottom-last
+{
+    position: relative;
+    width:50px;
+    height:50px;
+    right:25px;
+    float: right;
+    margin: calc(10% + 12px);
+    bottom:30px;
+}
+
+.wizard-bottom-prev
+{
+    position: relative;
+    width:50px;    
+    height:50px;
+    left:33px;
+    margin: 10%;
+    bottom:30px;
+}
+.wizard-image-placeholder-containter
+{
+    text-align: center;
+}
+.wizard-image-placeholder
+{
+    width: 90px;
+}
+.wizard-container
+{
+    height: 50%;
+    min-height: 200px;
+}
+.wizard-description
+{
+    width:100%;
+}
+.buttonStyle 
+{
+    min-width: 56px;
+    width: 56px;
+    min-height: 56px;
+    height: 56px;
+    border-radius: 8px;
+};

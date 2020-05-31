@@ -15,8 +15,6 @@ import attend from "../../resources/attended.svg"
 import locationIcon from "../../resources/location_icon.svg"
 import dateIcon from "../../resources/date_time_icon.svg"
 import servingsIcon from "../../resources/servings_icon.svg"
-import InputLabel from '@material-ui/core/InputLabel';
-
 
 class CreateMeal extends Component {
   
