@@ -505,17 +505,15 @@ input
 
 .wizard-bottom
 {
-    position:fixed;
     width:90%;
-    bottom:10px;
     vertical-align: bottom;
-    display: table-cell;
     bottom:20px;
 }
 
 .wizard-bottom-next
 {
-    position: absolute;
+    position: relative;
+    display: block;
     width:50px;    
     height:50px;
     right:33px;
@@ -526,8 +524,8 @@ input
 
 .wizard-bottom-last
 {
-    position: absolute;
-    width:50px;    
+    position: relative;
+    width:50px;
     height:50px;
     right:25px;
     float: right;
@@ -537,7 +535,7 @@ input
 
 .wizard-bottom-prev
 {
-    position: absolute;
+    position: relative;
     width:50px;    
     height:50px;
     left:33px;
@@ -555,6 +553,7 @@ input
 .wizard-container
 {
     height: 50%;
+    min-height: 200px;
 }
 .wizard-description
 {
