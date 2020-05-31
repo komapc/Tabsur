@@ -9,6 +9,7 @@ const follow = require("./routes/api/follow");
 const attends = require("./routes/api/attends");
 const hungry = require("./routes/api/hungry");
 const notifications = require("./routes/api/notifications");
+const images = require("./routes/api/images");
 const app = express();
 
 app.use(cors());
@@ -28,8 +29,9 @@ app.use("/api/hungry", hungry);
 app.use("/api/attends", attends);
 app.use("/api/follow", follow);
 app.use("/api/notifications", notifications);
-
-
+app.use("/api/images", images);
+var sslRedirect = require(`heroku-ssl-redirect`);
+app.use(sslRedirect());
 //serve static assets in production
 console.log("server.js, env = " + process.env.NODE_ENV);
 if (process.env.NODE_ENV != "debug")

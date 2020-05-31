@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 
@@ -18,8 +18,8 @@ import ShowMeal from "./components/meals/ShowMeal";
 import ShowUser from "./components/meals/ShowUser";
 import MealMap from "./components/meals/MealMap";
 import Attend from "./components/meals/Attend";
-import Create from "./components/meals/CreateMeal";
-import CreateMealWizard from "./components/meals/CreateMealWizard";
+//import Create from "./components/meals/CreateMeal";
+import CreateMealWizard from "./components/meals/CreateMeal/CreateMealWizard";
 import About from "./components/about/About"
 import NotificationScreen from "./components/notifications/NotificationScreen"; //Not used yet
 import MyMeals from "./components/meals/MyMeals"
@@ -59,28 +59,32 @@ class App extends Component {
               <title>Coolanu - food sharing app or food sharing and social dinning</title>
               <link rel="canonical" href="https://coolanu.com" />
             </Helmet>
-            <Navbar />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login" component={Login} />            
-            <Route exact path="/about" component={About} />
-            <Route exact path="/menu" component={Menu} />
-            <Route exact path="/" component={Meals} /> 
             <Switch>
-              <PrivateRoute exact path="/meals" component={Meals} />
-              <PrivateRoute exact path="/meal" component={ShowMeal} />
-              <PrivateRoute exact path="/user/:id" component={ShowUser} />
-              <PrivateRoute exact path="/mealMap/:meal_id?" component={MealMap} />
-              <PrivateRoute exact path="/create" component={Create} />
-              <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard} />
-              <PrivateRoute exact path="/myMeals" component={MyMeals} />
-              <PrivateRoute exact path="/attend/:id" component={Attend} />
-              <PrivateRoute exact path="/notifications" component={NotificationScreen} /> */}
-              <PrivateRoute exact path="/myProfile" component={MyProfile} />
-              <PrivateRoute exact path="/profile/:id" component={Profile} />
-              <PrivateRoute exact path="/Stats/:id" component={Stats} />
-              {/* <Redirect to='/' /> */}
+              <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
+              <Navbar />
             </Switch>
-            <Bottom />
+              <Switch>>
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />            
+                <Route exact path="/about" component={About} />
+                <Route exact path="/menu" component={Menu} />
+                <Route exact path="/" component={Meals} /> 
+                <PrivateRoute exact path="/meals" component={Meals} />
+                <PrivateRoute exact path="/meal" component={ShowMeal} />
+                <PrivateRoute exact path="/user/:id" component={ShowUser} />
+                <PrivateRoute exact path="/mealMap/:meal_id?" component={MealMap} />
+                {/* <PrivateRoute exact path="/create" component={CreateMealWizard} /> */}
+                <PrivateRoute exact path="/myMeals" component={MyMeals} />
+                <PrivateRoute exact path="/attend/:id" component={Attend} />
+                <PrivateRoute exact path="/notifications" component={NotificationScreen} /> 
+                <PrivateRoute exact path="/myProfile" component={MyProfile} />
+                <PrivateRoute exact path="/profile/:id" component={Profile} />
+                <PrivateRoute exact path="/Stats/:id" component={Stats} />
+              </Switch>
+              <Switch>{/* Bottom menu for everybody except the wizard                */}
+                <PrivateRoute exact path="/createMealWizard" component={() => { return <span/>}}  />
+                <Bottom />
+              </Switch> 
           </div>
         </Router>
       </Provider>
