@@ -20,8 +20,7 @@ const TimeStep = (props) => {
       <div className="date-div">
         <span>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container justify="space-around"><span><img className="meal-info-icons"
-              src={dateIcon} alt="date" /></span>
+            <Grid container justify="space-around"> 
               <KeyboardDatePicker
                 variant="dialog"
                 ampm={false}
@@ -37,9 +36,10 @@ const TimeStep = (props) => {
               />
             </Grid>
 
-            <Grid container justify="space-around"><span><img className="meal-info-icons"
-              src={dateIcon} alt="time" /></span>
+            <Grid container justify="space-around"> 
               <KeyboardTimePicker
+                 keyboardIcon={<img className="meal-info-icons"
+                 src={dateIcon} alt="date" />}
                 variant="dialog"
                 ampm={false}
                 label="time"
