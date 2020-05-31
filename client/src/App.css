@@ -580,13 +580,14 @@ input
 
 .wizard-middle
 {
-    height: 30%;
+    margin-top: 75px;
+    height: 30%;/*??*/
 }
 
 .wizard-bottom
 {
-    width:90%;
-    vertical-align: bottom;
+    width:100%;
+    /* vertical-align: bottom; */
     bottom:20px;
 }
 
@@ -599,7 +600,6 @@ input
     right:33px;
     float: right;
     margin: 10%;
-    bottom:30px;
 }
 
 .wizard-bottom-last
@@ -610,7 +610,6 @@ input
     right:25px;
     float: right;
     margin: calc(10% + 12px);
-    bottom:30px;
 }
 
 .wizard-bottom-prev
@@ -620,7 +619,6 @@ input
     height:50px;
     left:33px;
     margin: 10%;
-    bottom:30px;
 }
 .wizard-image-placeholder-containter
 {

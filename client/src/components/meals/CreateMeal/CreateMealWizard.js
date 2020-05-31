@@ -123,6 +123,8 @@ const CreateMealWizard = ({ auth, dispatch }) => {
   return (
     <div className='container'>
       {SW && <TopHeader SW={SW} />}
+      
+      {SW && <Navigator SW={SW} submit={submit} /> }
       <div className='col-12 col-sm-6 offset-sm-3'>
         <div className="wizard-middle">
           <StepWizard
@@ -137,7 +139,6 @@ const CreateMealWizard = ({ auth, dispatch }) => {
           </StepWizard>
         </div>
       </div>
-      {(SW) ? <Navigator SW={SW} submit={submit} /> : <div>Error</div>}
     </div>
   );
 };
@@ -153,8 +154,7 @@ const TopHeader = ({ SW, onExit }) => {
       <h4 className="wizard-caption">Create Meal</h4>
       <div className="wizard-progress-container">
         <img src={images[SW.state.activeStep]} alt={SW.step} className="wizard-progress" /></div>
-      <div className="wizard-progress-container">
-        <img src={stepIcons[SW.state.activeStep]} alt={SW.step} className="wizard-icon" /></div>
+   
     </Fragment>)
 }
 
@@ -173,7 +173,6 @@ const Navigator = ({ SW, submit }) => {
     }
   </div>
 }
-
 
 
 const mapStateToProps = state => ({
