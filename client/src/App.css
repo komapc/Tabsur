@@ -580,8 +580,9 @@ input
 
 .wizard-middle
 {
-    margin-top: 75px;
+    margin-top: 88px;
     height: 30%;/*??*/
+    z-index: -1;
 }
 
 .wizard-bottom
@@ -631,7 +632,7 @@ input
 .wizard-container
 {
     height: 50%;
-    min-height: 400px;
+    z-index: -2;
 }
 .wizard-description
 {

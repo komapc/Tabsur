@@ -45,7 +45,7 @@ router.post("/register", async (req, response) => {
     bcrypt.genSalt(10, async (err, salt) => {
       bcrypt.hash(input.password, salt, async (err, hash) => {
         if (err) throw err;
-        //input.password = hash;
+        
         client.query('INSERT INTO users (name, email, password, location, address)' +
           'VALUES ($1, $2, $3, $4, $5)',
           [newUser.name, newUser.email, hash, newUser.location, newUser.address])
@@ -53,8 +53,10 @@ router.post("/register", async (req, response) => {
             client.end();
             return response.status(201).json(user);
           })
-          .catch(err => { console.log(err); return response.status(500).json(newUser); });
-        // TODO: fix user id
+          .catch(err => { 
+            console.log(err); 
+            return response.status(500).json(newUser); 
+          });
       });
     });
 
