@@ -22,7 +22,6 @@ router.post('/:id', async (req, response) => {
   console.log("Attend, request: " + JSON.stringify(attend));
 
   const client = new Client(currentConfig);
-  await client.connect();
   const meal_id = attend.meal_id;
   const user_id = attend.user_id;
   const status = attend.status;
@@ -30,6 +29,7 @@ router.post('/:id', async (req, response) => {
     return response.status(500).json("Bad input, one of the parameters is not numeric.");
   }
 
+  await client.connect();
   client.query(`
   INSERT INTO attends (meal_id, user_id, status)
     VALUES (${meal_id}, ${user_id}, ${status}) 
