@@ -44,7 +44,7 @@ router.post('/:id', async (req, response) => {
           INSERT into notifications (meal_id, user_id, message_text, sender, note_type) 
                   VALUES ($1, (select host_id from meals where id=$1), 
                   CONCAT  ((select name from users where id=$2), ' wants to join your meal.'),
-                  0, 5)`,
+                  0, 5)  RETURNING user_id`,
           [attend.meal_id, attend.user_id])
           .catch(err => {
             console.log(err);
@@ -53,6 +53,7 @@ router.post('/:id', async (req, response) => {
           })
           .then(answer => {
             client.end();
+            console.log("" + answer.rows[0].user_id + " is creator id of this meal");
             return response.status(201).json(answer.rows);
           }
           )
