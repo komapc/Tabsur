@@ -54,7 +54,7 @@ router.put("/:id", async (req, response)=> {
   const query=`UPDATE notifications SET "status"=${note.status} WHERE "id"=${id}`;
   console.log(query); 
   await client.connect();
-  await client.query(query)
+  client.query(query)
     .then(resp => {
       console.log("notification status done");
       response.json("Done.");
