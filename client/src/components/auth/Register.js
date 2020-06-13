@@ -19,7 +19,7 @@ class Register extends Component {
   componentDidMount() {
     // If logged in and user navigates to Register page, should redirect them to dashboard
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/Meals ");
+      this.props.history.push("/Meals");
     }
   }
 
@@ -139,12 +139,6 @@ class Register extends Component {
     );
   }
 }
-
-// Register.propTypes = {
-//   registerUser: PropTypes.func.isRequired,
-//   auth: PropTypes.object.isRequired,
-//   errors: PropTypes.object.isRequired
-// };
 
 const mapStateToProps = state => ({
   auth: state.auth,
