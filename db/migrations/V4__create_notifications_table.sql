@@ -1,6 +1,6 @@
-CREATE TABLE versions (
+CREATE TABLE notifications (
     id SERIAL PRIMARY KEY,
     created_at TIMESTAMPTZ DEFAULT NOW(),
-    name varchar(50) NOT NULL,
-    id INTEGER NOT NULL
+    meal_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL
 );
