@@ -29,28 +29,8 @@
 
 .meal-info-icons
 {
-    margin-bottom: 5px;
     height:18px;
     width:18px;
-}
-
-.meal-info-location-icons
-{
-    /*float: left;*/
-    margin-top: 1em;
-    margin-bottom: 5px;
-    margin-left: 10%;
-    height:18px;
-    width:18px;
-}
-
-.meal-info-guests-icons
-{
-    /*float: left;*/
-    margin-top: 2.5em;
-    margin-left: 10%;
-    height:20px;
-    width:20px;
 }
 .meal-owner-div
 {
@@ -86,22 +66,24 @@
 .meal-guests
 {
     border:none ;
-    /* position: absolute; */
-    /* top: -50px; */
 }
 
 .meal-info
 {
-    margin: 15px;
+    margin: 0.3em 15px
 }
 
 .meal-dishes-div
 {
     border:none;
-    /* position: relative; */
 }
 
 .meal-props-left
 {
     width: 33%;
+}
+
+.meal-info-item {
+    display: flex;
+    align-items: center;
 }

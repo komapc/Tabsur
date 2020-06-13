@@ -142,11 +142,11 @@ class MealListItem extends React.Component {
             onClick={(event) => { this.goToUser(event, meal.host_id) }}>{owner} </span>
           </div>
           <div className="meal-name" > {meal.name}</div>
-          <div>
+          <div className="meal-info-item">
             <img className="meal-info-icons" src={time} alt={"date"} />
             <span className="meal-info">{dat}</span>
           </div>
-          <div>
+          <div className="meal-info-item">
             <img className="meal-info-icons" src={location} alt={"address"} />
             <span
               onClick={(event) => { this.goToMaps(event, meal.id) }}
