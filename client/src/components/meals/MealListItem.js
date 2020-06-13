@@ -8,6 +8,8 @@ import { joinMeal } from "../../actions/mealActions"
 import { connect } from "react-redux";
 import config from "../../config";
 
+import "./Meals.css";
+
 import React from "react";
 var dateFormat = require('dateformat');
 
