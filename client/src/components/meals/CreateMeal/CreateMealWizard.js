@@ -86,7 +86,9 @@ const CreateMealWizard = ({ auth, dispatch }) => {
       SW
     });
   };
-
+  const backToList = () => {
+    this.props.history.push("/Meals");
+  }
   const submit = (e) => {
     e.preventDefault();
     var summedDate = new Date(state.form.date);
@@ -101,7 +103,7 @@ const CreateMealWizard = ({ auth, dispatch }) => {
       location: state.form.location,
       host_id: auth.user.id,
       guestCount: state.form.guestCount,
-      image_id: state.form.image_id? state.form.image_id:-2
+      image_id: state.form.image_id ? state.form.image_id : -2
     };
     console.log(JSON.stringify(newMeal));
     //addMeal(newMeal, state.history);
@@ -122,13 +124,13 @@ const CreateMealWizard = ({ auth, dispatch }) => {
 
   return (
     <div >
-      {SW && <TopHeader SW={SW} />}
-      
-      {SW && <Navigator SW={SW} submit={submit} /> }
+      {SW && <TopHeader onExit={backToList} SW={SW} />}
+
+      {SW && <Navigator SW={SW} submit={submit} />}
       <div className='col-12 col-sm-6 offset-sm-3'>
         <div className="wizard-middle">
           <StepWizard
-          style={{ alignItems: 'flex-end', width: 200 }}
+            style={{ alignItems: 'flex-end', width: 200 }}
             onStepChange={onStepChange}
             transitions={state.transitions}
             instance={setInstance}>
@@ -136,7 +138,7 @@ const CreateMealWizard = ({ auth, dispatch }) => {
             <LocationStep update={update} form={state.form} />
             <TimeStep update={update} form={state.form} />
             <GuestStep update={update} form={state.form} />
-            <ImageStep update={update} form={state.form} auth={state.auth}/>
+            <ImageStep update={update} form={state.form} auth={state.auth} />
           </StepWizard>
         </div>
       </div>
@@ -155,7 +157,7 @@ const TopHeader = ({ SW, onExit }) => {
       <h4 className="wizard-caption">Create Meal</h4>
       <div className="wizard-progress-container">
         <img src={images[SW.state.activeStep]} alt={SW.step} className="wizard-progress" /></div>
-   
+
     </Fragment>)
 }
 
@@ -165,8 +167,8 @@ const Navigator = ({ SW, submit }) => {
   return <div className="wizard-bottom">
     {first ?
       <img src={wizard_back} alt="next"
-        className={'wizard-bottom-prev'} onClick={SW.previousStep} /> : 
-        <span className={'wizard-bottom-prev'}/>}
+        className={'wizard-bottom-prev'} onClick={SW.previousStep} /> :
+      <span className={'wizard-bottom-prev'} />}
     {last ?
       <img src={wizard_next} alt="next"
         className={'wizard-bottom-next'} onClick={SW.nextStep} /> :

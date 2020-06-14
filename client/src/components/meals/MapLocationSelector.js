@@ -11,12 +11,12 @@ export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
 
 class MapLocationSelector extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+  constructor (props) {
+    super(props);
+    this.state = {
             defaultLocation: this.props.defaultLocation,
             location: this.props.defaultLocation
-        };
+    };
     };
     componentDidMount() {
         if ("geolocation" in navigator) {
@@ -36,7 +36,7 @@ class MapLocationSelector extends Component {
                     },
                     error => {
                         console.error(error);
-                    }
+  }
                 );
             });
         }
@@ -78,15 +78,15 @@ class MapLocationSelector extends Component {
                 console.error(error);
             }).catch(() => {
                 console.log("onAutoCompleteSelect failed.");
-            }
+  }
             );
     }
     addressClickHandle = () => {
         this.props.handleExit();
     }
-
-    render() {
-        return (
+  
+  render () {
+    return (
             <span className="main">
                 <span className="autocomplete-bar">
                     <img onClick={this.props.handleExit}
@@ -107,14 +107,14 @@ class MapLocationSelector extends Component {
                         lng: this.state.location.lng,
                         lat: this.state.location.lat
                     }}
-                    loadingElement={<div style={{ height: `100%` }} />}
+            loadingElement={<div style={{ height: `100%` }} />}
                     containerElement={<div className="map-with-marker-container" />}
                     mapElement={<div style={{ height: `100%` }} />}
                     googleMapURL={`https://maps.googleapis.com/maps/api/js?libraries=places&key=${GOOGLE_MAPS_API_KEY}`}
-                />
+          />
             </span>
     )    };
-}
+  }
 
 const MyGoogleMap = (props) => <GoogleMap
     defaultZoom={8}

@@ -17,9 +17,9 @@ class Register extends Component {
   }
 
   componentDidMount() {
-    // If logged in and user navigates to Register page, should redirect them to dashboard
+    // If logged in and user navigates to Register page, should redirect them back to the meals list.
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/Meals ");
+      this.props.history.push("/Meals");
     }
   }
 
@@ -45,7 +45,7 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2,
       location: '0,0',
-      address:'_'
+      address: '_'
     };
 
     this.props.registerUser(newUser, this.props.history);
