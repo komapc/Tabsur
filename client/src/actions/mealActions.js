@@ -6,7 +6,7 @@ import config from "../config";
 // add a meal and image
 export const addMeal = (userData, history) => dispatch => {
   console.log("Adding meal");
-  debugger;
+  console.log("Adding meal");
   axios
     .post(`${config.SERVER_HOST}/api/meals/`, userData)
     .then(res => {
@@ -20,8 +20,7 @@ export const addMeal = (userData, history) => dispatch => {
           history.push("/MyMeals");
         })
     })
-    .catch(err =>
-      {
+    .catch(err => {
       console.log(`Error in addMeal: ${JSON.stringify(err)}`);
       dispatch({
         type: GET_ERRORS,
