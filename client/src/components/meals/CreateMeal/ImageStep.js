@@ -41,9 +41,8 @@ const ImageStep = (props) => {
       <div className="wizard-image-placeholder-containter">
         <img className="wizard-image-placeholder" src={state.file} alt="Uploaded" />
       </div>
-
       <Button
-        variant="flat"
+        variant="outlined"
         component="label"
       >
         Choose File <input

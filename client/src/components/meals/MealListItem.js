@@ -128,7 +128,7 @@ class MealListItem extends React.Component {
         <span className="meal-props-left">
           <img src={`${config.SERVER_HOST}/api/${meal.path}.undefined`}
             alt={"image: " + meal.path} className="meal-image" />
-          <div className="meal-dishes-div">
+          <div>
             <img className="meal-info-icons" src={dishes} alt={"number of portions"} />
             <span className="meal-guests">({meal.guest_count}/{meal.Atendee_count})</span>
           </div>

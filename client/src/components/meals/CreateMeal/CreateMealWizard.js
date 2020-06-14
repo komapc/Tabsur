@@ -23,9 +23,6 @@ import wizard_done from "../../../resources/wizard/wizard_done.svg";
 import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
-import axios from "axios";
-import { GET_ERRORS, USER_LOADING } from "../../../actions/types";
-import config from "../../../config";
 
 const CreateMealWizard = ({ auth, addMeal }) => {
   const formatedDate = new Date(Date.now() + 86400000);
@@ -47,33 +44,7 @@ const CreateMealWizard = ({ auth, addMeal }) => {
     history: history,
   });
 
-  //add to "images"
-  const addMealInternal = (userData, history) => {
-    console.log("Adding meal");
-    axios
-      .post(`${config.SERVER_HOST}/api/meals/`, userData)
-      .then(res => {
-        const meal_id = res.data[0].id;
-        console.log(`meal added: ${JSON.stringify(meal_id)}`);
-        userData.meal_id = res.meal_id;
-        userData.meal_id = meal_id;
-        axios.post(`${config.SERVER_HOST}/api/meals/image/`, userData)
-          .then(res2 => {
-            console.log(`add image: [${JSON.stringify(res2)}]`);
-            history.push("/MyMeals");
-          })
-      })
-      .catch(err => {
-        console.log(`Error in addMeal: ${JSON.stringify(err)}`);
-        // dispatch({
-        //   type: GET_ERRORS,
-        //   payload: err.response.data
-        // })
-      }
-      );
-  };
-
-
+ 
   const setInstance = SW => updateState({
     ...state,
     SW,
@@ -105,8 +76,8 @@ const CreateMealWizard = ({ auth, addMeal }) => {
       image_id: state.form.image_id ? state.form.image_id : -2
     };
     console.log(JSON.stringify(newMeal));
-    // addMeal(newMeal, state.history);
-    addMealInternal(newMeal, state.history);
+    addMeal(newMeal, state.history);
+    //addMealInternal(newMeal, state.history);
   }
   const update = (e) => {
     const { form } = state;
