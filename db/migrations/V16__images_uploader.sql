@@ -1,1 +1,1 @@
-alter table images add column source varchar(100)
+alter table images add column uploader varchar(100)

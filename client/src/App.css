@@ -83,35 +83,6 @@ ul li span {
     background-color: Blue;
 }
 
-.meal-props {
-    background-color: white;
-    border: solid;
-    border-width: 1px;
-    border-color: #73d763;
-    color: black;
-    border-radius: 1px;
-    transition-duration: 0.5s;
-    font-size: normal;
-    display: flex;
-}
-
-.meal-props:hover {
-    background-color:#d7f7c9;
-    border-radius: 5px;
-    transition-duration: 0.5s;
-    font-size: small;
-}
-
-.meal-image {
-    margin: 10%;
-    width: 80%;
-    float: left;
-}
-
-.meal-props   span {
-    font-size: small;
-}
-
 .marker {
     position: absolute;
     top: 50%;
@@ -133,6 +104,7 @@ ul li span {
     background-color: #a2d888;
     color: white;
     text-align: center;
+    z-index: 1000;
   }
 
   .footerItem
@@ -171,7 +143,7 @@ ul li span {
     position: fixed;
     right:0px;
     bottom: 56px;
-    height: 91%;
+    height: 100%;
     width: 50%;
     font-size: 150%;
     color: white;
@@ -204,7 +176,7 @@ ul li span {
     position: fixed;
     right:0px;
     bottom: 56px;
-    height: 91%;
+    height: 100%;
     width: 50%;
     font-size: 150%;
     color: white;
@@ -272,85 +244,6 @@ ul li span {
  {
      bottom:    -5px;
  }
-
- .meal-info-icons
- {
-    margin-bottom: 5px;
-    height:18px;
-    width:18px;
- }
-
-
- .meal-info-location-icons
- {
-    float: left;
-    margin-top: 1em;
-    margin-bottom: 5px;
-    margin-left: 10%;
-    height:18px;
-    width:18px;
- }
-
- .meal-info-guests-icons
- {
-    float: left;
-    margin-top: 2.5em;
-    margin-left: 10%;
-    height:20px;
-    width:20px;
- }
- .meal-owner-div
- {
-    margin-top: 22px;
-    font-weight: bold;
- }
- .meal-owner
- {
-    color: green;
- }
- .meal-created-icon
- {
-     margin: auto;
-     width: 10%;
- }
- .meal-name {
-    font-weight: bold;
-    font-size: 15px;
-    color:black;
-    text-overflow: ellipsis;
-    width: 100px;
-    overflow: hidden;
-}
-.attend-button
-{
-    position: absolute;
-    margin: 20px;
-    right:0px;
-    height:25px;
-}
-.meal-guests
-{
-    border:none ;
-    /* position: absolute; */
-    /* top: -50px; */
-}
-
-.meal-info
-{
-    margin: 15px;
-}
-
-.meal-dishes-div
-{
-    border:none;
-    /* position: relative; */
-}
-
-.meal-props-left
-{
-    width: 33%;
-}
-
 
 .link
 {
@@ -463,7 +356,7 @@ input
     height: 95%;
     width: 100%;
 }
-/*user info/meal info*/
+/*user info*/
 .info-back-div
 {
     height: 50px;
@@ -645,4 +538,21 @@ input
     min-height: 56px;
     height: 56px;
     border-radius: 8px;
-};
+}
+
+.meal-info-location-icons
+{
+    margin-top: 1em;
+    margin-bottom: 5px;
+    margin-left: 10%;
+    height:18px;
+    width:18px;
+}
+
+.meal-info-guests-icons
+{
+    margin-top: 2.5em;
+    margin-left: 10%;
+    height:20px;
+    width:20px;
+}
