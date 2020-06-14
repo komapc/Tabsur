@@ -27,7 +27,7 @@ import axios from "axios";
 import { GET_ERRORS, USER_LOADING } from "../../../actions/types";
 import config from "../../../config";
 
-const CreateMealWizard = ({ auth, dispatch }) => {
+const CreateMealWizard = ({ auth, addMeal }) => {
   const formatedDate = new Date(Date.now() + 86400000);
   const history = useHistory();
   const [state, updateState] = useState({
@@ -45,7 +45,6 @@ const CreateMealWizard = ({ auth, dispatch }) => {
     transitions: {
     },
     history: history,
-    dispatch: dispatch,
   });
 
   //add to "images"
@@ -91,14 +90,14 @@ const CreateMealWizard = ({ auth, dispatch }) => {
   }
   const submit = (e) => {
     e.preventDefault();
-    var summedDate = new Date(state.form.date);
+    let summedDate = new Date(state.form.date);
     summedDate.setHours(state.form.time.getHours());
     summedDate.setMinutes(state.form.time.getMinutes());
-    const formatedDate = new Date(summedDate).getTime();
+    const formattedDate = new Date(summedDate).getTime();
     const newMeal = {
       name: state.form.name,
       description: state.form.description,
-      date: formatedDate,
+      date: formattedDate,
       address: state.form.address,
       location: state.form.location,
       host_id: auth.user.id,
@@ -106,9 +105,8 @@ const CreateMealWizard = ({ auth, dispatch }) => {
       image_id: state.form.image_id ? state.form.image_id : -2
     };
     console.log(JSON.stringify(newMeal));
-    //addMeal(newMeal, state.history);
+    // addMeal(newMeal, state.history);
     addMealInternal(newMeal, state.history);
-
   }
   const update = (e) => {
     const { form } = state;
@@ -188,10 +186,8 @@ CreateMealWizard.propTypes = {
   auth: PropTypes.object.isRequired
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addMealProp: (form, history) => dispatch(addMeal(form, history))
-  };
-}
+const mapDispatchToProps = (dispatch) => ({
+  addMeal: (form, history) => addMeal(form, history)(dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateMealWizard);
