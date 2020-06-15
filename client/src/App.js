@@ -53,7 +53,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <div className="App">
+          <div className="app">
             <Helmet>
               <meta charSet="utf-8" />
               <title>Coolanu - food sharing app or food sharing and social dinning</title>
