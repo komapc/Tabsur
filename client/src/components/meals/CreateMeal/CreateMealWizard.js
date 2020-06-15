@@ -77,7 +77,6 @@ const CreateMealWizard = ({ auth, addMeal }) => {
     };
     console.log(JSON.stringify(newMeal));
     addMeal(newMeal, state.history);
-    //addMealInternal(newMeal, state.history);
   }
   const update = (e) => {
     const { form } = state;

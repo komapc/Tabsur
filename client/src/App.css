@@ -1,43 +1,11 @@
 
-ul {
-    list-style-type: none;
-    padding-left: 12px;
-}
-
-ul li span {
-    float: left;
-    width: 400px;
-
-}
-
-/* Split the screen in half */
-.split {
-    height: 100%;
-    position: fixed;
-    overflow-x: hidden;
-    padding-top: 10px;
-}
-
-/* Control the left side */
-.left {
-    left: 0;
-    width: 40%;
-}
-
-/* Control the right side */
-.right {
-    width: 60%;
-    right: 0;
-    background-color: Blue;
-}
-
 .meals-map
 {
     height: 100%;
     position: fixed;
     width: 100%;
     background-color: #73d763;
-    transition:1s;
+    transition:0.7s;
 }
 
 .meals-map-info
@@ -55,15 +23,6 @@ ul li span {
     position: fixed;
     height: 0px;
     width: 100%;
-    transition: ease-in-out 0.2s;
-}
-
-.createMealMap-small
-{
-    position: fixed;
-    top: 50%;
-    height: 50%;
-    width: 90%;
     transition: ease-in-out 0.2s;
 }
 
@@ -105,39 +64,40 @@ ul li span {
     color: white;
     text-align: center;
     z-index: 1000;
-  }
-
-  .footerItem
-  {
-    font-size:initial;
-  }
-
-  .menu-right {
-    position: absolute;
-    right: 10px;
-    top: 10px
-  }
-
-  nav
-  {
-    background-color: #73d763;
-  }
-
-  .navbar-fixed
-  {
-    position: fixed;
-    top:0;
-    background-color: #73d763;
-  }
-
-/* Main content */
-.main {
-    margin-top: 60px; /* Add a top margin to avoid content overlay */
-    margin-bottom: 60px;
-    max-width:100%;
-    margin:60px 2px  0px 2px;
 }
 
+.navbar-fixed
+{
+    background-color: #73d763;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+nav
+{
+    background-color: #73d763 ;
+}
+
+/* Main content */
+.main 
+{
+    flex: 0 1;
+    max-width:100%;
+    min-width:100%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: 600px;
+    overflow: hidden;
+    display:flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+.app
+{
+    flex-direction: column;
+    display:flex;
+}
 .menu
 {
     background-color:#f75c06;
@@ -208,20 +168,18 @@ ul li span {
     width: 40%;
     border:none;
     height: 40px;
-
  }
 
  .button-div
  {
     text-align: center;
-
+    flex-shrink: 2;
+    display:flex;
  }
  .navbar-icons
  {
-    top: 10px;
     height:30px;
     margin-left: 0px;
-    border-style: none;
  }
 
  .footer-icons
@@ -231,10 +189,6 @@ ul li span {
     margin-bottom:1px;
  }
 
- nav a
- {
-   width:20%;
- }
 .active
 {
     border-bottom:solid;
