@@ -26,9 +26,8 @@ class Navbar extends Component {
   render() {
     return (
       <div className="navbar-fixed">
-        <nav>
-            <div className="menu-right">
-          
+        <div>
+            <div >
             <span
                 onClick={this.openNotifications} >
                 <img className="navbar-icons" src={notification} alt={"Notifications"}/>
@@ -39,7 +38,7 @@ class Navbar extends Component {
             </span>
            
           </div>
-        </nav>
+        </div>
         <div> 
           <Menu visible={this.state.showMenu} 
             onItemClicked={()=>{this.setState({showMenu: false})}} />
