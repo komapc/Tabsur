@@ -11,12 +11,13 @@ class Meals extends Component {
     super(props);
     this.state = {
       meals: [],
-      loading: true
+      loading: true,
+      id: this.props.auth.user.id || -1
     };
   }
 
   componentDidMount() {
-    axios.get(`${config.SERVER_HOST}/api/meals/` + this.props.auth.user.id)
+    axios.get(`${config.SERVER_HOST}/api/meals/` + this.state.id)
       .then(res => {
         console.log(res.data);
         this.setState({ meals: res.data, loading: false });

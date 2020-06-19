@@ -64,22 +64,21 @@ class App extends Component {
               <PrivateRoute exact path="/user/:id" component={ShowUser} />
               <Navbar />
             </Switch>
-              <Switch>>
+              <Switch>
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />            
                 <Route exact path="/about" component={About} />
                 <Route exact path="/menu" component={Menu} />
-                <Route exact path="/" component={Meals} /> 
                 <PrivateRoute exact path="/meals" component={Meals} />
                 <PrivateRoute exact path="/meal" component={ShowMeal} />
                 <PrivateRoute exact path="/mealMap/:meal_id?" component={MealMap} />
-                {/* <PrivateRoute exact path="/create" component={CreateMealWizard} /> */}
                 <PrivateRoute exact path="/myMeals" component={MyMeals} />
                 <PrivateRoute exact path="/attend/:id" component={Attend} />
                 <PrivateRoute exact path="/notifications" component={NotificationScreen} /> 
                 <PrivateRoute exact path="/myProfile" component={MyProfile} />
                 <PrivateRoute exact path="/profile/:id" component={Profile} />
-                <PrivateRoute exact path="/Stats/:id" component={Stats} />
+                <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
+                <Route  path="/" component={Meals} />
               </Switch>
               <Switch>{/* Bottom menu for everybody except the wizard                */}
                 <PrivateRoute exact path="/createMealWizard" component={() => { return <span/>}}  />

@@ -23,6 +23,7 @@ const LocationStep = props => {
   };
 
   const onAddressClickHandle = e => {
+    e.target.blur();
     setMapVisibility(true);
   }
 
