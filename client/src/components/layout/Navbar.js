@@ -25,7 +25,7 @@ class Navbar extends Component {
   }
   render() {
     return (
-      <div className="navbar-fixed">
+      <div className="navbar-top">
         <div>
             <div >
             <span
