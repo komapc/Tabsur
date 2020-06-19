@@ -66,12 +66,13 @@
     z-index: 1000;
 }
 
-.navbar-fixed
+.navbar-top
 {
     background-color: #73d763;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    height:50px;
 }
 
 nav
