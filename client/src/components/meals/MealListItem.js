@@ -2,6 +2,7 @@ import dishes from "../../resources/servings_icon.svg"
 import location from "../../resources/location_icon.svg"
 import time from "../../resources/date_time_icon.svg"
 import fullUp from "../../resources/full_up.svg";
+import defaultImage from "../../resources/userpic_empty.svg";
 
 import { withRouter } from "react-router-dom";
 import { joinMeal } from "../../actions/mealActions"
@@ -62,7 +63,15 @@ class AttendButton extends React.Component {
     </span>
   }
 };
-
+class MealImage extends React.Component {
+  render() {
+    var path=this.props.meal.path;
+    path = path?
+    `${config.SERVER_HOST}/api/${path}.undefined`:defaultImage;
+    return <img src={path}
+    alt={path} className="meal-image" />
+  }
+}
 class MealListItem extends React.Component {
   constructor(props) {
     super(props);
@@ -126,8 +135,7 @@ class MealListItem extends React.Component {
     return (
       <div className="meal-props" onClick={(event) => { this.gotoMeal(event, meal) }}>
         <span className="meal-props-left">
-          <img src={`${config.SERVER_HOST}/api/${meal.path}.undefined`}
-            alt={"image: " + meal.path} className="meal-image" />
+          <MealImage meal={meal}/>
           <div>
             <img className="meal-info-icons" src={dishes} alt={"number of portions"} />
             <span className="meal-guests">({meal.guest_count}/{meal.Atendee_count})</span>
