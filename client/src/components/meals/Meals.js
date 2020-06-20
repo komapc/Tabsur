@@ -4,6 +4,8 @@ import { getMeals } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
 import axios from 'axios';
 import config from "../../config";
+
+import { getMeals } from "../../actions/mealActions";
 import loadingGIF from "../../resources/animation/loading.gif";
 class Meals extends Component {
 
@@ -25,6 +27,7 @@ class Meals extends Component {
       .catch(err => {
         console.log(err);
       });
+    //getMeals(this.state.is); 
   }
 
   render() {
