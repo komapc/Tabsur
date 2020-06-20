@@ -1,0 +1,85 @@
+
+.meal-props {
+    background-color: white;
+    width: 100%;
+    border: solid;
+    border-width: 1px;
+    border-color: #73d763;
+    color: black;
+    border-radius: 1px;
+    transition-duration: 0.5s;
+    display: flex;
+}
+
+.meal-props:hover {
+    background-color:#d7f7c9;
+    border-radius: 5px;
+    transition-duration: 0.5s;
+    font-size: small;
+}
+
+.meal-image {
+    margin: 10%;
+    width: 80%;
+    float: left;
+}
+
+.meal-props   span {
+    font-size: small;
+}
+
+.meal-info-icons
+{
+    height:18px;
+    width:18px;
+}
+.meal-owner-div
+{
+    margin-top: 22px;
+    font-weight: bold;
+}
+.meal-owner
+{
+    color: green;
+}
+.meal-created-icon
+{
+    margin: auto;
+    width: 10%;
+}
+.meal-name {
+    font-weight: bold;
+    font-size: 15px;
+    color:black;
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
+}
+
+.attend-button
+{
+    position: absolute;
+    margin: 20px;
+    right: 0px;
+    height:25px;
+}
+
+.meal-guests
+{
+    border:none;
+}
+
+.meal-info
+{
+    margin: 0.3em 15px
+}
+
+.meal-props-left
+{
+    width: 33%;
+}
+
+.meal-info-item {
+    display: flex;
+    align-items: center;
+}
