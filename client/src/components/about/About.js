@@ -13,7 +13,7 @@ class About extends Component {
     };
     // system().then(systemData => {
     // console.log(systemData);})
-    axios.get(`${config.SERVER_HOST}/api/users/system`)
+    axios.get(`${config.SERVER_HOST}/api/users/system/${this.props.auth.user.id}`)
     .then(res => {
       console.log(res.data);
 
