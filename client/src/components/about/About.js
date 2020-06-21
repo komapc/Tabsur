@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-//import { system } from "../../actions/authActions";
-import axios from 'axios';
-import config from "../../config";
+import { system } from "../../actions/authActions";
 class About extends Component {
 
 
@@ -11,16 +9,9 @@ class About extends Component {
     this.state = {
       user: []
     };
-    // system().then(systemData => {
-    // console.log(systemData);})
-    axios.get(`${config.SERVER_HOST}/api/users/system/${this.props.auth.user.id}`)
-    .then(res => {
-      console.log(res.data);
-
+    system().then(systemData => {
+         console.log(systemData);
     })
-    .catch(err => { 
-      console.log(err);
-    });
   }
 
   render() {
@@ -44,7 +35,6 @@ class About extends Component {
     );
   }
 }
-
 
 const mapStateToProps = state => ({
   auth: state.auth,

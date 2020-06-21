@@ -63,7 +63,7 @@ const MealMapShow = React.memo(({ meals, defaultLocation, onMarkerClick, onMapCl
         <MapWithMarker
             yesIWantToUseGoogleMapApiInternals
             loadingElement={<div style={{ height: `100%` }} />}
-            containerElement={<div style={{ height: `96%`,border:`solid`, width:`100%` }} />}
+            containerElement={<div style={{ height: `100%`, width:`100%` }} />}
             mapElement={<div style={{ height: `100%`, width:`100%` }} />}
             googleMapURL={`https://maps.googleapis.com/maps/api/js?libraries=places&key=${GOOGLE_MAPS_API_KEY}`}
         />

@@ -58,23 +58,9 @@ export const setCurrentUser = decoded => {
   };
 };
 
-// Get current user
-export const getCurrentUser = () => dispatch => {
-  dispatch(setUserLoading());
-  axios
-    .get("/api/user/currentuser")
-    .then(res =>
-      dispatch({
-        type: GET_CURRENT_USER,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+// Get user info
+export const getUser = (id) =>  {
+  return axios.get(`${config.SERVER_HOST}/api/users/${id}`)
 };
 
 // User loading
@@ -96,17 +82,8 @@ export const logoutUser = () => dispatch => {
 
 
 // db version for "about" window
-export const system = userData => dispatch => {
+export const system = userData => {
   console.log(`system, ${config.SERVER_HOST}` );
-  axios
-    .post(`${config.SERVER_HOST}/api/system`, userData)
-    .then(res => {
-      dispatch({ payload: res });
-    })
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response
-      })
-    );
+  return axios
+    .post(`${config.SERVER_HOST}/api/system`, userData);
 };

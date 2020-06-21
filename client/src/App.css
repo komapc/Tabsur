@@ -108,6 +108,7 @@ nav
     transition: 0.2s;
     top: 0px;
     padding-top: 56px;
+    z-index: 100;
 }
 
 .menu-hidden
@@ -141,6 +142,7 @@ nav
     transition: 0.2s;
     top: 0px;
     padding-top: 56px;
+    z-index: 100;
 }
 .notes-hidden
 {
