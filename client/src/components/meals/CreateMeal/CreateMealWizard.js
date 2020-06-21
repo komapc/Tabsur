@@ -29,7 +29,7 @@ const CreateMealWizard = ({ auth, addMeal }) => {
   const history = useHistory();
   const [state, updateState] = useState({
     form: {
-      name: auth.user.name + "'s meal",
+      name: `${auth.user.name}'s meal`,
       description: "",
       date: formatedDate,
       time: formatedDate,

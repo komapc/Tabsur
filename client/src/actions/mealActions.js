@@ -31,18 +31,9 @@ export const addMeal = (userData, history) => dispatch => {
 };
 
 //get
-export const getMeals = (mealData, id) => dispatch => {
-  axios
-    .get(`${config.SERVER_HOST}/api/meals/` + id, mealData)
-    .then(res => {
-      dispatch(res);
-    })
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+export const getMeals = ( id) =>  {
+  console.log(getMeals);
+  return  axios.get(`${config.SERVER_HOST}/api/meals/${id}`); 
 };
 
 //get my meals

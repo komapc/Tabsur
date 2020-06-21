@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { registerUser } from "../../actions/authActions";
+import { getUser } from "../../actions/authActions";
 import axios from 'axios';
 import config from "../../config";
 
@@ -14,14 +14,13 @@ class Profile extends Component {
       errors: {}
     };
 
-    axios.get(`${config.SERVER_HOST}/api/users/` + this.props.match.params.id)
+    getUser(this.props.match.params.id)
       .then(res => {
         console.log(res.data);
         this.setState({ user: res.data });
 
       });
   }
-
 
   render() {
     //const { errors } = this.state;
@@ -50,7 +49,6 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
-  registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -61,6 +59,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps,
-  { registerUser }
+  mapStateToProps
 )(withRouter(Profile));

@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
-import axios from 'axios';
-import config from "../../config";
 
-import { addMeal } from "../../actions/mealActions";
 import loadingGIF from "../../resources/animation/loading.gif";
 class Meals extends Component {
 
@@ -19,17 +16,12 @@ class Meals extends Component {
   }
 
   componentDidMount() {
-    axios.get(`${config.SERVER_HOST}/api/meals/` + this.state.id)
-      .then(res => {
-        console.log(res.data);
-        this.setState({ meals: res.data, loading: false });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    //getMeals(this.state.is); 
-  }
-
+    getMeals(this.props.auth.user.id)
+    .then(res => {
+          console.log(res.data);
+          this.setState({ meals: res.data, loading: false });
+        })
+  };
   render() {
     return (
       <div className="main">
@@ -54,8 +46,10 @@ const mapStateToProps = state => ({
   auth: state.auth,
 
 });
+const mapDispatchToProps = (dispatch) => ({
+  getMeals: (form, history) => getMeals(form, history)(dispatch)
+});
 
 export default connect(
-  mapStateToProps,
-  { getMeals }
+  mapStateToProps, mapDispatchToProps
 )(Meals);
