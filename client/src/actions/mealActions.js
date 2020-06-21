@@ -36,14 +36,8 @@ export const getMeals = ( id) =>  {
 };
 
 //get my meals
-export const getMyMeals = (mealData, id) => dispatch => {
-  axios.get(`${config.SERVER_HOST}/api/meals/my/` + this.props.auth.user.id)
-    .then(res => {
-      console.log(res.data);
-      this.setState({ meals: res.data });
-    }).catch(err => {
-      console.log(err);
-    });
+export const getMyMeals = (id) => {
+  return axios.get(`${config.SERVER_HOST}/api/meals/my/${id}`);
 };
 
 
@@ -61,20 +55,19 @@ export const joinMeal = (attendData, id) => dispatch => {
     );
 };
 
-//get
-export const getAttendByMeal = attendData => dispatch => {
-  axios
-    .get(`${config.SERVER_HOST}/api/attends/meal/` + attendData.meal_id, attendData)
-    .then(res => {
-      dispatch(res);
-    })
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+//get attends by meal (?)
+export const getAttendByMeal = attendData => {
+  return axios
+    .get(`${config.SERVER_HOST}/api/attends/meal/` + attendData.meal_id, attendData);
 };
+
+
+//get a list of meals where the user attends
+export const getAttendedMeals = userId => {
+  return axios
+    .get(`${config.SERVER_HOST}/api/meals/attends/${userId}`);
+};
+
 
 // User loading
 export const setUserLoading = () => {

@@ -1,10 +1,8 @@
 //currently this file is not used.
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { joinMeal, getAttendByMeal } from "../../actions/mealActions";
-import axios from 'axios';
+import { joinMeal, getAttendByMeal, getMyMeals } from "../../actions/mealActions";
 import { Link } from 'react-router-dom';
-import config from "../../config";
 
 // info about meal + attend option
 class Attend extends Component {
@@ -13,20 +11,19 @@ class Attend extends Component {
     this.state = {
       meal_id: this.props.match.params.id,
       meal: {
-        location: {lng: 0, lat: 0},
+        location: { lng: 0, lat: 0 },
         address: '',
         guestCount: 0,
       },
       attends: []
     };
-    
-    // TODO: check if you can do API requests here in constructor
-    axios.get(`${config.SERVER_HOST}/api/meals/my/` + this.state.meal_id)
+
+    getMyMeals(this.props.auth.user.id)
       .then(res => {
         this.setState({ meal: res.data })
       });
 
-    axios.get(`${config.SERVER_HOST}/api/attends/meal/` + this.state.meal_id)
+    getAttendByMeal(this.state.meal)
       .then(res => {
         this.setState({ attends: res.data })
       })
@@ -95,7 +92,7 @@ class Attend extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  attends: getAttendByMeal(state.meal_id)
+  attends: getAttendByMeal(state.meal)
 });
 
 export default connect(

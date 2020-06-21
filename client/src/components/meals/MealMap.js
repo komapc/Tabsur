@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
-import axios from 'axios';
 import MealMapShow from './MealMapShow';
 import BottomMealInfo from './BottomMealInfo'
-import config from "../../config";
 class MealMap extends Component {
 
   constructor(props) {
@@ -43,7 +41,7 @@ class MealMap extends Component {
   }
 
   componentDidMount() {
-    axios.get(`${config.SERVER_HOST}/api/meals/` + this.props.auth.user.id)
+    getMeals(this.props.auth.user.id)
       .then(res => {
         console.log(res);
         this.setState({ meals: res.data });

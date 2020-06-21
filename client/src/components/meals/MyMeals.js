@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import axios from 'axios';
 import MealListItem from "./MealListItem";
-import { getMyMeals } from "../../actions/mealActions";
-import config from "../../config";
+import { getMyMeals, getAttendedMeals } from "../../actions/mealActions";
 
 class MyMeals extends Component {
 
@@ -16,14 +14,14 @@ class MyMeals extends Component {
   }
 
   componentDidMount() {
-    axios.get(`${config.SERVER_HOST}/api/meals/my/` + this.props.auth.user.id)
+    getMyMeals(this.props.auth.user.id)
       .then(res => {
         console.log(res.data);
         this.setState({ meals: res.data });
       }).catch(err => {
         console.log(err);
       });
-      axios.get(`${config.SERVER_HOST}/api/meals/attends/` + this.props.auth.user.id)
+    getAttendedMeals(this.props.auth.user.id)
       .then(res => {
         console.log(res.data);
         this.setState({ mealsAttended: res.data });
@@ -52,7 +50,7 @@ class MyMeals extends Component {
             </div >
           </div>
           <h4>
-              Meals you attend:
+            Meals you attend:
             </h4>
           <div>
             <div className="flow-text grey-text text-darken-1">
