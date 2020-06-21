@@ -2,17 +2,14 @@
 .meals-map
 {
     height: 100%;
-    position: fixed;
     width: 100%;
-    background-color: #73d763;
     transition:0.7s;
 }
 
 .meals-map-info
 {
     transition:1s;
-    height: 70%;
-    position: fixed;
+    height: 40%;
     width: 100%;
     background-color: #73d763;
 }
@@ -88,10 +85,9 @@ nav
     min-width:100%;
     flex-direction: column;
     flex-wrap: nowrap;
-    height: 600px;
+    height: 600px; /*otherwie map doesn't work*/
     overflow: hidden;
     display:flex;
-    flex-wrap: wrap;
     align-items: flex-start;
 }
 .app

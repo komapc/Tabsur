@@ -39,7 +39,7 @@ class MealMap extends Component {
       isSelected: true,
       selectedMealId: event.id
     });
-    console.log("onMarkerClicked" + JSON.stringify(this.state.meal));
+    console.log("onMarkerClicked: " + JSON.stringify(this.state.selectedMealId));
   }
 
   componentDidMount() {
@@ -75,8 +75,7 @@ class MealMap extends Component {
   render() {
     console.log("Selected meal: " + JSON.stringify(this.state.meal));
     return (
-
-      <div className={"main " + (this.state.isSelected ? 'meals-map-info' : 'meals-map')}>
+      <div className={`main ${this.state.isSelected ? 'meals-map-info' : 'meals-map'}`}>
 
         <MealMapShow
           meals={this.state.meals}
