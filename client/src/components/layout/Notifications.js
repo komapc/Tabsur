@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import config from "../../config";
 import { connect } from "react-redux";
-import axios from 'axios';
 import menu from "../../resources/menu.svg"
-
+import { getNotifications, markAsRead } from "../../actions/notifications";
 class NoteItem extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +14,7 @@ class NoteItem extends Component {
   markAsRead = (note, status) => {
     note.status = status;
 
-    axios.put(`${config.SERVER_HOST}/api/notifications/` + note.id, note)
+    markAsRead(note.id, note)
       .then(res => {
         console.log(res.data);
       }).catch(err => {
@@ -45,7 +43,7 @@ class Notifications extends Component {
   }
 
   getNotifications = () => {
-    axios.get(`${config.SERVER_HOST}/api/notifications/` + this.props.auth.user.id)
+    getNotifications(this.props.auth.user.id)
       .then(res => {
         console.log(res.data);
         this.setState({ notes: res.data });
@@ -53,7 +51,6 @@ class Notifications extends Component {
         console.log(err);
       });
   }
-
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.visible !== this.state.visible) {
@@ -72,7 +69,7 @@ class Notifications extends Component {
     const visible = this.props.visible;
     return (
       <div className={visible ? "notes" : "notes-hidden"}>
-        <div><img className="menu-close" src={menu} onClick={this.closeMenu} alt="X"/></div>
+        <div><img className="menu-close" src={menu} onClick={this.closeMenu} alt="X" /></div>
         {this.state.notes.map(note =>
           <NoteItem key={note.id} onClick={() => this.markAsRead(note, 2)} note={note} visible={visible}></NoteItem>
         )}

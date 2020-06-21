@@ -6,7 +6,6 @@ import config from "../config";
 // add a meal and image
 export const addMeal = (userData, history) => dispatch => {
   console.log("Adding meal");
-  console.log("Adding meal");
   axios
     .post(`${config.SERVER_HOST}/api/meals/`, userData)
     .then(res => {
