@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import MealListItem from "./MealListItem";
-import axios from 'axios';
-import config from "../../config";
-
+import { getGuestList, deleteMeal } from "../../actions/mealActions";
+import { getUserFollowers } from "../../actions/authActions";
 class GuestList extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +18,7 @@ class GuestList extends Component {
 
   getGuests = ()=>
   {
-    axios.get(`${config.SERVER_HOST}/api/meals/guests/${this.props.mealId}`)
+    getGuestList(this.props.mealId)
     .then(res => {
       console.log(res.data);
       this.setState({ guests: res.data });
@@ -31,8 +30,8 @@ class GuestList extends Component {
 
   getFollowies = ()=>
   {
-    const user_id = this.state.userId;
-    axios.get(`${config.SERVER_HOST}/api/follow/followies/${user_id}`)
+    const userId = this.state.userId;
+    getUserFollowers(userId)    
     .then(res => {
       console.log("followies: " + res.data);
       this.setState({ followies: res.data });
@@ -48,10 +47,8 @@ class GuestList extends Component {
 
   render() {
     let  sorted = this.state.guests;
-    //sorted = sorted.concat(this.state.guests);
-    //const uniq = [...new Set(sorted)];
     return (
-      <div className="main" >
+      <div>
         Guests list: 
         {
           sorted.map(guest =>
@@ -72,10 +69,9 @@ class ShowMeal extends Component {
     this.state = props.location.state;
   }
 
-  deleteMeal = (e) =>
+  deleteMealEvent = (e) =>
   {    
-    axios.delete(`${config.SERVER_HOST}/api/meals/${this.state.meal.id}`)
-    .then(res => {
+    deleteMeal.then(res => {
       console.log(res.data);
       
       this.props.history.push({pathname: '/MyMeals'});
@@ -91,7 +87,7 @@ class ShowMeal extends Component {
         <GuestList mealId={this.state.meal.id} userId = {this.props.auth.user.id}/>
         {
           (this.state.meal.host_id === this.props.auth.user.id)?
-          <button onClick={(e)=>this.deleteMeal(e)}> Delete meal </ button>:""
+          <button onClick={(e)=>this.deleteMealEvent(e)}> Delete meal </ button>:""
         }
       </div>
     );

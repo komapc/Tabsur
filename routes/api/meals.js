@@ -78,7 +78,7 @@ router.get("/my/:id", async (req, response) => {
 });
 
 // @route GET api/meals/attends
-// @desc get a list of meals created the user attends
+// @desc get a list of meals where the user attends
 // @access Public
 router.get("/attends/:id", async (req, response) => {
   const client = new Client(currentConfig);

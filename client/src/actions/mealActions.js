@@ -29,8 +29,13 @@ export const addMeal = (userData, history) => dispatch => {
     );
 };
 
+
+//delete meal
+export const deleteMeal = (id) =>  {
+  return axios.delete(`${config.SERVER_HOST}/api/meals/${id}}`);
+}
 //get
-export const getMeals = ( id) =>  {
+export const getMeals = (id) =>  {
   console.log(getMeals);
   return  axios.get(`${config.SERVER_HOST}/api/meals/${id}`); 
 };
@@ -67,6 +72,12 @@ export const getAttendedMeals = userId => {
   return axios
     .get(`${config.SERVER_HOST}/api/meals/attends/${userId}`);
 };
+
+//get a list of guests for this meal
+export const getGuestList = mealId => {
+  return axios.get(`${config.SERVER_HOST}/api/meals/guests/${mealId}`)
+};
+
 
 
 // User loading
