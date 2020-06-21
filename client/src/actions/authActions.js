@@ -87,10 +87,3 @@ export const system = userData => {
   return axios
     .post(`${config.SERVER_HOST}/api/system`, userData);
 };
-
-// get user followers
-export const getUserFollowers = userId => {
-  return axios.get(`${config.SERVER_HOST}/api/follow/followies/${userId}`)
-};
-
-

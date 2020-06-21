@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import axios from 'axios';
-import config from "../../config";
 import backButton from "../../resources/back_button.svg";
 import defaultImage from "../../resources/userpic_empty.svg";
 
+import {getFollowStatus, setFollow, getUserInfo} from "../../actions/userActions"
 class ShowUser extends Component {
 
   constructor(props) {
@@ -19,14 +18,14 @@ class ShowUser extends Component {
   }
 
   componentDidMount() {
-    this.getUserInfo();
-    this.getFollowStatus();
+    this.getUserInfoEvent();
+    this.getFollowStatusEvent();
   }
 
-  getFollowStatus() {
+  getFollowStatusEvent() {
     const myUserId = this.props.auth.user.id;
     const thisUserId = this.state.id;
-    axios.get(`${config.SERVER_HOST}/api/follow/${thisUserId}`)
+    getFollowStatus(thisUserId)
       .then(res => {
         console.log(`getFollowStatus: ${JSON.stringify(res.data)}`);
         const followers = res.data;
@@ -45,7 +44,7 @@ class ShowUser extends Component {
     const myUserId = this.props.auth.user.id;
     const thisUserId = this.state.id;
     const body = { followie: thisUserId, status: new_status };
-    axios.post(`${config.SERVER_HOST}/api/follow/${myUserId}`, body)
+    setFollow(myUserId, body)
       .then(res => {
         console.log(res.data);
         //change in DB, than change state
@@ -57,8 +56,8 @@ class ShowUser extends Component {
       });
   }
 
-  getUserInfo() {
-    axios.get(`${config.SERVER_HOST}/api/users/${this.state.id}`)
+  getUserInfoEvent() {
+    getUserInfo(this.state.id)
       .then(res => {
         console.log(res.data);
         this.setState({ user: res.data[0] });
