@@ -3,7 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import MealListItem from "./MealListItem";
 import { getGuestList, deleteMeal } from "../../actions/mealActions";
-import { getUserFollowers } from "../../actions/authActions";
+import { getUserFollowers } from "../../actions/userActions";
 class GuestList extends Component {
   constructor(props) {
     super(props);
