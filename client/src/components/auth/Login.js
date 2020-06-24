@@ -4,6 +4,23 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
 import classnames from "classnames";
+import GoogleLogin from 'react-google-login';
+import FacebookLoginWithButton from 'react-facebook-login';
+//const keys = require("../config/keys");
+const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
+
+const FBcomponentClicked = (data) => {
+  console.log( "Clicked!" );
+}
+const FBLoginButton = ({ facebookResponse }) => (
+  <FacebookLoginWithButton
+    appId="441252456797282"
+    // autoLoad
+    fields="name,email,picture"
+    onClick={FBcomponentClicked}
+    callback={facebookResponse}
+    icon="fa-facebook" />
+)
 
 class Login extends Component {
   constructor() {
@@ -11,10 +28,11 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      errors: {}
+      errors: {},
+      user:false
     };
   }
-
+  
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/Meals");
@@ -42,9 +60,13 @@ class Login extends Component {
     this.props.loginUser(userData);
   };
 
+  responseGoogle = (response) => {
+    console.log(response);
+  }
+
+ 
   render() {
     const { errors } = this.state;
-
     return (
       <div className="main">
         <div className="row">
@@ -105,6 +127,22 @@ class Login extends Component {
                 </button>
               </div>
             </form>
+            {(this.props.match.params.extend)?
+            <span>
+            <GoogleLogin
+              clientId={`${googleKey}`}
+              buttonText="Login"
+              onSuccess={this.props.responseGoogle}
+              onFailure={this.props.responseGoogle}
+              cookiePolicy={'single_host_origin'}
+            />
+            <div style={{ margin: "auto", textAlign: "center", paddingTop: "2em" }}>
+              {this.state.user ? <div>{this.state.user}</div> :
+                <FBLoginButton facebookResponse={this.facebookResponse} />
+              }
+            </div></span>:<span/>
+            }
+          
           </div>
         </div>
       </div>
