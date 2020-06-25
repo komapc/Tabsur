@@ -9,16 +9,17 @@ import FacebookLoginWithButton from 'react-facebook-login';
 //const keys = require("../config/keys");
 const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
-const FBcomponentClicked = (function(response) {
+const FBcomponentClicked = (function (response) {
   if (response.authResponse) {
-  console.log('Welcome!  Fetching your information.... ');
-  FB.api('/me', function(response) {
-    console.log('Good to see you, ' + response.name + '.');
-  });
-} else {
-  console.log('User cancelled login or did not fully authorize.');
-}
+    console.log('Welcome!  Fetching your information.... ' + JSON.stringify(response));
 
+    // FB.api('/me', function (response) {
+    //   console.log('Good to see you, ' + response.name + '.');
+    // });
+  } else {
+    console.log('User cancelled login or did not fully authorize.');
+  }
+});
 const FBLoginButton = ({ facebookResponse }) => (
   <FacebookLoginWithButton
     appId="441252456797282"
@@ -72,7 +73,7 @@ class Login extends Component {
   }
   facebookResponse = (response) => 
   { 
-    console.log( response ); 
+    console.log( JSON.stringify(response)  ); 
     this.setState( {...this.state, user: response } ) }
  
   render() {
