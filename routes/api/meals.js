@@ -16,8 +16,13 @@ const validateMealInput = require("../../validation/meal");
 // @access Public
 router.get("/:id", async (req, response) => {
   const client = new Client(currentConfig);
-  console.log(`get meals for user ${req.params.id}`);
-
+  var userId = req.params.id;
+  console.log(`get meals for user ${userId}`);
+  if (isNaN(userId))
+  {
+    //return response.status(400).json("Error in geting  meals: wrong ID");
+    userId = -1;
+  }
   const SQLquery = `
   SELECT 
     (SELECT images.path
@@ -33,7 +38,7 @@ router.get("/:id", async (req, response) => {
   console.log(`get, SQLquery: [${SQLquery}]`);
   await client.connect();
 
-  client.query(SQLquery, [req.params.id])
+  client.query(SQLquery, [userId])
     .then(resp => {
       response.json(resp.rows);
       client.end();
@@ -65,7 +70,7 @@ router.get("/my/:id", async (req, response) => {
     0 as attend_status, m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id 
     WHERE m.date>now() AND host_id=$1`;
   await client.connect();
-  client.query(SQLquery, [req.params.id])
+  client.query(SQLquery, [userId])
     .then(resp => {
       client.end();
       return response.json(resp.rows);
