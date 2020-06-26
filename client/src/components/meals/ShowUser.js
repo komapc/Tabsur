@@ -80,7 +80,7 @@ class ShowUser extends Component {
         <span className="info-caption">profile</span>
         </div>
         <div className="info-top">
-          <img className="info-main-image" src={defaultImage}/>
+          <img className="info-main-image" src={defaultImage} alt="user"/>
           <span className="info-main-name">{this.state.user.name}</span>
         </div>
         <div className="info-fields">
