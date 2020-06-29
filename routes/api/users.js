@@ -45,7 +45,7 @@ router.post("/register", async (req, response) => {
     bcrypt.genSalt(10, async (err, salt) => {
       bcrypt.hash(input.password, salt, async (err, hash) => {
         if (err) throw err;
-        
+
         client.query('INSERT INTO users (name, email, password, location, address)' +
           'VALUES ($1, $2, $3, $4, $5)',
           [newUser.name, newUser.email, hash, newUser.location, newUser.address])
@@ -53,9 +53,9 @@ router.post("/register", async (req, response) => {
             client.end();
             return response.status(201).json(user);
           })
-          .catch(err => { 
-            console.log(err); 
-            return response.status(500).json(newUser); 
+          .catch(err => {
+            console.log(err);
+            return response.status(500).json(newUser);
           });
       });
     });
@@ -133,6 +133,74 @@ router.post("/login", async (req, response) => {
     });
 });
 
+
+
+// @route POST api/users/loginFB
+// @desc Login user and return JWT token
+// @access Public
+router.post("/loginFB", async (req, response) => {
+  // Form validation
+  const newReq = req.body;
+  // const { errors, isValid } = validateLoginInput(req.body);
+  // if (!isValid) {
+  //   console.log("invalid input: " + JSON.stringify(errors));
+  //   return response.status(400).json(errors);
+  // }
+  console.log('Login with facebook: ' + newReq.email);
+  const client = new Client(currentConfig);
+  await client.connect();
+  client.query('SELECT * FROM users WHERE email = $1 LIMIT 1', [newReq.email])
+    .then(res => {
+      //no record found, new FB user
+      if (res.rows === undefined || res.rows.length == 0) {
+        console.log(`error: fb user doesn't exist`, [newReq.email]);
+        client.query('INSERT INTO users (name, email, password, location, address)' +
+          'VALUES ($1, $2, $3, $4, $5)',
+          [newReq.name, newReq.email, newReq.accessToken, newReq.location, newReq.address])
+          .then(user => {
+            client.end();
+            return response.status(201).json(user);
+          })
+          .catch(err => {
+            
+            client.end();
+            console.log(err);
+            return response.status(500).json(newUser);
+          });
+      }
+      else
+      {
+        console.log(`Known user lgged-in via fb`, [newReq.email]);
+      }
+
+      // Check password
+
+      const payload = {
+        id: newReq.id,
+        name: newReq.name
+      };
+
+      // Sign token
+      jwt.sign(
+        payload,
+        keys.secretOrKey,
+        {
+          expiresIn: 31556926 // 1 year in seconds
+        },
+        (err, token) => {
+          response.json({
+            success: true,
+            token: "Bearer " + token
+          });
+        }
+      );
+    })
+  .catch(err => {
+    console.log("fb user error:" + err);
+    return response.status(500).json(newReq);
+  });
+  
+})
 // @route GET api/users
 // @desc get public user properties
 // @access Public
@@ -183,8 +251,7 @@ router.get("/system/:id", async (req, response) => {
 // @desc system informaion
 // @access Public
 router.get("/stats/:id", async (req, response) => {
-  if (req.params.id != 12345)
-  {
+  if (req.params.id != 12345) {
     return response.status(500).json("access denied.");
   }
   // Find the user
