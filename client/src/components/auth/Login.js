@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginUser } from "../../actions/authActions";
+import { loginUser, loginUserFB } from "../../actions/authActions";
 import classnames from "classnames";
 import GoogleLogin from 'react-google-login';
 import FacebookLoginWithButton from 'react-facebook-login';
@@ -23,7 +23,7 @@ const FBcomponentClicked = (function (response) {
 const FBLoginButton = ({ facebookResponse }) => (
   <FacebookLoginWithButton
     appId="441252456797282"
-    autoLoad
+    // autoLoad="false"
     fields="name,email,picture"
     onClick={FBcomponentClicked}
     callback={facebookResponse}
@@ -71,10 +71,13 @@ class Login extends Component {
   responseGoogle = (response) => {
     console.log(response);
   }
+
   facebookResponse = (response) => 
   { 
     console.log( JSON.stringify(response)  ); 
-    this.setState( {...this.state, user: response } ) }
+    this.setState( {...this.state, user: response } ) 
+    this.props.loginUserFB(response);
+  }
  
   render() {
     const { errors } = this.state;
@@ -148,10 +151,12 @@ class Login extends Component {
               cookiePolicy={'single_host_origin'}
             />
             <div style={{ margin: "auto", textAlign: "center", paddingTop: "2em" }}>
-              {this.state.user ? <div>{this.state.user}</div> :
+              {this.state.user ? <div>{JSON.stringify(this.state.user)}</div> :
                 <FBLoginButton facebookResponse={this.facebookResponse} />
               }
-            </div></span>:<span/>
+            </div>
+            </span>
+            :<span/>
             }
           
           </div>
@@ -174,5 +179,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  { loginUser, loginUserFB }
 )(Login);
