@@ -14,6 +14,8 @@ if (
 ) { 
     messaging.onMessage(function(payload) {
         console.log('Message received', payload);
+        // Do client side stuff.
+        // It doesn't work in phones if tab is not focused (in desctop works fine)
     
         // register fake ServiceWorker for show notification on mobile devices
         navigator.serviceWorker.register('/serviceworker/firebase-messaging-sw.js');
@@ -23,8 +25,6 @@ if (
                     // Copy data object to get parameters in the click handler
                     payload.data.data = JSON.parse(JSON.stringify(payload.data)); // ?
                     registration.showNotification(payload.data.title, payload.data); // ?
-    
-                    // ...
                 }).catch(function(error) {
                     console.error('ServiceWorker registration failed', error);
                 });
@@ -75,6 +75,7 @@ function getToken() {
                         console.log('Token for push notifications', firebaseToken);
                         // TODO: send token to our server to SAVE it for this userId
                     } else {
+                        console.log('if(currentToken) => false; Reason unknown. May be it is emty string or not string...');
                         firebaseToken = null;
                     }
                 })

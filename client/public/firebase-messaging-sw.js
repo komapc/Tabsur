@@ -10,17 +10,14 @@ const messaging = firebase.messaging();
 // Customize notification handler
 messaging.setBackgroundMessageHandler(function(payload) {
   console.log('Handling background message', JSON.stringify(payload));
-
   // Copy data object to get parameters in the click handler
   payload.data.data = JSON.parse(JSON.stringify(payload.data));
-
   return self.registration.showNotification(payload.data.title, payload.data);
 });
 
-self.addEventListener('notificationclick', function(event) {
+self.addEventListener('notificationclick', function(event) { // ?
   const target = event.notification.data.click_action || '/';
   event.notification.close();
-
   // This looks to see if the current is already open and focuses if it is
   event.waitUntil(clients.matchAll({
     type: 'window',
@@ -33,7 +30,6 @@ self.addEventListener('notificationclick', function(event) {
         return client.focus();
       }
     }
-
     return clients.openWindow(target);
   }));
 });
