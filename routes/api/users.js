@@ -160,7 +160,7 @@ router.post("/loginFB", async (req, response) => {
             
             client.end();
             console.log(err);
-            return response.status(500).json(newUser);
+            return response.status(500).json(err);
           });
       }
       else
