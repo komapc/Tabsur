@@ -50,6 +50,28 @@ export const loginUser = userData => dispatch => {
     );
 };
 
+export const loginUserFB = userData => dispatch => {
+  console.log(`Log-in with facebook, ${JSON.stringify(userData)}`);
+  axios
+    .post(`${config.SERVER_HOST}/api/users/loginFB`, userData)
+    .then(res => {
+      // Set token to localStorage
+      const { token } = res.data;
+      localStorage.setItem("jwtToken", token);
+      // Set token to Auth header
+      setAuthToken(token);
+      // Decode token to get user data
+      const decoded = jwt_decode(token);
+      // Set current user
+      dispatch(setCurrentUser(decoded));
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      })
+    );
+}
 // Set logged in user
 export const setCurrentUser = decoded => {
   return {
@@ -59,7 +81,7 @@ export const setCurrentUser = decoded => {
 };
 
 // Get user info
-export const getUser = (id) =>  {
+export const getUser = (id) => {
   return axios.get(`${config.SERVER_HOST}/api/users/${id}`)
 };
 
@@ -83,7 +105,7 @@ export const logoutUser = () => dispatch => {
 
 // db version for "about" window
 export const system = userData => {
-  console.log(`system, ${config.SERVER_HOST}` );
+  console.log(`system, ${config.SERVER_HOST}`);
   return axios
     .post(`${config.SERVER_HOST}/api/system`, userData);
 };
