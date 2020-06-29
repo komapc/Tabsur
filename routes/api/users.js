@@ -141,11 +141,6 @@ router.post("/login", async (req, response) => {
 router.post("/loginFB", async (req, response) => {
   // Form validation
   const newReq = req.body;
-  // const { errors, isValid } = validateLoginInput(req.body);
-  // if (!isValid) {
-  //   console.log("invalid input: " + JSON.stringify(errors));
-  //   return response.status(400).json(errors);
-  // }
   console.log('Login with facebook: ' + newReq.email);
   const client = new Client(currentConfig);
   await client.connect();
@@ -170,14 +165,14 @@ router.post("/loginFB", async (req, response) => {
       }
       else
       {
-        console.log(`Known user lgged-in via fb`, [newReq.email]);
+        console.log(`Known user lgged-in via fb: ${newReq.email}`);
       }
 
       // Check password
-
+      const row = res.rows[0];
       const payload = {
-        id: newReq.id,
-        name: newReq.name
+        id: row.id,
+        name: row.name
       };
 
       // Sign token
