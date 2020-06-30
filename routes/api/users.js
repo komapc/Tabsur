@@ -113,10 +113,10 @@ router.post("/login", async (req, response) => {
               expiresIn: 31556926 // 1 year in seconds
             },
             (err, token) => {
-              response.json({
-                success: true,
-                token: "Bearer " + token
-              });
+                response.json({
+                  success: true,
+                  token: "Bearer " + token
+                });
             }
           );
         } else {
@@ -168,7 +168,7 @@ router.post("/loginFB", async (req, response) => {
       }
       else
       {
-        newUserId = row.id;
+        newUserId = res.rows[0];
         console.log(`Known user logged-in via fb: ${newReq.email}`);
       }
 
