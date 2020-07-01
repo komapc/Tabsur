@@ -73,7 +73,25 @@ function getToken() {
                         firebaseToken = currentToken;
 
                         console.log('Token for push notifications', firebaseToken);
-                        // TODO: send token to our server to SAVE it for this userId
+                        // TODO: send token to our server to set it for this userId
+
+                        const userId = 1234; // ! Just for test
+                        const host = document.location.hostname == 'localhost' ? 'http//localhost:5000' : document.location.protocol + "//" + document.location.host; //!!!
+                        const setTokenUrl = host + '/api/notifications/set-token/' + userId;
+
+                        fetch(setTokenUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                token: firebaseToken
+                            })
+                        }).then(function(response) {
+                            console.log('Response from .../api/notifications/set-token/', response);
+                        }).catch(function(error) {
+                            console.error(error);
+                        });
                     } else {
                         console.log('if(currentToken) => false; Reason unknown. May be it is emty string or not string...');
                         firebaseToken = null;
