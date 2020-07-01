@@ -23,8 +23,5 @@ messaging.setBackgroundMessageHandler(function(payload) {
   return promiseChain;
 });
 self.addEventListener('notificationclick', function(event) {
-  // do what you want
-  // ...
-
-  console.log('!!!', JSON.stringify(event));
+  console.log('notificationclick event fired.', JSON.stringify(event));
 });

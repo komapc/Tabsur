@@ -50,12 +50,11 @@ if (localStorage.jwtToken) {
   }
 }
 
-
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("./firebase-messaging-sw.js")
     .then(function(registration) {
-      console.log(`Registration successful, scope is: ${registration.scope}`);
+      console.log(`ServiceWorker registration successful, registration.scope is: ${registration.scope}`);
     })
     .catch(function(err) {
       console.log(`Service worker registration failed. Error: ${err}`);

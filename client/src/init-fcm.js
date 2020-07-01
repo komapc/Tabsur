@@ -12,6 +12,6 @@ const initializedFirebaseApp = firebase.initializeApp({
 const messaging = initializedFirebaseApp.messaging();
 messaging.usePublicVapidKey(
 // Project Settings => Cloud Messaging => Web Push certificates
-  "AAAAU4FzZ68:APA91bFbRKzaWX4ZqvrHTBlAUa5rO5YevPiqbo3E-PWxkHRWKAYZVZlBEwBxCHifQSd71xC6RvYGJOCubJYkJOFX6sMdxsE7bgekrKxjzJASQ-K_Slb61ARn6n8aaMxIu21HENpD1JXb"
+  "BNJJF1av86BIQPia6y1p4aqlPNRkH4C7IkExrREYb5xyr1EDpUAJtxMrVs0cpCeoIJjP2WEQGIC9FkKDamngxGc"
 );
 export { messaging };
