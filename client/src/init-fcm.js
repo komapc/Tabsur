@@ -1,13 +1,13 @@
 import * as firebase from "firebase/app";
 import "firebase/messaging";
 const initializedFirebaseApp = firebase.initializeApp({
-    apiKey: "AIzaSyCAZiZOlHCuUDhxyQWinLJ91JLubuD-2mY",
-    authDomain: "test-813c6.firebaseapp.com",
-    databaseURL: "https://test-813c6.firebaseio.com",
-    projectId: "test-813c6",
-    storageBucket: "test-813c6.appspot.com",
-    messagingSenderId: "358654109615",
-    appId: "1:358654109615:web:4e421184e1af43f056715a"
+    apiKey: "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4",
+    authDomain: "tabsur.firebaseapp.com",
+    databaseURL: "https://tabsur.firebaseio.com",
+    projectId: "tabsur",
+    storageBucket: "tabsur.appspot.com",
+    messagingSenderId: "156567484209",
+    appId: "1:156567484209:web:811366754f1a296b482210"
 });
 const messaging = initializedFirebaseApp.messaging();
 messaging.usePublicVapidKey(
