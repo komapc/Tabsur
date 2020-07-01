@@ -68,4 +68,26 @@ router.put("/:id", async (req, response)=> {
       });
 });
 
+router.post("/set-token/:id", async (req, response)=> {
+  const id = req.params.id;
+  const token = req.body.token;
+
+  console.log(`Insert Google Firebase Token ID: ${token} for ${id}`); 
+  const client = new Client(currentConfig);
+  const query = `INSERT INTO user_tokens (user_id, token_type, token) VALUES (${id}, 0, \'${token}\')`;
+  console.log(query); 
+  await client.connect();
+  client.query(query)
+    .then(resp => {
+      console.log("Google Firebase Token ID saved");
+      response.json("Done.");
+      client.end();
+    })
+    .catch(err => {
+      console.log(err); 
+      client.end();
+      return response.status(500).json(err); 
+    });
+});
+
 module.exports = router;
