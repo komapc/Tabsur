@@ -50,36 +50,30 @@ if (localStorage.jwtToken) {
   }
 }
 
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("./firebase-messaging-sw.js")
+    .then(function(registration) {
+      console.log(`ServiceWorker registration successful, registration.scope is: ${registration.scope}`);
+    })
+    .catch(function(err) {
+      console.error(`Service worker registration failed. Error: ${JSON.stringify(err)}`);
+    });
+}
+
 class App extends Component {
   async componentDidMount() {
-    console.log("componentDidMount() fired");
-
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("./firebase-messaging-sw.js")
-        .then(function(registration) {
-          console.log("Registration successful, scope is:", registration.scope);
-
-          messaging.requestPermission()
-            .then(async function() {
-              const token = await messaging.getToken();
-
-              console.log('Hoorey! The token is', token);
-            })
-            .catch(function(err) {
-              console.log("Unable to get permission to notify.", err);
-            });
-          navigator.serviceWorker.addEventListener("message", (message) => {
-            console.log("Message recieved");
-            console.log(message);
-          });
-        })
-        .catch(function(err) {
-          console.log("Service worker registration failed, error:", err);
-        });
-    }
-
-    
+    messaging.requestPermission()
+      .then(async function() {
+        const token = await messaging.getToken();
+        console.log(`Firebase token is: ${token}`);
+      })
+      .catch(function(err) {
+        console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
+      });
+    navigator.serviceWorker.addEventListener("message", (message) => {
+      console.log(`Message recieved: ${JSON.stringify(message)}`);
+    });
   }
 
   render() {

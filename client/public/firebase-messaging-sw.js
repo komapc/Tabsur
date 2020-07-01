@@ -1,7 +1,6 @@
 importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-messaging.js");
 firebase.initializeApp({
-// Project Settings => Add Firebase to your web app
   messagingSenderId: "156567484209"
 });
 const messaging = firebase.messaging();
@@ -18,13 +17,17 @@ messaging.setBackgroundMessageHandler(function(payload) {
       }
     })
     .then(() => {
-      return registration.showNotification("my notification title");
+      console.log(JSON.stringify(payload));
+      return registration.showNotification(payload.data.title, {
+        body: payload.data.body,
+        icon: payload.data.icon,
+        image: payload.data.image,
+        click_action: payload.data.click_action,
+        time_to_live: payload.data.time_to_live
+      });
     });
   return promiseChain;
 });
 self.addEventListener('notificationclick', function(event) {
-  // do what you want
-  // ...
-
-  console.log('!!!', JSON.stringify(event));
+  console.log(`notificationclick event fired. Event object: ${JSON.stringify(event)}`);
 });
