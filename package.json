@@ -29,6 +29,7 @@
     "date-fns": "^2.11.1",
     "express": "^4.17.1",
     "file-type": "^14.5.0",
+    "firebase": "^7.15.5",
     "fs": "0.0.1-security",
     "helmet": "^3.22.0",
     "heroku-ssl-redirect": "0.0.4",

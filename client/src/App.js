@@ -28,6 +28,7 @@ import Stats from "./components/users/Stats"
 import Profile from "./components/users/Profile"
 import { Helmet } from "react-helmet";
 import "./App.css";
+import { messaging } from "../src/init-fcm";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -48,7 +49,39 @@ if (localStorage.jwtToken) {
     window.location.href = "./login";
   }
 }
+
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("./firebase-messaging-sw.js")
+    .then(function(registration) {
+      console.log("Registration successful, scope is:", registration.scope);
+    })
+    .catch(function(err) {
+      console.log("Service worker registration failed, error:", err);
+    });
+}
+
 class App extends Component {
+  async componentDidMount() {
+    console.log("componentDidMount() fired");
+
+
+    messaging.requestPermission()
+      .then(async function() {
+        const token = await messaging.getToken();
+
+        console.log('Hoorey! The token is', token);
+      })
+      .catch(function(err) {
+        console.log("Unable to get permission to notify.", err);
+      });
+    navigator.serviceWorker.addEventListener("message", (message) => {
+      console.log("Message recieved");
+      console.log(message);
+    });
+  }
+
   render() {
     return (
       <Provider store={store}>
