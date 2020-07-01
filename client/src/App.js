@@ -57,7 +57,7 @@ if ("serviceWorker" in navigator) {
       console.log(`ServiceWorker registration successful, registration.scope is: ${registration.scope}`);
     })
     .catch(function(err) {
-      console.log(`Service worker registration failed. Error: ${err}`);
+      console.error(`Service worker registration failed. Error: ${JSON.stringify(err)}`);
     });
 }
 
@@ -66,13 +66,13 @@ class App extends Component {
     messaging.requestPermission()
       .then(async function() {
         const token = await messaging.getToken();
-        console.log(`Hoorey! The token is ${token}`);
+        console.log(`Firebase token is: ${token}`);
       })
       .catch(function(err) {
-        console.log(`Unable to get permission to notify. Error: ${err}`);
+        console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
       });
     navigator.serviceWorker.addEventListener("message", (message) => {
-      console.log(`Message recieved: ${message}`);
+      console.log(`Message recieved: ${JSON.stringify(message)}`);
     });
   }
 

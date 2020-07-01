@@ -17,10 +17,17 @@ messaging.setBackgroundMessageHandler(function(payload) {
       }
     })
     .then(() => {
-      return registration.showNotification("my notification title");
+      console.log(JSON.stringify(payload));
+      return registration.showNotification(payload.data.title, {
+        body: payload.data.body,
+        icon: payload.data.icon,
+        image: payload.data.image,
+        click_action: payload.data.click_action,
+        time_to_live: payload.data.time_to_live
+      });
     });
   return promiseChain;
 });
 self.addEventListener('notificationclick', function(event) {
-  console.log('notificationclick event fired.', JSON.stringify(event));
+  console.log(`notificationclick event fired. Event object: ${JSON.stringify(event)}`);
 });
