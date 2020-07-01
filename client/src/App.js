@@ -55,30 +55,25 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("./firebase-messaging-sw.js")
     .then(function(registration) {
-      console.log("Registration successful, scope is:", registration.scope);
+      console.log(`Registration successful, scope is: ${registration.scope}`);
     })
     .catch(function(err) {
-      console.log("Service worker registration failed, error:", err);
+      console.log(`Service worker registration failed. Error: ${err}`);
     });
 }
 
 class App extends Component {
   async componentDidMount() {
-    console.log("componentDidMount() fiered");
-
-
     messaging.requestPermission()
       .then(async function() {
         const token = await messaging.getToken();
-
-        console.log('Hoorey! The token is', token);
+        console.log(`Hoorey! The token is ${token}`);
       })
       .catch(function(err) {
-        console.log("Unable to get permission to notify.", err);
+        console.log(`Unable to get permission to notify. Error: ${err}`);
       });
     navigator.serviceWorker.addEventListener("message", (message) => {
-      console.log("Message recieved");
-      console.log(message);
+      console.log(`Message recieved: ${message}`);
     });
   }
 
