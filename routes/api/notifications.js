@@ -51,13 +51,14 @@ router.put("/:id", async (req, response)=> {
   const note=req.body;
   console.log(`change notification's status ${id} for ${JSON.stringify(note)}`); 
   const client = new Client(currentConfig);
-  const query=`UPDATE notifications SET "status"=${note.status} WHERE "id"=${id}`;
+  const query=`UPDATE notifications SET "status"=$1 WHERE "id"=$2 RETURNING id`;
+
   console.log(query); 
   await client.connect();
-  client.query(query)
+  client.query(query, [note.status, id])
     .then(resp => {
-      console.log("notification status done");
-      response.json("Done.");
+      console.log("notification status done.");
+      response.json(resp.rows);
       client.end();
     })
     .catch(err => 
@@ -66,6 +67,28 @@ router.put("/:id", async (req, response)=> {
        client.end();
        return response.status(500).json(err); 
       });
+});
+
+router.post("/token/:id", async (req, response)=> {
+  const id = req.params.id;
+  const token = req.body.token;
+
+  console.log(`Insert Google Firebase Token ID: ${token} for ${id}`); 
+  const client = new Client(currentConfig);
+  const query = `INSERT INTO user_tokens (user_id, token_type, token) VALUES ($1, 0, $2) RETURNING token`;
+  console.log(query); 
+  await client.connect();
+  client.query(query, [id, token])
+    .then(resp => {
+      console.log("Google Firebase Token ID saved.");
+      response.json(resp.rows);
+      client.end();
+    })
+    .catch(err => {
+      console.log(err); 
+      client.end();
+      return response.status(500).json(err); 
+    });
 });
 
 module.exports = router;
