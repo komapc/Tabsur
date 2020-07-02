@@ -25,7 +25,11 @@ messaging.setBackgroundMessageHandler(function(payload) {
         click_action: payload.data.click_action,
         time_to_live: payload.data.time_to_live
       });
-    });
+    })
+    .catch((err) =>
+     {
+      console.log(JSON.stringify(err));
+     });
   return promiseChain;
 });
 self.addEventListener('notificationclick', function(event) {
