@@ -27,6 +27,8 @@ const FBLoginButton = ({ facebookResponse }) => (
     fields="name,email,picture"
     onClick={FBcomponentClicked}
     callback={facebookResponse}
+    buttonText="Continue with Facebook"
+    size="small"
     icon="fa-facebook" />
 )
 
@@ -139,6 +141,11 @@ class Login extends Component {
                 >
                   Login
                 </button>
+                <div>
+              {this.state.user ? <div>{JSON.stringify(this.state.user)}</div> :
+                <FBLoginButton facebookResponse={this.facebookResponse} />
+              }
+            </div>
               </div>
             </form>
             {(this.props.match.params.extend)?
@@ -150,15 +157,11 @@ class Login extends Component {
               onFailure={this.props.responseGoogle}
               cookiePolicy={'single_host_origin'}
             />
-            <div style={{ margin: "auto", textAlign: "center", paddingTop: "2em" }}>
-              {this.state.user ? <div>{JSON.stringify(this.state.user)}</div> :
-                <FBLoginButton facebookResponse={this.facebookResponse} />
-              }
-            </div>
+            
             </span>
             :<span/>
             }
-          
+           
           </div>
         </div>
       </div>
