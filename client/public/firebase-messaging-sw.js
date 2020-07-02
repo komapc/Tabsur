@@ -25,6 +25,9 @@ messaging.setBackgroundMessageHandler(function(payload) {
         click_action: payload.data.click_action,
         time_to_live: payload.data.time_to_live
       });
+    })
+    .catch(function(err) {
+      console.error(err);
     });
   return promiseChain;
 });
