@@ -55,6 +55,7 @@ export const loginUserFB = userData => dispatch => {
   axios
     .post(`${config.SERVER_HOST}/api/users/loginFB`, userData)
     .then(res => {
+      console.log(`loginFB done`);
       // Set token to localStorage
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
@@ -66,10 +67,13 @@ export const loginUserFB = userData => dispatch => {
       dispatch(setCurrentUser(decoded));
     })
     .catch(err =>
+    {
+      console.log(`loginFB failed: ${JSON.stringify(err)}`);
       dispatch({
         type: GET_ERRORS,
         payload: err
       })
+      }
     );
 }
 // Set logged in user
