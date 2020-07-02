@@ -26,9 +26,10 @@ messaging.setBackgroundMessageHandler(function(payload) {
         time_to_live: payload.data.time_to_live
       });
     })
-    .catch(function(err) {
-      console.error(err);
-    });
+    .catch((err) =>
+     {
+      console.log(JSON.stringify(err));
+     });
   return promiseChain;
 });
 self.addEventListener('notificationclick', function(event) {
