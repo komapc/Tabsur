@@ -113,10 +113,10 @@ router.post("/login", async (req, response) => {
               expiresIn: 31556926 // 1 year in seconds
             },
             (err, token) => {
-              response.json({
-                success: true,
-                token: "Bearer " + token
-              });
+                response.json({
+                  success: true,
+                  token: "Bearer " + token
+                });
             }
           );
         } else {
@@ -141,6 +141,7 @@ router.post("/login", async (req, response) => {
 router.post("/loginFB", async (req, response) => {
   // Form validation
   const newReq = req.body;
+  var newUserId=-1;
   console.log('Login with facebook: ' + newReq.email);
   const client = new Client(currentConfig);
   await client.connect();
@@ -148,30 +149,33 @@ router.post("/loginFB", async (req, response) => {
     .then(res => {
       //no record found, new FB user
       if (res.rows === undefined || res.rows.length == 0) {
-        console.log(`error: fb user doesn't exist`, [newReq.email]);
+        console.log(` fb user doesn't exist (${newReq.email}), adding to the DB`);
         client.query('INSERT INTO users (name, email, password, location, address)' +
-          'VALUES ($1, $2, $3, $4, $5)',
-          [newReq.name, newReq.email, newReq.accessToken, newReq.location, newReq.address])
+          'VALUES ($1, $2, $3, $4, $5) RETURNING id',
+          [newReq.name, newReq.email, newReq.accessToken, "(0,0)", ""])
           .then(user => {
-            client.end();
-            return response.status(201).json(user);
+            // client.end();
+            // return response.status(201).json(user);
+            console.log(`New record created: ${JSON.stringify(user)}`);
+            newUserId=user; 
           })
           .catch(err => {
-            
             client.end();
-            console.log(err);
-            return response.status(500).json(newUser);
+            
+            console.log(`Inserting user failed:  ${err}`);
+            return response.status(500).json(err);
           });
       }
       else
       {
-        console.log(`Known user lgged-in via fb: ${newReq.email}`);
+        newUserId = res.rows[0];
+        console.log(`Known user logged-in via fb: ${newReq.email}`);
       }
 
       // Check password
       const row = res.rows[0];
       const payload = {
-        id: row.id,
+        id: newUserId,
         name: row.name
       };
 
