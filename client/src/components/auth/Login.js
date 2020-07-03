@@ -20,15 +20,22 @@ const FBcomponentClicked = (function (response) {
     console.log('User cancelled login or did not fully authorize.');
   }
 });
+
+const FBonFailure = (function (err) {
+  console.log('Failed to login with faceook: ' + JSON.stringify(response));
+});
+
 const FBLoginButton = ({ facebookResponse }) => (
   <FacebookLoginWithButton
     appId="441252456797282"
     // autoLoad="false"
     fields="name,email,picture"
     onClick={FBcomponentClicked}
+    onClick={FBonFailure}
     callback={facebookResponse}
     buttonText="Continue with Facebook"
     size="small"
+    redirectUri="/Login"
     icon="fa-facebook" />
 )
 
