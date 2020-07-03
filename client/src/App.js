@@ -56,10 +56,10 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("./firebase-messaging-sw.js")
     .then(function(registration) {
-      console.log(`ServiceWorker registration successful, registration.scope is: ${registration.scope}`);
+      console.log(`Firebase Cloud Messaging ServiceWorker registration successful, registration.scope is: ${registration.scope}`);
     })
     .catch(function(err) {
-      console.error(`Service worker registration failed. Error: ${JSON.stringify(err)}`);
+      console.error(`Firebase Cloud Messaging ServiceWorker registration failed. Error: ${JSON.stringify(err)}`);
     });
 }
 

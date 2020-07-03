@@ -22,7 +22,7 @@ const FBcomponentClicked = (function (response) {
 });
 
 const FBonFailure = (function (err) {
-  console.log('Failed to login with faceook: ' + JSON.stringify(response));
+  console.log('Failed to login with faceook: ' + JSON.stringify(err));
 });
 
 const FBLoginButton = ({ facebookResponse }) => (
