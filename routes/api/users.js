@@ -142,7 +142,7 @@ router.post("/loginFB", async (req, response) => {
   // Form validation
   const newReq = req.body;
   var newUserId=-1;
-  console.log('Login with facebook: ' + newReq.email);
+  console.log(`Login with facebook: ${JSON.stringify(newReq)}`);
   const client = new Client(currentConfig);
   await client.connect();
   client.query('SELECT * FROM users WHERE email = $1 LIMIT 1', [newReq.email])
@@ -154,7 +154,7 @@ router.post("/loginFB", async (req, response) => {
           'VALUES ($1, $2, $3, $4, $5) RETURNING id',
           [newReq.name, newReq.email, newReq.accessToken, "(0,0)", ""])
           .then(user => {
-            // client.end();
+            client.end();
             // return response.status(201).json(user);
             console.log(`New record created: ${JSON.stringify(user)}`);
             newUserId=user; 
