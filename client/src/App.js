@@ -29,6 +29,8 @@ import Profile from "./components/users/Profile"
 import { Helmet } from "react-helmet";
 import "./App.css";
 import { messaging } from "../src/init-fcm";
+import axios from "axios";
+import config from "./config";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -67,6 +69,10 @@ class App extends Component {
       .then(async function() {
         const token = await messaging.getToken();
         console.log(`Firebase token is: ${token}`);
+        const userId = 0; // ?
+        axios.post(`${config.SERVER_HOST}/api/notifications/token/${userId}`, {
+          token: token
+        });
       })
       .catch(function(err) {
         console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
