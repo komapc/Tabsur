@@ -76,11 +76,10 @@ router.post("/token/:id", async (req, response)=> {
   console.log(`Insert Google Firebase Token ID: ${token} for ${id}`); 
   const client = new Client(currentConfig);
   const query = `INSERT INTO user_tokens (user_id, token_type, token) VALUES ($1, 0, $2) RETURNING token`;
-  console.log(query); 
   await client.connect();
   client.query(query, [id, token])
     .then(resp => {
-      console.log("Google Firebase Token ID saved.");
+      console.log(`Google Firebase Token ID responsed`);
       response.json(resp.rows);
       client.end();
     })
