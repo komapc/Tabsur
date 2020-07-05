@@ -32,6 +32,7 @@ const FBLoginButton = ({ facebookResponse }) => (
     buttonText="Continue with Facebook"
     size="small"
     redirectUri="/"
+    isMobile={false}
     icon="fa-facebook" />
 )
 
