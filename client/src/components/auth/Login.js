@@ -31,7 +31,7 @@ const FBLoginButton = ({ facebookResponse }) => (
     // autoLoad="false"
     fields="name,email,picture"
     onClick={FBcomponentClicked}
-    onClick={FBonFailure}
+    onFailure={FBonFailure}
     callback={facebookResponse}
     buttonText="Continue with Facebook"
     size="small"
