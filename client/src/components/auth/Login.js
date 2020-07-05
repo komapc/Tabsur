@@ -12,10 +12,6 @@ const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 const FBcomponentClicked = (function (response) {
   if (response.authResponse) {
     console.log('Welcome!  Fetching your information.... ' + JSON.stringify(response));
-
-    // FB.api('/me', function (response) {
-    //   console.log('Good to see you, ' + response.name + '.');
-    // });
   } else {
     console.log('User cancelled login or did not fully authorize.');
   }
@@ -35,7 +31,7 @@ const FBLoginButton = ({ facebookResponse }) => (
     callback={facebookResponse}
     buttonText="Continue with Facebook"
     size="small"
-    redirectUri="/Login"
+    redirectUri="/"
     icon="fa-facebook" />
 )
 
