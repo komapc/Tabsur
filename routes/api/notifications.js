@@ -75,7 +75,13 @@ router.post("/token/:id", async (req, response)=> {
 
   console.log(`Insert Google Firebase Token ID: ${token} for ${id}`); 
   const client = new Client(currentConfig);
-  const query = `INSERT INTO user_tokens (user_id, token_type, token) SELECT $1, 0, $2 WHERE NOT EXISTS (SELECT 1 FROM user_tokens WHERE token=$3) RETURNING token`;
+  const query = `
+    INSERT INTO user_tokens (user_id, token_type, token) 
+    SELECT $1, 0, $2 
+    WHERE NOT EXISTS (
+      SELECT 1 FROM user_tokens WHERE token=$3
+    ) 
+    RETURNING token`;
   await client.connect();
   client.query(query, [id, token, token])
     .then(resp => {
