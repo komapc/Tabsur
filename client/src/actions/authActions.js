@@ -111,5 +111,5 @@ export const logoutUser = () => dispatch => {
 export const system = userData => {
   console.log(`system, ${config.SERVER_HOST}`);
   return axios
-    .post(`${config.SERVER_HOST}/api/system`, userData);
+    .post(`${config.SERVER_HOST}/api/users/system`, userData);
 };

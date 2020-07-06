@@ -81,7 +81,7 @@ class Login extends Component {
   facebookResponse = (response) => 
   { 
     console.log( JSON.stringify(response)  ); 
-    this.setState( {...this.state, user: response } ) 
+    this.setState( {...this.state, user: response.id } ) 
     this.props.loginUserFB(response);
   }
  
