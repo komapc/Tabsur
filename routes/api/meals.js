@@ -56,7 +56,8 @@ router.get("/:id", async (req, response) => {
 router.get("/my/:id", async (req, response) => {
   const client = new Client(currentConfig);
   console.log("get my meals by user id: " + JSON.stringify(req.params));
-  if (req.params.id == "undefined") {
+  const  userId = req.params.id;
+  if (userId == "undefined") {
     console.log("error, empty id");
     response.status(400).json("Error in geting my meals: empty");
     return;
