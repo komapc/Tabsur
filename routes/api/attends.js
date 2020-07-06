@@ -48,7 +48,9 @@ router.post('/:id', async (req, response) => {
           CONCAT((SELECT name FROM users WHERE id=$2),' wants to join your meal.'),
           0, 
           5)  
-        RETURNING (
+        RETURNING
+        user_id,
+        (
           SELECT array_to_string(array_agg(token),';') 
           AS tokens 
           FROM user_tokens
