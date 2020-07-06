@@ -56,7 +56,7 @@ export const joinMeal = (attendData, id) => dispatch => {
         type: GET_ERRORS,
         payload: err.response.data
       })
-        .then(res => dispatch(res))
+      //.then(res => dispatch(res))
     );
 };
 

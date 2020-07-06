@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 
 import { setCurrentUser, logoutUser } from "./actions/authActions";
-import { Provider } from "react-redux";
+import { connect, Provider } from "react-redux";
 import store from "./store";
 
 import Navbar from "./components/layout/Navbar";
@@ -64,12 +64,19 @@ if ("serviceWorker" in navigator) {
 }
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: this.props.auth.user.id || 0
+    };
+  }
+
   async componentDidMount() {
+    const userId = this.state.id;
     messaging.requestPermission()
       .then(async function() {
         const token = await messaging.getToken();
         console.log(`Firebase token is: ${token}`);
-        const userId = 0; // ?
         axios.post(`${config.SERVER_HOST}/api/notifications/token/${userId}`, {
           token: token
         });
@@ -126,4 +133,7 @@ class App extends Component {
     );
   }
 }
-export default App;
+
+export default connect((state) => ({
+  auth: state.auth
+}))(App);
