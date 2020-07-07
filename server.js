@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require('cors');
 
+require('dotenv').config();
+
 const users = require("./routes/api/users");
 const meals = require("./routes/api/meals");
 const follow = require("./routes/api/follow");
@@ -10,8 +12,6 @@ const attends = require("./routes/api/attends");
 const hungry = require("./routes/api/hungry");
 const notifications = require("./routes/api/notifications");
 const images = require("./routes/api/images");
-
-require('dotenv').config();
 
 const app = express();
 
