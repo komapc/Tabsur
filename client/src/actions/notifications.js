@@ -10,7 +10,6 @@ export const getNotifications = (usderId) => {
     console.log("bad usderId: ${usderId}");
   }
   return axios.get(`${config.SERVER_HOST}/api/notifications/${usderId}`);
-  
 };
 
 //markAsRead
