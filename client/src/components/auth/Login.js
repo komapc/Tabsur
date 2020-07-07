@@ -18,7 +18,7 @@ const FBcomponentClicked = (function (response) {
 });
 
 const FBonFailure = (function (err) {
-  console.log('Failed to login with faceook: ' + JSON.stringify(err));
+  console.log(`Failed to login with faceook: ${JSON.stringify(err)}`);
 });
 
 const FBLoginButton = ({ facebookResponse }) => (
@@ -81,7 +81,8 @@ class Login extends Component {
   facebookResponse = (response) => 
   { 
     console.log( JSON.stringify(response)  ); 
-    this.setState( {...this.state, user: response.id } ) 
+    //response.id
+    this.setState( {...this.state, user: true } ) 
     this.props.loginUserFB(response);
   }
  
