@@ -78,7 +78,7 @@ class App extends Component {
         const token = await messaging.getToken();
         console.log(`Firebase token is: ${token}`);
 
-        if (isNaN(userId) && userId > 0)
+        if (!isNaN(userId) && userId > 0)
         {
           axios.post(`${config.SERVER_HOST}/api/notifications/token/${userId}`, {
             token: token
