@@ -18,6 +18,7 @@ messaging.setBackgroundMessageHandler(function(payload) {
     })
     .then(() => {
       console.log(JSON.stringify(payload));
+      
       return registration.showNotification(payload.data.title, {
         body: payload.data.body,
         icon: payload.data.icon,
@@ -26,10 +27,9 @@ messaging.setBackgroundMessageHandler(function(payload) {
         time_to_live: payload.data.time_to_live
       });
     })
-    .catch((err) =>
-     {
-      console.log(JSON.stringify(err));
-     });
+    .catch((err) => {
+      console.error(err);
+    });
   return promiseChain;
 });
 self.addEventListener('notificationclick', function(event) {

@@ -80,20 +80,21 @@ class App extends Component {
 
         if (isNaN(userId) && userId > 0)
         {
-          console.log(`undefined user.`);
-        }
-        else
-        { 
           axios.post(`${config.SERVER_HOST}/api/notifications/token/${userId}`, {
             token: token
           });
+        }
+        else
+        { 
+          console.log(`undefined user.`);
         }
       })
       .catch(function(err) {
         console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
       });
     navigator.serviceWorker.addEventListener("message", (message) => {
-      console.log(`Message received: ${JSON.stringify(message)}`);
+      let messageBody = message.data['firebase-messaging-msg-data'].data;
+      // increment badge
     });
   }
 
