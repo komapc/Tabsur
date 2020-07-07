@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
@@ -10,6 +11,7 @@ const attends = require("./routes/api/attends");
 const hungry = require("./routes/api/hungry");
 const notifications = require("./routes/api/notifications");
 const images = require("./routes/api/images");
+
 const app = express();
 
 app.use(cors());
