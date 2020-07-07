@@ -1,9 +1,4 @@
-const pgConfig = require("./../dbConfig.js");
-let currentConfig = pgConfig.pgConfigProduction;
-
-if (process.env.NODE_ENV === "debug") {
-  currentConfig = pgConfig.pgConfigLocal;
-}
+const currentConfig = require("./../dbConfig.js");
 const { Client } = require("pg");
 const express = require("express");
 const router = express.Router();

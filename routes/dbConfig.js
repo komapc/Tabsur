@@ -1,18 +1,9 @@
+require('dotenv').config();
 module.exports = {
-   pgConfigLocal : {
-    host: '127.0.0.1',
+    host: process.env.PG_HOST,
     port: 5432,
-    database: 'coolanu',
-    user: 'coolanu',
-    password: 'coolanu',
+    database: process.env.PG_DATABASE,
+    user: process.env.PG_USER,
+    password: process.env.PG_PASSWORD,
     ssl: false,
-},
-    pgConfigProduction : {
-    host: 'coolanu.c83ccb9pqvdz.us-east-1.rds.amazonaws.com',
-    port: 5432,
-    database: 'coolanu',
-    user: 'production_db',
-    password: 'jw8s0F4',
-    ssl: false,
-}
 };

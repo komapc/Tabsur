@@ -1,13 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const pgConfig = require("../dbConfig.js");
 const { Client } = require("pg");
-
-let currentConfig = pgConfig.pgConfigProduction;
-if (process.env.NODE_ENV === "debug")
-{
-  currentConfig = pgConfig.pgConfigLocal;
-}
+const currentConfig = require("../dbConfig.js");
 
 // @route GET api/notifications
 // @desc get list og user's notifications
