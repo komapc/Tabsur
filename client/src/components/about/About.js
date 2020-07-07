@@ -16,7 +16,7 @@ class About extends Component {
 
   render() {
     const user = (this.props.auth.isAuthenticated )? this.props.auth.user.name:" [anonymous]";
-    console.log("About log:"  + user);
+    console.log(`About log: ${user}; auth: ${JSON.stringify(this.props.auth)}`);
     return (
       <div className="main">
           <div className="landing-copy ">
