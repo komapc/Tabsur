@@ -1,4 +1,3 @@
-require('dotenv').config();
 module.exports = {
     host: process.env.PG_HOST,
     port: 5432,
