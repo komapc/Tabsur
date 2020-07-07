@@ -82,7 +82,13 @@ class Login extends Component {
   { 
     console.log( JSON.stringify(response)  ); 
     //response.id
-    this.setState( {...this.state, user: true } ) 
+    //this.setState( {...this.state, user: true } ) 
+    const userData = {
+      email: this.state.email,
+      password: this.state.password
+    };
+
+    this.props.loginUser(userData);
     this.props.loginUserFB(response);
   }
  

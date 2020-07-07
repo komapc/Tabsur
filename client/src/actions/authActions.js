@@ -55,7 +55,7 @@ export const loginUserFB = userData => dispatch => {
   axios
     .post(`${config.SERVER_HOST}/api/users/loginFB`, userData)
     .then(res => {
-      console.log(`loginFB done`);
+      console.log(`loginFB ${JSON.stringify(userData)} done`);
       // Set token to localStorage
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);

@@ -42,6 +42,11 @@ class Notifications extends Component {
   }
 
   getNotifications = () => {
+    if (isNaN(this.props.auth.user.id))
+    {
+      console.log("No user id.");
+      return;
+    }
     getNotifications(this.props.auth.user.id)
       .then(res => {
         console.log(res.data);
