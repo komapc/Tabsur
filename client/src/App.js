@@ -85,7 +85,7 @@ class App extends Component {
         console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
       });
     navigator.serviceWorker.addEventListener("message", (message) => {
-      console.log(`Message recieved: ${JSON.stringify(message)}`);
+      console.log(`Message received: ${JSON.stringify(message)}`);
     });
   }
 
