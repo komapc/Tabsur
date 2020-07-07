@@ -80,13 +80,13 @@ class App extends Component {
 
         if (isNaN(userId) && userId > 0)
         {
-          console.log(`undefined user.`);
-        }
-        else
-        { 
           axios.post(`${config.SERVER_HOST}/api/notifications/token/${userId}`, {
             token: token
           });
+        }
+        else
+        { 
+          console.log(`undefined user.`);
         }
       })
       .catch(function(err) {
