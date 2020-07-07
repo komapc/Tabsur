@@ -10,6 +10,9 @@ const attends = require("./routes/api/attends");
 const hungry = require("./routes/api/hungry");
 const notifications = require("./routes/api/notifications");
 const images = require("./routes/api/images");
+
+require('dotenv').config();
+
 const app = express();
 
 app.use(cors());
