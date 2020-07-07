@@ -5,6 +5,10 @@ import config from "../config";
 // get notifications for a user
 export const getNotifications = (usderId) => {
   console.log("get notifications.");
+  if (isNaN(usderId))
+  {
+    console.log("bad usderId: ${usderId}");
+  }
   return axios.get(`${config.SERVER_HOST}/api/notifications/${usderId}`);
   
 };
