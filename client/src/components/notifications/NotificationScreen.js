@@ -30,10 +30,7 @@ class NotificationsScreen extends Component {
   }
 }
 const mapStateToProps = state => ({
-  auth: state.auth,
- 
+  auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-)(NotificationsScreen);
+export default connect(mapStateToProps)(NotificationsScreen);

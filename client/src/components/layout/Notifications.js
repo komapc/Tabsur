@@ -25,9 +25,8 @@ class NoteItem extends Component {
     const note = this.props.note;
     return (
       <div onClick={() => this.markAsRead(note, 3)}>
-        <div className="notification">{note.message_text} </div>
+        <div className="notification">{note.message_text}</div>
       </div>
-
     );
   }
 };

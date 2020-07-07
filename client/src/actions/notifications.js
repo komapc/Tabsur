@@ -6,7 +6,6 @@ import config from "../config";
 export const getNotifications = (usderId) => {
   console.log("get notifications.");
   return axios.get(`${config.SERVER_HOST}/api/notifications/${usderId}`);
-  
 };
 
 //markAsRead
