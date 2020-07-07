@@ -1,8 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const { Client } = require("pg");
-const currentConfig = require("./../dbConfig.js");
+const pgConfig = require("./../dbConfig.js");
 const fetch = require('node-fetch');
+let currentConfig = pgConfig.pgConfigProduction;
+if (process.env.NODE_ENV === "debug") {
+  currentConfig = pgConfig.pgConfigLocal;
+}
 
 /* GET attend by meal */
 router.get('/meal/:meal_id', function (req, res, next) {

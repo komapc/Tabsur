@@ -7,7 +7,12 @@ const bluebird = require('bluebird');
 const multiparty = require('multiparty');
 const router = express.Router();
 
-const currentConfig = require("./../dbConfig.js");
+const pgConfig = require("./../dbConfig.js");
+let currentConfig = pgConfig.pgConfigProduction;
+
+if (process.env.NODE_ENV === "debug") {
+  currentConfig = pgConfig.pgConfigLocal;
+}
 const { Client } = require("pg");
 
 // configure the keys for accessing AWS

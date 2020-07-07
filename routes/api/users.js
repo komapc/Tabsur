@@ -4,8 +4,13 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 //const passport = require("passport");
+const pgConfig = require("./../dbConfig.js");
 const { Client } = require("pg");
-const currentConfig = require("./../dbConfig.js");
+
+let currentConfig = pgConfig.pgConfigProduction;
+if (process.env.NODE_ENV === "debug") {
+  currentConfig = pgConfig.pgConfigLocal;
+}
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
