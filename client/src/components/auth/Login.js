@@ -88,8 +88,7 @@ class Login extends Component {
       password: this.state.password
     };
 
-    this.props.loginUser(userData);
-    this.props.loginUserFB(response);
+    this.props.loginUserFB(userData);
   }
  
   render() {
