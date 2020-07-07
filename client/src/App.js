@@ -77,9 +77,11 @@ class App extends Component {
       .then(async function() {
         const token = await messaging.getToken();
         console.log(`Firebase token is: ${token}`);
-        axios.post(`${config.SERVER_HOST}/api/notifications/token/${userId}`, {
-          token: token
-        });
+        if(userId > 0) {
+          axios.post(`${config.SERVER_HOST}/api/notifications/token/${userId}`, {
+            token: token
+          });
+        }
       })
       .catch(function(err) {
         console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
