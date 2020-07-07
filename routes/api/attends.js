@@ -48,16 +48,14 @@ router.post('/:id', async (req, response) => {
           CONCAT((SELECT name FROM users WHERE id=$2),' wants to join your meal.'),
           0, 
           5)  
-        RETURNING
-        user_id,
-        (
+        RETURNING (
           SELECT array_to_string(array_agg(token),';') 
           AS tokens 
           FROM user_tokens
-          WHERE user_id=user_id
+          WHERE user_id=(SELECT host_id FROM meals WHERE id=$1)
         ),
-        CONCAT((SELECT name FROM users WHERE id=$3), ' wants to join your meal.') AS body
-      `,[attend.meal_id, attend.user_id, attend.user_id])
+        CONCAT((SELECT name FROM users WHERE id=$2), ' wants to join your meal.') AS body
+      `,[attend.meal_id, attend.user_id])
       .catch(err => {
         console.log(err);
         client.end();
@@ -80,9 +78,7 @@ router.post('/:id', async (req, response) => {
               "registration_ids": answer.rows[0].tokens.split(';')
           })
         }).then(function(response) {
-            return response.json();
-        }).then(function(json) {
-            console.log(JSON.stringify(json));
+            console.log(JSON.stringify(response));
         }).catch(function(error) {
             console.error(error);
         });

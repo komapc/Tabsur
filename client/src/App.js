@@ -77,12 +77,13 @@ class App extends Component {
       .then(async function() {
         const token = await messaging.getToken();
         console.log(`Firebase token is: ${token}`);
-        if (isNaN(userId))
+
+        if (isNaN(userId) && userId > 0)
         {
           console.log(`undefined user.`);
         }
         else
-        {
+        { 
           axios.post(`${config.SERVER_HOST}/api/notifications/token/${userId}`, {
             token: token
           });

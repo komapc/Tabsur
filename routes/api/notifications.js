@@ -79,11 +79,11 @@ router.post("/token/:id", async (req, response)=> {
     INSERT INTO user_tokens (user_id, token_type, token) 
     SELECT $1, 0, $2 
     WHERE NOT EXISTS (
-      SELECT 1 FROM user_tokens WHERE token=$3
+      SELECT 1 FROM user_tokens WHERE user_id=$3 AND token=$4
     ) 
     RETURNING token`;
   await client.connect();
-  client.query(query, [id, token, token])
+  client.query(query, [id, token, id, token])
     .then(resp => {
       console.log(`Google Firebase Token ID responsed`);
       response.json(resp.rows);
