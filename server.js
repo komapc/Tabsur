@@ -1,9 +1,8 @@
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require('cors');
-
-require('dotenv').config();
 
 const users = require("./routes/api/users");
 const meals = require("./routes/api/meals");
