@@ -3,6 +3,8 @@ import sandwich from "../../resources/menu.svg"
 import notification from "../../resources/notification.svg" 
 import Menu from "./Menu.js"
 import Notifications from "./Notifications";
+import Badge from '@material-ui/core/Badge';
+
 class Navbar extends Component {
   constructor(props) {
     super(props);
@@ -14,29 +16,28 @@ class Navbar extends Component {
     };
   }
 
-  openMenu = () =>
-  {
+  openMenu = () => {
     this.setState({showMenu: true});
   }
 
-  openNotifications = () =>
-  {
+  openNotifications = () => {
+    this.setState({newNotificationsCounter: 0}); // ?
     this.setState({showNotifications: true});
   }
+
   render() {
     return (
       <div className="navbar-top">
         <div>
-            <div >
-            <span
-                onClick={this.openNotifications} >
-                <img className="navbar-icons" src={notification} alt={"Notifications"}/>
-              </span>
-            <span
-              onClick={this.openMenu}>
+          <div>
+            <span onClick={this.openNotifications} >
+                  <Badge badgeContent={this.props.newNotificationsCounter} color="secondary">
+                    <img className="navbar-icons" src={notification} alt={"Notifications"}/>
+                  </Badge>
+            </span>
+            <span onClick={this.openMenu}>
                 <img className="navbar-icons" src={sandwich} alt={"..."}/> 
             </span>
-           
           </div>
         </div>
         <div> 
