@@ -98,6 +98,12 @@ class App extends Component {
     });
   }
 
+  clearNewNotificationsCounter = (value) => {
+    this.setState({
+      newNotificationsCounter: 0 
+    });
+  }
+
   render() {
     return (
       <Provider store={store}>
@@ -111,7 +117,7 @@ class App extends Component {
             <Switch>{/*screens without top bar */}
               <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
               <PrivateRoute exact path="/user/:id" component={ShowUser} />
-              <Navbar newNotificationsCounter={this.state.newNotificationsCounter}/>
+              <Navbar newNotificationsCounter={this.state.newNotificationsCounter} clearNewNotificationsCounter={this.clearNewNotificationsCounter} />
             </Switch>
               <Switch>
                 <Route exact path="/register" component={Register} />
