@@ -141,7 +141,7 @@ class MealListItem extends React.Component {
             <span className="meal-guests">({meal.guest_count}/{meal.Atendee_count})</span>
           </div>
         </span>
-        <span>
+        <span className="meal-props-right">
           <AttendButton
             meal={meal}
             auth={this.props.auth}

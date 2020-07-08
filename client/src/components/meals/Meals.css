@@ -52,7 +52,6 @@
     font-size: 15px;
     color:black;
     text-overflow: ellipsis;
-    width: 100%;
     overflow: hidden;
 }
 
@@ -71,12 +70,18 @@
 
 .meal-info
 {
-    margin: 0.3em 15px
+    margin: 0.3em 15px;
+    width:100%;
+    overflow: hidden;
 }
 
 .meal-props-left
 {
-    width: 33%;
+    width: 33vw;
+}
+.meal-props-right
+{
+    width: 66vw;
 }
 
 .meal-info-item {
