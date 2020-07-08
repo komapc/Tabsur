@@ -67,7 +67,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: this.props.auth.user.id || 0
+      id: this.props.auth.user.id || 0,
+      newNotificationsCounter: 0
     };
   }
 
@@ -78,14 +79,11 @@ class App extends Component {
         const token = await messaging.getToken();
         console.log(`Firebase token is: ${token}`);
 
-        if (!isNaN(userId) && userId > 0)
-        {
+        if (!isNaN(userId) && userId > 0) {
           axios.post(`${config.SERVER_HOST}/api/notifications/token/${userId}`, {
             token: token
           });
-        }
-        else
-        { 
+        } else { 
           console.log(`undefined user.`);
         }
       })
@@ -93,8 +91,16 @@ class App extends Component {
         console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
       });
     navigator.serviceWorker.addEventListener("message", (message) => {
-      let messageBody = message.data['firebase-messaging-msg-data'].data;
-      // increment badge
+      console.log(JSON.stringify(message.data['firebase-messaging-msg-data'].data));
+      this.setState({
+        newNotificationsCounter: ++this.state.newNotificationsCounter 
+      });
+    });
+  }
+
+  setNewNotificationsCounter = (value) => {
+    this.setState({
+      newNotificationsCounter: value 
     });
   }
 
@@ -111,7 +117,7 @@ class App extends Component {
             <Switch>{/*screens without top bar */}
               <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
               <PrivateRoute exact path="/user/:id" component={ShowUser} />
-              <Navbar />
+              <Navbar newNotificationsCounter={this.state.newNotificationsCounter} setNewNotificationsCounter={this.setNewNotificationsCounter} />
             </Switch>
               <Switch>
                 <Route exact path="/register" component={Register} />
