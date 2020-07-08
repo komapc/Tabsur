@@ -80,6 +80,19 @@ class ShowMeal extends Component {
       console.log(err);
     });
   }
+
+  editMealEvent = (e) =>
+  {    
+    deleteMeal.then(res => {
+      console.log(res.data);
+      
+      this.props.history.push({pathname: '/EditMeals'});
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
   render() {
     return (
       <div className="main">
@@ -87,8 +100,13 @@ class ShowMeal extends Component {
         <GuestList mealId={this.state.meal.id} userId = {this.props.auth.user.id}/>
         {
           (this.state.meal.host_id === this.props.auth.user.id)?
-          <button onClick={(e)=>this.deleteMealEvent(e)}> Delete meal </ button>:""
+          <button onClick={(e)=>this.deleteMealEvent(e)}> Delete Meal </ button>:""
         }
+        {
+          (this.state.meal.host_id === this.props.auth.user.id)?
+          <button onClick={(e)=>this.editMealEvent(e)}> Edit Meal </ button>:""
+        }
+        
       </div>
     );
   }
