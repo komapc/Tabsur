@@ -71,7 +71,7 @@ class ShowMeal extends Component {
 
   deleteMealEvent = (e) =>
   {    
-    deleteMeal.then(res => {
+    deleteMeal(this.state.meal.id).then(res => {
       console.log(res.data);
       
       this.props.history.push({pathname: '/MyMeals'});
@@ -83,14 +83,7 @@ class ShowMeal extends Component {
 
   editMealEvent = (e) =>
   {    
-    deleteMeal.then(res => {
-      console.log(res.data);
-      
-      this.props.history.push({pathname: '/EditMeals'});
-    })
-    .catch(err => {
-      console.log(err);
-    });
+      this.props.history.push({pathname: `/EditMeal/${this.state.meal.id}`});
   }
 
   render() {
