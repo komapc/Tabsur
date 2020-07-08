@@ -1,16 +1,17 @@
 
 .meals-map
 {
-    height: 100%;
-    width: 100%;
+    height: calc(100vh - 30px);/*todo: flex*/
+    width: 100vw ;
     transition:0.7s;
 }
 
 .meals-map-info
 {
     transition:1s;
-    height: 40%;
-    width: 100%;
+    height:  calc(100vh - 230px);
+    width: 100vw;
+    border: solid 1px;
     background-color: #73d763;
 }
 
