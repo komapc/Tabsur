@@ -58,6 +58,7 @@ export const loginUserFB = userData => dispatch => {
       console.log(`loginFB ${JSON.stringify(userData)} done`);
       // Set token to localStorage
       const { token } = res.data.id;
+      console.log(`res.data is ${JSON.stringify(res.data)}`);
       localStorage.setItem("jwtToken", token);
       // Set token to Auth header
       setAuthToken(token);
