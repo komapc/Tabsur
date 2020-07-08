@@ -73,13 +73,15 @@ router.get("/my/:id", async (req, response) => {
   await client.connect();
   client.query(SQLquery, [userId])
     .then(resp => {
-      client.end();
       return response.json(resp.rows);
     })
     .catch(err => {
-      client.end();
       console.log(err);
       return response.status(500).json(err);
+    })
+    .finally(()=>
+    {
+        client.end();
     });
 });
 
