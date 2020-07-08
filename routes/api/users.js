@@ -129,7 +129,8 @@ router.post("/login", async (req, response) => {
           console.log("bcrypt error:" + err);
           return response.status(500).json(newReq);
         })
-        .then(() => client.end())
+        .finally(() => client.end())
+
     });
 });
 
@@ -155,22 +156,23 @@ router.post("/loginFB", async (req, response) => {
           'VALUES ($1, $2, $3, $4, $5) RETURNING id',
           [newReq.name, newReq.email, newReq.accessToken, "(0,0)", ""])
           .then(user => {
-            client.end();
             // return response.status(201).json(user);
             console.log(`New record created: ${JSON.stringify(user)}`);
             newUserId=user; 
           })
           .catch(err => {
-            client.end();
-            
             console.log(`Inserting user failed:  ${err}`);
             return response.status(500).json(err);
-          });
+          })
+          .finally()
+          {
+            client.end();
+          }
       }
       else
       {
         client.end();
-        newUserId = res.rows[0];
+        newUserId = res.rows[0].id;
         console.log(`Known user logged-in via fb: ${newReq.email}`);
       }
 
