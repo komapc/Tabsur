@@ -16,16 +16,12 @@ class Navbar extends Component {
     };
   }
 
-  clearNewNotificationsCounter = (e) => {
-    this.props.clearNewNotificationsCounter(e.target.value);
-  }
-
   openMenu = () => {
     this.setState({showMenu: true});
   }
 
   openNotifications = () => {
-    this.props.clearNewNotificationsCounter();
+    this.props.setNewNotificationsCounter(0);
     this.setState({showNotifications: true});
   }
 
