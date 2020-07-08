@@ -71,7 +71,7 @@ class ShowMeal extends Component {
 
   deleteMealEvent = (e) =>
   {    
-    deleteMeal.then(res => {
+    deleteMeal(this.state.meal.id).then(res => {
       console.log(res.data);
       
       this.props.history.push({pathname: '/MyMeals'});
@@ -80,6 +80,12 @@ class ShowMeal extends Component {
       console.log(err);
     });
   }
+
+  editMealEvent = (e) =>
+  {    
+      this.props.history.push({pathname: `/EditMeal/${this.state.meal.id}`});
+  }
+
   render() {
     return (
       <div className="main">
@@ -87,8 +93,13 @@ class ShowMeal extends Component {
         <GuestList mealId={this.state.meal.id} userId = {this.props.auth.user.id}/>
         {
           (this.state.meal.host_id === this.props.auth.user.id)?
-          <button onClick={(e)=>this.deleteMealEvent(e)}> Delete meal </ button>:""
+          <button onClick={(e)=>this.deleteMealEvent(e)}> Delete Meal </ button>:""
         }
+        {
+          (this.state.meal.host_id === this.props.auth.user.id)?
+          <button onClick={(e)=>this.editMealEvent(e)}> Edit Meal </ button>:""
+        }
+        
       </div>
     );
   }
