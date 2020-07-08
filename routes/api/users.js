@@ -129,7 +129,8 @@ router.post("/login", async (req, response) => {
           console.log("bcrypt error:" + err);
           return response.status(500).json(newReq);
         })
-        .then(() => client.end())
+        .finally(() => client.end())
+
     });
 });
 
@@ -167,12 +168,11 @@ router.post("/loginFB", async (req, response) => {
           {
             client.end();
           }
-
       }
       else
       {
         client.end();
-        newUserId = res.rows[0];
+        newUserId = res.rows[0].id;
         console.log(`Known user logged-in via fb: ${newReq.email}`);
       }
 
