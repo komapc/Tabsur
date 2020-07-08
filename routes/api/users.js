@@ -27,7 +27,6 @@ router.post("/register", async (req, response) => {
   const { errors, isValid } = validateRegisterInput(req.body);
   const input = req.body;
 
-
   const client = new Client(currentConfig);
 
   // Check validation
