@@ -73,7 +73,7 @@ class MealMap extends Component {
   render() {
     console.log("Selected meal: " + JSON.stringify(this.state.meal));
     return (
-      <div className={`main ${this.state.isSelected ? 'meals-map-info' : 'meals-map'}`}>
+      <div className={this.state.isSelected ? 'meals-map-info' : 'meals-map'}>
 
         <MealMapShow
           meals={this.state.meals}
