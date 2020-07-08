@@ -108,7 +108,7 @@ class MealListItem extends React.Component {
   }
 
   onJoin = (meal, new_status) => {
-    const status = meal.attend_status;
+    const status = new_status;
     const user_id = this.props.auth.user.id;
     const attend = { user_id: user_id, meal_id: meal.id, status: new_status };
 
@@ -120,7 +120,6 @@ class MealListItem extends React.Component {
       meal.attend_status = new_status;
       return { meal };
     }));
-    //alert("Thank you for attending.");
   }
   render() {
 
