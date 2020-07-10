@@ -26,14 +26,19 @@ class Navbar extends Component {
     this.setState({showNotifications: true});
   }
 
+  openMessages = () => {
+    this.props.setNewMessagesCounter(0);
+    alert('messages under construction');
+  }
+
   render() {
     return (
       <div className="navbar-top">
         <div>
           <div>
-            <span onClick={this.openMenu}>
-              <Badge badgeContent={0} color="secondary">
-                <MessageOutlinedIcon fontSize="large" color="disabled" />
+            <span onClick={this.openMessages}>
+              <Badge badgeContent={this.props.newMessagesCounter} color="secondary">
+                <MessageOutlinedIcon fontSize="large" color="disabled" alt={"Messages"}/>
               </Badge>
             </span>
             <span onClick={this.openNotifications} >
