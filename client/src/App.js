@@ -91,7 +91,6 @@ class App extends Component {
     navigator.serviceWorker.addEventListener("message", (message) => {
       console.log(JSON.stringify(message.data['firebase-messaging-msg-data'].data));
       if(message.data['firebase-messaging-msg-data'].data.type === "message") {
-        console.log(`Message recieved: ${JSON.stringify(message.data['firebase-messaging-msg-data'].data)}`);
         this.setState({
           newMessagesCounter: ++this.state.newMessagesCounter 
         });
