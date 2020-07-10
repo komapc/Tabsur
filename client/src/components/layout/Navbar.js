@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import sandwich from "../../resources/menu.svg" 
 import notification from "../../resources/notification.svg" 
+import MessageOutlinedIcon from '@material-ui/icons/Message';
 import Menu from "./Menu.js"
 import Notifications from "./Notifications";
 import Badge from '@material-ui/core/Badge';
@@ -30,13 +31,20 @@ class Navbar extends Component {
       <div className="navbar-top">
         <div>
           <div>
+            <span onClick={this.openMenu}>
+              <Badge badgeContent={0} color="secondary">
+                <MessageOutlinedIcon fontSize="large" color="disabled" />
+              </Badge>
+            </span>
             <span onClick={this.openNotifications} >
-                  <Badge badgeContent={this.props.newNotificationsCounter} color="secondary">
-                    <img className="navbar-icons" src={notification} alt={"Notifications"}/>
-                  </Badge>
+              <Badge badgeContent={this.props.newNotificationsCounter} color="secondary">
+                <img className="navbar-icons" src={notification} alt={"Notifications"}/>
+              </Badge>
             </span>
             <span onClick={this.openMenu}>
+              <Badge badgeContent={0} color="secondary">
                 <img className="navbar-icons" src={sandwich} alt={"..."}/> 
+              </Badge>
             </span>
           </div>
         </div>
