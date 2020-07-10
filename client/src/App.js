@@ -4,6 +4,7 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 
 import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { setFirebaseCloudMessagingToken } from "./actions/notifications"
 import { connect, Provider } from "react-redux";
 import store from "./store";
 
@@ -29,8 +30,6 @@ import Profile from "./components/users/Profile"
 import { Helmet } from "react-helmet";
 import "./App.css";
 import { messaging } from "../src/init-fcm";
-import axios from "axios";
-import config from "./config";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -80,9 +79,7 @@ class App extends Component {
         console.log(`Firebase token is: ${token}`);
 
         if (!isNaN(userId) && userId > 0) {
-          axios.post(`${config.SERVER_HOST}/api/notifications/token/${userId}`, {
-            token: token
-          });
+          setFirebaseCloudMessagingToken(userId, token);
         } else { 
           console.log(`undefined user.`);
         }

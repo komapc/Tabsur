@@ -96,4 +96,32 @@ router.post("/token/:id", async (req, response)=> {
     });
 });
 
+router.post("/send-message", async (req, response)=> {
+  console.log(`Message: ${req.body.message} from ${req.body.sender} to ${req.body.receiver}`);
+
+  const client = new Client(currentConfig);
+  const query = `
+    INSERT INTO messages (sender, receiver, status) 
+    VALUES ($1, $2, $3) 
+    RETURNING (
+      SELECT array_to_string(array_agg(token),';') 
+      AS tokens 
+      FROM user_tokens
+      WHERE user_id=(SELECT host_id FROM meals WHERE id=$4)
+    )`; // TODO: save also message and return id of the message when DB ready
+  await client.connect();
+  client.query(query, [req.body.sender, req.body.receiver, 0, req.body.receiver])
+  .then(resp => {
+    console.log(`Message inserted`);
+    response.json(resp.rows);
+  })
+  .catch(err => {
+    console.error(err); 
+    return response.status(500).json(err); 
+  })
+  .finally(() => {
+    client.end();
+  });
+});
+
 module.exports = router;
