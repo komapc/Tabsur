@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 const { Client } = require("pg");
 const pgConfig = require("./../dbConfig.js");
-const fetch = require('node-fetch');
 let currentConfig = pgConfig.pgConfigProduction;
+const fcm = require('../firebaseCloudMessages');
 if (process.env.NODE_ENV === "debug") {
   currentConfig = pgConfig.pgConfigLocal;
 }
@@ -62,23 +62,18 @@ router.post('/:id', async (req, response) => {
         return response.status(500).json("failed to add notification: " + err);
       })
       .then(answer => {
-        fetch('https://fcm.googleapis.com/fcm/send', {
-          method: 'POST',
-          headers: {
-              'Authorization': 'key=' + process.env.GOOGLE_FIREBASE_CLOUD_MESSAGING_SERVER_KEY,
-              'Content-Type': 'application/json'
+        fcm.sendNotification(JSON.stringify({
+          data: {
+              title: 'Attend', 
+              body:  answer.rows[0].body, 
+              icon: 'https://icons.iconarchive.com/icons/pelfusion/long-shadow-media/128/Message-Bubble-icon.png', 
+              click_action: 'http://info.cern.ch/hypertext/WWW/TheProject.html'
           },
-          body: JSON.stringify({
-              data: {
-                  title: 'Attend', 
-                  body:  answer.rows[0].body, 
-                  icon: 'https://icons.iconarchive.com/icons/pelfusion/long-shadow-media/128/Message-Bubble-icon.png', 
-                  click_action: 'http://info.cern.ch/hypertext/WWW/TheProject.html'
-              },
-              "registration_ids": answer.rows[0].tokens.split(';')
-          })
-        }).then(function(response) {
-            console.log(JSON.stringify(response));
+          "registration_ids": answer.rows[0].tokens.split(';')
+        }),
+        answer.rows[0].tokens.split(';'))
+        .then(function(response) {
+          console.log(JSON.stringify(response));
         }).catch(function(error) {
             console.error(error);
         });

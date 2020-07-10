@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pgConfig = require("../dbConfig.js");
 const { Client } = require("pg");
+const fcm = require('../firebaseCloudMessages');
 
 let currentConfig = pgConfig.pgConfigProduction;
 if (process.env.NODE_ENV === "debug")
@@ -113,6 +114,7 @@ router.post("/send-message", async (req, response)=> {
   client.query(query, [req.body.sender, req.body.receiver, 0, req.body.receiver])
   .then(resp => {
     console.log(`Message inserted`);
+    // TODO: fcm.sendNotification("message");
     response.json(resp.rows);
   })
   .catch(err => {
