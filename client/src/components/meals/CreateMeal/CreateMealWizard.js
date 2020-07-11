@@ -57,7 +57,7 @@ const CreateMealWizard = ({ auth, addMeal }) => {
     });
   };
   const backToList = () => {
-    this.props.history.push("/Meals");
+    history.push("/Meals");
   }
   const submit = (e) => {
     e.preventDefault();
