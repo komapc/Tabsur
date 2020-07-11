@@ -99,16 +99,18 @@ router.post("/send-message", async (req, response)=> {
 
   const client = new Client(currentConfig);
   const query = `
-    INSERT INTO messages (sender, receiver, status) 
-    VALUES ($1, $2, $3) 
-    RETURNING (
+    INSERT INTO messages (sender, receiver, status, message) 
+    VALUES ($1, $2, $3, $4) 
+    RETURNING 
+    id AS message_id,
+    (
       SELECT array_to_string(array_agg(token),';') 
       AS tokens 
       FROM user_tokens
-      WHERE user_id=$4
+      WHERE user_id=$5
     )`; // TODO: save also message and return id of the message when DB ready
   await client.connect();
-  client.query(query, [req.body.sender, req.body.receiver, 0, req.body.receiver])
+  client.query(query, [req.body.sender, req.body.receiver, 0, req.body.message, req.body.receiver])
   .then(resp => {
     console.log(`Message inserted`);
     fcm.sendNotification(JSON.stringify({
