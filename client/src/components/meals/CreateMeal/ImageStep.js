@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import config from "../../../config";
 import placeholder from "../../../resources/wizard/image_placeholder.png"
+import imageCompression from 'browser-image-compression';
+
 const ImageStep = (props) => {
 
   const [state, updateState] = useState({ "file": placeholder });
@@ -18,21 +19,31 @@ const ImageStep = (props) => {
     submitFile(e, files[0]);
   };
 
-  const submitFile = (event, files) => {
+  const submitFile = (event, file) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append('file', files);
-    formData.append('uploader', props.form.host_id);
-    axios.post(`${config.SERVER_HOST}/api/images/upload`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+
+    var options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true
     }
-    ).then(response => {
-      console.log(response.data);
-      props.update({ "id": "image_id", "value": response.data });
-    }).catch(error => {
-      console.log("error: " + error);
+    imageCompression(event.target.files[0], options)
+    .then(function (compressedFile) {
+      const formData = new FormData();
+      formData.append('file', compressedFile);
+      formData.append('uploader', props.form.host_id);
+      axios.post(`${config.SERVER_HOST}/api/images/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(response => {
+        console.log(response.data);
+        props.update({ "id": "image_id", "value": response.data });
+      })
+    })
+    .catch(function (error) {
+      console.error(error);
     });
   }
 
