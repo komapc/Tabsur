@@ -19,7 +19,6 @@
   "author": "Mark&Yana",
   "license": "MIT",
   "dependencies": {
-    "DatePicker": "^2.0.0",
     "aws-sdk": "^2.683.0",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
@@ -36,22 +35,17 @@
     "heroku-ssl-redirect": "0.0.4",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.3.0",
-    "mongoose": "^5.9.7",
     "multiparty": "^4.2.1",
     "node-fetch": "^2.6.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "pg": "^7.18.2",
     "postgres": "^1.0.2",
-    "react-datepicker": "^2.14.1",
-    "react-helmet": "^5.2.1",
-    "react-scripts": "^3.4.1",
-    "react-time-picker": "^3.9.0",
     "validator": "^12.2.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/komapc/MERN"
+    "url": "https://github.com/komapc/Tabsur"
   },
   "engines": {
     "node": "13.3.0"
