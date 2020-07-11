@@ -117,6 +117,7 @@ router.post("/send-message", async (req, response)=> {
       data: {
           title: 'Message', 
           type: 'message',
+          message_id: resp.rows[0].message_id,
           body:  req.body.message, 
           icon: 'https://icons.iconarchive.com/icons/pelfusion/long-shadow-media/128/Message-Bubble-icon.png', 
           click_action: 'http://info.cern.ch/hypertext/WWW/TheProject.html'
