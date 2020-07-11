@@ -5,6 +5,7 @@ import backButton from "../../resources/back_button.svg";
 import defaultImage from "../../resources/userpic_empty.svg";
 
 import {getFollowStatus, setFollow, getUserInfo} from "../../actions/userActions"
+import { sendMessage } from "../../actions/notifications"
 class ShowUser extends Component {
 
   constructor(props) {
@@ -68,10 +69,17 @@ class ShowUser extends Component {
       });
   }
 
+  sendMessageWithCallback(sender, receiver, message) {
+    sendMessage(sender, receiver, message)
+    .then(res => { // Callback
+      console.log(JSON.stringify(res));
+    });
+  }
+
   render() {
     return (
       <div className="info-all">
-         <div className="info-back-div"><img
+        <div className="info-back-div"><img
          className="info-back"
           alt="back"
           onClick={this.props.history.goBack}
@@ -95,6 +103,20 @@ class ShowUser extends Component {
           {this.state.followStatus ?
             <button onClick={() => this.follow(0)}>UnFollow</button> :
             <button onClick={() => this.follow(3)}>Follow</button>}
+        </div>
+        <div>
+          {
+            this.props.auth.user.id != this.state.id ?
+              <div>
+                <input type="text" id="message" placeholder="Message"></input>
+                <button onClick={() => this.sendMessageWithCallback(
+                  this.props.auth.user.id, 
+                  this.state.id, 
+                  document.getElementById("message").value
+                )}>Send</button> 
+              </div> : 
+              <div></div>
+          }
         </div>
       </div>
     );

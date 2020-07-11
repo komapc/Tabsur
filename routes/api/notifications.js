@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pgConfig = require("../dbConfig.js");
 const { Client } = require("pg");
+const fcm = require('../firebaseCloudMessages');
 
 let currentConfig = pgConfig.pgConfigProduction;
 if (process.env.NODE_ENV === "debug")
@@ -16,25 +17,22 @@ router.get("/:id", async (req, response)=> {
   const id = req.params.id;
   if (isNaN(id)) {
     console.log("error, empty id");
-    response.status(400).json("Error in getting notifications: empty id");
-    return;
+    return response.status(400).json("Error in getting notifications: empty id");
   }
   console.log("get notifications " + id);
   const client = new Client(currentConfig);
   await client.connect();
-  client.query(`SELECT * FROM  notifications WHERE 
-      user_id=${id} AND status<3`)
-    .then(resp => {
-      //console.log("got results " + JSON.stringify(resp.rows));
-      response.json(resp.rows);
-      client.end();
-    })
-    .catch(err => 
-      {
-       console.log(err); 
-       client.end();
-       return response.status(500).json(err); 
-      });
+  client.query(`SELECT * FROM  notifications WHERE user_id=${id} AND status<3`)
+  .then(resp => {
+    return response.json(resp.rows);
+  })
+  .catch(err => {
+    console.log(err); 
+    return response.status(500).json(err); 
+  })
+  .finally(() => {
+    client.end();
+  });
 });
 
 
@@ -45,8 +43,7 @@ router.put("/:id", async (req, response)=> {
   const id = req.params.id;
   if (isNaN(id)) {
     console.log("error, empty id");
-    response.status(400).json("Error in getting notifications: empty id");
-    return;
+    return response.status(400).json("Error in getting notifications: empty id");
   }
   const note=req.body;
   console.log(`change notification's status ${id} for ${JSON.stringify(note)}`); 
@@ -56,17 +53,17 @@ router.put("/:id", async (req, response)=> {
   console.log(query); 
   await client.connect();
   client.query(query, [note.status, id])
-    .then(resp => {
-      console.log("notification status done.");
-      response.json(resp.rows);
-      client.end();
-    })
-    .catch(err => 
-      {
-       console.log(err); 
-       client.end();
-       return response.status(500).json(err); 
-      });
+  .then(resp => {
+    console.log("notification status done.");
+    return response.json(resp.rows);
+  })
+  .catch(err => {
+    console.error(err); 
+    return response.status(500).json(err); 
+  })
+  .finally(() => {
+    client.end();
+  });
 });
 
 router.post("/token/:id", async (req, response)=> {
@@ -84,16 +81,61 @@ router.post("/token/:id", async (req, response)=> {
     RETURNING token`;
   await client.connect();
   client.query(query, [id, token, id, token])
-    .then(resp => {
-      console.log(`Google Firebase Token ID responsed`);
-      response.json(resp.rows);
-      client.end();
+  .then(resp => {
+    console.log(`Google Firebase Token ID responsed`);
+    return response.json(resp.rows);
+  })
+  .catch(err => {
+    console.log(err); 
+    return response.status(500).json(err); 
+  })
+  .finally(() => {
+    client.end();
+  });
+});
+
+router.post("/send-message", async (req, response)=> {
+  console.log(`Message: ${req.body.message} from ${req.body.sender} to ${req.body.receiver}`);
+
+  const client = new Client(currentConfig);
+  const query = `
+    INSERT INTO messages (sender, receiver, status, message) 
+    VALUES ($1, $2, $3, $4) 
+    RETURNING 
+    id AS message_id,
+    (
+      SELECT array_to_string(array_agg(token),';') 
+      AS tokens 
+      FROM user_tokens
+      WHERE user_id=$5
+    )`;
+  await client.connect();
+  client.query(query, [req.body.sender, req.body.receiver, 0, req.body.message, req.body.receiver])
+  .then(resp => {
+    console.log(`Message id: ${resp.rows[0].message_id} inserted sucssesfuly`);
+    fcm.sendNotification(JSON.stringify({
+      data: {
+          title: 'Message', 
+          type: 'message',
+          message_id: resp.rows[0].message_id,
+          body:  req.body.message, 
+          icon: 'https://icons.iconarchive.com/icons/pelfusion/long-shadow-media/128/Message-Bubble-icon.png', 
+          click_action: 'http://info.cern.ch/hypertext/WWW/TheProject.html'
+      },
+      "registration_ids": resp.rows[0].tokens.split(';')
+    }))
+    .then(function(response) {
+      console.log(JSON.stringify(response));
+      return response.json(resp.rows);
     })
-    .catch(err => {
-      console.log(err); 
-      client.end();
-      return response.status(500).json(err); 
-    });
+  })
+  .catch(error => {
+    console.error(error); 
+    return response.status(500).json(error); 
+  })
+  .finally(() => {
+    client.end();
+  });
 });
 
 module.exports = router;
