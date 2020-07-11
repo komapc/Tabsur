@@ -22,7 +22,7 @@ router.get("/:id", async (req, response)=> {
   console.log("get notifications " + id);
   const client = new Client(currentConfig);
   await client.connect();
-  client.query(`SELECT * FROM  notifications WHERE user_id=${id} AND status<3`)
+  client.query(`SELECT * FROM  notifications WHERE user_id=$1 AND status<3`, [id])
   .then(resp => {
     return response.json(resp.rows);
   })
