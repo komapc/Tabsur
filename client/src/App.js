@@ -4,6 +4,7 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 
 import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { setFirebaseCloudMessagingToken } from "./actions/notifications"
 import { connect, Provider } from "react-redux";
 import store from "./store";
 
@@ -29,8 +30,6 @@ import Profile from "./components/users/Profile"
 import { Helmet } from "react-helmet";
 import "./App.css";
 import { messaging } from "../src/init-fcm";
-import axios from "axios";
-import config from "./config";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -68,7 +67,8 @@ class App extends Component {
     super(props);
     this.state = {
       id: this.props.auth.user.id || 0,
-      newNotificationsCounter: 0
+      newNotificationsCounter: 0,
+      newMessagesCounter: 0
     };
   }
 
@@ -80,9 +80,7 @@ class App extends Component {
         console.log(`Firebase token is: ${token}`);
 
         if (!isNaN(userId) && userId > 0) {
-          axios.post(`${config.SERVER_HOST}/api/notifications/token/${userId}`, {
-            token: token
-          });
+          setFirebaseCloudMessagingToken(userId, token);
         } else { 
           console.log(`undefined user.`);
         }
@@ -92,15 +90,27 @@ class App extends Component {
       });
     navigator.serviceWorker.addEventListener("message", (message) => {
       console.log(JSON.stringify(message.data['firebase-messaging-msg-data'].data));
-      this.setState({
-        newNotificationsCounter: ++this.state.newNotificationsCounter 
-      });
+      if(message.data['firebase-messaging-msg-data'].data.type === "message") {
+        this.setState({
+          newMessagesCounter: ++this.state.newMessagesCounter 
+        });
+      } else {
+        this.setState({
+          newNotificationsCounter: ++this.state.newNotificationsCounter 
+        });
+      }
     });
   }
 
   setNewNotificationsCounter = (value) => {
     this.setState({
       newNotificationsCounter: value 
+    });
+  }
+
+  setNewMessagesCounter = (value) => {
+    this.setState({
+      newMessagesCounter: value
     });
   }
 
@@ -117,7 +127,11 @@ class App extends Component {
             <Switch>{/*screens without top bar */}
               <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
               <PrivateRoute exact path="/user/:id" component={ShowUser} />
-              <Navbar newNotificationsCounter={this.state.newNotificationsCounter} setNewNotificationsCounter={this.setNewNotificationsCounter} />
+              <Navbar 
+                newNotificationsCounter={this.state.newNotificationsCounter} 
+                setNewNotificationsCounter={this.setNewNotificationsCounter}
+                newMessagesCounter={this.state.newMessagesCounter}
+                setNewMessagesCounter={this.setNewMessagesCounter} />
             </Switch>
               <Switch>
                 <Route exact path="/register" component={Register} />
