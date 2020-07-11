@@ -112,7 +112,7 @@ router.post("/send-message", async (req, response)=> {
   await client.connect();
   client.query(query, [req.body.sender, req.body.receiver, 0, req.body.message, req.body.receiver])
   .then(resp => {
-    console.log(`Message inserted`);
+    console.log(`Message id: ${resp.rows[0].message_id} inserted sucssesfuly`);
     fcm.sendNotification(JSON.stringify({
       data: {
           title: 'Message', 
