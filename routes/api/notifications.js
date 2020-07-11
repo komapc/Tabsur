@@ -108,7 +108,7 @@ router.post("/send-message", async (req, response)=> {
       AS tokens 
       FROM user_tokens
       WHERE user_id=$5
-    )`; // TODO: save also message and return id of the message when DB ready
+    )`;
   await client.connect();
   client.query(query, [req.body.sender, req.body.receiver, 0, req.body.message, req.body.receiver])
   .then(resp => {
