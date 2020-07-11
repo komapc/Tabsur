@@ -17,3 +17,17 @@ export const markAsRead = (noteid, note) => {
   console.log("get notifications.");
   return  axios.put(`${config.SERVER_HOST}/api/notifications/${noteid}`, note);
 };
+
+export const setFirebaseCloudMessagingToken = (userId, token) => {
+  return axios.post(`${config.SERVER_HOST}/api/notifications/token/${userId}`, {
+    token: token
+  });
+}
+
+export const sendMessage = (sender, receiver, message) => {
+  return axios.post(`${config.SERVER_HOST}/api/notifications/send-message`, {
+    sender: sender,
+    receiver: receiver,
+    message: message
+  });
+}

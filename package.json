@@ -19,11 +19,13 @@
   "author": "Mark&Yana",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/icons": "^4.9.1",
     "DatePicker": "^2.0.0",
     "aws-sdk": "^2.683.0",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
     "body-parser": "^1.18.3",
+    "browser-image-compression": "^1.0.12",
     "concurrently": "^5.1.0",
     "cors": "^2.8.5",
     "date-fns": "^2.11.1",
