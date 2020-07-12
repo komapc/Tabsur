@@ -56,7 +56,7 @@
     "url": "https://github.com/komapc/MERN"
   },
   "engines": {
-    "node": "13.3.0"
+    "node": "12.18.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
