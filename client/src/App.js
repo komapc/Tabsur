@@ -5,9 +5,11 @@ import setAuthToken from "./utils/setAuthToken";
 
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { setFirebaseCloudMessagingToken } from "./actions/notifications"
+import { setFirebaseCloudMessagingToken } from "./actions/notifications"
 import { connect, Provider } from "react-redux";
 import store from "./store";
 
+import withSplashScreen  from "./components/layout/Splash"
 import Navbar from "./components/layout/Navbar";
 import Bottom from "./components/layout/Bottom";
 import Menu from "./components/layout/Menu";
@@ -67,7 +69,7 @@ class App extends Component {
     super(props);
     this.state = {
       id: this.props.auth.user.id || 0,
-      newNotificationsCounter: 0,
+      //newNotificationsCounter: 0,
       newMessagesCounter: 0
     };
   }
@@ -102,17 +104,17 @@ class App extends Component {
     });
   }
 
-  setNewNotificationsCounter = (value) => {
-    this.setState({
-      newNotificationsCounter: value 
-    });
-  }
+  // setNewNotificationsCounter = (value) => {
+  //   this.setState({
+  //     newNotificationsCounter: value 
+  //   });
+  // }
 
-  setNewMessagesCounter = (value) => {
-    this.setState({
-      newMessagesCounter: value
-    });
-  }
+  // setNewMessagesCounter = (value) => {
+  //   this.setState({
+  //     newMessagesCounter: value
+  //   });
+  // }
 
   render() {
     return (
@@ -128,10 +130,11 @@ class App extends Component {
               <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
               <PrivateRoute exact path="/user/:id" component={ShowUser} />
               <Navbar 
-                newNotificationsCounter={this.state.newNotificationsCounter} 
-                setNewNotificationsCounter={this.setNewNotificationsCounter}
-                newMessagesCounter={this.state.newMessagesCounter}
-                setNewMessagesCounter={this.setNewMessagesCounter} />
+                // newNotificationsCounter={this.state.newNotificationsCounter} 
+                // setNewNotificationsCounter={this.setNewNotificationsCounter}
+                // newMessagesCounter={this.state.newMessagesCounter}
+                // setNewMessagesCounter={this.setNewMessagesCounter}
+                />
             </Switch>
               <Switch>
                 <Route exact path="/register" component={Register} />
@@ -163,6 +166,9 @@ class App extends Component {
   }
 }
 
+
+
 export default connect((state) => ({
-  auth: state.auth
-}))(App);
+  auth: state.auth,
+  messageCount: state.messageCount
+}))(withSplashScreen(App));
