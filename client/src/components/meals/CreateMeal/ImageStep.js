@@ -27,6 +27,7 @@ const ImageStep = (props) => {
       maxWidthOrHeight: 1920,
       useWebWorker: true
     }
+    // TODO: disable "next/create meal" button
     imageCompression(event.target.files[0], options)
     .then(function (compressedFile) {
       const formData = new FormData();
@@ -41,6 +42,12 @@ const ImageStep = (props) => {
         console.log(response.data);
         props.update({ "id": "image_id", "value": response.data });
       })
+      .catch(function (error) {
+        console.error(error);
+      })
+      .finally(() => {
+        // TODO: enable "next/create meal" button
+      });
     })
     .catch(function (error) {
       console.error(error);
