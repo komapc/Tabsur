@@ -14,7 +14,7 @@ export const getNotifications = (usderId) => {
 
 //markAsRead
 export const markAsRead = (noteid, note) => {
-  console.log("get notifications.");
+  console.log("markAsRead.");
   return  axios.put(`${config.SERVER_HOST}/api/notifications/${noteid}`, note);
 };
 
