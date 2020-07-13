@@ -32,7 +32,7 @@ export const addMeal = (userData, history) => dispatch => {
 
 //delete meal
 export const deleteMeal = (id) =>  {
-  return axios.delete(`${config.SERVER_HOST}/api/meals/${id}}`);
+  return axios.delete(`${config.SERVER_HOST}/api/meals/${id}`);
 }
 //get
 export const getMeals = (id) =>  {
