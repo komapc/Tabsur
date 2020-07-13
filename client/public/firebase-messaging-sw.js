@@ -5,33 +5,36 @@ firebase.initializeApp({
 });
 const messaging = firebase.messaging();
 messaging.setBackgroundMessageHandler(function(payload) {
-  const promiseChain = clients
-    .matchAll({
-      type: "window",
-      includeUncontrolled: true
-    })
-    .then(windowClients => {
-      for (let i = 0; i < windowClients.length; i++) {
-        const windowClient = windowClients[i];
-        windowClient.postMessage(payload);
-      }
-    })
-    .then(() => {
-      console.log(JSON.stringify(payload));
-      
-      return registration.showNotification(payload.data.title, {
-        body: payload.data.body,
-        icon: payload.data.icon,
-        image: payload.data.image,
-        click_action: payload.data.click_action,
-        time_to_live: payload.data.time_to_live
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  const promiseChain = clients.matchAll({
+    type: "window",
+    includeUncontrolled: true
+  })
+  .then(windowClients => {
+    for (let i = 0; i < windowClients.length; i++) {
+      const windowClient = windowClients[i];
+      windowClient.postMessage(payload);
+    }
+    return registration.showNotification(payload.data.title, payload.data);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
   return promiseChain;
 });
+
 self.addEventListener('notificationclick', function(event) {
-  console.log(`notificationclick event fired. Event object: ${JSON.stringify(event)}`);
+  const target = event.notification.data.click_action || '/';
+  event.notification.close();
+  event.waitUntil(clients.matchAll({
+    type: 'window',
+    includeUncontrolled: true
+  }).then(function(clientList) {
+    for (var i = 0; i < clientList.length; i++) {
+      var client = clientList[i];
+      if (client.url === target && 'focus' in client) {
+        return client.focus();
+      }
+    }
+    return clients.openWindow(target);
+  }));
 });
