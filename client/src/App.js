@@ -69,9 +69,10 @@ class App extends Component {
     this.state = {
       id: this.props.auth.user.id || 0,
       //newNotificationsCounter: 0,
-      newMessagesCounter: 0
+      //newMessagesCounter: 0
+      messageCount: 0
     };
-    setMessagesCount(0);
+    //setMessagesCount(0);
   }
 
   async componentDidMount() {
@@ -91,20 +92,17 @@ class App extends Component {
         console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
       });
     navigator.serviceWorker.addEventListener("message", (message) => {
-      
       const data = message.data['firebase-messaging-msg-data'].data;
       console.log(JSON.stringify(data));
-      //if(data.type === "message") {
-      //   this.setState({
-      //     newMessagesCounter: ++this.state.newMessagesCounter 
-      //   });
-      // } else {
-      //   this.setState({
-      //     newNotificationsCounter: ++this.state.newNotificationsCounter 
-      //   });
-      //}
+      if(data.type === "message") {
+        store.dispatch(setMessagesCount(++this.state.messageCount));
+      } else {
+        // this.setState({
+        //   newNotificationsCounter: ++this.state.newNotificationsCounter 
+        // });
+      }
       
-      alert(data.type);
+      // alert(data.type);
     });
   }
 
