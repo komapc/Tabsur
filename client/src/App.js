@@ -92,7 +92,16 @@ class App extends Component {
         console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
       });
     navigator.serviceWorker.addEventListener("message", (message) => {
-      const data = message.data['firebase-messaging-msg-data'].data;
+      //let data = message.data['firebase-messaging-msg-data'].data;
+      let data = null;
+
+      if(message.data['firebase-messaging-msg-data']) {
+        data = message.data['firebase-messaging-msg-data'].data;
+      }
+      else {
+        data = message.data.data; // ?
+      }
+
       console.log(JSON.stringify(data));
       if(data.type === "message") {
         store.dispatch(setMessagesCount(++this.state.messageCount));
