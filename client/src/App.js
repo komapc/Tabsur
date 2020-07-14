@@ -5,7 +5,7 @@ import setAuthToken from "./utils/setAuthToken";
 
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { setFirebaseCloudMessagingToken } from "./actions/notifications"
-import { setFirebaseCloudMessagingToken } from "./actions/notifications"
+import setMessagesCount from "./actions/MessagesActions"
 import { connect, Provider } from "react-redux";
 import store from "./store";
 
@@ -21,7 +21,6 @@ import ShowMeal from "./components/meals/ShowMeal";
 import ShowUser from "./components/meals/ShowUser";
 import MealMap from "./components/meals/MealMap";
 import Attend from "./components/meals/Attend";
-//import Create from "./components/meals/CreateMeal";
 import CreateMealWizard from "./components/meals/CreateMeal/CreateMealWizard";
 import About from "./components/about/About"
 import NotificationScreen from "./components/notifications/NotificationScreen"; //Not used yet
@@ -72,6 +71,7 @@ class App extends Component {
       //newNotificationsCounter: 0,
       newMessagesCounter: 0
     };
+    setMessagesCount(0);
   }
 
   async componentDidMount() {
@@ -91,24 +91,20 @@ class App extends Component {
         console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
       });
     navigator.serviceWorker.addEventListener("message", (message) => {
-      if(
-          ( // inactive tab
-            message.data.data && 
-            message.data.data.type === "message"
-          ) ||
-          ( // active tab  
-            message.data['firebase-messaging-msg-data'] &&
-            message.data['firebase-messaging-msg-data'].data.type === "message"
-          )
-      ) {
-        this.setState({
-          newMessagesCounter: ++this.state.newMessagesCounter 
-        });
-      } else {
-        this.setState({
-          newNotificationsCounter: ++this.state.newNotificationsCounter 
-        });
-      }
+      
+      const data = message.data['firebase-messaging-msg-data'].data;
+      console.log(JSON.stringify(data));
+      //if(data.type === "message") {
+      //   this.setState({
+      //     newMessagesCounter: ++this.state.newMessagesCounter 
+      //   });
+      // } else {
+      //   this.setState({
+      //     newNotificationsCounter: ++this.state.newNotificationsCounter 
+      //   });
+      //}
+      
+      alert(data.type);
     });
   }
 
