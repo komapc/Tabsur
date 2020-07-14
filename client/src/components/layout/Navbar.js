@@ -20,6 +20,16 @@ class Navbar extends Component {
       //messagesCount: this.props.messagesCount,
       //notificationCount: this.props.notificationCount
     };
+
+    store.subscribe(() => {
+      // When state will be updated(in our case, when items will be fetched), 
+      // we will update local component state and force component to rerender 
+      // with new data.
+
+      this.setState({
+        messagesCount: store.getState().messagesCount
+      });
+    });
   }
 
   openMenu = () => {
@@ -36,6 +46,7 @@ class Navbar extends Component {
   openMessages = () => {
     //this.props.setNewMessagesCounter(0);
     store.dispatch(setMessagesCount(0));
+    alert(this.state.messagesCount);
     alert('messages under construction');
   };
 
