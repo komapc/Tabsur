@@ -6,5 +6,5 @@ import messageReducer from "../reducers/messagesReducer";
 export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
-  messages: messageReducer
+  messagesCount: messageReducer
 });

@@ -7,6 +7,7 @@ import Notifications from "./Notifications";
 import Badge from '@material-ui/core/Badge';
 import { connect } from "react-redux";
 import MessageOutlinedIcon from '@material-ui/icons/Message';
+import store from "../../store";
 
 class Navbar extends Component {
   constructor(props) {
@@ -16,8 +17,8 @@ class Navbar extends Component {
       visible: false,
       showMenu: false,
       showNotifications: false,
-      messagesCount: this.props.messagesCount,
-      notificationCount: this.props.notificationCount
+      //messagesCount: this.props.messagesCount,
+      //notificationCount: this.props.notificationCount
     };
   }
 
@@ -26,13 +27,15 @@ class Navbar extends Component {
   }
 
   openNotifications = () => {
-    this.props.setMessagesCount({});
+    //this.props.setMessagesCount({});
    //this.props.setNewNotificationsCounter(0);
-    this.setState({ showNotifications: true });
+    //this.setState({ showNotifications: true });
+    this.setState({ notificationsCount: 0 });
   }
 
   openMessages = () => {
     //this.props.setNewMessagesCounter(0);
+    store.dispatch(setMessagesCount(0));
     alert('messages under construction');
   };
 
@@ -41,12 +44,12 @@ class Navbar extends Component {
       <div className="navbar-top">
         <div>
           <span onClick={this.openMessages}>
-            <Badge badgeContent={this.props.newMessagesCounter} color="secondary">
+            <Badge badgeContent={this.state.messagesCount} color="secondary">
               <MessageOutlinedIcon fontSize="large" color="disabled" alt={"Messages"} />
             </Badge>
           </span>
           <span onClick={this.openNotifications} >
-            <Badge badgeContent={this.props.newNotificationsCounter} color="secondary">
+            <Badge badgeContent={this.state.notificationsCount} color="secondary">
               <img className="navbar-icons" src={notification} alt={"Notifications"} />
             </Badge>
           </span>
