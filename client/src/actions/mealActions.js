@@ -36,8 +36,7 @@ export const deleteMeal = (id) =>  {
 }
 //get
 export const getMeals = (id) =>  {
-  console.log(getMeals);
-  return  axios.get(`${config.SERVER_HOST}/api/meals/${id}`); 
+  return axios.get(`${config.SERVER_HOST}/api/meals/${id}`); 
 };
 
 //get my meals
