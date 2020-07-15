@@ -98,12 +98,10 @@ class MyProfile extends Component {
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                 <button
                   type="submit"
-                  className="button waves-effect waves-light hoverable accent-3"
-                >
+                  className="button waves-effect waves-light hoverable accent-3" >
                   Save
                 </button>
               </div>
-
             </form>
          </div>
         </div>
