@@ -92,7 +92,7 @@ class App extends Component {
     });
     navigator.serviceWorker.addEventListener("message", (message) => {
       let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
-      // console.log(`message.data: ${JSON.stringify(data)}`);
+      console.log(`message.data: ${JSON.stringify(data)}`);
       if(data.type === "message") {
         store.dispatch(setMessagesCount(++this.state.messagesCount));
       } else {
@@ -116,37 +116,36 @@ class App extends Component {
               <PrivateRoute exact path="/user/:id" component={ShowUser} />
               <Navbar />
             </Switch>
-              <Switch>
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/login/:extend?" component={Login} />            
-                <Route exact path="/about" component={About} />
-                <Route exact path="/menu" component={Menu} />
-                <PrivateRoute exact path="/meals" component={Meals} />
-                <PrivateRoute exact path="/meal" component={ShowMeal} />
-                <PrivateRoute exact path="/mealMap/:meal_id?" component={MealMap} />
-                <PrivateRoute exact path="/myMeals" component={MyMeals} />
-                <PrivateRoute exact path="/attend/:id" component={Attend} />
-                <PrivateRoute exact path="/notifications" component={NotificationScreen} /> 
-                <PrivateRoute exact path="/myProfile" component={MyProfile} />
-                <PrivateRoute exact path="/profile/:id" component={Profile} />
-                <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
-                <PrivateRoute exact path="/createMealWizard"  component={() => { return <span/>}} />
-                <PrivateRoute exact path="/user/:id"  component={() => { return <span/>}} />
-                <Route path="/" component={Meals} />
-              </Switch>
-              <Switch>{/* Bottom menu for everybody except the wizard                */}
-                <PrivateRoute exact path="/createMealWizard" component={() => { return <span/>}}  />
-                <PrivateRoute exact path="/user/:id" component={() => { return <span/>}}  />
-                <Bottom />
-              </Switch> 
+            <Switch>
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login/:extend?" component={Login} />            
+              <Route exact path="/about" component={About} />
+              <Route exact path="/menu" component={Menu} />
+              <PrivateRoute exact path="/meals" component={Meals} />
+              <PrivateRoute exact path="/meal" component={ShowMeal} />
+              <PrivateRoute exact path="/mealMap/:meal_id?" component={MealMap} />
+              <PrivateRoute exact path="/myMeals" component={MyMeals} />
+              <PrivateRoute exact path="/attend/:id" component={Attend} />
+              <PrivateRoute exact path="/notifications" component={NotificationScreen} /> 
+              <PrivateRoute exact path="/myProfile" component={MyProfile} />
+              <PrivateRoute exact path="/profile/:id" component={Profile} />
+              <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
+              <PrivateRoute exact path="/createMealWizard"  component={() => { return <span/>}} />
+              <PrivateRoute exact path="/user/:id"  component={() => { return <span/>}} />
+              <Route path="/" component={Meals} />
+            </Switch>
+            <Switch>{/* Bottom menu for everybody except the wizard */}
+              {/* Why? As user want it also in wizard */}
+              <PrivateRoute exact path="/createMealWizard" component={() => { return <span/>}}  />
+              <PrivateRoute exact path="/user/:id" component={() => { return <span/>}}  />
+              <Bottom />
+            </Switch> 
           </div>
         </Router>
       </Provider>
     );
   }
 }
-
-
 
 export default connect((state) => ({
   auth: state.auth,

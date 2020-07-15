@@ -17,9 +17,7 @@ class Navbar extends Component {
       hideNavBar: false,
       visible: false,
       showMenu: false,
-      showNotifications: false,
-      //messagesCount: this.props.messagesCount,
-      //notificationCount: this.props.notificationCount
+      showNotifications: false
     };
 
     store.subscribe(() => {
