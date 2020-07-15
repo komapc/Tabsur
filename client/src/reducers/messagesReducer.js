@@ -1,8 +1,6 @@
 import { SET_MESSAGES_COUNT } from "../actions/types";
 
-const initialState = {
-  messagesCount: 0
-};
+const initialState = 0;
 
 export default function(state = initialState, action) {
   console.log("messages reducer: " + JSON.stringify(action)); 
