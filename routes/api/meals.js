@@ -161,7 +161,7 @@ router.post("/image", async (req, response) => {
   if (isNaN(image_id) || isNaN(meal_id)) {
     return response.status(500).json("Bad params: image_id");
   }
-  const query = `insert into meal_images (meal_id, image_id) values ($1, $2) returning id`
+  const query = `INSERT INTO meal_images (meal_id, image_id) VALUES ($1, $2) RETURNING id`
   client.query(query, [meal_id, image_id])
     .then((res) => {
       client.end();
