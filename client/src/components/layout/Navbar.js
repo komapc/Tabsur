@@ -21,15 +21,11 @@ class Navbar extends Component {
     };
 
     store.subscribe(() => {
-      // ISSUE: I can subscribe to messagesCount or notificationsCount (switch between next two commands)
+      // ISSUE: I can subscribe to messagesCount or notificationsCount (switch between next two lines)
       //        But I can't subscribe to both of them
 
-      // this.setState({
-      //   messagesCount: store.getState().messagesCount
-      // });
-      this.setState({
-        notificationsCount: store.getState().notificationsCount
-      });
+      //this.setState({ messagesCount: store.getState().messagesCount });
+      this.setState({ notificationsCount: store.getState().notificationsCount });
     });
   }
 
@@ -38,6 +34,7 @@ class Navbar extends Component {
   }
 
   openNotifications = () => {
+    this.setState({ showNotifications: true });
     store.dispatch(setNotificationsCount(0));
   }
 
@@ -85,12 +82,16 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => {
+  // return {
+  //   setMessagesCount: () => dispatch(setMessagesCount()),
+  //   setNotificationsCount: () => dispatch(setNotificationsCount()),
+  //   dispatch
+  // }
   return {
-    setMessagesCount: () => dispatch(setMessagesCount()),
-    setNotificationsCount: () => dispatch(setNotificationsCount()),
-    dispatch
+    setMessagesCount: (newCount) => dispatch(setMessagesCount(newCount)),
+    setNotificationsCount: (newCount) => dispatch(setNotificationsCount(newCount))
   }
 }
 export default connect(
-  mapStateToProps, mapDispatchToProps,
+  mapStateToProps, mapDispatchToProps
 )(Navbar);
