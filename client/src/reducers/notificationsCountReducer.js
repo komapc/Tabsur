@@ -1,8 +1,6 @@
 import { SET_NOTIFICATIONS_COUNT } from "../actions/types";
 
-const initialState = {
-    notificationsCount: 0
-};
+const initialState =  0;
 
 export default function(state = initialState, action) {
   console.log(`notifications reducer: ${JSON.stringify(action)}`); 
