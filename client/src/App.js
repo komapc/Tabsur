@@ -6,6 +6,7 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { setFirebaseCloudMessagingToken } from "./actions/notifications"
 import setMessagesCount from "./actions/MessagesActions"
+import setNotificationsCount from "./actions/notifications"
 import { connect, Provider } from "react-redux";
 import store from "./store";
 
@@ -59,7 +60,7 @@ if ("serviceWorker" in navigator) {
       console.log(`Firebase Cloud Messaging ServiceWorker registration successful, registration.scope is: ${registration.scope}`);
     })
     .catch(function(err) {
-      console.error(`Firebase Cloud Messaging ServiceWorker registration failed. Error: ${JSON.stringify(err)}`);
+      console.error(err);
     });
 }
 
@@ -68,64 +69,37 @@ class App extends Component {
     super(props);
     this.state = {
       id: this.props.auth.user.id || 0,
-      //newNotificationsCounter: 0,
-      //newMessagesCounter: 0
-      messageCount: 0
+      notificationsCount: 0,
+      messagesCount: 0
     };
-    //setMessagesCount(0);
   }
 
   async componentDidMount() {
     const userId = this.state.id;
     messaging.requestPermission()
-      .then(async function() {
-        const token = await messaging.getToken();
-        console.log(`Firebase token is: ${token}`);
+    .then(async function() {
+      const token = await messaging.getToken();
+      console.log(`Firebase token is: ${token}`);
 
-        if (!isNaN(userId) && userId > 0) {
-          setFirebaseCloudMessagingToken(userId, token);
-        } else { 
-          console.log(`undefined user.`);
-        }
-      })
-      .catch(function(err) {
-        console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
-      });
+      if (!isNaN(userId) && userId > 0) {
+        setFirebaseCloudMessagingToken(userId, token);
+      } else { 
+        console.log(`undefined user.`);
+      }
+    })
+    .catch(function(err) {
+      console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
+    });
     navigator.serviceWorker.addEventListener("message", (message) => {
-      //let data = message.data['firebase-messaging-msg-data'].data;
-      let data = null;
-
-      if(message.data['firebase-messaging-msg-data']) {
-        data = message.data['firebase-messaging-msg-data'].data;
-      }
-      else {
-        data = message.data.data; // ?
-      }
-
-      console.log(JSON.stringify(data));
+      let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
+      console.log(`message.data: ${JSON.stringify(data)}`);
       if(data.type === "message") {
-        store.dispatch(setMessagesCount(++this.state.messageCount));
+        store.dispatch(setMessagesCount(++this.state.messagesCount));
       } else {
-        // this.setState({
-        //   newNotificationsCounter: ++this.state.newNotificationsCounter 
-        // });
+        store.dispatch(setNotificationsCount(++this.state.notificationsCount));
       }
-      
-      // alert(data.type);
     });
   }
-
-  // setNewNotificationsCounter = (value) => {
-  //   this.setState({
-  //     newNotificationsCounter: value 
-  //   });
-  // }
-
-  // setNewMessagesCounter = (value) => {
-  //   this.setState({
-  //     newMessagesCounter: value
-  //   });
-  // }
 
   render() {
     return (
@@ -140,36 +114,32 @@ class App extends Component {
             <Switch>{/*screens without top bar */}
               <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
               <PrivateRoute exact path="/user/:id" component={ShowUser} />
-              <Navbar 
-                // newNotificationsCounter={this.state.newNotificationsCounter} 
-                // setNewNotificationsCounter={this.setNewNotificationsCounter}
-                // newMessagesCounter={this.state.newMessagesCounter}
-                // setNewMessagesCounter={this.setNewMessagesCounter}
-                />
+              <Navbar />
             </Switch>
-              <Switch>
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/login/:extend?" component={Login} />            
-                <Route exact path="/about" component={About} />
-                <Route exact path="/menu" component={Menu} />
-                <PrivateRoute exact path="/meals" component={Meals} />
-                <PrivateRoute exact path="/meal" component={ShowMeal} />
-                <PrivateRoute exact path="/mealMap/:meal_id?" component={MealMap} />
-                <PrivateRoute exact path="/myMeals" component={MyMeals} />
-                <PrivateRoute exact path="/attend/:id" component={Attend} />
-                <PrivateRoute exact path="/notifications" component={NotificationScreen} /> 
-                <PrivateRoute exact path="/myProfile" component={MyProfile} />
-                <PrivateRoute exact path="/profile/:id" component={Profile} />
-                <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
-                <PrivateRoute exact path="/createMealWizard"  component={() => { return <span/>}} />
-                <PrivateRoute exact path="/user/:id"  component={() => { return <span/>}} />
-                <Route path="/" component={Meals} />
-              </Switch>
-              <Switch>{/* Bottom menu for everybody except the wizard                */}
-                <PrivateRoute exact path="/createMealWizard" component={() => { return <span/>}}  />
-                <PrivateRoute exact path="/user/:id" component={() => { return <span/>}}  />
-                <Bottom />
-              </Switch> 
+            <Switch>
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login/:extend?" component={Login} />            
+              <Route exact path="/about" component={About} />
+              <Route exact path="/menu" component={Menu} />
+              <PrivateRoute exact path="/meals" component={Meals} />
+              <PrivateRoute exact path="/meal" component={ShowMeal} />
+              <PrivateRoute exact path="/mealMap/:meal_id?" component={MealMap} />
+              <PrivateRoute exact path="/myMeals" component={MyMeals} />
+              <PrivateRoute exact path="/attend/:id" component={Attend} />
+              <PrivateRoute exact path="/notifications" component={NotificationScreen} /> 
+              <PrivateRoute exact path="/myProfile" component={MyProfile} />
+              <PrivateRoute exact path="/profile/:id" component={Profile} />
+              <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
+              <PrivateRoute exact path="/createMealWizard"  component={() => { return <span/>}} />
+              <PrivateRoute exact path="/user/:id"  component={() => { return <span/>}} />
+              <Route path="/" component={Meals} />
+            </Switch>
+            <Switch>{/* Bottom menu for everybody except the wizard */}
+              {/* Why? As user want it also in wizard */}
+              <PrivateRoute exact path="/createMealWizard" component={() => { return <span/>}}  />
+              <PrivateRoute exact path="/user/:id" component={() => { return <span/>}}  />
+              <Bottom />
+            </Switch> 
           </div>
         </Router>
       </Provider>
@@ -177,9 +147,8 @@ class App extends Component {
   }
 }
 
-
-
 export default connect((state) => ({
   auth: state.auth,
-  messageCount: state.messageCount
+  notificationsCount: state.notificationsCount,
+  messagesCount: state.messagesCount
 }))(withSplashScreen(App));

@@ -8,6 +8,7 @@ import Badge from '@material-ui/core/Badge';
 import { connect } from "react-redux";
 import MessageOutlinedIcon from '@material-ui/icons/Message';
 import store from "../../store";
+import setNotificationsCount from "../../actions/notifications"
 
 class Navbar extends Component {
   constructor(props) {
@@ -16,19 +17,19 @@ class Navbar extends Component {
       hideNavBar: false,
       visible: false,
       showMenu: false,
-      showNotifications: false,
-      //messagesCount: this.props.messagesCount,
-      //notificationCount: this.props.notificationCount
+      showNotifications: false
     };
 
     store.subscribe(() => {
-      // When state will be updated(in our case, when items will be fetched), 
-      // we will update local component state and force component to rerender 
-      // with new data.
+      // !
+      alert(JSON.stringify(this.state));
+      alert(JSON.stringify(store.getState()));
 
-      this.setState({
-        messagesCount: store.getState().messagesCount
-      });
+      // ISSUE: I can subscribe to messagesCount or notificationsCount (switch between next two lines)
+      //        But I can't subscribe to both of them
+
+      //this.setState({ messagesCount: store.getState().messagesCount });
+      this.setState({ notificationsCount: store.getState().notificationsCount });
     });
   }
 
@@ -37,16 +38,12 @@ class Navbar extends Component {
   }
 
   openNotifications = () => {
-    //this.props.setMessagesCount({});
-   //this.props.setNewNotificationsCounter(0);
-    //this.setState({ showNotifications: true });
-    this.setState({ notificationsCount: 0 });
+    this.setState({ showNotifications: true });
+    store.dispatch(setNotificationsCount(0));
   }
 
   openMessages = () => {
-    //this.props.setNewMessagesCounter(0);
     store.dispatch(setMessagesCount(0));
-    alert(this.state.messagesCount);
     alert('messages under construction');
   };
 
@@ -89,11 +86,16 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => {
+  // return {
+  //   setMessagesCount: () => dispatch(setMessagesCount()),
+  //   setNotificationsCount: () => dispatch(setNotificationsCount()),
+  //   dispatch
+  // }
   return {
-    setMessagesCount: () => dispatch(setMessagesCount()),
-    dispatch
+    setMessagesCount: (count) => dispatch(setMessagesCount(count)),
+    setNotificationsCount: (count) => dispatch(setNotificationsCount(count))
   }
 }
 export default connect(
-  mapStateToProps, mapDispatchToProps,
+  mapStateToProps, mapDispatchToProps
 )(Navbar);
