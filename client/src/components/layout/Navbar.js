@@ -17,20 +17,11 @@ class Navbar extends Component {
       hideNavBar: false,
       visible: false,
       showMenu: false,
-      showNotifications: false
+      showNotifications: false,
+      messagesCount: props.messagesCount.messagesCount,
+      notificationsCount: props.notificationsCount.notificationsCount
     };
-
-    store.subscribe(() => {
-      // !
-      alert(JSON.stringify(this.state));
-      alert(JSON.stringify(store.getState()));
-
-      // ISSUE: I can subscribe to messagesCount or notificationsCount (switch between next two lines)
-      //        But I can't subscribe to both of them
-
-      //this.setState({ messagesCount: store.getState().messagesCount });
-      this.setState({ notificationsCount: store.getState().notificationsCount });
-    });
+    console.log(`notificationsCount: ${JSON.stringify(this.props.notificationsCount)}`);
   }
 
   openMenu = () => {
@@ -44,12 +35,14 @@ class Navbar extends Component {
 
   openMessages = () => {
     store.dispatch(setMessagesCount(0));
-    alert('messages under construction');
+    alert('You have received a message,');
   };
 
   render() {
     return (
       <div className="navbar-top">
+        
+      <div>{JSON.stringify(this.props.messagesCount)}</div>
         <div>
           <span onClick={this.openMessages}>
             <Badge badgeContent={this.state.messagesCount} color="secondary">
@@ -85,17 +78,6 @@ const mapStateToProps = state => ({
   messagesCount: state.messagesCount
 });
 
-const mapDispatchToProps = dispatch => {
-  // return {
-  //   setMessagesCount: () => dispatch(setMessagesCount()),
-  //   setNotificationsCount: () => dispatch(setNotificationsCount()),
-  //   dispatch
-  // }
-  return {
-    setMessagesCount: (count) => dispatch(setMessagesCount(count)),
-    setNotificationsCount: (count) => dispatch(setNotificationsCount(count))
-  }
-}
 export default connect(
-  mapStateToProps, mapDispatchToProps
+  mapStateToProps
 )(Navbar);
