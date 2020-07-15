@@ -21,6 +21,9 @@ class Navbar extends Component {
     };
 
     store.subscribe(() => {
+      // ISSUE: I can subscribe to messagesCount or notificationsCount (switch between next two commands)
+      //        But I can't subscribe to both of them
+
       // this.setState({
       //   messagesCount: store.getState().messagesCount
       // });
