@@ -24,6 +24,9 @@ class Navbar extends Component {
       // ISSUE: I can subscribe to messagesCount or notificationsCount (switch between next two lines)
       //        But I can't subscribe to both of them
 
+      alert(JSON.stringify(this.state));
+      alert(JSON.stringify(store.getState()));
+
       //this.setState({ messagesCount: store.getState().messagesCount });
       this.setState({ notificationsCount: store.getState().notificationsCount });
     });
@@ -88,8 +91,8 @@ const mapDispatchToProps = dispatch => {
   //   dispatch
   // }
   return {
-    setMessagesCount: (newCount) => dispatch(setMessagesCount(newCount)),
-    setNotificationsCount: (newCount) => dispatch(setNotificationsCount(newCount))
+    setMessagesCount: (count) => dispatch(setMessagesCount(count)),
+    setNotificationsCount: (count) => dispatch(setNotificationsCount(count))
   }
 }
 export default connect(
