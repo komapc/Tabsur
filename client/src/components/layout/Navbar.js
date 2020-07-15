@@ -18,8 +18,8 @@ class Navbar extends Component {
       visible: false,
       showMenu: false,
       showNotifications: false,
-      messagesCount: props.messagesCount.messagesCount,
-      notificationsCount: props.notificationsCount.notificationsCount
+      messagesCount: props.messagesCount,
+      notificationsCount: props.notificationsCount
     };
     console.log(`notificationsCount: ${JSON.stringify(this.props.notificationsCount)}`);
   }
