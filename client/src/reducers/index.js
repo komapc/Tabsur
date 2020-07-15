@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer";
 import errorReducer from "./errorReducer";
-import messageReducer from "../reducers/messagesReducer";
+import messageCountReducer from "../reducers/messagesReducer";
+import notificationsCountReducer from "../reducers/notificationsCountReducer";
 
 export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
-  messagesCount: messageReducer
+  messagesCount: messageCountReducer,
+  notificationsCount: notificationsCountReducer
 });
