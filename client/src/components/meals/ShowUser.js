@@ -106,7 +106,7 @@ class ShowUser extends Component {
         </div>
         <div>
           {
-            this.props.auth.user.id != this.state.id ?
+            this.props.auth.user.id !== this.state.id ?
               <div>
                 <input type="text" id="message" placeholder="Message"></input>
                 <button onClick={() => this.sendMessageWithCallback(
