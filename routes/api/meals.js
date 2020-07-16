@@ -237,7 +237,7 @@ router.post("/", async (req, response) => {
     {
 
       client.end();
-    }
+    })
 });
 
 
