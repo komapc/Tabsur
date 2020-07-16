@@ -1,4 +1,5 @@
 const pgConfig = require("./../dbConfig.js");
+var addNotification = require('./notifications');
 let currentConfig = pgConfig.pgConfigProduction;
 
 if (process.env.NODE_ENV === "debug") {
@@ -79,24 +80,31 @@ router.post("/:id", async (req, response) => {
   await client.connect();
   client.query(SQLquery)
     .then(resp => {
-      client.query(`INSERT INTO notifications (meal_id, user_id, message_text, sender, note_type) \
-      VALUES (0, ${followie}, \'you have one new follower!\', 0, 6)`)
-        .catch(err => {
-          console.log("failed to add notification: " + err);
-          client.end();
-          return response.status(500).json("failed to add notification: " + err);
-        })
-        .then(resp => {
-          response.json(resp);
-          client.end();
-        })
 
+      response.json(resp);
+      const message =
+      {
+        title: 'Follower', 
+        body:  `${followie}, \'you have one new follower (${follower})!`, 
+        icon: 'resources/Message-Bubble-icon.png', 
+        click_action: '/Meals/',
+        receiver: followie,
+        meal_id:  -1,
+        sender: -1,
+        type: 6
+      }
+
+      addNotification(message);
+      
     })
     .catch(err => {
       console.log("Failed to add a follower, " + err);
-      client.end();
       return response.status(500).json(err);
     })
+    .finally()
+    {
+      client.end();
+    }
   });
 
 

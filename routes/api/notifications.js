@@ -5,7 +5,7 @@ const { Client } = require("pg");
 const fcm = require('../firebaseCloudMessages');
 
 let currentConfig = pgConfig.pgConfigProduction;
-if (process.env.NODE_ENV === "debug")
+//if (process.env.NODE_ENV === "debug")
 {
   currentConfig = pgConfig.pgConfigLocal;
 }
