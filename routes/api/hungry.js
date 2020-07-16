@@ -86,15 +86,14 @@ router.post("/", async (req, response) => {
 
   const query=`INSERT INTO hungry (user_id, name, type, location, address,
     date, until, visibility)
-  VALUES($1, $2, $3, $4, $5, (to_timestamp($6/ 1000.0)), (to_timestamp($7/ 1000.0)), $8) RETURNING id`;
+    VALUES($1, $2, $3, $4, $5, (to_timestamp($6/ 1000.0)), (to_timestamp($7/ 1000.0)), $8) 
+    RETURNING id`;
   console.log(`connected running [${query}]`);
   
   client.query(query,
     [hungry.user, hungry.name, hungry.type, `(${hungry.location.lng}, ${hungry.location.lat})`,
     hungry.address, hungry.date, hungry.until, hungry.visibility])
     .then((res) => {
-
-      
       console.log(`query done: ${JSON.stringify(res.rows)}`);
       const message =
       {
@@ -111,9 +110,12 @@ router.post("/", async (req, response) => {
     }
     )
     .catch((e) => {
-      client.end();
       console.log("exception catched: " + e);
       response.status(500).json(e);
+    })
+    .finally(()=>
+    {
+      client.end();
     });
 });
 
