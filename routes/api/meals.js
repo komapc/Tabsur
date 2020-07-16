@@ -233,7 +233,7 @@ router.post("/", async (req, response) => {
       console.log("exception catched: " + e);
       response.status(500).json(e);
     })
-    .finally(
+    .finally(() =>
     {
 
       client.end();
