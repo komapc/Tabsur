@@ -1,4 +1,5 @@
 const pgConfig = require("./../dbConfig.js");
+var addNotification = require('./notifications');
 let currentConfig = pgConfig.pgConfigProduction;
 
 if (process.env.NODE_ENV === "debug") {
@@ -93,24 +94,20 @@ router.post("/", async (req, response) => {
     hungry.address, hungry.date, hungry.until, hungry.visibility])
     .then((res) => {
 
+      
       console.log(`query done: ${JSON.stringify(res.rows)}`);
-      const notificationQuery=`
-      INSERT INTO notifications 
-        (meal_id, message_text, user_id, status, note_type) 
-        (SELECT 0, 'A hungry person in your area.', users.id, 3, 6  FROM users )`;
-      console.log(`Notifications: [${notificationQuery}]`);
-      client.query(notificationQuery)
-          .catch(err => { 
-            console.log(err); 
-            client.end();
-            return response.status(500).json("failed to add notification: " + err); 
-            })
-          .then(answer => 
-          { 
-            client.end();
-            return response.status(201).json(answer.rows); 
-          }
-        )
+      const message =
+      {
+        title: 'Somebody is hungry here', 
+        body:  `A hungry user in your area!`, 
+        icon: 'resources/Message-Bubble-icon.png', 
+        click_action: `/User/${hungry.user}`,
+        receiver: followie,
+        meal_id:  -1,
+        sender: -1,
+        type: 7
+      }
+      addNotification(message);
     }
     )
     .catch((e) => {
