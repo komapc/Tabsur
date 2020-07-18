@@ -5,6 +5,86 @@ import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 import classnames from "classnames";
 
+import tmpBgImg from "../../resources/images/susi.jpeg";
+import tmpAvatarImg from "../../resources/images/ava.jpeg";
+
+//#region Header
+//#region Avatar
+import Avatar from '@material-ui/core/Avatar';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+    "margin-top": 190
+  },
+  small: {
+    width: theme.spacing(5),
+    height: theme.spacing(5),
+  },
+  large: {
+    width: theme.spacing(17),
+    height: theme.spacing(17),
+    borderWidth: theme.spacing(1), 
+    borderColor: 'white', 
+    borderStyle:'solid'
+  }
+}));
+
+function MrAvatar() {
+  const classes = useStyles();
+  
+  return (
+    <div className={classes.root}>
+      <Avatar alt="Aristotle" src={tmpAvatarImg} className={classes.large} />
+    </div>
+  );
+}
+//#endregion
+
+const useStyles3 = makeStyles(theme => ({
+  marginAutoContainer: {
+    width: 500,
+    height: 80,
+    display: 'flex',
+    backgroundColor: 'gold',
+  },
+  marginAutoItem: {
+    margin: 'auto'
+  },
+  alignItemsAndJustifyContent: {
+    width: "100%",
+    height: 200,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'gray', // TODO: Ask Yana about background color
+
+    backgroundImage: `url(${tmpBgImg})`,
+    backgroundSize: 'cover'
+  },
+  empty: {
+    height: 50,
+    borderBottomWidth: 2,
+    borderBottomColor: 'red'  
+  }
+}))
+const Header = () => {
+  const classes = useStyles3()
+  return (
+    <React.Fragment>
+      <div className={classes.alignItemsAndJustifyContent}>
+        <MrAvatar />
+      </div>
+      <div className={classes.empty}></div>
+    </React.Fragment>
+  )
+}
+//#endregion
+
 class MyProfile extends Component {
   constructor(props) {
     super(props);
@@ -44,11 +124,13 @@ class MyProfile extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="main">
+      <div>
+        <Header />
+
         <div className="row">
           <div className="col s8 offset-s2">
-          <h2>Edit profile</h2>
-          <form noValidate onSubmit={this.onSubmit}>
+
+          <form noValidate onSubmit={this.onSubmit} display="none">
               <div className="input-field col s12">
                 <input
                   onChange={this.onChange}
@@ -103,7 +185,7 @@ class MyProfile extends Component {
                 </button>
               </div>
             </form>
-         </div>
+        </div>
         </div>
       </div>
     );
