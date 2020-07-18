@@ -8,8 +8,8 @@ import classnames from "classnames";
 import tmpBgImg from "../../resources/images/susi.jpeg";
 import tmpAvatarImg from "../../resources/images/ava.jpeg";
 
-//#region Header
-//#region Avatar
+//#region Header TODO: Wrap into file; choose directory place file
+//#region Avatar TODO: Wrap into own file at /layout or some another directory for all components
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 function MrAvatar() {
   const classes = useStyles();
-  
+
   return (
     <div className={classes.root}>
       <Avatar alt="Aristotle" src={tmpAvatarImg} className={classes.large} />
@@ -129,8 +129,8 @@ class MyProfile extends Component {
 
         <div className="row">
           <div className="col s8 offset-s2">
-
-          <form noValidate onSubmit={this.onSubmit} display="none">
+          {true ? (
+            <form noValidate onSubmit={this.onSubmit} display="none" disabled={true}>
               <div className="input-field col s12">
                 <input
                   onChange={this.onChange}
@@ -184,7 +184,7 @@ class MyProfile extends Component {
                   Save
                 </button>
               </div>
-            </form>
+            </form>) : ""}
         </div>
         </div>
       </div>
