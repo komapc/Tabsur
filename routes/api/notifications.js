@@ -17,13 +17,13 @@ function pushNotification(notification, registration_ids)
     "registration_ids": registration_ids //resp.rows[0].tokens.split(';')
   })) 
   .then(function(response) {
-    console.log(JSON.stringify(response.body()));
+    console.log(JSON.stringify("Got a response from fcm."));
     return response.json(response);
   })
-  .catch(error)
+  .catch(error =>
   {
     console.log(`Error: ${JSON.stringify(error)}`);
-  }
+  })
 }
 
 const addNotificationToDB = async (message) =>
@@ -41,40 +41,6 @@ const addNotificationToDB = async (message) =>
 //   sender: -1,
 //   type: 5
 // }
-
-
-
-  // const query = `
-  //   INSERT INTO messages (sender, receiver, status, message) 
-  //   VALUES ($1, $2, $3, $4) 
-  //   RETURNING 
-  //   id AS message_id,
-  //   (
-  //     SELECT array_to_string(array_agg(token),';') 
-  //     AS tokens 
-  //     FROM user_tokens
-  //     WHERE user_id=$5
-  //   )`;
-
-  // const query = `
-  // INSERT INTO notifications (meal_id, receiver, message_text, sender, note_type, 
-  //       click_action, icon, title) 
-  //     VALUES (
-  //       $1, 
-  //       (SELECT host_id FROM meals WHERE id=$1), 
-  //       CONCAT((SELECT name FROM users WHERE id=$2),' wants to join your meal.'),
-  //       0, 
-  //       5,
-  //       $3, $4, $5
-  //       )  
-  //     RETURNING (
-  //       SELECT array_to_string(array_agg(token),';') 
-  //       AS tokens 
-  //       FROM user_tokens
-  //       WHERE user_id=(SELECT host_id FROM meals WHERE id=$1)
-  //     ),
-  //     CONCAT((SELECT name FROM users WHERE id=$2), ' wants to join your meal.') AS body
-  //   `;
 
    const query = `
   INSERT INTO notifications (meal_id, receiver, message_text, sender, note_type, 
@@ -115,10 +81,16 @@ const addNotificationToDB = async (message) =>
   });
 }
 //add notificatin/message to the DB + push 
-function addNotification(notification)
+addNotification = (notification) =>
 {
-  const  resp =  addNotificationToDB(notification);
-  pushNotification(notification, resp);
+  try
+  {
+    const  resp =  addNotificationToDB(notification);
+    pushNotification(notification, resp);
+  }
+  catch (error) {
+    console.error(error);
+  }
 }
 
 
@@ -131,7 +103,7 @@ router.get("/:id", async (req, response)=> {
     console.log("error, empty id");
     return response.status(400).json("Error in getting notifications: empty id");
   }
-  console.log("get notifications " + id);
+  console.log(`get notifications for ${id}.`);
   const client = new Client(currentConfig);
   await client.connect();
   client.query(`SELECT * FROM  notifications WHERE user_id=$1 AND status<3`, [id])
