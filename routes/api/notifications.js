@@ -2,97 +2,12 @@ const express = require("express");
 const router = express.Router();
 const pgConfig = require("../dbConfig.js");
 const { Client } = require("pg");
-const fcm = require('../firebaseCloudMessages');
 
 let currentConfig = pgConfig.pgConfigProduction;
 //if (process.env.NODE_ENV === "debug")
 {
   currentConfig = pgConfig.pgConfigLocal;
 }
-
-function pushNotification(notification, registration_ids)
-{
-  fcm.sendNotification(JSON.stringify({
-    data: notification,
-    "registration_ids": registration_ids //resp.rows[0].tokens.split(';')
-  })) 
-  .then(function(response) {
-    console.log(JSON.stringify("Got a response from fcm."));
-    return response.json(response);
-  })
-  .catch(error =>
-  {
-    console.log(`Error: ${JSON.stringify(error)}`);
-  })
-}
-
-const addNotificationToDB = async (message) =>
-{
-
-//example of param:
-// const message =
-// {
-//   title: 'Attend', 
-//   body:  'A user wants to join your meal', 
-//   icon: 'resources/Message-Bubble-icon.png', 
-//   click_action: '/Meals/',
-//   receiver: attend.user_id,
-//   meal_id:  attend.meal_id,
-//   sender: -1,
-//   type: 5
-// }
-
-   const query = `
-  INSERT INTO notifications (meal_id, receiver, message_text, sender, note_type, 
-        click_action, icon, title) 
-      VALUES (
-       $1, $2, $3, $4, $5, $6, $7, $8)
-
-      RETURNING (
-              SELECT array_to_string(array_agg(token),';') 
-              AS tokens 
-              FROM user_tokens
-              WHERE user_id=$2 
-            )
-    `;
-  const client = new Client(currentConfig);
-  await client.connect();
-  client.query(query,     
-    [message.meal_id, 
-      message.receiver,
-      message.body, 
-      message.sender, 
-      message.type,
-      message.click_action, 
-      message.icon,
-      message.title, 
-     ]
-      )
-  .then(resp => {
-    console.log(`Message id: ${resp.rows[0].message_id} inserted sucssesfuly`);
-    return resp;
-  })
-  .catch(error => {
-    console.error(error); 
-    return response.status(500).json(error); 
-  })
-  .finally(() => {
-    client.end();
-  });
-}
-//add notificatin/message to the DB + push 
-addNotification = (notification) =>
-{
-  try
-  {
-    const  resp =  addNotificationToDB(notification);
-    pushNotification(notification, resp);
-  }
-  catch (error) {
-    console.error(error);
-  }
-}
-
 
 // @route GET api/notifications
 // @desc get list og user's notifications
@@ -195,10 +110,7 @@ router.post("/send-message", async (req, response)=> {
     type: 0
   }
 
-
   addNotification(message);
 });
 
 module.exports = router;
-
-exports.addNotification = addNotification;

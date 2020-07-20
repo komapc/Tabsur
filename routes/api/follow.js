@@ -1,8 +1,10 @@
+
+const addNotification = require('./notificationsPush');
 const pgConfig = require("./../dbConfig.js");
-var addNotification = require('./notifications');
 let currentConfig = pgConfig.pgConfigProduction;
 
-if (process.env.NODE_ENV === "debug") {
+if (process.env.NODE_ENV === "debug"process.env.NODE_ENV === "debug") 
+{
   currentConfig = pgConfig.pgConfigLocal;
 }
 const { Client } = require("pg");
@@ -79,13 +81,13 @@ router.post("/:id", async (req, response) => {
   console.log(JSON.stringify(SQLquery));
   await client.connect();
   client.query(SQLquery)
-    .then(resp => {
+    .then(async resp => {
 
-      response.json(resp);
+      //client.end();
       const message =
       {
         title: 'Follower', 
-        body:  `${followie}, \'you have one new follower (${follower})!`, 
+        body:  `${followie}, you have one new follower (${follower})!`, 
         icon: 'resources/Message-Bubble-icon.png', 
         click_action: '/Meals/',
         receiver: followie,
@@ -93,18 +95,19 @@ router.post("/:id", async (req, response) => {
         sender: -1,
         type: 6
       }
-
-      addNotification(message);
-      
+      const answer =  await addNotification(message);
+      console.log(`notification result: ${JSON.stringify(answer)}`);
+      response.json(resp);
     })
     .catch(err => {
-      console.log("Failed to add a follower, " + err);
+      
+      console.log(`Failed to add a follower,  ${err}`);
       return response.status(500).json(err);
     })
-    .finally()
-    {
+    .finally(()=>{
+      
       client.end();
-    }
+    })
   });
 
 
