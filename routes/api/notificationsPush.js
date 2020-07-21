@@ -8,7 +8,7 @@ let currentConfig = pgConfig.pgConfigProduction;
   currentConfig = pgConfig.pgConfigLocal;
 }
 
-const pushNotification=(notification, registration_ids) =>
+const pushNotification= async (notification, registration_ids) =>
 {
   fcm.sendNotification(JSON.stringify({
     data: notification,
@@ -30,7 +30,7 @@ const pushNotification=(notification, registration_ids) =>
   })
 }
 
-const addNotificationToDB =async (message) =>
+const addNotificationToDB = (message) =>
 {
 
 //example of param:
@@ -60,9 +60,9 @@ const addNotificationToDB =async (message) =>
             )
     `;
   const client = new Client(currentConfig);
-  await client.connect();
+  client.connect();
   console.log(`Connected`);
-  client.query(query,     
+  return client.query(query,     
     [message.meal_id, 
       message.receiver,
       message.body, 
@@ -71,16 +71,15 @@ const addNotificationToDB =async (message) =>
       message.click_action, 
       message.icon,
       message.title, 
-     ]
-      )
+     ] )
   .then(resp => {
     console.log(`Message inserted sucssesfuly`); 
     console.log(`tokens: ${JSON.stringify(resp.rows[0].tokens)}`);
-      response.json(resp) ;
+    return resp;
   })
   .catch(error => {
     console.error(`error: ${JSON.stringify(error)}`);
-    response.json(error) ;
+    return error;
   })
   .finally(() => {
     client.end();
@@ -88,23 +87,30 @@ const addNotificationToDB =async (message) =>
 }
 
 //add notificatin/message to the DB + push 
-addNotification =  async (notification) =>
+addNotification = (notification) =>
 {
-  try
-  {
-    addNotificationToDB(notification)
-    .then(resp)
-    {    
+  return addNotificationToDB(notification)
+    .then(resp => {
       console.log(`resp: ${JSON.stringify(resp)}`);
-      const answer = pushNotification(notification, resp);
-      console.log(`answer: ${JSON.stringify(answer)}`);
-      return answer;
-    }
-  }
-  catch (error) {
-    console.error(`error: ${JSON.stringify(error)}`);
-    return error;
-  }
+      return pushNotification(notification, resp)
+      .then(answer => {
+        console.log(`answer: ${JSON.stringify(answer)}`);
+        return answer;
+      });
+    })
+  // .then(resp=>
+  // {    
+  //   console.log(`resp: ${JSON.stringify(resp)}`);
+  //   const answer = pushNotification(notification, resp);
+  //   console.log(`answer: ${JSON.stringify(answer)}`);
+  //   response.JSON(answer);
+  // })
+  // .catch(error=>
+  // {
+  //   console.error(`addNotification error: ${JSON.stringify(error)}`);
+  //   return error;
+  // });
+  // return  response;
 }
 
 module.exports =  addNotification;

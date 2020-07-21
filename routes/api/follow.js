@@ -3,7 +3,7 @@ const addNotification = require('./notificationsPush');
 const pgConfig = require("./../dbConfig.js");
 let currentConfig = pgConfig.pgConfigProduction;
 
-if (process.env.NODE_ENV === "debug"process.env.NODE_ENV === "debug") 
+if (process.env.NODE_ENV === "debug") 
 {
   currentConfig = pgConfig.pgConfigLocal;
 }
@@ -26,12 +26,14 @@ router.get("/:id", async (req, response) => {
   client.query(SQLquery)
     .then(resp => {
       response.json(resp.rows);
-      client.end();
     })
     .catch(err => {
-      client.end();
       console.log("Failed to get followers: " + err);
       return response.status(500).json(err);
+    })
+    .finally(()=>
+    {
+      client.end();
     });
 })
 
@@ -81,7 +83,7 @@ router.post("/:id", async (req, response) => {
   console.log(JSON.stringify(SQLquery));
   await client.connect();
   client.query(SQLquery)
-    .then(async resp => {
+    .then(resp => {
 
       //client.end();
       const message =
@@ -95,9 +97,11 @@ router.post("/:id", async (req, response) => {
         sender: -1,
         type: 6
       }
-      const answer =  await addNotification(message);
-      console.log(`notification result: ${JSON.stringify(answer)}`);
-      response.json(resp);
+      return addNotification(message)
+      .then(answer=>{
+        console.log(`notification result: ${JSON.stringify(answer)}`);
+        response.json(resp);
+      });
     })
     .catch(err => {
       
