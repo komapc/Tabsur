@@ -91,7 +91,7 @@ addNotification = (notification) =>
 {
   return addNotificationToDB(notification)
     .then(resp => {
-      console.log(`resp: ${JSON.stringify(resp)}`);
+      console.log(`resp: ${JSON.stringify(resp.rows)}`);
       return pushNotification(notification, resp)
       .then(answer => {
         console.log(`answer: ${JSON.stringify(answer)}`);

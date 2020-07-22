@@ -110,7 +110,9 @@ router.post("/send-message", async (req, response)=> {
     type: 0
   }
 
-  addNotification(message);
+  const result = await addNotification(message);
+  console.log(`Notification added.`);
+  return response.json(result);
 });
 
 module.exports = router;
