@@ -92,10 +92,10 @@ class ShowUser extends Component {
           <span className="info-main-name">{this.state.user.name}</span>
         </div>
         <div className="info-fields">
-        <div class="row">
-          <div class="info-column ">Meals created
+        <div className="row">
+          <div className="info-column">Meals created
           </div>
-          <div class="info-column ">
+          <div className="info-column">
           {this.state.user.meals_created}
           </div>
       </div>
@@ -106,7 +106,7 @@ class ShowUser extends Component {
         </div>
         <div>
           {
-            this.props.auth.user.id != this.state.id ?
+            this.props.auth.user.id !== this.state.id ?
               <div>
                 <input type="text" id="message" placeholder="Message"></input>
                 <button onClick={() => this.sendMessageWithCallback(

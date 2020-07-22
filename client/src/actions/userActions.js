@@ -1,6 +1,5 @@
 //this file is used only for AddMeal, but should be used everywhere.
 import axios from "axios";
-import { GET_ERRORS, USER_LOADING } from "./types";
 import config from "../config";
 
 // get user followers
@@ -30,8 +29,3 @@ export const setFollow = (myUserId, body) => {
 export const getUserInfo = (userId) => {
   return axios.get(`${config.SERVER_HOST}/api/users/${userId}`)
 };
-
-
-
-
-
