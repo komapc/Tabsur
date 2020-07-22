@@ -3,7 +3,7 @@ const fcm = require('../firebaseCloudMessages');
 const pgConfig = require("../dbConfig.js"); 
 const { Client } = require("pg");
 let currentConfig = pgConfig.pgConfigProduction;
-//if (process.env.NODE_ENV === "debug")
+if (process.env.NODE_ENV === "debug")
 {
   currentConfig = pgConfig.pgConfigLocal;
 }
@@ -52,16 +52,16 @@ const addNotificationToDB = (message) =>
       VALUES (
        $1, $2, $3, $4, $5, $6, $7, $8)
 
-      RETURNING (
-              SELECT array_to_string(array_agg(token),';') 
-              AS tokens 
-              FROM user_tokens
-              WHERE user_id=$2 
-            )
+    RETURNING (
+            SELECT array_to_string(array_agg(token),';') 
+            AS tokens 
+            FROM user_tokens
+            WHERE user_id=$2 
+          )
     `;
   const client = new Client(currentConfig);
   client.connect();
-  console.log(`Connected`);
+  console.log(`Connected.`);
   return client.query(query,     
     [message.meal_id, 
       message.receiver,
@@ -73,7 +73,7 @@ const addNotificationToDB = (message) =>
       message.title, 
      ] )
   .then(resp => {
-    console.log(`Message inserted sucssesfuly`); 
+    console.log(`Message inserted sucssesfuly.`); 
     console.log(`tokens: ${JSON.stringify(resp.rows[0].tokens)}`);
     return resp;
   })
