@@ -21,7 +21,7 @@ const pushNotification = (notification, registration_ids) =>
   })
   .catch(error =>
   {
-    console.error(`Error: ${JSON.stringify(error)}`);
+    console.error(`Error in sendNotification: ${JSON.stringify(error)}`);
     return error;
   })
   .finally(()=>
