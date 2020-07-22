@@ -97,20 +97,7 @@ addNotification = (notification) =>
         console.log(`answer: ${JSON.stringify(answer)}`);
         return answer;
       });
-    })
-  // .then(resp=>
-  // {    
-  //   console.log(`resp: ${JSON.stringify(resp)}`);
-  //   const answer = pushNotification(notification, resp);
-  //   console.log(`answer: ${JSON.stringify(answer)}`);
-  //   response.JSON(answer);
-  // })
-  // .catch(error=>
-  // {
-  //   console.error(`addNotification error: ${JSON.stringify(error)}`);
-  //   return error;
-  // });
-  // return  response;
+    });
 }
 
 module.exports =  addNotification;
