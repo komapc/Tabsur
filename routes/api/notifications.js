@@ -4,7 +4,7 @@ const pgConfig = require("../dbConfig.js");
 const { Client } = require("pg");
 
 let currentConfig = pgConfig.pgConfigProduction;
-//if (process.env.NODE_ENV === "debug")
+if (process.env.NODE_ENV === "debug")
 {
   currentConfig = pgConfig.pgConfigLocal;
 }
