@@ -97,7 +97,9 @@ router.post("/:id", async (req, response) => {
         sender: -1,
         type: 6
       }
-      return addNotification(message)
+      const answer = addNotification(message);
+     
+       return answer
       .then(answer=>{
         console.log(`notification result: ${JSON.stringify(answer)}`);
         response.json(resp);

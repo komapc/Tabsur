@@ -8,13 +8,13 @@ let currentConfig = pgConfig.pgConfigProduction;
   currentConfig = pgConfig.pgConfigLocal;
 }
 
-const pushNotification= async (notification, registration_ids) =>
+const pushNotification = (notification, registration_ids) =>
 {
-  fcm.sendNotification(JSON.stringify({
+  return fcm.sendNotification(JSON.stringify({
     data: notification,
     "registration_ids": registration_ids //resp.rows[0].tokens.split(';')
   })) 
-  .then((response) =>
+  .then(response =>
   {
     console.log(JSON.stringify(`Got a response from fcm: ${JSON.stringify(response) }`));
     return response;
