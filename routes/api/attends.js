@@ -1,6 +1,9 @@
+var addNotification = require('./notifications');
 var express = require('express');
 var router = express.Router();
 const { Client } = require("pg");
+
+
 const pgConfig = require("./../dbConfig.js");
 let currentConfig = pgConfig.pgConfigProduction;
 const fcm = require('../firebaseCloudMessages');
@@ -37,59 +40,76 @@ router.post('/:id', async (req, response) => {
     SET status = ${status} 
     WHERE attends.meal_id=${meal_id} 
     AND attends.user_id = ${user_id}
-  `)
+    RETURNIG (SELECT host_id FROM meals WHERE id=${user_id})
+  `)//todo: use params for sql values
   .then((ans) => {
     if(status) {
-      client.query(`
-        INSERT into notifications (meal_id, user_id, message_text, sender, note_type) 
-        VALUES (
-          $1, 
-          (SELECT host_id FROM meals WHERE id=$1), 
-          CONCAT((SELECT name FROM users WHERE id=$2),' wants to join your meal.'),
-          0, 
-          5)  
-        RETURNING (
-          SELECT array_to_string(array_agg(token),';') 
-          AS tokens 
-          FROM user_tokens
-          WHERE user_id=(SELECT host_id FROM meals WHERE id=$1)
-        ),
-        CONCAT((SELECT name FROM users WHERE id=$2), ' wants to join your meal.') AS body
-      `,[attend.meal_id, attend.user_id])
-      .catch(err => {
-        console.log(err);
-        client.end();
-        return response.status(500).json("failed to add notification: " + err);
-      })
-      .then(answer => {
-        fcm.sendNotification(JSON.stringify({
-          data: {
-              title: 'Attend', 
-              body:  answer.rows[0].body, 
-              icon: 'https://icons.iconarchive.com/icons/pelfusion/long-shadow-media/128/Message-Bubble-icon.png', 
-              click_action: 'http://info.cern.ch/hypertext/WWW/TheProject.html'
-          },
-          "registration_ids": answer.rows[0].tokens.split(';')
-        }),
-        answer.rows[0].tokens.split(';'))
-        .then(function(response) {
-          console.log(JSON.stringify(response));
-        }).catch(function(error) {
-            console.error(error);
-        });
-        client.end();
-        return response.status(201).json(answer.rows);
-      })
+      const message =
+      {
+        title: 'Attend', 
+        body:  'A user wants to join your meal', 
+        icon: 'resources/Message-Bubble-icon.png', 
+        click_action: '/Meals/',
+        receiver: attend.user_id,//(SELECT host_id FROM meals WHERE id=$1)
+        meal_id:  attend.meal_id,
+        sender: -1,
+        type: 5
+      }
+      addNotification(message);
+      // client.query(`
+      //   INSERT INTO notifications (meal_id, receiver, message_text, sender, note_type, 
+      //     click_action, icon, title) 
+      //   VALUES (
+      //     $1, 
+      //     (SELECT host_id FROM meals WHERE id=$1), 
+      //     CONCAT((SELECT name FROM users WHERE id=$2),' wants to join your meal.'),
+      //     0, 
+      //     5,
+      //     $3, $4, $5
+      //     )  
+      //   RETURNING (
+      //     SELECT array_to_string(array_agg(token),';') 
+      //     AS tokens 
+      //     FROM user_tokens
+      //     WHERE user_id=(SELECT host_id FROM meals WHERE id=$1)
+      //   ),
+      //   CONCAT((SELECT name FROM users WHERE id=$2), ' wants to join your meal.') AS body
+      // `,[attend.meal_id, attend.user_id,'/Meals/', 'resources/Message-Bubble-icon.png', Attend])
+      // .catch(err => {
+      //   console.log(err);
+      //   client.end();
+      //   return response.status(500).json("failed to add notification: " + err);
+      // })
+      // .then(answer => {
+      //   fcm.sendNotification(JSON.stringify({
+      //     data: {
+      //         title: 'Attend', 
+      //         body:  answer.rows[0].body, 
+      //         icon: 'resources/Message-Bubble-icon.png', 
+      //         click_action: '/Meals/'
+      //     },
+      //     "registration_ids": answer.rows[0].tokens.split(';')
+      //   }),
+      //   answer.rows[0].tokens.split(';'))
+      //   .then(function(response) {
+      //     console.log(JSON.stringify(response));
+      //   }).catch(function(error) {
+      //       console.error(error);
+      //   });
+      //   return response.status(201).json(answer.rows);
+      // })
     } else { // no notification on unnattend
-      client.end();
       return response.status(201).json(ans.rows);
     }
   })
   .catch(err => {
     console.error(err);
-    client.end();
     return response.status(500).json(err);
-  });
+  }).
+  finally()
+  {
+    client.end();
+  };
 });
 
 /* UPDATE attend */
