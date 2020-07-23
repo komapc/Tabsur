@@ -213,24 +213,11 @@ router.post("/", async (req, response) => {
         sender: -1,
         type: 5
       }
-      const notificationQuery = `
-      INSERT INTO notifications 
-        (meal_id, message_text, user_id, status, note_type) 
-        (SELECT 0, 'New meal in your area.', users.id, 3, 6 FROM users )`;
-      console.log(`Notifications: [${notificationQuery}]`);
-      client.query(notificationQuery)
-        .catch(err => {
-          console.log(err);
-          return response.status(500).json("failed to add notification: " + err);
-        })
-        .then(answer => {
-          return response.status(201).json(res.rows);
-        }
-        )
+     //TODO: add notification to all followers + people in the area
     }
     )
-    .catch((e) => {
-      console.log("exception catched: " + e);
+    .catch(e => {
+      console.error(`Exception catched: ${JSON.stringify(e)}`);
       response.status(500).json(e);
     })
     .finally(() =>
