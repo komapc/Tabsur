@@ -74,7 +74,7 @@ const addNotificationToDB = (message) =>
      ] )
   .then(resp => {
     console.log(`Message inserted sucssesfuly.`); 
-    console.log(`tokens: ${JSON.stringify(resp.rows[0].tokens)}`);
+    console.log(`tokens: ${JSON.stringify(resp.rows)}`);
     return resp;
   })
   .catch(error => {
@@ -87,7 +87,7 @@ const addNotificationToDB = (message) =>
 }
 
 //add notificatin/message to the DB + push 
-addNotification = (notification) =>
+addNotification = async (notification) =>
 {
   return addNotificationToDB(notification)
     .then(resp => {
