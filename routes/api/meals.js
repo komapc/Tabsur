@@ -1,4 +1,6 @@
 const pgConfig = require("./../dbConfig.js");
+
+var addNotification = require('./notifications');
 let currentConfig = pgConfig.pgConfigProduction;
 
 if (process.env.NODE_ENV === "debug") {
@@ -161,7 +163,7 @@ router.post("/image", async (req, response) => {
   if (isNaN(image_id) || isNaN(meal_id)) {
     return response.status(500).json("Bad params: image_id");
   }
-  const query = `insert into meal_images (meal_id, image_id) values ($1, $2) returning id`
+  const query = `INSERT INTO meal_images (meal_id, image_id) VALUES ($1, $2) RETURNING id`
   client.query(query, [meal_id, image_id])
     .then((res) => {
       client.end();
@@ -194,35 +196,34 @@ router.post("/", async (req, response) => {
   VALUES($1, $2, $3, $4, $5, $6, (to_timestamp($7/ 1000.0)), $8) RETURNING id`;
   console.log(`connected running [${query}]`);
 
-  client.query(query,
+  return client.query(query,
     [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
     meal.address, meal.guestCount, meal.host_id, meal.date, meal.visibility])
-    .then((res) => {
-
+    .then(res => {
+      
       console.log(`query done.`);
-      const notificationQuery = `
-      INSERT INTO notifications 
-        (meal_id, message_text, user_id, status, note_type) 
-        (SELECT 0, 'New meal in your area.', users.id, 3, 6 FROM users )`;
-      console.log(`Notifications: [${notificationQuery}]`);
-      client.query(notificationQuery)
-        .catch(err => {
-          console.log(err);
-          client.end();
-          return response.status(500).json("failed to add notification: " + err);
-        })
-        .then(answer => {
-          client.end();
-          return response.status(201).json(res.rows);
-        }
-        )
+      const message =
+      {
+        title: 'New meal', 
+        body:  'A new meal in your areas', 
+        icon: 'resources/Message-Bubble-icon.png', 
+        click_action: '/Meals/',
+        sender: -1,
+        type: 5
+      }
+      return response.json(res.rows[0]);
+     //TODO: add notification to all followers + people in the area
     }
     )
-    .catch((e) => {
-      client.end();
-      console.log("exception catched: " + e);
+    .catch(e => {
+      console.error(`Exception catched in creating meal: ${JSON.stringify(e)}`);
       response.status(500).json(e);
-    });
+    })
+    .finally(() =>
+    {
+
+      client.end();
+    })
 });
 
 

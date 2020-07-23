@@ -1,3 +1,4 @@
+const addNotification = require('./notificationsPush');
 const pgConfig = require("./../dbConfig.js");
 let currentConfig = pgConfig.pgConfigProduction;
 
@@ -23,12 +24,13 @@ router.get("/:id", async (req, response) => {
   client.query(SQLquery)
     .then(resp => {
       response.json(resp.rows);
-      client.end();
     })
     .catch(err => {
-      client.end();
       console.log("Failed to get followers: " + err);
       return response.status(500).json(err);
+    })
+    .finally(() => {
+      client.end();
     });
 })
 
@@ -65,8 +67,7 @@ router.post("/:id", async (req, response) => {
   const followie = req.body.followie;
   const status = req.body.status;
 
-  if (isNaN(follower) || isNaN(followie) || isNaN(status))
-  {
+  if (isNaN(follower) || isNaN(followie) || isNaN(status)) {
     return response.status(500).json("Bad input, some input parameter are not null.");
   }
   const SQLquery = `
@@ -79,25 +80,32 @@ router.post("/:id", async (req, response) => {
   await client.connect();
   client.query(SQLquery)
     .then(resp => {
-      client.query(`INSERT INTO notifications (meal_id, user_id, message_text, sender, note_type) \
-      VALUES (0, ${followie}, \'you have one new follower!\', 0, 6)`)
-        .catch(err => {
-          console.log("failed to add notification: " + err);
-          client.end();
-          return response.status(500).json("failed to add notification: " + err);
-        })
-        .then(resp => {
-          response.json(resp);
-          client.end();
-        })
+      const message =
+      {
+        title: 'Follower',
+        body: `${followie}, you have one new follower (${follower})!`,
+        icon: 'resources/Message-Bubble-icon.png',
+        click_action: '/Meals/',
+        receiver: followie,
+        meal_id: -1,
+        sender: -1,
+        type: 6
+      }
+      const answer = addNotification(message);
 
+      return answer
+        .then(answer => {
+          console.log(`notification result: ${JSON.stringify(answer)}`);
+          response.json(answer);
+        });
     })
     .catch(err => {
-      console.log("Failed to add a follower, " + err);
-      client.end();
+      console.error(`Failed to add a follower,  ${err}`);
       return response.status(500).json(err);
     })
-  });
+    .finally(() => {
+      client.end();
+    })
+});
 
-
-  module.exports = router;
+module.exports = router;

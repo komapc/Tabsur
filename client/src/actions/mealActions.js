@@ -6,24 +6,28 @@ import config from "../config";
 // add a meal and image
 export const addMeal = (userData, history) => dispatch => {
   console.log("Adding meal");
-  axios
+  return axios
     .post(`${config.SERVER_HOST}/api/meals/`, userData)
     .then(res => {
-      const meal_id = res.data[0].id;
+      console.log(`meal add got result: ${JSON.stringify(res.data)}`);
+      const meal_id = res.data.id;
       console.log(`meal added: ${JSON.stringify(meal_id)}`);
       userData.meal_id = res.meal_id;
       userData.meal_id = meal_id;
-      axios.post(`${config.SERVER_HOST}/api/meals/image/`, userData)
+      return axios.post(`${config.SERVER_HOST}/api/meals/image/`, userData)
         .then(res2 => {
           console.log(`add image: [${JSON.stringify(res2)}]`);
           history.push("/MyMeals");
         })
+        .catch(err => {
+          console.error(`Error in adding an image: ${JSON.stringify(err)}`);
+        });
     })
     .catch(err => {
-      console.log(`Error in addMeal: ${JSON.stringify(err)}`);
+      console.error(`Error in addMeal: ${JSON.stringify(err)}`);
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data
+        //payload: err.response.data
       })
     }
     );
