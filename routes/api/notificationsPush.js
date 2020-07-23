@@ -12,7 +12,7 @@ const pushNotification = (notification, registration_ids) =>
 {
   return fcm.sendNotification(JSON.stringify({
     data: notification,
-    "registration_ids": registration_ids //resp.rows[0].tokens.split(';')
+    "registration_ids": registration_ids.split(';')
   })) 
   .then(response =>
   {
@@ -92,17 +92,17 @@ addNotification = async (notification) =>
   return addNotificationToDB(notification)
     .then(resp => {
       const tokens = resp.rows[0].tokens;
-      console.log(`resp: ${JSON.stringify(tokens)}`);
+      console.log(`Resp tokens: ${JSON.stringify(tokens)}.`);
       return pushNotification(notification, tokens)
       .then(answer => {
-        console.log(`answer: ${JSON.stringify(answer)}`);
+        console.log(`Answer: ${JSON.stringify(answer)}.`);
         return answer;
       })
       .catch(error =>{
-        console.error(`pushNotification failed: ${JSON.stringify(error)}`)
+        console.error(`pushNotification failed: ${JSON.stringify(error)}.`)
       })
     .catch(error =>{
-      console.error(`addNotificationToDB failed: ${JSON.stringify(error)}`)
+      console.error(`addNotificationToDB failed: ${JSON.stringify(error)}.`)
     });
   });
 }
