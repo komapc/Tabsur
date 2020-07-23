@@ -196,10 +196,10 @@ router.post("/", async (req, response) => {
   VALUES($1, $2, $3, $4, $5, $6, (to_timestamp($7/ 1000.0)), $8) RETURNING id`;
   console.log(`connected running [${query}]`);
 
-  client.query(query,
+  return client.query(query,
     [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
     meal.address, meal.guestCount, meal.host_id, meal.date, meal.visibility])
-    .then((res) => {
+    .then(res => {
       
       console.log(`query done.`);
       const message =
@@ -208,16 +208,15 @@ router.post("/", async (req, response) => {
         body:  'A new meal in your areas', 
         icon: 'resources/Message-Bubble-icon.png', 
         click_action: '/Meals/',
-        receiver: attend.user_id,//(SELECT host_id FROM meals WHERE id=$1)
-        meal_id:  attend.meal_id,
         sender: -1,
         type: 5
       }
+      return response.json(res.rows[0]);
      //TODO: add notification to all followers + people in the area
     }
     )
     .catch(e => {
-      console.error(`Exception catched: ${JSON.stringify(e)}`);
+      console.error(`Exception catched in creating meal: ${JSON.stringify(e)}`);
       response.status(500).json(e);
     })
     .finally(() =>
