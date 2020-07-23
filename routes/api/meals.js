@@ -46,9 +46,9 @@ router.get("/:id", async (req, response) => {
       client.end();
     })
     .catch(err => {
-      client.end();
       console.log(err);
-      return response.status(500).json(err);
+      response.status(500).json(err);
+      client.end();
     });
 })
 
