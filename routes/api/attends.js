@@ -40,7 +40,7 @@ router.post('/:id', async (req, response) => {
     SET status = ${status} 
     WHERE attends.meal_id=${meal_id} 
     AND attends.user_id = ${user_id}
-    RETURNIG (SELECT host_id FROM meals WHERE id=${user_id})
+    RETURNING (SELECT host_id FROM meals WHERE id=${meal_id})
   `)//todo: use params for sql values
   .then((ans) => {
     if(status) {
