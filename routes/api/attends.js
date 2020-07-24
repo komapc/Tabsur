@@ -1,4 +1,4 @@
-var addNotification = require('./notifications');
+var addNotification = require('./notificationsPush');
 var express = require('express');
 var router = express.Router();
 const { Client } = require("pg");
@@ -28,21 +28,25 @@ router.post('/:id', async (req, response) => {
   const meal_id = attend.meal_id;
   const user_id = attend.user_id;
   const status = attend.status;
+
+
+  try {
+    
   if (isNaN(meal_id) || isNaN(user_id) || isNaN(status)) {
     return response.status(500).json("Bad input, one of the parameters is not numeric.");
   }
 
   await client.connect();
-  client.query(`
+  let ans = await client.query(`
     INSERT INTO attends (meal_id, user_id, status)
-    VALUES (${meal_id}, ${user_id}, ${status}) 
+    VALUES ($1, $2, $3) 
     ON CONFLICT (meal_id, user_id) DO UPDATE 
-    SET status = ${status} 
-    WHERE attends.meal_id=${meal_id} 
-    AND attends.user_id = ${user_id}
-    RETURNING (SELECT host_id FROM meals WHERE id=${meal_id})
-  `)//todo: use params for sql values
-  .then((ans) => {
+    SET status = $4
+    WHERE attends.meal_id=$5
+    AND attends.user_id = $6
+    RETURNING (SELECT host_id FROM meals WHERE id=$7)
+  `, [meal_id, user_id, status, status, meal_id, user_id, meal_id])
+  // .then((ans) => {
     if(status) {
       const message =
       {
@@ -56,6 +60,8 @@ router.post('/:id', async (req, response) => {
         type: 5
       }
       addNotification(message);
+
+      return response.status(201).json(ans.rows);
       // client.query(`
       //   INSERT INTO notifications (meal_id, receiver, message_text, sender, note_type, 
       //     click_action, icon, title) 
@@ -101,15 +107,12 @@ router.post('/:id', async (req, response) => {
     } else { // no notification on unnattend
       return response.status(201).json(ans.rows);
     }
-  })
-  .catch(err => {
+  } catch (error) {
     console.error(err);
     return response.status(500).json(err);
-  }).
-  finally()
-  {
+  } finally {
     client.end();
-  };
+  }
 });
 
 /* UPDATE attend */
