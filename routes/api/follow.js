@@ -80,6 +80,7 @@ router.post("/:id", async (req, response) => {
   await client.connect();
   client.query(SQLquery)
     .then(resp => {
+      console.log(`Query response: ${JSON.stringify(resp)}`);
       const message =
       {
         title: 'Follower',
@@ -97,7 +98,12 @@ router.post("/:id", async (req, response) => {
         .then(answer => {
           console.log(`notification result: ${JSON.stringify(answer)}`);
           response.json(answer);
-        });
+        })
+        .catch(err=>
+          {
+            console.error(`notification failed: ${JSON.stringify(err)}`);
+            response.status(500).json(err);
+          });
     })
     .catch(err => {
       console.error(`Failed to add a follower,  ${err}`);

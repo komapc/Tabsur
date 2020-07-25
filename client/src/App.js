@@ -60,7 +60,7 @@ if ("serviceWorker" in navigator) {
       console.log(`Firebase Cloud Messaging ServiceWorker registration successful, registration.scope is: ${registration.scope}`);
     })
     .catch(function(err) {
-      console.error(err);
+      console.error(`serviceWorker registration error: ${JSON.stringify(err)}.`);
     });
 }
 
