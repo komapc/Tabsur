@@ -93,7 +93,8 @@ class App extends Component {
     navigator.serviceWorker.addEventListener("message", (message) => {
       let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
       console.log(`message.data: ${JSON.stringify(data)}`);
-      if(data.type === "message") {
+      if(data.type === "0") //"message"; TODO: use strings vs enums
+      {
         store.dispatch(setMessagesCount(++this.state.messagesCount));
       } else {
         store.dispatch(setNotificationsCount(++this.state.notificationsCount));
