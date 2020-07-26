@@ -4,82 +4,62 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 import classnames from "classnames";
+import Avatar from "../layout/Avatar"
 
 import tmpBgImg from "../../resources/images/susi.jpeg";
-import tmpAvatarImg from "../../resources/images/ava.jpeg";
-
-//#region Header TODO: Wrap into file; choose directory place file
-//#region Avatar TODO: Wrap into own file at /layout or some another directory for all components
-import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-    "margin-top": 190
-  },
-  small: {
-    width: theme.spacing(5),
-    height: theme.spacing(5),
-  },
-  large: {
-    width: theme.spacing(17),
-    height: theme.spacing(17),
-    borderWidth: theme.spacing(1), 
-    borderColor: 'white', 
-    borderStyle:'solid'
-  }
-}));
-
-function MrAvatar() {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.root}>
-      <Avatar alt="Aristotle" src={tmpAvatarImg} className={classes.large} />
-    </div>
-  );
-}
-//#endregion
-
-const useStyles3 = makeStyles(theme => ({
-  marginAutoContainer: {
-    width: 500,
-    height: 80,
-    display: 'flex',
-    backgroundColor: 'gold',
-  },
-  marginAutoItem: {
-    margin: 'auto'
-  },
+//#region MyProfileHeader TODO: Wrap into file; choose directory place file
+const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
     width: "100%",
-    height: 200,
+    height: theme.spacing(25),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'gray', // TODO: Ask Yana about background color
-
     backgroundImage: `url(${tmpBgImg})`,
     backgroundSize: 'cover'
   },
   empty: {
-    height: 50,
-    borderBottomWidth: 2,
-    borderBottomColor: 'red'  
+    height: 64
   }
 }))
-const Header = () => {
-  const classes = useStyles3()
+const MyProfileHeader = () => {
+  const classes = useStylesHeader()
   return (
     <React.Fragment>
       <div className={classes.alignItemsAndJustifyContent}>
-        <MrAvatar />
+        <Avatar />
       </div>
       <div className={classes.empty}></div>
+    </React.Fragment>
+  )
+}
+//#endregion
+
+//#region MyProfileStats TODO: wrap it somewhere
+const useStylesStats = makeStyles(theme => ({
+  alignItemsAndJustifyContent: {  // TODO: Rename
+    width: "100%",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    color: "green",
+    fontSize: 32,
+    fontWeight: "fontWeightBold",
+    fontStyle: "italic",
+    fontFamily: "Monospace"
+  }
+}))
+const MyProfileStats = ({name: Name}) => {
+  const classes = useStylesStats()
+  return (
+    <React.Fragment>
+      <div className={classes.alignItemsAndJustifyContent}>
+        {Name}
+      </div>
     </React.Fragment>
   )
 }
@@ -124,12 +104,13 @@ class MyProfile extends Component {
     const { errors } = this.state;
 
     return (
-      <div>
-        <Header />
+      <React.Fragment>
+        <MyProfileHeader />
+        <MyProfileStats name={this.state.name}/>
 
+        {false ? (
         <div className="row">
           <div className="col s8 offset-s2">
-          {true ? (
             <form noValidate onSubmit={this.onSubmit} display="none" disabled={true}>
               <div className="input-field col s12">
                 <input
@@ -184,10 +165,10 @@ class MyProfile extends Component {
                   Save
                 </button>
               </div>
-            </form>) : ""}
+            </form>
         </div>
-        </div>
-      </div>
+        </div>) : ""}
+      </React.Fragment>
     );
   }
 }
