@@ -30,6 +30,7 @@ import MyProfile from "./components/auth/MyProfile"
 import Stats from "./components/users/Stats"
 import Profile from "./components/users/Profile"
 import ChatList from "./components/chat/ChatList"
+import ChatUser from "./components/chat/ChatUser"
 import { Helmet } from "react-helmet";
 import "./App.css";
 import { messaging } from "../src/init-fcm";
@@ -54,7 +55,7 @@ if (localStorage.jwtToken) {
   }
 }
 
-if ("serviceWorker" in navigator) {
+if ("serfciceWorker" in navigator) {
   navigator.serviceWorker
     .register("./firebase-messaging-sw.js")
     .then(function(registration) {
@@ -134,6 +135,7 @@ class App extends Component {
               <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
               <PrivateRoute exact path="/createMealWizard"  component={() => { return <span/>}} />
               <PrivateRoute exact path="/chat"  component={ChatList} />
+              <PrivateRoute exact path="/chatUser"  component={ChatUser} />
               <PrivateRoute exact path="/user/:id"  component={() => { return <span/>}} />
               <Route path="/" component={Meals} />
             </Switch>
