@@ -12,15 +12,15 @@ const useStyles = makeStyles(theme => ({
         }
     },
     wrapper: {
-        position: "absolute", // absolute !
-        top: "10%",
-        left: "80%"
+        position: "absolute",
+        top: "10vh",
+        right: "5vw"
     }
 }));
 
 const ChatFab = () => {
     const classes = useStyles();
-  
+
     return (
         <React.Fragment>
             <div className={classes.root}>
