@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getMeals } from "../../actions/mealActions";
+import { getChatUsers } from "../../actions/chatActions";
 import ChatListItem from "./ChatListItem";
 
 import loadingGIF from "../../resources/animation/loading.gif";
@@ -9,35 +9,35 @@ class ChatList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      meals: [],
+      user: [],
       loading: true,
       id: this.props.auth.user.id || -1
     };
   }
 
   componentDidMount() {
-    getMeals(this.props.auth.user.id)
+    getChatUsers(this.props.auth.user.id)
     .then(res => {
           console.log(res.data);
-          this.setState({ meals: res.data, loading: false });
+          this.setState({ users: res.data, loading: false });
         })
   };
   render() {
     return (
       <div className="main">
         CHAT
-        {/* <div className="row">
+       <div className="row">
           {
             this.state.loading ?
               <img src={loadingGIF} alt="loading" /> :
               <div className="map-meal-info">
-                {this.state.meals.map(meal =>
-                  <div key={meal.id}>
-                    <ChatListItem meal={meal} />
+                {this.state.users.map(user =>
+                  <div key={user.id}>
+                    <ChatListItem user={user} />
                   </div>
                 )}
               </div>}
-        </div> */}
+        </div> 
       </div>
     );
   }
@@ -48,7 +48,7 @@ const mapStateToProps = state => ({
 
 });
 const mapDispatchToProps = (dispatch) => ({
-  getMeals: (form, history) => getMeals(form, history)(dispatch)
+  getChatUsers: (form, history) => getChatUsers(form, history)(dispatch)
 });
 
 export default connect(
