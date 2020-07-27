@@ -5,11 +5,18 @@ import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 import classnames from "classnames";
 import Avatar from "../layout/Avatar"
+import Grid from '@material-ui/core/Grid';
+// import AppBar from '@material-ui/core/AppBar';
+// import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 import tmpBgImg from "../../resources/images/susi.jpeg";
 import { makeStyles } from '@material-ui/core/styles';
 
-//#region MyProfileHeader TODO: Wrap into file; choose directory place file
+//#region MyProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
     width: "100%",
@@ -17,7 +24,7 @@ const useStylesHeader = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'gray', // TODO: Ask Yana about background color
+    backgroundColor: 'gray',
     backgroundImage: `url(${tmpBgImg})`,
     backgroundSize: 'cover'
   },
@@ -38,28 +45,114 @@ const MyProfileHeader = () => {
 }
 //#endregion
 
-//#region MyProfileStats TODO: wrap it somewhere
+//#region MyProfileStats
 const useStylesStats = makeStyles(theme => ({
-  alignItemsAndJustifyContent: {  // TODO: Rename
+  headerContainer: { 
     width: "100%",
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
+    justifyContent: 'center'
+  },
+  header: {
     color: "green",
     fontSize: 32,
     fontWeight: "fontWeightBold",
     fontStyle: "italic",
-    fontFamily: "Monospace"
+    //fontFamily: "Monospace"
+  },
+  stat: {
+    color: "green",
+    fontSize: 16,
+    fontWeight: "fontWeightBold",
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'flex',
   }
 }))
 const MyProfileStats = ({name: Name}) => {
   const classes = useStylesStats()
   return (
     <React.Fragment>
-      <div className={classes.alignItemsAndJustifyContent}>
-        {Name}
+      <div className={classes.headerContainer}>
+        <h5 className={classes.header}>{Name}</h5>
       </div>
+      <div className={classes.headerContainer}>
+        <Grid container >
+          <Grid item xs={6}><span className={classes.stat}>Followers 0</span></Grid>
+          <Grid item xs={6}><span className={classes.stat}>Active meals 0</span></Grid>
+          <Grid item xs={6}><span className={classes.stat}>Following 0</span></Grid>
+          <Grid item xs={6}><span className={classes.stat}>Meals Created 0</span></Grid>
+        </Grid>
+      </div>
+    </React.Fragment>
+  )
+}
+//#endregion
+
+//#region MyProfileTabs
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+const useStylesTabs = makeStyles(theme => ({
+  root: {
+    flexGrow: 1, // ?
+
+    color: "green",
+    fontSize: 16,
+    fontWeight: "fontWeightBold",
+    width: "100%",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+}));
+const MyProfileTabs = () => {
+  const classes = useStylesTabs();
+  const [value, setValue] = React.useState(0);const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  return (
+    <React.Fragment>
+      <div className={classes.root}>
+        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+          <Tab label="Kitchen" {...a11yProps(0)} />
+          <Tab label="Gallery" {...a11yProps(1)} />
+        </Tabs>
+      </div>
+      <TabPanel value={value} index={0}>
+        Log Out
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        Under Construction
+      </TabPanel>
     </React.Fragment>
   )
 }
@@ -107,6 +200,7 @@ class MyProfile extends Component {
       <React.Fragment>
         <MyProfileHeader />
         <MyProfileStats name={this.state.name}/>
+        <MyProfileTabs/>
 
         {false ? (
         <div className="row">
