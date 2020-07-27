@@ -133,9 +133,9 @@ class App extends Component {
               <PrivateRoute exact path="/myProfile" component={MyProfile} />
               <PrivateRoute exact path="/profile/:id" component={Profile} />
               <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
-              <PrivateRoute exact path="/createMealWizard"  component={() => { return <span/>}} />
               <PrivateRoute exact path="/chat"  component={ChatList} />
-              <PrivateRoute exact path="/chatUser"  component={ChatUser} />
+              <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
+              <PrivateRoute exact path="/createMealWizard"  component={() => { return <span/>}} />
               <PrivateRoute exact path="/user/:id"  component={() => { return <span/>}} />
               <Route path="/" component={Meals} />
             </Switch>

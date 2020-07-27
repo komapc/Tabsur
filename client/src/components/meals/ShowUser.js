@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import backButton from "../../resources/back_button.svg";
 import defaultImage from "../../resources/userpic_empty.svg";
 
-import {getFollowStatus, setFollow, getUserInfo} from "../../actions/userActions"
+import { getFollowStatus, setFollow, getUserInfo } from "../../actions/userActions"
 import { sendMessage } from "../../actions/notifications"
 class ShowUser extends Component {
 
@@ -71,34 +71,34 @@ class ShowUser extends Component {
 
   sendMessageWithCallback(sender, receiver, message) {
     sendMessage(sender, receiver, message)
-    .then(res => { // Callback
-      console.log(JSON.stringify(res));
-    });
+      .then(res => { // Callback
+        console.log(JSON.stringify(res));
+      });
   }
 
   render() {
     return (
       <div className="info-all">
         <div className="info-back-div"><img
-         className="info-back"
+          className="info-back"
           alt="back"
           onClick={this.props.history.goBack}
           src={backButton}
         />
-        <span className="info-caption">profile</span>
+          <span className="info-caption">profile</span>
         </div>
         <div className="info-top">
-          <img className="info-main-image" src={defaultImage} alt="user"/>
+          <img className="info-main-image" src={defaultImage} alt="user" />
           <span className="info-main-name">{this.state.user.name}</span>
         </div>
         <div className="info-fields">
-        <div className="row">
-          <div className="info-column">Meals created
+          <div className="row">
+            <div className="info-column">Meals created
           </div>
-          <div className="info-column">
-          {this.state.user.meals_created}
+            <div className="info-column">
+              {this.state.user.meals_created}
+            </div>
           </div>
-      </div>
           <div>You follow him?</div>
           {this.state.followStatus ?
             <button onClick={() => this.follow(0)}>UnFollow</button> :
@@ -110,11 +110,11 @@ class ShowUser extends Component {
               <div>
                 <input type="text" id="message" placeholder="Message"></input>
                 <button onClick={() => this.sendMessageWithCallback(
-                  this.props.auth.user.id, 
-                  this.state.id, 
+                  this.props.auth.user.id,
+                  this.state.id,
                   document.getElementById("message").value
-                )}>Send</button> 
-              </div> : 
+                )}>Send</button>
+              </div> :
               <div></div>
           }
         </div>
