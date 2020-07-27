@@ -83,7 +83,8 @@ class Login extends Component {
     console.log( JSON.stringify(response)  ); 
     const userData = {
       email: response.email,
-      name: response.name
+      name: response.name,
+      picture: response.picture
     };
 
     this.props.loginUserFB(userData);
