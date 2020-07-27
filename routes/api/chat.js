@@ -10,37 +10,25 @@ const { Client } = require("pg");
 const express = require("express");
 const router = express.Router();
 
-// Load input validation
-const validateMealInput = require("../../validation/meal");
-
-// @route GET api/meals/
-// @desc get a meal list
+// @route GET api/chat/
+// @desc get a chat info for the user
 // @access Public
 router.get("/:id", async (req, response) => {
   const client = new Client(currentConfig);
   var userId = req.params.id;
-  console.log(`get meals for user ${userId}`);
+  console.log(`get chat messages for user ${userId}`);
   if (isNaN(userId))
   {
-    //return response.status(400).json("Error in geting  meals: wrong ID");
-    userId = -1;
+    return response.status(400).json("Error in geting  meals: wrong ID");
+   // userId = -1;
   }
-  const SQLquery = `
-  SELECT 
-    (SELECT images.path
-      FROM meal_images as mi, images 
-      WHERE mi.meal_id=m.id and images.id=image_id and images.status>=0 limit 1), 
-    (((SELECT status AS attend_status FROM attends 
-       WHERE  meal_id=m.id AND attends.user_id=$1) UNION 
-      (SELECT -1 AS attend_status) ORDER BY attend_status DESC) LIMIT 1),
-      (SELECT count (user_id) AS "Atendee_count" FROM attends 
-      WHERE meal_id=m.id), 
-    m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
-  WHERE m.date>now()`;
+  //todo: get messages with  reveiver OR sender, top 1 for every user
+  const SQLquery = `SELECT id, receiver, sender, message_text, created_at FROM  notifications 
+    WHERE note_type=0  AND  sender=$1 `;
   console.log(`get, SQLquery: [${SQLquery}]`);
   await client.connect();
 
-  client.query(SQLquery, [userId])
+  return client.query(SQLquery, [userId])
     .then(resp => {
       response.json(resp.rows);
       client.end();
@@ -49,211 +37,41 @@ router.get("/:id", async (req, response) => {
       console.log(err);
       response.status(500).json(err);
       client.end();
-    });
+    })
+    .finally(()=>client.end() );
 })
 
-// @route GET api/meals/my
-// @desc get a list of meals created by me
+// @route GET api/user/
+// @desc get a chat messages for a specific user
 // @access Public
-router.get("/my/:id", async (req, response) => {
+router.get("user/:me/:user", async (req, response) => {
   const client = new Client(currentConfig);
-  console.log("get my meals by user id: " + JSON.stringify(req.params));
-  const  userId = req.params.id;
-  if (userId == "undefined") {
-    console.log("error, empty id");
-    response.status(400).json("Error in geting my meals: empty");
-    return;
+  var meId = req.params.id;
+  var userId = req.params.user
+  console.log(`get chat messages between ${meId} and ${userId}`);
+  if (isNaN(userId))
+  {
+    return response.status(400).json("Error in geting  meals: wrong ID");
+   // userId = -1;
   }
-  const SQLquery = `SELECT 
-    (SELECT images.path
-      FROM meal_images as mi, images 
-      WHERE mi.meal_id=m.id and images.id=image_id and images.status>=0 limit 1),
-    (SELECT count (user_id) AS "Atendee_count" FROM attends 
-      WHERE meal_id=m.id), 
-    0 as attend_status, m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id 
-    WHERE m.date>now() AND host_id=$1`;
+  //todo: get messages with  reveiver OR sender, top 1 for every user
+  const SQLquery = `SELECT id, receiver, sender, message_text, created_at FROM  notifications 
+    WHERE note_type=0  AND  ( (sender=$1 AND receiver=$2) OR (sender=$2 AND receiver=$1)`;
+  console.log(`get, SQLquery: [${SQLquery}]`);
   await client.connect();
-  client.query(SQLquery, [userId])
+
+  return client.query(SQLquery, [userId, meId])
     .then(resp => {
-      return response.json(resp.rows);
+      response.json(resp.rows);
+      client.end();
     })
     .catch(err => {
       console.log(err);
-      return response.status(500).json(err);
-    })
-    .finally(()=>
-    {
-        client.end();
-    });
-});
-
-// @route GET api/meals/attends
-// @desc get a list of meals where the user attends
-// @access Public
-router.get("/attends/:id", async (req, response) => {
-  const client = new Client(currentConfig);
-  console.log("get meals where user attends: " + JSON.stringify(req.params));
-  if (req.params.id == "undefined") {
-    console.log("error, empty id");
-    response.status(400).json("Error in geting attended meals: empty");
-    return;
-  }
-  const SQLquery = `SELECT * FROM (
-    SELECT
-        (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id),
-        (SELECT status AS attend_status FROM attends
-           WHERE  meal_id=m.id AND attends.user_id=$1),
-        m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
-      ) AS sel WHERE attend_status > 0`;
-  await client.connect();
-  client.query(SQLquery, [req.params.id])
-    .then(resp => {
-      client.end();
-      return response.json(resp.rows);
-    })
-    .catch(err => {
-      client.end();
-      console.log(err);
-      return response.status(500).json(err);
-    });
-});
-
-// @route GET api/meals/guests
-// @desc get a list of users attending a meal
-// @access Public
-router.get("/guests/:meal_id", async (req, response) => {
-  const client = new Client(currentConfig);
-  console.log("get users by meal_id: " + JSON.stringify(req.params));
-  const meal_id = req.params.meal_id;
-  if (isNaN(meal_id)) {
-    console.log("error, empty id");
-    response.status(400).json("Error in getting my meal: empty id");
-    return;
-  }
-
-  const SQLquery = `SELECT a.user_id, u.name FROM attends as a  
-   INNER JOIN users as u ON a.user_id=u.id WHERE meal_id=$1`;
-  console.log(SQLquery);
-  await client.connect().catch(err => { console.log("get guest for a meal: failed to connect.") });
-  client.query(SQLquery, [meal_id])
-    .then(resp => {
-      client.end();
-      return response.json(resp.rows);
-    })
-    .catch(err => {
-      client.end();
-      console.log(err);
-      return response.status(500).json(err);
-    }
-    )
-});
-
-// @route POST api/meals/image
-router.post("/image", async (req, response) => {
-  console.log(`query: ${JSON.stringify(req.body)}`);
-  if (!req.body.meal_id) {
-    return response.status(500).json(`Empty input.`);
-  }
-  const meal_id = req.body.meal_id;
-  let image_path = req.body.image_path;
-  let image_id = req.body.image_id;
-  const client = new Client(currentConfig);
-  await client.connect();
- 
-  if (isNaN(image_id) || isNaN(meal_id)) {
-    return response.status(500).json("Bad params: image_id");
-  }
-  const query = `INSERT INTO meal_images (meal_id, image_id) VALUES ($1, $2) RETURNING id`
-  client.query(query, [meal_id, image_id])
-    .then((res) => {
-      client.end();
-      console.log(`insert query done: ${JSON.stringify(res.rows)}`);
-      image_path = res.rows[0].path;
-      return response.status(200).json(res.rows);
-    })
-    .catch(err => {
-      console.log(err);
-      client.end();
-      return response.status(500).json("failed to select random image: " + err);
-    })
-});
-// @route POST api/meals/
-router.post("/", async (req, response) => {
-  // Form validation
-  const meal = req.body;
-  const { errors, isValid } = validateMealInput(meal);
-
-  // Check validation
-  if (!isValid) {
-    return response.status(400).json(errors);
-  }
-  const client = new Client(currentConfig);
-
-  console.log(`add meal - start, ${JSON.stringify(req.body)}`);
-  await client.connect();
-  //todo: insert image
-  const query = `INSERT INTO meals (name, type, location, address, guest_count, host_id, date, visibility)
-  VALUES($1, $2, $3, $4, $5, $6, (to_timestamp($7/ 1000.0)), $8) RETURNING id`;
-  console.log(`connected running [${query}]`);
-
-  return client.query(query,
-    [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
-    meal.address, meal.guestCount, meal.host_id, meal.date, meal.visibility])
-    .then(res => {
-      
-      console.log(`query done.`);
-      const message =
-      {
-        title: 'New meal', 
-        body:  'A new meal in your areas', 
-        icon: 'resources/Message-Bubble-icon.png', 
-        click_action: '/Meals/',
-        sender: -1,
-        type: 5
-      }
-      return response.json(res.rows[0]);
-     //TODO: add notification to all followers + people in the area
-    }
-    )
-    .catch(e => {
-      console.error(`Exception catched in creating meal: ${JSON.stringify(e)}`);
-      response.status(500).json(e);
-    })
-    .finally(() =>
-    {
-
+      response.status(500).json(err);
       client.end();
     })
-});
+    .finally(()=>client.end() );
+})
 
-
-// @route DELETE api/meals/id
-// @desc delete a meal
-// @access Public (?)
-router.delete("/:meal_id", async (req, response) => {
-  const meal = req.body;
-  const mealId = req.params.meal_id;
-  if (isNaN(mealId)) {
-    return response.status(400).json(`mealId: wrong meal id format: ${mealId}.`);
-  }
-  const client = new Client(currentConfig);
-
-  console.log(`delete ${mealId}`);
-  await client.connect();
-
-  client.query('DELETE FROM meals WHERE id=$1',
-    [mealId])
-    .then(() => {
-      client.end();
-      console.log("deleted.");
-      return response.status(201).json(req.body);
-    }
-    )
-    .catch((e) => {
-      client.end();
-      console.log("exception catched: " + e);
-      response.status(500).json(e);
-    });
-});
 
 module.exports = router;
