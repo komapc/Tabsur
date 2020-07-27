@@ -4,82 +4,155 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 import classnames from "classnames";
+import Avatar from "../layout/Avatar"
+import Grid from '@material-ui/core/Grid';
+// import AppBar from '@material-ui/core/AppBar';
+// import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 import tmpBgImg from "../../resources/images/susi.jpeg";
-import tmpAvatarImg from "../../resources/images/ava.jpeg";
-
-//#region Header TODO: Wrap into file; choose directory place file
-//#region Avatar TODO: Wrap into own file at /layout or some another directory for all components
-import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-    "margin-top": 190
-  },
-  small: {
-    width: theme.spacing(5),
-    height: theme.spacing(5),
-  },
-  large: {
-    width: theme.spacing(17),
-    height: theme.spacing(17),
-    borderWidth: theme.spacing(1), 
-    borderColor: 'white', 
-    borderStyle:'solid'
-  }
-}));
-
-function MrAvatar() {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.root}>
-      <Avatar alt="Aristotle" src={tmpAvatarImg} className={classes.large} />
-    </div>
-  );
-}
-//#endregion
-
-const useStyles3 = makeStyles(theme => ({
-  marginAutoContainer: {
-    width: 500,
-    height: 80,
-    display: 'flex',
-    backgroundColor: 'gold',
-  },
-  marginAutoItem: {
-    margin: 'auto'
-  },
+//#region MyProfileHeader
+const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
     width: "100%",
-    height: 200,
+    height: theme.spacing(25),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'gray', // TODO: Ask Yana about background color
-
+    backgroundColor: 'gray',
     backgroundImage: `url(${tmpBgImg})`,
     backgroundSize: 'cover'
   },
   empty: {
-    height: 50,
-    borderBottomWidth: 2,
-    borderBottomColor: 'red'  
+    height: 64
   }
 }))
-const Header = () => {
-  const classes = useStyles3()
+const MyProfileHeader = () => {
+  const classes = useStylesHeader()
   return (
     <React.Fragment>
       <div className={classes.alignItemsAndJustifyContent}>
-        <MrAvatar />
+        <Avatar />
       </div>
       <div className={classes.empty}></div>
+    </React.Fragment>
+  )
+}
+//#endregion
+
+//#region MyProfileStats
+const useStylesStats = makeStyles(theme => ({
+  headerContainer: { 
+    width: "100%",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  header: {
+    color: "green",
+    fontSize: 32,
+    fontWeight: "fontWeightBold",
+    fontStyle: "italic",
+    //fontFamily: "Monospace"
+  },
+  stat: {
+    color: "green",
+    fontSize: 16,
+    fontWeight: "fontWeightBold",
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'flex',
+  }
+}))
+const MyProfileStats = ({name: Name}) => {
+  const classes = useStylesStats()
+  return (
+    <React.Fragment>
+      <div className={classes.headerContainer}>
+        <h5 className={classes.header}>{Name}</h5>
+      </div>
+      <div className={classes.headerContainer}>
+        <Grid container >
+          <Grid item xs={6}><span className={classes.stat}>Followers 0</span></Grid>
+          <Grid item xs={6}><span className={classes.stat}>Active meals 0</span></Grid>
+          <Grid item xs={6}><span className={classes.stat}>Following 0</span></Grid>
+          <Grid item xs={6}><span className={classes.stat}>Meals Created 0</span></Grid>
+        </Grid>
+      </div>
+    </React.Fragment>
+  )
+}
+//#endregion
+
+//#region MyProfileTabs
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+const useStylesTabs = makeStyles(theme => ({
+  root: {
+    flexGrow: 1, // ?
+
+    color: "green",
+    fontSize: 16,
+    fontWeight: "fontWeightBold",
+    width: "100%",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+}));
+const MyProfileTabs = () => {
+  const classes = useStylesTabs();
+  const [value, setValue] = React.useState(0);const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  return (
+    <React.Fragment>
+      <div className={classes.root}>
+        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+          <Tab label="Kitchen" {...a11yProps(0)} />
+          <Tab label="Gallery" {...a11yProps(1)} />
+        </Tabs>
+      </div>
+      <TabPanel value={value} index={0}>
+        Log Out
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        Under Construction
+      </TabPanel>
     </React.Fragment>
   )
 }
@@ -124,12 +197,14 @@ class MyProfile extends Component {
     const { errors } = this.state;
 
     return (
-      <div>
-        <Header />
+      <React.Fragment>
+        <MyProfileHeader />
+        <MyProfileStats name={this.state.name}/>
+        <MyProfileTabs/>
 
+        {false ? (
         <div className="row">
           <div className="col s8 offset-s2">
-          {true ? (
             <form noValidate onSubmit={this.onSubmit} display="none" disabled={true}>
               <div className="input-field col s12">
                 <input
@@ -184,10 +259,10 @@ class MyProfile extends Component {
                   Save
                 </button>
               </div>
-            </form>) : ""}
+            </form>
         </div>
-        </div>
-      </div>
+        </div>) : ""}
+      </React.Fragment>
     );
   }
 }
