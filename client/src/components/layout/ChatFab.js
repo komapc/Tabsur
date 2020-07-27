@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
 import Fab from '@material-ui/core/Fab';
+import ChatIcon from '@material-ui/icons/Chat';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -15,6 +16,9 @@ const useStyles = makeStyles(theme => ({
         position: "absolute",
         top: "10vh",
         right: "5vw"
+    },
+    fab: {
+        backgroundColor: "transparent"
     }
 }));
 
@@ -25,8 +29,9 @@ const ChatFab = () => {
         <React.Fragment>
             <div className={classes.root}>
                 <div className={classes.wrapper}>
-                    <Fab>
-                        test
+                    <Fab color="transparent" className={classes.fab}>
+                        {/* <img src={chatFabImg} alt="Chat"/> */}
+                        <ChatIcon />
                     </Fab>
                 </div>
             </div>
