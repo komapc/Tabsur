@@ -32,7 +32,8 @@ import Profile from "./components/users/Profile"
 import { Helmet } from "react-helmet";
 import "./App.css";
 import { messaging } from "../src/init-fcm";
-
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -63,6 +64,17 @@ if ("serviceWorker" in navigator) {
       console.error(`serviceWorker registration error: ${JSON.stringify(err)}.`);
     });
 }
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#13A049',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+  },
+});
 
 class App extends Component {
   constructor(props) {
@@ -105,6 +117,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
+        <ThemeProvider theme={theme}>
         <Router>
           <div className="app">
             <Helmet>
@@ -143,6 +156,7 @@ class App extends Component {
             </Switch> 
           </div>
         </Router>
+        </ThemeProvider>
       </Provider>
     );
   }
