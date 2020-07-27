@@ -29,6 +29,7 @@ import MyMeals from "./components/meals/MyMeals"
 import MyProfile from "./components/auth/MyProfile"
 import Stats from "./components/users/Stats"
 import Profile from "./components/users/Profile"
+import ChatList from "./components/chat/ChatList"
 import { Helmet } from "react-helmet";
 import "./App.css";
 import { messaging } from "../src/init-fcm";
@@ -132,6 +133,7 @@ class App extends Component {
               <PrivateRoute exact path="/profile/:id" component={Profile} />
               <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
               <PrivateRoute exact path="/createMealWizard"  component={() => { return <span/>}} />
+              <PrivateRoute exact path="/chat"  component={ChatList} />
               <PrivateRoute exact path="/user/:id"  component={() => { return <span/>}} />
               <Route path="/" component={Meals} />
             </Switch>
