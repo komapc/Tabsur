@@ -43,7 +43,8 @@ class Login extends Component {
       email: "",
       password: "",
       errors: {},
-      user:false
+      user:false,
+      picture:{}
     };
   }
   

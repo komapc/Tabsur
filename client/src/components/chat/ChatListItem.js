@@ -10,12 +10,19 @@ class ChatListItem extends React.Component {
     };
   }
 
+  handleuserClick = (event, id) => {
+    event.stopPropagation();
+    event.preventDefault();
+    this.props.history.push({
+      pathname: `/ChatUser/{id}`
+    });
+  }
   render() {
 
     return (
       <div >
         <span>
-            <span> {this.state.user.id}</span> said:
+            <span onClick={this.handleuserClick}> {this.state.user.id}</span> said:
             <span> {this.state.user.message_text}</span>
         </span>
         

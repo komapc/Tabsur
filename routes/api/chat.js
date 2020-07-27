@@ -23,8 +23,12 @@ router.get("/:id", async (req, response) => {
    // userId = -1;
   }
   //todo: get messages with  reveiver OR sender, top 1 for every user
-  const SQLquery = `SELECT id, receiver, sender, message_text, created_at FROM  notifications 
-    WHERE note_type=0  AND  sender=$1 `;
+  const SQLquery = `
+  SELECT 
+    (select name as name1 FROM users where id=receiver), 
+    (select name as name2 FROM users where id=sender), 
+    id, receiver, sender, message_text, created_at FROM  notifications 
+    WHERE note_type=0 AND sender=$1 `;
   console.log(`get, SQLquery: [${SQLquery}]`);
   await client.connect();
 
@@ -55,7 +59,10 @@ router.get("user/:me/:user", async (req, response) => {
    // userId = -1;
   }
   //todo: get messages with  reveiver OR sender, top 1 for every user
-  const SQLquery = `SELECT id, receiver, sender, message_text, created_at FROM  notifications 
+  const SQLquery = `SELECT 
+  (select name as name1 FROM users where id=receiver), 
+  (select name as name2 FROM users where id=senFder),
+  id, receiver, sender, message_text, created_at FROM  notifications 
     WHERE note_type=0  AND  ( (sender=$1 AND receiver=$2) OR (sender=$2 AND receiver=$1)`;
   console.log(`get, SQLquery: [${SQLquery}]`);
   await client.connect();
