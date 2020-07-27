@@ -54,14 +54,14 @@ const useStylesStats = makeStyles(theme => ({
     justifyContent: 'center'
   },
   header: {
-    color: "green",
+    color: "#13A049",
     fontSize: 32,
     fontWeight: "fontWeightBold",
     fontStyle: "italic",
     //fontFamily: "Monospace"
   },
   stat: {
-    color: "green",
+    color: "#13A049",
     fontSize: 16,
     fontWeight: "fontWeightBold",
     alignItems: 'center',
@@ -125,7 +125,7 @@ const useStylesTabs = makeStyles(theme => ({
   root: {
     flexGrow: 1, // ?
 
-    color: "green",
+    color: "#13A049",
     fontSize: 16,
     fontWeight: "fontWeightBold",
     width: "100%",
