@@ -101,14 +101,14 @@ nav
 }
 .menu
 {
-    background-color:#f75c06;
+    background-color:#FFFFFF;
     position: fixed;
     right:0px;
     bottom: 56px;
     height: 100%;
     width: 50%;
     font-size: 150%;
-    color: white;
+    color: #13A049;
     transition: 0.2s;
     top: 0px;
     padding-top: 56px;
@@ -135,14 +135,14 @@ nav
 
 .notes
 {
-    background-color:#BAE2A6;
+    background-color:#FFFFFF;
     position: fixed;
     right:0px;
     bottom: 56px;
     height: 100%;
     width: 50%;
     font-size: 150%;
-    color: white;
+    color: #13A049;
     transition: 0.2s;
     top: 0px;
     padding-top: 56px;
@@ -205,7 +205,7 @@ nav
 
 .link
 {
-    color: white;
+    color: #13A049;
     font-weight: bold;
     margin-left: 10%;
 
