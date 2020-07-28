@@ -6,30 +6,35 @@ class ChatUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: props.user
+      user: props.user,
+      messages: {}
     };
+    getChatMessages(this.props.auth.user.id)
+    .then(res => {
+      console.log(res.data);
+      this.setState({ messages: res.data, loading: false });
+    })
+    .catch(error=>{
+      console.error(error);
+    })
   }
   componentDidMount() {
-    getChatMessages(this.props.auth.user.id)
-      .then(res => {
-        console.log(res.data);
-        this.setState({ messages: res.data, loading: false });
-      })
+  
   };
 
   render() {
     return <span>
       chat with a user
-
-    
-        {this.state.messages.map(message =>
+      {JSON.stringify(this.state.messages)}
+        {/* {this.state.messages.map(message =>
           <div key={message.id}>
            <div>{JSON.stringify(message)}</div>
           </div>
-        )}
+        )} */}
         <div>
           <input type="text" id="message" placeholder="Message"></input>
           <button onClick={() => this.sendMessageWithCallback(
+ 
             this.props.auth.user.id,
             this.state.id,
             document.getElementById("message").value
