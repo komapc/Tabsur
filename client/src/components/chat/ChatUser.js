@@ -1,7 +1,7 @@
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import React from "react";
-import { getChatUsers } from "../../actions/chatActions";
+import { getChatMessages } from "../../actions/chatActions";
 class ChatUser extends React.Component {
   constructor(props) {
     super(props);
@@ -9,33 +9,39 @@ class ChatUser extends React.Component {
       user: props.user
     };
   }
+  componentDidMount() {
+    getChatMessages(this.props.auth.user.id)
+      .then(res => {
+        console.log(res.data);
+        this.setState({ messages: res.data, loading: false });
+      })
+  };
 
- 
   render() {
-  return <span>
-    chat with a user 
+    return <span>
+      chat with a user
 
-    <div>
-          {
-            this.props.auth.user.id !== this.state.id ?
-              <div>
-                <input type="text" id="message" placeholder="Message"></input>
-                <button onClick={() => this.sendMessageWithCallback(
-                  this.props.auth.user.id,
-                  this.state.id,
-                  document.getElementById("message").value
-                )}>Send</button>
-              </div> :
-              <div></div>
-          }
+    
+        {this.state.messages.map(message =>
+          <div key={message.id}>
+           <div>{JSON.stringify(message)}</div>
+          </div>
+        )}
+        <div>
+          <input type="text" id="message" placeholder="Message"></input>
+          <button onClick={() => this.sendMessageWithCallback(
+            this.props.auth.user.id,
+            this.state.id,
+            document.getElementById("message").value
+          )}>Send</button>
         </div>
   </span>
 };
- 
+
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+        auth: state.auth
 });
 
 export default connect(
