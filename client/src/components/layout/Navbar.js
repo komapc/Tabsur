@@ -6,7 +6,9 @@ import Menu from "./Menu.js"
 import Notifications from "./Notifications";
 import Badge from '@material-ui/core/Badge';
 import { connect } from "react-redux";
-import MessageOutlinedIcon from '@material-ui/icons/Message';
+import MessageOutlinedIcon from '@material-ui/icons/MessageOutlined';
+import NotificationsOutlinedIcon from '@material-ui/icons/NotificationsOutlined';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import store from "../../store";
 import setNotificationsCount from "../../actions/notifications"
 
@@ -41,22 +43,22 @@ class Navbar extends Component {
   render() {
     return (
       <div className="navbar-top">
-        
-      <div>{JSON.stringify(this.props.messagesCount)}</div>
         <div>
           <span onClick={this.openMessages}>
-            <Badge badgeContent={this.state.messagesCount} color="secondary">
-              <MessageOutlinedIcon fontSize="large" color="disabled" alt={"Messages"} />
+            <Badge badgeContent={this.props.messagesCount} color="secondary">
+              <MessageOutlinedIcon fontSize="large" color="primary" alt={"Messages"} />
             </Badge>
           </span>
           <span onClick={this.openNotifications} >
-            <Badge badgeContent={this.state.notificationsCount} color="secondary">
-              <img className="navbar-icons" src={notification} alt={"Notifications"} />
+            <Badge badgeContent={this.props.notificationsCount} color="secondary">
+              {/* <img className="navbar-icons" src={notification} alt={"Notifications"} /> */}
+              <NotificationsOutlinedIcon fontSize="large" color="primary" alt={"Notifications"} />
             </Badge>
           </span>
           <span onClick={this.openMenu}>
             <Badge badgeContent={0} color="secondary">
-              <img className="navbar-icons" src={sandwich} alt={"..."} />
+              {/* <img className="navbar-icons" src={sandwich} alt={"..."} /> */}
+              <MoreVertIcon fontSize="large" color="primary" alt={"Menu"} />
             </Badge>
           </span>
         </div>
