@@ -140,7 +140,6 @@ class App extends Component {
               <Route path="/" component={Meals} />
             </Switch>
             <Switch>{/* Bottom menu for everybody except the wizard */}
-              {/* Why? As user want it also in wizard */}
               <PrivateRoute exact path="/createMealWizard" component={() => { return <span/>}}  />
               <PrivateRoute exact path="/user/:id" component={() => { return <span/>}}  />
               <Bottom />
