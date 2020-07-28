@@ -7,9 +7,11 @@ class ChatUser extends React.Component {
     super(props);
     this.state = {
       user: props.user,
-      messages: {}
+      messages: {},
+      partner_id: this.props.match.params.id,
     };
-    getChatMessages(this.props.auth.user.id)
+    console.log(`partner: ${this.state.partner_id}`);
+    getChatMessages(this.props.auth.user.id, this.state.partner_id)
     .then(res => {
       console.log(res.data);
       this.setState({ messages: res.data, loading: false });
