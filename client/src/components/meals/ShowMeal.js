@@ -7,38 +7,36 @@ import { getUserFollowers } from "../../actions/userActions";
 class GuestList extends Component {
   constructor(props) {
     super(props);
-    this.state = 
-    { 
-      guests:[],
-      followies:[],
-      sorted:["Loading"], //list of guest with followies first
-      userId:this.props.userId
+    this.state =
+    {
+      guests: [],
+      followies: [],
+      sorted: ["Loading"], //list of guest with followies first
+      userId: this.props.userId
     }
   }
 
-  getGuests = ()=>
-  {
+  getGuests = () => {
     getGuestList(this.props.mealId)
-    .then(res => {
-      console.log(res.data);
-      this.setState({ guests: res.data });
-    })
-    .catch(err => {
-      console.log(err);
-    });
+      .then(res => {
+        console.log(res.data);
+        this.setState({ guests: res.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
-  getFollowies = ()=>
-  {
+  getFollowies = () => {
     const userId = this.state.userId;
-    getUserFollowers(userId)    
-    .then(res => {
-      console.log("followies: " + res.data);
-      this.setState({ followies: res.data });
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    getUserFollowers(userId)
+      .then(res => {
+        console.log("followies: " + res.data);
+        this.setState({ followies: res.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
   componentDidMount() {
     this.getFollowies();
@@ -46,15 +44,15 @@ class GuestList extends Component {
   }
 
   render() {
-    let  sorted = this.state.guests;
+    let sorted = this.state.guests;
     return (
       <div>
-        Guests list: 
+        Guests list:
         {
           sorted.map(guest =>
-          <div key={guest.user_id}>
-            <Link to={`user/${guest.user_id}`}> #{guest.name}</Link>
-          </div>
+            <div key={guest.user_id}>
+              <Link to={`user/${guest.user_id}`}> #{guest.name}</Link>
+            </div>
           )
         }
       </div>
@@ -69,37 +67,35 @@ class ShowMeal extends Component {
     this.state = props.location.state;
   }
 
-  deleteMealEvent = (e) =>
-  {    
+  deleteMealEvent = (e) => {
     deleteMeal(this.state.meal.id).then(res => {
       console.log(res.data);
-      
-      this.props.history.push({pathname: '/MyMeals'});
+
+      this.props.history.push({ pathname: '/MyMeals' });
     })
-    .catch(err => {
-      console.log(err);
-    });
+      .catch(err => {
+        console.log(err);
+      });
   }
 
-  editMealEvent = (e) =>
-  {    
-      this.props.history.push({pathname: `/EditMeal/${this.state.meal.id}`});
+  editMealEvent = (e) => {
+    this.props.history.push({ pathname: `/EditMeal/${this.state.meal.id}` });
   }
 
   render() {
     return (
       <div className="main">
         <MealListItem meal={this.state.meal} />
-        <GuestList mealId={this.state.meal.id} userId = {this.props.auth.user.id}/>
+        <GuestList mealId={this.state.meal.id} userId={this.props.auth.user.id} />
         {
-          (this.state.meal.host_id === this.props.auth.user.id)?
-          <button onClick={(e)=>this.deleteMealEvent(e)}> Delete Meal </ button>:""
+          (this.state.meal.host_id === this.props.auth.user.id) ?
+            <button onClick={(e) => this.deleteMealEvent(e)}> Delete Meal </ button> : ""
         }
         {
-          (this.state.meal.host_id === this.props.auth.user.id)?
-          <button onClick={(e)=>this.editMealEvent(e)}> Edit Meal </ button>:""
+          (this.state.meal.host_id === this.props.auth.user.id) ?
+            <button onClick={(e) => this.editMealEvent(e)}> Edit Meal </ button> : ""
         }
-        
+
       </div>
     );
   }
