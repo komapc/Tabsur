@@ -12,6 +12,10 @@ import config from "../../config";
 import "./Meals.css";
 
 import React from "react";
+
+import Button from '@material-ui/core/Button';
+import DoneIcon from '@material-ui/icons/Done';
+import NotInterestedIcon from '@material-ui/icons/NotInterested';
 var dateFormat = require('dateformat');
 
 class AttendButton extends React.Component {
@@ -50,12 +54,14 @@ class AttendButton extends React.Component {
       attendButton = <span />;
     }
     else if (status <= 0) {
-      attendButton = <button
-        onClick={(event) => { this.handleAttend(event, 3) }} >Attend</button>;
+      attendButton = <Button startIcon={<DoneIcon />} variant="contained" color="primary" size="small" onClick={(event) => { this.handleAttend(event, 3) }}>
+      Attend
+    </Button>
+      // <button onClick={(event) => { this.handleAttend(event, 3) }} >Attend</button>;
     }
     else {
-      attendButton = <button
-        onClick={(event) => { this.handleAttend(event, 0) }} >Unattend</button>;
+      attendButton = <Button startIcon={<NotInterestedIcon />} variant="contained" color="secondary" size="small" onClick={(event) => { this.handleAttend(event, 0) }}>Unattend</Button>
+      // <button onClick={(event) => { this.handleAttend(event, 0) }} >Unattend</button>;
     }
 
     return <span className="attend-button">
