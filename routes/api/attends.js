@@ -28,14 +28,12 @@ router.post('/:id', async (req, response) => {
   const user_id = attend.user_id;
   const status = attend.status;
 
-  try {
-    
   if (isNaN(meal_id) || isNaN(user_id) || isNaN(status)) {
     return response.status(500).json("Bad input, one of the parameters is not numeric.");
   }
 
   await client.connect();
-  let ans = await client.query(`
+  return client.query(`
     INSERT INTO attends (meal_id, user_id, status)
     VALUES ($1, $2, $3) 
     ON CONFLICT (meal_id, user_id) DO UPDATE 
@@ -44,32 +42,36 @@ router.post('/:id', async (req, response) => {
     AND attends.user_id = $6
     RETURNING (SELECT host_id FROM meals WHERE id=$7)
   `, [meal_id, user_id, status, status, meal_id, user_id, meal_id])
-  // .then((ans) => {
-    if(status) {
-      const message =
-      {
-        title: 'Attend', 
-        body:  'A user wants to join your meal', 
-        icon: 'resources/Message-Bubble-icon.png', 
-        click_action: '/Meals/',
-        receiver: attend.user_id,//(SELECT host_id FROM meals WHERE id=$1)
-        meal_id:  attend.meal_id,
-        sender: -1,
-        type: 5
-      }
-      addNotification(message);
+    .then(ans => {
+      if (status) {
+        console.log(`Answer: ${JSON.stringify(ans.rows[0])}`);
+        const host=ans.rows[0].host_id;
+        const message =
+        {
+          title: 'Attend',
+          body: 'A user wants to join your meal',
+          icon: 'resources/Message-Bubble-icon.png',
+          click_action: '/Meals/',
+          receiver: host,
+          meal_id: attend.meal_id,
+          sender: -1,
+          type: 5
+        }
+        addNotification(message);
 
-      return response.status(201).json(ans.rows);
-     
-    } else { // no notification on unnattend
-      return response.status(201).json(ans.rows);
-    }
-  } catch (error) {
-    console.error(err);
-    return response.status(500).json(err);
-  } finally {
-    client.end();
-  }
+        return response.status(201).json(ans.rows);
+
+      } else { // no notification on unnattend
+        return response.status(201).json(ans.rows);
+      }
+    })
+    .catch(error => {
+      console.error(err);
+      return response.status(500).json(err);
+    })
+    .finally(() => {
+      client.end();
+    });
 });
 
 /* UPDATE attend */
@@ -88,7 +90,7 @@ router.delete('/:id', async (req, res, next) => {
   client.query('DELETE FROM attends WHERE ' +
     'meal_id = $1 AND user_id=$2',
     [attend.meal_id, attend.user_id])
-    .catch(err => { console.log(err); return response.status(500).json("failed to delete"); })
+    .catch(err => { console.error(err); return response.status(500).json("failed to delete"); })
     .then(answer => { return response.status(201).json(answer); });
 });
 
