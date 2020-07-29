@@ -187,6 +187,7 @@ class App extends Component {
           <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
             <Meals/>
             <MyProfile/>
+            <MyMeals/>
             <CreateMealWizard/>
           </SwipeableViews>
           {/* <Bottom /> */}
