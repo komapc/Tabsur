@@ -49,7 +49,7 @@ const MyProfileHeader = () => {
 
 //#region MyProfileStats
 const useStylesStats = makeStyles(theme => ({
-  headerContainer: { 
+  headerContainer: {
     width: "100%",
     display: 'flex',
     alignItems: 'center',
@@ -71,7 +71,7 @@ const useStylesStats = makeStyles(theme => ({
     display: 'flex',
   }
 }))
-const MyProfileStats = ({name: Name}) => {
+const MyProfileStats = ({ name: Name }) => {
   const classes = useStylesStats()
   return (
     <React.Fragment>
@@ -138,7 +138,7 @@ const useStylesTabs = makeStyles(theme => ({
 }));
 const MyProfileTabs = () => {
   const classes = useStylesTabs();
-  const [value, setValue] = React.useState(0);const handleChange = (event, newValue) => {
+  const [value, setValue] = React.useState(0); const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   return (
@@ -165,7 +165,7 @@ class MyProfile extends Component {
     super(props);
     this.state = {
       name: this.props.auth.user.name,
-      email:  this.props.auth.user.email,
+      email: this.props.auth.user.email,
       address: "",
       errors: {}
     };
@@ -201,69 +201,69 @@ class MyProfile extends Component {
     return (
       <React.Fragment>
         <MyProfileHeader />
-        <MyProfileStats name={this.state.name}/>
-        <MyProfileTabs/>
+        <MyProfileStats name={this.state.name} />
+        <MyProfileTabs />
 
         {false ? (
-        <div className="row">
-          <div className="col s8 offset-s2">
-            <form noValidate onSubmit={this.onSubmit} display="none" disabled={true}>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.name}
-                  error={errors.name}
-                  id="name"
-                  type="text"
-                  className={classnames("", {
-                    invalid: errors.name
-                  })}
-                />
-                <label htmlFor="name">Name</label>
-                <span className="red-text">{errors.name}</span>
-              </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  id="email"
-                  type="email"
-                  className={classnames("", {
-                    invalid: errors.email
-                  })}
-                />
-                <label htmlFor="email">Email</label>
-                <span className="red-text">{errors.email}</span>
-              </div>
+          <div className="row">
+            <div className="col s8 offset-s2">
+              <form noValidate onSubmit={this.onSubmit} display="none" disabled={true}>
+                <div className="input-field col s12">
+                  <input
+                    onChange={this.onChange}
+                    value={this.state.name}
+                    error={errors.name}
+                    id="name"
+                    type="text"
+                    className={classnames("", {
+                      invalid: errors.name
+                    })}
+                  />
+                  <label htmlFor="name">Name</label>
+                  <span className="red-text">{errors.name}</span>
+                </div>
+                <div className="input-field col s12">
+                  <input
+                    onChange={this.onChange}
+                    value={this.state.email}
+                    error={errors.email}
+                    id="email"
+                    type="email"
+                    className={classnames("", {
+                      invalid: errors.email
+                    })}
+                  />
+                  <label htmlFor="email">Email</label>
+                  <span className="red-text">{errors.email}</span>
+                </div>
 
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.address}
-                  error={errors.address}
-                  id="address"
-                  type="address"
-                  className={classnames("", {
-                    invalid: errors.address
-                  })}
-                />
-                <label htmlFor="address">Address</label>
-                <span className="red-text">{errors.address}</span>
+                <div className="input-field col s12">
+                  <input
+                    onChange={this.onChange}
+                    value={this.state.address}
+                    error={errors.address}
+                    id="address"
+                    type="address"
+                    className={classnames("", {
+                      invalid: errors.address
+                    })}
+                  />
+                  <label htmlFor="address">Address</label>
+                  <span className="red-text">{errors.address}</span>
+                </div>
+                <div>
+                  More params to come: cousine, images, visit history and more.
               </div>
-              <div>
-              More params to come: cousine, images, visit history and more.
-              </div>
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-                <button
-                  type="submit"
-                  className="button waves-effect waves-light hoverable accent-3" >
-                  Save
+                <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+                  <button
+                    type="submit"
+                    className="button waves-effect waves-light hoverable accent-3" >
+                    Save
                 </button>
-              </div>
-            </form>
-        </div>
-        </div>) : ""}
+                </div>
+              </form>
+            </div>
+          </div>) : ""}
       </React.Fragment>
     );
   }

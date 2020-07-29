@@ -9,7 +9,7 @@ class MealMap extends Component {
     super(props);
     const position = { lng: 31.808, lat: 32.09 };
     let  selected=0;
-    const params=this.props.match.params;
+    const params=this.props.match?this.props.match.params:{};
     if (this.props.selectedMeal>0)
     {
       selected=this.props.selectedMeal;
