@@ -65,11 +65,11 @@ class AttendButton extends React.Component {
 };
 class MealImage extends React.Component {
   render() {
-    var path=this.props.meal.path;
-    path = path?
-    `${config.SERVER_HOST}/api/${path}.undefined`:defaultImage;
+    var path = this.props.meal.path;
+    path = path ?
+      `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
     return <img src={path}
-    alt={path} className="meal-image" />
+      alt={path} className="meal-image" />
   }
 }
 class MealListItem extends React.Component {
@@ -134,7 +134,7 @@ class MealListItem extends React.Component {
     return (
       <div className="meal-props" onClick={(event) => { this.gotoMeal(event, meal) }}>
         <span className="meal-props-left">
-          <MealImage meal={meal}/>
+          <MealImage meal={meal} />
           <div>
             <img className="meal-info-icons" src={dishes} alt={"number of portions"} />
             <span className="meal-guests">({meal.guest_count}/{meal.Atendee_count})</span>
