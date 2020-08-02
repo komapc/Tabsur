@@ -57,12 +57,9 @@ class AttendButton extends React.Component {
       attendButton = <Button startIcon={<DoneIcon />} variant="contained" color="primary" size="small" onClick={(event) => { this.handleAttend(event, 3) }}>
       Attend
     </Button>
-      // <button onClick={(event) => { this.handleAttend(event, 3) }} >Attend</button>;
     }
     else {
-      attendButton = <Button startIcon={<NotInterestedIcon />} variant="contained" color="secondary" size="small" onClick={(event) => { this.handleAttend(event, 0) }}>Unattend</Button>
-      // <button onClick={(event) => { this.handleAttend(event, 0) }} >Unattend</button>;
-    }
+      attendButton = <Button startIcon={<NotInterestedIcon />} variant="contained" color="secondary" size="small" onClick={(event) => { this.handleAttend(event, 0) }}>Unattend</Button>  }
 
     return <span className="attend-button">
       {attendButton}
