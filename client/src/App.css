@@ -89,7 +89,6 @@ nav
     min-width:100%;
     flex-direction: column;
     flex-wrap: nowrap;
-    height: 600px; /*otherwie map doesn't work*/
     overflow: hidden;
     display:flex;
     align-items: flex-start;

@@ -205,7 +205,7 @@ class MyProfile extends Component {
         <MyProfileTabs />
 
         {false ? (
-          <div className="row">
+          <div className="row main">
             <div className="col s8 offset-s2">
               <form noValidate onSubmit={this.onSubmit} display="none" disabled={true}>
                 <div className="input-field col s12">

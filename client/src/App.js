@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -36,8 +36,6 @@ import "./App.css";
 import { messaging } from "../src/init-fcm";
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import SwipeableViews from 'react-swipeable-views';
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -132,81 +130,32 @@ class App extends Component {
       index,
     });
   };
-
-
-
-
-  renderRouter()
-  {
-    return <Router>
-    <div className="app">
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>Coolanu - food sharing app or food sharing and social dinning</title>
-        <link rel="canonical" href="https://coolanu.com" />
-      </Helmet>
-      <Switch>{/*screens without top bar */}
-        <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
-        <PrivateRoute exact path="/user/:id" component={ShowUser} />
-        <Navbar />
-      </Switch>
-      <Switch>
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/login/:extend?" component={Login} />            
-        <Route exact path="/about" component={About} />
-        <Route exact path="/menu" component={Menu} />
-        <PrivateRoute exact path="/meals" component={Meals} />
-        <PrivateRoute exact path="/meal" component={ShowMeal} />
-        <PrivateRoute exact path="/mealMap/:meal_id?" component={MealMap} />
-        <PrivateRoute exact path="/myMeals" component={MyMeals} />
-        <PrivateRoute exact path="/attend/:id" component={Attend} />
-        <PrivateRoute exact path="/notifications" component={NotificationScreen} /> 
-        <PrivateRoute exact path="/myProfile" component={MyProfile} />
-        <PrivateRoute exact path="/profile/:id" component={Profile} />
-        <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
-        <PrivateRoute exact path="/chat"  component={ChatList} />
-        <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
-        <PrivateRoute exact path="/createMealWizard"  component={() => { return <span/>}} />
-        <PrivateRoute exact path="/user/:id"  component={() => { return <span/>}} />
-        <Route path="/" component={Meals} />
-      </Switch>
-      <Switch>{/* Bottom menu for everybody except the wizard */}
-        <PrivateRoute exact path="/createMealWizard" component={() => { return <span/>}}  />
-        <PrivateRoute exact path="/user/:id" component={() => { return <span/>}}  />
-        <Bottom />
-      </Switch> 
-    </div>
-  </Router>
-  }
+  
   render() {
     return (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
         {/* {this.renderRouter()} */}
         <Router>
+          <div 
+          style={{overflowY:'hidden'}}>
           <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
-            <Meals/>
-            <MyProfile/>
-            <MyMeals/>
-            <CreateMealWizard/>
+            <div style={{height:'80vh'}}><Meals/></div>
+            <div style={{height:'80vh'}}><MyProfile/></div>
+            <div style={{height:'80vh'}}><MyMeals/></div>
+            <div style={{height:'80vh'}}><CreateMealWizard/> </div>
           </SwipeableViews>
-          {/* <Bottom /> */}
-          <Tabs value={this.state.index} fullWidth onChange={this.handleChange} >
-            <Tab label="Meals" />
-            <Tab label="My Profile" />
-            <Tab label="My Meals" />
-            <Tab label="Add Meal" />
-          </Tabs>
+          </div>
+          <Bottom onChange={this.handleChange} index={this.state.index}/> 
+          
         </Router>
-      );
-
         </ThemeProvider>
       </Provider>
     );
   }
 }
 
-export default connect((state) => ({
+export default connect(state => ({
   auth: state.auth,
   notificationsCount: state.notificationsCount,
   messagesCount: state.messagesCount
