@@ -16,7 +16,8 @@ class Meals extends Component {
     };
   }
 
-  componentDidMount() {
+  refresh()
+  {
     getMeals(this.props.auth.user.id)
     .then(res => {
           console.log(res.data);
@@ -26,6 +27,10 @@ class Meals extends Component {
       console.err(err);
       this.setState({ meals: [], loading: false });
     })
+  }
+
+  componentDidMount() {
+    this.refresh();
   };
 
   componentWillReceiveProps(nextProps) {
@@ -34,7 +39,7 @@ class Meals extends Component {
       this.setState({ active: nextProps.startTime });
       if (nextProps.active)
       {
-        this.componentDidMount()
+        this.refresh();
       }
     }
   }
