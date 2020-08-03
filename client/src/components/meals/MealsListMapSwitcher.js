@@ -59,18 +59,20 @@ export default function SimpleTabs() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+      {/* <AppBar position="static"> */}
+        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
           <Tab label="List" {...a11yProps(0)} />
           <Tab label="Map" {...a11yProps(1)} />
         </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
+      {/* </AppBar> */}
+      {/* <TabPanel value={value} index={0}>
         <Meals/>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <MealMap />
-      </TabPanel>
+      </TabPanel> */}
+       <div style={{display: value === 0 ? 'inline' : 'none'}}><Meals/></div>
+       <div style={{display: value === 1 ? 'inline' : 'none'}}><MealMap/></div>
     </div>
   );
 }
