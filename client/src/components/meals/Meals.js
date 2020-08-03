@@ -11,7 +11,8 @@ class Meals extends Component {
     this.state = {
       meals: [],
       loading: true,
-      id: this.props.auth.user.id || -1
+      id: this.props.auth.user.id || -1,
+      active: this.props.active
     };
   }
 
@@ -21,7 +22,23 @@ class Meals extends Component {
           console.log(res.data);
           this.setState({ meals: res.data, loading: false });
         })
+    .else(err =>{
+      console.err(err);
+      this.setState({ meals: [], loading: false });
+    })
   };
+
+  componentWillReceiveProps(nextProps) {
+    // You don't have to do this check first, but it can help prevent an unneeded render
+    if (nextProps.active !== this.state.active  ) {
+      this.setState({ active: nextProps.startTime });
+      if (nextProps.active)
+      {
+        this.componentDidMount()
+      }
+    }
+  }
+
   render() {
     return (
       <div className="main">
