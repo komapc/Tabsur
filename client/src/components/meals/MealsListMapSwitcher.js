@@ -60,10 +60,10 @@ export default function SimpleTabs() {
   return (
     <div className={classes.root}>
       {/* <AppBar position="static"> */}
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
-          <Tab label="List" {...a11yProps(0)} />
-          <Tab label="Map" {...a11yProps(1)} />
-        </Tabs>
+      <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
+        <Tab label="List" {...a11yProps(0)} />
+        <Tab label="Map" {...a11yProps(1)} />
+      </Tabs>
       {/* </AppBar> */}
       {/* <TabPanel value={value} index={0}>
         <Meals/>
@@ -71,8 +71,8 @@ export default function SimpleTabs() {
       <TabPanel value={value} index={1}>
         <MealMap />
       </TabPanel> */}
-       <div style={{display: value === 0 ? 'inline' : 'none'}}><Meals/></div>
-       <div style={{display: value === 1 ? 'inline' : 'none'}}><MealMap/></div>
+      <div style={{ display: value === 0 ? 'inline' : 'none' }}><Meals /></div>
+      <div style={{ display: value === 1 ? 'inline' : 'none' }}><MealMap /></div>
     </div>
   );
 }

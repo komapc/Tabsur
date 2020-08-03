@@ -10,7 +10,7 @@
 {
     position: relative;
     transition:1s;
-    height:  100%;
+    height:  70vh;
     width: 100vw;
     border: solid 1px;
     background-color: #73d763;
@@ -21,9 +21,9 @@
 .createMealMap-hidden
 {
     visibility: hidden;
-    position: fixed;
+    position: absolute;
     height: 0px;
-    width: 100%;
+    width: 100vw;
     transition: ease-in-out 0.2s;
 }
 
@@ -31,9 +31,9 @@
 {
     top: 0px;
     left:0px;
-    position: fixed;
-    height:100%;
-    width: 100%;
+    position: absolute;
+    height:100vh;
+    width: 100vw;
     background-color: #73d763;
     transition: ease-in-out 0.2s;
     z-index: 1000;
