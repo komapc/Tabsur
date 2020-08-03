@@ -37,6 +37,7 @@ import { messaging } from "../src/init-fcm";
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import SwipeableViews from 'react-swipeable-views';
+import MealsListMapSwitcher from './components/meals/MealsListMapSwitcher'
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -139,7 +140,8 @@ class App extends Component {
         <Router>
           <div  style={{overflowY:'hidden'}}>
           <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
-            <div style={{height:'80vh'}}><Meals active={this.state.index==0}/></div>
+
+            <div style={{height:'80vh'}}><MealsListMapSwitcher active={this.state.index==0}/></div>
             <div style={{height:'80vh'}}><MyProfile active={this.state.index==1}/></div>
             <div style={{height:'80vh'}}><MyMeals active={this.state.index==2}/></div>
             <div style={{height:'80vh'}}><CreateMealWizard active={this.state.index==3}/> </div>
