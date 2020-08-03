@@ -16,17 +16,16 @@ class Meals extends Component {
     };
   }
 
-  refresh()
-  {
+  refresh() {
     getMeals(this.props.auth.user.id)
-    .then(res => {
-          console.log(res.data);
-          this.setState({ meals: res.data, loading: false });
-        })
-    .catch(err =>{
-      console.err(err);
-      this.setState({ meals: [], loading: false });
-    })
+      .then(res => {
+        console.log(res.data);
+        this.setState({ meals: res.data, loading: false });
+      })
+      .catch(err => {
+        console.err(err);
+        this.setState({ meals: [], loading: false });
+      })
   }
 
   componentDidMount() {
@@ -35,10 +34,9 @@ class Meals extends Component {
 
   componentWillReceiveProps(nextProps) {
     // You don't have to do this check first, but it can help prevent an unneeded render
-    if (nextProps.active !== this.state.active  ) {
+    if (nextProps.active !== this.state.active) {
       this.setState({ active: nextProps.startTime });
-      if (nextProps.active)
-      {
+      if (nextProps.active) {
         this.refresh();
       }
     }

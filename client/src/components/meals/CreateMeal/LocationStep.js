@@ -28,23 +28,23 @@ const LocationStep = props => {
   }
 
   return (
-    <span>
+    <>
       {/* Address*/}
       <div>
         <img className="meal-info-location-icons" src={locationIcon} alt="location" />
         <span className="location-input-field input-field col s12 ">
-          <div  className="wizard-container">
-          <input
-            onChange={onChange}
-            onClick={onAddressClickHandle}
-            value={props.form.address}
-            error={errors.password}
-            id="address"
-            type="text"
-            notched="true"
-          />
-          <label htmlFor="address" shrink="true">Location</label>
-          <span className="red-text">{errors.address}</span>
+          <div className="wizard-container">
+            <input
+              onChange={onChange}
+              onClick={onAddressClickHandle}
+              value={props.form.address}
+              error={errors.password}
+              id="address"
+              type="text"
+              notched="true"
+            />
+            <label htmlFor="address" shrink="true">Location</label>
+            <span className="red-text">{errors.address}</span>
           </div>
         </span>
       </div>
@@ -56,7 +56,7 @@ const LocationStep = props => {
         />
       </div>
 
-    </span>
+    </>
   );
 };
 export default LocationStep;
