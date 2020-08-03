@@ -11,9 +11,7 @@ import { connect, Provider } from "react-redux";
 import store from "./store";
 
 import withSplashScreen  from "./components/layout/Splash"
-import Navbar from "./components/layout/Navbar";
 import Bottom from "./components/layout/Bottom";
-import Menu from "./components/layout/Menu";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
@@ -130,23 +128,32 @@ class App extends Component {
       index,
     });
   };
-  
+  Main = ()=>
+  {
+    return <Fragment>
+      <div  style={{overflowY:'hidden'}}>
+         <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
+          <div style={{height:'80vh'}}><Meals active={this.state.index==0}/></div>
+          <div style={{height:'80vh'}}><MyProfile active={this.state.index==1}/></div>
+          <div style={{height:'80vh'}}><MyMeals active={this.state.index==2}/></div>
+          <div style={{height:'80vh'}}><CreateMealWizard active={this.state.index==3}/> </div>
+        </SwipeableViews>
+      </div>
+     <Bottom onChange={this.handleChange} index={this.state.index}/> 
+    </Fragment>
+  };
+
   render() {
     return (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
         {/* {this.renderRouter()} */}
         <Router>
-          <div  style={{overflowY:'hidden'}}>
-          <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
-            <div style={{height:'80vh'}}><Meals active={this.state.index==0}/></div>
-            <div style={{height:'80vh'}}><MyProfile active={this.state.index==1}/></div>
-            <div style={{height:'80vh'}}><MyMeals active={this.state.index==2}/></div>
-            <div style={{height:'80vh'}}><CreateMealWizard active={this.state.index==3}/> </div>
-          </SwipeableViews>
-          </div>
-          <Bottom onChange={this.handleChange} index={this.state.index}/> 
-          
+        <Switch>
+        <Route exact path="/about" component={About} />
+        <Route path="/" component={this.Main} />
+         
+    </Switch>
         </Router>
         </ThemeProvider>
       </Provider>
