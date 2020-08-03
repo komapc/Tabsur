@@ -29,6 +29,16 @@ class MyMeals extends Component {
         console.log(err);
       });
   }
+  componentWillReceiveProps(nextProps) {
+    // You don't have to do this check first, but it can help prevent an unneeded render
+    if (nextProps.active !== this.state.active  ) {
+      this.setState({ active: nextProps.startTime });
+      if (nextProps.active)
+      {
+        this.componentDidMount()
+      }
+    }
+  }
   render() {
     const { user } = this.props.auth;
     return (
