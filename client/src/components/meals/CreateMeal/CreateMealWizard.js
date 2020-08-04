@@ -24,7 +24,7 @@ import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
 
-const CreateMealWizard = ({ auth, addMeal }) => {
+const CreateMealWizard = ({ auth, addMeal, handleChangeIndex }) => {
   const formatedDate = new Date(Date.now() + 86400000);
   const history = useHistory();
   const [state, updateState] = useState({
@@ -57,7 +57,7 @@ const CreateMealWizard = ({ auth, addMeal }) => {
     });
   };
   const backToList = () => {
-    history.push("/Meals");
+    handleChangeIndex(0);
   }
   const submit = (e) => {
     e.preventDefault();
@@ -76,7 +76,7 @@ const CreateMealWizard = ({ auth, addMeal }) => {
       image_id: state.form.image_id ? state.form.image_id : -2
     };
     console.log(JSON.stringify(newMeal));
-    addMeal(newMeal, state.history);
+    addMeal(newMeal, ()=>{handleChangeIndex(2);});
   }
   const update = (e) => {
     const { form } = state;
