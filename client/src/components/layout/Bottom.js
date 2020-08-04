@@ -14,7 +14,7 @@ class  Bottom extends Component {
           inkBarStyle={{background: 'Black'}} 
           TabIndicatorProps={{
             style: {
-              backgroundColor: "#D97D54"
+              backgroundColor: "#dc004e"
             }
         }}>
           <Tab label="Meals" icon={<img className="footer-icons" src={map} alt={"meals map"} />}> </Tab>
