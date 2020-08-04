@@ -24,9 +24,15 @@ import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
 
-const CreateMealWizard = ({ auth, addMeal, handleChangeIndex }) => {
-  const formatedDate = new Date(Date.now() + 86400000);
+const CreateMealWizard = ({ auth, addMeal, handleChangeIndex, active }) => {
   const history = useHistory();
+  //rediect if not logged-in
+  console.log(JSON.stringify(auth));
+  if (active && auth.isAuthenticated)
+  {
+    history.push('/Login');
+  }
+  const formatedDate = new Date(Date.now() + 86400000);
   const [state, updateState] = useState({
     form: {
       name: `${auth.user.name}'s meal`,
@@ -157,7 +163,7 @@ CreateMealWizard.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addMeal: (form, history) => addMeal(form, history)(dispatch)
+  addMeal: (form, onDone) => addMeal(form, onDone)(dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateMealWizard);

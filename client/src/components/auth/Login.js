@@ -43,11 +43,11 @@ class Login extends Component {
       email: "",
       password: "",
       errors: {},
-      user:false,
-      picture:{}
+      user: false,
+      picture: {}
     };
   }
-  
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/Meals");
@@ -79,9 +79,8 @@ class Login extends Component {
     console.log(response);
   }
 
-  facebookResponse = (response) => 
-  { 
-    console.log( JSON.stringify(response)  ); 
+  facebookResponse = (response) => {
+    console.log(JSON.stringify(response));
     const userData = {
       email: response.email,
       name: response.name,
@@ -90,7 +89,7 @@ class Login extends Component {
 
     this.props.loginUserFB(userData);
   }
- 
+
   render() {
     const { errors } = this.state;
     return (
@@ -152,26 +151,26 @@ class Login extends Component {
                   Login
                 </button>
                 <div>
-              {this.state.user ? <div>{JSON.stringify(this.state.user)}</div> :
-                <FBLoginButton facebookResponse={this.facebookResponse} />
-              }
-            </div>
+                  {this.state.user ? <div>{JSON.stringify(this.state.user)}</div> :
+                    <FBLoginButton facebookResponse={this.facebookResponse} />
+                  }
+                </div>
               </div>
             </form>
-            {(this.props.match.params.extend)?
-            <span>
-            <GoogleLogin
-              clientId={`${googleKey}`}
-              buttonText="Login"
-              onSuccess={this.props.responseGoogle}
-              onFailure={this.props.responseGoogle}
-              cookiePolicy={'single_host_origin'}
-            />
-            
-            </span>
-            :<span/>
+            {(this.props.match.params.extend) ?
+              <span>
+                <GoogleLogin
+                  clientId={`${googleKey}`}
+                  buttonText="Login"
+                  onSuccess={this.props.responseGoogle}
+                  onFailure={this.props.responseGoogle}
+                  cookiePolicy={'single_host_origin'}
+                />
+
+              </span>
+              : <span />
             }
-           
+
           </div>
         </div>
       </div>
