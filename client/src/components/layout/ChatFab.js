@@ -29,7 +29,7 @@ const ChatFab = () => {
         <React.Fragment>
             <div className={classes.root}>
                 <div className={classes.wrapper}>
-                    <Fab color="transparent" className={classes.fab}>
+                    <Fab color="transparent" className={classes.fab} href="/chat">
                         {/* <img src={chatFabImg} alt="Chat"/> */}
                         <ChatIcon />
                     </Fab>
