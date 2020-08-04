@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
 import Fab from '@material-ui/core/Fab';
 import ChatIcon from '@material-ui/icons/Chat';
+import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -23,16 +24,19 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ChatFab = () => {
+const ChatFab = (props) => {
     const classes = useStyles();
-
+    console.log(`props: ${JSON.stringify(props)}`);
     return (
+        
         <React.Fragment>
             <div className={classes.root}>
                 <div className={classes.wrapper}>
                     <Fab color="transparent" className={classes.fab} href="/chat">
                         {/* <img src={chatFabImg} alt="Chat"/> */}
+                        <Badge badgeContent={props.messagesCount} color="secondary">
                         <ChatIcon />
+                        </Badge>
                     </Fab>
                 </div>
             </div>
@@ -40,12 +44,31 @@ const ChatFab = () => {
     );
 }
 
+class ChatFabWrapper extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+          messagesCount: props.messagesCount
+        };
+      }
+
+    render() {
+        return (
+            <React.Fragment>
+                <ChatFab messagesCount={this.props.messagesCount}/>
+            </React.Fragment>
+        );
+    }
+}
+
 ChatFab.propTypes = {
     auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    notificationsCount: state.notificationsCount,
+    messagesCount: state.messagesCount
 });
 
-export default connect(mapStateToProps)(ChatFab);
+export default connect(mapStateToProps)(ChatFabWrapper);
