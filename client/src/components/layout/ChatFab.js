@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => ({
 
 const ChatFab = (props) => {
     const classes = useStyles();
-    console.log(`props: ${JSON.stringify(props)}`);
     return (
         
         <React.Fragment>
@@ -61,12 +60,8 @@ class ChatFabWrapper extends Component {
     }
 }
 
-ChatFab.propTypes = {
-    auth: PropTypes.object.isRequired
-};
-
 const mapStateToProps = state => ({
-    auth: state.auth,
+    //auth: state.auth,
     notificationsCount: state.notificationsCount,
     messagesCount: state.messagesCount
 });
