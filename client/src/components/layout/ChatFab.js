@@ -18,7 +18,8 @@ const useStyles = makeStyles(theme => ({
         right: "5vw"
     },
     fab: {
-        backgroundColor: "transparent"
+        backgroundColor: "#13A049",
+        color: "#FFFFFF"
     }
 }));
 
