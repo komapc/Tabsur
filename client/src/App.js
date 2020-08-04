@@ -151,8 +151,17 @@ class App extends Component {
         <ThemeProvider theme={theme}>
         <Router>
         <Switch>
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/login/:extend?" component={Login} />            
         <Route exact path="/about" component={About} />
-        <Route path="/" component={this.Main} />
+        <PrivateRoute exact path="/user/:id"  component={ShowUser} />
+        <PrivateRoute exact path="/myProfile" component={MyProfile} />
+        <PrivateRoute exact path="/meal" component={ShowMeal} />
+        <PrivateRoute exact path="/profile/:id" component={Profile} />
+        <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
+        <PrivateRoute exact path="/chat"  component={ChatList} />
+        <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
+        <PrivateRoute path="/" component={this.Main} />
          
     </Switch>
         </Router>
