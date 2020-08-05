@@ -5,7 +5,7 @@ import MealListItem from "./MealListItem";
 
 import loadingGIF from "../../resources/animation/loading.gif";
 
-import ChatFab from '../layout/ChatFab'
+import AppFab from '../layout/AppFab'
 class Meals extends Component {
 
   constructor(props) {
@@ -47,7 +47,7 @@ class Meals extends Component {
   render() {
     return (
       <React.Fragment>
-        {/* <ChatFab />  */}
+        {/* <AppFab />  */}
       <div className="main">
         <div className="row">
           {
