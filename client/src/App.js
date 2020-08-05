@@ -159,11 +159,11 @@ class App extends Component {
       <div style={{overflowY:'hidden'}}>
          <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
 
-          <div style={{height:'92'}}><MealsListMapSwitcher setDisableAppFab={this.setDisableAppFab} active={this.state.index==tabs.meals}/></div>
-          <div style={{height:'90'}}><MyProfile active={this.state.index==tabs.myProfile}/></div>
-          <div style={{height:'90'}}><MyMeals active={this.state.index==tabs.myMeals} /></div>
+          <div style={{height:'85vh'}}><MealsListMapSwitcher setDisableAppFab={this.setDisableAppFab} active={this.state.index==tabs.meals}/></div>
+          <div style={{height:'85vh'}}><MyProfile active={this.state.index==tabs.myProfile}/></div>
+          <div style={{height:'85vh'}}><MyMeals active={this.state.index==tabs.myMeals} /></div>
           {/* <div style={{height:'85vh'}}><CreateMealWizard active={this.state.index==tabs.addMeal} handleChangeIndex={this.handleChangeIndex}/> </div> */}
-          <div style={{height:'90'}}><ChatList /> </div>
+          <div style={{height:'85vh'}}><ChatList /> </div>
         </SwipeableViews>
       </div>
      <Bottom onChange={this.handleChange} index={this.state.index}/> 
