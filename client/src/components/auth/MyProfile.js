@@ -39,7 +39,7 @@ const MyProfileHeader = () => {
     <React.Fragment>
       <div className={classes.alignItemsAndJustifyContent}>
         <Avatar />
-        <ChatFab />
+        {/* <ChatFab /> */}
       </div>
       <div className={classes.empty}></div>
     </React.Fragment>
@@ -200,6 +200,7 @@ class MyProfile extends Component {
 
     return (
       <React.Fragment>
+        <ChatFab /> 
         <MyProfileHeader />
         <MyProfileStats name={this.state.name} />
         <MyProfileTabs />
