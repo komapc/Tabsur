@@ -50,7 +50,7 @@ class Login extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/Meals");
+      this.props.history.push("/");
     }
 
     if (nextProps.errors) {
@@ -96,7 +96,7 @@ class Login extends Component {
       <div className="main">
         <div className="row">
           <div className="col s8 offset-s2">
-            <Link to="/Meals" className="btn-flat waves-effect">
+            <Link to="/" className="btn-flat waves-effect">
               <i className="material-icons left">keyboard_backspace</i> Back to
               the list
             </Link>
