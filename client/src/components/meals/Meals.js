@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
-
 import loadingGIF from "../../resources/animation/loading.gif";
-
-import AppFab from '../layout/AppFab'
 class Meals extends Component {
 
   constructor(props) {
@@ -47,7 +44,6 @@ class Meals extends Component {
   render() {
     return (
       <React.Fragment>
-        {/* <AppFab />  */}
       <div className="main">
         <div className="row">
           {
