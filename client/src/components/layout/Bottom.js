@@ -63,6 +63,7 @@ class Bottom extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      messagesCount: props.messagesCount,
       notificationsCount: props.notificationsCount,
       profileNotificationsCount: props.profileNotificationsCount
     };
@@ -102,7 +103,9 @@ class Bottom extends Component {
           <Tab label="Messages" icon={
             // <img className="footer-icons" src={plus} alt={"meals map"} />
             // <BigAddImg />
-            <BigMessageIcon />
+            <Badge badgeContent={this.props.messagesCount} color="secondary">
+              <BigMessageIcon />
+            </Badge>
           }></Tab>
         </Tabs>
       </div>
@@ -110,6 +113,7 @@ class Bottom extends Component {
   }
 }
 const mapStateToProps = state => ({
+  messagesCount: state.messagesCount,
   notificationsCount: state.notificationsCount,
   profileNotificationsCount: state.profileNotificationsCount
 });

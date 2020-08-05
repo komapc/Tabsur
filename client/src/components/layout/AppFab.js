@@ -43,10 +43,10 @@ const AppFab = (props) => {
             <div className={classes.root}>
                 <div className={classes.wrapper}>
                     <Fab className={classes.fab} href="/createMealWizard">
-                        <Badge badgeContent={props.messagesCount} color="secondary">
+                        {/* <Badge badgeContent={props.messagesCount} color="secondary"> */}
                             {/* <ChatIcon /> */}
                             <AddIcon />
-                        </Badge>
+                        {/* </Badge> */}
                     </Fab>
                 </div>
             </div>
