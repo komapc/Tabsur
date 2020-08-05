@@ -79,6 +79,16 @@ const theme = createMuiTheme({
   },
 });
 
+const tabs = {
+  meals: 0,
+  myProfile: 1,
+  myMeals: 2,
+  addMeal: 3,
+
+  mealsList: 0,
+  mealsMap: 1
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -88,6 +98,7 @@ class App extends Component {
       profileNotificationsCount: 0,
       messagesCount: 0,
       index: 0,
+      disableChatFab: false
     };
   }
 
@@ -132,19 +143,25 @@ class App extends Component {
       index,
     });
   };
+  setDisableChatFab = (value) => {
+    this.setState({
+      disableChatFab: value
+    });
+  }
+  isChatFabVisible() {
+    return (this.state.index === tabs.mealsList && !this.state.disableChatFab) || (this.state.index === tabs.mealsMap);
+  }
   Main = ()=>
   {
     return <Fragment>
-      
-      <div  style={{overflowY:'hidden'}}>
+      <ChatFab visible={this.isChatFabVisible()}/> 
+      <div style={{overflowY:'hidden'}}>
          <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
 
-          <div style={{height:'85vh'}}><MealsListMapSwitcher active={this.state.index==0}/></div>
-          <div style={{height:'85vh'}}><MyProfile active={this.state.index==1}/></div>
-          <div style={{height:'85vh'}}><MyMeals active={this.state.index==2} 
-            /></div>
-          <div style={{height:'85vh'}}><CreateMealWizard active={this.state.index==3}
-          handleChangeIndex={this.handleChangeIndex}/> </div>
+          <div style={{height:'85vh'}}><MealsListMapSwitcher setDisableChatFab={this.setDisableChatFab} active={this.state.index==tabs.meals}/></div>
+          <div style={{height:'85vh'}}><MyProfile active={this.state.index==tabs.myProfile}/></div>
+          <div style={{height:'85vh'}}><MyMeals active={this.state.index==tabs.myMeals} /></div>
+          <div style={{height:'85vh'}}><CreateMealWizard active={this.state.index==tabs.addMeal} handleChangeIndex={this.handleChangeIndex}/> </div>
         </SwipeableViews>
       </div>
      <Bottom onChange={this.handleChange} index={this.state.index}/> 
