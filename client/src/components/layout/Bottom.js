@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import store from "../../store";
+import {setNotificationsCount, setProfileNotificationsCount} from "../../actions/notifications"
 import map from "../../resources/bottom_menu/map_bar.svg"
 import list from "../../resources/bottom_menu/list_bar.svg"
 import plus from "../../resources/bottom_menu/add_meal_bar.svg"
@@ -36,6 +38,11 @@ class Bottom extends Component {
     };
   }
   render() {
+    if(this.props.index === 1 && this.props.profileNotificationsCount !== 0) {
+      store.dispatch(setProfileNotificationsCount(0));
+    } else if(this.props.index === 2 && this.props.notificationsCount !== 0) {
+      store.dispatch(setNotificationsCount(0));
+    }
     return (
       <div className="footer">
         <Tabs 
