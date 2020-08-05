@@ -57,7 +57,7 @@ class ChatFabWrapper extends Component {
     render() {
         return (
             <React.Fragment>
-                <ChatFab messagesCount={this.props.messagesCount}/>
+                { this.props.visible ? <ChatFab messagesCount={this.props.messagesCount}/> : null}
             </React.Fragment>
         );
     }
