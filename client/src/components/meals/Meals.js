@@ -23,7 +23,7 @@ class Meals extends Component {
         this.setState({ meals: res.data, loading: false });
       })
       .catch(err => {
-        console.err(err);
+        console.error(err);
         this.setState({ meals: [], loading: false });
       })
   }
