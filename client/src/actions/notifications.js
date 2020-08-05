@@ -1,7 +1,7 @@
 //this file is used only for AddMeal, but should be used everywhere.
 import axios from "axios";
 import config from "../config";
-import { SET_NOTIFICATIONS_COUNT } from "./types";
+import { SET_NOTIFICATIONS_COUNT, SET_PROFILE_NOTIFICATIONS_COUNT } from "./types";
 
 // get notifications for a user
 export const getNotifications = (usderId) => {
@@ -32,9 +32,17 @@ export const sendMessage = (sender, receiver, message) => {
   });
 }
 
-export default function setNotificationsCount(newCount) {
+export function setNotificationsCount(newCount) {
   return { 
     type: SET_NOTIFICATIONS_COUNT, 
     notificationsCount: newCount
   } 
 }
+
+export function setProfileNotificationsCount(newCount) {
+  return { 
+    type: SET_PROFILE_NOTIFICATIONS_COUNT, 
+    profileNotificationsCount: newCount
+  } 
+}
+
