@@ -78,6 +78,7 @@ const CreateMealWizard = ({ auth, addMeal, handleChangeIndex }, ...props) => {
     };
     console.log(JSON.stringify(newMeal));
     addMeal(newMeal, ()=>{handleChangeIndex(2);});
+    history.push('/') // TODO: meal list didn't updated => fix it
   }
   const update = (e) => {
     const { form } = state;
