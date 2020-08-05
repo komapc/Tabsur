@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import store from "../../store";
+import setMessagesCount from  "../../actions/MessagesActions"
 import {setNotificationsCount, setProfileNotificationsCount} from "../../actions/notifications"
 import map from "../../resources/bottom_menu/map_bar.svg"
 import list from "../../resources/bottom_menu/list_bar.svg"
@@ -69,11 +70,15 @@ class Bottom extends Component {
     };
   }
   render() {
+    // TODO: use tabs enum object from App.js and move it from App.js outside
     if(this.props.index === 1 && this.props.profileNotificationsCount !== 0) {
       store.dispatch(setProfileNotificationsCount(0));
     } else if(this.props.index === 2 && this.props.notificationsCount !== 0) {
       store.dispatch(setNotificationsCount(0));
+    } else if(this.props.index === 3 && this.props.messagesCount !== 0) {
+      store.dispatch(setMessagesCount(0));
     }
+    
     return (
       <div className="footer">
         <Tabs 
