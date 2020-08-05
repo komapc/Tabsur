@@ -134,8 +134,6 @@ class App extends Component {
     });
   };
   setDisableChatFab = (value) => {
-    console.log(`disableChatFab: ${value}`);
-    this.disableChatFab = value;
     this.setState({
       disableChatFab: value
     });
