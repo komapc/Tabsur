@@ -16,7 +16,9 @@ const useStyles = makeStyles(theme => ({
     wrapper: {
         position: "absolute",
         top: "10vh",
-        right: "5vw"
+        right: "5vw",
+        // overflowY: 'visible',
+        // overflowX: 'visible',
     },
     fab: {
         backgroundColor: "#FFFFFF",
@@ -31,10 +33,9 @@ const ChatFab = (props) => {
         <React.Fragment>
             <div className={classes.root}>
                 <div className={classes.wrapper}>
-                    <Fab color="transparent" className={classes.fab} href="/chat">
-                        {/* <img src={chatFabImg} alt="Chat"/> */}
+                    <Fab className={classes.fab} href="/chat">
                         <Badge badgeContent={props.messagesCount} color="secondary">
-                        <ChatIcon />
+                            <ChatIcon />
                         </Badge>
                     </Fab>
                 </div>

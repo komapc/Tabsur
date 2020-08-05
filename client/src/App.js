@@ -6,7 +6,7 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { setFirebaseCloudMessagingToken } from "./actions/notifications"
 import setMessagesCount from "./actions/MessagesActions"
-import setNotificationsCount from "./actions/notifications"
+import {setNotificationsCount, setProfileNotificationsCount} from "./actions/notifications"
 import { connect, Provider } from "react-redux";
 import store from "./store";
 
@@ -36,6 +36,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import SwipeableViews from 'react-swipeable-views';
 import MealsListMapSwitcher from './components/meals/MealsListMapSwitcher'
+import ChatFab from './components/layout/ChatFab'
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -84,6 +85,7 @@ class App extends Component {
     this.state = {
       id: this.props.auth.user.id || 0,
       notificationsCount: 0,
+      profileNotificationsCount: 0,
       messagesCount: 0,
       index: 0,
     };
@@ -108,9 +110,10 @@ class App extends Component {
     navigator.serviceWorker.addEventListener("message", (message) => {
       let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
       console.log(`message.data: ${JSON.stringify(data)}`);
-      if(data.type === "0") //"message"; TODO: use strings vs enums
-      {
+      if(data.type === "0") { //"message"; TODO: use strings vs enums
         store.dispatch(setMessagesCount(++this.state.messagesCount));
+      } else if(data.type === "6") {
+        store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount));
       } else {
         store.dispatch(setNotificationsCount(++this.state.notificationsCount));
       }
@@ -132,6 +135,7 @@ class App extends Component {
   Main = ()=>
   {
     return <Fragment>
+      
       <div  style={{overflowY:'hidden'}}>
          <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
 
@@ -153,19 +157,20 @@ class App extends Component {
         <ThemeProvider theme={theme}>
         <Router>
         <Switch>
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/login/:extend?" component={Login} />            
-        <Route exact path="/about" component={About} />
-        <PrivateRoute exact path="/user/:id"  component={ShowUser} />
-        <PrivateRoute exact path="/myProfile" component={MyProfile} />
-        <PrivateRoute exact path="/meal" component={ShowMeal} />
-        <PrivateRoute exact path="/profile/:id" component={Profile} />
-        <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
-        <PrivateRoute exact path="/chat"  component={ChatList} />
-        <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
-        <PrivateRoute path="/" component={this.Main} />
+
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login/:extend?" component={Login} />            
+          <Route exact path="/about" component={About} />
+          <PrivateRoute exact path="/user/:id"  component={ShowUser} />
+          <PrivateRoute exact path="/myProfile" component={MyProfile} />
+          <PrivateRoute exact path="/meal" component={ShowMeal} />
+          <PrivateRoute exact path="/profile/:id" component={Profile} />
+          <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
+          <PrivateRoute exact path="/chat"  component={ChatList} />
+          <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
+          <PrivateRoute path="/" component={this.Main} />
          
-    </Switch>
+        </Switch>
         </Router>
         </ThemeProvider>
       </Provider>
@@ -176,5 +181,6 @@ class App extends Component {
 export default connect(state => ({
   auth: state.auth,
   notificationsCount: state.notificationsCount,
+  profileNotificationsCount: state.profileNotificationsCount,
   messagesCount: state.messagesCount
 }))(withSplashScreen(App));
