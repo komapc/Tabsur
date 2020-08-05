@@ -148,10 +148,13 @@ class App extends Component {
       disableChatFab: value
     });
   }
+  isChatFabVisible() {
+    return (this.state.index === tabs.mealsList && !this.state.disableChatFab) || (this.state.index === tabs.mealsMap);
+  }
   Main = ()=>
   {
     return <Fragment>
-      {((this.state.index === tabs.mealsList && !this.state.disableChatFab) || (this.state.index === tabs.mealsMap)) ? <ChatFab /> : null}
+      <ChatFab visible={this.isChatFabVisible()}/> 
       <div style={{overflowY:'hidden'}}>
          <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
 
