@@ -36,6 +36,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import SwipeableViews from 'react-swipeable-views';
 import MealsListMapSwitcher from './components/meals/MealsListMapSwitcher'
+import ChatFab from './components/layout/ChatFab'
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -134,6 +135,7 @@ class App extends Component {
   Main = ()=>
   {
     return <Fragment>
+      
       <div  style={{overflowY:'hidden'}}>
          <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
 
@@ -155,19 +157,20 @@ class App extends Component {
         <ThemeProvider theme={theme}>
         <Router>
         <Switch>
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/login/:extend?" component={Login} />            
-        <Route exact path="/about" component={About} />
-        <PrivateRoute exact path="/user/:id"  component={ShowUser} />
-        <PrivateRoute exact path="/myProfile" component={MyProfile} />
-        <PrivateRoute exact path="/meal" component={ShowMeal} />
-        <PrivateRoute exact path="/profile/:id" component={Profile} />
-        <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
-        <PrivateRoute exact path="/chat"  component={ChatList} />
-        <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
-        <PrivateRoute path="/" component={this.Main} />
+
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login/:extend?" component={Login} />            
+          <Route exact path="/about" component={About} />
+          <PrivateRoute exact path="/user/:id"  component={ShowUser} />
+          <PrivateRoute exact path="/myProfile" component={MyProfile} />
+          <PrivateRoute exact path="/meal" component={ShowMeal} />
+          <PrivateRoute exact path="/profile/:id" component={Profile} />
+          <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
+          <PrivateRoute exact path="/chat"  component={ChatList} />
+          <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
+          <PrivateRoute path="/" component={this.Main} />
          
-    </Switch>
+        </Switch>
         </Router>
         </ThemeProvider>
       </Provider>
