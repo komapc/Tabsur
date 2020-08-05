@@ -42,6 +42,14 @@ const BigSearchIcon = () => {
     </React.Fragment>
   )
 }
+const BigMessageIcon = () => {
+  const classes = useStyles();
+  return (
+    <React.Fragment>
+      <MessageOutlinedIcon className={classes.bigIcon} />
+    </React.Fragment>
+  )
+}
 const BigAddImg = () => {
   const classes = useStyles();
   return (
@@ -91,9 +99,10 @@ class Bottom extends Component {
               {/* <BigMyMealsImg /> */}
             </Badge>
           }></Tab>
-          <Tab label="Add Meal" icon={
+          <Tab label="Messages" icon={
             // <img className="footer-icons" src={plus} alt={"meals map"} />
-            <BigAddImg />
+            // <BigAddImg />
+            <BigMessageIcon />
           }></Tab>
         </Tabs>
       </div>

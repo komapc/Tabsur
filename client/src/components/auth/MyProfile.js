@@ -12,7 +12,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import ChatFab from '../layout/ChatFab'
+import AppFab from '../layout/AppFab'
 
 import tmpBgImg from "../../resources/images/susi.jpeg";
 import { makeStyles } from '@material-ui/core/styles';
@@ -39,7 +39,6 @@ const MyProfileHeader = () => {
     <React.Fragment>
       <div className={classes.alignItemsAndJustifyContent}>
         <Avatar />
-        {/* <ChatFab /> */}
       </div>
       <div className={classes.empty}></div>
     </React.Fragment>
@@ -200,7 +199,6 @@ class MyProfile extends Component {
 
     return (
       <React.Fragment>
-        {/* <ChatFab />  */}
         <MyProfileHeader />
         <MyProfileStats name={this.state.name} />
         <MyProfileTabs />

@@ -54,7 +54,7 @@ export default function SimpleTabs(props) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
-    props.setDisableChatFab(newValue === 1);
+    props.setDisableAppFab(newValue === 1);
     setValue(newValue);
   };
 
