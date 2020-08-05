@@ -7,11 +7,32 @@ import myMeals from "../../resources/bottom_menu/my_meals_bar.svg"
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Badge from '@material-ui/core/Badge';
-class  Bottom extends Component {
+import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
+import FaceOutlinedIcon from '@material-ui/icons/FaceOutlined';
+import { makeStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles(theme => ({
+  bigIcon: {
+      height:'33px',
+      margin: '12px',
+      marginBottom:'1px',
+      width: '33px'
+  }
+}));
+const BigPersonImg = () => {
+  const classes = useStyles();
+  return (
+    <React.Fragment>
+      {/* <PersonOutlineOutlinedIcon className={classes.bigIcon} /> */}
+      <FaceOutlinedIcon className={classes.bigIcon} />
+    </React.Fragment>
+  )
+}
+class Bottom extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notificationsCount: props.notificationsCount
+      notificationsCount: props.notificationsCount,
+      profileNotificationsCount: props.profileNotificationsCount
     };
   }
   render() {
@@ -31,8 +52,9 @@ class  Bottom extends Component {
               backgroundColor: "#dc004e"
             }
         }}>
-          <Tab label="Meals" icon={<img className="footer-icons" src={map} alt={"meals map"} />}> </Tab>
-          <Tab label="My Profile"  icon={<img className="footer-icons" src={list} alt={"meals map"} />}></Tab>  
+          <Tab label="Meals" icon={<img className="footer-icons" src={list} alt={"meals map"} />}> </Tab>
+          {/* <Tab label="My Profile"  icon={<img className="footer-icons" src={list} alt={"meals map"} />}></Tab>   */}
+          <Tab label="My Profile"  icon={<Badge badgeContent={this.props.profileNotificationsCount} color="secondary"><BigPersonImg /></Badge>}></Tab>  
           <Tab label="My Meals"  icon={
             <Badge badgeContent={this.props.notificationsCount} color="secondary">
               <img className="footer-icons" src={myMeals} alt={"meals map"} />
@@ -45,6 +67,7 @@ class  Bottom extends Component {
   }
 }
 const mapStateToProps = state => ({
-  notificationsCount: state.notificationsCount
+  notificationsCount: state.notificationsCount,
+  profileNotificationsCount: state.profileNotificationsCount
 });
 export default connect(mapStateToProps)(Bottom);
