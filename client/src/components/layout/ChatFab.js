@@ -14,11 +14,13 @@ const useStyles = makeStyles(theme => ({
         }
     },
     wrapper: {
-        position: "absolute",
+         position: "fixed",
+        //position: "absolute",
         top: "10vh",
         right: "5vw",
         // overflowY: 'visible',
         // overflowX: 'visible',
+        zIndex: 999
     },
     fab: {
         backgroundColor: "#FFFFFF",
