@@ -31,7 +31,7 @@ const ChatFab = (props) => {
         <React.Fragment>
             <div className={classes.root}>
                 <div className={classes.wrapper}>
-                    <Fab color="transparent" className={classes.fab} href="/chat">
+                    <Fab className={classes.fab} href="/chat">
                         {/* <img src={chatFabImg} alt="Chat"/> */}
                         <Badge badgeContent={props.messagesCount} color="secondary">
                         <ChatIcon />
