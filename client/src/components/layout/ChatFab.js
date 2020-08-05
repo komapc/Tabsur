@@ -14,11 +14,13 @@ const useStyles = makeStyles(theme => ({
         }
     },
     wrapper: {
-        position: "absolute",
+         position: "fixed",
+        //position: "absolute",
         top: "10vh",
         right: "5vw",
         // overflowY: 'visible',
         // overflowX: 'visible',
+        zIndex: 999
     },
     fab: {
         backgroundColor: "#FFFFFF",
@@ -55,7 +57,7 @@ class ChatFabWrapper extends Component {
     render() {
         return (
             <React.Fragment>
-                <ChatFab messagesCount={this.props.messagesCount}/>
+                { this.props.visible ? <ChatFab messagesCount={this.props.messagesCount}/> : null}
             </React.Fragment>
         );
     }

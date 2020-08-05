@@ -200,7 +200,7 @@ class MyProfile extends Component {
 
     return (
       <React.Fragment>
-        <ChatFab /> 
+        {/* <ChatFab />  */}
         <MyProfileHeader />
         <MyProfileStats name={this.state.name} />
         <MyProfileTabs />
