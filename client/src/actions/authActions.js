@@ -9,6 +9,7 @@ import {
   USER_LOADING
 } from "./types";
 import config from "../config";
+import Login from "../components/auth/Login";
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
@@ -40,8 +41,7 @@ export const loginUser = userData => dispatch => {
       // Decode token to get user data
       const decoded = jwt_decode(token);
       // Set current user
-      const merged = {...decoded, ...userData};
-      dispatch(setCurrentUser(merged));
+      dispatch(setCurrentUser(decoded));
     })
     .catch(err =>
       dispatch({
@@ -66,6 +66,9 @@ export const loginUserFB = userData => dispatch => {
       // Decode token to get user data
       const decoded = jwt_decode(token);
       // Set current user
+      
+      const merged = {...decoded, ...userData};
+      console.log(JSON.stringify(merged));
       dispatch(setCurrentUser(decoded));
     })
     .catch(err =>
