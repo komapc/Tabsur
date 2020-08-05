@@ -6,7 +6,7 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { setFirebaseCloudMessagingToken } from "./actions/notifications"
 import setMessagesCount from "./actions/MessagesActions"
-import setNotificationsCount from "./actions/notifications"
+import {setNotificationsCount, setProfileNotificationsCount} from "./actions/notifications"
 import { connect, Provider } from "react-redux";
 import store from "./store";
 
@@ -84,6 +84,7 @@ class App extends Component {
     this.state = {
       id: this.props.auth.user.id || 0,
       notificationsCount: 0,
+      profileNotificationsCount: 0,
       messagesCount: 0,
       index: 0,
     };
@@ -108,9 +109,10 @@ class App extends Component {
     navigator.serviceWorker.addEventListener("message", (message) => {
       let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
       console.log(`message.data: ${JSON.stringify(data)}`);
-      if(data.type === "0") //"message"; TODO: use strings vs enums
-      {
+      if(data.type === "0") { //"message"; TODO: use strings vs enums
         store.dispatch(setMessagesCount(++this.state.messagesCount));
+      } else if(data.type === "6") {
+        store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount));
       } else {
         store.dispatch(setNotificationsCount(++this.state.notificationsCount));
       }
@@ -176,5 +178,6 @@ class App extends Component {
 export default connect(state => ({
   auth: state.auth,
   notificationsCount: state.notificationsCount,
+  profileNotificationsCount: state.profileNotificationsCount,
   messagesCount: state.messagesCount
 }))(withSplashScreen(App));
