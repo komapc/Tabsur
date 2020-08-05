@@ -135,7 +135,7 @@ class App extends Component {
   Main = ()=>
   {
     return <Fragment>
-      
+      {this.state.index === 0 || this.state.index === 1 ? <ChatFab /> : null}
       <div  style={{overflowY:'hidden'}}>
          <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
 
