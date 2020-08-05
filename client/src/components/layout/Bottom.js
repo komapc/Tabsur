@@ -14,6 +14,8 @@ import FaceOutlinedIcon from '@material-ui/icons/FaceOutlined';
 import EventOutlinedIcon from '@material-ui/icons/EventOutlined';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import { makeStyles } from '@material-ui/core/styles';
+import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
+import MessageOutlinedIcon from '@material-ui/icons/MessageOutlined';
 const useStyles = makeStyles(theme => ({
   bigIcon: {
       height:'33px',
@@ -31,12 +33,12 @@ const BigPersonImg = () => {
     </React.Fragment>
   )
 }
-const BigMyMealsImg = () => {
+const BigSearchIcon = () => {
   const classes = useStyles();
   return (
     <React.Fragment>
       {/* <PersonOutlineOutlinedIcon className={classes.bigIcon} /> */}
-      <EventOutlinedIcon className={classes.bigIcon} />
+      <SearchOutlinedIcon className={classes.bigIcon} />
     </React.Fragment>
   )
 }
@@ -79,13 +81,14 @@ class Bottom extends Component {
               backgroundColor: "#dc004e"
             }
         }}>
-          <Tab label="Meals" icon={<img className="footer-icons" src={meals} alt={"meals map"} />}> </Tab>
+          {/* <Tab label="Meals" icon={<img className="footer-icons" src={meals} alt={"meals map"} />}> </Tab> */}
+          <Tab label="Meals" icon={<BigSearchIcon />}> </Tab>
           {/* <Tab label="My Profile"  icon={<img className="footer-icons" src={list} alt={"meals map"} />}></Tab>   */}
           <Tab label="My Profile"  icon={<Badge badgeContent={this.props.profileNotificationsCount} color="secondary"><BigPersonImg /></Badge>}></Tab>  
           <Tab label="My Meals"  icon={
             <Badge badgeContent={this.props.notificationsCount} color="secondary">
-              {/* <img className="footer-icons" src={meals} alt={"meals map"} /> */}
-              <BigMyMealsImg />
+              <img className="footer-icons" src={meals} alt={"meals map"} />
+              {/* <BigMyMealsImg /> */}
             </Badge>
           }></Tab>
           <Tab label="Add Meal" icon={
