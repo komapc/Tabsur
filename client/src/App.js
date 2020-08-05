@@ -88,6 +88,7 @@ class App extends Component {
       profileNotificationsCount: 0,
       messagesCount: 0,
       index: 0,
+      disableChatFab: false
     };
   }
 
@@ -132,19 +133,24 @@ class App extends Component {
       index,
     });
   };
+  setDisableChatFab = (value) => {
+    console.log(`disableChatFab: ${value}`);
+    this.disableChatFab = value;
+    this.setState({
+      disableChatFab: value
+    });
+  }
   Main = ()=>
   {
     return <Fragment>
-      {this.state.index === 0 || this.state.index === 1 ? <ChatFab /> : null}
-      <div  style={{overflowY:'hidden'}}>
+      {((this.state.index === 0 && !this.state.disableChatFab) || (this.state.index === 1)) ? <ChatFab /> : null}
+      <div style={{overflowY:'hidden'}}>
          <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
 
-          <div style={{height:'85vh'}}><MealsListMapSwitcher active={this.state.index==0}/></div>
+          <div style={{height:'85vh'}}><MealsListMapSwitcher setDisableChatFab={this.setDisableChatFab} active={this.state.index==0}/></div>
           <div style={{height:'85vh'}}><MyProfile active={this.state.index==1}/></div>
-          <div style={{height:'85vh'}}><MyMeals active={this.state.index==2} 
-            /></div>
-          <div style={{height:'85vh'}}><CreateMealWizard active={this.state.index==3}
-          handleChangeIndex={this.handleChangeIndex}/> </div>
+          <div style={{height:'85vh'}}><MyMeals active={this.state.index==2} /></div>
+          <div style={{height:'85vh'}}><CreateMealWizard active={this.state.index==3} handleChangeIndex={this.handleChangeIndex}/> </div>
         </SwipeableViews>
       </div>
      <Bottom onChange={this.handleChange} index={this.state.index}/> 
