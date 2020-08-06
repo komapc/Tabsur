@@ -28,10 +28,13 @@ const useStylesHeader = makeStyles(theme => ({
     justifyContent: 'center',
     backgroundColor: '#13A049',
     //backgroundImage: `url(${tmpBgImg})`,
-    backgroundSize: 'cover'
+    backgroundSize: 'cover',
   },
   empty: {
     height: 64
+  },
+  wrapper: {
+    marginTop: '190px'
   }
 }))
 const MyProfileHeader = () => {
@@ -39,7 +42,9 @@ const MyProfileHeader = () => {
   return (
     <React.Fragment>
       <div className={classes.alignItemsAndJustifyContent}>
+        <div className={classes.wrapper}>
         <Avatar />
+        </div>
       </div>
       <div className={classes.empty}></div>
     </React.Fragment>
@@ -61,6 +66,7 @@ const useStylesStats = makeStyles(theme => ({
     fontWeight: "fontWeightBold",
     fontStyle: "bold",
     //fontFamily: "Monospace"
+    margin: '20px'
   },
   stat: {
     color: "#13A049",
