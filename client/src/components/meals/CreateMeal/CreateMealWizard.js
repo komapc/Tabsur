@@ -24,15 +24,9 @@ import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
 
-const CreateMealWizard = ({ auth, addMeal, handleChangeIndex, active }) => {
-  const history = useHistory();
-  //rediect if not logged-in
-  console.log(JSON.stringify(auth));
-  if (active && auth.isAuthenticated)
-  {
-    history.push('/Login');
-  }
+const CreateMealWizard = ({ auth, addMeal, handleChangeIndex }, ...props) => {
   const formatedDate = new Date(Date.now() + 86400000);
+  const history = useHistory();
   const [state, updateState] = useState({
     form: {
       name: `${auth.user.name}'s meal`,
@@ -63,7 +57,8 @@ const CreateMealWizard = ({ auth, addMeal, handleChangeIndex, active }) => {
     });
   };
   const backToList = () => {
-    handleChangeIndex(0);
+    // handleChangeIndex(0);
+    history.push('/')
   }
   const submit = (e) => {
     e.preventDefault();
@@ -83,6 +78,7 @@ const CreateMealWizard = ({ auth, addMeal, handleChangeIndex, active }) => {
     };
     console.log(JSON.stringify(newMeal));
     addMeal(newMeal, ()=>{handleChangeIndex(2);});
+    history.push('/') // TODO: meal list didn't updated => fix it
   }
   const update = (e) => {
     const { form } = state;
@@ -163,7 +159,7 @@ CreateMealWizard.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addMeal: (form, onDone) => addMeal(form, onDone)(dispatch)
+  addMeal: (form, history) => addMeal(form, history)(dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateMealWizard);
