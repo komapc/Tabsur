@@ -19,11 +19,6 @@ class Meals extends Component {
     };
   }
 
-  onLogoutClick = e => {
-    e.preventDefault();
-    this.props.logoutUser();
-  };
-
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };

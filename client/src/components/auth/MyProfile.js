@@ -14,6 +14,9 @@ import Button from '@material-ui/core/Button';
 import tmpBgImg from "../../resources/images/susi.jpeg";
 import { makeStyles } from '@material-ui/core/styles';
 
+import { logoutUser } from "../../actions/authActions";
+import store from "../../store";
+
 //#region MyProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
@@ -39,7 +42,7 @@ const MyProfileHeader = () => {
     <React.Fragment>
       <div className={classes.alignItemsAndJustifyContent}>
         <div className={classes.wrapper}>
-        <Avatar />
+          <Avatar />
         </div>
       </div>
       <div className={classes.empty}></div>
@@ -73,8 +76,10 @@ const useStylesStats = makeStyles(theme => ({
     display: 'flex',
   }
 }))
+
 const MyProfileStats = ({ name: Name }) => {
-  const classes = useStylesStats()
+  
+  const classes = useStylesStats();
   return (
     <React.Fragment>
       <div className={classes.headerContainer}>
@@ -140,28 +145,34 @@ const useStylesTabs = makeStyles(theme => ({
 }));
 const MyProfileTabs = () => {
   const classes = useStylesTabs();
+  const handleLogout = (event) =>{
+    store.dispatch(logoutUser());
+  }
+ 
   const [value, setValue] = React.useState(0); const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <Tabs 
-          value={value} 
-          onChange={handleChange} 
-          aria-label="simple tabs example" 
-          centered 
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="simple tabs example"
+          centered
           indicatorColor='primary'
           TabIndicatorProps={{
             style: {
               backgroundColor: "primary"
-          }}}>
+            }
+          }}>
           <Tab label="Kitchen" {...a11yProps(0)} />
           <Tab label="Gallery" {...a11yProps(1)} />
         </Tabs>
       </div>
       <TabPanel value={value} index={0} >
-         <Button variant="contained" color="primary" href="/logout">Log Out</Button>
+        <Button variant="contained" color="primary"
+          href="/login" onClick={handleLogout}>Log Out</Button>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Under Construction
