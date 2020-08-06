@@ -156,14 +156,14 @@ class App extends Component {
   {
     return <Fragment>
       <AppFab visible={this.isAppFabVisible()}/> 
-      <div style={{overflowY:'hidden'}}>
+      <div className='main-app'>
          <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
 
-          <div className={'bottomBar'}><MealsListMapSwitcher setDisableAppFab={this.setDisableAppFab} active={this.state.index==tabs.meals}/></div>
-          <div className={'bottomBar'}><MyProfile active={this.state.index==tabs.myProfile}/></div>
-          <div className={'bottomBar'}><MyMeals active={this.state.index==tabs.myMeals} /></div>
-          {/* <div style={{height:'85vh'}}><CreateMealWizard active={this.state.index==tabs.addMeal} handleChangeIndex={this.handleChangeIndex}/> </div> */}
-          <div className={'bottomBar'}><ChatList /> </div>
+          <div ><MealsListMapSwitcher setDisableAppFab={this.setDisableAppFab} active={this.state.index==tabs.meals}/></div>
+          <div ><MyProfile active={this.state.index==tabs.myProfile}/></div>
+          <div ><MyMeals active={this.state.index==tabs.myMeals} /></div>
+          {/* <div><CreateMealWizard active={this.state.index==tabs.addMeal} handleChangeIndex={this.handleChangeIndex}/> </div> */}
+          <div ><ChatList /> </div>
         </SwipeableViews>
       </div>
      <Bottom onChange={this.handleChange} index={this.state.index}/> 

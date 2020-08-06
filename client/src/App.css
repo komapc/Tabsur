@@ -514,6 +514,13 @@ input
     width:20px;
 }
 
-.bottomBar {
+.main-app
+{
+    overflow-y:'hidden';
+}
+
+/*main area inside swipable views*/
+.main-app>div>div>div>div 
+{
     height: calc(100vh - 91px);
 }
