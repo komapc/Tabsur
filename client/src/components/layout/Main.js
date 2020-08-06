@@ -26,7 +26,7 @@ const Main = (tabs) => {
   };
 
   return <>
-    <AppFab visible={isAppFabVisible} />
+    <AppFab visible={isAppFabVisible()} />
     <div className='main-app'>
       <SwipeableViews index={index} onChangeIndex={handleChangeIndex}>
 
