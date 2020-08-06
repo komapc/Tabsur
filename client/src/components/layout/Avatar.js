@@ -22,16 +22,17 @@ const useStyles = makeStyles(theme => ({
         height: theme.spacing(17),
         borderWidth: theme.spacing(1), 
         borderColor: 'white', 
-        borderStyle:'solid'
+        borderStyle:'solid',
+        backgroundColor: '#13A049'
     }
 }));
 
 const Avatar = () => {
     const classes = useStyles();
-  
+    const img = null; // tmpAvatarImg
     return (
         <div className={classes.root}>
-            <MaterialUiAvatar alt="Avatar alt string" src={tmpAvatarImg} className={classes.large} />
+            <MaterialUiAvatar alt="Avatar alt string" src={img} className={classes.large} />
         </div>
     );
 }
