@@ -513,3 +513,7 @@ input
     height:20px;
     width:20px;
 }
+
+.bottomBar {
+    height: calc(100vh - 91px);
+}
