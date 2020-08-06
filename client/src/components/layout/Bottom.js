@@ -12,6 +12,7 @@ import Tab from '@material-ui/core/Tab';
 import Badge from '@material-ui/core/Badge';
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 import FaceOutlinedIcon from '@material-ui/icons/FaceOutlined';
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import EventOutlinedIcon from '@material-ui/icons/EventOutlined';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,7 +31,8 @@ const BigPersonImg = () => {
   return (
     <React.Fragment>
       {/* <PersonOutlineOutlinedIcon className={classes.bigIcon} /> */}
-      <FaceOutlinedIcon className={classes.bigIcon} />
+      {/* <FaceOutlinedIcon className={classes.bigIcon} /> */}
+      <AccountCircleOutlinedIcon className={classes.bigIcon} />
     </React.Fragment>
   )
 }
