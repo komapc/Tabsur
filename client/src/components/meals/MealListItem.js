@@ -16,7 +16,121 @@ import React from "react";
 import Button from '@material-ui/core/Button';
 import DoneIcon from '@material-ui/icons/Done';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
+
+
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Collapse from '@material-ui/core/Collapse';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import { red } from '@material-ui/core/colors';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import CheckIcon from '@material-ui/icons/Check';
+
 var dateFormat = require('dateformat');
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    //maxWidth: 345,
+    marginTop: '3vh',
+    marginBottom: '3vh',
+    marginLeft: '5vW',
+    marginRight: '5vw',
+
+    width:'90vw'
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+  avatar: {
+    backgroundColor: '#13A049',
+  },
+}));
+function RecipeReviewCard(props) {
+  const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+  return (
+    <Card className={classes.root}>
+      <CardHeader
+        avatar={
+          <Avatar aria-label="recipe" className={classes.avatar}>
+            R
+          </Avatar>
+        }
+        action={
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
+        }
+        // title="Shrimp and Chorizo Paella"
+        title={props.owner}
+        // subheader="September 14, 2016"
+        subheader={props.dat}
+      />
+      <CardMedia
+        className={classes.media}
+        image={props.path}
+        title="Meal picture"
+      />
+      <CardContent>
+        {/* <Typography variant="body2" color="textSecondary" component="p">
+          This impressive paella is a perfect party dish and a fun meal to cook together with your
+          guests. Add 1 cup of frozen peas along with the mussels, if you like.
+        </Typography> */}
+      </CardContent>
+      <CardActions disableSpacing>
+        <AttendButton meal={props.meal} auth={props.auth} onJoin={props.onJoin} />
+        {/* <IconButton aria-label="join">
+          <CheckIcon />
+        </IconButton> */}
+        <IconButton aria-label="like">
+          <FavoriteIcon />
+        </IconButton>
+        <IconButton
+          className={clsx(classes.expand, {
+            [classes.expandOpen]: expanded,
+          })}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </IconButton>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography paragraph>
+            Hi.
+          </Typography>
+        </CardContent>
+      </Collapse>
+    </Card>
+  )
+}
 
 class AttendButton extends React.Component {
   constructor(props) {
@@ -66,6 +180,7 @@ class AttendButton extends React.Component {
     </span>
   }
 };
+
 class MealImage extends React.Component {
   render() {
     var path = this.props.meal.path;
@@ -129,12 +244,19 @@ class MealListItem extends React.Component {
     const meal = this.state.meal;
     const owner = meal.host_id === this.props.auth.user.id ? "YOU" : meal.host_name;
     console.log("MealListItem: " + JSON.stringify(meal));
-    if (Object.keys(meal).length === 0) {
-      return <div>NO MEALS YET</div>
+    if (Object.keys(meal).length === 0) { // ?
+      return <div>EMPTY MEAL</div>
     }
-
     const dat = dateFormat(new Date(meal.date), "dd-mm-yyyy HH:MM");
+    var path = this.props.meal.path;
+    path = path ?
+      `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
     return (
+      <React.Fragment>
+
+        {/* <RecipeReviewCard path={path} owner={owner} meal={meal}
+            auth={this.props.auth}
+            onJoin={this.onJoin} dat={dat}/> */}
       <div className="meal-props" onClick={(event) => { this.gotoMeal(event, meal) }}>
         <span className="meal-props-left">
           <MealImage meal={meal} />
@@ -165,6 +287,7 @@ class MealListItem extends React.Component {
           </div>
         </span>
       </div>
+      </React.Fragment>
     )
   };
 }
