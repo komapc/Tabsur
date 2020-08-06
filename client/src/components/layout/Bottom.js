@@ -92,7 +92,7 @@ class Bottom extends Component {
           indicatorColor='primary'
           TabIndicatorProps={{
             style: {
-              backgroundColor: "#dc004e"
+              backgroundColor: "primary"
             }
         }}>
           {/* <Tab label="Meals" icon={<img className="footer-icons" src={meals} alt={"meals map"} />}> </Tab> */}
