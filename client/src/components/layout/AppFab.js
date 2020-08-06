@@ -6,6 +6,7 @@ import Fab from '@material-ui/core/Fab';
 import ChatIcon from '@material-ui/icons/Chat';
 import Badge from '@material-ui/core/Badge';
 import AddIcon from '@material-ui/icons/Add';
+import Zoom from '@material-ui/core/Zoom';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -42,12 +43,16 @@ const AppFab = (props) => {
         <React.Fragment>
             <div className={classes.root}>
                 <div className={classes.wrapper}>
+                    <Zoom
+                    in={true}
+                    >
                     <Fab className={classes.fab} href="/createMealWizard">
                         {/* <Badge badgeContent={props.messagesCount} color="secondary"> */}
                             {/* <ChatIcon /> */}
                             <AddIcon />
                         {/* </Badge> */}
                     </Fab>
+                    </Zoom>
                 </div>
             </div>
         </React.Fragment>

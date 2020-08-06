@@ -36,7 +36,8 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import SwipeableViews from 'react-swipeable-views';
 import MealsListMapSwitcher from './components/meals/MealsListMapSwitcher'
-import AppFab from './components/layout/AppFab'
+import AppFab from './components/layout/AppFab';
+
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -149,7 +150,6 @@ class App extends Component {
     });
   }
   isAppFabVisible() {
-    // return (this.state.index === tabs.mealsList && !this.state.disableAppFab) || (this.state.index === tabs.mealsMap);
     return this.state.index === tabs.mealsList;
   }
   Main = ()=>
