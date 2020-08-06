@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -161,7 +161,6 @@ const MyProfileTabs = () => {
         <Tabs
           value={value}
           onChange={handleChange}
-          aria-label="simple tabs example"
           centered
           indicatorColor='primary'
           TabIndicatorProps={{

@@ -3,13 +3,31 @@ import { connect } from "react-redux";
 import MealListItem from "./MealListItem";
 import { getMyMeals, getAttendedMeals } from "../../actions/mealActions";
 
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+
+const TabPanel = (props) => {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      {...other}
+    >
+      {children}
+    </div>
+  )
+}
 class MyMeals extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       meals: [],
-      mealsAttended: []
+      mealsAttended: [],
+      value: 0
     };
   }
 
@@ -31,49 +49,61 @@ class MyMeals extends Component {
   }
   componentWillReceiveProps(nextProps) {
     // You don't have to do this check first, but it can help prevent an unneeded render
-    if (nextProps.active !== this.state.active  ) {
+    if (nextProps.active !== this.state.active) {
       this.setState({ active: nextProps.startTime });
-      if (nextProps.active)
-      {
+      if (nextProps.active) {
         this.componentDidMount()
       }
     }
   }
+
+
+
   render() {
     const { user } = this.props.auth;
+    const handleChange = (event, newValue) => {
+      this.setState({ value: newValue });
+    };
+
     return (
       <div className="main">
-        <div className="row">
-          <h4>
-            Hey {user.name},
-              Meals you created:
-            </h4>
-          <div>
-            <div className="flow-text grey-text text-darken-1">
-              {this.state.meals.map(meal =>
+
+
+        <Tabs
+          value={this.state.value}
+          onChange={handleChange}
+          centered
+          indicatorColor='primary'
+          TabIndicatorProps={{
+            style: {
+              backgroundColor: "primary"
+            }
+          }}>
+          <Tab label="Created" />
+          <Tab label="Attended" />
+        </Tabs>
+        <TabPanel value={this.state.value} index={0}>
+          <div className="flow-text grey-text text-darken-1">
+            {this.state.meals.map(meal =>
+              <div key={meal.id}>
                 <div key={meal.id}>
-                  <div key={meal.id}>
-                    <MealListItem meal={meal} />
-                  </div>
+                  <MealListItem meal={meal} />
                 </div>
-              )}
-            </div >
+              </div>
+            )}
           </div>
-          <h4>
-            Meals you attend:
-            </h4>
-          <div>
-            <div className="flow-text grey-text text-darken-1">
-              {this.state.mealsAttended.map(meal =>
+        </TabPanel>
+        <TabPanel value={this.state.value} index={1}>
+          <div className="flow-text grey-text text-darken-1">
+            {this.state.mealsAttended.map(meal =>
+              <div key={meal.id}>
                 <div key={meal.id}>
-                  <div key={meal.id}>
-                    <MealListItem meal={meal} />
-                  </div>
+                  <MealListItem meal={meal} />
                 </div>
-              )}
-            </div >
-          </div>
-        </div>
+              </div>
+            )}
+          </div >
+        </TabPanel>
       </div>
     );
   }
