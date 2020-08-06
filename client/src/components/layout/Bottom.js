@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import store from "../../store";
+import setMessagesCount from  "../../actions/MessagesActions"
 import {setNotificationsCount, setProfileNotificationsCount} from "../../actions/notifications"
 import map from "../../resources/bottom_menu/map_bar.svg"
 import list from "../../resources/bottom_menu/list_bar.svg"
@@ -14,6 +15,8 @@ import FaceOutlinedIcon from '@material-ui/icons/FaceOutlined';
 import EventOutlinedIcon from '@material-ui/icons/EventOutlined';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import { makeStyles } from '@material-ui/core/styles';
+import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
+import MessageOutlinedIcon from '@material-ui/icons/MessageOutlined';
 const useStyles = makeStyles(theme => ({
   bigIcon: {
       height:'33px',
@@ -31,12 +34,20 @@ const BigPersonImg = () => {
     </React.Fragment>
   )
 }
-const BigMyMealsImg = () => {
+const BigSearchIcon = () => {
   const classes = useStyles();
   return (
     <React.Fragment>
       {/* <PersonOutlineOutlinedIcon className={classes.bigIcon} /> */}
-      <EventOutlinedIcon className={classes.bigIcon} />
+      <SearchOutlinedIcon className={classes.bigIcon} />
+    </React.Fragment>
+  )
+}
+const BigMessageIcon = () => {
+  const classes = useStyles();
+  return (
+    <React.Fragment>
+      <MessageOutlinedIcon className={classes.bigIcon} />
     </React.Fragment>
   )
 }
@@ -53,16 +64,21 @@ class Bottom extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      messagesCount: props.messagesCount,
       notificationsCount: props.notificationsCount,
       profileNotificationsCount: props.profileNotificationsCount
     };
   }
   render() {
+    // TODO: use tabs enum object from App.js and move it from App.js outside
     if(this.props.index === 1 && this.props.profileNotificationsCount !== 0) {
       store.dispatch(setProfileNotificationsCount(0));
     } else if(this.props.index === 2 && this.props.notificationsCount !== 0) {
       store.dispatch(setNotificationsCount(0));
+    } else if(this.props.index === 3 && this.props.messagesCount !== 0) {
+      store.dispatch(setMessagesCount(0));
     }
+    
     return (
       <div className="footer">
         <Tabs 
@@ -76,21 +92,25 @@ class Bottom extends Component {
           indicatorColor='primary'
           TabIndicatorProps={{
             style: {
-              backgroundColor: "#dc004e"
+              backgroundColor: "primary"
             }
         }}>
-          <Tab label="Meals" icon={<img className="footer-icons" src={meals} alt={"meals map"} />}> </Tab>
+          {/* <Tab label="Meals" icon={<img className="footer-icons" src={meals} alt={"meals map"} />}> </Tab> */}
+          <Tab label="Meals" icon={<BigSearchIcon />}> </Tab>
           {/* <Tab label="My Profile"  icon={<img className="footer-icons" src={list} alt={"meals map"} />}></Tab>   */}
           <Tab label="My Profile"  icon={<Badge badgeContent={this.props.profileNotificationsCount} color="secondary"><BigPersonImg /></Badge>}></Tab>  
           <Tab label="My Meals"  icon={
             <Badge badgeContent={this.props.notificationsCount} color="secondary">
-              {/* <img className="footer-icons" src={meals} alt={"meals map"} /> */}
-              <BigMyMealsImg />
+              <img className="footer-icons" src={meals} alt={"meals map"} />
+              {/* <BigMyMealsImg /> */}
             </Badge>
           }></Tab>
-          <Tab label="Add Meal" icon={
+          <Tab label="Messages" icon={
             // <img className="footer-icons" src={plus} alt={"meals map"} />
-            <BigAddImg />
+            // <BigAddImg />
+            <Badge badgeContent={this.props.messagesCount} color="secondary">
+              <BigMessageIcon />
+            </Badge>
           }></Tab>
         </Tabs>
       </div>
@@ -98,6 +118,7 @@ class Bottom extends Component {
   }
 }
 const mapStateToProps = state => ({
+  messagesCount: state.messagesCount,
   notificationsCount: state.notificationsCount,
   profileNotificationsCount: state.profileNotificationsCount
 });

@@ -36,7 +36,8 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import SwipeableViews from 'react-swipeable-views';
 import MealsListMapSwitcher from './components/meals/MealsListMapSwitcher'
-import ChatFab from './components/layout/ChatFab'
+import AppFab from './components/layout/AppFab';
+
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -98,7 +99,7 @@ class App extends Component {
       profileNotificationsCount: 0,
       messagesCount: 0,
       index: 0,
-      disableChatFab: false
+      disableAppFab: false
     };
   }
 
@@ -143,25 +144,26 @@ class App extends Component {
       index,
     });
   };
-  setDisableChatFab = (value) => {
+  setDisableAppFab = (value) => {
     this.setState({
-      disableChatFab: value
+      disableAppFab: value
     });
   }
-  isChatFabVisible() {
-    return (this.state.index === tabs.mealsList && !this.state.disableChatFab) || (this.state.index === tabs.mealsMap);
+  isAppFabVisible() {
+    return this.state.index === tabs.mealsList;
   }
   Main = ()=>
   {
     return <Fragment>
-      <ChatFab visible={this.isChatFabVisible()}/> 
+      <AppFab visible={this.isAppFabVisible()}/> 
       <div style={{overflowY:'hidden'}}>
          <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
 
-          <div style={{height:'85vh'}}><MealsListMapSwitcher setDisableChatFab={this.setDisableChatFab} active={this.state.index==tabs.meals}/></div>
-          <div style={{height:'85vh'}}><MyProfile active={this.state.index==tabs.myProfile}/></div>
-          <div style={{height:'85vh'}}><MyMeals active={this.state.index==tabs.myMeals} /></div>
-          <div style={{height:'85vh'}}><CreateMealWizard active={this.state.index==tabs.addMeal} handleChangeIndex={this.handleChangeIndex}/> </div>
+          <div className={'bottomBar'}><MealsListMapSwitcher setDisableAppFab={this.setDisableAppFab} active={this.state.index==tabs.meals}/></div>
+          <div className={'bottomBar'}><MyProfile active={this.state.index==tabs.myProfile}/></div>
+          <div className={'bottomBar'}><MyMeals active={this.state.index==tabs.myMeals} /></div>
+          {/* <div style={{height:'85vh'}}><CreateMealWizard active={this.state.index==tabs.addMeal} handleChangeIndex={this.handleChangeIndex}/> </div> */}
+          <div className={'bottomBar'}><ChatList /> </div>
         </SwipeableViews>
       </div>
      <Bottom onChange={this.handleChange} index={this.state.index}/> 
@@ -175,19 +177,21 @@ class App extends Component {
         <Router>
         <Switch>
 
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/login/:extend?" component={Login} />            
-        <Route exact path="/about" component={About} />
-        <PrivateRoute exact path="/user/:id"  component={ShowUser} />
-        <PrivateRoute exact path="/myProfile" component={MyProfile} />
-        <PrivateRoute exact path="/meal" component={ShowMeal} />
-        <PrivateRoute exact path="/profile/:id" component={Profile} />
-        <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
-        <PrivateRoute exact path="/chat"  component={ChatList} />
-        <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
-        <PrivateRoute exact path="/" component={this.Main} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login/:extend?" component={Login} />            
+          <Route exact path="/about" component={About} />
+          <PrivateRoute exact path="/user/:id"  component={ShowUser} />
+          <PrivateRoute exact path="/myProfile" component={MyProfile} />
+          <PrivateRoute exact path="/meal" component={ShowMeal} />
+          <PrivateRoute exact path="/profile/:id" component={Profile} />
+          <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
+          <PrivateRoute exact path="/chat"  component={ChatList} />
+          <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
+          <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
+          <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
+          <PrivateRoute path="/" component={this.Main} />
          
-    </Switch>
+        </Switch>
         </Router>
         </ThemeProvider>
       </Provider>

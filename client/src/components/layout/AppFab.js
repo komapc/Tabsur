@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import Fab from '@material-ui/core/Fab';
 import ChatIcon from '@material-ui/icons/Chat';
 import Badge from '@material-ui/core/Badge';
+import AddIcon from '@material-ui/icons/Add';
+import Zoom from '@material-ui/core/Zoom';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -14,39 +16,50 @@ const useStyles = makeStyles(theme => ({
         }
     },
     wrapper: {
-         position: "fixed",
+        position: "fixed",
         //position: "absolute",
-        top: "10vh",
-        right: "5vw",
+        bottom: "55px",
+        //right: "5vw",
         // overflowY: 'visible',
         // overflowX: 'visible',
-        zIndex: 999
+        zIndex: 1001,
+
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        left: 0,
+        right: 0,
+        textAlign: 'center'
     },
     fab: {
-        backgroundColor: "#FFFFFF",
-        color: "#13A049"
+        backgroundColor: "#13A049",
+        color: "#FFFFFF"
     }
 }));
 
-const ChatFab = (props) => {
+const AppFab = (props) => {
     const classes = useStyles();
     return (
         
         <React.Fragment>
             <div className={classes.root}>
                 <div className={classes.wrapper}>
-                    <Fab className={classes.fab} href="/chat">
-                        <Badge badgeContent={props.messagesCount} color="secondary">
-                            <ChatIcon />
-                        </Badge>
+                    <Zoom
+                    in={true}
+                    >
+                    <Fab className={classes.fab} href="/createMealWizard">
+                        {/* <Badge badgeContent={props.messagesCount} color="secondary"> */}
+                            {/* <ChatIcon /> */}
+                            <AddIcon />
+                        {/* </Badge> */}
                     </Fab>
+                    </Zoom>
                 </div>
             </div>
         </React.Fragment>
     );
 }
 
-class ChatFabWrapper extends Component {
+class FabWrapper extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -57,7 +70,7 @@ class ChatFabWrapper extends Component {
     render() {
         return (
             <React.Fragment>
-                { this.props.visible ? <ChatFab messagesCount={this.props.messagesCount}/> : null}
+                { this.props.visible ? <AppFab messagesCount={this.props.messagesCount}/> : null}
             </React.Fragment>
         );
     }
@@ -69,4 +82,4 @@ const mapStateToProps = state => ({
     messagesCount: state.messagesCount
 });
 
-export default connect(mapStateToProps)(ChatFabWrapper);
+export default connect(mapStateToProps)(FabWrapper);
