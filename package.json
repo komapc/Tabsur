@@ -19,7 +19,6 @@
   "author": "Mark&Yana",
   "license": "MIT",
   "dependencies": {
-    "@material-ui/icons": "^4.9.1",
     "DatePicker": "^2.0.0",
     "aws-sdk": "^2.683.0",
     "bcryptjs": "^2.4.3",
