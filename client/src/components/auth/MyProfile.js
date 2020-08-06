@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { registerUser } from "../../actions/authActions";
+import { registerUser, getUser } from "../../actions/authActions";
 import classnames from "classnames";
 import Avatar from "../layout/Avatar"
 import Grid from '@material-ui/core/Grid';
@@ -13,7 +13,6 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import tmpBgImg from "../../resources/images/susi.jpeg";
 import { makeStyles } from '@material-ui/core/styles';
-
 import { logoutUser } from "../../actions/authActions";
 import store from "../../store";
 
@@ -51,6 +50,7 @@ const MyProfileHeader = () => {
 }
 //#endregion
 
+
 //#region MyProfileStats
 const useStylesStats = makeStyles(theme => ({
   headerContainer: {
@@ -77,13 +77,25 @@ const useStylesStats = makeStyles(theme => ({
   }
 }))
 
-const MyProfileStats = ({ name: Name }) => {
+const MyProfileStats = (params) => {
   
   const classes = useStylesStats();
-  return (
-    <React.Fragment>
+  const [userStats, setUserStats] = useState({});
+  console.log(`user id: ${JSON.stringify(params.userId)}`);
+  getUser(params.userId)
+  .then(res => {
+    console.log(res.data);
+    setUserStats(res.data);
+  }).
+  catch(err =>
+  {
+    console.error(err);
+  });
+
+   return  <React.Fragment>
+      {userStats?<div>{ JSON.stringify(userStats)}</div>:<span/>}
       <div className={classes.headerContainer}>
-        <h5 className={classes.header}>{Name}</h5>
+        <h5 className={classes.header}>{params.name}</h5>
       </div>
       <div className={classes.headerContainer}>
         <Grid container >
@@ -94,7 +106,7 @@ const MyProfileStats = ({ name: Name }) => {
         </Grid>
       </div>
     </React.Fragment>
-  )
+  
 }
 //#endregion
 
@@ -149,7 +161,8 @@ const MyProfileTabs = () => {
     store.dispatch(logoutUser());
   }
  
-  const [value, setValue] = React.useState(0); const handleChange = (event, newValue) => {
+  const [value, setValue] = React.useState(0); 
+  const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   return (
@@ -187,6 +200,7 @@ class MyProfile extends Component {
     super(props);
     this.state = {
       name: this.props.auth.user.name,
+      userId: this.props.auth.user.id,
       email: this.props.auth.user.email,
       address: "",
       errors: {}
@@ -219,11 +233,10 @@ class MyProfile extends Component {
 
   render() {
     const { errors } = this.state;
-
     return (
       <React.Fragment>
         <MyProfileHeader />
-        <MyProfileStats name={this.state.name} />
+        <MyProfileStats name={this.state.name}  userId={this.state.userId} />
         <MyProfileTabs />
 
         {false ? (
