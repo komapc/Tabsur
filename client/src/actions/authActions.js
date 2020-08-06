@@ -64,8 +64,9 @@ export const loginUserFB = userData => dispatch => {
       setAuthToken(token);
       // Decode token to get user data
       const decoded = jwt_decode(token);
+      const merged = {...userData, ...decoded}
       // Set current user
-      dispatch(setCurrentUser(decoded));
+      dispatch(setCurrentUser(merged));
     })
     .catch(err =>
     {
