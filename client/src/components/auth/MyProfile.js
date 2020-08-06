@@ -26,8 +26,8 @@ const useStylesHeader = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'gray',
-    backgroundImage: `url(${tmpBgImg})`,
+    backgroundColor: '#13A049',
+    //backgroundImage: `url(${tmpBgImg})`,
     backgroundSize: 'cover'
   },
   empty: {
@@ -59,7 +59,7 @@ const useStylesStats = makeStyles(theme => ({
     color: "#13A049",
     fontSize: 32,
     fontWeight: "fontWeightBold",
-    fontStyle: "italic",
+    fontStyle: "bold",
     //fontFamily: "Monospace"
   },
   stat: {
