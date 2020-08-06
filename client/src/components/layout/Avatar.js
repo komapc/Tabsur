@@ -11,7 +11,6 @@ const useStyles = makeStyles(theme => ({
         '& > *': {
             margin: theme.spacing(1)
         },
-        "margin-top": 190
     },
     small: {
         width: theme.spacing(5),
