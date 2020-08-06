@@ -80,29 +80,19 @@ const useStylesStats = makeStyles(theme => ({
 const MyProfileStats = (params) => {
   
   const classes = useStylesStats();
-  const [userStats, setUserStats] = useState({});
-  console.log(`user id: ${JSON.stringify(params.userId)}`);
-  getUser(params.userId)
-  .then(res => {
-    console.log(res.data);
-    setUserStats(res.data);
-  }).
-  catch(err =>
-  {
-    console.error(err);
-  });
+  const userStats=params.userStats ? params.userStats[0] : {};
 
    return  <React.Fragment>
-      {userStats?<div>{ JSON.stringify(userStats)}</div>:<span/>}
+      {/* {userStats?<div>{ JSON.stringify(userStats)}</div>:<span/>} */}
       <div className={classes.headerContainer}>
         <h5 className={classes.header}>{params.name}</h5>
       </div>
       <div className={classes.headerContainer}>
         <Grid container >
-          <Grid item xs={6}><span className={classes.stat}>Followers 0</span></Grid>
-          <Grid item xs={6}><span className={classes.stat}>Active meals 0</span></Grid>
-          <Grid item xs={6}><span className={classes.stat}>Following 0</span></Grid>
-          <Grid item xs={6}><span className={classes.stat}>Meals Created 0</span></Grid>
+          <Grid item xs={6}><span className={classes.stat}>Followers {userStats.followers}</span></Grid>
+          <Grid item xs={6}><span className={classes.stat}>Active meals _</span></Grid>
+          <Grid item xs={6}><span className={classes.stat}>Following {userStats.following}</span></Grid>
+          <Grid item xs={6}><span className={classes.stat}>Meals Created {userStats.meals_created}</span></Grid>
         </Grid>
       </div>
     </React.Fragment>
@@ -205,6 +195,20 @@ class MyProfile extends Component {
       address: "",
       errors: {}
     };
+   // const [userStats, setUserStats] = useState({});
+    console.log(`user id: ${JSON.stringify(this.state.userId)}`);
+    getUser(this.state.userId)
+    .then(res => {
+      console.log(res.data);
+      //setUserStats(res.data);
+      this.setState({
+        userStats: res.data
+      });
+    }).
+    catch(err =>
+    {
+      console.error(err);
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -236,7 +240,7 @@ class MyProfile extends Component {
     return (
       <React.Fragment>
         <MyProfileHeader />
-        <MyProfileStats name={this.state.name}  userId={this.state.userId} />
+        <MyProfileStats name={this.state.name}  userStats={this.state.userStats}/>
         <MyProfileTabs />
 
         {false ? (
