@@ -13,6 +13,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import AppFab from '../layout/AppFab'
+import Button from '@material-ui/core/Button';
 
 import tmpBgImg from "../../resources/images/susi.jpeg";
 import { makeStyles } from '@material-ui/core/styles';
@@ -157,8 +158,8 @@ const MyProfileTabs = () => {
           <Tab label="Gallery" {...a11yProps(1)} />
         </Tabs>
       </div>
-      <TabPanel value={value} index={0}>
-        Log Out
+      <TabPanel value={value} index={0} >
+         <Button variant="contained" color="primary" href="/logout">Log Out</Button>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Under Construction
