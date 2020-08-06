@@ -10,12 +10,13 @@ import {setNotificationsCount, setProfileNotificationsCount} from "./actions/not
 import { connect, Provider } from "react-redux";
 import store from "./store";
 
+
+import Profile from "./components/users/Profile"
 import withSplashScreen  from "./components/layout/Splash"
-import Bottom from "./components/layout/Bottom";
+import Main  from "./components/layout/Main"
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
-import Meals from "./components/meals/Meals";
 import ShowMeal from "./components/meals/ShowMeal";
 import ShowUser from "./components/meals/ShowUser";
 import MealMap from "./components/meals/MealMap";
@@ -23,20 +24,13 @@ import Attend from "./components/meals/Attend";
 import CreateMealWizard from "./components/meals/CreateMeal/CreateMealWizard";
 import About from "./components/about/About"
 import NotificationScreen from "./components/notifications/NotificationScreen"; //Not used yet
-import MyMeals from "./components/meals/MyMeals"
-import MyProfile from "./components/auth/MyProfile"
 import Stats from "./components/users/Stats"
-import Profile from "./components/users/Profile"
-import ChatList from "./components/chat/ChatList"
 import ChatUser from "./components/chat/ChatUser"
 import { Helmet } from "react-helmet";
 import "./App.css";
 import { messaging } from "../src/init-fcm";
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import SwipeableViews from 'react-swipeable-views';
-import MealsListMapSwitcher from './components/meals/MealsListMapSwitcher'
-import AppFab from './components/layout/AppFab';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -98,8 +92,7 @@ class App extends Component {
       notificationsCount: 0,
       profileNotificationsCount: 0,
       messagesCount: 0,
-      index: 0,
-      disableAppFab: false
+      index: 0
     };
   }
 
@@ -133,43 +126,6 @@ class App extends Component {
   }
 
 
-  handleChange = (event, value) => {
-    this.setState({
-      index: value,
-    });
-  };
-
-  handleChangeIndex = index => {
-    this.setState({
-      index,
-    });
-  };
-  setDisableAppFab = (value) => {
-    this.setState({
-      disableAppFab: value
-    });
-  }
-  isAppFabVisible() {
-    return this.state.index === tabs.mealsList;
-  }
-  Main = ()=>
-  {
-    return <Fragment>
-      <AppFab visible={this.isAppFabVisible()}/> 
-      <div className='main-app'>
-         <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
-
-          <div ><MealsListMapSwitcher setDisableAppFab={this.setDisableAppFab} active={this.state.index==tabs.meals}/></div>
-          <div ><MyProfile active={this.state.index==tabs.myProfile}/></div>
-          <div ><MyMeals active={this.state.index==tabs.myMeals} /></div>
-          {/* <div><CreateMealWizard active={this.state.index==tabs.addMeal} handleChangeIndex={this.handleChangeIndex}/> </div> */}
-          <div ><ChatList /> </div>
-        </SwipeableViews>
-      </div>
-     <Bottom onChange={this.handleChange} index={this.state.index}/> 
-    </Fragment>
-  };
-
   render() {
     return (
       <Provider store={store}>
@@ -181,15 +137,14 @@ class App extends Component {
           <Route exact path="/login/:extend?" component={Login} />            
           <Route exact path="/about" component={About} />
           <PrivateRoute exact path="/user/:id"  component={ShowUser} />
-          <PrivateRoute exact path="/myProfile" component={MyProfile} />
           <PrivateRoute exact path="/meal" component={ShowMeal} />
           <PrivateRoute exact path="/profile/:id" component={Profile} />
           <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
-          <PrivateRoute exact path="/chat"  component={ChatList} />
           <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
           <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
           <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
-          <PrivateRoute path="/" component={this.Main} />
+          <PrivateRoute path="/" 
+            component={()=>{return Main(tabs)}} />
          
         </Switch>
         </Router>
