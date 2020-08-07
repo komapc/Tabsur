@@ -74,12 +74,6 @@ const theme = createMuiTheme({
   },
 });
 
-const tabs = {
-
-  mealsList: 0,
-  mealsMap: 1
-}
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -139,8 +133,7 @@ class App extends Component {
           <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
           <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
           <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
-          <PrivateRoute path="/" 
-            component={()=>{return Main(tabs)}} />
+          <PrivateRoute path="/" component={Main} />
          
         </Switch>
         </Router>
