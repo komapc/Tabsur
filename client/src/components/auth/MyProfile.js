@@ -190,7 +190,6 @@ class MyProfile extends Component {
       address: "",
       errors: {}
     };
-   // const [userStats, setUserStats] = useState({});
     console.log(`user id: ${JSON.stringify(this.state.userId)}`);
     getUser(this.state.userId)
     .then(res => {
@@ -212,6 +211,7 @@ class MyProfile extends Component {
         errors: nextProps.errors
       });
     }
+    this.props.setFabVisibility(true);
   }
 
   onChange = e => {

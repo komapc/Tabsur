@@ -30,32 +30,33 @@ class MyMeals extends Component {
       value: 0
     };
   }
-
-  componentDidMount() {
+  updateLists()
+  {
     getMyMeals(this.props.auth.user.id)
-      .then(res => {
-        console.log(res.data);
-        this.setState({ meals: res.data });
-      }).catch(err => {
-        console.log(err);
-      });
-    getAttendedMeals(this.props.auth.user.id)
-      .then(res => {
-        console.log(res.data);
-        this.setState({ mealsAttended: res.data });
-      }).catch(err => {
-        console.log(err);
-      });
+    .then(res => {
+      console.log(res.data);
+      this.setState({ meals: res.data });
+    }).catch(err => {
+      console.log(err);
+    });
+  getAttendedMeals(this.props.auth.user.id)
+    .then(res => {
+      console.log(res.data);
+      this.setState({ mealsAttended: res.data });
+    }).catch(err => {
+      console.log(err);
+    });
+  } 
+  componentWillReceiveProps(nextProps) {
+    // You don't have to do this check first, but it can help prevent an unneeded render
+    if (nextProps.active !== this.state.active) {
+      this.setState({ active: nextProps.active });
+      if (nextProps.active) {
+        this.updateLists();
+        this.props.setFabVisibility(true);
+      }
+    }
   }
-  // componentWillReceiveProps(nextProps) {
-  //   // You don't have to do this check first, but it can help prevent an unneeded render
-  //   if (nextProps.active !== this.state.active) {
-  //     this.setState({ active: nextProps.startTime });
-  //     if (nextProps.active) {
-  //       this.componentDidMount()
-  //     }
-  //   }
-  // }
 
   render() {
     const { user } = this.props.auth;
