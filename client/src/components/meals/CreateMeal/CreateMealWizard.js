@@ -23,7 +23,7 @@ import wizard_done from "../../../resources/wizard/wizard_done.svg";
 import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
-
+//todo: remove handleChangeIndex
 const CreateMealWizard = ({ auth, addMeal, handleChangeIndex }, ...props) => {
   const formatedDate = new Date(Date.now() + 86400000);
   const history = useHistory();
@@ -58,7 +58,7 @@ const CreateMealWizard = ({ auth, addMeal, handleChangeIndex }, ...props) => {
   };
   const backToList = () => {
     // handleChangeIndex(0);
-    history.push('/')
+    history.push({pathname:'/',  hash: 0 })
   }
   const submit = (e) => {
     e.preventDefault();
@@ -77,8 +77,9 @@ const CreateMealWizard = ({ auth, addMeal, handleChangeIndex }, ...props) => {
       image_id: state.form.image_id ? state.form.image_id : -2
     };
     console.log(JSON.stringify(newMeal));
-    addMeal(newMeal, ()=>{handleChangeIndex(2);});
-    history.push('/') // TODO: meal list didn't updated => fix it
+    addMeal(newMeal, ()=>{
+      history.push({pathname:'/',  hash: '#2' });
+    });
   }
   const update = (e) => {
     const { form } = state;
