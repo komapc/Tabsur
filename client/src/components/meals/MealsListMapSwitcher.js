@@ -54,7 +54,10 @@ export default function SimpleTabs(props) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
+    //disable swap & create button on Map
     props.setFabVisibility(newValue !== 1);
+    props.setFabVisibility(newValue !== 1);
+    
     setValue(newValue);
   };
 

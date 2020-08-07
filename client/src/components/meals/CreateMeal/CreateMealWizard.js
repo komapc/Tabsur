@@ -99,7 +99,6 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
 
   return (
     <div >
-      <h1>state: {state.uploadingState?"1":"0"}</h1>
       {SW && <TopHeader onExit={backToList} SW={SW} />}
 
       {SW && <Navigator SW={SW} submit={submit} uploadingState = {state.uploadingState}/>}
