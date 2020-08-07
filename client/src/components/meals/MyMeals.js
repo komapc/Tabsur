@@ -49,11 +49,13 @@ class MyMeals extends Component {
   } 
   componentWillReceiveProps(nextProps) {
     // You don't have to do this check first, but it can help prevent an unneeded render
+    
+    this.props.setFabVisibility(true);
+    this.props.setSwipability(true)
     if (nextProps.active !== this.state.active) {
       this.setState({ active: nextProps.active });
       if (nextProps.active) {
         this.updateLists();
-        this.props.setFabVisibility(true);
       }
     }
   }

@@ -55,13 +55,16 @@ export default function SimpleTabs(props) {
 
   const handleChange = (event, newValue) => {
     //disable swap & create button on Map
-    props.setFabVisibility(newValue !== 1);
-    props.setSwapability(newValue !== 1);
     
+    props.setFabVisibility(newValue !== 1);
+    props.setSwipability(newValue !== 1);
     setValue(newValue);
   };
-  props.setFabVisibility(value !== 1);
-  props.setSwapability(value !== 1);
+  if (props.active)
+  { 
+    props.setFabVisibility(value !== 1);
+    props.setSwipability(value !== 1);
+  }
   return (
     <div className={classes.root}>
       {/* <AppBar position="static"> */}

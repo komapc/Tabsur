@@ -14,7 +14,7 @@ const mainTabs = {
   MEALS: 0,
   MY_PROFILE: 1,
   MY_MEALS: 2,
-  ADD_MEAL: 3,
+  CHAT: 3,
 }
 
 
@@ -28,9 +28,9 @@ const Main = () => {
   const location = useLocation();
   const hash = location.hash.slice(1);
   console.log(`location: ${JSON.stringify(location)}`);
-  const [index, setIndex] =  useState(Number(hash)||0);
+  const [index, setIndex] = useState(Number(hash) || 0);
   const [isFabFabVisible, setFabVisibility] = useState(true);
-  const [isSwipable, setSwapability] = useState(true);
+  const [isSwipable, setSwipability] = useState(true);
 
 
   const handleChange = (event, value) => {
@@ -42,12 +42,18 @@ const Main = () => {
     <div className='main-app'>
       <SwipeableViews index={index} onChangeIndex={setIndex} disabled={!isSwipable}>
 
-        <div><MealsListMapSwitcher 
-          setFabVisibility={setFabVisibility} 
-          setSwapability = {setSwapability} active={index === mainTabs.MEALS} /></div>
-        <div><MyProfile active={index === mainTabs.MY_PROFILE} setFabVisibility = {setFabVisibility}/></div>
-        <div><MyMeals active={index === mainTabs.MY_MEALS} setFabVisibility = {setFabVisibility}/></div>
-        <div><ChatList active={index === mainTabs.MY_MEALS} setFabVisibility = {setFabVisibility}/> </div>
+        <div><MealsListMapSwitcher
+          setFabVisibility={setFabVisibility}
+          setSwipability={setSwipability} active={index === mainTabs.MEALS} /></div>
+        <div><MyProfile active={index === mainTabs.MY_PROFILE}
+          setFabVisibility={setFabVisibility}
+          setSwipability={setSwipability} /></div>
+        <div><MyMeals active={index === mainTabs.MY_MEALS}
+          setFabVisibility={setFabVisibility}
+          setSwipability={setSwipability} /></div>
+        <div><ChatList active={index === mainTabs.CHAT}
+          setFabVisibility={setFabVisibility}
+          setSwipability={setSwipability} /> </div>
       </SwipeableViews>
     </div>
     <Bottom onChange={handleChange} index={index} />
