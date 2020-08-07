@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -163,11 +163,7 @@ const MyProfileTabs = () => {
           onChange={handleChange}
           centered
           indicatorColor='primary'
-          TabIndicatorProps={{
-            style: {
-              backgroundColor: "primary"
-            }
-          }}>
+          TabIndicatorProps={{ style: { backgroundColor: "primary"}}}>
           <Tab label="Kitchen" {...a11yProps(0)} />
           <Tab label="Gallery" {...a11yProps(1)} />
         </Tabs>

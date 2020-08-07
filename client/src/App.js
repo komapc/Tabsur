@@ -75,10 +75,6 @@ const theme = createMuiTheme({
 });
 
 const tabs = {
-  meals: 0,
-  myProfile: 1,
-  myMeals: 2,
-  addMeal: 3,
 
   mealsList: 0,
   mealsMap: 1
