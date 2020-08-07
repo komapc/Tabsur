@@ -21,25 +21,22 @@ const Main = (tabs) => {
   const hash= location.hash.slice(1);
   console.log(`location: ${JSON.stringify(location)}`);
   const [index, setIndex] =  useState(Number(hash)||0);
-  const [disableAppFab, setDisableAppFab] = useState(false);
+  const [isAppFabVisible, setFabVisibility] = useState(true);
 
-  const isAppFabVisible = () => {
-    return index === tabs.mealsList;
-  }
 
   const handleChange = (event, value) => {
     setIndex(value);
   };
 
   return <>
-    <AppFab visible={isAppFabVisible()} />
+    <AppFab visible={isAppFabVisible} />
     <div className='main-app'>
       <SwipeableViews index={index} onChangeIndex={setIndex}>
 
-        <div><MealsListMapSwitcher setDisableAppFab={setDisableAppFab} active={index === tabs.MEALS} /></div>
+        <div><MealsListMapSwitcher setFabVisibility={setFabVisibility} active={index === tabs.MEALS} /></div>
         <div><MyProfile active={index === tabs.MY_PROFILE} /></div>
         <div><MyMeals active={index === tabs.MY_MEALS} /></div>
-        <div ><ChatList /> </div>
+        <div><ChatList /> </div>
       </SwipeableViews>
     </div>
     <Bottom onChange={handleChange} index={index} />

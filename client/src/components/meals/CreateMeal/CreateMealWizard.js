@@ -150,7 +150,7 @@ const Navigator = ({ SW, submit, uploadingState }) => {
         className={'wizard-bottom-next'} onClick={SW.nextStep} /> :
       <img src={uploadingState?wizard_loading:wizard_done} 
         alt="submit"
-        className={'wizard-bottom-last'} onClick={submit} />
+        className={'wizard-bottom-last'} onClick={uploadingState?()=>{}:submit} />
     }
   </div>
 }
