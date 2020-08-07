@@ -40,7 +40,7 @@ const Main = () => {
   return <>
     <AppFab visible={isAppFabVisible} />
     <div className='main-app'>
-      <SwipeableViews index={index} onChangeIndex={setIndex}>
+      <SwipeableViews index={index} onChangeIndex={setIndex} disabled={!isSwipable}>
 
         <div><MealsListMapSwitcher 
           setFabVisibility={setFabVisibility} 
