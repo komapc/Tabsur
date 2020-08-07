@@ -211,7 +211,11 @@ class MyProfile extends Component {
         errors: nextProps.errors
       });
     }
-    this.props.setFabVisibility(true);
+    if (nextProps.active)
+    {
+      this.props.setFabVisibility(true);
+      this.props.setSwipability(true);
+    }
   }
 
   onChange = e => {
