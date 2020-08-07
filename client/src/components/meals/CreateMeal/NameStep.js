@@ -1,4 +1,5 @@
 import React from 'react';
+import { Input, InputLabel, TextField  } from '@material-ui/core';
 
 const NameStep = props => {
   const update = (e) => {
@@ -7,19 +8,19 @@ const NameStep = props => {
 
   return (
     <span className="location-input-field input-field col s12 ">
-    <div className="wizard-container">
-        <label>Meal Name</label>
-        <input type='text' className='form-control' id="name"
+      <div className="wizard-container">
+        <InputLabel>Meal Name</InputLabel>
+        <Input type='text' className='form-control' id="name"
           onChange={update} value={props.form.name} />
 
-        <label>Description</label>
+        <InputLabel>Description</InputLabel>
         <div>
-          <textarea className='wizard-description' id="description"
+          <TextField  className='wizard-description' id="description"
             onChange={update} value={props.form.description} rows="5"
             placeholder="Describe the meal" />
         </div>
-    </div>
-      </span>
+      </div>
+    </span>
 
   );
 };

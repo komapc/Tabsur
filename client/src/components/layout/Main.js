@@ -20,7 +20,7 @@ const Main = (tabs) => {
   const location = useLocation();
   const hash= location.hash.slice(1);
   console.log(`location: ${JSON.stringify(location)}`);
-  const [index, setIndex] =  useState(hash||0);
+  const [index, setIndex] =  useState(Number(hash)||0);
   const [disableAppFab, setDisableAppFab] = useState(false);
 
   const isAppFabVisible = () => {

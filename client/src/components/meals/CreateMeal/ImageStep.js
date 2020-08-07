@@ -7,7 +7,7 @@ import imageCompression from 'browser-image-compression';
 
 const ImageStep = (props) => {
 
-  const [state, updateState] = useState({ "file": placeholder });
+  const [state, updateState] = useState({ "file": placeholder});
 
   const getImage = e => {
     const files = e.target.files;
@@ -27,6 +27,7 @@ const ImageStep = (props) => {
       maxWidthOrHeight: 1920,
       useWebWorker: true
     }
+    props.setUploadingState(true);
     // TODO: disable "next/create meal" button
     imageCompression(event.target.files[0], options)
     .then(function (compressedFile) {
@@ -46,7 +47,7 @@ const ImageStep = (props) => {
         console.error(error);
       })
       .finally(() => {
-        // TODO: enable "next/create meal" button
+        props.setUploadingState(false);
       });
     })
     .catch(function (error) {
