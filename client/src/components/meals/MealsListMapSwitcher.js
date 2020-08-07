@@ -60,7 +60,8 @@ export default function SimpleTabs(props) {
     
     setValue(newValue);
   };
-
+  props.setFabVisibility(value !== 1);
+  props.setSwapability(value !== 1);
   return (
     <div className={classes.root}>
       {/* <AppBar position="static"> */}
