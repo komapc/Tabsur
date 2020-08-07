@@ -20,11 +20,11 @@ import wizard_location from "../../../resources/wizard/wizard_location.svg";
 import wizard_meal_name from "../../../resources/wizard/wizard_meal_name.svg";
 import wizard_next from "../../../resources/wizard/wizard_next.svg";
 import wizard_done from "../../../resources/wizard/wizard_done.svg";
+import wizard_loading from "../../../resources/animation/loading.gif";
 import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
-//todo: remove handleChangeIndex
-const CreateMealWizard = ({ auth, addMeal, handleChangeIndex }, ...props) => {
+const CreateMealWizard = ({ auth, addMeal }, ...props) => {
   const formatedDate = new Date(Date.now() + 86400000);
   const history = useHistory();
   const [state, updateState] = useState({
@@ -37,11 +37,12 @@ const CreateMealWizard = ({ auth, addMeal, handleChangeIndex }, ...props) => {
       location: "",
       host_id: auth.user.id,
       guestCount: 3,
-      image_id: -1
+      image_id: -1,
     },
     transitions: {
     },
     history: history,
+    uploadingState : false
   });
 
  
@@ -57,7 +58,6 @@ const CreateMealWizard = ({ auth, addMeal, handleChangeIndex }, ...props) => {
     });
   };
   const backToList = () => {
-    // handleChangeIndex(0);
     history.push({pathname:'/',  hash: 0 })
   }
   const submit = (e) => {
@@ -91,13 +91,18 @@ const CreateMealWizard = ({ auth, addMeal, handleChangeIndex }, ...props) => {
     });
   };
 
+  const setUploadingState = (newUploadingState) =>
+  {
+    updateState({...state, uploadingState:newUploadingState});
+  }
   const { SW } = state;
 
   return (
     <div >
+      <h1>state: {state.uploadingState?"1":"0"}</h1>
       {SW && <TopHeader onExit={backToList} SW={SW} />}
 
-      {SW && <Navigator SW={SW} submit={submit} />}
+      {SW && <Navigator SW={SW} submit={submit} uploadingState = {state.uploadingState}/>}
       <div className='col-12 col-sm-6 offset-sm-3'>
         <div className="wizard-middle">
           <StepWizard
@@ -109,7 +114,7 @@ const CreateMealWizard = ({ auth, addMeal, handleChangeIndex }, ...props) => {
             <LocationStep update={update} form={state.form} />
             <TimeStep update={update} form={state.form} />
             <GuestStep update={update} form={state.form} />
-            <ImageStep update={update} form={state.form} auth={state.auth} />
+            <ImageStep update={update} form={state.form} auth={state.auth} setUploadingState={setUploadingState}/>
           </StepWizard>
         </div>
       </div>
@@ -132,7 +137,7 @@ const TopHeader = ({ SW, onExit }) => {
     </Fragment>)
 }
 
-const Navigator = ({ SW, submit }) => {
+const Navigator = ({ SW, submit, uploadingState }) => {
   const last = SW.state.activeStep < 4;
   const first = SW.state.activeStep > 0;
   return <div className="wizard-bottom">
@@ -143,7 +148,8 @@ const Navigator = ({ SW, submit }) => {
     {last ?
       <img src={wizard_next} alt="next"
         className={'wizard-bottom-next'} onClick={SW.nextStep} /> :
-      <img src={wizard_done} alt="submit"
+      <img src={uploadingState?wizard_loading:wizard_done} 
+        alt="submit"
         className={'wizard-bottom-last'} onClick={submit} />
     }
   </div>
