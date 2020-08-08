@@ -96,6 +96,7 @@ class Login extends Component {
  
   render() {
     const { errors } = this.state;
+    const formMinWidth = window.innerWidth < 500 ? window.innerWidth : 500;
     return (
       <div className="main">
         <Grid
@@ -107,7 +108,7 @@ class Login extends Component {
           style={{ minHeight: '80vh' }}
         >
 
-        <Grid item xs={6} style={{ minWidth: '500px' }}>
+        <Grid item style={{ minWidth: `${formMinWidth}px` }}>
         <div className="row">
           <div className="col s8 offset-s2">
             <Link to="/Meals" className="btn-flat waves-effect">
