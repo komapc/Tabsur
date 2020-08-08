@@ -71,9 +71,10 @@ const useStylesStats = makeStyles(theme => ({
     color: "#13A049",
     fontSize: 16,
     fontWeight: "fontWeightBold",
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'left',
+    justifyContent: 'left',
     display: 'flex',
+    paddingLeft: '30%'
   }
 }))
 
