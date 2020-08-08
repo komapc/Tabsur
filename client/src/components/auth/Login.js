@@ -8,6 +8,7 @@ import GoogleLogin from 'react-google-login';
 import FacebookLoginWithButton from 'react-facebook-login';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 //const keys = require("../config/keys");
 const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
@@ -142,8 +143,8 @@ class Login extends Component {
                 </span>
               </div>
               <div className="input-field col s12">
-                <input
-                
+                <TextField
+                  label={'Password'}
                   onChange={this.onChange}
                   value={this.state.password}
                   error={errors.password}
@@ -152,21 +153,24 @@ class Login extends Component {
                   className={classnames("", {
                     invalid: errors.password || errors.passwordincorrect
                   })}
+                  style={{width: '100%'}}
                 />
                 
-                <label htmlFor="password">Password</label>
+                {/* <label htmlFor="password">Password</label> */}
                 <span className="red-text">
                   {errors.password}
                   {errors.passwordincorrect}
                 </span>
               </div>
               <div className="col s12">
-                <button
+                <Button
+                  variant="contained" color="primary"
                   type="submit"
-                  className="button waves-effect waves-light hoverable accent-3"
+                  style={{width: '100%', marginTop: '1vh'}}
+                  // className="button waves-effect waves-light hoverable accent-3"
                 >
                   Login
-                </button>
+                </Button>
                 <div>
               {this.state.user ? <div>{JSON.stringify(this.state.user)}</div> :
                 <FBLoginButton facebookResponse={this.facebookResponse} />
