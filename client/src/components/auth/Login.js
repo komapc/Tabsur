@@ -6,6 +6,9 @@ import { loginUser, loginUserFB } from "../../actions/authActions";
 import classnames from "classnames";
 import GoogleLogin from 'react-google-login';
 import FacebookLoginWithButton from 'react-facebook-login';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 //const keys = require("../config/keys");
 const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
@@ -95,6 +98,16 @@ class Login extends Component {
     const { errors } = this.state;
     return (
       <div className="main">
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
+          style={{ minHeight: '80vh' }}
+        >
+
+        <Grid item xs={6} style={{ minWidth: '500px' }}>
         <div className="row">
           <div className="col s8 offset-s2">
             <Link to="/Meals" className="btn-flat waves-effect">
@@ -111,7 +124,7 @@ class Login extends Component {
             </div>
             <form noValidate onSubmit={this.onSubmit}>
               <div className="input-field col s12">
-                <input
+                <TextField
                   onChange={this.onChange}
                   value={this.state.email}
                   error={errors.email}
@@ -120,15 +133,18 @@ class Login extends Component {
                   className={classnames("", {
                     invalid: errors.email || errors.emailnotfound
                   })}
+                  label={'Email'}
+                  style={{width: '100%'}}
                 />
-                <label htmlFor="email">Email</label>
+                {/* <label htmlFor="email">Email</label> */}
                 <span className="red-text">
                   {errors.email}
                   {errors.emailnotfound}
                 </span>
               </div>
               <div className="input-field col s12">
-                <input
+                <TextField
+                  label={'Password'}
                   onChange={this.onChange}
                   value={this.state.password}
                   error={errors.password}
@@ -137,20 +153,24 @@ class Login extends Component {
                   className={classnames("", {
                     invalid: errors.password || errors.passwordincorrect
                   })}
+                  style={{width: '100%'}}
                 />
-                <label htmlFor="password">Password</label>
+                
+                {/* <label htmlFor="password">Password</label> */}
                 <span className="red-text">
                   {errors.password}
                   {errors.passwordincorrect}
                 </span>
               </div>
               <div className="col s12">
-                <button
+                <Button
+                  variant="contained" color="primary"
                   type="submit"
-                  className="button waves-effect waves-light hoverable accent-3"
+                  style={{width: '100%', marginTop: '1vh'}}
+                  // className="button waves-effect waves-light hoverable accent-3"
                 >
                   Login
-                </button>
+                </Button>
                 <div>
               {this.state.user ? <div>{JSON.stringify(this.state.user)}</div> :
                 <FBLoginButton facebookResponse={this.facebookResponse} />
@@ -174,6 +194,10 @@ class Login extends Component {
            
           </div>
         </div>
+  </Grid>   
+
+</Grid> 
+        
       </div>
     );
   }
