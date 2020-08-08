@@ -6,6 +6,7 @@ import { loginUser, loginUserFB } from "../../actions/authActions";
 import classnames from "classnames";
 import GoogleLogin from 'react-google-login';
 import FacebookLoginWithButton from 'react-facebook-login';
+import Grid from '@material-ui/core/Grid';
 //const keys = require("../config/keys");
 const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
@@ -95,6 +96,16 @@ class Login extends Component {
     const { errors } = this.state;
     return (
       <div className="main">
+        <Grid
+  container
+  spacing={0}
+  direction="column"
+  alignItems="center"
+  justify="center"
+  style={{ minHeight: '80vh' }}
+>
+
+  <Grid item xs={6}>
         <div className="row">
           <div className="col s8 offset-s2">
             <Link to="/Meals" className="btn-flat waves-effect">
@@ -174,6 +185,10 @@ class Login extends Component {
            
           </div>
         </div>
+  </Grid>   
+
+</Grid> 
+        
       </div>
     );
   }
