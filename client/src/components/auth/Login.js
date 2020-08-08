@@ -7,6 +7,7 @@ import classnames from "classnames";
 import GoogleLogin from 'react-google-login';
 import FacebookLoginWithButton from 'react-facebook-login';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 //const keys = require("../config/keys");
 const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
@@ -97,15 +98,15 @@ class Login extends Component {
     return (
       <div className="main">
         <Grid
-  container
-  spacing={0}
-  direction="column"
-  alignItems="center"
-  justify="center"
-  style={{ minHeight: '80vh' }}
->
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
+          style={{ minHeight: '80vh' }}
+        >
 
-  <Grid item xs={6}>
+        <Grid item xs={6} style={{ minWidth: '500px' }}>
         <div className="row">
           <div className="col s8 offset-s2">
             <Link to="/Meals" className="btn-flat waves-effect">
@@ -122,7 +123,7 @@ class Login extends Component {
             </div>
             <form noValidate onSubmit={this.onSubmit}>
               <div className="input-field col s12">
-                <input
+                <TextField
                   onChange={this.onChange}
                   value={this.state.email}
                   error={errors.email}
@@ -131,8 +132,10 @@ class Login extends Component {
                   className={classnames("", {
                     invalid: errors.email || errors.emailnotfound
                   })}
+                  label={'Email'}
+                  style={{width: '100%'}}
                 />
-                <label htmlFor="email">Email</label>
+                {/* <label htmlFor="email">Email</label> */}
                 <span className="red-text">
                   {errors.email}
                   {errors.emailnotfound}
@@ -140,6 +143,7 @@ class Login extends Component {
               </div>
               <div className="input-field col s12">
                 <input
+                
                   onChange={this.onChange}
                   value={this.state.password}
                   error={errors.password}
@@ -149,6 +153,7 @@ class Login extends Component {
                     invalid: errors.password || errors.passwordincorrect
                   })}
                 />
+                
                 <label htmlFor="password">Password</label>
                 <span className="red-text">
                   {errors.password}
