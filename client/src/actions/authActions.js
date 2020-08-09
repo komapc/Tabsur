@@ -64,8 +64,9 @@ export const loginUserFB = userData => dispatch => {
       setAuthToken(token);
       // Decode token to get user data
       const decoded = jwt_decode(token);
+      const merged = {...userData, ...decoded}
       // Set current user
-      dispatch(setCurrentUser(decoded));
+      dispatch(setCurrentUser(merged));
     })
     .catch(err =>
     {
@@ -105,6 +106,7 @@ export const logoutUser = () => dispatch => {
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
+  //todo: logout from FB!
 };
 
 

@@ -10,7 +10,7 @@
 {
     position: relative;
     transition:1s;
-    height:  100%;
+    height:  70vh;
     width: 100vw;
     border: solid 1px;
     background-color: #73d763;
@@ -21,9 +21,9 @@
 .createMealMap-hidden
 {
     visibility: hidden;
-    position: fixed;
+    position: absolute;
     height: 0px;
-    width: 100%;
+    width: 100vw;
     transition: ease-in-out 0.2s;
 }
 
@@ -31,9 +31,9 @@
 {
     top: 0px;
     left:0px;
-    position: fixed;
-    height:100%;
-    width: 100%;
+    position: absolute;
+    height:100vh;
+    width: 100vw;
     background-color: #73d763;
     transition: ease-in-out 0.2s;
     z-index: 1000;
@@ -61,8 +61,8 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: #a2d888;
-    color: white;
+    background-color: #FFFFFF;
+    color: #13A049;
     text-align: center;
     z-index: 1000;
 }
@@ -89,7 +89,6 @@ nav
     min-width:100%;
     flex-direction: column;
     flex-wrap: nowrap;
-    height: 600px; /*otherwie map doesn't work*/
     overflow: hidden;
     display:flex;
     align-items: flex-start;
@@ -513,4 +512,28 @@ input
     margin-left: 10%;
     height:20px;
     width:20px;
+}
+
+.main-app
+{
+    overflow-y:'hidden';
+}
+
+/*main area inside swipable views*/
+.main-app>div>div>div>div 
+{
+    height: calc(100vh - 91px);
+}
+
+.red-text {
+    color: red;
+}
+
+/*Splash*/
+.splash
+{
+    width:100vw;
+    height: 100vh;
+    text-align: center;
+    background-color: lawngreen;
 }

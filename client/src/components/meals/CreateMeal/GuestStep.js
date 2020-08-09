@@ -1,22 +1,28 @@
 
 import React from 'react';
-
+import { TextField, Grid, Box } from '@material-ui/core';
 const NameStep = props => {
 
   const update = (e) => {
-    props.update(  e.target );
+    props.update(e.target);
   };
 
 
   return (
-    <span className="location-input-field input-field col s12 ">
     <div className="wizard-container">
-        <label>Number of guests</label>
-        
-        <input type='number' className='form-control' id="guestCount"
-        onChange={update} value={props.form.guestCount} />
-      </div>
-        </span>
+      <Box item m={2} p={2} width={1} row>
+        <TextField row width={1}
+          onChange={update}
+          value={props.form.guestCount}
+          error={props.form.guestCount == ""}
+          type="Number"
+          id="guestCount"
+          label="Guest Count"
+          placeholder="Guest Count"
+          helperText={props.form.guestCount < 0 || props.form.guestCount > 100 ? "Wrong number" : ""}
+        />
+      </Box >
+    </div>
   );
 };
 export default NameStep;

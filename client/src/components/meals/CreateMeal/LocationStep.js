@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import MapLocationSelector from "./../MapLocationSelector";
 import locationIcon from "../../../resources/location_icon.svg"
+import { TextField, Grid, Box } from '@material-ui/core';
 const LocationStep = props => {
   const [showMap, setMapVisibility] = useState(0);
   const defaultLocationConst = { lng: 34.808, lat: 32.09 };
@@ -28,26 +29,23 @@ const LocationStep = props => {
   }
 
   return (
-    <span>
+    <>
       {/* Address*/}
-      <div>
-        <img className="meal-info-location-icons" src={locationIcon} alt="location" />
-        <span className="location-input-field input-field col s12 ">
-          <div  className="wizard-container">
-          <input
+      <img className="meal-info-location-icons" src={locationIcon} alt="location" />
+      <Grid container  onClick={onAddressClickHandle}>
+
+        <Box item m={2} p={2} width={1} row> 
+          <TextField row width={1} fullWidth
             onChange={onChange}
-            onClick={onAddressClickHandle}
             value={props.form.address}
-            error={errors.password}
+            error={props.form.address.trim() == ""}
             id="address"
-            type="text"
-            notched="true"
+            label="Location"
+            placeholder="Address"
+            helperText={props.form.address.trim() == "" ? "Empty" : ""}
           />
-          <label htmlFor="address" shrink="true">Location</label>
-          <span className="red-text">{errors.address}</span>
-          </div>
-        </span>
-      </div>
+        </Box >
+      </Grid>
       <div className={showMap ? 'createMealMap' : 'createMealMap-hidden'}>
         <MapLocationSelector
           handleLocationUpdate={onLocationUpdate}
@@ -56,7 +54,7 @@ const LocationStep = props => {
         />
       </div>
 
-    </span>
+    </>
   );
 };
 export default LocationStep;

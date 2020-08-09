@@ -47,7 +47,6 @@ const TimeStep = (props) => {
               onChange={(e) => { update("time", e) }}
               onError={console.log}
               disablePast
-              showTodayButton
               autoOk
               format="HH:mm"
             />

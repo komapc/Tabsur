@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import MealListItem from "./MealListItem";
 import { getGuestList, deleteMeal } from "../../actions/mealActions";
 import { getUserFollowers } from "../../actions/userActions";
+import backButton from "../../resources/back_button.svg";
 class GuestList extends Component {
   constructor(props) {
     super(props);
@@ -85,6 +86,13 @@ class ShowMeal extends Component {
   render() {
     return (
       <div className="main">
+        <div className="info-back-div"><img
+          className="info-back"
+          alt="back"
+          onClick={this.props.history.goBack}
+          src={backButton}
+        />
+         </div>
         <MealListItem meal={this.state.meal} />
         <GuestList mealId={this.state.meal.id} userId={this.props.auth.user.id} />
         {
