@@ -214,8 +214,10 @@ router.get("/:id", async (req, response) => {
     return response.status(500).json(err);
   });
   client.query(`SELECT id, name, 100 AS rate,
-    (SELECT COUNT (1) FROM meals WHERE host_id = $1) AS meals_created
-    FROM users WHERE id = $1`, [req.params.id])//
+  (SELECT COUNT (1) FROM meals WHERE host_id = $1) AS meals_created,
+  (SELECT count(1) AS following FROM follow WHERE follower=$1),
+  (SELECT count(1) AS followers FROM follow WHERE id=$1)
+  FROM users WHERE id = $1`, [req.params.id])//
     .then(user => {
       client.end();
       response.json(user.rows);

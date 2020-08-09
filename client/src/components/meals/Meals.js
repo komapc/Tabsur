@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
-
 import loadingGIF from "../../resources/animation/loading.gif";
 class Meals extends Component {
 
@@ -11,19 +10,40 @@ class Meals extends Component {
     this.state = {
       meals: [],
       loading: true,
-      id: this.props.auth.user.id || -1
+      id: this.props.auth.user.id || -1,
+      active: this.props.active
     };
   }
 
-  componentDidMount() {
+  refresh() {
     getMeals(this.props.auth.user.id)
-    .then(res => {
-          console.log(res.data);
-          this.setState({ meals: res.data, loading: false });
-        })
+      .then(res => {
+        console.log(res.data);
+        this.setState({ meals: res.data, loading: false });
+      })
+      .catch(err => {
+        console.error(err);
+        this.setState({ meals: [], loading: false });
+      })
+  }
+
+  componentDidMount() {
+    this.refresh();
   };
+
+  componentWillReceiveProps(nextProps) {
+    // You don't have to do this check first, but it can help prevent an unneeded render
+    if (nextProps.active !== this.state.active) {
+      this.setState({ active: nextProps.startTime });
+      if (nextProps.active) {
+        this.refresh();
+      }
+    }
+  }
+
   render() {
     return (
+      <React.Fragment>
       <div className="main">
         <div className="row">
           {
@@ -38,6 +58,7 @@ class Meals extends Component {
               </div>}
         </div>
       </div>
+      </React.Fragment>
     );
   }
 }

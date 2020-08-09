@@ -51,7 +51,7 @@ router.post('/:id', async (req, response) => {
           title: 'Attend',
           body: 'A user wants to join your meal',
           icon: 'resources/Message-Bubble-icon.png',
-          click_action: '/Meals/',
+          click_action: '/',
           receiver: host,
           meal_id: attend.meal_id,
           sender: -1,

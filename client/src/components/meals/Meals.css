@@ -9,6 +9,7 @@
     border-radius: 1px;
     transition-duration: 0.5s;
     display: flex;
+    position: relative;
 }
 
 .meal-props:hover {
@@ -61,6 +62,7 @@
     margin: 20px;
     right: 0px;
     height:25px;
+    /* max-height: 25px; if use material-ui cards*/
 }
 
 .meal-guests

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Button from '@material-ui/core/Button';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import backButton from "../../resources/back_button.svg";
@@ -101,19 +102,21 @@ class ShowUser extends Component {
           </div>
           <div>You follow him?</div>
           {this.state.followStatus ?
-            <button onClick={() => this.follow(0)}>UnFollow</button> :
-            <button onClick={() => this.follow(3)}>Follow</button>}
+            <Button variant="outlined" color="primary" onClick={() => this.follow(0)}>UnFollow</Button> :
+            <Button variant="outlined" color="primary" onClick={() => this.follow(3)}>Follow</Button>}
         </div>
         <div>
           {
             this.props.auth.user.id !== this.state.id ?
               <div>
                 <input type="text" id="message" placeholder="Message"></input>
-                <button onClick={() => this.sendMessageWithCallback(
-                  this.props.auth.user.id,
-                  this.state.id,
-                  document.getElementById("message").value
-                )}>Send</button>
+                <Button 
+                  variant="outlined" color="primary"
+                  onClick={() => this.sendMessageWithCallback(
+                    this.props.auth.user.id,
+                    this.state.id,
+                    document.getElementById("message").value
+                  )}>Send</Button>
               </div> :
               <div></div>
           }

@@ -15,12 +15,22 @@ class ChatList extends Component {
     };
   }
 
+  
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.active)
+    { 
+      this.props.setFabVisibility(true);
+      this.props.setSwipability(true);
+    }
+  }
+
   componentDidMount() {
     getChatUsers(this.props.auth.user.id)
     .then(res => {
           console.log(res.data);
           this.setState({ users: res.data, loading: false });
         })
+    
   };
   render() {
     return (

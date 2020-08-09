@@ -4,7 +4,7 @@ import { GET_ERRORS, USER_LOADING } from "./types";
 import config from "../config";
 
 // add a meal and image
-export const addMeal = (userData, history) => dispatch => {
+export const addMeal = (userData, onDone) => dispatch => {
   console.log("Adding meal");
   return axios
     .post(`${config.SERVER_HOST}/api/meals/`, userData)
@@ -17,7 +17,7 @@ export const addMeal = (userData, history) => dispatch => {
       return axios.post(`${config.SERVER_HOST}/api/meals/image/`, userData)
         .then(res2 => {
           console.log(`add image: [${JSON.stringify(res2)}]`);
-          history.push("/MyMeals");
+          return onDone();
         })
         .catch(err => {
           console.error(`Error in adding an image: ${JSON.stringify(err)}`);
