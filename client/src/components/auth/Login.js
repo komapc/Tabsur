@@ -126,6 +126,7 @@ class Login extends Component {
             <form noValidate onSubmit={this.onSubmit}>
               <div className="input-field col s12">
                 <TextField
+                  //variant="outlined"
                   onChange={this.onChange}
                   value={this.state.email}
                   error={errors.email}
@@ -145,6 +146,7 @@ class Login extends Component {
               </div>
               <div className="input-field col s12">
                 <TextField
+                  //variant="outlined"  
                   label={'Password'}
                   onChange={this.onChange}
                   value={this.state.password}
