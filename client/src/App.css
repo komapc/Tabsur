@@ -524,3 +524,7 @@ input
 {
     height: calc(100vh - 91px);
 }
+
+.red-text {
+    color: red;
+}
