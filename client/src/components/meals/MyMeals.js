@@ -29,6 +29,7 @@ class MyMeals extends Component {
       mealsAttended: [],
       value: 0
     };
+    this.updateLists();
   }
   updateLists()
   {
@@ -68,8 +69,6 @@ class MyMeals extends Component {
 
     return (
       <div className="main">
-
-
         <Tabs
           value={this.state.value}
           onChange={handleChange}
