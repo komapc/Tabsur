@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -12,18 +12,15 @@ import store from "./store";
 
 
 import Profile from "./components/users/Profile"
-import withSplashScreen  from "./components/layout/Splash"
 import Main  from "./components/layout/Main"
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import ShowMeal from "./components/meals/ShowMeal";
 import ShowUser from "./components/meals/ShowUser";
-import MealMap from "./components/meals/MealMap";
-import Attend from "./components/meals/Attend";
 import CreateMealWizard from "./components/meals/CreateMeal/CreateMealWizard";
 import About from "./components/about/About"
-import NotificationScreen from "./components/notifications/NotificationScreen"; //Not used yet
+//import NotificationScreen from "./components/notifications/NotificationScreen"; //Not used yet
 import Stats from "./components/users/Stats"
 import ChatUser from "./components/chat/ChatUser"
 import { Helmet } from "react-helmet";
@@ -148,4 +145,4 @@ export default connect(state => ({
   notificationsCount: state.notificationsCount,
   profileNotificationsCount: state.profileNotificationsCount,
   messagesCount: state.messagesCount
-}))(withSplashScreen(App));
+}))(App);
