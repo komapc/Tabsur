@@ -22,7 +22,7 @@ class ChatListItem extends React.Component {
     return (
       <div >
             <span onClick={this.handleClick}> 
-            {this.state.user.name1}</span> said to {this.state.user.name2}
+            <b>{this.state.user.name1}</b></span> said to <b>{this.state.user.name2}</b>
             <span> {this.state.user.message_text}</span>
       </div>
     )
