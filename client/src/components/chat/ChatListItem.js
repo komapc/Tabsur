@@ -20,8 +20,8 @@ class ChatListItem extends React.Component {
   render() {
 
     return (
-      <div >
-            <span onClick={this.handleClick}> 
+      <div onClick={this.handleClick}>
+            <span > 
             <b>{this.state.user.name1}</b></span> said to <b>{this.state.user.name2}</b>
             <span> {this.state.user.message_text}</span>
       </div>
