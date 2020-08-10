@@ -2,6 +2,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import React from "react";
 import { getChatMessages } from "../../actions/chatActions";
+import { sendMessage } from "../../actions/notifications"
 class ChatUser extends React.Component {
   constructor(props) {
     super(props);
@@ -23,6 +24,13 @@ class ChatUser extends React.Component {
   componentDidMount() {
   
   };
+  sendMessageWithCallback(sender, receiver, message) {
+    sendMessage(sender, receiver, message)
+      .then(res => { // Callback
+        console.log(JSON.stringify(res));
+      });
+  }
+
 
   render() {
     return <span>
