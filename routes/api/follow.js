@@ -9,7 +9,7 @@ const { Client } = require("pg");
 const express = require("express");
 const router = express.Router();
 
-// @route GET api/follow/get
+// @route GET api/follow
 // @desc get list of followers
 // @access Public
 router.get("/:id", async (req, response) => {

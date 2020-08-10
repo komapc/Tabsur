@@ -123,7 +123,7 @@ router.get("/attends/:id", async (req, response) => {
 // @access Public
 router.get("/guests/:meal_id", async (req, response) => {
   const client = new Client(currentConfig);
-  console.log("get users by meal_id: " + JSON.stringify(req.params));
+  console.log("Get users by meal_id: " + JSON.stringify(req.params));
   const meal_id = req.params.meal_id;
   if (isNaN(meal_id)) {
     console.log("error, empty id");
@@ -134,18 +134,24 @@ router.get("/guests/:meal_id", async (req, response) => {
   const SQLquery = `SELECT a.user_id, u.name FROM attends as a  
    INNER JOIN users as u ON a.user_id=u.id WHERE meal_id=$1`;
   console.log(SQLquery);
-  await client.connect().catch(err => { console.log("get guest for a meal: failed to connect.") });
+  await client.connect()
+  .then(()=>console.log('Connected.'))
+  .catch(err => { 
+    console.error(`get guest for a meal: failed to connect, ${JSON.stringify(err)}`); 
+  });
   client.query(SQLquery, [meal_id])
     .then(resp => {
-      client.end();
+      console.error(`Query result: ${JSON.stringify(resp.rows)}`);
       return response.json(resp.rows);
     })
     .catch(err => {
-      client.end();
-      console.log(err);
+      console.error(`Failed query: ${err}`);
       return response.status(500).json(err);
     }
     )
+    .finally(()=>{
+      client.end();
+    })
 });
 
 // @route POST api/meals/image

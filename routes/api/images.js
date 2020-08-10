@@ -52,21 +52,20 @@ insertImageIntoDB = async (imageName, uploader) => {
   console.log(`connected running [${query}]`);
 
   var  result = "-2"; 
-  await client.query(query,
+  return await client.query(query,
     [imageName, Number(uploader)])
     .then(res => {
-      client.end();
       console.log(`image inserted, id=${JSON.stringify(res.rows[0])}.`);
       result = res.rows[0].id;
     })
     .catch(e => {
-      client.end();
-      console.log(`Inserting image into db failed; exception catched: ${e}`);
+      
+      console.error(`Inserting image into db failed; exception catched: ${e}`);
       //response.status(500).json(e);
       result = -1;
       return result;
-    });
-    return result;
+    })
+    .finally(()=>client.end());
 };
 
 //POST route
@@ -105,7 +104,7 @@ router.post("/upload", async (request, response) => {
 });
 
 router.put('/:imageId', function (req, response, next) {
-  console.log(`Getting ${JSON.stringify(req.params.imageId)}`);
+  console.log(`Putting ${JSON.stringify(req.params.imageId)}`);
   return response.status(401).send("Not supported");
 });
 
@@ -115,7 +114,7 @@ router.get('/:imageId', function (req, res, next) {
   var params = { Bucket: keys.S3_BUCKET, Key: `images/${req.params.imageId}` };
   s3.getObject(params, function (err, data) {
     if (!data) {
-      console.log(`params ${JSON.stringify(params)}`);
+      console.error(`params ${JSON.stringify(params)}`);
       res.status(404).send("empty data");
       return;
     }
