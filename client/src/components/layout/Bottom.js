@@ -90,7 +90,7 @@ class Bottom extends Component {
           <Tab label="My Profile" icon={<Badge badgeContent={this.props.profileNotificationsCount} color="secondary"><BigPersonImg /></Badge>}></Tab>
           <Tab label="My Meals" icon={
             <Badge badgeContent={this.props.notificationsCount} color="secondary">
-              <img className="footer-icons" src={meals} alt={"meals map"} />s
+              <img className="footer-icons" src={meals} alt={"meals map"} />
             </Badge>
           }></Tab>
           <Tab label="Messages" icon={
