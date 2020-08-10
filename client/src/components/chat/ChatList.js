@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Router, Route, IndexRoute } from 'react-router';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getChatUsers } from "../../actions/chatActions";
@@ -7,7 +6,6 @@ import ChatListItem from "./ChatListItem";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import loadingGIF from "../../resources/animation/loading.gif";
-import backButton from "../../resources/back_button.svg";
 
 class ChatList extends Component {
 
@@ -38,14 +36,10 @@ class ChatList extends Component {
 
     return (
       <div className="main">
-        <img
-          className="info-back"
-          alt="back"
-          onClick={this.props.history.goBack}
-          src={backButton}
-        />
+        
           <AppBar position="sticky">
-        <Toolbar>CHAT</Toolbar>
+        <Toolbar>
+        CHAT</Toolbar>
       </AppBar>
         <div className="row">
           {
