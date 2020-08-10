@@ -1,5 +1,5 @@
 import SwipeableViews from 'react-swipeable-views';
-import React, { Fragment, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppFab from './AppFab';
 import { useLocation } from "react-router-dom";
 import MyMeals from "../meals/MyMeals"
@@ -9,6 +9,7 @@ import ChatList from "../chat/ChatList"
 import Bottom from "./Bottom";
 import MealsListMapSwitcher from '../meals/MealsListMapSwitcher'
 
+import withSplashScreen  from "./Splash"
 
 const mainTabs = {
   MEALS: 0,
@@ -17,13 +18,6 @@ const mainTabs = {
   CHAT: 3,
 }
 
-
-
-const tabs = {
-
-  mealsList: 0,
-  mealsMap: 1
-}
 const Main = () => {
   const location = useLocation();
   const hash = location.hash.slice(1);
@@ -31,8 +25,7 @@ const Main = () => {
   const [index, setIndex] = useState(Number(hash) || 0);
   const [isFabFabVisible, setFabVisibility] = useState(true);
   const [isSwipable, setSwipability] = useState(true);
-
-
+  
   const handleChange = (event, value) => {
     setIndex(value);
   };
@@ -59,5 +52,5 @@ const Main = () => {
     <Bottom onChange={handleChange} index={index} />
   </>
 };
-
-export default Main;
+//withSplashScreen
+export default (Main);

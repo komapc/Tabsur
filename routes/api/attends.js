@@ -66,8 +66,8 @@ router.post('/:id', async (req, response) => {
       }
     })
     .catch(error => {
-      console.error(err);
-      return response.status(500).json(err);
+      console.error(error);
+      return response.status(500).json(error);
     })
     .finally(() => {
       client.end();

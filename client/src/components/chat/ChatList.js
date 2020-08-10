@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getChatUsers } from "../../actions/chatActions";
 import ChatListItem from "./ChatListItem";
-
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import loadingGIF from "../../resources/animation/loading.gif";
+
 class ChatList extends Component {
 
   constructor(props) {
@@ -13,12 +16,9 @@ class ChatList extends Component {
       loading: true,
       id: this.props.auth.user.id || -1
     };
-  }
-
-  
+  } 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.active)
-    { 
+    if (nextProps.active) {
       this.props.setFabVisibility(true);
       this.props.setSwipability(true);
     }
@@ -26,17 +26,22 @@ class ChatList extends Component {
 
   componentDidMount() {
     getChatUsers(this.props.auth.user.id)
-    .then(res => {
-          console.log(res.data);
-          this.setState({ users: res.data, loading: false });
-        })
-    
+      .then(res => {
+        console.log(res.data);
+        this.setState({ users: res.data, loading: false });
+      })
   };
-  render() {
+
+  render() {;
+
     return (
       <div className="main">
-        CHAT
-       <div className="row">
+        
+          <AppBar position="sticky">
+        <Toolbar>
+        CHAT</Toolbar>
+      </AppBar>
+        <div className="row">
           {
             this.state.loading ?
               <img src={loadingGIF} alt="loading" /> :
@@ -47,7 +52,7 @@ class ChatList extends Component {
                   </div>
                 )}
               </div>}
-        </div> 
+        </div>
       </div>
     );
   }
@@ -63,4 +68,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(
   mapStateToProps, mapDispatchToProps
-)(ChatList);
+)(withRouter(ChatList));
