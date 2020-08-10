@@ -9,14 +9,14 @@ const NameStep = props => {
     <div className="wizard-container row ">
 
       <Grid container spacing={4}>
-        <Box  item  m={2} p={3}>
+        <Box m={2} p={3}>
           <TextField
-            className='wizard-description  justify-content-center' id="name" row
+            className='wizard-description  justify-content-center' id="name"
             onChange={update} value={props.form.name} label="Meal Name" />
 
         </Box >
-        <Box  item  m={2} p={3}>
-          <TextField className='wizard-description' id="description" row 
+        <Box m={2} p={3}>
+          <TextField className='wizard-description' id="description" 
             onChange={update} value={props.form.description}
             placeholder="Describe the meal" label="Description" />
         </Box >

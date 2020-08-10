@@ -10,8 +10,8 @@ const NameStep = props => {
 
   return (
     <div className="wizard-container">
-      <Box item m={2} p={2} width={1} row>
-        <TextField row width={1}
+      <Box m={2} p={2} width={1}>
+        <TextField width={1}
           onChange={update}
           value={props.form.guestCount}
           error={props.form.guestCount == ""}
