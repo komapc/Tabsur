@@ -1,5 +1,5 @@
 import SwipeableViews from 'react-swipeable-views';
-import React, { Fragment, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppFab from './AppFab';
 import { useLocation } from "react-router-dom";
 import MyMeals from "../meals/MyMeals"
@@ -17,6 +17,7 @@ const mainTabs = {
   MY_MEALS: 2,
   CHAT: 3,
 }
+
 const Main = () => {
   const location = useLocation();
   const hash = location.hash.slice(1);
@@ -24,7 +25,7 @@ const Main = () => {
   const [index, setIndex] = useState(Number(hash) || 0);
   const [isFabFabVisible, setFabVisibility] = useState(true);
   const [isSwipable, setSwipability] = useState(true);
-
+  
   const handleChange = (event, value) => {
     setIndex(value);
   };

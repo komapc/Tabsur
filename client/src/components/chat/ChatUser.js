@@ -3,6 +3,11 @@ import { connect } from "react-redux";
 import React from "react";
 import { getChatMessages } from "../../actions/chatActions";
 import { sendMessage } from "../../actions/notifications"
+
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+
+import backButton from "../../resources/back_button.svg";
 class ChatUser extends React.Component {
   constructor(props) {
     super(props);
@@ -13,16 +18,16 @@ class ChatUser extends React.Component {
     };
     console.log(`partner: ${this.state.partner_id}`);
     getChatMessages(this.props.auth.user.id, this.state.partner_id)
-    .then(res => {
-      console.log(res.data);
-      this.setState({ messages: res.data, loading: false });
-    })
-    .catch(error=>{
-      console.error(error);
-    })
+      .then(res => {
+        console.log(res.data);
+        this.setState({ messages: res.data, loading: false });
+      })
+      .catch(error => {
+        console.error(error);
+      })
   }
   componentDidMount() {
-  
+
   };
   sendMessageWithCallback(sender, receiver, message) {
     sendMessage(sender, receiver, message)
@@ -33,28 +38,35 @@ class ChatUser extends React.Component {
 
   render() {
     return <span>
-      Chat with a user
-      {this.state.messages.name2}
-        {/* {this.state.messages.map(message =>
+      <AppBar position="sticky">
+        <Toolbar>
+          <img width="20px"
+            alt="back"
+            onClick={this.props.history.goBack}
+            src={backButton}
+          />Chat  with {this.state.messages.name2}</Toolbar>
+      </AppBar>
+
+      {/* {this.state.messages.map(message =>
           <div key={message.id}>
            <div>{JSON.stringify(message)}</div>
           </div>
         )} */}
-        <div>
-          <input type="text" id="message" placeholder="Message"></input>
-          <button onClick={() => this.sendMessageWithCallback(
-            this.props.auth.user.id,
-            this.state.id,
-            document.getElementById("message").value
-          )}>Send</button>
-        </div>
-  </span>
-};
+      <div>
+        <input type="text" id="message" placeholder="Message"></input>
+        <button onClick={() => this.sendMessageWithCallback(
+          this.props.auth.user.id,
+          this.state.id,
+          document.getElementById("message").value
+        )}>Send</button>
+      </div>
+    </span>
+  };
 
 }
 
 const mapStateToProps = state => ({
-        auth: state.auth
+  auth: state.auth
 });
 
 export default connect(
