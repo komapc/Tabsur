@@ -31,11 +31,10 @@ class ChatUser extends React.Component {
       });
   }
 
-
   render() {
     return <span>
-      chat with a user
-      {JSON.stringify(this.state.messages)}
+      Chat with a user
+      {this.state.messages.name2}
         {/* {this.state.messages.map(message =>
           <div key={message.id}>
            <div>{JSON.stringify(message)}</div>
@@ -44,7 +43,6 @@ class ChatUser extends React.Component {
         <div>
           <input type="text" id="message" placeholder="Message"></input>
           <button onClick={() => this.sendMessageWithCallback(
- 
             this.props.auth.user.id,
             this.state.id,
             document.getElementById("message").value
