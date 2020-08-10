@@ -32,13 +32,11 @@ router.get("/:id", async (req, response) => {
 
   return client.query(SQLquery, [userId])
     .then(resp => {
-      response.json(resp.rows);
-      client.end();
+      return response.json(resp.rows);
     })
     .catch(err => {
-      console.log(err);
-      response.status(500).json(err);
-      client.end();
+      console.error(err);
+      return response.status(500).json(err);
     })
     .finally(() => client.end());
 })
@@ -54,27 +52,26 @@ router.get("/user/:me/:user", async (req, response) => {
   console.log(`get chat messages between ${meId} and ${userId}`);
   if (isNaN(userId)) {
     return response.status(400).json("Error in geting  meals: wrong ID");
-    // userId = -1;
   }
-  //todo: get messages with reveiver OR sender, top 1 for every user
+  //todo: get messages between two users
   const SQLquery = `SELECT 
   (select "name" as name1 FROM "users" where id=n.receiver), 
   (select "name" as name2 FROM "users" where id=n.sender),
   id, receiver, sender, message_text, created_at FROM  notifications  as n
   WHERE n.note_type=0  AND  ( (n.sender=$1 AND n.receiver=$2)  OR (n.sender=$2 AND n.receiver=$1))
     `;
-  console.log(`get, SQLquery: [${SQLquery}]`);
+  console.log(`get, SQLquery: [${SQLquery}], me: ${meId}, her: ${userId}`);
   await client.connect();
 
-  return client.query(SQLquery
-    , [userId, meId]
+  return client.query(SQLquery, [userId, meId]
     )
     .then(resp => {
-      response.json(resp.rows);
+      console.log(JSON.stringify(resp));
+      return response.json(resp.rows);
     })
     .catch(err => {
       console.error(`Query failed: ${JSON.stringify(err)}`);
-      response.status(500).json(err);
+      return response.status(500).json(err);
     })
     .finally(() => client.end());
 })
