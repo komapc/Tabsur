@@ -528,3 +528,12 @@ input
 .red-text {
     color: red;
 }
+
+/*Splash*/
+.splash
+{
+    width:100vw;
+    height: 100vh;
+    text-align: center;
+    background-color: lawngreen;
+}

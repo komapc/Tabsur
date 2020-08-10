@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
 
+import Logo from "../../resources/logo.png"
 function LoadingMessage() {
   return (
-    <div>
-      Food sharing and social dining application
+    <div className="splash">
+      <img src={Logo} width="30%"/>
+      <h2>
+      Food sharing <br/>and social dining <br/>application
+      </h2>
     </div>
   );
 }
@@ -24,7 +28,7 @@ function withSplashScreen(WrappedComponent) {
           this.setState({
             loading: false,
           });
-        }, 150)
+        }, 1000)
       } catch (err) {
         console.log(err);
         this.setState({
@@ -34,8 +38,8 @@ function withSplashScreen(WrappedComponent) {
     }
 
     render() {
-      // while checking user session, show "loading" message
-      if (this.state.loading) return LoadingMessage();
+      if (this.state.loading) 
+        return LoadingMessage();
 
       // otherwise, show the desired route
       return <WrappedComponent {...this.props} />;
