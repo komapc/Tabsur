@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === "debug")
 const pushNotification = (notification, registration_ids) =>
 {
   return fcm.sendNotification(JSON.stringify({
-    data: notification,
+    notification: notification,
     "registration_ids": registration_ids.split(';')
   })) 
   .then(response =>
