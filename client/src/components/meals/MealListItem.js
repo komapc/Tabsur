@@ -16,7 +16,7 @@ import React from "react";
 import Button from '@material-ui/core/Button';
 import DoneIcon from '@material-ui/icons/Done';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
-
+import Switch from '@material-ui/core/Switch';
 
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -35,7 +35,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CheckIcon from '@material-ui/icons/Check';
-
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 var dateFormat = require('dateformat');
 
 const useStyles = makeStyles((theme) => ({
@@ -139,45 +139,66 @@ class AttendButton extends React.Component {
       meal: props.meal
     };
   }
-
-  handleAttend = (event, new_status) => {
+  componentDidUpdate = (prevProps)=>
+  {
+    if(prevProps.meal !== this.props.meal) {
+      this.setState({meal: this.props.meal});
+    }
+  }
+  handleAttend = (event, newStatus) => {
     event.stopPropagation();
     const user_id = this.props.auth.user.id;
-    console.log("handleAttend: " + JSON.stringify(this.state.meal) + ", " + user_id);
-    this.props.onJoin(this.state.meal, new_status);
+    console.log(`handleAttend:  ${JSON.stringify(this.state.meal)}, ${user_id}, new status: ${newStatus}`);
+    this.props.onJoin(newStatus);
   }
 
   render() {
-    const meal = this.props.meal;
+    const meal = this.state.meal;
     const status = meal.attend_status;
     const isOwner = meal.host_id === this.props.auth.user.id;
-    let attendButton = <span />;
-    if (meal.guest_count <= meal.Atendee_count) {
-      attendButton = <img
-        className="attend-button"
-        src={fullUp}
-        alt={"attend"}
-        onClick={
-          (event) => {
-            this.handleAttend(event, 0)
-          }
-        }
-      />
-    }
-    else if (isOwner) {
-      attendButton = <span />;
-    }
-    else if (status <= 0) {
-      attendButton = <Button startIcon={<DoneIcon />} variant="outlined" color="primary" size="small" onClick={(event) => { this.handleAttend(event, 3) }}>
-      Join
-    </Button>
-    }
-    else {
-      attendButton = <Button startIcon={<NotInterestedIcon />} variant="outlined" color="secondary" size="small" onClick={(event) => { this.handleAttend(event, 0) }}>Recall</Button>  }
+    const isEnabled = (status> 0) || (meal.guest_count >= meal.Atendee_count);
+    // let attendButton = <span />;
+    // if (meal.guest_count <= meal.Atendee_count) {
+    //   attendButton = <img
+    //     className="attend-button"
+    //     src={fullUp}
+    //     alt={"attend"}
+    //     onClick={
+    //       (event) => {
+    //         this.handleAttend(event, 0)
+    //       }
+    //     }
+    //   />
+    // }
+    // else if (isOwner) {
+    //   attendButton = <span />;
+    // }
+    // else if (status <= 0) {
+    //   attendButton = <Button startIcon={<DoneIcon />} variant="outlined" color="primary" size="small" onClick={(event) => { this.handleAttend(event, 3) }}>
+    //   Join
+    // </Button>
+    // }
+    // else {
+    //   attendButton = <Button startIcon={<NotInterestedIcon />} variant="outlined" color="secondary" size="small" onClick={(event) => { this.handleAttend(event, 0) }}>Recall</Button>  }
 
-    return <span className="attend-button">
-      {attendButton}
-    </span>
+    // return <span className="attend-button">
+    //   {attendButton}
+    // </span>
+    const newStatus = status === 0? 3:0;
+    return <FormControlLabel
+        hidden={isOwner}
+        disabled = {!isEnabled}
+        onClick = {event=>this.handleAttend(event, newStatus)}
+        control={
+          <Switch
+            checked={status>0}
+            // onChange={event=>this.handleAttend(event, newStatus)}
+            name="AttendSwitch"
+            color="primary"
+          />
+        }
+        label="Attend"
+      />
   }
 };
 
@@ -222,20 +243,20 @@ class MealListItem extends React.Component {
   goToMaps = (event, id) => {
     event.stopPropagation();
     event.preventDefault();
-    this.props.history.push(`/MealMap/${id}`);
+    this.props.history.push(`/MealMap/${id}`);//todo: fix, redirect properly to the map
   }
 
-  onJoin = (meal, new_status) => {
-    const status = new_status;
+  onJoin = (newStatus) => {
     const user_id = this.props.auth.user.id;
-    const attend = { user_id: user_id, meal_id: meal.id, status: new_status };
+    const meal=this.state.meal;
+    const attend = { user_id: user_id, meal_id: meal.id, status: newStatus };
 
     this.props.joinMeal(attend, user_id);
-    const increment = status > 0 ? 1 : -1;
+    const increment = newStatus > 0 ? 1 : -1;
     this.setState((prevState => {
       let meal = Object.assign({}, prevState.meal);  // creating copy
       meal.Atendee_count = +meal.Atendee_count + +increment;
-      meal.attend_status = new_status;
+      meal.attend_status = newStatus;
       return { meal };
     }));
   }
@@ -248,7 +269,7 @@ class MealListItem extends React.Component {
       return <div>EMPTY MEAL</div>
     }
     const dat = dateFormat(new Date(meal.date), "dd-mm-yyyy HH:MM");
-    var path = this.props.meal.path;
+    var path = this.state.meal.path;
     path = path ?
       `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
     return (

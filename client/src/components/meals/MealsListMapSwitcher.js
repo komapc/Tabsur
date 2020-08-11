@@ -67,21 +67,23 @@ export default function SimpleTabs(props) {
   }
   return (
     <div className={classes.root}>
-      {/* <AppBar position="static"> */}
+     <AppBar position="sticky"> 
       <Tabs 
         value={value} 
+      
         onChange={handleChange} 
         aria-label="simple tabs example" 
         centered 
         indicatorColor='primary'
         TabIndicatorProps={{
         style: {
-          backgroundColor: "primary"
+          backgroundColor: "primary",
+         
       }}}>
         <Tab label="List" {...a11yProps(0)} />
         <Tab label="Map" {...a11yProps(1)} />
       </Tabs>
-      {/* </AppBar> */}
+     </AppBar> 
       {/* <TabPanel value={value} index={0}>
         <Meals/>
       </TabPanel>
