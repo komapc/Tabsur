@@ -4,7 +4,9 @@ import backButton from "../../resources/back_button.svg";
 const BackButton = (props) => {
     const onClick = () =>
     {
-        props.history.goBack();
+        const hasHistory = props.history.length>2;
+        console.log("Length: " + hasHistory);
+        hasHistory? props.history.goBack() : props.history.push('/');
     }
     return (
 
