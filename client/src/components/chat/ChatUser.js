@@ -75,7 +75,6 @@ class ChatUser extends React.Component {
           variant="outlined"  
           label={'message'}
           placeholder="Message"
-          on
           onChange={this.onChange}
           id="message"
           value={this.state.typedMessage}
