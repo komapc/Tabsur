@@ -9,6 +9,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 import backButton from "../../resources/back_button.svg";
 
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+
 const ChatLine = (props) =>
 {
   return <div>
@@ -44,14 +47,15 @@ class ChatUser extends React.Component {
   }
 
   render() {
-    return <span>
+    return <>
+    <Box style={{height:"80vh"}}>
       <AppBar position="sticky">
         <Toolbar>
           <img width="20px"
             alt="back"
             onClick={this.props.history.goBack}
             src={backButton}
-          />Chat  with {this.state.messages.name2}</Toolbar>
+          />Chat with {this.state.messages.name2}</Toolbar>
       </AppBar>
 
       {this.state.messages.map(message =>
@@ -59,15 +63,16 @@ class ChatUser extends React.Component {
            <ChatLine message={message}></ChatLine>
           </div>
         )} 
-      <div>
+      </Box>
+      <Box style={{bottom:"0px", position:"sticky"}}>
         <input type="text" id="message" placeholder="Message"></input>
         <button onClick={() => this.sendMessageWithCallback(
-          this.props.auth.user.id,
-          this.state.id,
-          document.getElementById("message").value
+            this.props.auth.user.id,
+            this.state.id,
+            document.getElementById("message").value
         )}>Send</button>
-      </div>
-    </span>
+     </Box>
+    </>
   };
 
 }
