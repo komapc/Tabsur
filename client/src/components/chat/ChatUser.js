@@ -8,12 +8,19 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 
 import backButton from "../../resources/back_button.svg";
+
+const ChatLine = (props) =>
+{
+  return <div>
+    {props.message.name1}: <b>{props.message.message_text}</b>
+  </div>
+}
 class ChatUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: props.user,
-      messages: {},
+      messages: [],
       partner_id: this.props.match.params.id,
     };
     console.log(`partner: ${this.state.partner_id}`);
@@ -47,11 +54,11 @@ class ChatUser extends React.Component {
           />Chat  with {this.state.messages.name2}</Toolbar>
       </AppBar>
 
-      {/* {this.state.messages.map(message =>
+      {this.state.messages.map(message =>
           <div key={message.id}>
-           <div>{JSON.stringify(message)}</div>
+           <ChatLine message={message}></ChatLine>
           </div>
-        )} */}
+        )} 
       <div>
         <input type="text" id="message" placeholder="Message"></input>
         <button onClick={() => this.sendMessageWithCallback(
