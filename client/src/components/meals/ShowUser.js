@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import Button from '@material-ui/core/Button';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import backButton from "../../resources/back_button.svg";
 import defaultImage from "../../resources/userpic_empty.svg";
-
+import BackButton from "../layout/BackButton";
 import { getFollowStatus, setFollow, getUserInfo } from "../../actions/userActions"
 import { sendMessage } from "../../actions/notifications"
 class ShowUser extends Component {
@@ -80,12 +79,8 @@ class ShowUser extends Component {
   render() {
     return (
       <div className="info-all">
-        <div className="info-back-div"><img
-          className="info-back"
-          alt="back"
-          onClick={this.props.history.goBack}
-          src={backButton}
-        />
+         <div >
+        <BackButton/>
           <span className="info-caption">profile</span>
         </div>
         <div className="info-top">
