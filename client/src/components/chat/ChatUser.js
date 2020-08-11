@@ -8,7 +8,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 
 import backButton from "../../resources/back_button.svg";
-
+import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
@@ -25,6 +25,7 @@ class ChatUser extends React.Component {
       user: props.user,
       messages: [],
       partner_id: this.props.match.params.id,
+      typedMessage:""
     };
     console.log(`partner: ${this.state.partner_id}`);
     getChatMessages(this.props.auth.user.id, this.state.partner_id)
@@ -39,13 +40,17 @@ class ChatUser extends React.Component {
   componentDidMount() {
 
   };
-  sendMessageWithCallback(sender, receiver, message) {
-    sendMessage(sender, receiver, message)
+  sendMessageWithCallback(sender, receiver) {
+    sendMessage(sender, receiver, this.state.typedMessage)
       .then(res => { // Callback
         console.log(JSON.stringify(res));
       });
+      this.setState({ typedMessage: "" });
   }
-
+  onChange = value=>
+  {
+    this.setState({ typedMessage: value.value }) 
+  }
   render() {
     return <>
     <Box style={{height:"80vh"}}>
@@ -65,12 +70,20 @@ class ChatUser extends React.Component {
         )} 
       </Box>
       <Box style={{bottom:"0px", position:"sticky"}}>
-        <input type="text" id="message" placeholder="Message"></input>
-        <button onClick={() => this.sendMessageWithCallback(
+
+        <TextField
+          variant="outlined"  
+          label={'message'}
+          placeholder="Message"
+          on
+          onChange={this.onChange}
+          id="message"
+          value={this.state.typedMessage}
+          />
+        <Button onClick={() => this.sendMessageWithCallback(
             this.props.auth.user.id,
-            this.state.id,
-            document.getElementById("message").value
-        )}>Send</button>
+            this.state.id
+        )}>Send</Button>
      </Box>
     </>
   };
