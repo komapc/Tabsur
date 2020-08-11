@@ -16,7 +16,7 @@ class ChatList extends Component {
       loading: true,
       id: this.props.auth.user.id || -1
     };
-  } 
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.active) {
       this.props.setFabVisibility(true);
@@ -32,24 +32,28 @@ class ChatList extends Component {
       })
   };
 
-  render() {;
-
+  render() {
     return (
       <div className="main">
-        
-          <AppBar position="sticky">
-        <Toolbar>
-        CHAT</Toolbar>
-      </AppBar>
+
+        <AppBar position="sticky">
+          <Toolbar>
+            CHAT</Toolbar>
+        </AppBar>
         <div className="row">
           {
             this.state.loading ?
               <img src={loadingGIF} alt="loading" /> :
               <div className="map-meal-info">
                 {this.state.users.map(user =>
-                  <div key={user.id}>
-                    <ChatListItem user={user} />
+                {
+                  const sender = user.sender;
+                  const receiver = user.receiver;
+                  const patner = this.props.auth.user.id !== sender?sender: receiver;
+                  return <div key={user.id}>
+                    <ChatListItem user={user} partner={patner}/>
                   </div>
+                  }
                 )}
               </div>}
         </div>

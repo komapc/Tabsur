@@ -14,7 +14,7 @@ class ChatListItem extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     this.props.history.push({
-      pathname: `/ChatUser/${this.props.user.id}`
+      pathname: `/ChatUser/${this.props.partner}`
     });
   }
   render() {
