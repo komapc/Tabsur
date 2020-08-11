@@ -55,7 +55,7 @@ class ChatUser extends React.Component {
     return <>
     <Box style={{height:"80vh"}}>
       <AppBar position="sticky">
-        <Toolbar>s
+        <Toolbar>
           <BackButton   />
           Chat with {this.state.messages.name2}</Toolbar>
       </AppBar>
