@@ -6,8 +6,7 @@ import { sendMessage } from "../../actions/notifications"
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-
-import backButton from "../../resources/back_button.svg";
+import BackButton from "../layout/BackButton";
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -56,12 +55,9 @@ class ChatUser extends React.Component {
     return <>
     <Box style={{height:"80vh"}}>
       <AppBar position="sticky">
-        <Toolbar>
-          <img width="20px"
-            alt="back"
-            onClick={this.props.history.goBack}
-            src={backButton}
-          />Chat with {this.state.messages.name2}</Toolbar>
+        <Toolbar>s
+          <BackButton   />
+          Chat with {this.state.messages.name2}</Toolbar>
       </AppBar>
 
       {this.state.messages.map(message =>
