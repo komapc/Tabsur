@@ -41,15 +41,16 @@ class ChatUser extends React.Component {
 
   };
   sendMessageWithCallback(sender, receiver) {
+    alert(sender + "," + receiver);
     sendMessage(sender, receiver, this.state.typedMessage)
       .then(res => { // Callback
         console.log(JSON.stringify(res));
       });
       this.setState({ typedMessage: "" });
   }
-  onChange = value=>
+  onChange = event=>
   {
-    this.setState({ typedMessage: value.value }) 
+    this.setState({typedMessage: event.target.value});
   }
   render() {
     return <>
@@ -81,7 +82,7 @@ class ChatUser extends React.Component {
           />
         <Button onClick={() => this.sendMessageWithCallback(
             this.props.auth.user.id,
-            this.state.id
+            this.state.partner_id
         )}>Send</Button>
      </Box>
     </>
