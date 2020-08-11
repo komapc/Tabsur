@@ -157,33 +157,7 @@ class AttendButton extends React.Component {
     const status = meal.attend_status;
     const isOwner = meal.host_id === this.props.auth.user.id;
     const isEnabled = (status> 0) || (meal.guest_count >= meal.Atendee_count);
-    // let attendButton = <span />;
-    // if (meal.guest_count <= meal.Atendee_count) {
-    //   attendButton = <img
-    //     className="attend-button"
-    //     src={fullUp}
-    //     alt={"attend"}
-    //     onClick={
-    //       (event) => {
-    //         this.handleAttend(event, 0)
-    //       }
-    //     }
-    //   />
-    // }
-    // else if (isOwner) {
-    //   attendButton = <span />;
-    // }
-    // else if (status <= 0) {
-    //   attendButton = <Button startIcon={<DoneIcon />} variant="outlined" color="primary" size="small" onClick={(event) => { this.handleAttend(event, 3) }}>
-    //   Join
-    // </Button>
-    // }
-    // else {
-    //   attendButton = <Button startIcon={<NotInterestedIcon />} variant="outlined" color="secondary" size="small" onClick={(event) => { this.handleAttend(event, 0) }}>Recall</Button>  }
-
-    // return <span className="attend-button">
-    //   {attendButton}
-    // </span>
+    
     const newStatus = status === 0? 3:0;
     return <FormControlLabel
         hidden={isOwner}
