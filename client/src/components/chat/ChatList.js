@@ -37,8 +37,9 @@ class ChatList extends Component {
       <div className="main">
 
         <AppBar position="sticky">
-          <Toolbar>
-            CHAT</Toolbar>
+            <Toolbar>
+              CHAT
+            </Toolbar>
         </AppBar>
         <div className="row">
           {
