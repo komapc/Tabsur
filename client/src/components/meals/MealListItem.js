@@ -35,18 +35,21 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CheckIcon from '@material-ui/icons/Check';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import RoomIcon from '@material-ui/icons/Room';
+import PeopleIcon from '@material-ui/icons/People';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 var dateFormat = require('dateformat');
 
 const useStyles = makeStyles((theme) => ({
   root: {
     //maxWidth: 345,
-    marginTop: '3vh',
-    marginBottom: '3vh',
-    marginLeft: '5vW',
-    marginRight: '5vw',
+    //marginTop: '3vh',
+    marginBottom: '5vh',
+    //marginLeft: '5vW',
+    //marginRight: '5vw',
 
-    width:'90vw'
+    width:'100vw'
   },
   media: {
     height: 0,
@@ -73,43 +76,58 @@ function RecipeReviewCard(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  console.log('RecipeReviewCard props.path: ' + JSON.stringify(props.meal));
   return (
+
     <Card className={classes.root}>
       <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            R
+        onClick={(event) => { props.gotoMeal(event, props.meal) }}
+        avatar={ props.auth.user.id === props.meal.host_id ?
+          <Avatar className={classes.avatar} onClick={(event) => { props.goToUser(event, props.meal.host_id) }}/> :
+          <Avatar aria-label="recipe" className={classes.avatar} onClick={(event) => { props.goToUser(event, props.meal.host_id) }}>
+            {props.owner[0].toUpperCase()}
           </Avatar>
         }
         action={
           <IconButton aria-label="settings">
-            <MoreVertIcon />
+            {/* <MoreVertIcon /> */}
           </IconButton>
         }
-        // title="Shrimp and Chorizo Paella"
-        title={props.owner}
-        // subheader="September 14, 2016"
-        subheader={props.dat}
+        title={<React.Fragment><span style={{fontWeight:900}}>{props.meal.name}</span></React.Fragment>}
+        subheader={<React.Fragment><span  onClick={(event) => { props.goToUser(event, props.meal.host_id) }}>{`by ${props.owner}`}</span></React.Fragment>}
       />
+      {props.path.indexOf('/static/media/userpic_empty') === -1 ? 
       <CardMedia
+        onClick={(event) => { props.gotoMeal(event, props.meal) }}
         className={classes.media}
         image={props.path}
         title="Meal picture"
-      />
-      <CardContent>
+      /> :
+      null}
+      <CardContent onClick={(event) => { props.gotoMeal(event, props.meal) }}>
+        <Typography variant="body2" color="black" component="p">
+          <ScheduleIcon fontSize='small' style={{ color: 'gray',}}/> {props.dat}
+        </Typography>
+
+        <Typography variant="body2" color="black" component="p" onClick={(event) => { props.goToMaps(event, props.meal.id) }}>
+          <RoomIcon fontSize='small' style={{ color: 'gray', }}/> {props.meal.address}
+        </Typography>
+        <Typography variant="body2" color="black" component="p">
+          <PeopleIcon  fontSize='small' style={{ color: 'gray',}}/> {props.meal.guest_count}<span style={{color: 'gray'}}>/</span>{props.meal.Atendee_count}
+        </Typography>
         {/* <Typography variant="body2" color="textSecondary" component="p">
           This impressive paella is a perfect party dish and a fun meal to cook together with your
           guests. Add 1 cup of frozen peas along with the mussels, if you like.
         </Typography> */}
       </CardContent>
       <CardActions disableSpacing>
-        <AttendButton meal={props.meal} auth={props.auth} onJoin={props.onJoin} />
+        {props.auth.user.id === props.meal.host_id ? null : <AttendButton meal={props.meal} auth={props.auth} onJoin={props.onJoin} />}
         {/* <IconButton aria-label="join">
           <CheckIcon />
         </IconButton> */}
-        <IconButton aria-label="like">
+        {/* <IconButton aria-label="like">
           <FavoriteIcon />
-        </IconButton>
+        </IconButton> */}
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -118,16 +136,16 @@ function RecipeReviewCard(props) {
           aria-expanded={expanded}
           aria-label="show more"
         >
-          <ExpandMoreIcon />
+          {/* <ExpandMoreIcon /> */}
         </IconButton>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>
             Hi.
           </Typography>
         </CardContent>
-      </Collapse>
+      </Collapse> */}
     </Card>
   )
 }
@@ -249,10 +267,10 @@ class MealListItem extends React.Component {
     return (
       <React.Fragment>
 
-        {/* <RecipeReviewCard path={path} owner={owner} meal={meal}
-            auth={this.props.auth}
-            onJoin={this.onJoin} dat={dat}/> */}
-      <div className="meal-props" onClick={(event) => { this.gotoMeal(event, meal) }}>
+          <RecipeReviewCard path={path} owner={owner} meal={meal}
+              auth={this.props.auth}
+              onJoin={this.onJoin} dat={dat} goToUser={this.goToUser} goToMaps={this.goToMaps} gotoMeal={this.gotoMeal}/>
+      {/* <div className="meal-props" onClick={(event) => { this.gotoMeal(event, meal) }}>
         <span className="meal-props-left">
           <MealImage meal={meal} />
           <div>
@@ -281,7 +299,7 @@ class MealListItem extends React.Component {
             </span>
           </div>
         </span>
-      </div>
+      </div> */}
       </React.Fragment>
     )
   };
