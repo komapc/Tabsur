@@ -5,6 +5,7 @@ import { getMyMeals, getAttendedMeals } from "../../actions/mealActions";
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import AppBar from '@material-ui/core/AppBar';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -68,7 +69,8 @@ class MyMeals extends Component {
     };
 
     return (
-      <div className="main">
+      <div >
+        <AppBar position="sticky"> 
         <Tabs
           value={this.state.value}
           onChange={handleChange}
@@ -82,6 +84,7 @@ class MyMeals extends Component {
           <Tab label="Created" />
           <Tab label="Attended" />
         </Tabs>
+        </AppBar>
         <TabPanel value={this.state.value} index={0}>
           <div className="flow-text grey-text text-darken-1">
             {this.state.meals.map(meal =>
