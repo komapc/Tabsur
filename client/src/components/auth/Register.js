@@ -3,7 +3,9 @@ import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 import classnames from "classnames";
-
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 class Register extends Component {
   constructor() {
     super();
@@ -54,22 +56,27 @@ class Register extends Component {
 
   render() {
     const { errors } = this.state;
-
+    const formMinWidth = window.innerWidth < 500 ? window.innerWidth : 500;
     return (
       <div className="main">
-        <div className="row">
-          <div className="col s8 offset-s2">
-            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-              <h4>
-                <b>Register</b>
-              </h4>
-              <p className="grey-text text-darken-1">
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
+          style={{ minHeight: '100vh' }}
+        >
+          <Grid item style={{ minWidth: `${formMinWidth}px` }}>
+          <div className="row">
+          <div >
+            <div>
                 Already registered? <Link to="/login">Log in</Link>
-              </p>
             </div>
             <form noValidate onSubmit={this.onSubmit}>
-              <div className="input-field col s12">
-                <input
+              <div>
+                <TextField
+                  variant="outlined"
                   onChange={this.onChange}
                   value={this.state.name}
                   error={errors.name}
@@ -78,12 +85,14 @@ class Register extends Component {
                   className={classnames("", {
                     invalid: errors.name
                   })}
-                />
-                <label htmlFor="name">Name</label>
+                  style={{width: '100%', marginTop: '1vh'}}
+                  label={'Name'}
+                />    
                 <span className="red-text">{errors.name}</span>
               </div>
-              <div className="input-field col s12">
-                <input
+              <div>
+                <TextField
+                 variant="outlined"
                   onChange={this.onChange}
                   value={this.state.email}
                   error={errors.email}
@@ -92,12 +101,14 @@ class Register extends Component {
                   className={classnames("", {
                     invalid: errors.email
                   })}
+                  style={{width: '100%', marginTop: '1vh'}}
+                  label={'Email'}
                 />
-                <label htmlFor="email">Email</label>
                 <span className="red-text">{errors.email}</span>
               </div>
-              <div className="input-field col s12">
-                <input
+              <div>
+                <TextField
+                variant="outlined"
                   onChange={this.onChange}
                   value={this.state.password}
                   error={errors.password}
@@ -106,12 +117,14 @@ class Register extends Component {
                   className={classnames("", {
                     invalid: errors.password
                   })}
+                  style={{width: '100%', marginTop: '1vh'}}
+                  label={'Password'}
                 />
-                <label htmlFor="password">Password</label>
                 <span className="red-text">{errors.password}</span>
               </div>
-              <div className="input-field col s12">
-                <input
+              <div>
+                <TextField
+                variant="outlined"
                   onChange={this.onChange}
                   value={this.state.password2}
                   error={errors.password2}
@@ -120,21 +133,22 @@ class Register extends Component {
                   className={classnames("", {
                     invalid: errors.password2
                   })}
+                  style={{width: '100%', marginTop: '1vh'}}
+                  label={'Confirm Password'}
                 />
-                <label htmlFor="password2">Confirm Password</label>
                 <span className="red-text">{errors.password2}</span>
               </div>
-              <div className="col s12" >
-                <button
-
-                  type="submit"
-                  className="button waves-effect waves-light hoverable accent-3">
+              <div>
+                <Button type="submit" style={{width: '100%', marginTop: '1vh'}} variant="contained" color="primary">
                   Sign up
-                </button>
+                </Button>
               </div>
             </form>
           </div>
         </div>
+          </Grid>
+        </Grid>
+        
       </div>
     );
   }
