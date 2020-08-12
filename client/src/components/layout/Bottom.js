@@ -93,7 +93,7 @@ class Bottom extends Component {
               <img className="footer-icons" src={meals} alt={"meals map"} />
             </Badge>
           }></Tab>
-          <Tab label="Messages" icon={
+          <Tab label="Chat" icon={
             <Badge badgeContent={this.props.messagesCount} color="secondary">
               <BigMessageIcon />
             </Badge>
