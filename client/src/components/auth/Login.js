@@ -9,6 +9,7 @@ import FacebookLoginWithButton from 'react-facebook-login';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Logo from "../../resources/logo.png"
 //const keys = require("../config/keys");
 const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
@@ -32,8 +33,8 @@ const FBLoginButton = ({ facebookResponse }) => (
     onClick={FBcomponentClicked}
     onFailure={FBonFailure}
     callback={facebookResponse}
-    buttonText="Continue with Facebook"
-    size="small"
+    textButton="Continue with Facebook"
+    size="metro"
     redirectUri="/"
     isMobile={false}
     icon="fa-facebook" />
@@ -105,28 +106,19 @@ class Login extends Component {
           direction="column"
           alignItems="center"
           justify="center"
-          style={{ minHeight: '80vh' }}
+          style={{ minHeight: '100vh' }}
         >
 
         <Grid item style={{ minWidth: `${formMinWidth}px` }}>
-        <div className="row">
-          <div className="col s8 offset-s2">
-            <Link to="/Meals" className="btn-flat waves-effect">
-              <i className="material-icons left">keyboard_backspace</i> Back to
-              the list
-            </Link>
-            <div className="col s12">
-              <h4>
-                <b>Login</b> below
-              </h4>
-              <p className="grey-text text-darken-1">
+        <div>
+          <div>
+            <div>
                 Don't have an account? <Link to="/register">Register</Link>
-              </p>
             </div>
             <form noValidate onSubmit={this.onSubmit}>
-              <div className="input-field col s12">
+              <div>
                 <TextField
-                  //variant="outlined"
+                  variant="outlined"
                   onChange={this.onChange}
                   value={this.state.email}
                   error={errors.email}
@@ -136,7 +128,7 @@ class Login extends Component {
                     invalid: errors.email || errors.emailnotfound
                   })}
                   label={'Email'}
-                  style={{width: '100%'}}
+                  style={{width: '100%', marginTop: '1vh'}}
                 />
                 {/* <label htmlFor="email">Email</label> */}
                 <span className="red-text">
@@ -144,9 +136,9 @@ class Login extends Component {
                   {errors.emailnotfound}
                 </span>
               </div>
-              <div className="input-field col s12">
+              <div>
                 <TextField
-                  //variant="outlined"  
+                  variant="outlined"  
                   label={'Password'}
                   onChange={this.onChange}
                   value={this.state.password}
@@ -156,7 +148,7 @@ class Login extends Component {
                   className={classnames("", {
                     invalid: errors.password || errors.passwordincorrect
                   })}
-                  style={{width: '100%'}}
+                  style={{width: '100%', marginTop: '1vh'}}
                 />
                 
                 {/* <label htmlFor="password">Password</label> */}
@@ -165,7 +157,7 @@ class Login extends Component {
                   {errors.passwordincorrect}
                 </span>
               </div>
-              <div className="col s12">
+              <div>
                 <Button
                   variant="contained" color="primary"
                   type="submit"
@@ -176,7 +168,7 @@ class Login extends Component {
                 </Button>
                 <div>
               {this.state.user ? <div>{JSON.stringify(this.state.user)}</div> :
-                <FBLoginButton facebookResponse={this.facebookResponse} />
+                <div className="btn-fb-login-wrapper"><FBLoginButton facebookResponse={this.facebookResponse} /></div>
               }
             </div>
               </div>

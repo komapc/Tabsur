@@ -537,3 +537,9 @@ input
     text-align: center;
     background-color: lawngreen;
 }
+
+.btn-fb-login-wrapper {
+    width: 100%;
+    margin-top: 1vh;
+    text-align: center;
+}
