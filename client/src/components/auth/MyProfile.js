@@ -175,9 +175,9 @@ const MyProfileTabs = () => {
         </Tabs>
       </div>
       <TabPanel value={value} index={0} >
-      
-        <Button variant="contained" color="primary"
-          href="/login" onClick={handleLogout}>Log Out</Button>
+        <div className='centered'>
+          <Button variant="contained" color="primary" href="/login" onClick={handleLogout}>Log Out</Button>
+        </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Under Construction

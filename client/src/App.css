@@ -543,3 +543,8 @@ input
     margin-top: 1vh;
     text-align: center;
 }
+
+.centered {
+    width: 100%;
+    text-align: center;
+}
