@@ -205,8 +205,8 @@ class MyProfile extends Component {
       this.setState({
         userStats: res.data
       });
-    }).
-    catch(err =>
+    })
+    .catch(err =>
     {
       console.error(err);
     });
