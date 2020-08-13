@@ -31,8 +31,8 @@ class ChatListItem extends React.Component {
               {(this.state.user.name1 === this.props.auth.user.name ? this.state.user.name2 : this.state.user.name1)[0].toUpperCase()}
             </Avatar>
           } 
-          title={this.state.user.message_text} 
-          subheader={this.state.user.name1 === this.props.auth.user.name ? this.state.user.name2 : this.state.user.name1}
+          title={<span style={{fontWeight: 900}}>{this.state.user.name1 === this.props.auth.user.name ? this.state.user.name2 : this.state.user.name1}</span>}
+          subheader={this.state.user.message_text} 
         />
         </div>
       </React.Fragment>
