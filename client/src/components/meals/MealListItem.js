@@ -104,14 +104,14 @@ function RecipeReviewCard(props) {
       /> :
       null}
       <CardContent onClick={(event) => { props.gotoMeal(event, props.meal) }}>
-        <Typography variant="body2" color="black" component="p">
+        <Typography variant="body2" color="textPrimary" component="p">
           <ScheduleIcon fontSize='small' style={{ color: 'gray',}}/> {props.dat}
         </Typography>
 
-        <Typography variant="body2" color="black" component="p" onClick={(event) => { props.goToMaps(event, props.meal.id) }}>
+        <Typography variant="body2" color="textPrimary" component="p" onClick={(event) => { props.goToMaps(event, props.meal.id) }}>
           <RoomIcon fontSize='small' style={{ color: 'gray', }}/> {props.meal.address}
         </Typography>
-        <Typography variant="body2" color="black" component="p">
+        <Typography variant="body2" color="textPrimary" component="p">
           <PeopleIcon  fontSize='small' style={{ color: 'gray',}}/> {props.meal.guest_count}<span style={{color: 'gray'}}>/</span>{props.meal.Atendee_count}
         </Typography>
         {/* <Typography variant="body2" color="textSecondary" component="p">
