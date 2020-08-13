@@ -262,7 +262,7 @@ class ShowUser extends Component {
     setFollow(myUserId, body)
     .then(res => {
       console.log('res: ' + JSON.stringify(res));
-      console.log('this: ' + JSON.stringify(this));
+      //console.log('this: ' + JSON.stringify(this));
       //change in DB, than change state
       this.setState({ followStatus: new_status });
     })
@@ -299,7 +299,7 @@ class ShowUser extends Component {
         <BackBarMui history={this.props.history}/>
         <ProfileHeader history={this.props.history}/> {/* TODO: Pass avatar img or use Redux. Avatar image not implemented */}
         <ProfileStats name={this.state.user.name}  userStats={{ meals_created: this.state.user.meals_created }} />
-        <ProfileTabs followStatus={this.state.followStatus} follow={this.follow} auth={this.props.auth} state={this.state}/>
+        <ProfileTabs followStatus={this.state.followStatus} follow={(n, myId) => {this.follow(n, myId)}} auth={this.props.auth} state={this.state}/>
 
         </React.Fragment>) : null}
 
