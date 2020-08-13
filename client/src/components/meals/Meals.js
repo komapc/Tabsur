@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
 import loadingGIF from "../../resources/animation/loading.gif";
+import Grid from '@material-ui/core/Grid';
 class Meals extends Component {
 
   constructor(props) {
@@ -45,10 +46,9 @@ class Meals extends Component {
     return (
       <React.Fragment>
       <div className="main">
-        <div className="row">
           {
             this.state.loading ?
-              <img src={loadingGIF} alt="loading" /> :
+              <Grid style={{width: '100%', textAlign: 'center',}}><img src={loadingGIF} alt="loading" /></Grid> :
               <div className="map-meal-info">
                 {this.state.meals.map(meal =>
                   <div key={meal.id}>
@@ -56,7 +56,6 @@ class Meals extends Component {
                   </div>
                 )}
               </div>}
-        </div>
       </div>
       </React.Fragment>
     );

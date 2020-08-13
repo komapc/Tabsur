@@ -57,6 +57,7 @@ insertImageIntoDB = async (imageName, uploader) => {
     .then(res => {
       console.log(`image inserted, id=${JSON.stringify(res.rows[0])}.`);
       result = res.rows[0].id;
+      return result;
     })
     .catch(e => {
       
