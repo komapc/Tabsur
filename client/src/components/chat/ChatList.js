@@ -19,7 +19,7 @@ class ChatList extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.active) {
-      this.props.setFabVisibility(true);
+      this.props.setFabVisibility(false);
       this.props.setSwipability(true);
     }
   }
@@ -41,7 +41,6 @@ class ChatList extends Component {
               CHAT
             </Toolbar>
         </AppBar>
-        {/* <div className="row"> */}
           {
             this.state.loading ?
               <img src={loadingGIF} alt="loading" /> :
@@ -57,7 +56,6 @@ class ChatList extends Component {
                   }
                 )}
               </div>}
-        {/* </div> */}
       </div>
     );
   }
