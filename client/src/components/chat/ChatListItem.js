@@ -1,6 +1,8 @@
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import React, { Component } from "react";
+import React from "react";
+import Avatar from '@material-ui/core/Avatar';
+import CardHeader from '@material-ui/core/CardHeader';
 class ChatListItem extends React.Component {
   constructor(props) {
     super(props);
@@ -20,11 +22,20 @@ class ChatListItem extends React.Component {
   render() {
 
     return (
-      <div onClick={this.handleClick}>
-            <span > 
-            <b>{this.state.user.name1}</b></span> said to <b>{this.state.user.name2}</b>
-            <span> {this.state.user.message_text}</span>
-      </div>
+      <React.Fragment>
+        <div style={{width: '100%', borderBottomColor: 'lightgray', borderBottomWidth: '1px', borderBlockEndStyle: 'solid'}}>
+        <CardHeader 
+          onClick={this.handleClick}
+          avatar={
+            <Avatar aria-label="recipe" style={{backgroundColor: '#13A049'}}>
+              {(this.state.user.name1 === this.props.auth.user.name ? this.state.user.name2 : this.state.user.name1)[0].toUpperCase()}
+            </Avatar>
+          } 
+          title={this.state.user.message_text} 
+          subheader={this.state.user.name1 === this.props.auth.user.name ? this.state.user.name2 : this.state.user.name1}
+        />
+        </div>
+      </React.Fragment>
     )
   };
 }

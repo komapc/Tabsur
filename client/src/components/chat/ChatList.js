@@ -41,11 +41,11 @@ class ChatList extends Component {
               CHAT
             </Toolbar>
         </AppBar>
-        <div className="row">
+        {/* <div className="row"> */}
           {
             this.state.loading ?
               <img src={loadingGIF} alt="loading" /> :
-              <div className="map-meal-info">
+              <div className="map-meal-info" style={{width: '100%'}}>
                 {this.state.users.map(user =>
                 {
                   const sender = user.sender;
@@ -57,7 +57,7 @@ class ChatList extends Component {
                   }
                 )}
               </div>}
-        </div>
+        {/* </div> */}
       </div>
     );
   }
