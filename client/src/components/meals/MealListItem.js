@@ -76,7 +76,6 @@ function RecipeReviewCard(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  console.log('RecipeReviewCard props.path: ' + JSON.stringify(props.meal));
   return (
 
     <Card className={classes.root}>
