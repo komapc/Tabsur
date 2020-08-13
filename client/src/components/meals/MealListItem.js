@@ -262,44 +262,19 @@ class MealListItem extends React.Component {
     }
     const dat = dateFormat(new Date(meal.date), "dd-mm-yyyy HH:MM");
     var path = this.state.meal.path;
-    path = path ?
-      `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
+    path = path ? `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
     return (
       <React.Fragment>
-
-          <RecipeReviewCard path={path} owner={owner} meal={meal}
-              auth={this.props.auth}
-              onJoin={this.onJoin} dat={dat} goToUser={this.goToUser} goToMaps={this.goToMaps} gotoMeal={this.gotoMeal}/>
-      {/* <div className="meal-props" onClick={(event) => { this.gotoMeal(event, meal) }}>
-        <span className="meal-props-left">
-          <MealImage meal={meal} />
-          <div>
-            <img className="meal-info-icons" src={dishes} alt={"number of portions"} />
-            <span className="meal-guests">({meal.guest_count}/{meal.Atendee_count})</span>
-          </div>
-        </span>
-        <span className="meal-props-right">
-          <AttendButton
-            meal={meal}
-            auth={this.props.auth}
-            onJoin={this.onJoin} />
-          <div className="meal-owner-div">by <span className="meal-owner"
-            onClick={(event) => { this.goToUser(event, meal.host_id) }}>{owner} </span>
-          </div>
-          <div className="meal-name" > {meal.name}</div>
-          <div className="meal-info-item">
-            <img className="meal-info-icons" src={time} alt={"date"} />
-            <span className="meal-info">{dat}</span>
-          </div>
-          <div className="meal-info-item">
-            <img className="meal-info-icons" src={location} alt={"address"} />
-            <span
-              onClick={(event) => { this.goToMaps(event, meal.id) }}
-              className="meal-info">{meal.address}
-            </span>
-          </div>
-        </span>
-      </div> */}
+        <RecipeReviewCard 
+          path={path} 
+          owner={owner} 
+          meal={meal}
+          auth={this.props.auth}
+          onJoin={this.onJoin} 
+          dat={dat} 
+          goToUser={this.goToUser} 
+          goToMaps={this.goToMaps} 
+          gotoMeal={this.gotoMeal}/>
       </React.Fragment>
     )
   };
