@@ -259,9 +259,6 @@ class ShowUser extends Component {
     const myUserId = myId;
     const thisUserId = this.state.id;
     const body = { followie: thisUserId, status: new_status };
-    // var res = await setFollow(myUserId, body);
-    // console.log('res: ' + JSON.stringify(res));
-    // this.setState({ followStatus: new_status });
     setFollow(myUserId, body)
     .then(res => {
       console.log('res: ' + JSON.stringify(res));
@@ -269,10 +266,9 @@ class ShowUser extends Component {
       this.setState = setState;
       //change in DB, than change state
       setState({ followStatus: new_status });
-      //this.state.followStatus = new_status;
     })
     .catch(err => {
-      //this.setState({ followStatus: -1 });
+      this.setState({ followStatus: -1 }); // !!!
       console.error(err);
     });
   }
