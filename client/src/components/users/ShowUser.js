@@ -27,7 +27,8 @@ import store from "../../store";
 import CreateIcon from '@material-ui/icons/Create';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import IconButton from '@material-ui/core/IconButton';
 //#region ProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
@@ -45,9 +46,14 @@ const useStylesHeader = makeStyles(theme => ({
   },
   wrapper: {
     marginTop: '190px'
+  },
+  margin: {
+    margin: {
+      margin: theme.spacing(1),
+    },
   }
 }))
-const ProfileHeader = () => {
+const ProfileHeader = (props) => {
   const classes = useStylesHeader()
   return (
     <React.Fragment>
@@ -298,10 +304,12 @@ class ShowUser extends Component {
       <React.Fragment>
 
         {true ? ( <React.Fragment>
-
-        <ProfileHeader /> {/* TODO: Pass avatar img or use Redux. Avatar image not implemented */}
+        <IconButton aria-label="back" size="large" color="primary">
+          <ArrowBackIcon fontSize="inherit" onClick={this.props.history.goBack} />
+        </IconButton>
+        <ProfileHeader history={this.props.history}/> {/* TODO: Pass avatar img or use Redux. Avatar image not implemented */}
         <ProfileStats name={this.state.user.name}  userStats={{ meals_created: this.state.user.meals_created }} />
-        <ProfileTabs followStatus={this.state.followStatus} follow={this.follow} auth={this.props.auth} state={this.state} sendMessageWithCallback={this.sendMessageWithCallback}/>
+        <ProfileTabs followStatus={this.state.followStatus} follow={this.follow} auth={this.props.auth} state={this.state}/>
 
         </React.Fragment>) : null}
 
