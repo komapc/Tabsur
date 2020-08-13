@@ -15,6 +15,7 @@ import tmpBgImg from "../../resources/images/susi.jpeg";
 import { makeStyles } from '@material-ui/core/styles';
 import { logoutUser } from "../../actions/authActions";
 import store from "../../store";
+import LockIcon from '@material-ui/icons/Lock';
 
 //#region MyProfileHeader
 const useStylesHeader = makeStyles(theme => ({
@@ -176,7 +177,7 @@ const MyProfileTabs = () => {
       </div>
       <TabPanel value={value} index={0} >
         <div className='centered'>
-          <Button variant="contained" color="primary" href="/login" onClick={handleLogout}>Log Out</Button>
+          <Button startIcon={<LockIcon />} variant="contained" color="primary" href="/login" onClick={handleLogout}>Log Out</Button>
         </div>
       </TabPanel>
       <TabPanel value={value} index={1}>

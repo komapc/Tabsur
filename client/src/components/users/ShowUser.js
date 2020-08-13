@@ -28,6 +28,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import BackBarMui from "../layout/BackBarMui";
+import InfoIcon from '@material-ui/icons/Info';
 //#region ProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
@@ -206,7 +207,7 @@ const ProfileTabs = (props) => {
               <Button variant="contained" startIcon={<CreateIcon />} color="primary" href={`/ChatUser/${props.state.id}`}>Write</Button>
             </div>
           </React.Fragment>
-        : <span>No circular following!</span>
+        : <div className="centered"><Button startIcon={<InfoIcon />} variant="contained" color="primary" href={`/About`}>About</Button></div>
         }
         
       </TabPanel>
