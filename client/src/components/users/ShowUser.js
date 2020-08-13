@@ -24,6 +24,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { logoutUser } from "../../actions/authActions";
 import store from "../../store";
 
+import CreateIcon from '@material-ui/icons/Create';
+import NotInterestedIcon from '@material-ui/icons/NotInterested';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+
 //#region ProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
@@ -182,14 +186,14 @@ const ProfileTabs = (props) => {
       </div>
       <TabPanel value={value} index={0} >
         {/* <div className='centered'> */}
-        {
+        <div style={{marginBottom: '1vh'}}>{
           props.followStatus ?
-          <Button variant="contained" color="primary" onClick={() => props.follow(0)}>UnFollow</Button> :
-          <Button variant="contained" color="primary" onClick={() => props.follow(3)}>Follow</Button>
-        }
+          <Button variant="contained" startIcon={<NotInterestedIcon />} color="secondary" onClick={() => props.follow(0)}>UnFollow</Button> :
+          <Button variant="contained" startIcon={<PersonAddIcon />} color="primary" onClick={() => props.follow(3)}>Follow</Button>
+        }</div>
         {/* </div> */}
 
-        {
+        {/* {
             props.auth.user.id !== props.state.id ?
               <div>
                 <TextField type="text" id="message" placeholder="Message"></TextField>
@@ -201,7 +205,11 @@ const ProfileTabs = (props) => {
                     document.getElementById("message").value
                   )}>Send</Button>
               </div> : null
-        }
+        } */}
+        <div style={{marginBottom: '1vh'}}>
+        <Button variant="contained" startIcon={<CreateIcon />} color="primary" href={`/ChatUser/${props.state.id}`}>Write</Button>
+        </div>
+        {/* <a href={`/ChatUser/${props.state.id}`}>write him</a> */}
 
       </TabPanel>
       <TabPanel value={value} index={1}>
@@ -289,7 +297,7 @@ class ShowUser extends Component {
     return (
       <React.Fragment>
 
-        {false ? ( <React.Fragment>
+        {true ? ( <React.Fragment>
 
         <ProfileHeader /> {/* TODO: Pass avatar img or use Redux. Avatar image not implemented */}
         <ProfileStats name={this.state.user.name}  userStats={{ meals_created: this.state.user.meals_created }} />
@@ -297,7 +305,7 @@ class ShowUser extends Component {
 
         </React.Fragment>) : null}
 
-      {true ? (
+      {false ? (
       <div className="info-all">
         <div className="info-back-div"><img
           className="info-back"
