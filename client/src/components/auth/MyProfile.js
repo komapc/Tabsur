@@ -220,7 +220,7 @@ class MyProfile extends Component {
     }
     if (nextProps.active)
     {
-      this.props.setFabVisibility(true);
+      this.props.setFabVisibility(false);
       this.props.setSwipability(true);
     }
   }
