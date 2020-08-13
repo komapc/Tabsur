@@ -10,10 +10,10 @@
 {
     position: relative;
     transition:1s;
-    height:  70vh;
+    height:  100vh;
     width: 100vw;
-    border: solid 1px;
-    background-color: #73d763;
+    /* border: solid 1px; */
+    /* background-color: #73d763; */
     display: flex;
     flex-direction: column;
 }
@@ -536,4 +536,15 @@ input
     height: 100vh;
     text-align: center;
     background-color: lawngreen;
+}
+
+.btn-fb-login-wrapper {
+    width: 100%;
+    margin-top: 1vh;
+    text-align: center;
+}
+
+.centered {
+    width: 100%;
+    text-align: center;
 }

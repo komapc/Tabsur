@@ -20,13 +20,42 @@ router.get("/:id", async (req, response) => {
     return response.status(400).json("Error in geting  meals: wrong ID");
     // userId = -1;
   }
-  //todo: get messages with  reveiver OR sender, top 1 for every user
+  //todo: get messages with  reveiver OR sender, top 1 for every user // name1 - receiverName, name2 - senderName
   const SQLquery = `
   SELECT 
-    (select name as name1 FROM users where id=receiver), 
-    (select name as name2 FROM users where id=sender), 
-    id, receiver, sender, message_text, created_at FROM  notifications 
-    WHERE note_type=0 AND sender=$1 `;
+    (select name FROM users where id=receiver) as name1, 
+    (select name FROM users where id=sender) as name2, 
+    id, 
+    receiver, 
+    sender, 
+    message_text, 
+    created_at 
+  FROM notifications
+  WHERE id IN
+  (
+    SELECT MAX(id) as id
+    FROM
+      (SELECT 
+        ( 
+          CASE 
+            WHEN (receiver=$1) 
+            THEN (select id FROM users where id=sender) 
+            ELSE (select id FROM users where id=receiver) 
+          END
+        ) as interlocutor_id, 
+        MAX(id) as id, 
+        receiver, 
+        sender
+      FROM  notifications 
+      WHERE note_type=0 AND (sender=$1 OR receiver=$1)
+      GROUP BY 
+        receiver, 
+        sender
+      ORDER BY 
+        interlocutor_id) AS pona 
+    GROUP BY interlocutor_id
+  ) 
+  `;
   console.log(`get, SQLquery: [${SQLquery}]`);
   await client.connect();
 

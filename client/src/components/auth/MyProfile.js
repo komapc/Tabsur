@@ -175,9 +175,9 @@ const MyProfileTabs = () => {
         </Tabs>
       </div>
       <TabPanel value={value} index={0} >
-      
-        <Button variant="contained" color="primary"
-          href="/login" onClick={handleLogout}>Log Out</Button>
+        <div className='centered'>
+          <Button variant="contained" color="primary" href="/login" onClick={handleLogout}>Log Out</Button>
+        </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Under Construction
@@ -205,8 +205,8 @@ class MyProfile extends Component {
       this.setState({
         userStats: res.data
       });
-    }).
-    catch(err =>
+    })
+    .catch(err =>
     {
       console.error(err);
     });
@@ -220,7 +220,7 @@ class MyProfile extends Component {
     }
     if (nextProps.active)
     {
-      this.props.setFabVisibility(true);
+      this.props.setFabVisibility(false);
       this.props.setSwipability(true);
     }
   }
