@@ -15,6 +15,7 @@ import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOut
 import { makeStyles } from '@material-ui/core/styles';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import MessageOutlinedIcon from '@material-ui/icons/MessageOutlined';
+import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
 const useStyles = makeStyles(theme => ({
   bigIcon: {
     height: '33px',
@@ -39,11 +40,11 @@ const BigSearchIcon = () => {
     </React.Fragment>
   )
 }
-const BigMessageIcon = () => {
+const BigChatIcon = () => {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <MessageOutlinedIcon className={classes.bigIcon} />
+      <ChatOutlinedIcon className={classes.bigIcon} />
     </React.Fragment>
   )
 }
@@ -95,7 +96,7 @@ class Bottom extends Component {
           }></Tab>
           <Tab label="Chat" icon={
             <Badge badgeContent={this.props.messagesCount} color="secondary">
-              <BigMessageIcon />
+              <BigChatIcon />
             </Badge>
           }></Tab>
         </Tabs>
