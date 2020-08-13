@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getUser } from "../../actions/authActions";
 
+// TODO: remove this file
 class Profile extends Component {
   constructor(props) {
     super(props);
