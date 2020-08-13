@@ -198,8 +198,8 @@ const ProfileTabs = (props) => {
           <React.Fragment>
             <div style={{marginBottom: '1vh'}}>{
               props.followStatus ?
-              <Button variant="contained" startIcon={<NotInterestedIcon />} color="secondary" onClick={() => props.follow(0, props.auth.user.id, props.setState)}>UnFollow</Button> :
-              <Button variant="contained" startIcon={<PersonAddIcon />} color="primary" onClick={() => props.follow(3, props.auth.user.id, props.setState)}>Follow</Button>
+              <Button variant="contained" startIcon={<NotInterestedIcon />} color="secondary" onClick={() => props.follow(0, props.auth.user.id)}>UnFollow</Button> :
+              <Button variant="contained" startIcon={<PersonAddIcon />} color="primary" onClick={() => props.follow(3, props.auth.user.id)}>Follow</Button>
             }</div>
         
             <div style={{marginBottom: '1vh'}}>
@@ -253,7 +253,7 @@ class ShowUser extends Component {
       });
   }
 
-  follow(new_status, myId, setState) {
+  follow(new_status, myId) {
     console.log(`myId: ${JSON.stringify(myId)}, thisUserId: ${JSON.stringify(this.state.id)}`);
 
     const myUserId = myId;
@@ -263,9 +263,8 @@ class ShowUser extends Component {
     .then(res => {
       console.log('res: ' + JSON.stringify(res));
       console.log('this: ' + JSON.stringify(this));
-      this.setState = setState;
       //change in DB, than change state
-      setState({ followStatus: new_status });
+      this.setState({ followStatus: new_status });
     })
     .catch(err => {
       this.setState({ followStatus: -1 }); // !!!
