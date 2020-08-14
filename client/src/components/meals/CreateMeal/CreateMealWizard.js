@@ -84,7 +84,7 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
       image_id: state.form.image_id ? state.form.image_id : -2
     };
     console.log(JSON.stringify(newMeal));
-    addMeal(newMeal, ()=>{
+    return addMeal(newMeal, ()=>{
       history.push({pathname:'/',  hash: '#2' });
     });
   }
