@@ -19,7 +19,7 @@ class ChatList extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.active) {
-      this.props.setFabVisibility(true);
+      this.props.setFabVisibility(false);
       this.props.setSwipability(true);
     }
   }
@@ -37,14 +37,14 @@ class ChatList extends Component {
       <div className="main">
 
         <AppBar position="sticky">
-          <Toolbar>
-            CHAT</Toolbar>
+            <Toolbar>
+              CHAT
+            </Toolbar>
         </AppBar>
-        <div className="row">
           {
             this.state.loading ?
               <img src={loadingGIF} alt="loading" /> :
-              <div className="map-meal-info">
+              <div className="map-meal-info" style={{width: '100%'}}>
                 {this.state.users.map(user =>
                 {
                   const sender = user.sender;
@@ -56,7 +56,6 @@ class ChatList extends Component {
                   }
                 )}
               </div>}
-        </div>
       </div>
     );
   }

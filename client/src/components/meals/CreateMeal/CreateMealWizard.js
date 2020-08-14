@@ -24,6 +24,7 @@ import wizard_loading from "../../../resources/animation/loading.gif";
 import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
+import BackBarMui from "../../layout/BackBarMui";
 const CreateMealWizard = ({ auth, addMeal }, ...props) => {
  
   const formatedDate = new Date(Date.now() + 86400000);
@@ -105,9 +106,11 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
 
   return (
     <div >
-      {SW && <TopHeader onExit={backToList} SW={SW} />}
+      {SW && <TopHeader onExit={backToList} SW={SW} history={history} />}
+      {/* <BackBarMui history={history}/> */}
 
       {SW && <Navigator SW={SW} submit={submit} uploadingState = {state.uploadingState}/>}
+      
       <div className='col-12 col-sm-6 offset-sm-3'>
         <div className="wizard-middle">
           <StepWizard
@@ -128,13 +131,14 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
 };
 
 
-const TopHeader = ({ SW, onExit }) => {
+const TopHeader = ({ SW, onExit, history }) => {
   const images = [imageStep1, imageStep2, imageStep3, imageStep4, imageStep5];
   const stepIcons = [wizard_meal_name, wizard_time, wizard_date, wizard_location, wizard_location]
   return (
     <Fragment>
-      <img onClick={onExit}
-        className="autocomplete-icon" src={backArrowIcon} alt="back" />
+      {/* <img onClick={onExit}
+        className="autocomplete-icon" src={backArrowIcon} alt="back" /> */}
+      <BackBarMui history={history}/>
       <h4 className="wizard-caption">Create Meal</h4>
       <div className="wizard-progress-container">
         <img src={images[SW.state.activeStep]} alt={SW.step} className="wizard-progress" /></div>
