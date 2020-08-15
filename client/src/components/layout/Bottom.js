@@ -3,9 +3,6 @@ import { connect } from "react-redux";
 import store from "../../store";
 import setMessagesCount from "../../actions/MessagesActions"
 import { setNotificationsCount, setProfileNotificationsCount } from "../../actions/notifications"
-import map from "../../resources/bottom_menu/map_bar.svg"
-import list from "../../resources/bottom_menu/list_bar.svg"
-import plus from "../../resources/bottom_menu/add_meal_bar.svg"
 import meals from "../../resources/bottom_menu/my_meals_bar.svg"
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';

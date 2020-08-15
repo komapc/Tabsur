@@ -221,7 +221,7 @@ class MyProfile extends Component {
     }
     if (nextProps.active)
     {
-      this.props.setFabVisibility(false);
+      this.props.setFabVisibility(true);
       this.props.setSwipability(true);
     }
   }
