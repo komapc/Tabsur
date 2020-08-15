@@ -13,13 +13,11 @@ import imageStep3 from "../../../resources/wizard/wizard_3.svg";
 import imageStep4 from "../../../resources/wizard/wizard_4.svg";
 import imageStep5 from "../../../resources/wizard/wizard_5.svg";
 import wizard_time from "../../../resources/wizard/wizard_time.svg";
-import wizard_back from "../../../resources/wizard/wizard_back.svg";
 import wizard_date from "../../../resources/wizard/wizard_date.svg";
 import wizard_location from "../../../resources/wizard/wizard_location.svg";
 import wizard_meal_name from "../../../resources/wizard/wizard_meal_name.svg";
-import wizard_next from "../../../resources/wizard/wizard_next.svg";
-import wizard_done from "../../../resources/wizard/wizard_done.svg";
-import wizard_loading from "../../../resources/animation/loading.gif";
+import Button from '@material-ui/core/Button';
+
 import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
@@ -133,8 +131,7 @@ const TopHeader = ({ SW, onExit, history }) => {
   const stepIcons = [wizard_meal_name, wizard_time, wizard_date, wizard_location, wizard_location]
   return (
     <Fragment>
-      {/* <img onClick={onExit}
-        className="autocomplete-icon" src={backArrowIcon} alt="back" /> */}
+     
       <BackBarMui history={history} />
       <h4 className="wizard-caption">Create Meal</h4>
       <div className="wizard-progress-container">
@@ -144,20 +141,26 @@ const TopHeader = ({ SW, onExit, history }) => {
 }
 
 const Navigator = ({ SW, submit, uploadingState }) => {
-  const last = SW.state.activeStep < 4;
+  const last = SW.state.activeStep >= 4;
   const first = SW.state.activeStep > 0;
-  return <div className="wizard-bottom">
-    {first ?
+  return <div style={{textAlign:"center"}}>
+    <Button variant="contained" color="primary" onClick={SW.previousStep} disabled={!first}>Back</Button>
+    <Button variant="contained" color="secondary" 
+      onClick={last?submit:SW.nextStep}
+      disabled={uploadingState}>
+      {last?(uploadingState?"Wait":"Done"):"Next"}
+    </Button>
+    {/* {first ?
       <img src={wizard_back} alt="next"
-        className={'wizard-bottom-prev'} onClick={SW.previousStep} /> :
+        className={'wizard-bottom-prev'}  /> :
       <span className={'wizard-bottom-prev'} />}
     {last ?
       <img src={wizard_next} alt="next"
         className={'wizard-bottom-next'} onClick={SW.nextStep} /> :
       <img src={uploadingState ? wizard_loading : wizard_done}
         alt="submit"
-        className={'wizard-bottom-last'} onClick={uploadingState ? () => { } : submit} />
-    }
+        className={'wizard-bottom-last'} onClick={uploadingState ? () => { } : submit} /> */}
+    
   </div>
 }
 
