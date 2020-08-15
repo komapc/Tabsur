@@ -84,7 +84,7 @@ class Bottom extends Component {
               backgroundColor: "primary"
             }
           }}>
-          <Tab label="Meals" icon={<BigSearchIcon />}> </Tab>
+          <Tab label="Search" icon={<BigSearchIcon />}> </Tab>
           <Tab label="My Profile" icon={<Badge badgeContent={this.props.profileNotificationsCount} color="secondary"><BigPersonImg /></Badge>}></Tab>
           <Tab label="My Meals" icon={
             <Badge badgeContent={this.props.notificationsCount} color="secondary">

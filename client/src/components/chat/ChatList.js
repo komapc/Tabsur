@@ -31,31 +31,37 @@ class ChatList extends Component {
         this.setState({ users: res.data, loading: false });
       })
   };
-
+  showList = () => {
+    if (this.state.users.length === 0)
+    {
+      return <div>No messages yet</div>
+    }
+    return <div className="map-meal-info" style={{ width: '100%' }}>
+      {
+        this.state.users.map(user => {
+          const sender = user.sender;
+          const receiver = user.receiver;
+          const patner = this.props.auth.user.id !== sender ? sender : receiver;
+          return <div key={user.id}>
+            <ChatListItem user={user} partner={patner} />
+          </div>
+        }
+        )}
+    </div>
+  }
   render() {
     return (
       <div className="main">
 
         <AppBar position="sticky">
-            <Toolbar>
-              CHAT
-            </Toolbar>
+          <Toolbar>
+            CHAT
+          </Toolbar>
         </AppBar>
-          {
-            this.state.loading ?
-              <img src={loadingGIF} alt="loading" /> :
-              <div className="map-meal-info" style={{width: '100%'}}>
-                {this.state.users.map(user =>
-                {
-                  const sender = user.sender;
-                  const receiver = user.receiver;
-                  const patner = this.props.auth.user.id !== sender?sender: receiver;
-                  return <div key={user.id}>
-                    <ChatListItem user={user} partner={patner}/>
-                  </div>
-                  }
-                )}
-              </div>}
+        {
+          this.state.loading ?
+            <img src={loadingGIF} alt="loading" /> : this.showList()
+        }
       </div>
     );
   }
