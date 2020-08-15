@@ -102,9 +102,10 @@ class App extends Component {
     navigator.serviceWorker.addEventListener("message", (message) => {
       let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
       console.log(`message.data: ${JSON.stringify(data)}`);
-      if(data.type === "0") { //"message"; TODO: use strings vs enums
+      console.log(`message.data.type: ${JSON.stringify(data["gcm.notification.type"])}`);
+      if(data["gcm.notification.type"] === "0") { //"message"; TODO: use strings vs enums // data.type => data["gcm.notification.type"]
         store.dispatch(setMessagesCount(++this.state.messagesCount));
-      } else if(data.type === "6") {
+      } else if(data["gcm.notification.type"] === "6") { // data.type => data["gcm.notification.type"]
         store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount));
       } else {
         store.dispatch(setNotificationsCount(++this.state.notificationsCount));
