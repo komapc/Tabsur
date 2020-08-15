@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import Button from '@material-ui/core/Button';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -28,6 +28,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import BackBarMui from "../layout/BackBarMui";
+import InfoIcon from '@material-ui/icons/Info';
 //#region ProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
@@ -172,10 +173,13 @@ const useStylesTabs = makeStyles(theme => ({
 const ProfileTabs = (props) => {
   const classes = useStylesTabs();
  
-  const [value, setValue] = React.useState(0); 
+  const [value, setValue] = useState(0); 
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  console.log(`props.auth.user.id :${JSON.stringify(props.auth.user.id)}, props.state.id :${JSON.stringify(props.state.id)}`)
   return (
     <React.Fragment>
       <div className={classes.root}>
@@ -190,32 +194,22 @@ const ProfileTabs = (props) => {
         </Tabs>
       </div>
       <TabPanel value={value} index={0} >
-        {/* <div className='centered'> */}
-        <div style={{marginBottom: '1vh'}}>{
-          props.followStatus ?
-          <Button variant="contained" startIcon={<NotInterestedIcon />} color="secondary" onClick={() => props.follow(0)}>UnFollow</Button> :
-          <Button variant="contained" startIcon={<PersonAddIcon />} color="primary" onClick={() => props.follow(3)}>Follow</Button>
-        }</div>
-        {/* </div> */}
-
-        {/* {
-            props.auth.user.id !== props.state.id ?
-              <div>
-                <TextField type="text" id="message" placeholder="Message"></TextField>
-                <Button 
-                  variant="contained" color="primary"
-                  onClick={() => props.sendMessageWithCallback(
-                    props.auth.user.id,
-                    props.state.id,
-                    document.getElementById("message").value
-                  )}>Send</Button>
-              </div> : null
-        } */}
-        <div style={{marginBottom: '1vh'}}>
-        <Button variant="contained" startIcon={<CreateIcon />} color="primary" href={`/ChatUser/${props.state.id}`}>Write</Button>
-        </div>
-        {/* <a href={`/ChatUser/${props.state.id}`}>write him</a> */}
-
+        {
+          props.auth.user.id != props.state.id ? 
+          <React.Fragment>
+            <div style={{marginBottom: '1vh'}}>{
+              props.followStatus ?
+              <Button variant="contained" startIcon={<NotInterestedIcon />} color="secondary" onClick={() => props.follow(0, props.auth.user.id)}>UnFollow</Button> :
+              <Button variant="contained" startIcon={<PersonAddIcon />} color="primary" onClick={() => props.follow(3, props.auth.user.id)}>Follow</Button>
+            }</div>
+        
+            <div style={{marginBottom: '1vh'}}>
+              <Button variant="contained" startIcon={<CreateIcon />} color="primary" href={`/ChatUser/${props.state.id}`}>Write</Button>
+            </div>
+          </React.Fragment>
+        : <div className="centered"><Button startIcon={<InfoIcon />} variant="contained" color="primary" href={`/About`}>About</Button></div>
+        }
+        
       </TabPanel>
       <TabPanel value={value} index={1}>
         Under Construction
@@ -256,24 +250,27 @@ class ShowUser extends Component {
       })
       .catch(err => {
         this.setState({ followStatus: -1 });
-        console.log(err);
+        console.error(err);
       });
   }
 
-  follow(new_status) {
-    const myUserId = this.props.auth.user.id;
+  follow(new_status, myId) {
+    console.log(`myId: ${JSON.stringify(myId)}, thisUserId: ${JSON.stringify(this.state.id)}`);
+
+    const myUserId = myId;
     const thisUserId = this.state.id;
     const body = { followie: thisUserId, status: new_status };
     setFollow(myUserId, body)
-      .then(res => {
-        console.log(res.data);
-        //change in DB, than change state
-        this.setState({ followStatus: new_status });
-      })
-      .catch(err => {
-        this.setState({ followStatus: -1 });
-        console.log(err);
-      });
+    .then(res => {
+      console.log('res: ' + JSON.stringify(res));
+      //console.log('this: ' + JSON.stringify(this));
+      //change in DB, than change state
+      this.setState({ followStatus: new_status });
+    })
+    .catch(err => {
+      //this.setState({ followStatus: -1 }); // !!!
+      console.error(err);
+    });
   }
 
   getUserInfoEvent() {
@@ -284,7 +281,7 @@ class ShowUser extends Component {
         console.log(res.data);
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
       });
   }
 
@@ -296,9 +293,6 @@ class ShowUser extends Component {
   }
 
   render() {
-    console.log(`this.state.user: ${JSON.stringify(this.state.user)}`);
-    //let userStats = {}
-
     return (
       <React.Fragment>
 
@@ -306,7 +300,7 @@ class ShowUser extends Component {
         <BackBarMui history={this.props.history}/>
         <ProfileHeader history={this.props.history}/> {/* TODO: Pass avatar img or use Redux. Avatar image not implemented */}
         <ProfileStats name={this.state.user.name}  userStats={{ meals_created: this.state.user.meals_created }} />
-        <ProfileTabs followStatus={this.state.followStatus} follow={this.follow} auth={this.props.auth} state={this.state}/>
+        <ProfileTabs followStatus={this.state.followStatus} follow={(n, myId) => {this.follow(n, myId)}} auth={this.props.auth} state={this.state}/>
 
         </React.Fragment>) : null}
 
@@ -334,8 +328,8 @@ class ShowUser extends Component {
           </div>
           <div>You follow him?</div>
           {this.state.followStatus ?
-            <Button variant="outlined" color="primary" onClick={() => this.follow(0)}>UnFollow</Button> :
-            <Button variant="outlined" color="primary" onClick={() => this.follow(3)}>Follow</Button>}
+            <Button variant="outlined" color="primary" onClick={() => this.follow(0, this.props.auth.user.id)}>UnFollow</Button> :
+            <Button variant="outlined" color="primary" onClick={() => this.follow(3, this.props.auth.user.id)}>Follow</Button>}
         </div>
         <div>
           {

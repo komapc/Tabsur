@@ -12,7 +12,7 @@ const pushNotification = (notification, registration_ids) =>
 {
   return fcm.sendNotification(JSON.stringify({
     notification: notification,
-    "registration_ids": registration_ids.split(';')
+    "registration_ids": registration_ids !== null && registration_ids.length > 0 ? registration_ids.split(';') : ""
   })) 
   .then(response =>
   {

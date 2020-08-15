@@ -100,10 +100,10 @@ router.post("/:id", async (req, response) => {
           response.json(answer);
         })
         .catch(err=>
-          {
-            console.error(`notification failed: ${JSON.stringify(err)}`);
-            response.status(500).json(err);
-          });
+        {
+          console.error(`notification failed: ${JSON.stringify(err)}`);
+          response.status(500).json(err);
+        });
     })
     .catch(err => {
       console.error(`Failed to add a follower,  ${err}`);
