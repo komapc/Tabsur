@@ -40,7 +40,7 @@ class ChatUser extends React.Component {
 
   };
   sendMessageWithCallback(sender, receiver) {
-    alert(sender + "," + receiver);
+    //alert(sender + "," + receiver);
     sendMessage(sender, receiver, this.state.typedMessage)
       .then(res => { // Callback
         console.log(JSON.stringify(res));
