@@ -2,9 +2,9 @@ import React from "react";
 import Geocode from "react-geocode";
 import { GoogleMap, Marker, withGoogleMap, withScriptjs } from "react-google-maps";
 import attended from "../../resources/attended.svg";
-import fullUp from "../../resources/full_up.svg";
-import hosted from "../../resources/host_meal.svg"
-import available from "../../resources/available_meal.svg"
+import fullUp from "../../resources/full_meal_icon.svg";
+import hosted from "../../resources/my_meal_icon.svg"
+import available from "../../resources/active_meal_icon.svg"
 import touched from "../../resources/touched_meal.svg"
 
 export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
@@ -40,7 +40,7 @@ const MealMapShow = React.memo(({ meals, defaultLocation, onMarkerClick, onMapCl
 
             {meals.map(meal => {
                 const icon = getMealIcon(meal, userId, selectedMeal);
-                const markerSize= selectedMeal === meal.id?30:22;
+                const markerSize= selectedMeal === meal.id?30:35;
                 return <div name="marker" key={meal.id} className="marker-style" title="meal marker">
                     <Marker
                         position={{ lat: meal.location.y, lng: meal.location.x }}
