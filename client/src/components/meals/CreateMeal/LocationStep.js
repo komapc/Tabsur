@@ -41,12 +41,12 @@ const LocationStep = props => {
           <TextField width={1} fullWidth
             onChange={onChange}
             value={props.form.address}
-            error={props.form.address.trim() == ""}
+            error={props.form.address.trim() === ""}
             id="address"
             label="Location"
             placeholder="Address"
             helperText={props.form.address.trim() == "" ? "Empty" : ""}
-          />
+        />
         </Box >
         <div className={showMap ? 'createMealMap' : 'createMealMap-hidden'} hidden={!showMap}>
           <MapLocationSelector
