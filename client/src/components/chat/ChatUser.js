@@ -75,6 +75,9 @@ class ChatUser extends React.Component {
           onChange={this.onChange}
           id="message"
           value={this.state.typedMessage}
+          inputProps={{
+            autoComplete: 'off'
+         }}
           />
         <Button onClick={() => this.sendMessageWithCallback(
             this.props.auth.user.id,
