@@ -4,7 +4,7 @@ import Logo from "../../resources/logo.png"
 function LoadingMessage() {
   return (
     <div className="splash">
-      <img src={Logo} width="30%"/>
+      <img src={Logo} alt="Logo" width="30%"/>
       <h2>
       Food sharing <br/>and social dining <br/>application
       </h2>
