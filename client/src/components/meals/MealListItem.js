@@ -162,8 +162,10 @@ class AttendButton extends React.Component {
       this.setState({meal: this.props.meal});
     }
   }
-  handleAttend = (event, newStatus) => {
+  handleAttend = (event, newStatus, isEnabled) => {
     event.stopPropagation();
+    if (!isEnabled)
+      return;
     const user_id = this.props.auth.user.id;
     console.log(`handleAttend:  ${JSON.stringify(this.state.meal)}, ${user_id}, new status: ${newStatus}`);
     this.props.onJoin(newStatus);
@@ -179,7 +181,7 @@ class AttendButton extends React.Component {
     return <FormControlLabel
         hidden={isOwner}
         disabled = {!isEnabled}
-        onClick = {event=>this.handleAttend(event, newStatus)}
+        onClick = {event=>this.handleAttend(event, newStatus, isEnabled)}
         control={
           <Switch
             checked={status>0}
