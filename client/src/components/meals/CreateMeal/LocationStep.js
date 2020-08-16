@@ -37,7 +37,6 @@ const LocationStep = props => {
       {/* Address*/}
       {/* <img className="meal-info-location-icons" src={locationIcon} alt="location" /> */}
       <Grid container onClick={onAddressClickHandle} >
-<div>Show {showMap?"1":"0"}</div>
         <Box m={2} p={2} width={1}  display={showMap?'none':'block'}  >
           <TextField width={1} fullWidth
             onChange={onChange}
@@ -57,8 +56,6 @@ const LocationStep = props => {
           />
         </div>
       </Grid>
-
-
     </>
   );
 };
