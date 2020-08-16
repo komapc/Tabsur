@@ -150,17 +150,6 @@ const Navigator = ({ SW, submit, uploadingState }) => {
       disabled={uploadingState}>
       {last?(uploadingState?"Wait":"Done"):"Next"}
     </Button>
-    {/* {first ?
-      <img src={wizard_back} alt="next"
-        className={'wizard-bottom-prev'}  /> :
-      <span className={'wizard-bottom-prev'} />}
-    {last ?
-      <img src={wizard_next} alt="next"
-        className={'wizard-bottom-next'} onClick={SW.nextStep} /> :
-      <img src={uploadingState ? wizard_loading : wizard_done}
-        alt="submit"
-        className={'wizard-bottom-last'} onClick={uploadingState ? () => { } : submit} /> */}
-    
   </div>
 }
 
