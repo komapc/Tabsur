@@ -79,7 +79,7 @@ class ChatUser extends React.Component {
             autoComplete: 'off'
          }}
           />
-        <Button onClick={() => this.sendMessageWithCallback(
+        <Button variant="contained" onClick={() => this.sendMessageWithCallback(
             this.props.auth.user.id,
             this.state.partner_id
         )}>Send</Button>
