@@ -100,7 +100,7 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
   const { SW } = state;
 
   return (
-    <div >
+    <div style={{width:"100vw", overflow:"hidden"}}>
       {SW && <TopHeader onExit={backToList} SW={SW} history={history} />}
       {/* <BackBarMui history={history}/> */}
 
