@@ -73,7 +73,7 @@ const addNotificationToDB = (message) =>
       message.title, 
      ] )
   .then(resp => {
-    console.log(`Message inserted sucssesfuly.`); 
+    console.log(`Message inserted successfully.`); 
     console.log(`tokens: ${JSON.stringify(resp.rows)}`);
     return resp;
   })
