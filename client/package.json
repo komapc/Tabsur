@@ -9,6 +9,7 @@
     "@material-ui/pickers": "^3.2.10",
     "antd": "^4.0.0",
     "autoprefixer": "^9.8.5",
+    "autosuggest-highlight": "^3.1.1",
     "aws-sdk": "^2.683.0",
     "axios": "^0.19.0",
     "bluebird": "^3.7.2",
