@@ -185,7 +185,6 @@ class AttendButton extends React.Component {
         control={
           <Switch
             checked={status>0}
-            // onChange={event=>this.handleAttend(event, newStatus)}
             name="AttendSwitch"
             color="primary"
           />
