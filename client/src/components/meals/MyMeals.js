@@ -63,7 +63,6 @@ class MyMeals extends Component {
   }
 
   render() {
-    const { user } = this.props.auth;
     const handleChange = (event, newValue) => {
       this.setState({ value: newValue });
     };

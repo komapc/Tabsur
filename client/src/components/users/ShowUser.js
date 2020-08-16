@@ -195,7 +195,7 @@ const ProfileTabs = (props) => {
       </div>
       <TabPanel value={value} index={0} >
         {
-          props.auth.user.id != props.state.id ? 
+          props.auth.user.id !== props.state.id ? 
           <React.Fragment>
             <div style={{marginBottom: '1vh'}}>{
               props.followStatus ?
