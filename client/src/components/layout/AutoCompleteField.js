@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import parse from "autosuggest-highlight/umd/parse";
 
 import throttle from 'lodash/throttle';
-
+export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 function loadScript(src, position, id) {
   if (!position) {
     return;
@@ -30,17 +30,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GoogleMaps() {
+export default function GoogleMaps(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(null);
-  const [inputValue, setInputValue] = React.useState('');
-  const [options, setOptions] = React.useState([]);
+  const [value, setValue] = React.useState(props.InitialValue);
+  const [inputValue, setInputValue] = React.useState(props.InitialValue);
+  const [options, setOptions] = React.useState([props.InitialValue]);
   const loaded = React.useRef(false);
 
   if (typeof window !== 'undefined' && !loaded.current) {
     if (!document.querySelector('#google-maps')) {
       loadScript(
-        'https://maps.googleapis.com/maps/api/js?key=AIzaSyBwRp1e12ec1vOTtGiA4fcCt2sCUS78UYc&libraries=places',
+        `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`,
         document.querySelector('head'),
         'google-maps',
       );
@@ -95,9 +95,9 @@ export default function GoogleMaps() {
 
   return (
     <Autocomplete
-      id="google-map-demo"
+      id="google-map"
       style={{ width: 300 }}
-      getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
+      getOptionLabel={(option) => {return (typeof option === 'string' ? option : option.description)}}
       filterOptions={(x) => x}
       options={options}
       autoComplete
