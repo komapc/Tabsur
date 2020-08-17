@@ -11,8 +11,6 @@ import { sendMessage } from "../../actions/notifications"
 
 
 import PropTypes from "prop-types";
-import { registerUser, getUser } from "../../actions/authActions";
-import classnames from "classnames";
 import Avatar from "../layout/Avatar"
 import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
@@ -97,26 +95,26 @@ const useStylesStats = makeStyles(theme => ({
 }))
 
 const ProfileStats = (props) => {
-  
+
   const classes = useStylesStats();
-  const userStats=props.userStats;// ? props.userStats[0] : {}; ???
+  const userStats = props.userStats;// ? props.userStats[0] : {}; ???
   console.log(`ProfileStats's props: ${JSON.stringify(props)}`);
 
-   return  <React.Fragment>
-      {/* {userStats?<div>{ JSON.stringify(userStats)}</div>:<span/>} */}
-      <div className={classes.headerContainer}>
-        <h5 className={classes.header}>{props.name}</h5>
-      </div>
-      <div className={classes.headerContainer}>
-        <Grid container >
-          <Grid item xs={6}><span className={classes.stat}>Followers _</span></Grid>
-          <Grid item xs={6}><span className={classes.stat}>Active meals _</span></Grid>
-          <Grid item xs={6}><span className={classes.stat}>Following _</span></Grid>
-          <Grid item xs={6}><span className={classes.stat}>Meals Created {userStats.meals_created}</span></Grid>
-        </Grid>
-      </div>
-    </React.Fragment>
-  
+  return <React.Fragment>
+    {/* {userStats?<div>{ JSON.stringify(userStats)}</div>:<span/>} */}
+    <div className={classes.headerContainer}>
+      <h5 className={classes.header}>{props.name}</h5>
+    </div>
+    <div className={classes.headerContainer}>
+      <Grid container >
+        <Grid item xs={6}><span className={classes.stat}>Followers  {userStats.followers}</span></Grid>
+        <Grid item xs={6}><span className={classes.stat}>Active meals  _</span></Grid>
+        <Grid item xs={6}><span className={classes.stat}>Following  {userStats.following}</span></Grid>
+        <Grid item xs={6}><span className={classes.stat}>Meals Created {userStats.meals_created}</span></Grid>
+      </Grid>
+    </div>
+  </React.Fragment>
+
 }
 //#endregion
 
@@ -172,9 +170,9 @@ const useStylesTabs = makeStyles(theme => ({
 }));
 const ProfileTabs = (props) => {
   const classes = useStylesTabs();
- 
-  const [value, setValue] = useState(0); 
-  
+
+  const [value, setValue] = useState(0);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -188,28 +186,28 @@ const ProfileTabs = (props) => {
           onChange={handleChange}
           centered
           indicatorColor='primary'
-          TabIndicatorProps={{ style: { backgroundColor: "primary"}}}>
+          TabIndicatorProps={{ style: { backgroundColor: "primary" } }}>
           <Tab label="Kitchen" {...a11yProps(0)} />
           <Tab label="Gallery" {...a11yProps(1)} />
         </Tabs>
       </div>
       <TabPanel value={value} index={0} >
         {
-          props.auth.user.id !== props.state.id ? 
-          <React.Fragment>
-            <div style={{marginBottom: '1vh'}}>{
-              props.followStatus ?
-              <Button variant="contained" startIcon={<NotInterestedIcon />} color="secondary" onClick={() => props.follow(0, props.auth.user.id)}>UnFollow</Button> :
-              <Button variant="contained" startIcon={<PersonAddIcon />} color="primary" onClick={() => props.follow(3, props.auth.user.id)}>Follow</Button>
-            }</div>
-        
-            <div style={{marginBottom: '1vh'}}>
-              <Button variant="contained" startIcon={<CreateIcon />} color="primary" href={`/ChatUser/${props.state.id}`}>Write</Button>
-            </div>
-          </React.Fragment>
-        : <div className="centered"><Button startIcon={<InfoIcon />} variant="contained" color="primary" href={`/About`}>About</Button></div>
+          props.auth.user.id !== props.state.id ?
+            <React.Fragment>
+              <div style={{ marginBottom: '1vh' }}>{
+                props.followStatus ?
+                  <Button variant="contained" startIcon={<NotInterestedIcon />} color="secondary" onClick={() => props.follow(0, props.auth.user.id)}>UnFollow</Button> :
+                  <Button variant="contained" startIcon={<PersonAddIcon />} color="primary" onClick={() => props.follow(3, props.auth.user.id)}>Follow</Button>
+              }</div>
+
+              <div style={{ marginBottom: '1vh' }}>
+                <Button variant="contained" startIcon={<CreateIcon />} color="primary" href={`/ChatUser/${props.state.id}`}>Write</Button>
+              </div>
+            </React.Fragment>
+            : <div className="centered"><Button startIcon={<InfoIcon />} variant="contained" color="primary" href={`/About`}>About</Button></div>
         }
-        
+
       </TabPanel>
       <TabPanel value={value} index={1}>
         Under Construction
@@ -261,16 +259,16 @@ class ShowUser extends Component {
     const thisUserId = this.state.id;
     const body = { followie: thisUserId, status: new_status };
     setFollow(myUserId, body)
-    .then(res => {
-      console.log('res: ' + JSON.stringify(res));
-      //console.log('this: ' + JSON.stringify(this));
-      //change in DB, than change state
-      this.setState({ followStatus: new_status });
-    })
-    .catch(err => {
-      //this.setState({ followStatus: -1 }); // !!!
-      console.error(err);
-    });
+      .then(res => {
+        console.log('res: ' + JSON.stringify(res));
+        //console.log('this: ' + JSON.stringify(this));
+        //change in DB, than change state
+        this.setState({ followStatus: new_status });
+      })
+      .catch(err => {
+        //this.setState({ followStatus: -1 }); // !!!
+        console.error(err);
+      });
   }
 
   getUserInfoEvent() {
@@ -296,64 +294,63 @@ class ShowUser extends Component {
     return (
       <React.Fragment>
 
-        {true ? ( <React.Fragment>
-        <BackBarMui history={this.props.history}/>
-        <ProfileHeader history={this.props.history}/> {/* TODO: Pass avatar img or use Redux. Avatar image not implemented */}
-        <ProfileStats name={this.state.user.name}  userStats={{ meals_created: this.state.user.meals_created }} />
-        <ProfileTabs followStatus={this.state.followStatus} follow={(n, myId) => {this.follow(n, myId)}} auth={this.props.auth} state={this.state}/>
+        {true ? (<React.Fragment>
+          <BackBarMui history={this.props.history} />
+          <ProfileHeader history={this.props.history} /> {/* TODO: Pass avatar img or use Redux. Avatar image not implemented */}
+          <ProfileStats name={this.state.user.name} userStats={{ meals_created: this.state.user.meals_created }} />
+          <ProfileTabs followStatus={this.state.followStatus} follow={(n, myId) => { this.follow(n, myId) }} auth={this.props.auth} state={this.state} />
 
         </React.Fragment>) : null}
 
-      {false ? (
-      <div className="info-all">
-        <div className="info-back-div"><img
-          className="info-back"
-          alt="back"
-          onClick={this.props.history.goBack}
-          src={backButton}
-        />
-          <span className="info-caption">profile</span>
-        </div>
-        <div className="info-top">
-          <img className="info-main-image" src={defaultImage} alt="user" />
-          <span className="info-main-name">{this.state.user.name}</span>
-        </div>
-        <div className="info-fields">
-          <div className="row">
-            <div className="info-column">Meals created
+        {/* {false ? (
+          <div className="info-all">
+            <div className="info-back-div"><img
+              className="info-back"
+              alt="back"
+              onClick={this.props.history.goBack}
+              src={backButton}
+            />
+              <span className="info-caption">profile</span>
+            </div>
+            <div className="info-top">
+              <img className="info-main-image" src={defaultImage} alt="user" />
+              <span className="info-main-name">{this.state.user.name}</span>
+            </div>
+            <div className="info-fields">
+              <div className="row">
+                <div className="info-column">Meals created
           </div>
-            <div className="info-column">
-              {this.state.user.meals_created}
+                <div className="info-column">
+                  {this.state.user.meals_created}
+                </div>
+              </div>
+              <div>You follow him?</div>
+              {this.state.followStatus ?
+                <Button variant="outlined" color="primary" onClick={() => this.follow(0, this.props.auth.user.id)}>UnFollow</Button> :
+                <Button variant="outlined" color="primary" onClick={() => this.follow(3, this.props.auth.user.id)}>Follow</Button>}
+            </div>
+            <div>
+              {
+                this.props.auth.user.id !== this.state.id ?
+                  <div>
+                    <input type="text" id="message" placeholder="Message"></input>
+                    <Button
+                      variant="outlined" color="primary"
+                      onClick={() => this.sendMessageWithCallback(
+                        this.props.auth.user.id,
+                        this.state.id,
+                        document.getElementById("message").value
+                      )}>Send</Button>
+                  </div> :
+                  <div></div>
+              }
             </div>
           </div>
-          <div>You follow him?</div>
-          {this.state.followStatus ?
-            <Button variant="outlined" color="primary" onClick={() => this.follow(0, this.props.auth.user.id)}>UnFollow</Button> :
-            <Button variant="outlined" color="primary" onClick={() => this.follow(3, this.props.auth.user.id)}>Follow</Button>}
-        </div>
-        <div>
-          {
-            this.props.auth.user.id !== this.state.id ?
-              <div>
-                <input type="text" id="message" placeholder="Message"></input>
-                <Button 
-                  variant="outlined" color="primary"
-                  onClick={() => this.sendMessageWithCallback(
-                    this.props.auth.user.id,
-                    this.state.id,
-                    document.getElementById("message").value
-                  )}>Send</Button>
-              </div> :
-              <div></div>
-          }
-        </div>
-      </div>
-      ) : null}
+        ) : null} */}
       </React.Fragment>
     );
   }
 }
-
 
 const mapStateToProps = state => ({
   auth: state.auth
