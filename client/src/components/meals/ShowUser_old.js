@@ -37,7 +37,7 @@ class ShowUser extends Component {
       })
       .catch(err => {
         this.setState({ followStatus: -1 });
-        console.log(err);
+        console.error(err);
       });
   }
 
@@ -79,7 +79,7 @@ class ShowUser extends Component {
   render() {
     return (
       <div className="info-all">
-         <div >
+         <div  >
         <BackButton/>
           <span className="info-caption">profile</span>
         </div>
