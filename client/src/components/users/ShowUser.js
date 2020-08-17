@@ -2,13 +2,9 @@ import React, { Component, useState } from "react";
 import Button from '@material-ui/core/Button';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import backButton from "../../resources/back_button.svg";
-import defaultImage from "../../resources/userpic_empty.svg";
-import TextField from '@material-ui/core/TextField';
 
 import { getFollowStatus, setFollow, getUserInfo } from "../../actions/userActions"
 import { sendMessage } from "../../actions/notifications"
-
 
 import PropTypes from "prop-types";
 import Avatar from "../layout/Avatar"
@@ -17,10 +13,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import tmpBgImg from "../../resources/images/susi.jpeg";
 import { makeStyles } from '@material-ui/core/styles';
-import { logoutUser } from "../../actions/authActions";
-import store from "../../store";
 
 import CreateIcon from '@material-ui/icons/Create';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
@@ -97,11 +90,11 @@ const useStylesStats = makeStyles(theme => ({
 const ProfileStats = (props) => {
 
   const classes = useStylesStats();
-  const userStats = props.userStats;// ? props.userStats[0] : {}; ???
+  const userStats = props.user;// ? props.userStats[0] : {}; ???
+ //const user = props.user;
   console.log(`ProfileStats's props: ${JSON.stringify(props)}`);
 
   return <React.Fragment>
-    {/* {userStats?<div>{ JSON.stringify(userStats)}</div>:<span/>} */}
     <div className={classes.headerContainer}>
       <h5 className={classes.header}>{props.name}</h5>
     </div>
@@ -274,7 +267,7 @@ class ShowUser extends Component {
   getUserInfoEvent() {
     getUserInfo(this.state.id)
       .then(res => {
-        console.log(res.data);
+        console.log(`getUserInfo: ${JSON.stringify(res.data)}`);
         this.setState({ user: res.data[0] });
         console.log(res.data);
       })
@@ -294,13 +287,17 @@ class ShowUser extends Component {
     return (
       <React.Fragment>
 
-        {true ? (<React.Fragment>
+        <React.Fragment>
           <BackBarMui history={this.props.history} />
           <ProfileHeader history={this.props.history} /> {/* TODO: Pass avatar img or use Redux. Avatar image not implemented */}
-          <ProfileStats name={this.state.user.name} userStats={{ meals_created: this.state.user.meals_created }} />
+          <ProfileStats name={this.state.user.name} 
+              //userStats={{ meals_created: this.state.user.meals_created }} 
+              user = {this.state.user}
+              
+          />
           <ProfileTabs followStatus={this.state.followStatus} follow={(n, myId) => { this.follow(n, myId) }} auth={this.props.auth} state={this.state} />
 
-        </React.Fragment>) : null}
+        </React.Fragment>
 
         {/* {false ? (
           <div className="info-all">
