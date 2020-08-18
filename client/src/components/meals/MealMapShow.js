@@ -24,26 +24,26 @@ export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
 const MealMapShow = 
     React.memo(({ meals, defaultLocation, onMarkerClick, onMapClick, userId, selectedMeal }) => {
-    const getMealIcon = (meal, userId, selectedMeal) => {
+    const getMealIcon = (meal, userId, isSelected) => {
+        const selectedIndex = isSelected?1:0;
         console.log(`meal: ${JSON.stringify(meal)}`);
-        console.log(`selectedMeal = ${JSON.stringify(selectedMeal)}`);
-        const isSelected =  meal.id === selectedMeal?1:0;
+        console.log(`selectedMeal = ${selectedIndex}`);
       
         if (meal.guest_count <= meal.Atendee_count) {
-            return fullUp[isSelected];
+            return fullUp[selectedIndex];
         }
 
         if (meal.host_id === userId) {
-            return hosted[isSelected];
+            return hosted[selectedIndex];
         }
         if (meal.me > 0 ) {
-          return attended[isSelected];
+            return attended[selectedIndex];
         }
-        return available[isSelected];
+        return available[selectedIndex];
     }
-    // const shouldComponentUpdate = (nextProps,nextState) =>{
-    //     return false;
-    // }
+    const shouldComponentUpdate = (nextProps,nextState) =>{
+        return false;
+    }
     const MyGoogleMap = (props) =>
     {
         const google=window.google;
@@ -67,8 +67,9 @@ const MealMapShow =
         >
 
             {meals.map(meal => {
-                const icon = getMealIcon(meal, userId, selectedMeal);
-                const markerSize= selectedMeal === meal.id?30:35;
+                const isSelected = selectedMeal === meal.id;
+                const icon = getMealIcon(meal, userId, isSelected);
+                const markerSize= isSelected?40:30;
                 return <div name="marker" key={meal.id} className="marker-style" title="meal marker">
                     <Marker
                         position={{ lat: meal.location.y, lng: meal.location.x }}
