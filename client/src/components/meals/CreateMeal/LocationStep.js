@@ -15,8 +15,11 @@ const LocationStep = props => {
   };
 
   const onMapExit = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+    if (e)
+    {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     setMapVisibility(false);
   }
 
@@ -36,8 +39,8 @@ const LocationStep = props => {
     <>
       {/* Address*/}
       {/* <img className="meal-info-location-icons" src={locationIcon} alt="location" /> */}
-      <Grid container onClick={onAddressClickHandle} >
-        <Box m={2} p={2} width={1}  display={showMap?'none':'block'}  >
+      <Grid container  >
+        <Box m={2} p={2} width={1}  display={showMap?'none':'block'} onClick={onAddressClickHandle} >
           <TextField width={1} fullWidth
             onChange={onChange}
             value={props.form.address}
