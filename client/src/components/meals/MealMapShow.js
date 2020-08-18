@@ -45,10 +45,25 @@ const MealMapShow =
     //     return false;
     // }
     const MyGoogleMap = (props) =>
-        <GoogleMap
+    {
+        const google=window.google;
+        const myOptions = {
+            zoom: 2,
+            mapTypeControlOptions: {
+              mapTypeIds: []
+            }, // here´s the array of controls
+            disableDefaultUI: true, // a way to quickly hide all controls
+            mapTypeControl: true,
+            scaleControl: true,
+            zoomControl: true,
+            
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        return <GoogleMap
             defaultZoom={8}
             defaultCenter={{ lat: defaultLocation.lat, lng: defaultLocation.lng }}
             onClick={() => onMapClick(this)}
+            options={myOptions}
         >
 
             {meals.map(meal => {
@@ -69,7 +84,7 @@ const MealMapShow =
             )}
 
         </GoogleMap>;
-
+    }
     const MapWithMarker = withScriptjs(withGoogleMap(MyGoogleMap));
 
     return (
