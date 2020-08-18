@@ -58,7 +58,7 @@ class LocationSearchInput extends React.Component {
                   ? { backgroundColor: "#fafafa", cursor: "pointer" }
                   : { backgroundColor: "#ffffff", cursor: "pointer" };
                 return (
-                  <div
+                  <div key=''
                     {...getSuggestionItemProps(suggestion, {
                       className,
                       style
@@ -76,7 +76,7 @@ class LocationSearchInput extends React.Component {
   }
 }
 
-class MapContainer extends React.Component {
+class MapLocationSelector extends React.Component {
   constructor(props) {
     super(props);
     this.state = { places: [] };
@@ -114,4 +114,4 @@ class MapContainer extends React.Component {
 export default GoogleApiWrapper({
   apiKey: "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4",
   libraries: ["places"]
-})(MapContainer);
+})(MapLocationSelector);

@@ -34,7 +34,7 @@ export default function GoogleMaps(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(props.InitialValue);
   const [inputValue, setInputValue] = React.useState(props.InitialValue);
-  const [options, setOptions] = React.useState([props.InitialValue]);
+  const [options, setOptions] = React.useState([]);
   const loaded = React.useRef(false);
 
   if (typeof window !== 'undefined' && !loaded.current) {

@@ -5,6 +5,8 @@ import MealListItem from "./MealListItem";
 import { getGuestList, deleteMeal } from "../../actions/mealActions";
 import { getUserFollowers } from "../../actions/userActions";
 import BackBarMui from "../layout/BackBarMui";
+import Box from '@material-ui/core/Box';
+
 class GuestList extends Component {
   constructor(props) {
     super(props);
@@ -48,12 +50,12 @@ class GuestList extends Component {
     let sorted = this.state.guests;
     return (
       <div>
-        Guests list:
+        <h3>Guests list</h3>
         {
           sorted.map(guest =>
-            <div key={guest.user_id}>
+            <Box key={guest.user_id}  m={1}>
               <Link to={`user/${guest.user_id}`}> #{guest.name}</Link>
-            </div>
+            </Box>
           )
         }
       </div>
