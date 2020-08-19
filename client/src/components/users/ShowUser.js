@@ -161,6 +161,12 @@ const useStylesTabs = makeStyles(theme => ({
     textAlign: 'center'
   }
 }));
+
+
+const Gallery = (props) => {
+  return <span>Under Construction</span>
+}
+
 const ProfileTabs = (props) => {
   const classes = useStylesTabs();
 
@@ -203,7 +209,7 @@ const ProfileTabs = (props) => {
 
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Under Construction
+      {Gallery}
       </TabPanel>
     </React.Fragment>
   )
@@ -298,6 +304,7 @@ class ShowUser extends Component {
           <ProfileTabs followStatus={this.state.followStatus} follow={(n, myId) => { this.follow(n, myId) }} auth={this.props.auth} state={this.state} />
 
         </React.Fragment>
+
 
         {/* {false ? (
           <div className="info-all">

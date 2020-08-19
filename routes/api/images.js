@@ -72,35 +72,34 @@ insertImageIntoDB = async (imageName, uploader) => {
 //POST route
 router.post("/upload", async (request, response) => {
   const form = new multiparty.Form();
-  console.log("Uploading: " +  JSON.stringify(form));
-  form.parse(request,  (error, fields, files) => {
+  console.log("Uploading: " + JSON.stringify(form));
+  form.parse(request, (error, fields, files) => {
     if (error) {
       console.log("parsing error: " + JSON.stringify(fields));
       throw new Error(error);
     }
-      console.log("parsed: " + JSON.stringify(fields));
-      console.log("Uploading file: " + JSON.stringify(files));
-      const path = files.file[0].path;
-      const buffer = fs.readFileSync(path);
-      const type = "jpeg"//await fileType(buffer);
-      const timestamp = Date.now().toString();
-      const fileName = `images/${timestamp}-lg`;
-      const uploader = fields.uploader;
-      var res = uploadFile(buffer, fileName, type);
+    console.log("parsed: " + JSON.stringify(fields));
+    console.log("Uploading file: " + JSON.stringify(files));
+    const path = files.file[0].path;
+    const buffer = fs.readFileSync(path);
+    const type = "jpeg"//await fileType(buffer);
+    const timestamp = Date.now().toString();
+    const fileName = `images/${timestamp}-lg`;
+    const uploader = fields.uploader;
+    var res = uploadFile(buffer, fileName, type);
+    console.log("uploadFile result: " + JSON.stringify(res));
+    const ress = insertImageIntoDB(fileName, uploader)
+      .then((insertedImageID) => {
+        console.log(`then result: ${insertedImageID}`);
 
-      const ress =  insertImageIntoDB(fileName, uploader)
-      .then((insertedImageID)=>
-          {
-            console.log(`then result: ${insertedImageID}`);
-        
-            console.log(`insertImageIntoDB [${insertedImageID}]`)
-            console.log(`send file [${fileName}], res: [${JSON.stringify(insertedImageID)}]`);
-            return response.status(200).json(insertedImageID);
-        })
-        .catch((error) => {
-          console.log(`Uploading error:${JSON.stringify(error)}`);
-          return response.status(400).send(error);
-        });
+        console.log(`insertImageIntoDB [${insertedImageID}]`)
+        console.log(`send file [${fileName}], res: [${JSON.stringify(insertedImageID)}]`);
+        return response.status(200).json(insertedImageID);
+      })
+      .catch((error) => {
+        console.log(`Uploading error:${JSON.stringify(error)}`);
+        return response.status(400).send(error);
+      });
   });
 });
 
@@ -123,6 +122,20 @@ router.get('/:imageId', function (req, res, next) {
     res.write(data.Body, 'binary');
     res.end(null, 'binary');
   });
+});
+
+//get images for a user AKA gallery
+router.get('/gallery/:', function (req, res, next) {
+  console.log(`Get images for a user from user [${userId}]`);
+  const client = new Client(currentConfig);
+
+  client.connect();
+  const query = `SELECT i.path FROM images as i
+  INNER JOIN users as u
+  ON u.id=i.uploader
+  WHERE u.id=$1`;
+  console.log(`connected running [${query}]`);
+
 });
 
 module.exports = router;
