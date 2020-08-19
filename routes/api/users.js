@@ -197,7 +197,7 @@ router.post("/loginFB", async (req, response) => {
       );
     })
   .catch(err => {
-    console.log("fb user error:" + err);
+    console.error("fb user error:" + err);
     return response.status(500).json(newReq);
   });
   

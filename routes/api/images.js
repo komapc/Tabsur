@@ -97,7 +97,7 @@ router.post("/upload", async (request, response) => {
         return response.status(200).json(insertedImageID);
       })
       .catch((error) => {
-        console.log(`Uploading error:${JSON.stringify(error)}`);
+        console.error(`Uploading error:${JSON.stringify(error)}`);
         return response.status(400).send(error);
       });
   });
