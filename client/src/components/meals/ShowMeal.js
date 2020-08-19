@@ -26,7 +26,7 @@ class GuestList extends Component {
         this.setState({ guests: res.data });
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
       });
   }
 
@@ -38,7 +38,7 @@ class GuestList extends Component {
         this.setState({ followies: res.data });
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
       });
   }
   componentDidMount() {
@@ -77,7 +77,7 @@ class ShowMeal extends Component {
       this.props.history.push({ pathname: '/MyMeals' });
     })
       .catch(err => {
-        console.log(err);
+        console.error(err);
       });
   }
 

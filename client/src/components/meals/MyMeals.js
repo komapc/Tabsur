@@ -39,14 +39,14 @@ class MyMeals extends Component {
       console.log(res.data);
       this.setState({ meals: res.data });
     }).catch(err => {
-      console.log(err);
+      console.error(err);
     });
   getAttendedMeals(this.props.auth.user.id)
     .then(res => {
       console.log(res.data);
       this.setState({ mealsAttended: res.data });
     }).catch(err => {
-      console.log(err);
+      console.error(err);
     });
   } 
   componentWillReceiveProps(nextProps) {
