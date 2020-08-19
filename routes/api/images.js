@@ -120,6 +120,7 @@ router.get('/:imageId', function (req, res, next) {
     }
     res.writeHead(200, { 'Content-Type': 'image/jpeg' });
     res.write(data.Body, 'binary');
+    //todo: resize
     res.end(null, 'binary');
   });
 });

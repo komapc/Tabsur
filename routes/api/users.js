@@ -48,12 +48,14 @@ router.post("/register", async (req, response) => {
           'VALUES ($1, $2, $3, $4, $5)',
           [newUser.name, newUser.email, hash, newUser.location, newUser.address])
           .then(user => {
-            client.end();
             return response.status(201).json(user);
           })
           .catch(err => {
-            console.log(err);
+            console.error(err);
             return response.status(500).json(newUser);
+          })
+          .finally(() => {
+            client.end();
           });
       });
     });
@@ -124,7 +126,7 @@ router.post("/login", async (req, response) => {
         }
       })
         .catch(err => {
-          console.log("bcrypt error:" + err);
+          console.error("bcrypt error:" + err);
           return response.status(500).json(newReq);
         })
         .finally(() => client.end())
@@ -157,7 +159,7 @@ router.post("/loginFB", async (req, response) => {
             newUserId=user; 
           })
           .catch(err => {
-            console.log(`Inserting user failed:  ${err}`);
+            console.error(`Inserting user failed:  ${err}`);
             return response.status(500).json(err);
           })
           .finally()
@@ -206,8 +208,9 @@ router.post("/loginFB", async (req, response) => {
 router.get("/:id", async (req, response) => {
   // Find the user
   const client = new Client(currentConfig);
-  await client.connect().catch(err => {
-    console.log(err);
+  await client.connect()
+  .catch(err => {
+    console.error(err);
     return response.status(500).json(err);
   });
   return client.query(`SELECT id, name, 100 AS rate,
@@ -216,15 +219,15 @@ router.get("/:id", async (req, response) => {
   (SELECT count(1) AS followers FROM follow WHERE id=$1)
   FROM users WHERE id = $1`, [req.params.id])//
     .then(user => {
-      client.end();
       response.json(user.rows);
     })
     .catch(err => {
-      client.end();
       console.error(err);
       return response.status(500).json("No user");
-    }
-    );
+    })
+    .finally(() => {
+      client.end();
+    });
 });
 
 

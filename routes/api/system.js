@@ -36,16 +36,17 @@ router.get("/stats/:id", async (req, response) => {
 from users as u;
 `)
     .then(res => {
-      client.end();
       var payload = res.rows;
       console.log("Sending stats");
       response.json(payload);
     })
     .catch(err => {
-      client.end();
       console.error(err);
       return response.status(500).json("Failed to get stats");
-    });
+    })
+    .finally(() => {
+      client.end();
+    })
 });
 
 
@@ -65,12 +66,13 @@ router.get("/users", async (req, response) => {
     .then(resp => {
       console.log(JSON.stringify(resp.rows));
       response.json(resp.rows);
-      client.end();
     })
     .catch(err => {
-      client.end();
       console.error(err);
       return response.status(500).json(err);
+    })
+    .finally(() => {
+      client.end();
     });
 })
 
