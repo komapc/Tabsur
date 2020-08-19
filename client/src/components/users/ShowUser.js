@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { getFollowStatus, setFollow, getUserInfo } from "../../actions/userActions"
+import { getFollowStatus, setFollow, getUserInfo, getUserImages } from "../../actions/userActions"
 import { sendMessage } from "../../actions/notifications"
 
 import PropTypes from "prop-types";
@@ -20,6 +20,8 @@ import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import BackBarMui from "../layout/BackBarMui";
 import InfoIcon from '@material-ui/icons/Info';
+
+import config from "../../config";
 //#region ProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
@@ -163,8 +165,29 @@ const useStylesTabs = makeStyles(theme => ({
 }));
 
 
-const Gallery = (props) => {
-  return <span>Under Construction</span>
+const Gallery = (id) => {
+  const [images, setImages] = useState([]);
+
+  getUserImages(id)
+  .then(res => {
+    const data = res.data;
+    console.log(data);
+    return setImages(data);
+  })
+  .catch(err => {
+    console.error(err);
+    return err;
+  });
+  return <span>
+
+      {/* Under Construction : ${JSON.stringify(images)} */}
+
+     {images.map(image => {
+         const path =`${config.SERVER_HOST}/api/${image.path}.undefined`;
+          return <img width="50vw" height="50vw" src={path} key={image.id}/>
+        })
+      }
+    </span>
 }
 
 const ProfileTabs = (props) => {
@@ -209,7 +232,7 @@ const ProfileTabs = (props) => {
 
       </TabPanel>
       <TabPanel value={value} index={1}>
-      {Gallery}
+      {Gallery( props.state.id)}
       </TabPanel>
     </React.Fragment>
   )
