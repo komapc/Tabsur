@@ -125,8 +125,8 @@ router.get('/:imageId', function (req, res, next) {
 });
 
 //get images for a user AKA gallery
-router.get('/gallery/:', function (req, res, next) {
-  console.log(`Get images for a user from user [${userId}]`);
+router.get('/gallery/:userId', function (req, response, next) {
+  console.log(`Get images for a user from user [${req.params.userId}]`);
   const client = new Client(currentConfig);
 
   client.connect();
@@ -135,6 +135,20 @@ router.get('/gallery/:', function (req, res, next) {
   ON u.id=i.uploader
   WHERE u.id=$1`;
   console.log(`connected running [${query}]`);
+  return client.query(query, [req.params.userId])
+    .then(data => {
+      // return response.status(201).json(user);
+      console.log(`data: ${JSON.stringify(data.rows)}`);
+      return response.json(data.rows);
+    })
+    .catch(err => {
+      console.error(`getting images failed:  ${err}`);
+      return response.status(500).json(err);
+    })
+    .finally()
+    {
+      client.end();
+    }
 
 });
 
