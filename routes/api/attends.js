@@ -91,7 +91,8 @@ router.delete('/:id', async (req, res, next) => {
     'meal_id = $1 AND user_id=$2',
     [attend.meal_id, attend.user_id])
     .catch(err => { console.error(err); return response.status(500).json("failed to delete"); })
-    .then(answer => { return response.status(201).json(answer); });
+    .then(answer => { return response.status(201).json(answer); })
+    .finally(()=>client.end())
 });
 
 module.exports = router;
