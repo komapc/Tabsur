@@ -35,7 +35,6 @@ router.post("/register", async (req, response) => {
     return response.status(400).json(errors);
   }
   try {
-
     console.log("register.");
     const newUser = req.body;
     await client.connect();
@@ -133,8 +132,6 @@ router.post("/login", async (req, response) => {
     });
 });
 
-
-
 // @route POST api/users/loginFB
 // @desc Login user and return JWT token
 // @access Public
@@ -213,7 +210,7 @@ router.get("/:id", async (req, response) => {
     console.log(err);
     return response.status(500).json(err);
   });
-  client.query(`SELECT id, name, 100 AS rate,
+  return client.query(`SELECT id, name, 100 AS rate,
   (SELECT COUNT (1) FROM meals WHERE host_id = $1) AS meals_created,
   (SELECT count(1) AS following FROM follow WHERE follower=$1),
   (SELECT count(1) AS followers FROM follow WHERE id=$1)
@@ -224,61 +221,11 @@ router.get("/:id", async (req, response) => {
     })
     .catch(err => {
       client.end();
-      console.log(err);
+      console.error(err);
       return response.status(500).json("No user");
     }
     );
 });
 
-// @route GET api/system
-// @desc system informaion
-// @access Public
-router.get("/system/:id", async (req, response) => {
-  // Find the user
-  const client = new Client(currentConfig);
-  await client.connect();
-  client.query('SELECT * FROM versions')
-    .then(ver => {
-      client.end();
-      var payload = ver.rows;
-
-      response.json(payload);
-    })
-    .catch(err => {
-      client.end();
-      console.log(err);
-      return response.status(500).json("Failed to get version");
-    });
-});
-
-// @route GET api/system
-// @desc system informaion
-// @access Public
-router.get("/stats/:id", async (req, response) => {
-  if (req.params.id != 12345) {
-    return response.status(500).json("access denied.");
-  }
-  // Find the user
-  const client = new Client(currentConfig);
-  await client.connect();
-  client.query(`select id, name,
-	(select count (1) from follow where followie=u.id) as followers,
-	(select count (1) from follow where follower=u.id) as followies, 
-	(select count (1) from meals where host_id=u.id) as meals_hosted,
-	(select count (1) from attends where user_id=u.id) as attends
-from users as u;
-`)
-    .then(res => {
-      client.end();
-      var payload = res.rows;
-      console.log("Sending stats");
-      response.json(payload);
-    })
-    .catch(err => {
-      client.end();
-      console.log(err);
-      return response.status(500).json("Failed to get stats");
-    });
-});
 
 module.exports = router;
