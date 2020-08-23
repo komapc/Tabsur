@@ -66,9 +66,12 @@ const useStyles = makeStyles((theme) => ({
     transform: 'rotate(180deg)',
   },
   avatar: {
-    backgroundColor: '#13A049',
-  },
-}));
+    backgroundColor: 'Yellow',
+    color: 'Black',
+    border:"solid", 
+    borderColor:"Black",
+    borderWidth: "1px"
+}}));
 function RecipeReviewCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);

@@ -31,8 +31,10 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'center'
     },
     fab: {
-        backgroundColor: "#13A049",
-        color: "#FFFFFF"
+        backgroundColor: "White",
+        color: "Black",
+        border: "solid",
+        borderWidth: "1px"
     }
 }));
 

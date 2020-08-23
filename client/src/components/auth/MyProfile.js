@@ -80,25 +80,25 @@ const useStylesStats = makeStyles(theme => ({
 }))
 
 const MyProfileStats = (params) => {
-  
-  const classes = useStylesStats();
-  const userStats=params.userStats ? params.userStats[0] : {};
 
-   return  <React.Fragment>
-      {/* {userStats?<div>{ JSON.stringify(userStats)}</div>:<span/>} */}
-      <div className={classes.headerContainer}>
-        <h5 className={classes.header}>{params.name}</h5>
-      </div>
-      <div className={classes.headerContainer}>
-        <Grid container >
-          <Grid item xs={6}><span className={classes.stat}>Followers {userStats.followers}</span></Grid>
-          <Grid item xs={6}><span className={classes.stat}>Active meals _</span></Grid>
-          <Grid item xs={6}><span className={classes.stat}>Following {userStats.following}</span></Grid>
-          <Grid item xs={6}><span className={classes.stat}>Meals Created {userStats.meals_created}</span></Grid>
-        </Grid>
-      </div>
-    </React.Fragment>
-  
+  const classes = useStylesStats();
+  const userStats = params.userStats ? params.userStats[0] : {};
+
+  return <React.Fragment>
+    {/* {userStats?<div>{ JSON.stringify(userStats)}</div>:<span/>} */}
+    <div className={classes.headerContainer}>
+      <h5 className={classes.header}>{params.name}</h5>
+    </div>
+    <div className={classes.headerContainer}>
+      <Grid container >
+        <Grid item xs={6}><span className={classes.stat}>Followers {userStats.followers}</span></Grid>
+        <Grid item xs={6}><span className={classes.stat}>Active meals _</span></Grid>
+        <Grid item xs={6}><span className={classes.stat}>Following {userStats.following}</span></Grid>
+        <Grid item xs={6}><span className={classes.stat}>Meals Created {userStats.meals_created}</span></Grid>
+      </Grid>
+    </div>
+  </React.Fragment>
+
 }
 //#endregion
 
@@ -154,11 +154,11 @@ const useStylesTabs = makeStyles(theme => ({
 }));
 const MyProfileTabs = () => {
   const classes = useStylesTabs();
-  const handleLogout = (event) =>{
+  const handleLogout = (event) => {
     store.dispatch(logoutUser());
   }
- 
-  const [value, setValue] = React.useState(0); 
+
+  const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -170,15 +170,15 @@ const MyProfileTabs = () => {
           onChange={handleChange}
           centered
           indicatorColor='primary'
-          TabIndicatorProps={{ style: { backgroundColor: "primary"}}}>
+          TabIndicatorProps={{ style: { backgroundColor: "primary" } }}>
           <Tab label="Kitchen" {...a11yProps(0)} />
           <Tab label="Gallery" {...a11yProps(1)} />
         </Tabs>
       </div>
       <TabPanel value={value} index={0} >
-        <div className='centered'>
-          <Button startIcon={<LockIcon />} variant="contained" color="primary" href="/login" onClick={handleLogout}>Log Out</Button>
-        </div>
+        <Button
+          startIcon={<LockIcon />} variant="contained" color="primary" className='centered'
+          href="/login" onClick={handleLogout}>Log Out</Button>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Under Construction
@@ -200,17 +200,16 @@ class MyProfile extends Component {
     };
     console.log(`user id: ${JSON.stringify(this.state.userId)}`);
     getUser(this.state.userId)
-    .then(res => {
-      console.log(res.data);
-      //setUserStats(res.data);
-      this.setState({
-        userStats: res.data
+      .then(res => {
+        console.log(res.data);
+        //setUserStats(res.data);
+        this.setState({
+          userStats: res.data
+        });
+      })
+      .catch(err => {
+        console.error(err);
       });
-    })
-    .catch(err =>
-    {
-      console.error(err);
-    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -219,8 +218,7 @@ class MyProfile extends Component {
         errors: nextProps.errors
       });
     }
-    if (nextProps.active)
-    {
+    if (nextProps.active) {
       this.props.setFabVisibility(true);
       this.props.setSwipability(true);
     }
@@ -247,7 +245,7 @@ class MyProfile extends Component {
     return (
       <React.Fragment>
         <MyProfileHeader />
-        <MyProfileStats name={this.state.name}  userStats={this.state.userStats}/>
+        <MyProfileStats name={this.state.name} userStats={this.state.userStats} />
         <MyProfileTabs />
 
         {false ? (
