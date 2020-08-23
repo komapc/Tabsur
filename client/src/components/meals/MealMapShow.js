@@ -2,15 +2,15 @@ import React from "react";
 import Geocode from "react-geocode";
 import { GoogleMap, Marker, withGoogleMap, withScriptjs } from "react-google-maps";
 
-import attended_u from "../../resources/attended_meal_icon.svg";
-import fullUp_u from "../../resources/full_meal_icon.svg";
-import hosted_u from "../../resources/my_meal_icon.svg"
-import available_u from "../../resources/active_meal_icon.svg"
+import attended_u from "../../resources/map/attended_meal_icon.svg";
+import fullUp_u from "../../resources/map/full_meal_icon.svg";
+import hosted_u from "../../resources/map/my_meal_icon.svg"
+import available_u from "../../resources/map/active_meal_icon.svg"
 
-import attended_t from "../../resources/attended_meal_icon_touched.svg";
-import fullUp_t from "../../resources/full_meal_icon_touched.svg";
-import hosted_t from "../../resources/my_meal_icon_touched.svg"
-import available_t from "../../resources/active_meal_icon_touched.svg"
+import attended_t from "../../resources/map/attended_meal_icon_touched.svg";
+import fullUp_t from "../../resources/map/full_meal_icon_touched.svg";
+import hosted_t from "../../resources/map/my_meal_icon_touched.svg"
+import available_t from "../../resources/map/active_meal_icon_touched.svg"
 
 const attended = [attended_u, attended_t]
 const fullUp = [fullUp_u, fullUp_t]
