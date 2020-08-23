@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import store from "../../store";
 import setMessagesCount from "../../actions/MessagesActions"
 import { setNotificationsCount, setProfileNotificationsCount } from "../../actions/notifications"
-import meals from "../../resources/bottom_menu/my_meals_bar.svg"
+import meals from "../../resources/bottom/my_meal.svg"
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Badge from '@material-ui/core/Badge';
@@ -13,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import MessageOutlinedIcon from '@material-ui/icons/MessageOutlined';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
-import SearchIcon from '../../resources/bottom_menu/search_active.svg';
+import SearchIcon from '../../resources/bottom/search_active.svg';
 const useStyles = makeStyles(theme => ({
   bigIcon: {
     height: '33px',

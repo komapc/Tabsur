@@ -13,7 +13,7 @@ import {
 import Grid from '@material-ui/core/Grid';
 import attend from "../../resources/attended.svg"
 import locationIcon from "../../resources/location_icon.svg"
-import dateIcon from "../../resources/date_time_icon.svg"
+import dateIcon from "../../resources/date.svg"
 import servingsIcon from "../../resources/servings_icon.svg"
 
 class CreateMeal extends Component {
