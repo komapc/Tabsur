@@ -18,7 +18,7 @@ class NoteItem extends Component {
       .then(res => {
         console.log(res.data);
       }).catch(err => {
-        console.log(err);
+        console.error(err);
       });
   }
   render() {
@@ -52,7 +52,7 @@ class Notifications extends Component {
         console.log(res.data);
         this.setState({ notes: res.data });
       }).catch(err => {
-        console.log(err);
+        console.error(err);
       });
   }
 

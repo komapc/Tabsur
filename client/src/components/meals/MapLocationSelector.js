@@ -6,6 +6,8 @@ import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import backArrowIcon from "../../resources/back_arrow.svg"
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import GoogleMaps from "../layout/AutoCompleteField"
+import PlacesAutocomplete from "react-places-autocomplete";
 
 import 'react-google-places-autocomplete/dist/index.min.css';
 
@@ -15,19 +17,19 @@ Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
 
 class MapLocationSelector extends Component {
   constructor(props) {
-  super(props);
-  this.state = {
-    defaultLocation: this.props.defaultLocation,
-    location: this.props.defaultLocation
+    super(props);
+    this.state = {
+      defaultLocation: this.props.defaultLocation,
+      location: this.props.defaultLocation
+    };
   };
-};
   componentDidMount() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
 
         const p = { lng: position.coords.longitude, lat: position.coords.latitude };
 
-        console.log("geolocation is: ", JSON.stringify(p));
+        console.log(`geolocation is:  ${JSON.stringify(p)}`);
         //
         Geocode.fromLatLng(p.lat, p.lng).then(
           response => {
@@ -70,17 +72,19 @@ class MapLocationSelector extends Component {
     console.log("event: " + event);
     //setAddress(addr);
     this.setState({ address: addr });
-    Geocode.fromAddress(addr).then(response => {
-      const { lat, lng } = response.results[0].geometry.location;
-      this.props.handleLocationUpdate({ address: event.description, location: { lng, lat } });
-      this.setState({ location: { lng, lat } });
-      console.log("onAutoCompleteSelect:" + JSON.stringify(this.state.location));
-      this.props.handleExit();
-    },
-      error => {
-        console.error(error);
-      }).catch(() => {
-        console.log("onAutoCompleteSelect failed.");
+    Geocode.fromAddress(addr)
+      .then(response => {
+        const { lat, lng } = response.results[0].geometry.location;
+        this.props.handleLocationUpdate({ address: event.description, location: { lng, lat } });
+        this.setState({ location: { lng, lat } });
+        console.log("onAutoCompleteSelect:" + JSON.stringify(this.state.location));
+        this.props.handleExit();
+      },
+        error => {
+          console.error(`error in onAutoCompleteSelect ${JSON.stringify(error)}`);
+        })
+      .catch((error) => {
+        console.error(`onAutoCompleteSelect failed: ${JSON.stringify(error)}`);
       }
       );
   }
@@ -97,8 +101,13 @@ class MapLocationSelector extends Component {
           <GooglePlacesAutocomplete className="autocomplete-span"
             onSelect={this.onAutoCompleteSelect}
             initialValue={this.state.address}
-          />
+            query={{
+              key: GOOGLE_MAPS_API_KEY,
+              language: 'en',
+            }}>
+          </GooglePlacesAutocomplete>
         </span>
+        {/* <GoogleMaps InitialValue="Ramat Gan" /> */}
 
         <MapWithMarker
           onDragEnd={this.onMarkerDragEnd}
@@ -112,7 +121,7 @@ class MapLocationSelector extends Component {
           }}
           loadingElement={<div style={{ height: `100%` }} />}
           containerElement={<div className="map-with-marker-container" />}
-          mapElement={<div style={{ height: `100%` }} />}
+          mapElement={<div style={{ height: `90vh`, top: `10vh` }} />}
           googleMapURL={`https://maps.googleapis.com/maps/api/js?libraries=places&key=${GOOGLE_MAPS_API_KEY}`}
         />
       </span>

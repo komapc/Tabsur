@@ -31,13 +31,14 @@ router.get("/:id", async (req, response) => {
     .then(resp => {
       console.log(JSON.stringify(resp.rows));
       response.json(resp.rows);
-      client.end();
     })
     .catch(err => {
-      client.end();
-      console.log(err);
+      console.error(err);
       return response.status(500).json(err);
-    });
+    })
+    .finally(() => {
+      client.end();
+    })
 })
 
 // @route GET api/meals/my
@@ -59,13 +60,14 @@ router.get("/user/:id", async (req, response) => {
   await client.connect();
   client.query(SQLquery, [req.params.id])
     .then(resp => {
-      client.end();
       return response.json(resp.rows);
     })
     .catch(err => {
-      client.end();
-      console.log(err);
+      console.error(err);
       return response.status(500).json(err);
+    })
+    .finally(() => {
+      client.end();
     });
 });
 
@@ -110,7 +112,7 @@ router.post("/", async (req, response) => {
     }
     )
     .catch((e) => {
-      console.log("exception catched: " + e);
+      console.error("exception catched: " + e);
       response.status(500).json(e);
     })
     .finally(()=>
@@ -137,16 +139,17 @@ router.delete("/:hungry_id", async (req, response) => {
   client.query('DELETE FROM hungry WHERE id=$1',
     [mealId])
     .then(() => {
-      client.end();
       console.log("deleted.");
       return response.status(201).json(req.body);
     }
     )
     .catch((e) => {
-      client.end();
-      console.log("exception catched: " + e);
+      console.error("exception catched: " + e);
       response.status(500).json(e);
-    });
+    })
+    .finally(() => {
+      client.end();
+    })
 });
 
 module.exports = router;

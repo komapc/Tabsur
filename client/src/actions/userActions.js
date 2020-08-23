@@ -25,7 +25,12 @@ export const setFollow = (myUserId, body) => {
 };
 
 
-//set follow/unfollow status
+//get info about a user
 export const getUserInfo = (userId) => {
   return axios.get(`${config.SERVER_HOST}/api/users/${userId}`)
+};
+
+//get info about a user
+export const getUserImages = (userId) => {
+  return axios.get(`${config.SERVER_HOST}/api/images/gallery/${userId}`)
 };
