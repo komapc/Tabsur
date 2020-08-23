@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import MessageOutlinedIcon from '@material-ui/icons/MessageOutlined';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
+import SearchIcon from '../../resources/bottom_menu/search_active.svg';
 const useStyles = makeStyles(theme => ({
   bigIcon: {
     height: '33px',
@@ -85,17 +86,18 @@ class Bottom extends Component {
             }
           }}>
           <Tab label="Search" icon={<BigSearchIcon />} />
-          <Tab label="My Profile" icon={<Badge badgeContent={this.props.profileNotificationsCount} color="secondary"><BigPersonImg /></Badge>}></Tab>
+          <Tab label="My Profile" icon={<Badge badgeContent={this.props.profileNotificationsCount} 
+            color="secondary"><BigPersonImg /></Badge>}/>
           <Tab label="My Meals" icon={
             <Badge badgeContent={this.props.notificationsCount} color="secondary">
               <img className="footer-icons" src={meals} alt={"meals map"} />
             </Badge>
-          }></Tab>
+          }/>
           <Tab label="Chat" icon={
             <Badge badgeContent={this.props.messagesCount} color="secondary">
               <BigChatIcon />
             </Badge>
-          }></Tab>
+          }/>
         </Tabs>
       </div>
     );
