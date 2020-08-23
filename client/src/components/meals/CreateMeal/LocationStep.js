@@ -48,7 +48,7 @@ const LocationStep = props => {
             id="address"
             label="Location"
             placeholder="Address"
-            helperText={props.form.address.trim() == "" ? "Empty" : ""}
+            helperText={props.form.address.trim() === "" ? "Empty" : ""}
         />
         </Box >
         <div className={showMap ? 'createMealMap' : 'createMealMap-hidden'} hidden={!showMap}>
