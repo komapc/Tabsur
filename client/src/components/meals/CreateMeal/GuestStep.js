@@ -14,7 +14,7 @@ const NameStep = props => {
         <TextField width={1}
           onChange={update}
           value={props.form.guestCount}
-          error={props.form.guestCount == ""}
+          error={props.form.guestCount === ""}
           type="Number"
           id="guestCount"
           label="Guest Count"
