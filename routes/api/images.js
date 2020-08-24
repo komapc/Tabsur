@@ -146,11 +146,10 @@ router.get('/gallery/:userId', function (req, response, next) {
       console.error(`getting images failed:  ${err}`);
       return response.status(500).json(err);
     })
-    .finally()
+    .finally(()=>
     {
       client.end();
-    }
-
+    });
 });
 
 module.exports = router;
