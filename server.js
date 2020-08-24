@@ -35,6 +35,7 @@ app.use("/api/follow", follow);
 app.use("/api/notifications", notifications);
 app.use("/api/chat", chat);
 app.use("/api/images", images);
+app.use("/api/system", system);
 var sslRedirect = require(`heroku-ssl-redirect`);
 app.use(sslRedirect());
 //serve static assets in production
