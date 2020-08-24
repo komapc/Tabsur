@@ -82,7 +82,7 @@ const useStylesStats = makeStyles(theme => ({
 const MyProfileStats = (params) => {
 
   const classes = useStylesStats();
-  const userStats = params.userStats ? params.userStats[0] : {};
+  const userStats = (params.userStats && params.userStats[0]) ? params.userStats[0] : {};
 
   return <React.Fragment>
     {/* {userStats?<div>{ JSON.stringify(userStats)}</div>:<span/>} */}
