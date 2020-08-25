@@ -233,6 +233,10 @@ class MealListItem extends React.Component {
   }
 
   onJoin = (newStatus) => {
+    if (!this.props.auth.isAuthenticated)
+    {
+      this.props.history.push(`/Login`);
+    }
     const user_id = this.props.auth.user.id;
     const meal=this.state.meal;
     const attend = { user_id: user_id, meal_id: meal.id, status: newStatus };

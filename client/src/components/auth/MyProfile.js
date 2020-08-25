@@ -191,6 +191,7 @@ const MyProfileTabs = () => {
 class MyProfile extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       name: this.props.auth.user.name,
       userId: this.props.auth.user.id,
@@ -241,6 +242,7 @@ class MyProfile extends Component {
   };
 
   render() {
+     
     const { errors } = this.state;
     return (
       <React.Fragment>
