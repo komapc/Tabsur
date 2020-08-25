@@ -130,7 +130,7 @@ class App extends Component {
           <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
           <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
           <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
-          <PrivateRoute path="/" component={Main} />
+          <Route path="/" component={Main} />
          
         </Switch>
         </Router>
