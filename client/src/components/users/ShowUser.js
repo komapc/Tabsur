@@ -184,7 +184,7 @@ const Gallery = (id) => {
 
      {images.map(image => {
          const path =`${config.SERVER_HOST}/api/${image.path}.undefined`;
-          return <img width="50vw" height="50vw" src={path} key={image.id}/>
+          return <img width="50vw" height="50vw" src={path} key={image.id} id={image.id}/>
         })
       }
     </span>
@@ -217,15 +217,15 @@ const ProfileTabs = (props) => {
         {
           props.auth.user.id !== props.state.id ?
             <React.Fragment>
-              <div style={{ marginBottom: '1vh' }}>{
+              <span style={{ marginBottom: '1vh' }}>{
                 props.followStatus ?
                   <Button variant="contained" startIcon={<NotInterestedIcon />} color="secondary" onClick={() => props.follow(0, props.auth.user.id)}>UnFollow</Button> :
                   <Button variant="contained" startIcon={<PersonAddIcon />} color="primary" onClick={() => props.follow(3, props.auth.user.id)}>Follow</Button>
-              }</div>
+              }</span>
 
-              <div style={{ marginBottom: '1vh' }}>
+              <span style={{ marginBottom: '1vh' }}>
                 <Button variant="contained" startIcon={<CreateIcon />} color="primary" href={`/ChatUser/${props.state.id}`}>Write</Button>
-              </div>
+              </span>
             </React.Fragment>
             : <div className="centered"><Button startIcon={<InfoIcon />} variant="contained" color="primary" href={`/About`}>About</Button></div>
         }
