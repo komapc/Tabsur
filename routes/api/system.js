@@ -62,7 +62,7 @@ router.get("/users", async (req, response) => {
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
 
-  client.query(SQLquery, [req.params.id])
+  client.query(SQLquery)
     .then(resp => {
       console.log(JSON.stringify(resp.rows));
       response.json(resp.rows);
