@@ -51,7 +51,7 @@ from users as u;
 
 
 // @route GET api/system/
-// @desc get a hungry list
+// @desc get a user list
 // @access Public
 router.get("/users", async (req, response) => {
   const client = new Client(currentConfig);
@@ -76,4 +76,30 @@ router.get("/users", async (req, response) => {
     });
 })
 
+
+// @route GET api/system/
+// @desc get a meal list
+// @access Public
+router.get("/meals", async (req, response) => {
+  const client = new Client(currentConfig);
+  console.log(`get hungry for user ${req.params.id}`);
+
+  const SQLquery = `
+  SELECT * from meals`;
+  console.log(`SQLquery: [${SQLquery}]`);
+  await client.connect();
+
+  client.query(SQLquery)
+    .then(resp => {
+      console.log(JSON.stringify(resp.rows));
+      response.json(resp.rows);
+    })
+    .catch(err => {
+      console.error(err);
+      return response.status(500).json(err);
+    })
+    .finally(() => {
+      client.end();
+    });
+})
 module.exports = router;
