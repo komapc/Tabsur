@@ -114,15 +114,15 @@ const  getMealsToday = async ()=>
   console.log(`get meals today`);
 
   const SQLquery = `
-  SELECT extract(days from (now()-created_at)) FROM meals   
+  SELECT extract(days from (now()-created_at)) AS meals_today FROM meals   
     WHERE extract(days from (now()-created_at)) < 2 `;
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
 
-  client.query(SQLquery)
+  return client.query(SQLquery)
     .then(resp => {
       console.log(JSON.stringify(resp.rows));
-      response.json(resp.rows);
+      return resp.rows;
     })
     .catch(err => {
       console.error(err);
@@ -139,11 +139,14 @@ const  getMealsToday = async ()=>
 router.get("/health", async (req, response) => {
   const client = new Client(currentConfig);
   console.log(`get system health`);
+  const meals = await getMealsToday();
+  const mealsToday = meals?meals[0].meals_today:-1;
+  console.log(`meals: ${JSON.stringify(mealsToday)}`);
   const resp=
   {
     DB:true,
     server:true,
-    mealsCreatedToday:await getMealsToday()
+    mealsCreatedToday: mealsToday
   }
 
   return response.json(resp);
