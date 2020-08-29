@@ -85,7 +85,10 @@ router.get("/meals", async (req, response) => {
   console.log(`get meals`);
 
   const SQLquery = `
-  SELECT * FROM meals`;
+  SELECT meals.id, meals.name, meals.created_at, meals.location, 
+    meals.address, meals.guest_count, meals.date, 
+    users.name as owner_name, users.id as user_id
+  FROM meals INNER JOIN users  ON meals.host_id = users.id`;
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
 
