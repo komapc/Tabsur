@@ -85,7 +85,7 @@ router.get("/meals", async (req, response) => {
   console.log(`get meals`);
 
   const SQLquery = `
-  SELECT * from meals`;
+  SELECT * FROM meals`;
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
 
@@ -140,7 +140,7 @@ router.get("/health", async (req, response) => {
   const client = new Client(currentConfig);
   console.log(`get system health`);
   const meals = await getMealsToday();
-  const mealsToday = meals?meals[0].meals_today:-1;
+  const mealsToday = (meals && meals[0])?meals[0].meals_today:-1;
   console.log(`meals: ${JSON.stringify(mealsToday)}`);
   const resp=
   {
