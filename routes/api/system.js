@@ -55,7 +55,7 @@ from users as u;
 // @access Public
 router.get("/users", async (req, response) => {
   const client = new Client(currentConfig);
-  console.log(`get hungry for user ${req.params.id}`);
+  console.log(`get users`);
 
   const SQLquery = `
   SELECT * from users`;
@@ -82,7 +82,7 @@ router.get("/users", async (req, response) => {
 // @access Public
 router.get("/meals", async (req, response) => {
   const client = new Client(currentConfig);
-  console.log(`get hungry for user ${req.params.id}`);
+  console.log(`get meals`);
 
   const SQLquery = `
   SELECT * from meals`;
@@ -101,5 +101,52 @@ router.get("/meals", async (req, response) => {
     .finally(() => {
       client.end();
     });
+})
+
+
+
+
+
+/////////////////
+const  getMealsToday = async ()=>
+{
+  const client = new Client(currentConfig);
+  console.log(`get meals today`);
+
+  const SQLquery = `
+  SELECT extract(days from (now()-created_at)) FROM meals   
+    WHERE extract(days from (now()-created_at)) < 2 `;
+  console.log(`SQLquery: [${SQLquery}]`);
+  await client.connect();
+
+  client.query(SQLquery)
+    .then(resp => {
+      console.log(JSON.stringify(resp.rows));
+      response.json(resp.rows);
+    })
+    .catch(err => {
+      console.error(err);
+      return response.status(500).json(err);
+    })
+    .finally(() => {
+      client.end();
+    });
+}
+
+// @route GET api/health/
+// @desc get system health status
+// @access  
+router.get("/health", async (req, response) => {
+  const client = new Client(currentConfig);
+  console.log(`get system health`);
+  const resp=
+  {
+    DB:true,
+    server:true,
+    mealsCreatedToday:await getMealsToday()
+  }
+
+  return response.json(resp);
+   
 })
 module.exports = router;
