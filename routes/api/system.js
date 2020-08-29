@@ -111,6 +111,55 @@ router.get("/meals", async (req, response) => {
 
 
 /////////////////
+const  getMealsStat = async ()=>
+{
+  const client = new Client(currentConfig);
+  console.log(`get meals today`);
+
+  const SQLquery = `
+  SELECT TRUNC(extract(epoch FROM now()-created_at)/(60*60*24)) days_before, 
+  COUNT (0) as meal_count
+  FROM meals  
+  GROUP BY TRUNC(extract(epoch from now()-created_at)/(60*60*24))
+  ORDER BY TRUNC(extract(epoch from now()-created_at)/(60*60*24))
+`;
+  console.log(`SQLquery: [${SQLquery}]`);
+  await client.connect();
+
+  return client.query(SQLquery)
+    .then(resp => {
+      console.log(JSON.stringify(resp.rows));
+      return resp.rows;
+    })
+    .catch(err => {
+      console.error(err);
+      return response.status(500).json(err);
+    })
+    .finally(() => {
+      client.end();
+    });
+}
+
+
+// @route GET api/stats/
+// @desc get meal/users stats
+// @access  
+router.get("/stats", async (req, response) => {
+  const client = new Client(currentConfig);
+  console.log(`get system stats`);
+  const stats = await getMealsStat();
+  console.log(`Stats: ${JSON.stringify(stats)}`);
+  const resp=
+  {
+    mealStats: stats
+  }
+
+  return response.json(resp);
+   
+})
+
+
+/////////////////
 const  getMealsToday = async ()=>
 {
   const client = new Client(currentConfig);
@@ -135,6 +184,7 @@ const  getMealsToday = async ()=>
       client.end();
     });
 }
+
 
 // @route GET api/health/
 // @desc get system health status
