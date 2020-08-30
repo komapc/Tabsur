@@ -43,9 +43,13 @@ const uploadFile = async (buffer, name, type) => {
 };
 
 insertImageIntoDB = async (imagePath, uploader) => {
-  console.log(`Inserting image ${imageName} from user [${uploader}]`);
+  console.log(`Inserting image ${imagePath} from user [${uploader}]`);
   const client = new Client(currentConfig);
-
+  if (isNaN(uploader) || imagePath === "")
+  {
+    console.error(`Cannot insert image: empty data ${imagePath} / ${uploader}.`);
+    return -3;
+  }
   client.connect();
   const query = `INSERT INTO images (path, status, uploader)
   VALUES($1, 1, $2) RETURNING id`;
@@ -176,4 +180,4 @@ router.get('/avatar/:userId', function (req, response, next) {
 });
 
 module.exports = router;
-module.insertImageIntoDB = insertImageIntoDB;
+module.exports = insertImageIntoDB;
