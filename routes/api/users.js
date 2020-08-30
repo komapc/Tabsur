@@ -150,7 +150,7 @@ const addAvatar = (client, userId, picture) =>
 
     
   const url = picture.data.url;
-  const newImageId = insertImageIntoDB(picture, userId);
+  const newImageId = insertImageIntoDB(url, userId);
 
   if (newImageId > 0)
   {
