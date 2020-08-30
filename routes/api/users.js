@@ -153,14 +153,14 @@ const addAvatar = async (client, userId, picture) =>
   .then((newImageId) =>
   {
     console.log(`Add avatar got a image id ${newImageId}.`);
-    //if (newImageId > 0)
+    if (newImageId > 0)
     {
       return client.query(query, [newImageId, userId]);
     }
-    // else
-    // {
-    //   console.error(`Add avatar got a negative image id ${newImageId}.`);
-    // }
+    else
+    {
+      console.error(`Add avatar got a negative image id ${newImageId}.`);
+    }
   })
   .catch((err) =>{
     console.error(`Add avatar error: ${err}.`);
@@ -235,7 +235,7 @@ router.post("/loginFB", async (req, response) => {
   })
   .finally(() =>
   {
-    addAvatar(client, newUserId, newReq.picture);
+    await addAvatar(client, newUserId, newReq.picture);
     client.end();
   })
   
