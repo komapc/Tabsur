@@ -3,7 +3,10 @@ import { connect } from "react-redux";
 import store from "../../store";
 import setMessagesCount from "../../actions/MessagesActions"
 import { setNotificationsCount, setProfileNotificationsCount } from "../../actions/notifications"
-import meals from "../../resources/bottom/my_meal.svg"
+import meals from "../../resources/bottom/my_meal.svg";
+import chat from "../../resources/bottom/chat.svg"
+import profile from "../../resources/bottom/profile.svg"
+import search from "../../resources/bottom/search.svg"
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Badge from '@material-ui/core/Badge';
@@ -85,17 +88,20 @@ class Bottom extends Component {
               backgroundColor: "primary"
             }
           }}>
-          <Tab label="Search" icon={<BigSearchIcon />} />
-          <Tab label="My Profile" icon={<Badge badgeContent={this.props.profileNotificationsCount} 
-            color="secondary"><BigPersonImg /></Badge>}/>
+          <Tab label="Search" icon={<img className="footer-icons" src={search} alt={"search meals"} />} />
+          <Tab label="My Profile" icon={
+            <Badge badgeContent={this.props.profileNotificationsCount} color="secondary">
+              <img className="footer-icons" src={profile} alt={"profile"} />
+            </Badge>}/>
           <Tab label="My Meals" icon={
             <Badge badgeContent={this.props.notificationsCount} color="secondary">
-              <img className="footer-icons" src={meals} alt={"meals map"} />
+              <img className="footer-icons" src={meals} alt={"my meals"} />
             </Badge>
           }/>
           <Tab label="Chat" icon={
             <Badge badgeContent={this.props.messagesCount} color="secondary">
-              <BigChatIcon />
+              {/* <BigChatIcon /> */}
+              <img className="footer-icons" src={chat} alt={"chat"} />
             </Badge>
           }/>
         </Tabs>
