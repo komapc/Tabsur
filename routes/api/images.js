@@ -59,7 +59,7 @@ insertImageIntoDB = async (imagePath, uploader) => {
   return await client.query(query,
     [imagePath, Number(uploader)])
     .then(res => {
-      console.log(`image inserted, id=${JSON.stringify(res.rows[0])}.`);
+      console.log(`insertImageIntoDB: image inserted, id=${JSON.stringify(res.rows[0])}.`);
       result = res.rows[0].id;
       return result;
     })
