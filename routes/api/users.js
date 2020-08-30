@@ -79,16 +79,16 @@ router.post("/login", async (req, response) => {
     console.log("invalid input: " + JSON.stringify(errors));
     return response.status(400).json(errors);
   }
-  console.log('Login: ' + newReq.email);
+  console.log(`Login: ${newReq.email}`);
   const client = new Client(currentConfig);
   await client.connect();
-  client.query('SELECT * FROM users WHERE email = $1 OR id = $2 LIMIT 1',
+  client.query('SELECT id, name FROM users WHERE email = $1 OR id = $2 LIMIT 1',
     [newReq.email, newReq.id])
     .then(res => {
 
       //no record found
       if (res.rows === undefined || res.rows.length == 0) {
-        console.log(`error: user doesn't exist`, [newReq.email]);
+        console.log(`error: user [${newReq.email}]doesn't exist`);
         errors.email = "email not found";//emailnotfound
         return response.status(500).json(errors);
       }
@@ -209,7 +209,7 @@ router.post("/loginFB", async (req, response) => {
   })
   .finally(() =>
   {
-    addAvatar(client, newUserId, req);
+    addAvatar(client, newUserId, newReq);
     client.end();
   })
   
