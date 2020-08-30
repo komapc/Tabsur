@@ -93,7 +93,7 @@ router.post("/upload", async (request, response) => {
     console.log("uploadFile result: " + JSON.stringify(res));
     return ress = insertImageIntoDB(fileName, uploader)
       .then((insertedImageID) => {
-        console.log(`insertImageIntoDB [${insertedImageID}]`)
+        console.log(`insertImageIntoDB [${insertedImageID}]`);
         console.log(`send file [${fileName}], res: [${JSON.stringify(insertedImageID)}]`);
         return response.status(200).json(insertedImageID);
       })
