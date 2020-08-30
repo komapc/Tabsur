@@ -136,7 +136,7 @@ router.post("/login", async (req, response) => {
 });
 
 //add avatar path to images and update user_images table
-const addAvatar = (client, userId, picture) =>
+const addAvatar =  (client, userId, picture) =>
 {
   console.log(`Add avatar: ${JSON.stringify(picture)}`);
   const query  = `
@@ -150,16 +150,22 @@ const addAvatar = (client, userId, picture) =>
 
     
   const url = picture.data.url;
-  const newImageId = insertImageIntoDB(url, userId);
-
-  if (newImageId > 0)
+  return insertImageIntoDB(url, userId)
+  .then((newImageId) =>
   {
-    client.query(query, [newImageId, userId]);
+    if (newImageId > 0)
+    {
+      client.query(query, [newImageId, userId]);
+    }
+    else
+    {
+      console.error(`Add avatar got a negative image id ${newImageId}.`);
+    }
+  })
+  .catch((err) =>{
+    console.error(`Add avatar error: ${err}.`);
   }
-  else
-  {
-    console.error(`Add avatar got a negative image id ${newImageId}.`);
-  }
+  )
 }
 
 // @route POST api/users/loginFB
