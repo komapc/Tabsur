@@ -5,8 +5,9 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 //const passport = require("passport");
 const pgConfig = require("./../dbConfig.js");
-const { Client } = require("pg");
 
+const {insertImageIntoDB} = require("./images.js")
+const { Client } = require("pg");
 let currentConfig = pgConfig.pgConfigProduction;
 if (process.env.NODE_ENV === "debug") {
   currentConfig = pgConfig.pgConfigLocal;
@@ -134,6 +135,13 @@ router.post("/login", async (req, response) => {
     });
 });
 
+//add avatar path to images and update user_images table
+const addAvatar = (client, userId, data) =>
+{
+  console.log(`Add avatar: ${JSON.stringify(data)}`)
+  insertImageIntoDB(data.path, data.uploader);
+}
+
 // @route POST api/users/loginFB
 // @desc Login user and return JWT token
 // @access Public
@@ -149,9 +157,10 @@ router.post("/loginFB", async (req, response) => {
     .then(res => {
       //no record found, new FB user
       if (res.rows === undefined || res.rows.length == 0) {
-        console.log(` fb user doesn't exist (${newReq.email}), adding to the DB`);
-        client.query('INSERT INTO users (name, email, password, location, address)' +
-          'VALUES ($1, $2, $3, $4, $5) RETURNING id',
+        console.log(`fb user doesn't exist (${newReq.email}), adding to the DB`);
+        const addUserQuery = 'INSERT INTO users (name, email, password, location, address)' +
+        'VALUES ($1, $2, $3, $4, $5) RETURNING id'; 
+        client.query(addUserQuery,
           [newReq.name, newReq.email, newReq.accessToken, "(0,0)", ""])
           .then(user => {
             // return response.status(201).json(user);
@@ -164,12 +173,10 @@ router.post("/loginFB", async (req, response) => {
           })
           .finally()
           {
-            client.end();
           }
       }
       else
       {
-        client.end();
         newUserId = res.rows[0].id;
         console.log(`Known user logged-in via fb: ${newReq.email}`);
       }
@@ -199,7 +206,12 @@ router.post("/loginFB", async (req, response) => {
   .catch(err => {
     console.error("fb user error:" + err);
     return response.status(500).json(newReq);
-  });
+  })
+  .finally(() =>
+  {
+    addAvatar(client, newUserId, req.picture);
+    client.end();
+  })
   
 })
 // @route GET api/users

@@ -42,7 +42,7 @@ const uploadFile = async (buffer, name, type) => {
   return s3.upload(params).promise();
 };
 
-insertImageIntoDB = async (imageName, uploader) => {
+insertImageIntoDB = async (imagePath, uploader) => {
   console.log(`Inserting image ${imageName} from user [${uploader}]`);
   const client = new Client(currentConfig);
 
@@ -53,14 +53,13 @@ insertImageIntoDB = async (imageName, uploader) => {
 
   var  result = "-2"; 
   return await client.query(query,
-    [imageName, Number(uploader)])
+    [imagePath, Number(uploader)])
     .then(res => {
       console.log(`image inserted, id=${JSON.stringify(res.rows[0])}.`);
       result = res.rows[0].id;
       return result;
     })
     .catch(e => {
-      
       console.error(`Inserting image into db failed; exception catched: ${e}`);
       //response.status(500).json(e);
       result = -1;
@@ -88,10 +87,8 @@ router.post("/upload", async (request, response) => {
     const uploader = fields.uploader;
     var res = uploadFile(buffer, fileName, type);
     console.log("uploadFile result: " + JSON.stringify(res));
-    const ress = insertImageIntoDB(fileName, uploader)
+    return ress = insertImageIntoDB(fileName, uploader)
       .then((insertedImageID) => {
-        console.log(`then result: ${insertedImageID}`);
-
         console.log(`insertImageIntoDB [${insertedImageID}]`)
         console.log(`send file [${fileName}], res: [${JSON.stringify(insertedImageID)}]`);
         return response.status(200).json(insertedImageID);
@@ -179,3 +176,4 @@ router.get('/avatar/:userId', function (req, response, next) {
 });
 
 module.exports = router;
+module.insertImageIntoDB = insertImageIntoDB;
