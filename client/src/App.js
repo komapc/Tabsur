@@ -20,7 +20,6 @@ import ShowMeal from "./components/meals/ShowMeal";
 import ShowUser from "./components/users/ShowUser";
 import CreateMealWizard from "./components/meals/CreateMeal/CreateMealWizard";
 import About from "./components/about/About"
-//import NotificationScreen from "./components/notifications/NotificationScreen"; //Not used yet
 import Stats from "./components/users/Stats"
 import ChatUser from "./components/chat/ChatUser"
 import { Helmet } from "react-helmet";
@@ -103,9 +102,10 @@ class App extends Component {
       let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
       console.log(`message.data: ${JSON.stringify(data)}`);
       console.log(`message.data.type: ${JSON.stringify(data["gcm.notification.type"])}`);
-      if(data["gcm.notification.type"] === "0") { //"message"; TODO: use strings vs enums // data.type => data["gcm.notification.type"]
+      const type=data["gcm.notification.type"];
+      if(type === "0") { //"message"; TODO: use strings vs enums 
         store.dispatch(setMessagesCount(++this.state.messagesCount));
-      } else if(data["gcm.notification.type"] === "6") { // data.type => data["gcm.notification.type"]
+      } else if(type === "6") { 
         store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount));
       } else {
         store.dispatch(setNotificationsCount(++this.state.notificationsCount));
@@ -130,7 +130,7 @@ class App extends Component {
           <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
           <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
           <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
-          <PrivateRoute path="/" component={Main} />
+          <Route path="/" component={Main} />
          
         </Switch>
         </Router>

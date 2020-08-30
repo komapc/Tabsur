@@ -12,6 +12,8 @@ const hungry = require("./routes/api/hungry");
 const notifications = require("./routes/api/notifications");
 const images = require("./routes/api/images");
 const chat = require("./routes/api/chat");
+
+const system = require("./routes/api/system");
 const app = express();
 
 app.use(cors());
@@ -33,6 +35,7 @@ app.use("/api/follow", follow);
 app.use("/api/notifications", notifications);
 app.use("/api/chat", chat);
 app.use("/api/images", images);
+app.use("/api/system", system);
 var sslRedirect = require(`heroku-ssl-redirect`);
 app.use(sslRedirect());
 //serve static assets in production

@@ -40,7 +40,7 @@ class ChatUser extends React.Component {
 
   };
   sendMessageWithCallback(sender, receiver) {
-    alert(sender + "," + receiver);
+    //alert(sender + "," + receiver);
     sendMessage(sender, receiver, this.state.typedMessage)
       .then(res => { // Callback
         console.log(JSON.stringify(res));
@@ -75,8 +75,11 @@ class ChatUser extends React.Component {
           onChange={this.onChange}
           id="message"
           value={this.state.typedMessage}
+          inputProps={{
+            autoComplete: 'off'
+         }}
           />
-        <Button onClick={() => this.sendMessageWithCallback(
+        <Button variant="contained" onClick={() => this.sendMessageWithCallback(
             this.props.auth.user.id,
             this.state.partner_id
         )}>Send</Button>

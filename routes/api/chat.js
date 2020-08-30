@@ -78,9 +78,9 @@ router.get("/user/:me/:user", async (req, response) => {
   const client = new Client(currentConfig);
   var meId = req.params.me;
   var userId = req.params.user
-  console.log(`get chat messages between ${meId} and ${userId}`);
+  console.log(`Get chat messages between ${meId} and ${userId}.`);
   if (isNaN(userId)) {
-    return response.status(400).json("Error in geting  meals: wrong ID");
+    return response.status(400).json("Error in geting meals: wrong ID");
   }
   //todo: get messages between two users
   const SQLquery = `SELECT 
@@ -95,7 +95,7 @@ router.get("/user/:me/:user", async (req, response) => {
   return client.query(SQLquery, [userId, meId]
     )
     .then(resp => {
-      console.log(JSON.stringify(resp));
+      console.log(JSON.stringify(resp.rows));
       return response.json(resp.rows);
     })
     .catch(err => {

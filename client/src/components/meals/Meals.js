@@ -45,10 +45,10 @@ class Meals extends Component {
   render() {
     return (
       <React.Fragment>
-      <div className="main">
+        <div className="main">
           {
             this.state.loading ?
-              <Grid style={{width: '100%', textAlign: 'center',}}><img src={loadingGIF} alt="loading" /></Grid> :
+              <Grid style={{ width: '100%', textAlign: 'center', }}><img src={loadingGIF} alt="loading" /></Grid> :
               <div className="map-meal-info">
                 {this.state.meals.map(meal =>
                   <div key={meal.id}>
@@ -56,7 +56,7 @@ class Meals extends Component {
                   </div>
                 )}
               </div>}
-      </div>
+        </div>
       </React.Fragment>
     );
   }

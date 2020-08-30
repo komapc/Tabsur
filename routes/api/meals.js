@@ -43,11 +43,12 @@ router.get("/:id", async (req, response) => {
   client.query(SQLquery, [userId])
     .then(resp => {
       response.json(resp.rows);
-      client.end();
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
       response.status(500).json(err);
+    })
+    .finally(() => {
       client.end();
     });
 })
@@ -78,7 +79,7 @@ router.get("/my/:id", async (req, response) => {
       return response.json(resp.rows);
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
       return response.status(500).json(err);
     })
     .finally(()=>
@@ -108,14 +109,15 @@ router.get("/attends/:id", async (req, response) => {
   await client.connect();
   client.query(SQLquery, [req.params.id])
     .then(resp => {
-      client.end();
       return response.json(resp.rows);
     })
     .catch(err => {
-      client.end();
-      console.log(err);
+      console.error(err);
       return response.status(500).json(err);
-    });
+    })
+    .finally(() => {
+      client.end();
+    })
 });
 
 // @route GET api/meals/guests
@@ -172,18 +174,19 @@ router.post("/image", async (req, response) => {
   const query = `INSERT INTO meal_images (meal_id, image_id) VALUES ($1, $2) RETURNING id`
   client.query(query, [meal_id, image_id])
     .then((res) => {
-      client.end();
       console.log(`insert query done: ${JSON.stringify(res.rows)}`);
       image_path = res.rows[0].path;
       return response.status(200).json(res.rows);
     })
     .catch(err => {
-      console.log(err);
-      client.end();
+      console.error(err);
       return response.status(500).json("failed to select random image: " + err);
     })
+    .finally(() => {
+      client.end();
+    });
 });
-// @route POST api/meals/
+// @route POST api/meals/ - create a meal
 router.post("/", async (req, response) => {
   // Form validation
   const meal = req.body;
@@ -198,13 +201,14 @@ router.post("/", async (req, response) => {
   console.log(`add meal - start, ${JSON.stringify(req.body)}`);
   await client.connect();
   //todo: insert image
-  const query = `INSERT INTO meals (name, type, location, address, guest_count, host_id, date, visibility)
-  VALUES($1, $2, $3, $4, $5, $6, (to_timestamp($7/ 1000.0)), $8) RETURNING id`;
+  const query = `INSERT INTO meals (
+    name, type, location, address, guest_count, host_id, date, visibility, description)
+  VALUES($1, $2, $3, $4, $5, $6, (to_timestamp($7/ 1000.0)), $8, $9) RETURNING id`;
   console.log(`connected running [${query}]`);
 
   return client.query(query,
     [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
-    meal.address, meal.guestCount, meal.host_id, meal.date, meal.visibility])
+    meal.address, meal.guestCount, meal.host_id, meal.date, meal.visibility, meal.description])
     .then(res => {
       
       console.log(`query done.`);
@@ -227,7 +231,6 @@ router.post("/", async (req, response) => {
     })
     .finally(() =>
     {
-
       client.end();
     })
 });
@@ -250,15 +253,16 @@ router.delete("/:meal_id", async (req, response) => {
   client.query('DELETE FROM meals WHERE id=$1',
     [mealId])
     .then(() => {
-      client.end();
       console.log("deleted.");
       return response.status(201).json(req.body);
     }
     )
     .catch((e) => {
-      client.end();
-      console.log("exception catched: " + e);
+      console.error("exception catched: " + e);
       response.status(500).json(e);
+    })
+    .finally(() => {
+      client.end();
     });
 });
 

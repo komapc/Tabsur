@@ -3,10 +3,7 @@ import { connect } from "react-redux";
 import store from "../../store";
 import setMessagesCount from "../../actions/MessagesActions"
 import { setNotificationsCount, setProfileNotificationsCount } from "../../actions/notifications"
-import map from "../../resources/bottom_menu/map_bar.svg"
-import list from "../../resources/bottom_menu/list_bar.svg"
-import plus from "../../resources/bottom_menu/add_meal_bar.svg"
-import meals from "../../resources/bottom_menu/my_meals_bar.svg"
+import meals from "../../resources/bottom/my_meal.svg"
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Badge from '@material-ui/core/Badge';
@@ -16,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import MessageOutlinedIcon from '@material-ui/icons/MessageOutlined';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
+import SearchIcon from '../../resources/bottom/search_active.svg';
 const useStyles = makeStyles(theme => ({
   bigIcon: {
     height: '33px',
@@ -87,18 +85,19 @@ class Bottom extends Component {
               backgroundColor: "primary"
             }
           }}>
-          <Tab label="Meals" icon={<BigSearchIcon />}> </Tab>
-          <Tab label="My Profile" icon={<Badge badgeContent={this.props.profileNotificationsCount} color="secondary"><BigPersonImg /></Badge>}></Tab>
+          <Tab label="Search" icon={<BigSearchIcon />} />
+          <Tab label="My Profile" icon={<Badge badgeContent={this.props.profileNotificationsCount} 
+            color="secondary"><BigPersonImg /></Badge>}/>
           <Tab label="My Meals" icon={
             <Badge badgeContent={this.props.notificationsCount} color="secondary">
               <img className="footer-icons" src={meals} alt={"meals map"} />
             </Badge>
-          }></Tab>
+          }/>
           <Tab label="Chat" icon={
             <Badge badgeContent={this.props.messagesCount} color="secondary">
               <BigChatIcon />
             </Badge>
-          }></Tab>
+          }/>
         </Tabs>
       </div>
     );
