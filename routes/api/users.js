@@ -136,9 +136,9 @@ router.post("/login", async (req, response) => {
 });
 
 //add avatar path to images and update user_images table
-const addAvatar = (client, userId, data) =>
+const addAvatar = (client, userId, picture) =>
 {
-  console.log(`Add avatar: ${JSON.stringify(data)}`);
+  console.log(`Add avatar: ${JSON.stringify(picture)}`);
   const query  = `
   INSERT INTO user_images
     (id, image_id)
@@ -146,8 +146,11 @@ const addAvatar = (client, userId, data) =>
     WHERE
     NOT EXISTS (
     SELECT id FROM user_images WHERE id = $1 and image_id=$2
-    );`
-  const newImageId = insertImageIntoDB(data.path, userId);
+    );`;
+
+    
+  const url = picture.data.url;
+  const newImageId = insertImageIntoDB(picture, userId);
 
   if (newImageId > 0)
   {
@@ -155,7 +158,7 @@ const addAvatar = (client, userId, data) =>
   }
   else
   {
-    console.error('Add avatar got a negative image id.')
+    console.error(`Add avatar got a negative image id ${newImageId}.`);
   }
 }
 
@@ -175,8 +178,8 @@ router.post("/loginFB", async (req, response) => {
       //no record found, new FB user
       if (res.rows === undefined || res.rows.length == 0) {
         console.log(`fb user doesn't exist (${newReq.email}), adding to the DB`);
-        const addUserQuery = 'INSERT INTO users (name, email, password, location, address)' +
-        'VALUES ($1, $2, $3, $4, $5) RETURNING id'; 
+        const addUserQuery = `INSERT INTO users (name, email, password, location, address)
+        VALUES ($1, $2, $3, $4, $5) RETURNING id`; 
         return client.query(addUserQuery,
           [newReq.name, newReq.email, newReq.accessToken, "(0,0)", ""])
           .then(user => {
@@ -226,7 +229,7 @@ router.post("/loginFB", async (req, response) => {
   })
   .finally(() =>
   {
-    addAvatar(client, newUserId, newReq);
+    addAvatar(client, newUserId, newReq.picture);
     client.end();
   })
   
