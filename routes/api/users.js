@@ -153,14 +153,14 @@ const addAvatar =  (client, userId, picture) =>
   return insertImageIntoDB(url, userId)
   .then((newImageId) =>
   {
-    if (newImageId > 0)
+    //if (newImageId > 0)
     {
       client.query(query, [newImageId, userId]);
     }
-    else
-    {
-      console.error(`Add avatar got a negative image id ${newImageId}.`);
-    }
+    // else
+    // {
+    //   console.error(`Add avatar got a negative image id ${newImageId}.`);
+    // }
   })
   .catch((err) =>{
     console.error(`Add avatar error: ${err}.`);
