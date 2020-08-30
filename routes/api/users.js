@@ -139,7 +139,7 @@ router.post("/login", async (req, response) => {
 const addAvatar = (client, userId, data) =>
 {
   console.log(`Add avatar: ${JSON.stringify(data)}`)
-  insertImageIntoDB(data.path, data.uploader);
+  insertImageIntoDB(data.path, userId);
 }
 
 // @route POST api/users/loginFB
@@ -209,7 +209,7 @@ router.post("/loginFB", async (req, response) => {
   })
   .finally(() =>
   {
-    addAvatar(client, newUserId, req.picture);
+    addAvatar(client, newUserId, req);
     client.end();
   })
   
