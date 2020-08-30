@@ -127,7 +127,7 @@ router.get('/:imageId', function (req, res, next) {
 
 //get images for a user AKA gallery
 router.get('/gallery/:userId', function (req, response, next) {
-  console.log(`Get images for a user from user [${req.params.userId}]`);
+  console.log(`Get images for a user [${req.params.userId}]`);
   const client = new Client(currentConfig);
 
   client.connect();
@@ -135,6 +135,32 @@ router.get('/gallery/:userId', function (req, response, next) {
   INNER JOIN users as u
   ON u.id=i.uploader
   WHERE u.id=$1`;
+  console.log(`connected running [${query}]`);
+  return client.query(query, [req.params.userId])
+    .then(data => {
+      // return response.status(201).json(user);
+      console.log(`data: ${JSON.stringify(data.rows)}`);
+      return response.json(data.rows);
+    })
+    .catch(err => {
+      console.error(`getting images failed:  ${err}`);
+      return response.status(500).json(err);
+    })
+    .finally(()=>
+    {
+      client.end();
+    });
+});
+
+//get avatar
+router.get('/avatar/:userId', function (req, response, next) {
+  console.log(`Get an avatar for user [${req.params.userId}]`);
+  const client = new Client(currentConfig);
+
+  client.connect();
+  const query = `SELECT path, status FROM user_images 
+  INNER JOIN images ON user_images.image_id = images.id
+  WHERE user_images.user_id = $1`;
   console.log(`connected running [${query}]`);
   return client.query(query, [req.params.userId])
     .then(data => {
