@@ -39,20 +39,20 @@ class MyMeals extends Component {
       console.log(res.data);
       this.setState({ meals: res.data });
     }).catch(err => {
-      console.log(err);
+      console.error(err);
     });
   getAttendedMeals(this.props.auth.user.id)
     .then(res => {
       console.log(res.data);
       this.setState({ mealsAttended: res.data });
     }).catch(err => {
-      console.log(err);
+      console.error(err);
     });
   } 
   componentWillReceiveProps(nextProps) {
     // You don't have to do this check first, but it can help prevent an unneeded render
     
-    this.props.setFabVisibility(false);
+    this.props.setFabVisibility(true);
     this.props.setSwipability(true)
     if (nextProps.active !== this.state.active) {
       this.setState({ active: nextProps.active });
@@ -63,7 +63,6 @@ class MyMeals extends Component {
   }
 
   render() {
-    const { user } = this.props.auth;
     const handleChange = (event, newValue) => {
       this.setState({ value: newValue });
     };

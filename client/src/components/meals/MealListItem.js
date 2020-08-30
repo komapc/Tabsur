@@ -1,7 +1,4 @@
-import dishes from "../../resources/servings_icon.svg"
-import location from "../../resources/location_icon.svg"
-import time from "../../resources/date_time_icon.svg"
-import fullUp from "../../resources/full_up.svg";
+
 import defaultImage from "../../resources/userpic_empty.svg";
 
 import { withRouter } from "react-router-dom";
@@ -29,12 +26,6 @@ import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import CheckIcon from '@material-ui/icons/Check';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import RoomIcon from '@material-ui/icons/Room';
 import PeopleIcon from '@material-ui/icons/People';
@@ -66,9 +57,12 @@ const useStyles = makeStyles((theme) => ({
     transform: 'rotate(180deg)',
   },
   avatar: {
-    backgroundColor: '#13A049',
-  },
-}));
+    backgroundColor: 'Yellow',
+    color: 'Black',
+    border:"solid", 
+    borderColor:"Black",
+    borderWidth: "1px"
+}}));
 function RecipeReviewCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -162,8 +156,10 @@ class AttendButton extends React.Component {
       this.setState({meal: this.props.meal});
     }
   }
-  handleAttend = (event, newStatus) => {
+  handleAttend = (event, newStatus, isEnabled) => {
     event.stopPropagation();
+    if (!isEnabled)
+      return;
     const user_id = this.props.auth.user.id;
     console.log(`handleAttend:  ${JSON.stringify(this.state.meal)}, ${user_id}, new status: ${newStatus}`);
     this.props.onJoin(newStatus);
@@ -179,11 +175,10 @@ class AttendButton extends React.Component {
     return <FormControlLabel
         hidden={isOwner}
         disabled = {!isEnabled}
-        onClick = {event=>this.handleAttend(event, newStatus)}
+        onClick = {event=>this.handleAttend(event, newStatus, isEnabled)}
         control={
           <Switch
             checked={status>0}
-            // onChange={event=>this.handleAttend(event, newStatus)}
             name="AttendSwitch"
             color="primary"
           />
@@ -238,6 +233,10 @@ class MealListItem extends React.Component {
   }
 
   onJoin = (newStatus) => {
+    if (!this.props.auth.isAuthenticated)
+    {
+      this.props.history.push(`/Login`);
+    }
     const user_id = this.props.auth.user.id;
     const meal=this.state.meal;
     const attend = { user_id: user_id, meal_id: meal.id, status: newStatus };

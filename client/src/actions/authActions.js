@@ -70,7 +70,7 @@ export const loginUserFB = userData => dispatch => {
     })
     .catch(err =>
     {
-      console.log(`loginFB failed: ${JSON.stringify(err)}`);
+      console.error(`loginFB failed: ${JSON.stringify(err)}`);
       dispatch({
         type: GET_ERRORS,
         payload: err

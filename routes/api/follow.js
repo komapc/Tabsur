@@ -26,7 +26,7 @@ router.get("/:id", async (req, response) => {
       response.json(resp.rows);
     })
     .catch(err => {
-      console.log("Failed to get followers: " + err);
+      console.error("Failed to get followers: " + err);
       return response.status(500).json(err);
     })
     .finally(() => {
@@ -51,13 +51,12 @@ router.get("/followies/:id", async (req, response) => {
   client.query(SQLquery, [req.params.id])
     .then(resp => {
       response.json(resp.rows);
-      client.end();
     })
     .catch(err => {
-      console.log(err);
-      client.end();
+      console.error(err);
       return response.status(500).json(err);
-    });
+    })
+    .error(()=> client.end())
 });
 
 // @route POST follow/unfollow

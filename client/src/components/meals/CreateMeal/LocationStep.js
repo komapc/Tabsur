@@ -3,7 +3,7 @@ import MapLocationSelector from "./../MapLocationSelector";
 import locationIcon from "../../../resources/location_icon.svg"
 import { TextField, Grid, Box } from '@material-ui/core';
 const LocationStep = props => {
-  const [showMap, setMapVisibility] = useState(0);
+  const [showMap, setMapVisibility] = useState(false);
   const defaultLocationConst = { lng: 34.808, lat: 32.09 };
 
   const [defaultLocation, updateDefaultLocation] = useState(defaultLocationConst);
@@ -15,7 +15,11 @@ const LocationStep = props => {
   };
 
   const onMapExit = (e) => {
-    e.preventDefault();
+    if (e)
+    {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     setMapVisibility(false);
   }
 
@@ -25,7 +29,9 @@ const LocationStep = props => {
   };
 
   const onAddressClickHandle = e => {
-    e.target.blur();
+    e.target.blur()
+    e.preventDefault();
+    e.stopPropagation();
     setMapVisibility(true);
   }
 
@@ -33,20 +39,19 @@ const LocationStep = props => {
     <>
       {/* Address*/}
       {/* <img className="meal-info-location-icons" src={locationIcon} alt="location" /> */}
-      <Grid container onClick={onAddressClickHandle}>
-
-        <Box m={2} p={2} width={1} display={showMap?'block':'block'}>
+      <Grid container  >
+        <Box m={2} p={2} width={1}  display={showMap?'none':'block'} onClick={onAddressClickHandle} >
           <TextField width={1} fullWidth
             onChange={onChange}
             value={props.form.address}
-            error={props.form.address.trim() == ""}
+            error={props.form.address.trim() === ""}
             id="address"
             label="Location"
             placeholder="Address"
-            helperText={props.form.address.trim() == "" ? "Empty" : ""}
-          />
+            helperText={props.form.address.trim() === "" ? "Empty" : ""}
+        />
         </Box >
-        <div className={showMap ? 'createMealMap' : 'createMealMap-hidden'}>
+        <div className={showMap ? 'createMealMap' : 'createMealMap-hidden'} hidden={!showMap}>
           <MapLocationSelector
             handleLocationUpdate={onLocationUpdate}
             defaultLocation={defaultLocation}
@@ -54,8 +59,6 @@ const LocationStep = props => {
           />
         </div>
       </Grid>
-
-
     </>
   );
 };

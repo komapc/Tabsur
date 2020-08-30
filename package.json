@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
     "DatePicker": "^2.0.0",
     "aws-sdk": "^2.683.0",
     "bcryptjs": "^2.4.3",
@@ -45,7 +46,7 @@
     "postgres": "^1.0.2",
     "react-datepicker": "^2.14.1",
     "react-helmet": "^5.2.1",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^3.4.3",
     "react-time-picker": "^3.9.0",
     "validator": "^12.2.0"
   },

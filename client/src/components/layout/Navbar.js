@@ -37,7 +37,7 @@ class Navbar extends Component {
 
   openMessages = () => {
     store.dispatch(setMessagesCount(0));
-    alert('You have received a message,');
+    //alert('You have received a message,');
   };
 
   render() {

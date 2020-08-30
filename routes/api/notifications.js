@@ -26,7 +26,7 @@ router.get("/:id", async (req, response)=> {
     return response.json(resp.rows);
   })
   .catch(err => {
-    console.log(err); 
+    console.error(err); 
     return response.status(500).json(err); 
   })
   .finally(() => {
@@ -85,7 +85,7 @@ router.post("/token/:id", async (req, response)=> {
     return response.json(resp.rows);
   })
   .catch(err => {
-    console.log(err); 
+    console.error(err); 
     return response.status(500).json(err); 
   })
   .finally(() => {
