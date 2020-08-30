@@ -136,7 +136,7 @@ router.post("/login", async (req, response) => {
 });
 
 //add avatar path to images and update user_images table
-const addAvatar =  (client, userId, picture) =>
+const addAvatar = async (client, userId, picture) => 
 {
   console.log(`Add avatar: ${JSON.stringify(picture)}`);
   const query  = `
@@ -147,15 +147,15 @@ const addAvatar =  (client, userId, picture) =>
     NOT EXISTS (
     SELECT id FROM user_images WHERE id = $1 and image_id=$2
     );`;
-
     
   const url = picture.data.url;
   return insertImageIntoDB(url, userId)
   .then((newImageId) =>
   {
+    console.log(`Add avatar got a image id ${newImageId}.`);
     //if (newImageId > 0)
     {
-      client.query(query, [newImageId, userId]);
+      return client.query(query, [newImageId, userId]);
     }
     // else
     // {
