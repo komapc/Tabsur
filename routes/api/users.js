@@ -233,7 +233,7 @@ router.post("/loginFB", async (req, response) => {
     console.error("fb user error:" + err);
     return response.status(500).json(newReq);
   })
-  .finally(() =>
+  .finally(async () => 
   {
     await addAvatar(client, newUserId, newReq.picture);
     client.end();
