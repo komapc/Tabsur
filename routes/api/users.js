@@ -6,7 +6,7 @@ const keys = require("../../config/keys");
 //const passport = require("passport");
 const pgConfig = require("./../dbConfig.js");
 
-const {insertImageIntoDB} = require("./images.js")
+const insertImageIntoDB = require("./images.js")
 const { Client } = require("pg");
 let currentConfig = pgConfig.pgConfigProduction;
 if (process.env.NODE_ENV === "debug") {
@@ -138,8 +138,25 @@ router.post("/login", async (req, response) => {
 //add avatar path to images and update user_images table
 const addAvatar = (client, userId, data) =>
 {
-  console.log(`Add avatar: ${JSON.stringify(data)}`)
-  insertImageIntoDB(data.path, userId);
+  console.log(`Add avatar: ${JSON.stringify(data)}`);
+  const query  = `
+  INSERT INTO user_images
+    (id, image_id)
+    SELECT $1, $2
+    WHERE
+    NOT EXISTS (
+    SELECT id FROM user_images WHERE id = $1 and image_id=$2
+    );`
+  const newImageId = insertImageIntoDB(data.path, userId);
+
+  if (newImageId > 0)
+  {
+    client.query(query, [newImageId, userId]);
+  }
+  else
+  {
+    console.error('Add avatar got a negative image id.')
+  }
 }
 
 // @route POST api/users/loginFB
@@ -160,7 +177,7 @@ router.post("/loginFB", async (req, response) => {
         console.log(`fb user doesn't exist (${newReq.email}), adding to the DB`);
         const addUserQuery = 'INSERT INTO users (name, email, password, location, address)' +
         'VALUES ($1, $2, $3, $4, $5) RETURNING id'; 
-        client.query(addUserQuery,
+        return client.query(addUserQuery,
           [newReq.name, newReq.email, newReq.accessToken, "(0,0)", ""])
           .then(user => {
             // return response.status(201).json(user);
