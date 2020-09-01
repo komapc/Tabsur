@@ -225,6 +225,31 @@ const  getMealsToday = async ()=>
     });
 }
 
+const countUsers = ()=>
+{
+  const client = new Client(currentConfig);
+  console.log(`count total users.`);
+
+  const SQLquery = `
+  SELECT count (0) FROM users`;
+  console.log(`SQLquery: [${SQLquery}]`);
+  client.connect();
+
+  return client.query(SQLquery)
+    .then(resp => {
+      console.log(JSON.stringify(resp.rows));
+      return resp.rows;
+    })
+    .catch(err => {
+      console.error(err);
+      return response.status(500).json(err);
+    })
+    .finally(() => {
+      client.end();
+    });
+}
+
+
 
 // @route GET api/health/
 // @desc get system health status
@@ -233,14 +258,15 @@ router.get("/health", async (req, response) => {
   const client = new Client(currentConfig);
   console.log(`get system health`);
   const meals = await getMealsToday();
-  const mealsToday = (meals && meals[0])?meals[0].meals_today:-1;
+  const totalUsers = await countUsers();
+  const mealsToday = (meals && meals[0])?meals[0].meals_today:0;
   console.log(`meals: ${JSON.stringify(mealsToday)}`);
   const resp=
   {
     DB:true,
     server:true,
     mealsCreatedToday: mealsToday,
-    users: 1234,
+    users: (totalUsers && totalUsers[0])?totalUsers[0].count:-1,
     activeMeals:12345
   }
 
