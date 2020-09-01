@@ -273,4 +273,17 @@ router.get("/health", async (req, response) => {
   return response.json(resp);
    
 })
+
+
+
+// @route GET api/reset/
+// @desc reset the servers
+// @access  
+router.post("/reset", async (req, response) => {
+  const client = new Client(currentConfig);
+  console.log(`Reset request. Do nothing for now.`);
+ 
+  return response.json("reset request received.");
+   
+})
 module.exports = router;
