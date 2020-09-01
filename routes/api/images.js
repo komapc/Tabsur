@@ -43,7 +43,7 @@ const uploadFile = async (buffer, name, type) => {
 };
 
 insertImageIntoDB = async (imagePath, uploader) => {
-  console.log(`Inserting image [${imagePath}] from user [${uploader}]`);
+  console.log(`Inserting image [${JSON.stringify(imagePath)}] from user [${JSON.stringify(uploader)}]`);
   const client = new Client(currentConfig);
   if (isNaN(uploader) || imagePath === "")
   {
