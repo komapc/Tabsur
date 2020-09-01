@@ -88,17 +88,17 @@ class Bottom extends Component {
               backgroundColor: "primary"
             }
           }}>
-          <Tab label="Search" icon={<img className="footer-icons" src={search} alt={"search meals"} />} />
-          <Tab label="My Profile" icon={
+          <Tab icon={<img className="footer-icons" src={search} alt={"search meals"} />} />
+          <Tab icon={
             <Badge badgeContent={this.props.profileNotificationsCount} color="secondary">
               <img className="footer-icons" src={profile} alt={"profile"} />
             </Badge>}/>
-          <Tab label="My Meals" icon={
+          <Tab icon={
             <Badge badgeContent={this.props.notificationsCount} color="secondary">
               <img className="footer-icons" src={meals} alt={"my meals"} />
             </Badge>
           }/>
-          <Tab label="Chat" icon={
+          <Tab icon={
             <Badge badgeContent={this.props.messagesCount} color="secondary">
               {/* <BigChatIcon /> */}
               <img className="footer-icons" src={chat} alt={"chat"} />
