@@ -5,6 +5,9 @@ const keys = require("../../config/keys");
 const fileType = require('file-type');
 const bluebird = require('bluebird');
 const multiparty = require('multiparty');
+
+
+const insertImageIntoDB = require("./utility.js")
 const router = express.Router();
 
 const pgConfig = require("./../dbConfig.js");
@@ -42,65 +45,42 @@ const uploadFile = async (buffer, name, type) => {
   return s3.upload(params).promise();
 };
 
-insertImageIntoDB = async (imagePath, uploader) => {
-  console.log(`Inserting image [${JSON.stringify(imagePath)}] from user [${JSON.stringify(uploader)}]`);
-  const client = new Client(currentConfig);
-  if (isNaN(uploader) || imagePath === "")
-  {
-    console.error(`Cannot insert image: empty data ${imagePath} / ${uploader}.`);
-    return -3;
-  }
-  client.connect();
-  const query = `INSERT INTO images (path, status, uploader)
-  VALUES($1, 1, $2) RETURNING id`;
-  console.log(`connected running [${query}]`);
-
-  var  result = "-2"; 
-  return await client.query(query,
-    [imagePath, Number(uploader)])
-    .then(res => {
-      console.log(`insertImageIntoDB: image inserted, id=${JSON.stringify(res.rows[0])}.`);
-      result = res.rows[0].id;
-      return result;
-    })
-    .catch(e => {
-      console.error(`Inserting image into db failed; exception catched: ${e}`);
-      //response.status(500).json(e);
-      result = -1;
-      return result;
-    })
-    .finally(()=>client.end());
-};
-
 //POST route
 router.post("/upload", async (request, response) => {
   const form = new multiparty.Form();
   console.log("Uploading: " + JSON.stringify(form));
-  form.parse(request, (error, fields, files) => {
+  return form.parse(request, async (error, fields, files) => {
     if (error) {
       console.log("parsing error: " + JSON.stringify(fields));
       throw new Error(error);
     }
     console.log("parsed: " + JSON.stringify(fields));
     console.log("Uploading file: " + JSON.stringify(files));
+    
     const path = files.file[0].path;
     const buffer = fs.readFileSync(path);
     const type = "jpeg"//await fileType(buffer);
     const timestamp = Date.now().toString();
     const fileName = `images/${timestamp}-lg`;
     const uploader = fields.uploader;
-    var res = uploadFile(buffer, fileName, type);
-    console.log("uploadFile result: " + JSON.stringify(res));
-    return ress = insertImageIntoDB(fileName, uploader)
-      .then((insertedImageID) => {
-        console.log(`insertImageIntoDB [${insertedImageID}]`);
-        console.log(`send file [${fileName}], res: [${JSON.stringify(insertedImageID)}]`);
-        return response.status(200).json(insertedImageID);
+    return await uploadFile(buffer, fileName, type)
+      .then(async res =>  {
+        console.log("uploadFile result: " + JSON.stringify(res));
+        return ress = insertImageIntoDB(fileName, uploader)
+          .then((insertedImageID) => {
+            console.log(`insertImageIntoDB [${insertedImageID}]`);
+            console.log(`send file [${fileName}], res: [${JSON.stringify(insertedImageID)}]`);
+            return response.status(200).json(insertedImageID);
+          })
+          .catch((error) => {
+            console.error(`Uploading error:${JSON.stringify(error)}`);
+            return response.status(400).send(error);
+          });
       })
-      .catch((error) => {
-        console.error(`Uploading error:${JSON.stringify(error)}`);
-        return response.status(400).send(error);
-      });
+      .catch(error => {
+        console.error(`/upload error: ${JSON.stringify(error)}`);
+        return error;
+      })
   });
 });
 
@@ -179,5 +159,39 @@ router.get('/avatar/:userId', function (req, response, next) {
     });
 });
 
+/// utils
+
+const insertImageIntoDB1 = (imagePath, uploader) => {
+  console.log(`Inserting image [${JSON.stringify(imagePath)}]`)
+  //console.log(`Inserting image [${JSON.stringify(imagePath)}] from user [${JSON.stringify(uploader)}]`);
+  const client = new Client(currentConfig);
+  if (isNaN(uploader) || imagePath === "")
+  {
+    console.error(`Cannot insert image: empty data ${imagePath} / ${uploader}.`);
+    return -3;
+  }
+  client.connect();
+  const query = `INSERT INTO images (path, status, uploader)
+  VALUES($1, 1, $2) RETURNING id`;
+  console.log(`connected running [${query}]`);
+
+  var  result = "-2"; 
+  return client.query(query,
+    [imagePath, Number(uploader)])
+    .then(res => {
+      console.log(`insertImageIntoDB: image inserted, id=${JSON.stringify(res.rows[0])}.`);
+      result = res.rows[0].id;
+      return result;
+    })
+    .catch(e => {
+      console.error(`Inserting image into db failed; exception catched: ${e}`);
+      //response.status(500).json(e);
+      result = -1;
+      return result;
+    })
+    .finally(()=>client.end());
+};
+
+
+
 module.exports = router;
-module.exports = insertImageIntoDB;

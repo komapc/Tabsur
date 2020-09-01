@@ -6,7 +6,7 @@ const keys = require("../../config/keys");
 //const passport = require("passport");
 const pgConfig = require("./../dbConfig.js");
 
-const insertImageIntoDB = require("./images.js")
+const insertImageIntoDB = require("./utility.js")
 const { Client } = require("pg");
 let currentConfig = pgConfig.pgConfigProduction;
 if (process.env.NODE_ENV === "debug") {
