@@ -239,7 +239,9 @@ router.get("/health", async (req, response) => {
   {
     DB:true,
     server:true,
-    mealsCreatedToday: mealsToday
+    mealsCreatedToday: mealsToday,
+    users: 1234,
+    activeMeals:12345
   }
 
   return response.json(resp);
