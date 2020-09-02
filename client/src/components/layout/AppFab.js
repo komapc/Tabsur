@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import Fab from '@material-ui/core/Fab';
 import ChatIcon from '@material-ui/icons/Chat';
 import Badge from '@material-ui/core/Badge';
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from '@material-ui/icons/Add';//todo: use Yana's image
 import Zoom from '@material-ui/core/Zoom';
 
 const useStyles = makeStyles(theme => ({
