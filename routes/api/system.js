@@ -200,7 +200,7 @@ router.get("/statsUsers", async (req, response) => {
 })
 
 /////////////////
-const  getMealsToday = async ()=>
+const getMealsToday = async ()=>
 {
   const client = new Client(currentConfig);
   console.log(`get meals today`);
@@ -274,16 +274,51 @@ router.get("/health", async (req, response) => {
    
 })
 
-
-
-// @route GET api/reset/
+// @route POST api/system/reset/
 // @desc reset the servers
 // @access  
 router.post("/reset", async (req, response) => {
-  const client = new Client(currentConfig);
+  //const client = new Client(currentConfig);
   console.log(`Reset request. Do nothing for now.`);
  
   return response.json("reset request received.");
-   
 })
+
+// @route DELETE api/system/user/
+// @desc reset the servers
+// @access  
+router.delete("/user/:id", async (req, response) => {
+  //const client = new Client(currentConfig);
+  console.log(`Delete user ${req.params.id}. Do nothing for now.`);
+ 
+  return response.json("Deleting user request receiced.");
+})
+
+// @route get api/system/notifications/
+// @desc get data from notificatin table
+// @access  
+router.get("/notifications", async (req, response) => {
+  const client = new Client(currentConfig);
+  console.log(`get meals today`);
+
+  const SQLquery = `
+  SELECT * FROM notifications`;
+  console.log(`SQLquery: [${SQLquery}]`);
+  await client.connect();
+
+  return client.query(SQLquery)
+    .then(resp => {
+      //console.log(JSON.stringify(resp.rows));
+      console.log("Done.");
+      return response.json(resp.rows);;
+    })
+    .catch(err => {
+      console.error(err);
+      return response.status(500).json(err);
+    })
+    .finally(() => {
+      client.end();
+    });
+})
+
 module.exports = router;
