@@ -284,14 +284,50 @@ router.post("/reset", async (req, response) => {
 })
 
 // @route DELETE api/system/user/
-// @desc reset the servers
+// @desc delete a user
 // @access  
 router.delete("/user/:id", async (req, response) => {
   //const client = new Client(currentConfig);
   console.log(`Delete user ${req.params.id}. Do nothing for now.`);
  
-  return response.json("Deleting user request receiced.");
+  return response.json("Deleting user request received.");
 })
+
+
+const renameUser = (id, newName) =>
+{
+  const client = new Client(currentConfig);
+  console.log(`Renaming user ${id} to ${newName}.`);
+
+  const SQLquery = `
+  UPDATE users SET name=$2 WHERE id=$1 RETURNING $2`;
+  console.log(`SQLquery: [${SQLquery}]`);
+  client.connect();
+
+  return client.query(SQLquery, [id, newName])
+    .then(resp => {
+      console.log(JSON.stringify(resp.rows));
+      return resp.rows;
+    })
+    .catch(err => {
+      console.error(err);
+      return response.status(500).json(err);
+    })
+    .finally(() => {
+      client.end();
+    });
+}
+// @route put api/system/user/
+// @desc rename a user
+// @access  
+router.put("/user", async (req, response) => {
+  const id = req.params.id;
+  const newname = req.params.name;
+  console.log(`rename user ${id} to ${newName}.`);
+  const result = await renameUser(id, newName);
+  return response.json(result);
+})
+
 
 // @route get api/system/notifications/
 // @desc get data from notificatin table
