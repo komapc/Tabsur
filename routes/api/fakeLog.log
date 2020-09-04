@@ -1,0 +1,37 @@
+2020-09-04T14:13:35.084010+00:00 heroku[router]: at=info method=GET path="/api/users/54" host=tabsur.herokuapp.com request_id=6f1530fe-c5a5-426b-906d-6ee8cf75cc63 fwd="185.189.196.38" dyno=web.1 connect=0ms service=395ms status=200 bytes=334 protocol=https
+2020-09-04T14:13:35.097085+00:00 heroku[router]: at=info method=GET path="/api/chat/54" host=tabsur.herokuapp.com request_id=89aa56ec-e2ef-433a-bcd7-4b6e2f95f3e7 fwd="185.189.196.38" dyno=web.1 connect=1ms service=372ms status=200 bytes=958 protocol=https
+2020-09-04T14:13:35.361297+00:00 app[web.1]: Getting ["1590758909352-lg.undefined"]
+2020-09-04T14:13:35.511889+00:00 app[web.1]: Insert Google Firebase Token ID: f9KRTwHqDRC3tudzTuiQ-g:APA91bGN5VFI3kXl81m7VYFFmL74mEuYjpSOE7Nb0gmikBGpi7xA6Vyd_HC1KxQBKqCKfNThuVb-YhkXxxBnQ6PayGJJPGdAQX2QHznxUh1nBxk9lDEolSAhj4SuAD3o0pkrnPQ0s2rn for 54
+2020-09-04T14:13:35.874739+00:00 heroku[router]: at=info method=POST path="/api/notifications/token/54" host=tabsur.herokuapp.com request_id=89b3cbed-3345-4904-8371-433ffcb40ef0 fwd="185.189.196.38" dyno=web.1 connect=1ms service=378ms status=200 bytes=239 protocol=https
+2020-09-04T14:13:35.872108+00:00 app[web.1]: Google Firebase Token ID responsed
+2020-09-04T14:13:36.561357+00:00 heroku[router]: at=info method=GET path="/api/images/1590758909352-lg.undefined" host=tabsur.herokuapp.com request_id=b1ec3bbc-d1ae-40ee-81e7-884ca9a5794d fwd="185.189.196.38" dyno=web.1 connect=1ms service=1200ms status=200 bytes=139596 protocol=https
+2020-09-04T14:13:37.423307+00:00 heroku[router]: at=info method=GET path="/manifest.json" host=tabsur.herokuapp.com request_id=e325aa5c-2822-4f16-9667-edf6fde67128 fwd="185.189.196.38" dyno=web.1 connect=0ms service=3ms status=200 bytes=636 protocol=https
+2020-09-04T14:13:37.577295+00:00 heroku[router]: at=info method=GET path="/firebase-messaging-sw.js" host=tabsur.herokuapp.com request_id=05e5b4f6-3b1a-441e-9853-0e1005baabee fwd="185.189.196.38" dyno=web.1 connect=1ms service=3ms status=304 bytes=269 protocol=https
+2020-09-04T14:20:01.322179+00:00 heroku[router]: at=info method=GET path="/api/users/system/1" host=tabsur.herokuapp.com request_id=53f69d9f-cc14-4e5c-8ef5-350426f3db8f fwd="35.175.141.73" dyno=web.1 connect=0ms service=3ms status=200 bytes=2657 protocol=https
+2020-09-04T14:40:02.140861+00:00 heroku[router]: at=info method=GET path="/api/users/system/1" host=tabsur.herokuapp.com request_id=7c68bda5-01ec-47c5-8c78-e42b998a5368 fwd="35.175.141.73" dyno=web.1 connect=1ms service=3ms status=200 bytes=2657 protocol=https
+2020-09-04T14:50:50.327579+00:00 app[web.1]: get system health
+2020-09-04T14:50:50.327905+00:00 app[web.1]: get meals today
+2020-09-04T14:50:50.327990+00:00 app[web.1]: SQLquery: [
+2020-09-04T14:50:50.327993+00:00 app[web.1]:   SELECT extract(days from (now()-created_at)) AS meals_today FROM meals   
+2020-09-04T14:50:50.327994+00:00 app[web.1]:     WHERE extract(days from (now()-created_at)) < 2 ]
+2020-09-04T14:50:50.773817+00:00 app[web.1]: []
+2020-09-04T14:50:50.774640+00:00 app[web.1]: count total users.
+2020-09-04T14:50:50.774706+00:00 app[web.1]: SQLquery: [
+2020-09-04T14:50:50.774707+00:00 app[web.1]:   SELECT count (0) FROM users]
+2020-09-04T14:50:51.052563+00:00 app[web.1]: [{"count":"44"}]
+2020-09-04T14:50:51.052789+00:00 app[web.1]: meals: 0
+2020-09-04T14:50:51.058298+00:00 heroku[router]: at=info method=GET path="/api/system/health" host=tabsur.herokuapp.com request_id=7671334c-92a6-4cfc-bf85-58188e6f0300 fwd="37.142.10.38" dyno=web.1 connect=1ms service=728ms status=304 bytes=182 protocol=https
+2020-09-04T15:00:01.963644+00:00 heroku[router]: at=info method=GET path="/api/users/system/1" host=tabsur.herokuapp.com request_id=b28613e6-e6c5-4e98-84c3-46f33dcd1a68 fwd="35.175.141.73" dyno=web.1 connect=1ms service=4ms status=200 bytes=2657 protocol=https
+Disconnected from log stream. There may be events happening that you do not see here! Attempting to reconnect...
+2020-09-04T14:50:50.327993+00:00 app[web.1]:   SELECT extract(days from (now()-created_at)) AS meals_today FROM meals   
+2020-09-04T14:50:50.327994+00:00 app[web.1]:     WHERE extract(days from (now()-created_at)) < 2 ]
+2020-09-04T14:50:50.773817+00:00 app[web.1]: []
+2020-09-04T14:50:50.774640+00:00 app[web.1]: count total users.
+2020-09-04T14:50:50.774706+00:00 app[web.1]: SQLquery: [
+2020-09-04T14:50:50.774707+00:00 app[web.1]:   SELECT count (0) FROM users]
+2020-09-04T14:50:51.052563+00:00 app[web.1]: [{"count":"44"}]
+2020-09-04T14:50:51.052789+00:00 app[web.1]: meals: 0
+2020-09-04T14:50:51.058298+00:00 heroku[router]: at=info method=GET path="/api/system/health" host=tabsur.herokuapp.com request_id=7671334c-92a6-4cfc-bf85-58188e6f0300 fwd="37.142.10.38" dyno=web.1 connect=1ms service=728ms status=304 bytes=182 protocol=https
+2020-09-04T15:00:01.963644+00:00 heroku[router]: at=info method=GET path="/api/users/system/1" host=tabsur.herokuapp.com request_id=b28613e6-e6c5-4e98-84c3-46f33dcd1a68 fwd="35.175.141.73" dyno=web.1 connect=1ms service=4ms status=200 bytes=2657 protocol=https
+2020-09-04T15:20:02.287232+00:00 heroku[router]: at=info method=GET path="/api/users/system/1" host=tabsur.herokuapp.com request_id=af6917f8-cb2f-485b-8ac9-984329303633 fwd="35.175.141.73" dyno=web.1 connect=1ms service=4ms status=200 bytes=2657 protocol=https
+2020-09-04T15:21:37.000000+00:00 app[api]: Build started by user komapc@gmail.com
