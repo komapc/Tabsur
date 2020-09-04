@@ -343,10 +343,27 @@ router.post("/notification", async (req, response) => {
 // @route get api/system/log/
 // @desc show log
 // @access  
+
+const readFakeLog = (response) => {
+  var fs = require('fs'),
+    path = require('path'),
+    filePath = "fakeLog.log";
+
+  fs.readFile(filePath, function (err, data) {
+    if (!err) {
+      console.log('received data: ' + data);
+      response.writeHead(200, { 'Content-Type': 'text/html' });
+      response.write(data);
+      response.end();
+    } else {
+      console.log(err);
+    }
+  });
+}
 router.get("/log", async (req, response) => {
   console.log(`Show fake log.`);
-
-  return response.json("Log.");
+  readFakeLog(response);
+  return response;
 })
 
 // @route delete api/system/log/
