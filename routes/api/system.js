@@ -256,7 +256,7 @@ router.get("/health", async (req, response) => {
   console.log(`get system health`);
   const meals = await getMealsToday();
   var totalUsers = await countUsers();
-  totalusers = (totalUsers && totalUsers[0])?totalUsers[0].count:0,
+  totalusers = (totalUsers && totalUsers[0])?totalUsers[0].count:0;
   const mealsToday = (meals && meals[0])?meals[0].meals_today:0;
   console.log(`meals: ${JSON.stringify(mealsToday)}`);
   const resp=
