@@ -311,7 +311,7 @@ const renameUser = (id, newName) =>
     })
     .catch(err => {
       console.error(err);
-      return response.status(500).json(err);
+      return err;
     })
     .finally(() => {
       client.end();
@@ -326,6 +326,15 @@ router.put("/user", async (req, response) => {
   console.log(`rename user ${id} to ${newName}.`);
   const result = await renameUser(id, newName);
   return response.json(result);
+})
+
+// @route put api/system/resetPassword/
+// @desc reset password for a user
+// @access  
+router.put("/resetPassword", async (req, response) => {
+  const id = req.body.id;
+  console.log(`reset password to user ${id} (FAKE).`);
+  return response.json("Password reset request received.");
 })
 
 
@@ -367,14 +376,27 @@ router.post("/newsletter", async (req, response) => {
   return response.json("Newsletter will be sent to all users.");
 })
 
-// @route post api/system/mail/
+// @route post api/system/notification/
 // @desc send notification
 // @access  
 router.post("/notification", async (req, response) => {
-  const client = new Client(currentConfig);
-  console.log(`newsletter, text: ${req.body.text}`);
+  const text = req.body.text;
+  const userId = req.body.id;
+  console.log(`notification to ${id}, text: ${req.body.text}`);
 
-  return response.json("Newsletter will be sent to all users.");
+  return response.json("Notification sent.");
+})
+
+
+// @route post api/system/mail/
+// @desc send notification
+// @access  
+router.post("/mail", async (req, response) => {
+  const text = req.body.text;
+  const userId = req.body.id;
+  console.log(`mail to ${id}, text: ${req.body.text}`);
+
+  return response.json("Notification sent.");
 })
 
 
