@@ -347,7 +347,7 @@ router.post("/notification", async (req, response) => {
 const readFakeLog = (response) => {
   var fs = require('fs'),
     path = require('path'),
-    filePath = "fakeLog.log";
+    filePath = "./routes/api/fakeLog.log";
 
   fs.readFile(filePath, function (err, data) {
     if (!err) {
