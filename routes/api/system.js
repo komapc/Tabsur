@@ -107,11 +107,8 @@ router.get("/meals", async (req, response) => {
 })
 
 
-
-
-
 /////////////////
-const  getMealsStat = async ()=>
+const  getMealsStats = async ()=>
 {
   const client = new Client(currentConfig);
   console.log(`get meal stats`);
@@ -188,7 +185,7 @@ router.get("/stats", async (req, response) => {
 // @access  
 router.get("/statsUsers", async (req, response) => {
   console.log(`get system stats`);
-  const stats = await getMealsStat();
+  const stats = await getMealsStats();
   console.log(`Stats: ${stats.length}`);
   const resp=
   {
@@ -310,7 +307,7 @@ router.get("/notifications", async (req, response) => {
     .then(resp => {
       //console.log(JSON.stringify(resp.rows));
       console.log("Done.");
-      return response.json(resp.rows);;
+      return response.json(resp.rows);
     })
     .catch(err => {
       console.error(err);
@@ -320,5 +317,46 @@ router.get("/notifications", async (req, response) => {
       client.end();
     });
 })
+
+
+// @route post api/system/mail/
+// @desc send a mail
+// @access  
+router.post("/newsletter", async (req, response) => {
+  const client = new Client(currentConfig);
+  console.log(`newsletter, text: ${req.body.text}`);
+
+  return response.json("Newsletter will be sent to all users.");
+})
+
+// @route post api/system/mail/
+// @desc send notification
+// @access  
+router.post("/notification", async (req, response) => {
+  const client = new Client(currentConfig);
+  console.log(`newsletter, text: ${req.body.text}`);
+
+  return response.json("Newsletter will be sent to all users.");
+})
+
+
+// @route get api/system/log/
+// @desc show log
+// @access  
+router.get("/log", async (req, response) => {
+  console.log(`Show fake log.`);
+
+  return response.json("Log.");
+})
+
+// @route delete api/system/log/
+// @desc delete log
+// @access  
+router.delete("/log", async (req, response) => {
+  console.log(`log delete request.`);
+
+  return response.json("Log deleted.");
+})
+
 
 module.exports = router;
