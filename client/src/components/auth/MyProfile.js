@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -16,7 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { logoutUser } from "../../actions/authActions";
 import store from "../../store";
 import LockIcon from '@material-ui/icons/Lock';
-
+import Gallery from "../../components/users/Gallery"
 //#region MyProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
@@ -152,11 +152,12 @@ const useStylesTabs = makeStyles(theme => ({
     textAlign: 'center'
   }
 }));
-const MyProfileTabs = () => {
+const MyProfileTabs = (props) => {
+console.log(`MyProfileTabs props: ${JSON.stringify(props)}`);
   const classes = useStylesTabs();
-  const handleLogout = (event) => {
-    store.dispatch(logoutUser());
-  }
+  // const handleLogout = (event) => {
+  //   store.dispatch(logoutUser());
+  // }
 
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
@@ -171,23 +172,30 @@ const MyProfileTabs = () => {
           centered
           indicatorColor='primary'
           TabIndicatorProps={{ style: { backgroundColor: "primary" } }}>
-          <Tab label="Kitchen" {...a11yProps(0)} />
+          {/* <Tab label="Kitchen" {...a11yProps(0)} /> */}
+          <Tab label="Friends" {...a11yProps(0)} />
           <Tab label="Gallery" {...a11yProps(1)} />
+          <Tab label="My Meals" {...a11yProps(2)} />
         </Tabs>
       </div>
       <TabPanel value={value} index={0} >
-        <Button
-          startIcon={<LockIcon />} variant="contained" color="primary" className='centered'
-          href="/login" onClick={handleLogout}>Log Out</Button>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Under Construction
+        <Gallery id={props.id} />
+      </TabPanel>
+        
+      <TabPanel value={value} index={1}>
+        Under Construction - my meals
       </TabPanel>
     </React.Fragment>
   )
 }
 //#endregion
 
+
+{/* <Button
+          startIcon={<LockIcon />} variant="contained" color="primary" className='centered'
+          href="/login" onClick={handleLogout}>Log Out</Button> */}
 class MyProfile extends Component {
   constructor(props) {
     super(props);
@@ -248,7 +256,7 @@ class MyProfile extends Component {
       <React.Fragment>
         <MyProfileHeader />
         <MyProfileStats name={this.state.name} userStats={this.state.userStats} />
-        <MyProfileTabs />
+        <MyProfileTabs id= {this.state.userId}/>
 
         {false ? (
           <div className="row main">
