@@ -22,7 +22,6 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import BackBarMui from "../layout/BackBarMui";
 import InfoIcon from '@material-ui/icons/Info';
 
-import config from "../../config";
 //#region ProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
@@ -208,7 +207,7 @@ const ProfileTabs = (props) => {
 
       </TabPanel>
       <TabPanel value={value} index={1}>
-      {Gallery( props.state.id)}
+        <Gallery id={props.state.id} />
       </TabPanel>
     </React.Fragment>
   )

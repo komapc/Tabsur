@@ -172,19 +172,18 @@ console.log(`MyProfileTabs props: ${JSON.stringify(props)}`);
           centered
           indicatorColor='primary'
           TabIndicatorProps={{ style: { backgroundColor: "primary" } }}>
-          {/* <Tab label="Kitchen" {...a11yProps(0)} /> */}
           <Tab label="Friends" {...a11yProps(0)} />
           <Tab label="Gallery" {...a11yProps(1)} />
           <Tab label="My Meals" {...a11yProps(2)} />
         </Tabs>
       </div>
-      <TabPanel value={value} index={0} >
+      <TabPanel value={value} index={0} > FRIENDS
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Gallery id={props.id} />
       </TabPanel>
         
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={2}>
         Under Construction - my meals
       </TabPanel>
     </React.Fragment>
