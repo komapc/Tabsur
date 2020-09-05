@@ -112,7 +112,7 @@ router.get('/gallery/:userId', function (req, response, next) {
   const client = new Client(currentConfig);
 
   client.connect();
-  const query = `SELECT i.path FROM images as i
+  const query = `SELECT i.path, i.id FROM images as i
   INNER JOIN users as u
   ON u.id=i.uploader
   WHERE u.id=$1`;
@@ -160,38 +160,5 @@ router.get('/avatar/:userId', function (req, response, next) {
 });
 
 /// utils
-
-const insertImageIntoDB1 = (imagePath, uploader) => {
-  console.log(`Inserting image [${JSON.stringify(imagePath)}]`)
-  //console.log(`Inserting image [${JSON.stringify(imagePath)}] from user [${JSON.stringify(uploader)}]`);
-  const client = new Client(currentConfig);
-  if (isNaN(uploader) || imagePath === "")
-  {
-    console.error(`Cannot insert image: empty data ${imagePath} / ${uploader}.`);
-    return -3;
-  }
-  client.connect();
-  const query = `INSERT INTO images (path, status, uploader)
-  VALUES($1, 1, $2) RETURNING id`;
-  console.log(`connected running [${query}]`);
-
-  var  result = "-2"; 
-  return client.query(query,
-    [imagePath, Number(uploader)])
-    .then(res => {
-      console.log(`insertImageIntoDB: image inserted, id=${JSON.stringify(res.rows[0])}.`);
-      result = res.rows[0].id;
-      return result;
-    })
-    .catch(e => {
-      console.error(`Inserting image into db failed; exception catched: ${e}`);
-      //response.status(500).json(e);
-      result = -1;
-      return result;
-    })
-    .finally(()=>client.end());
-};
-
-
 
 module.exports = router;
