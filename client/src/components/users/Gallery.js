@@ -1,11 +1,11 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { getUserImages } from "../../actions/userActions"
 
 import config from "../../config";
-const Gallery = (id) => {
+const Gallery = (props) => {
   const [images, setImages] = useState([]);
 
-  getUserImages(id)
+  getUserImages(props.id)
   .then(res => {
     const data = res.data;
     console.log(data);
