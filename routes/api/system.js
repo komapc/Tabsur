@@ -255,8 +255,8 @@ router.get("/health", async (req, response) => {
   const client = new Client(currentConfig);
   console.log(`get system health`);
   const meals = await getMealsToday();
-  var totalUsers = await countUsers();
-  totalusers = (totalUsers && totalUsers[0])?totalUsers[0].count:0;
+  const totalUsersRes = await countUsers();
+  const totalUsers = (totalUsersRes && totalUsersRes[0])?totalUsersRes[0].count:0;
   const mealsToday = (meals && meals[0])?meals[0].meals_today:0;
   console.log(`meals: ${JSON.stringify(mealsToday)}`);
   const resp=
@@ -266,7 +266,7 @@ router.get("/health", async (req, response) => {
     mealsCreatedToday: mealsToday,
     users: totalUsers,
     onlineUsers: Math.floor(Math.random() * totalUsers), //FAKE
-    activeMeals: Math.floor(Math.random() * 30) + mealsCreatedToday //FAKE
+    activeMeals: Math.floor(Math.random() * 30) + mealsToday //FAKE
   }
 
   return response.json(resp);
