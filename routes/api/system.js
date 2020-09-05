@@ -266,7 +266,7 @@ router.get("/health", async (req, response) => {
     mealsCreatedToday: mealsToday,
     users: totalUsers,
     onlineUsers: Math.floor(Math.random() * totalUsers), //FAKE
-    activeMeals:12345 //FAKE
+    activeMeals: Math.floor(Math.random() * 30) + mealsCreatedToday //FAKE
   }
 
   return response.json(resp);
