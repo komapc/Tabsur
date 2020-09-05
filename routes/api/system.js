@@ -253,7 +253,7 @@ const countUsers = ()=>
 // @access  
 router.get("/health", async (req, response) => {
   const client = new Client(currentConfig);
-  console.log(`get system health`);
+  console.log(`Get system health.`);
   const meals = await getMealsToday();
   const totalUsersRes = await countUsers();
   const totalUsers = (totalUsersRes && totalUsersRes[0])?totalUsersRes[0].count:0;

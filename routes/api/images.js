@@ -116,7 +116,7 @@ router.get('/gallery/:userId', function (req, response, next) {
   INNER JOIN users as u
   ON u.id=i.uploader
   WHERE u.id=$1`;
-  console.log(`connected running [${query}]`);
+  //console.log(`connected running [${query}]`);
   return client.query(query, [req.params.userId])
     .then(data => {
       // return response.status(201).json(user);
