@@ -108,14 +108,13 @@ router.get("/meals", async (req, response) => {
 
 
 /////////////////
-const  getMealsStats = async ()=>
-{
+const getMealsStats = async () => {
   const client = new Client(currentConfig);
   console.log(`get meal stats`);
 
   const SQLquery = `
   SELECT TRUNC(extract(epoch FROM now()-created_at)/(60*60*24)) days_before, 
-  COUNT (0) as meal_count
+  COUNT (0) AS mealsCreated, 2 AS activeMeals
   FROM meals  
   GROUP BY TRUNC(extract(epoch from now()-created_at)/(60*60*24))
   ORDER BY TRUNC(extract(epoch from now()-created_at)/(60*60*24))
@@ -139,8 +138,7 @@ const  getMealsStats = async ()=>
 
 
 //user statistics per day
-const getUsersStat = async ()=>
-{
+const getUsersStat = async () => {
   const client = new Client(currentConfig);
   console.log(`get user stats`);
 
@@ -169,57 +167,44 @@ const getUsersStat = async ()=>
 }
 
 
-// @route GET api/system/stats/
-// @desc get users stats
-// @access  
-router.get("/stats", async (req, response) => {
-  console.log(`get system stats`);
-  const stats = await getUsersStat();
-  console.log(`Stats: ${stats.length}`);
-  const resp=
-  {
-    usersRegistred: stats,
-    activeUsers: stats
-  }
+// // @route GET api/system/stats/
+// // @desc get users stats
+// // @access  
+// router.get("/stats", async (req, response) => {
+//   console.log(`get system stats`);
+//   const stats = await getUsersStat();
+//   console.log(`Stats: ${stats.length}`);
+//   const resp = stats;
 
-  return response.json(resp);   
-})
-
-// @route GET api/stats/
-// @desc get meal/users stats
-// @access  
-router.get("/stats", async (req, response) => {
-  console.log(`get system stats`);
-  const stats = await getUsersStat();
-  console.log(`Stats: ${stats.length}`);
-  const resp=
-  {
-    usersRegistred: stats,
-    activeUsers: stats
-  }
-
-  return response.json(resp);   
-})
+//   return response.json(resp);
+// })
 
 // @route GET api/stats/
 // @desc get meal/users stats
 // @access  
 router.get("/statsUsers", async (req, response) => {
   console.log(`get system stats`);
-  const stats = await getMealsStats();
+  const stats = await getUsersStat();
   console.log(`Stats: ${stats.length}`);
-  const resp=
-  {
-    userStats: stats
-  }
+  const resp =stats;
 
   return response.json(resp);
-   
+})
+
+// @route GET api/stats/
+// @desc get meal/users stats
+// @access  
+router.get("/statsMeals", async (req, response) => {
+  console.log(`get system stats`);
+  const stats = await getMealsStats();
+  console.log(`Stats: ${stats.length}`);
+  const resp = stats;
+  return response.json(resp);
+
 })
 
 /////////////////
-const getMealsToday = async ()=>
-{
+const getMealsToday = async () => {
   const client = new Client(currentConfig);
   console.log(`get meals today`);
 
@@ -243,8 +228,7 @@ const getMealsToday = async ()=>
     });
 }
 
-const countUsers = ()=>
-{
+const countUsers = () => {
   const client = new Client(currentConfig);
   console.log(`count total users.`);
 
@@ -277,13 +261,13 @@ router.get("/health", async (req, response) => {
   console.log(`Get system health.`);
   const meals = await getMealsToday();
   const totalUsersRes = await countUsers();
-  const totalUsers = (totalUsersRes && totalUsersRes[0])?totalUsersRes[0].count:0;
-  const mealsToday = (meals && meals[0])?meals[0].meals_today:0;
+  const totalUsers = (totalUsersRes && totalUsersRes[0]) ? totalUsersRes[0].count : 0;
+  const mealsToday = (meals && meals[0]) ? meals[0].meals_today : 0;
   console.log(`meals: ${JSON.stringify(mealsToday)}`);
-  const resp=
+  const resp =
   {
-    DB:true,
-    server:true,
+    DB: true,
+    server: true,
     mealsCreatedToday: mealsToday,
     users: totalUsers,
     onlineUsers: Math.floor(Math.random() * totalUsers), //FAKE
@@ -291,7 +275,7 @@ router.get("/health", async (req, response) => {
   }
 
   return response.json(resp);
-   
+
 })
 
 // @route POST api/system/reset/
@@ -300,7 +284,7 @@ router.get("/health", async (req, response) => {
 router.post("/reset", async (req, response) => {
   //const client = new Client(currentConfig);
   console.log(`Reset request. Do nothing for now.`);
- 
+
   return response.json("reset request received.");
 })
 
@@ -310,13 +294,12 @@ router.post("/reset", async (req, response) => {
 router.delete("/user/:id", async (req, response) => {
   //const client = new Client(currentConfig);
   console.log(`Delete user ${req.params.id}. Do nothing for now.`);
- 
+
   return response.json("Deleting user request received.");
 })
 
 
-const renameUser = (id, newName) =>
-{
+const renameUser = (id, newName) => {
   const client = new Client(currentConfig);
   console.log(`Renaming user ${id} to ${newName}.`);
 
@@ -425,14 +408,14 @@ router.post("/mail", async (req, response) => {
 // @desc show log
 // @access  
 
-const  readFakeLog = (response) => {
+const readFakeLog = (response) => {
   var fs = require('fs'),
     path = require('path'),
     filePath = "./routes/api/fakeLog.log";
 
   fs.readFile(filePath, function (err, data) {
     if (!err) {
-      const array = (data+ '').split("\n");
+      const array = (data + '').split("\n");
       console.log('received data: ' + array);
       response.json(array);
     } else {
