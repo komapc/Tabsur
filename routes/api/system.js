@@ -425,17 +425,16 @@ router.post("/mail", async (req, response) => {
 // @desc show log
 // @access  
 
-const readFakeLog = (response) => {
+const  readFakeLog = (response) => {
   var fs = require('fs'),
     path = require('path'),
     filePath = "./routes/api/fakeLog.log";
 
   fs.readFile(filePath, function (err, data) {
     if (!err) {
-      console.log('received data: ' + data);
-      response.writeHead(200, { 'Content-Type': 'text/html' });
-      response.write(data);
-      response.end();
+      const array = (data+ '').split("\n");
+      console.log('received data: ' + array);
+      response.json(array);
     } else {
       console.log(err);
     }
