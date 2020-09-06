@@ -137,6 +137,8 @@ const  getMealsStats = async ()=>
     });
 }
 
+
+//user statistics per day
 const getUsersStat = async ()=>
 {
   const client = new Client(currentConfig);
@@ -144,7 +146,7 @@ const getUsersStat = async ()=>
 
   const SQLquery = `
   SELECT TRUNC(extract(epoch FROM now()-created_at)/(60*60*24)) days_before, 
-  COUNT (0) as user_count
+  COUNT (0) as usersCreated, 3 as activeUsers
   FROM users  
   GROUP BY TRUNC(extract(epoch from now()-created_at)/(60*60*24))
   ORDER BY TRUNC(extract(epoch from now()-created_at)/(60*60*24))
@@ -165,6 +167,24 @@ const getUsersStat = async ()=>
       client.end();
     });
 }
+
+
+// @route GET api/system/stats/
+// @desc get users stats
+// @access  
+router.get("/stats", async (req, response) => {
+  console.log(`get system stats`);
+  const stats = await getUsersStat();
+  console.log(`Stats: ${stats.length}`);
+  const resp=
+  {
+    usersRegistred: stats,
+    activeUsers: stats
+  }
+
+  return response.json(resp);   
+})
+
 // @route GET api/stats/
 // @desc get meal/users stats
 // @access  
@@ -174,7 +194,8 @@ router.get("/stats", async (req, response) => {
   console.log(`Stats: ${stats.length}`);
   const resp=
   {
-    userStats: stats
+    usersRegistred: stats,
+    activeUsers: stats
   }
 
   return response.json(resp);   
