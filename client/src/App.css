@@ -10,12 +10,12 @@
 {
     position: relative;
     transition:1s;
-    height:  100vh;
+    height:  50vh;
     width: 100vw;
     /* border: solid 1px; */
     /* background-color: #73d763; */
-    display: flex;
-    flex-direction: column;
+    /* display: flex; */
+    /* flex-direction: column; */
 }
 
 .createMealMap-hidden
