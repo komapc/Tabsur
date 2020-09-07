@@ -50,6 +50,9 @@ const MealMapShow =
         const myOptions = {
             zoom: 2,
             mapTypeControlOptions: {
+                //style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                //position: google.maps.ControlPosition.TOP_CENTER,
+
               mapTypeIds: []
             }, // here´s the array of controls
             disableDefaultUI: true, // a way to quickly hide all controls
