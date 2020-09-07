@@ -113,7 +113,7 @@ const getMealsStats = async (days) => {
   console.log(`get meal stats`);
 
   const SQLquery = `
-  SELECT TRUNC(extract(epoch FROM now()-created_at)/(60*60*24*$1)) days_before, 
+  SELECT TRUNC(extract(epoch FROM now()-created_at)/(60*60*24*$1))*$1 days_before, 
   COUNT (0) AS mealsCreated, 2*$1 AS activeMeals
   FROM meals  
   GROUP BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1))
@@ -138,21 +138,21 @@ const getMealsStats = async (days) => {
 
 
 //user statistics per day
-const getUsersStat = async () => {
+const getUsersStat = async (days) => {
   const client = new Client(currentConfig);
   console.log(`get user stats`);
 
   const SQLquery = `
-  SELECT TRUNC(extract(epoch FROM now()-created_at)/(60*60*24)) days_before, 
-  COUNT (0) as usersCreated, 3 as activeUsers
+  SELECT TRUNC(extract(epoch FROM now()-created_at)/(60*60*24*$1))*$1 days_before, 
+  COUNT (0) as usersCreated, 3*$1 as activeUsers
   FROM users  
-  GROUP BY TRUNC(extract(epoch from now()-created_at)/(60*60*24))
-  ORDER BY TRUNC(extract(epoch from now()-created_at)/(60*60*24))
+  GROUP BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1))
+  ORDER BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1))
 `;
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
 
-  return client.query(SQLquery)
+  return client.query(SQLquery, [days])
     .then(resp => {
       console.log(JSON.stringify(resp.rows));
       return resp.rows;
@@ -166,25 +166,12 @@ const getUsersStat = async () => {
     });
 }
 
-
-// // @route GET api/system/stats/
-// // @desc get users stats
-// // @access  
-// router.get("/stats", async (req, response) => {
-//   console.log(`get system stats`);
-//   const stats = await getUsersStat();
-//   console.log(`Stats: ${stats.length}`);
-//   const resp = stats;
-
-//   return response.json(resp);
-// })
-
 // @route GET api/stats/
 // @desc get meal/users stats
 // @access  
-router.get("/statsUsers", async (req, response) => {
+router.get("/statsUsers/:days?", async (req, response) => {
   console.log(`get system stats`);
-  const stats = await getUsersStat();
+  const stats = await getUsersStat(req.params.days || 1);
   console.log(`Stats: ${stats.length}`);
   const resp =stats;
 
