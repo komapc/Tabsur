@@ -114,7 +114,7 @@ const getMealsStats = async (days) => {
 
   const SQLquery = `
   SELECT TRUNC(extract(epoch FROM now()-created_at)/(60*60*24*$1)) days_before, 
-  COUNT (0) AS mealsCreated, 2 AS activeMeals
+  COUNT (0) AS mealsCreated, 2*$1 AS activeMeals
   FROM meals  
   GROUP BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1))
   ORDER BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1))
