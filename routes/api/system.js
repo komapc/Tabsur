@@ -108,21 +108,21 @@ router.get("/meals", async (req, response) => {
 
 
 /////////////////
-const getMealsStats = async () => {
+const getMealsStats = async (days) => {
   const client = new Client(currentConfig);
   console.log(`get meal stats`);
 
   const SQLquery = `
-  SELECT TRUNC(extract(epoch FROM now()-created_at)/(60*60*24)) days_before, 
+  SELECT TRUNC(extract(epoch FROM now()-created_at)/(60*60*24*$1)) days_before, 
   COUNT (0) AS mealsCreated, 2 AS activeMeals
   FROM meals  
-  GROUP BY TRUNC(extract(epoch from now()-created_at)/(60*60*24))
-  ORDER BY TRUNC(extract(epoch from now()-created_at)/(60*60*24))
+  GROUP BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1))
+  ORDER BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1))
 `;
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
 
-  return client.query(SQLquery)
+  return client.query(SQLquery, [days])
     .then(resp => {
       console.log(JSON.stringify(resp.rows));
       return resp.rows;
@@ -194,9 +194,9 @@ router.get("/statsUsers", async (req, response) => {
 // @route GET api/stats/
 // @desc get meal/users stats
 // @access  
-router.get("/statsMeals", async (req, response) => {
+router.get("/statsMeals/:days?", async (req, response) => {
   console.log(`get system stats`);
-  const stats = await getMealsStats();
+  const stats = await getMealsStats(req.params.days || 1);
   console.log(`Stats: ${stats.length}`);
   const resp = stats;
   return response.json(resp);
