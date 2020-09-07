@@ -145,7 +145,7 @@ const Navigator = ({ SW, submit, uploadingState }) => {
   const first = SW.state.activeStep > 0;
   return <div style={{textAlign:"center"}}>
     <Button variant="contained" color="primary" onClick={SW.previousStep} disabled={!first}>Back</Button>
-    <Button variant="contained" color="secondary" 
+    <Button variant="contained" color="primary" 
       onClick={last?submit:SW.nextStep}
       disabled={uploadingState}>
       {last?(uploadingState?"Wait":"Done"):"Next"}
