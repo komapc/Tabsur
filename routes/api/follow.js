@@ -17,11 +17,16 @@ router.get("/:id", async (req, response) => {
   console.log(`get followers for user ${req.params.id}`);
   const meal = req.body;
 
-  const SQLquery = `SELECT follower, status FROM follow WHERE followie = ${req.params.id}`;
+  const SQLquery =
+    `SELECT DISTINCT follower, status, name  
+    FROM follow 
+    INNER JOIN
+    users ON follow.follower = users.id
+    WHERE follow.followie = $1`;
   console.log(`SQLquery: [${SQLquery}]`);
   await client.connect();
 
-  client.query(SQLquery)
+  client.query(SQLquery, [req.params.id])
     .then(resp => {
       response.json(resp.rows);
     })
@@ -43,10 +48,13 @@ router.get("/followies/:id", async (req, response) => {
   if (req.params.id == "undefined") {
     client.end();
     console.log("error, empty id");
-    response.status(400).json("Error in get followies: empty");
-    return;
+    return response.status(400).json("Error in get followies: empty");
   }
-  const SQLquery = `SELECT followie, status FROM follow WHERE followie = $1`;
+  const SQLquery = `SELECT DISTINCT followie, status, name  
+  FROM follow 
+  INNER JOIN
+  users ON follow.followie = users.id
+  WHERE follow.follower = $1`;
   await client.connect();
   client.query(SQLquery, [req.params.id])
     .then(resp => {
@@ -56,7 +64,7 @@ router.get("/followies/:id", async (req, response) => {
       console.error(err);
       return response.status(500).json(err);
     })
-    .error(()=> client.end())
+    .finally(()=> client.end())
 });
 
 // @route POST follow/unfollow
@@ -71,13 +79,13 @@ router.post("/:id", async (req, response) => {
   }
   const SQLquery = `
     INSERT INTO follow (follower, followie, status)
-    VALUES (${follower}, ${followie}, ${status}) 
+    VALUES ($1, $2, $3) 
     ON CONFLICT (follower, followie) 
     DO UPDATE SET 
-    status = ${status} WHERE follow.follower=${follower} AND follow.followie = ${followie}`;
+    status = $3 WHERE follow.follower=$2 AND follow.followie = $1`;
   console.log(JSON.stringify(SQLquery));
   await client.connect();
-  client.query(SQLquery)
+  client.query(SQLquery, [follower, followie, status])
     .then(resp => {
       console.log(`Query response: ${JSON.stringify(resp)}`);
       const message =
