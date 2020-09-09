@@ -17,6 +17,7 @@ import { logoutUser } from "../../actions/authActions";
 import store from "../../store";
 import LockIcon from '@material-ui/icons/Lock';
 import Gallery from "../../components/users/Gallery"
+import Friends from "../../components/users/Friends"
 //#region MyProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
@@ -177,7 +178,8 @@ console.log(`MyProfileTabs props: ${JSON.stringify(props)}`);
           <Tab label="My Meals" {...a11yProps(2)} />
         </Tabs>
       </div>
-      <TabPanel value={value} index={0} > FRIENDS
+      <TabPanel value={value} index={0} > 
+      <Friends id={props.id} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Gallery id={props.id} />
