@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getUserFollowees } from "../../actions/userActions"
 import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
 
 import CardHeader from '@material-ui/core/CardHeader';
 const Friend = (props) => {
@@ -32,11 +33,11 @@ const Friends = (props) => {
   }, []);
 
   
-  return <>
+  return <Box borderRadius="33px" bgcolor="primary.main" >
      {friends.map(friend => {
          return <Friend key={friend.id}  name={friend.name}/>
         })
       }
-    </>
+    </Box>
 }
 export default Friends;
