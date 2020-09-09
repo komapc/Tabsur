@@ -33,7 +33,7 @@ const Friends = (props) => {
   }, []);
 
   
-  return <Box borderRadius="33px" bgcolor="primary.main" >
+  return <Box borderRadius="33px"  >
      {friends.map(friend => {
          return <Friend key={friend.id}  name={friend.name}/>
         })
