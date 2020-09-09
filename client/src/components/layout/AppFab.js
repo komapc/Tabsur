@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     wrapper: {
         position: "fixed",
         //position: "absolute",
-        bottom: "55px",
+        bottom: "45px",
         //right: "5vw",
         // overflowY: 'visible',
         // overflowX: 'visible',

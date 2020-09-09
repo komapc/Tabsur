@@ -57,14 +57,15 @@
 }
 
 .footer {
-    position: fixed;
     left: 0;
     bottom: 0;
-    width: 100%;
-    background-color: #FFFFFF;
-    color: #13A049;
+    width: calc(100vw-1px);
+    margin: 3px 3px 0px 0px;
     text-align: center;
     z-index: 1000;
+    border: solid 1px;
+    border-color: #000;
+    border-radius: 30px 30px 0px 0px;
 }
 
 .navbar-top
@@ -516,6 +517,7 @@ input
 
 .main-app
 {
+    width: 100vw;
     overflow-y:'hidden';
 }
 

@@ -22,6 +22,10 @@ import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import MessageOutlinedIcon from '@material-ui/icons/MessageOutlined';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
 import SearchIcon from '../../resources/bottom/search_active.svg';
+
+
+import Box from '@material-ui/core/Box';
+
 const useStyles = makeStyles(theme => ({
   bigIcon: {
     height: '33px',
@@ -83,39 +87,46 @@ class Bottom extends Component {
     }
 
     return (
-      <div className="footer">
-        <Tabs
-          value={index}
-          onChange={this.props.onChange}
-          centered
-          indicatorColor='primary'
-          TabIndicatorProps={{
-            style: {
-              backgroundColor: "primary"
-            }
-          }}>
-          <Tab icon={<img className="footer-icons" 
-            src={index === 0?searchActive:search} alt={"search meals"} />} />
-          <Tab icon={
-            <Badge badgeContent={this.props.profileNotificationsCount} color="secondary">
-              <img className="footer-icons" 
-              src={index === 1?profileActive:profile} alt={"profile"} />
-            </Badge>}/>
-          <Tab icon={
-            <Badge badgeContent={this.props.notificationsCount} color="secondary">
-              <img className="footer-icons" 
-              src={index===2?mealsActive:meals} alt={"my meals"} />
-            </Badge>
-          }/>
-          <Tab icon={
-            <Badge badgeContent={this.props.messagesCount} color="secondary">
-              {/* <BigChatIcon /> */}
-              <img className="footer-icons" 
-              src={index===3?chatActive:chat} alt={"chat"} />
-            </Badge>
-          }/>
-        </Tabs>
-      </div>
+      // <Box
+      //   borderRadius="28px 28px 0px 0px" borderColor="black" position="fixed"
+      //   bgcolor="primary.secondary" border="solid 1px" className="footer"
+      //   margin="3px 3px 0px 0px"
+      //   bottom="0px"
+      // >
+        <div className="footer">
+          <Tabs
+            value={index}
+            onChange={this.props.onChange}
+            centered
+            indicatorColor='primary'
+            TabIndicatorProps={{
+              style: {
+                backgroundColor: "primary"
+              }
+            }}>
+            <Tab icon={<img className="footer-icons"
+              src={index === 0 ? searchActive : search} alt={"search meals"} />} />
+            <Tab icon={
+              <Badge badgeContent={this.props.profileNotificationsCount} color="secondary">
+                <img className="footer-icons"
+                  src={index === 1 ? profileActive : profile} alt={"profile"} />
+              </Badge>} />
+            <Tab icon={
+              <Badge badgeContent={this.props.notificationsCount} color="secondary">
+                <img className="footer-icons"
+                  src={index === 2 ? mealsActive : meals} alt={"my meals"} />
+              </Badge>
+            } />
+            <Tab icon={
+              <Badge badgeContent={this.props.messagesCount} color="secondary">
+                {/* <BigChatIcon /> */}
+                <img className="footer-icons"
+                  src={index === 3 ? chatActive : chat} alt={"chat"} />
+              </Badge>
+            } />
+          </Tabs>
+        </div>
+      //</Box>
     );
   }
 }
