@@ -3,6 +3,11 @@ import { getUserFollowees } from "../../actions/userActions"
 
 import config from "../../config";
 
+const Friend = (props) => {
+  return <div key={props.key}>
+  {props.name}
+</div>
+}
 const Friends = (props) => {
   const [friends, setFriends] = useState([]);
   
@@ -23,9 +28,7 @@ const Friends = (props) => {
   
   return <>
      {friends.map(friend => {
-         return <div key={friend.id}>
-           {friend.name}
-         </div>
+         return <Friend key={friend.id}  name={friend.name}/>
         })
       }
     </>
