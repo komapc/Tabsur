@@ -8,7 +8,7 @@ export const getUserFollowers = userId => {
 };
 
 // get user followees
-export const getUserFollowees = userId => {
+export const getUserFollowies = userId => {
   return axios.get(`${config.SERVER_HOST}/api/follow/followies/${userId}`)
 };
 
