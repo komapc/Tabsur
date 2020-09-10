@@ -32,28 +32,23 @@ class MyMeals extends Component {
     };
     this.updateLists();
   }
-  updateLists()
-  {
+  updateLists() {
     getMyMeals(this.props.auth.user.id)
-    .then(res => {
-      console.log(res.data);
-      this.setState({ meals: res.data });
-    }).catch(err => {
-      console.error(err);
-    });
-  getAttendedMeals(this.props.auth.user.id)
-    .then(res => {
-      console.log(res.data);
-      this.setState({ mealsAttended: res.data });
-    }).catch(err => {
-      console.error(err);
-    });
-  } 
+      .then(res => {
+        console.log(res.data);
+        this.setState({ meals: res.data });
+      }).catch(err => {
+        console.error(err);
+      });
+    getAttendedMeals(this.props.auth.user.id)
+      .then(res => {
+        console.log(res.data);
+        this.setState({ mealsAttended: res.data });
+      }).catch(err => {
+        console.error(err);
+      });
+  }
   componentDidUpdate(nextProps) {
-    // You don't have to do this check first, but it can help prevent an unneeded render
-    
-    this.props.setFabVisibility(true);
-    this.props.setSwipability(true)
     if (nextProps.active !== this.state.active) {
       this.setState({ active: nextProps.active });
       if (nextProps.active) {
@@ -69,20 +64,20 @@ class MyMeals extends Component {
 
     return (
       <div >
-        <AppBar position="sticky"> 
-        <Tabs
-          value={this.state.value}
-          onChange={handleChange}
-          centered
-          indicatorColor='primary'
-          TabIndicatorProps={{
-            style: {
-              backgroundColor: "primary"
-            }
-          }}>
-          <Tab label="Created" />
-          <Tab label="Attended" />
-        </Tabs>
+        <AppBar position="sticky">
+          <Tabs
+            value={this.state.value}
+            onChange={handleChange}
+            centered
+            indicatorColor='primary'
+            TabIndicatorProps={{
+              style: {
+                backgroundColor: "primary"
+              }
+            }}>
+            <Tab label="Created" />
+            <Tab label="Attended" />
+          </Tabs>
         </AppBar>
         <TabPanel value={this.state.value} index={0}>
           <div className="flow-text grey-text text-darken-1">

@@ -18,6 +18,7 @@ import store from "../../store";
 import LockIcon from '@material-ui/icons/Lock';
 import Gallery from "../../components/users/Gallery"
 import Friends from "../../components/users/Friends"
+import MyMeals from "../../components/meals/MyMeals"
 //#region MyProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
@@ -154,7 +155,7 @@ const useStylesTabs = makeStyles(theme => ({
   }
 }));
 const MyProfileTabs = (props) => {
-console.log(`MyProfileTabs props: ${JSON.stringify(props)}`);
+  console.log(`MyProfileTabs props: ${JSON.stringify(props)}`);
   const classes = useStylesTabs();
   // const handleLogout = (event) => {
   //   store.dispatch(logoutUser());
@@ -178,15 +179,15 @@ console.log(`MyProfileTabs props: ${JSON.stringify(props)}`);
           <Tab label="My Meals" {...a11yProps(2)} />
         </Tabs>
       </div>
-      <TabPanel value={value} index={0} > 
-      <Friends id={props.id} />
+      <TabPanel value={value} index={0} >
+        <Friends id={props.id} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Gallery id={props.id} />
       </TabPanel>
-        
+
       <TabPanel value={value} index={2}>
-        Under Construction - my meals
+        <MyMeals/>
       </TabPanel>
     </React.Fragment>
   )
@@ -200,7 +201,7 @@ console.log(`MyProfileTabs props: ${JSON.stringify(props)}`);
 class MyProfile extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       name: this.props.auth.user.name,
       userId: this.props.auth.user.id,
@@ -251,13 +252,13 @@ class MyProfile extends Component {
   };
 
   render() {
-     
+
     const { errors } = this.state;
     return (
       <React.Fragment>
         <MyProfileHeader />
         <MyProfileStats name={this.state.name} userStats={this.state.userStats} />
-        <MyProfileTabs id= {this.state.userId}/>
+        <MyProfileTabs id={this.state.userId} />
 
         {false ? (
           <div className="row main">
