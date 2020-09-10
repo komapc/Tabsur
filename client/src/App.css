@@ -58,6 +58,7 @@
 
 .footer {
     position: fixed;
+    background-color: white;
     left: 0;
     bottom: 0;
     width: calc(100% - 1px);
