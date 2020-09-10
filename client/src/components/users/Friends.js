@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getUserFollowies, getUserFollowers } from "../../actions/userActions"
+import { getUserFollowies, getUserFollowers  } from "../../actions/userActions"
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 
@@ -60,9 +60,9 @@ const Friends = (props) => {
 
 
   return <>
-    <h1>FOLLOWING</h1>
+    <h3>FOLLOWING</h3>
     <FriendList id={props.id} list={followies}/>
-    <h1>FOLLOWERS</h1>
+    <h3>FOLLOWERS</h3>
     <FriendList id={props.id}  list={followers}/>
   </>
 }
