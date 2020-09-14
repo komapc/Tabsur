@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from 'react';
+
 import Geocode from "react-geocode";
 import { GoogleMap, Marker, withGoogleMap, withScriptjs } from "react-google-maps";
 
@@ -11,13 +12,11 @@ import attended_t from "../../resources/map/attended_meal_icon_touched.svg";
 import fullUp_t from "../../resources/map/full_meal_icon_touched.svg";
 import hosted_t from "../../resources/map/my_meal_icon_touched.svg"
 import available_t from "../../resources/map/active_meal_icon_touched.svg"
-
+import Button from '@material-ui/core/Button';
 const attended = [attended_u, attended_t]
 const fullUp = [fullUp_u, fullUp_t]
 const hosted = [hosted_u, hosted_t]
 const available = [available_u, available_t]
-
-//import touched from "../../resources/touched_meal.svg"
 
 export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
@@ -40,13 +39,14 @@ const MealMapShow =
             return attended[selectedIndex];
         }
         return available[selectedIndex];
-    }
-    const shouldComponentUpdate = (nextProps,nextState) =>{
-        return false;
-    }
+    } 
     const MyGoogleMap = (props) =>
     {
         const google=window.google;
+        const [position, setPosition] = useState({
+            lat: -25.0270548,
+            lng: 115.1824598
+          });
         const myOptions = {
             zoom: 2,
             mapTypeControlOptions: {
@@ -62,10 +62,23 @@ const MealMapShow =
             
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
+       
+        const findMe=() =>{
+               setPosition(
+                {
+                    lat: defaultLocation.lat,
+                    lng: defaultLocation.lng
+                  }
+                );
+                console.log(position);
+            }
+
+           
         return <GoogleMap
             defaultZoom={8}
             defaultCenter={{ lat: defaultLocation.lat, lng: defaultLocation.lng }}
             onClick={() => onMapClick(this)}
+            center ={{ lat: position.lat, lng: position.lng }}
             options={myOptions}
         >
 
@@ -86,6 +99,13 @@ const MealMapShow =
                 </div>
             }
             )}
+
+              <Marker
+                icon="https://www.robotwoods.com/dev/misc/bluecircle.png"
+                position={defaultLocation}/>
+            <Button onClick={()=>{findMe()}}  style={{position:"fixed", right:"33px", top:"55px"}}  >
+                Current Location
+            </Button>
 
         </GoogleMap>;
     }
