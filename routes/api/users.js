@@ -82,7 +82,7 @@ router.post("/login", async (req, response) => {
   console.log(`Login: ${newReq.email}`);
   const client = new Client(currentConfig);
   await client.connect();
-  client.query('SELECT id, name FROM users WHERE email = $1 OR id = $2 LIMIT 1',
+  client.query('SELECT id, name, password FROM users WHERE email = $1 OR id = $2 LIMIT 1',
     [newReq.email, newReq.id])
     .then(res => {
 
