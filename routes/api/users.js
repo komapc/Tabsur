@@ -8,6 +8,7 @@ const pgConfig = require("./../dbConfig.js");
 
 const insertImageIntoDB = require("./utility.js")
 const { Client } = require("pg");
+const pool = require('../db.js');
 let currentConfig = pgConfig.pgConfigProduction;
 if (process.env.NODE_ENV === "debug") {
   currentConfig = pgConfig.pgConfigLocal;
