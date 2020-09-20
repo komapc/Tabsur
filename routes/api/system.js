@@ -2,14 +2,7 @@ const express = require('express');
 const AWS = require('aws-sdk');
 const keys = require("../../config/keys");
 const router = express.Router();
-
-const pgConfig = require("./../dbConfig.js");
-let currentConfig = pgConfig.pgConfigProduction;
-
-if (process.env.NODE_ENV === "debug") {
-  currentConfig = pgConfig.pgConfigLocal;
-}
-const { Client } = require("pg");
+const pool = require('../db.js');
 
 // configure the keys for accessing AWS
 AWS.config.update({
@@ -26,8 +19,7 @@ router.get("/stats/:id", async (req, response) => {
     return response.status(500).json("access denied.");
   }
   // Find the user
-  const client = new Client(currentConfig);
-  await client.connect();
+  pool.connect(function (err, client, done) {
   client.query(`select id, name,
 	(select count (1) from follow where followie=u.id) as followers,
 	(select count (1) from follow where follower=u.id) as followies, 
@@ -47,6 +39,7 @@ from users as u;
     .finally(() => {
       client.end();
     })
+  });
 });
 
 
@@ -54,14 +47,12 @@ from users as u;
 // @desc get a user list
 // @access Public
 router.get("/users", async (req, response) => {
-  const client = new Client(currentConfig);
   console.log(`get users`);
 
   const SQLquery = `
   SELECT * from users`;
   console.log(`SQLquery: [${SQLquery}]`);
-  await client.connect();
-
+  pool.connect(function (err, client, done) {
   client.query(SQLquery)
     .then(resp => {
       console.log(JSON.stringify(resp.rows));
@@ -74,6 +65,7 @@ router.get("/users", async (req, response) => {
     .finally(() => {
       client.end();
     });
+  });
 })
 
 
@@ -81,7 +73,6 @@ router.get("/users", async (req, response) => {
 // @desc get a meal list
 // @access Public
 router.get("/meals", async (req, response) => {
-  const client = new Client(currentConfig);
   console.log(`get meals`);
 
   const SQLquery = `
@@ -90,8 +81,7 @@ router.get("/meals", async (req, response) => {
     users.name as owner_name, users.id as user_id
   FROM meals INNER JOIN users  ON meals.host_id = users.id`;
   console.log(`SQLquery: [${SQLquery}]`);
-  await client.connect();
-
+  pool.connect(function (err, client, done) {
   client.query(SQLquery)
     .then(resp => {
       console.log(JSON.stringify(resp.rows));
@@ -104,12 +94,12 @@ router.get("/meals", async (req, response) => {
     .finally(() => {
       client.end();
     });
+  });
 })
 
 
 /////////////////
 const getMealsStats = async (days) => {
-  const client = new Client(currentConfig);
   console.log(`get meal stats`);
 
   const SQLquery = `
@@ -120,8 +110,7 @@ const getMealsStats = async (days) => {
   ORDER BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1))
 `;
   console.log(`SQLquery: [${SQLquery}]`);
-  await client.connect();
-
+  pool.connect(function (err, client, done) {
   return client.query(SQLquery, [days])
     .then(resp => {
       console.log(JSON.stringify(resp.rows));
@@ -134,12 +123,12 @@ const getMealsStats = async (days) => {
     .finally(() => {
       client.end();
     });
+  });
 }
 
 
 //user statistics per day
 const getUsersStat = async (days) => {
-  const client = new Client(currentConfig);
   console.log(`get user stats`);
 
   const SQLquery = `
@@ -150,8 +139,7 @@ const getUsersStat = async (days) => {
   ORDER BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1))
 `;
   console.log(`SQLquery: [${SQLquery}]`);
-  await client.connect();
-
+  pool.connect(function (err, client, done) {
   return client.query(SQLquery, [days])
     .then(resp => {
       console.log(JSON.stringify(resp.rows));
@@ -164,6 +152,7 @@ const getUsersStat = async (days) => {
     .finally(() => {
       client.end();
     });
+  });
 }
 
 // @route GET api/stats/
@@ -192,15 +181,13 @@ router.get("/statsMeals/:days?", async (req, response) => {
 
 /////////////////
 const getMealsToday = async () => {
-  const client = new Client(currentConfig);
   console.log(`get meals today`);
 
   const SQLquery = `
   SELECT extract(days from (now()-created_at)) AS meals_today FROM meals   
     WHERE extract(days from (now()-created_at)) < 2 `;
   console.log(`SQLquery: [${SQLquery}]`);
-  await client.connect();
-
+  pool.connect(function (err, client, done) {
   return client.query(SQLquery)
     .then(resp => {
       console.log(JSON.stringify(resp.rows));
@@ -213,17 +200,16 @@ const getMealsToday = async () => {
     .finally(() => {
       client.end();
     });
+  });
 }
 
 const countUsers = () => {
-  const client = new Client(currentConfig);
   console.log(`count total users.`);
 
   const SQLquery = `
   SELECT count (0) FROM users`;
   console.log(`SQLquery: [${SQLquery}]`);
-  client.connect();
-
+  pool.connect(function (err, client, done) {
   return client.query(SQLquery)
     .then(resp => {
       console.log(JSON.stringify(resp.rows));
@@ -236,6 +222,7 @@ const countUsers = () => {
     .finally(() => {
       client.end();
     });
+  });
 }
 
 
@@ -244,7 +231,6 @@ const countUsers = () => {
 // @desc get system health status
 // @access  
 router.get("/health", async (req, response) => {
-  const client = new Client(currentConfig);
   console.log(`Get system health.`);
   const meals = await getMealsToday();
   const totalUsersRes = await countUsers();
@@ -287,14 +273,12 @@ router.delete("/user/:id", async (req, response) => {
 
 
 const renameUser = (id, newName) => {
-  const client = new Client(currentConfig);
   console.log(`Renaming user ${id} to ${newName}.`);
 
   const SQLquery = `
   UPDATE users SET name=$2 WHERE id=$1 RETURNING $2`;
   console.log(`SQLquery: [${SQLquery}]`);
-  client.connect();
-
+  pool.connect(function (err, client, done) {
   return client.query(SQLquery, [id, newName])
     .then(resp => {
       console.log(JSON.stringify(resp.rows));
@@ -307,6 +291,7 @@ const renameUser = (id, newName) => {
     .finally(() => {
       client.end();
     });
+  });
 }
 // @route put api/system/user/
 // @desc rename a user
@@ -333,14 +318,12 @@ router.put("/resetPassword", async (req, response) => {
 // @desc get data from notificatin table
 // @access  
 router.get("/notifications", async (req, response) => {
-  const client = new Client(currentConfig);
   console.log(`get meals today`);
 
   const SQLquery = `
   SELECT * FROM notifications`;
   console.log(`SQLquery: [${SQLquery}]`);
-  await client.connect();
-
+  pool.connect(function (err, client, done) {
   return client.query(SQLquery)
     .then(resp => {
       //console.log(JSON.stringify(resp.rows));
@@ -354,6 +337,7 @@ router.get("/notifications", async (req, response) => {
     .finally(() => {
       client.end();
     });
+  });
 })
 
 
@@ -361,7 +345,6 @@ router.get("/notifications", async (req, response) => {
 // @desc send a mail
 // @access  
 router.post("/newsletter", async (req, response) => {
-  const client = new Client(currentConfig);
   console.log(`newsletter, text: ${req.body.text}`);
 
   return response.json("Newsletter will be sent to all users.");
