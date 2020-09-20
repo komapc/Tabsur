@@ -6,14 +6,7 @@ const fileType = require('file-type');
 const bluebird = require('bluebird');
 const multiparty = require('multiparty');
 const router = express.Router();
-
-const pgConfig = require("./../dbConfig.js");
-let currentConfig = pgConfig.pgConfigProduction;
-
-if (process.env.NODE_ENV === "debug") {
-  currentConfig = pgConfig.pgConfigLocal;
-}
-const { Client } = require("pg");
+const pool = require('../db.js');
 
 // configure the keys for accessing AWS
 AWS.config.update({
@@ -47,18 +40,17 @@ const uploadFile = async (buffer, name, type) => {
 const insertImageIntoDB = (imagePath, uploader) => {
   console.log(`Inserting image [${JSON.stringify(imagePath)}]`)
   //console.log(`Inserting image [${JSON.stringify(imagePath)}] from user [${JSON.stringify(uploader)}]`);
-  const client = new Client(currentConfig);
   if (isNaN(uploader) || imagePath === "")
   {
     console.error(`Cannot insert image: empty data ${imagePath} / ${uploader}.`);
     return -3;
   }
-  client.connect();
   const query = `INSERT INTO images (path, status, uploader)
   VALUES($1, 1, $2) RETURNING id`;
   console.log(`connected running [${query}]`);
 
   var  result = "-2"; 
+  pool.connect(function (err, client, done) {
   return client.query(query,
     [imagePath, Number(uploader)])
     .then(res => {
@@ -73,6 +65,7 @@ const insertImageIntoDB = (imagePath, uploader) => {
       return result;
     })
     .finally(()=>client.end());
+  });
 };
 
 

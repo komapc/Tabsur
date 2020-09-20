@@ -17,11 +17,9 @@ const validateMealInput = require("../../validation/meal");
 // @desc get a meal list
 // @access Public
 router.get("/:id", async (req, response) => {
-  const client = new Client(currentConfig);
   var userId = req.params.id;
   console.log(`get meals for user ${userId}`);
-  if (isNaN(userId))
-  {
+  if (isNaN(userId)) {
     //return response.status(400).json("Error in geting  meals: wrong ID");
     userId = -1;
   }
@@ -38,19 +36,18 @@ router.get("/:id", async (req, response) => {
     m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
   WHERE m.date>now()`;
   console.log(`get, SQLquery: [${SQLquery}]`);
-  //await client.connect();
   pool.connect(function (err, client, done) {
     client.query(SQLquery, [userId])
-    .then(resp => {
-      response.json(resp.rows);
-    })
-    .catch(err => {
-      console.error(err);
-      response.status(500).json(err);
-    })
-    .finally(() => {
-      client.end();
-    });
+      .then(resp => {
+        response.json(resp.rows);
+      })
+      .catch(err => {
+        console.error(err);
+        response.status(500).json(err);
+      })
+      .finally(() => {
+        client.end();
+      });
   });
 })
 
@@ -58,9 +55,8 @@ router.get("/:id", async (req, response) => {
 // @desc get a list of meals created by me
 // @access Public
 router.get("/my/:id", async (req, response) => {
-  const client = new Client(currentConfig);
   console.log("get my meals by user id: " + JSON.stringify(req.params));
-  const  userId = req.params.id;
+  const userId = req.params.id;
   if (userId == "undefined") {
     console.log("error, empty id");
     response.status(400).json("Error in geting my meals: empty");
@@ -74,26 +70,25 @@ router.get("/my/:id", async (req, response) => {
       WHERE meal_id=m.id), 
     0 as attend_status, m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id 
     WHERE m.date>now() AND host_id=$1`;
-  await client.connect();
-  client.query(SQLquery, [userId])
-    .then(resp => {
-      return response.json(resp.rows);
-    })
-    .catch(err => {
-      console.error(err);
-      return response.status(500).json(err);
-    })
-    .finally(()=>
-    {
+  pool.connect(function (err, client, done) {
+    client.query(SQLquery, [userId])
+      .then(resp => {
+        return response.json(resp.rows);
+      })
+      .catch(err => {
+        console.error(err);
+        return response.status(500).json(err);
+      })
+      .finally(() => {
         client.end();
-    });
+      });
+  });
 });
 
 // @route GET api/meals/attends
 // @desc get a list of meals where the user attends
 // @access Public
 router.get("/attends/:id", async (req, response) => {
-  const client = new Client(currentConfig);
   console.log("get meals where user attends: " + JSON.stringify(req.params));
   if (req.params.id == "undefined") {
     console.log("error, empty id");
@@ -107,25 +102,25 @@ router.get("/attends/:id", async (req, response) => {
            WHERE  meal_id=m.id AND attends.user_id=$1),
         m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
       ) AS sel WHERE attend_status > 0`;
-  await client.connect();
-  client.query(SQLquery, [req.params.id])
-    .then(resp => {
-      return response.json(resp.rows);
-    })
-    .catch(err => {
-      console.error(err);
-      return response.status(500).json(err);
-    })
-    .finally(() => {
-      client.end();
-    })
+  pool.connect(function (err, client, done) {
+    client.query(SQLquery, [req.params.id])
+      .then(resp => {
+        return response.json(resp.rows);
+      })
+      .catch(err => {
+        console.error(err);
+        return response.status(500).json(err);
+      })
+      .finally(() => {
+        client.end();
+      })
+  });
 });
 
 // @route GET api/meals/guests
 // @desc get a list of users attending a meal
 // @access Public
 router.get("/guests/:meal_id", async (req, response) => {
-  const client = new Client(currentConfig);
   console.log("Get users by meal_id: " + JSON.stringify(req.params));
   const meal_id = req.params.meal_id;
   if (isNaN(meal_id)) {
@@ -137,24 +132,21 @@ router.get("/guests/:meal_id", async (req, response) => {
   const SQLquery = `SELECT a.user_id, u.name FROM attends as a  
    INNER JOIN users as u ON a.user_id=u.id WHERE meal_id=$1`;
   console.log(SQLquery);
-  await client.connect()
-  .then(()=>console.log('Connected.'))
-  .catch(err => { 
-    console.error(`get guest for a meal: failed to connect, ${JSON.stringify(err)}`); 
+  pool.connect(function (err, client, done) {
+    client.query(SQLquery, [meal_id])
+      .then(resp => {
+        console.error(`Query result: ${JSON.stringify(resp.rows)}`);
+        return response.json(resp.rows);
+      })
+      .catch(err => {
+        console.error(`Failed query: ${err}`);
+        return response.status(500).json(err);
+      }
+      )
+      .finally(() => {
+        client.end();
+      })
   });
-  client.query(SQLquery, [meal_id])
-    .then(resp => {
-      console.error(`Query result: ${JSON.stringify(resp.rows)}`);
-      return response.json(resp.rows);
-    })
-    .catch(err => {
-      console.error(`Failed query: ${err}`);
-      return response.status(500).json(err);
-    }
-    )
-    .finally(()=>{
-      client.end();
-    })
 });
 
 // @route POST api/meals/image
@@ -166,26 +158,26 @@ router.post("/image", async (req, response) => {
   const meal_id = req.body.meal_id;
   let image_path = req.body.image_path;
   let image_id = req.body.image_id;
-  const client = new Client(currentConfig);
-  await client.connect();
- 
+
   if (isNaN(image_id) || isNaN(meal_id)) {
     return response.status(500).json("Bad params: image_id");
   }
   const query = `INSERT INTO meal_images (meal_id, image_id) VALUES ($1, $2) RETURNING id`
-  client.query(query, [meal_id, image_id])
-    .then((res) => {
-      console.log(`insert query done: ${JSON.stringify(res.rows)}`);
-      image_path = res.rows[0].path;
-      return response.status(200).json(res.rows);
-    })
-    .catch(err => {
-      console.error(err);
-      return response.status(500).json("failed to select random image: " + err);
-    })
-    .finally(() => {
-      client.end();
-    });
+  pool.connect(function (err, client, done) {
+    client.query(query, [meal_id, image_id])
+      .then((res) => {
+        console.log(`insert query done: ${JSON.stringify(res.rows)}`);
+        image_path = res.rows[0].path;
+        return response.status(200).json(res.rows);
+      })
+      .catch(err => {
+        console.error(err);
+        return response.status(500).json("failed to select random image: " + err);
+      })
+      .finally(() => {
+        client.end();
+      });
+  });
 });
 // @route POST api/meals/ - create a meal
 router.post("/", async (req, response) => {
@@ -197,43 +189,41 @@ router.post("/", async (req, response) => {
   if (!isValid) {
     return response.status(400).json(errors);
   }
-  const client = new Client(currentConfig);
 
   console.log(`add meal - start, ${JSON.stringify(req.body)}`);
-  await client.connect();
   //todo: insert image
   const query = `INSERT INTO meals (
     name, type, location, address, guest_count, host_id, date, visibility, description)
   VALUES($1, $2, $3, $4, $5, $6, (to_timestamp($7/ 1000.0)), $8, $9) RETURNING id`;
   console.log(`connected running [${query}]`);
+  pool.connect(function (err, client, done) {
+    return client.query(query,
+      [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
+      meal.address, meal.guestCount, meal.host_id, meal.date, meal.visibility, meal.description])
+      .then(res => {
 
-  return client.query(query,
-    [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
-    meal.address, meal.guestCount, meal.host_id, meal.date, meal.visibility, meal.description])
-    .then(res => {
-      
-      console.log(`query done.`);
-      const message =
-      {
-        title: 'New meal', 
-        body:  'A new meal in your areas', 
-        icon: 'resources/Message-Bubble-icon.png', 
-        click_action: '/Meals/',
-        sender: -1,
-        type: 5
+        console.log(`query done.`);
+        const message =
+        {
+          title: 'New meal',
+          body: 'A new meal in your areas',
+          icon: 'resources/Message-Bubble-icon.png',
+          click_action: '/Meals/',
+          sender: -1,
+          type: 5
+        }
+        return response.json(res.rows[0]);
+        //TODO: add notification to all followers + people in the area
       }
-      return response.json(res.rows[0]);
-     //TODO: add notification to all followers + people in the area
-    }
-    )
-    .catch(e => {
-      console.error(`Exception catched in creating meal: ${JSON.stringify(e)}`);
-      response.status(500).json(e);
-    })
-    .finally(() =>
-    {
-      client.end();
-    })
+      )
+      .catch(e => {
+        console.error(`Exception catched in creating meal: ${JSON.stringify(e)}`);
+        response.status(500).json(e);
+      })
+      .finally(() => {
+        client.end();
+      })
+  });
 });
 
 
@@ -246,25 +236,24 @@ router.delete("/:meal_id", async (req, response) => {
   if (isNaN(mealId)) {
     return response.status(400).json(`mealId: wrong meal id format: ${mealId}.`);
   }
-  const client = new Client(currentConfig);
 
   console.log(`delete ${mealId}`);
-  await client.connect();
-
-  client.query('DELETE FROM meals WHERE id=$1',
-    [mealId])
-    .then(() => {
-      console.log("deleted.");
-      return response.status(201).json(req.body);
-    }
-    )
-    .catch((e) => {
-      console.error("exception catched: " + e);
-      response.status(500).json(e);
-    })
-    .finally(() => {
-      client.end();
-    });
+  pool.connect(function (err, client, done) {
+    client.query('DELETE FROM meals WHERE id=$1',
+      [mealId])
+      .then(() => {
+        console.log("deleted.");
+        return response.status(201).json(req.body);
+      }
+      )
+      .catch((e) => {
+        console.error("exception catched: " + e);
+        response.status(500).json(e);
+      })
+      .finally(() => {
+        client.end();
+      });
+  });
 });
 
 module.exports = router;
