@@ -1,5 +1,5 @@
 const pgConfig = require("./../dbConfig.js");
-
+const pool = require('../db.js');
 var addNotification = require('./notifications');
 let currentConfig = pgConfig.pgConfigProduction;
 
@@ -38,9 +38,9 @@ router.get("/:id", async (req, response) => {
     m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
   WHERE m.date>now()`;
   console.log(`get, SQLquery: [${SQLquery}]`);
-  await client.connect();
-
-  client.query(SQLquery, [userId])
+  //await client.connect();
+  pool.connect(function (err, client, done) {
+    client.query(SQLquery, [userId])
     .then(resp => {
       response.json(resp.rows);
     })
@@ -51,6 +51,7 @@ router.get("/:id", async (req, response) => {
     .finally(() => {
       client.end();
     });
+  });
 })
 
 // @route GET api/meals/my
