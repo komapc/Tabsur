@@ -1,3 +1,4 @@
+const pool = require("../db.js");
 const pgConfig = require("./../dbConfig.js");
 
 var addNotification = require('./notifications');
@@ -17,7 +18,6 @@ const validateMealInput = require("../../validation/meal");
 // @desc get a meal list
 // @access Public
 router.get("/:id", async (req, response) => {
-  const client = new Client(currentConfig);
   var userId = req.params.id;
   console.log(`get meals for user ${userId}`);
   if (isNaN(userId))
@@ -38,8 +38,7 @@ router.get("/:id", async (req, response) => {
     m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
   WHERE m.date>now()`;
   console.log(`get, SQLquery: [${SQLquery}]`);
-  await client.connect();
-
+  const client = await pool.connect();
   client.query(SQLquery, [userId])
     .then(resp => {
       response.json(resp.rows);
@@ -49,7 +48,7 @@ router.get("/:id", async (req, response) => {
       response.status(500).json(err);
     })
     .finally(() => {
-      client.end();
+      client.release();
     });
 })
 
