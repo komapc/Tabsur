@@ -1,13 +1,5 @@
 const pool = require("../db.js");
-const pgConfig = require("./../dbConfig.js");
-
 var addNotification = require('./notifications');
-let currentConfig = pgConfig.pgConfigProduction;
-
-if (process.env.NODE_ENV === "debug") {
-  currentConfig = pgConfig.pgConfigLocal;
-}
-const { Client } = require("pg");
 const express = require("express");
 const router = express.Router();
 
