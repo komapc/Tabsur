@@ -1,11 +1,4 @@
-const pgConfig = require("./../dbConfig.js");
-var addNotification = require('./notifications');
-let currentConfig = pgConfig.pgConfigProduction;
-
-if (process.env.NODE_ENV === "debug") {
-  currentConfig = pgConfig.pgConfigLocal;
-}
-const { Client } = require("pg");
+const pool = require("../db.js");
 const express = require("express");
 const router = express.Router();
 
@@ -16,7 +9,6 @@ const validateMealInput = require("../../validation/hungry");
 // @desc get a hungry list
 // @access Public
 router.get("/:id", async (req, response) => {
-  const client = new Client(currentConfig);
   console.log(`get hungry for user ${req.params.id}`);
 
   const SQLquery = `
@@ -25,8 +17,7 @@ router.get("/:id", async (req, response) => {
     FROM hungry 
   WHERE m.date>now() AND user_id=$1`;
   console.log(`SQLquery: [${SQLquery}]`);
-  await client.connect();
-
+  const client = await pool.connect();
   client.query(SQLquery, [req.params.id])
     .then(resp => {
       console.log(JSON.stringify(resp.rows));
@@ -37,7 +28,7 @@ router.get("/:id", async (req, response) => {
       return response.status(500).json(err);
     })
     .finally(() => {
-      client.end();
+      client.release();
     })
 })
 
@@ -45,7 +36,6 @@ router.get("/:id", async (req, response) => {
 // @desc get a list of meals created by me
 // @access Public
 router.get("/user/:id", async (req, response) => {
-  const client = new Client(currentConfig);
   console.log("get my hungry by user id: " + JSON.stringify(req.params));
   if (req.params.id == "undefined") {
     console.log("error, empty id");
@@ -57,7 +47,7 @@ router.get("/user/:id", async (req, response) => {
       date, until, visibility
     FROM hungry 
     WHERE m.date>now() AND user_id=$1`;
-  await client.connect();
+  const client = await pool.connect();
   client.query(SQLquery, [req.params.id])
     .then(resp => {
       return response.json(resp.rows);
@@ -67,7 +57,7 @@ router.get("/user/:id", async (req, response) => {
       return response.status(500).json(err);
     })
     .finally(() => {
-      client.end();
+      client.release();
     });
 });
 
@@ -81,10 +71,9 @@ router.post("/", async (req, response) => {
   if (!isValid) {
     return response.status(400).json(errors);
   }
-  const client = new Client(currentConfig);
 
   console.log(`add hungry - start, ${JSON.stringify(req.body)}`);
-  await client.connect();
+  const client = await pool.connect();
 
   const query=`INSERT INTO hungry (user_id, name, type, location, address,
     date, until, visibility)
@@ -117,7 +106,7 @@ router.post("/", async (req, response) => {
     })
     .finally(()=>
     {
-      client.end();
+      client.release();
     });
 });
 
@@ -130,10 +119,9 @@ router.delete("/:hungry_id", async (req, response) => {
   if (isNaN(hungry_id)) {
     return response.status(400).json(`hungry_id: wrong hungry id format: ${mealId}.`);
   }
-  const client = new Client(currentConfig);
 
   console.log(`delete - start, ${hungry_id}`);
-  await client.connect();
+  const client = await pool.connect();
 
   console.log("connected");
   client.query('DELETE FROM hungry WHERE id=$1',
@@ -148,7 +136,7 @@ router.delete("/:hungry_id", async (req, response) => {
       response.status(500).json(e);
     })
     .finally(() => {
-      client.end();
+      client.release();
     })
 });
 
