@@ -1,12 +1,6 @@
 const express = require("express");
 const fcm = require('../firebaseCloudMessages');
-const pgConfig = require("../dbConfig.js"); 
-const { Client } = require("pg");
-let currentConfig = pgConfig.pgConfigProduction;
-if (process.env.NODE_ENV === "debug")
-{
-  currentConfig = pgConfig.pgConfigLocal;
-}
+const pool = require("../db.js");
 
 const pushNotification = (notification, registration_ids) =>
 {
@@ -30,7 +24,7 @@ const pushNotification = (notification, registration_ids) =>
   })
 }
 
-const addNotificationToDB = (message) =>
+const addNotificationToDB = async (message) =>
 {
 
 //example of param:
@@ -59,8 +53,7 @@ const addNotificationToDB = (message) =>
             WHERE user_id=$2 
           )
     `;
-  const client = new Client(currentConfig);
-  client.connect();
+    const client = await pool.connect();
   console.log(`Connected.`);
   return client.query(query,     
     [message.meal_id, 
@@ -82,7 +75,7 @@ const addNotificationToDB = (message) =>
     return error;
   })
   .finally(() => {
-    client.end();
+    client.release();
   });
 }
 
