@@ -5,18 +5,9 @@ const keys = require("../../config/keys");
 const fileType = require('file-type');
 const bluebird = require('bluebird');
 const multiparty = require('multiparty');
-
-
 const insertImageIntoDB = require("./utility.js")
 const router = express.Router();
-
-const pgConfig = require("./../dbConfig.js");
-let currentConfig = pgConfig.pgConfigProduction;
-
-if (process.env.NODE_ENV === "debug") {
-  currentConfig = pgConfig.pgConfigLocal;
-}
-const { Client } = require("pg");
+const pool = require("../db.js");
 
 // configure the keys for accessing AWS
 AWS.config.update({
@@ -107,11 +98,9 @@ router.get('/:imageId', function (req, res, next) {
 });
 
 //get images for a user AKA gallery
-router.get('/gallery/:userId', function (req, response, next) {
+router.get('/gallery/:userId', async function (req, response, next) {
   console.log(`Get images for a user [${req.params.userId}]`);
-  const client = new Client(currentConfig);
-
-  client.connect();
+  const client = await pool.connect();
   const query = `SELECT i.path, i.id FROM images as i
   INNER JOIN users as u
   ON u.id=i.uploader
@@ -129,16 +118,14 @@ router.get('/gallery/:userId', function (req, response, next) {
     })
     .finally(()=>
     {
-      client.end();
+      client.release();
     });
 });
 
 //get avatar
-router.get('/avatar/:userId', function (req, response, next) {
+router.get('/avatar/:userId', async function (req, response, next) {
   console.log(`Get an avatar for user [${req.params.userId}]`);
-  const client = new Client(currentConfig);
-
-  client.connect();
+  const client = await pool.connect();
   const query = `SELECT path, status FROM user_images 
   INNER JOIN images ON user_images.image_id = images.id
   WHERE user_images.user_id = $1`;
@@ -155,7 +142,7 @@ router.get('/avatar/:userId', function (req, response, next) {
     })
     .finally(()=>
     {
-      client.end();
+      client.release();
     });
 });
 
