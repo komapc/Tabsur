@@ -55,9 +55,7 @@ class GuestList extends Component {
         {
           sorted.map(guest =>
             <Box key={guest.user_id} m={1}>
-              {/* <Link to={`user/${guest.user_id}`}> #{guest.name}</Link> */}
-              <Friend to={`user/${guest.user_id}`} name={guest.name}></Friend>
-
+              <Friend user_id={guest.user_id} name={guest.name} />
             </Box>
           )
         }
