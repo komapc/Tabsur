@@ -53,7 +53,7 @@ class GuestList extends Component {
         <h3>Guests list</h3>
         {
           sorted.map(guest =>
-            <Box key={guest.user_id}  m={1}>
+            <Box key={guest.user_id} m={1}>
               <Link to={`user/${guest.user_id}`}> #{guest.name}</Link>
             </Box>
           )
@@ -88,7 +88,7 @@ class ShowMeal extends Component {
   render() {
     return (
       <div className="main">
-        <BackBarMui history={this.props.history}/>
+        <BackBarMui history={this.props.history} />
         <MealListItem meal={this.state.meal} />
         <GuestList mealId={this.state.meal.id} userId={this.props.auth.user.id} />
         {
