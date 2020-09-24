@@ -38,8 +38,11 @@ class ChatUser extends React.Component {
   componentDidMount() {
 
   };
-  sendMessageWithCallback(sender, receiver) {
-    //alert(sender + "," + receiver);
+  sendMessageWithCallback(sender, myName, receiver) {
+    //update local state
+    const newItem = {name2: myName, name1:receiver, message_text: this.state.typedMessage};
+    this.setState({ messages: [...this.state.messages, newItem] });
+    //send to server
     sendMessage(sender, receiver, this.state.typedMessage)
       .then(res => { // Callback
         console.log(JSON.stringify(res));
@@ -51,7 +54,7 @@ class ChatUser extends React.Component {
   }
   render() {
     return <>
-      <Box style={{ height: "80vh" }}>
+      <Box style={{ height: "85vh", overflowY:"scroll" }}>
         <AppBar position="sticky">
           <Toolbar>
             <BackButton />
@@ -64,7 +67,7 @@ class ChatUser extends React.Component {
           </div>
         )}
       </Box>
-      <Box style={{ bottom: "0px", position: "sticky" }}>
+      <Box style={{ top: "85vh", position: "sticky" }}>
 
         <TextField
           variant="outlined"
@@ -79,6 +82,7 @@ class ChatUser extends React.Component {
         />
         <Button variant="contained" onClick={() => this.sendMessageWithCallback(
           this.props.auth.user.id,
+          this.props.auth.user.name,
           this.state.partner_id
         )}>Send</Button>
       </Box>
