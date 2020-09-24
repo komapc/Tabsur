@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getUserFollowies, getUserFollowers  } from "../../actions/userActions"
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
+
 import Friend from './Friend';
 
 //list of friends
@@ -10,7 +11,7 @@ const FriendList = (props) => {
   
   return <Box borderRadius="17px" borderColor="black" border="solid 1px">
     {props.list.map(friend => {
-      return <Friend key={friend.id} name={friend.name} />
+      return <Friend key={friend.id} name={friend.name} user_id={friend.id} />
     })
     }
   </Box>
