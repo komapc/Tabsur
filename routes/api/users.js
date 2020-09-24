@@ -79,7 +79,7 @@ router.post("/login", async (req, response) => {
 
       //no record found
       if (res.rows === undefined || res.rows.length == 0) {
-        console.log(`error: user [${newReq.email}]doesn't exist`);
+        console.log(`error: user [${newReq.email}] doesn't exist.`);
         errors.email = "email not found";//emailnotfound
         return response.status(500).json(errors);
       }
