@@ -4,14 +4,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 //const passport = require("passport");
-const pgConfig = require("./../dbConfig.js");
-
 const insertImageIntoDB = require("./utility.js")
-const { Client } = require("pg");
-let currentConfig = pgConfig.pgConfigProduction;
-if (process.env.NODE_ENV === "debug") {
-  currentConfig = pgConfig.pgConfigLocal;
-}
+const pool = require("../db.js");
+
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
@@ -27,9 +22,6 @@ router.post("/register", async (req, response) => {
 
   const { errors, isValid } = validateRegisterInput(req.body);
   const input = req.body;
-
-  const client = new Client(currentConfig);
-
   // Check validation
   if (!isValid) {
     console.log("invalid input: " + JSON.stringify(errors));
@@ -38,7 +30,7 @@ router.post("/register", async (req, response) => {
   try {
     console.log("register.");
     const newUser = req.body;
-    await client.connect();
+    const client = await pool.connect();
 
     console.log("connected");
     bcrypt.genSalt(10, async (err, salt) => {
@@ -56,7 +48,7 @@ router.post("/register", async (req, response) => {
             return response.status(500).json(newUser);
           })
           .finally(() => {
-            client.end();
+            client.release();
           });
       });
     });
@@ -80,8 +72,7 @@ router.post("/login", async (req, response) => {
     return response.status(400).json(errors);
   }
   console.log(`Login: ${newReq.email}`);
-  const client = new Client(currentConfig);
-  await client.connect();
+  const client = await pool.connect();
   client.query('SELECT id, name, password FROM users WHERE email = $1 OR id = $2 LIMIT 1',
     [newReq.email, newReq.id])
     .then(res => {
@@ -130,7 +121,7 @@ router.post("/login", async (req, response) => {
           console.error("bcrypt error:" + err);
           return response.status(500).json(newReq);
         })
-        .finally(() => client.end())
+        .finally(() => client.release())
 
     });
 });
@@ -155,7 +146,9 @@ const addAvatar = async (client, userId, picture) =>
     console.log(`Add avatar got a image id ${newImageId}.`);
     if (newImageId > 0)
     {
-      return client.query(query, [newImageId, userId]);
+      return client.query(query, [newImageId, userId]).finally(() => {
+        client.release();
+      });
     }
     else
     {
@@ -177,8 +170,7 @@ router.post("/loginFB", async (req, response) => {
   var newUserId=-1;
   var newUserName=newReq.name;
   console.log(`Login with facebook: ${JSON.stringify(newReq)}`);
-  const client = new Client(currentConfig);
-  await client.connect();
+  const client = await pool.connect();
   client.query('SELECT * FROM users WHERE email = $1 LIMIT 1', [newReq.email])
     .then(res => {
       //no record found, new FB user
@@ -197,9 +189,9 @@ router.post("/loginFB", async (req, response) => {
             console.error(`Inserting user failed:  ${err}`);
             return response.status(500).json(err);
           })
-          .finally()
-          {
-          }
+          .finally(() => {
+            //client.release();
+          })
       }
       else
       {
@@ -236,7 +228,7 @@ router.post("/loginFB", async (req, response) => {
   .finally(async () => 
   {
     await addAvatar(client, newUserId, newReq.picture);
-    client.end();
+    client.release();
   })
   
 })
@@ -245,12 +237,11 @@ router.post("/loginFB", async (req, response) => {
 // @access Public
 router.get("/:id", async (req, response) => {
   // Find the user
-  const client = new Client(currentConfig);
-  await client.connect()
-  .catch(err => {
-    console.error(err);
-    return response.status(500).json(err);
-  });
+  const client = await pool.connect();
+  // .catch(err => {
+  //   console.error(err);
+  //   return response.status(500).json(err);
+  // });
   return client.query(`SELECT id, name, 100 AS rate,
   (SELECT COUNT (1) FROM meals WHERE host_id = $1) AS meals_created,
   (SELECT count(1) AS following FROM follow WHERE follower=$1),
@@ -264,7 +255,7 @@ router.get("/:id", async (req, response) => {
       return response.status(500).json("No user");
     })
     .finally(() => {
-      client.end();
+      client.release();
     });
 });
 

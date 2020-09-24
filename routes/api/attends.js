@@ -1,19 +1,12 @@
+const pool = require("../db.js");
 var addNotification = require('./notificationsPush');
 var express = require('express');
 var router = express.Router();
-const { Client } = require("pg");
-
-const pgConfig = require("./../dbConfig.js");
-let currentConfig = pgConfig.pgConfigProduction;
-const fcm = require('../firebaseCloudMessages');
-if (process.env.NODE_ENV === "debug") {
-  currentConfig = pgConfig.pgConfigLocal;
-}
 
 /* GET attend by meal */
 router.get('/meal/:meal_id', function (req, res, next) {
   attend.find({ meal_id: req.params.meal_id }, function (err, post) {
-    if (err) return next(err);
+    if (err) return next(err); // Why only here using next?
     res.json(post);
   });
 });
@@ -23,7 +16,6 @@ router.post('/:id', async (req, response) => {
   const attend = req.body;
   console.log("Attend, request: " + JSON.stringify(attend));
 
-  const client = new Client(currentConfig);
   const meal_id = attend.meal_id;
   const user_id = attend.user_id;
   const status = attend.status;
@@ -32,7 +24,7 @@ router.post('/:id', async (req, response) => {
     return response.status(500).json("Bad input, one of the parameters is not numeric.");
   }
 
-  await client.connect();
+  const client = await pool.connect();
   return client.query(`
     INSERT INTO attends (meal_id, user_id, status)
     VALUES ($1, $2, $3) 
@@ -70,7 +62,7 @@ router.post('/:id', async (req, response) => {
       return response.status(500).json(error);
     })
     .finally(() => {
-      client.end();
+      client.release();
     });
 });
 
@@ -83,8 +75,7 @@ router.put('/:id', function (req, res, next) {
 router.delete('/:id', async (req, res, next) => {
   console.log("Attend, " + currentConfig.user);
   const attend = req.body;
-  const client = new Client(currentConfig);
-  await client.connect();
+  const client = await pool.connect();
 
   console.log("connected");
   client.query('DELETE FROM attends WHERE ' +
@@ -92,7 +83,7 @@ router.delete('/:id', async (req, res, next) => {
     [attend.meal_id, attend.user_id])
     .catch(err => { console.error(err); return response.status(500).json("failed to delete"); })
     .then(answer => { return response.status(201).json(answer); })
-    .finally(()=>client.end())
+    .finally(()=>client.release())
 });
 
 module.exports = router;

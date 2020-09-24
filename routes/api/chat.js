@@ -1,11 +1,4 @@
-const pgConfig = require("./../dbConfig.js");
-
-let currentConfig = pgConfig.pgConfigProduction;
-
-if (process.env.NODE_ENV === "debug") {
-  currentConfig = pgConfig.pgConfigLocal;
-}
-const { Client } = require("pg");
+const pool = require("../db.js");
 const express = require("express");
 const router = express.Router();
 
@@ -13,7 +6,6 @@ const router = express.Router();
 // @desc get a chat info for the user
 // @access Public
 router.get("/:id", async (req, response) => {
-  const client = new Client(currentConfig);
   var userId = req.params.id;
   console.log(`get chat messages for user ${userId}`);
   if (isNaN(userId)) {
@@ -57,7 +49,7 @@ router.get("/:id", async (req, response) => {
   ) 
   `;
   console.log(`get, SQLquery: [${SQLquery}]`);
-  await client.connect();
+  const client = await pool.connect();
 
   return client.query(SQLquery, [userId])
     .then(resp => {
@@ -67,7 +59,7 @@ router.get("/:id", async (req, response) => {
       console.error(err);
       return response.status(500).json(err);
     })
-    .finally(() => client.end());
+    .finally(() => client.release());
 })
 
 // @route GET api/user/
@@ -75,7 +67,6 @@ router.get("/:id", async (req, response) => {
 // @access Public
 router.get("/user/:me/:user", async (req, response) => {
   console.log(`here`);
-  const client = new Client(currentConfig);
   var meId = req.params.me;
   var userId = req.params.user
   console.log(`Get chat messages between ${meId} and ${userId}.`);
@@ -90,7 +81,7 @@ router.get("/user/:me/:user", async (req, response) => {
   WHERE n.note_type=0  AND  ( (n.sender=$1 AND n.receiver=$2)  OR (n.sender=$2 AND n.receiver=$1))
     `;
   console.log(`get, SQLquery: [${SQLquery}], me: ${meId}, her: ${userId}`);
-  await client.connect();
+  const client = await pool.connect();
 
   return client.query(SQLquery, [userId, meId]
     )
@@ -102,7 +93,7 @@ router.get("/user/:me/:user", async (req, response) => {
       console.error(`Query failed: ${JSON.stringify(err)}`);
       return response.status(500).json(err);
     })
-    .finally(() => client.end());
+    .finally(() => client.release());
 })
 
-module.exports = router;
+module.exports = router;  

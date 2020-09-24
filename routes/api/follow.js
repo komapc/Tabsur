@@ -1,11 +1,5 @@
 const addNotification = require('./notificationsPush');
-const pgConfig = require("./../dbConfig.js");
-let currentConfig = pgConfig.pgConfigProduction;
-
-if (process.env.NODE_ENV === "debug") {
-  currentConfig = pgConfig.pgConfigLocal;
-}
-const { Client } = require("pg");
+const pool = require("../db.js");
 const express = require("express");
 const router = express.Router();
 
@@ -13,7 +7,6 @@ const router = express.Router();
 // @desc get list of followers
 // @access Public
 router.get("/:id", async (req, response) => {
-  const client = new Client(currentConfig);
   console.log(`get followers for user ${req.params.id}`);
   const meal = req.body;
 
@@ -24,7 +17,7 @@ router.get("/:id", async (req, response) => {
     users ON follow.follower = users.id
     WHERE follow.followie = $1`;
   console.log(`SQLquery: [${SQLquery}]`);
-  await client.connect();
+  const client = await pool.connect();
 
   client.query(SQLquery, [req.params.id])
     .then(resp => {
@@ -35,7 +28,7 @@ router.get("/:id", async (req, response) => {
       return response.status(500).json(err);
     })
     .finally(() => {
-      client.end();
+      client.release();
     });
 })
 
@@ -43,7 +36,6 @@ router.get("/:id", async (req, response) => {
 // @desc get a list of users I fllow
 // @access Public
 router.get("/followies/:id", async (req, response) => {
-  const client = new Client(currentConfig);
   console.log("get followies by user id: " + JSON.stringify(req.params));
   if (req.params.id == "undefined") {
     client.end();
@@ -55,7 +47,7 @@ router.get("/followies/:id", async (req, response) => {
   INNER JOIN
   users ON follow.followie = users.id
   WHERE follow.follower = $1`;
-  await client.connect();
+  const client = await pool.connect();
   client.query(SQLquery, [req.params.id])
     .then(resp => {
       response.json(resp.rows);
@@ -64,12 +56,11 @@ router.get("/followies/:id", async (req, response) => {
       console.error(err);
       return response.status(500).json(err);
     })
-    .finally(()=> client.end())
+    .finally(()=> client.release())
 });
 
 // @route POST follow/unfollow
 router.post("/:id", async (req, response) => {
-  const client = new Client(currentConfig);
   const follower = req.params.id;
   const followie = req.body.followie;
   const status = req.body.status;
@@ -84,7 +75,7 @@ router.post("/:id", async (req, response) => {
     DO UPDATE SET 
     status = $3 WHERE follow.follower=$2 AND follow.followie = $1`;
   console.log(JSON.stringify(SQLquery));
-  await client.connect();
+  const client = await pool.connect();
   client.query(SQLquery, [follower, followie, status])
     .then(resp => {
       console.log(`Query response: ${JSON.stringify(resp)}`);
@@ -117,7 +108,7 @@ router.post("/:id", async (req, response) => {
       return response.status(500).json(err);
     })
     .finally(() => {
-      client.end();
+      client.release();
     })
 });
 
