@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Avatar from '@material-ui/core/Avatar';
+
+
+import CardHeader from '@material-ui/core/CardHeader';
+
 //one item of the list
 const Friend = (props) => {
   return <div
