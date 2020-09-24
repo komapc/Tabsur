@@ -35,7 +35,7 @@ class GuestList extends Component {
     const userId = this.state.userId;
     getUserFollowers(userId)
       .then(res => {
-        console.log("followies: " + res.data);
+        console.log("followies: " + JSON.stringify(res.data));
         this.setState({ followies: res.data });
       })
       .catch(err => {
