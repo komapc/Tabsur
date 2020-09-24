@@ -11,10 +11,9 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
-const ChatLine = (props) =>
-{
+const ChatLine = (props) => {
   return <div>
-    {props.message.name1}: <b>{props.message.message_text}</b>
+    {props.message.name2}: <b>{props.message.message_text}</b>
   </div>
 }
 class ChatUser extends React.Component {
@@ -24,7 +23,7 @@ class ChatUser extends React.Component {
       user: props.user,
       messages: [],
       partner_id: this.props.match.params.id,
-      typedMessage:""
+      typedMessage: ""
     };
     console.log(`partner: ${this.state.partner_id}`);
     getChatMessages(this.props.auth.user.id, this.state.partner_id)
@@ -45,31 +44,30 @@ class ChatUser extends React.Component {
       .then(res => { // Callback
         console.log(JSON.stringify(res));
       });
-      this.setState({ typedMessage: "" });
+    this.setState({ typedMessage: "" });
   }
-  onChange = event=>
-  {
-    this.setState({typedMessage: event.target.value});
+  onChange = event => {
+    this.setState({ typedMessage: event.target.value });
   }
   render() {
     return <>
-    <Box style={{height:"80vh"}}>
-      <AppBar position="sticky">
-        <Toolbar>
-          <BackButton   />
+      <Box style={{ height: "80vh" }}>
+        <AppBar position="sticky">
+          <Toolbar>
+            <BackButton />
           Chat with {this.state.messages.name2}</Toolbar>
-      </AppBar>
+        </AppBar>
 
-      {this.state.messages.map(message =>
+        {this.state.messages.map(message =>
           <div key={message.id}>
-           <ChatLine message={message}></ChatLine>
+            <ChatLine message={message}></ChatLine>
           </div>
-        )} 
+        )}
       </Box>
-      <Box style={{bottom:"0px", position:"sticky"}}>
+      <Box style={{ bottom: "0px", position: "sticky" }}>
 
         <TextField
-          variant="outlined"  
+          variant="outlined"
           label={'message'}
           placeholder="Message"
           onChange={this.onChange}
@@ -77,13 +75,13 @@ class ChatUser extends React.Component {
           value={this.state.typedMessage}
           inputProps={{
             autoComplete: 'off'
-         }}
-          />
+          }}
+        />
         <Button variant="contained" onClick={() => this.sendMessageWithCallback(
-            this.props.auth.user.id,
-            this.state.partner_id
+          this.props.auth.user.id,
+          this.state.partner_id
         )}>Send</Button>
-     </Box>
+      </Box>
     </>
   };
 
