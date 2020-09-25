@@ -48,7 +48,7 @@ if (localStorage.jwtToken) {
   }
 }
 
-if ("serfciceWorker" in navigator) {
+if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("./firebase-messaging-sw.js")
     .then(function(registration) {
