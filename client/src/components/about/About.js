@@ -24,7 +24,7 @@ class About extends Component {
               <small>{user}</small>
             </h4>
             <div>
-              Welcome to Coolanu TableSurfing community!
+              Welcome to BeMyGuest community!
               <br />
               If you have food &ndash; invite guests,
               <br />

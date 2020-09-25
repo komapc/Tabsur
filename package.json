@@ -1,7 +1,7 @@
 {
-  "name": "coolanu",
-  "version": "1.0.0",
-  "description": "Coolanu (table-surfing) alpha",
+  "name": "BeMyGuest",
+  "version": "1.0.1",
+  "description": "BeMyGuest (table-surfing) alpha",
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
