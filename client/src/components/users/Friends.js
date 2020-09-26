@@ -11,7 +11,7 @@ const FriendList = (props) => {
   
   return <Box borderRadius="17px" borderColor="black" border="solid 1px">
     {props.list.map(friend => {
-      return <Friend key={friend.id} name={friend.name} user_id={friend.id} />
+      return <span key={friend.id}> <Friend  name={friend.name} user_id={friend.id} /></span>
     })
     }
   </Box>
@@ -47,9 +47,9 @@ const Friends = (props) => {
 
 
   return <>
-    <h3>FOLLOWING</h3>
+    <div>FOLLOWING</div>
     <FriendList id={props.id} list={followies}/>
-    <h3>FOLLOWERS</h3>
+    <div>FOLLOWERS</div>
     <FriendList id={props.id}  list={followers}/>
   </>
 }
