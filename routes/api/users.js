@@ -105,10 +105,10 @@ router.post("/login", async (req, response) => {
               expiresIn: 31556926 // 1 year in seconds
             },
             (err, token) => {
-                response.json({
-                  success: true,
-                  token: "Bearer " + token
-                });
+              response.json({
+                success: true,
+                token: "Bearer " + token
+              });
             }
           );
         } else {
@@ -127,10 +127,9 @@ router.post("/login", async (req, response) => {
 });
 
 //add avatar path to images and update user_images table
-const addAvatar = async (client, userId, picture) => 
-{
+const addAvatar = async (client, userId, picture) => {
   console.log(`Add avatar: ${JSON.stringify(picture)}`);
-  const query  = `
+  const query = `
   INSERT INTO user_images
     (id, image_id)
     SELECT $1, $2
@@ -138,27 +137,24 @@ const addAvatar = async (client, userId, picture) =>
     NOT EXISTS (
     SELECT id FROM user_images WHERE id = $1 and image_id=$2
     );`;
-    
+
   const url = picture.data.url;
   return insertImageIntoDB(url, userId)
-  .then((newImageId) =>
-  {
-    console.log(`Add avatar got a image id ${newImageId}.`);
-    if (newImageId > 0)
-    {
-      return client.query(query, [newImageId, userId]).finally(() => {
-        client.release();
-      });
+    .then((newImageId) => {
+      console.log(`Add avatar got a image id ${newImageId}.`);
+      if (newImageId > 0) {
+        return client.query(query, [newImageId, userId]).finally(() => {
+          client.release();
+        });
+      }
+      else {
+        console.error(`Add avatar got a negative image id ${newImageId}.`);
+      }
+    })
+    .catch((err) => {
+      console.error(`Add avatar error: ${err}.`);
     }
-    else
-    {
-      console.error(`Add avatar got a negative image id ${newImageId}.`);
-    }
-  })
-  .catch((err) =>{
-    console.error(`Add avatar error: ${err}.`);
-  }
-  )
+    )
 }
 
 // @route POST api/users/loginFB
@@ -167,8 +163,8 @@ const addAvatar = async (client, userId, picture) =>
 router.post("/loginFB", async (req, response) => {
   // Form validation
   const newReq = req.body;
-  var newUserId=-1;
-  var newUserName=newReq.name;
+  var newUserId = -1;
+  var newUserName = newReq.name;
   console.log(`Login with facebook: ${JSON.stringify(newReq)}`);
   const client = await pool.connect();
   client.query('SELECT * FROM users WHERE email = $1 LIMIT 1', [newReq.email])
@@ -177,13 +173,13 @@ router.post("/loginFB", async (req, response) => {
       if (res.rows === undefined || res.rows.length == 0) {
         console.log(`fb user doesn't exist (${newReq.email}), adding to the DB`);
         const addUserQuery = `INSERT INTO users (name, email, password, location, address)
-        VALUES ($1, $2, $3, $4, $5) RETURNING id`; 
+        VALUES ($1, $2, $3, $4, $5) RETURNING id`;
         return client.query(addUserQuery,
           [newReq.name, newReq.email, newReq.accessToken, "(0,0)", ""])
           .then(user => {
             // return response.status(201).json(user);
             console.log(`New record created: ${JSON.stringify(user)}`);
-            newUserId=user; 
+            newUserId = user;
           })
           .catch(err => {
             console.error(`Inserting user failed:  ${err}`);
@@ -193,8 +189,7 @@ router.post("/loginFB", async (req, response) => {
             //client.release();
           })
       }
-      else
-      {
+      else {
         newUserId = res.rows[0].id;
         console.log(`Known user logged-in via fb: ${newReq.email}`);
       }
@@ -221,16 +216,15 @@ router.post("/loginFB", async (req, response) => {
         }
       );
     })
-  .catch(err => {
-    console.error("fb user error:" + err);
-    return response.status(500).json(newReq);
-  })
-  .finally(async () => 
-  {
-    await addAvatar(client, newUserId, newReq.picture);
-    client.release();
-  })
-  
+    .catch(err => {
+      console.error("fb user error:" + err);
+      return response.status(500).json(newReq);
+    })
+    .finally(async () => {
+      await addAvatar(client, newUserId, newReq.picture);
+      client.release();
+    })
+
 })
 // @route GET api/users
 // @desc get public user properties
