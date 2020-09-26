@@ -1,4 +1,4 @@
-# coolanu
+# BeMyGuest
 Food sharing / social dining app
 
 This project uses the following technologies:
