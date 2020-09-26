@@ -88,17 +88,17 @@ class App extends Component {
     const enableMessaging = false;
     if (enableMessaging)
     {
-    const userId = this.state.id;
-    messaging.requestPermission()
-    .then(async function() {
-      const token = await messaging.getToken();
-      console.log(`Firebase token is: ${token}`);
+      const userId = this.state.id;
+      messaging.requestPermission()
+      .then(async function() {
+        const token = await messaging.getToken();
+        console.log(`Firebase token is: ${token}`);
 
-      if (!isNaN(userId) && userId > 0) {
-        setFirebaseCloudMessagingToken(userId, token);
-      } else { 
-        console.log(`undefined user.`);
-      }
+        if (!isNaN(userId) && userId > 0) {
+          setFirebaseCloudMessagingToken(userId, token);
+        } else { 
+          console.log(`undefined user.`);
+        }
     })
     .catch(function(err) {
       console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
