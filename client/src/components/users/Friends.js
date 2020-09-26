@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { getUserFollowies, getUserFollowers  } from "../../actions/userActions"
-import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 
 import Friend from './Friend';
@@ -48,9 +47,9 @@ const Friends = (props) => {
 
   return <>
     <div>FOLLOWING</div>
-    <FriendList id={props.id} list={followies}/>
+    <FriendList list={followies}/>
     <div>FOLLOWERS</div>
-    <FriendList id={props.id}  list={followers}/>
+    <FriendList list={followers}/>
   </>
 }
 

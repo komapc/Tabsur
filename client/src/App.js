@@ -47,18 +47,20 @@ if (localStorage.jwtToken) {
     window.location.href = "./login";
   }
 }
-
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker
-    .register("./firebase-messaging-sw.js")
-    .then(function(registration) {
-      console.log(`Firebase Cloud Messaging ServiceWorker registration successful, registration.scope is: ${registration.scope}`);
-    })
-    .catch(function(err) {
-      console.error(`serviceWorker registration error: ${JSON.stringify(err)}.`);
-    });
+const enableMessaging = false;
+if (enableMessaging)
+{
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("./firebase-messaging-sw.js")
+      .then(function(registration) {
+        console.log(`Firebase Cloud Messaging ServiceWorker registration successful, registration.scope is: ${registration.scope}`);
+      })
+      .catch(function(err) {
+        console.error(`serviceWorker registration error: ${JSON.stringify(err)}.`);
+      });
+  }
 }
-
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -83,6 +85,9 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    const enableMessaging = false;
+    if (enableMessaging)
+    {
     const userId = this.state.id;
     messaging.requestPermission()
     .then(async function() {
@@ -97,20 +102,23 @@ class App extends Component {
     })
     .catch(function(err) {
       console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
-    });
-    navigator.serviceWorker.addEventListener("message", (message) => {
-      let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
-      console.log(`message.data: ${JSON.stringify(data)}`);
-      console.log(`message.data.type: ${JSON.stringify(data["gcm.notification.type"])}`);
-      const type=data["gcm.notification.type"];
-      if(type === "0") { //"message"; TODO: use strings vs enums 
-        store.dispatch(setMessagesCount(++this.state.messagesCount));
-      } else if(type === "6") { 
-        store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount));
-      } else {
-        store.dispatch(setNotificationsCount(++this.state.notificationsCount));
-      }
-    });
+    }); 
+    if (enableMessaging)
+    {
+      navigator.serviceWorker.addEventListener("message", (message) => {
+        let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
+        console.log(`message.data: ${JSON.stringify(data)}`);
+        console.log(`message.data.type: ${JSON.stringify(data["gcm.notification.type"])}`);
+        const type=data["gcm.notification.type"];
+        if(type === "0") { //"message"; TODO: use strings vs enums 
+          store.dispatch(setMessagesCount(++this.state.messagesCount));
+        } else if(type === "6") { 
+          store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount));
+        } else {
+          store.dispatch(setNotificationsCount(++this.state.notificationsCount));
+        }
+      });
+  }}
   }
 
 
