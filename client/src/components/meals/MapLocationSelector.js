@@ -42,7 +42,10 @@ class MapLocationSelector extends Component {
           error => {
             console.error(error);
           }
-        );
+        )
+        .catch(err => {
+          console.error(`getCurrentPosition failed: ${err}`);
+        });
       });
     }
     else {
@@ -63,7 +66,10 @@ class MapLocationSelector extends Component {
       error => {
         console.error(error);
       }
-    );
+    )
+    .catch(err => {
+      console.error(`fromLatLng failed: ${err}`);
+    });
   };
 
   onAutoCompleteSelect = (event) => {
