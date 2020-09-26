@@ -284,7 +284,10 @@ class ShowUser extends Component {
     sendMessage(sender, receiver, message)
       .then(res => { // Callback
         console.log(JSON.stringify(res));
-      });
+      })
+      .catch(err => {
+        console.error(`sendMessage failed: ${err}`);
+      });;
   }
 
   render() {

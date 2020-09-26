@@ -17,8 +17,10 @@ class Profile extends Component {
       .then(res => {
         console.log(res.data);
         this.setState({ user: res.data });
-
-      });
+      })
+      .catch(err => {
+        console.error(`getUser failed: ${err}`);
+      });;
   }
 
   render() {

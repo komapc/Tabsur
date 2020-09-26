@@ -54,6 +54,9 @@ class MealMap extends Component {
         })
         console.log("componentDidMount: " + JSON.stringify(obj));
         this.setState({ meal: obj[0]});
+      })
+      .catch(err => {
+        console.error(`Failed: ${err}`);
       });
 
       if ("geolocation" in navigator) {
