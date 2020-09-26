@@ -10,7 +10,7 @@ const Friend = (props) => {
   return <div 
     style={{ width: '100%', borderBottomColor: 'lightgray', borderBottomWidth: '1px', borderBlockEndStyle: 'solid' }}>
      <Link to={`user/${props.user_id}`} >
-      <CardHeader key={props.key}
+      <CardHeader
         avatar={<Avatar aria-label="recipe" style={{ backgroundColor: '#13A049' }}>
           {props.name[0].toUpperCase()}
         </Avatar>}
