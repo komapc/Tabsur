@@ -1,7 +1,14 @@
-importScripts("https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js");
-importScripts("https://www.gstatic.com/firebasejs/7.5.0/firebase-messaging.js");
+importScripts("https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js");
+importScripts("https://www.gstatic.com/firebasejs/7.21.1/firebase-messaging.js");
 firebase.initializeApp({
-  messagingSenderId: "156567484209"
+  apiKey: "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4",
+  authDomain: "tabsur.firebaseapp.com",
+  databaseURL: "https://tabsur.firebaseio.com",
+  projectId: "tabsur",
+  storageBucket: "tabsur.appspot.com",
+  messagingSenderId: "156567484209",
+  appId: "1:156567484209:web:811366754f1a296b482210",
+  measurementId: "G-TWDTEWH15M"
 });
 const messaging = firebase.messaging();
 messaging.setBackgroundMessageHandler(function(payload) {
