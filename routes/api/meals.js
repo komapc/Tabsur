@@ -238,7 +238,7 @@ router.delete("/:meal_id", async (req, response) => {
       return response.status(201).json(req.body);
     }
     )
-    .catch((e) => {
+    .catch(e => {
       console.error("exception catched: " + e);
       response.status(500).json(e);
     })
