@@ -30,6 +30,9 @@ class ChatList extends Component {
         console.log(res.data);
         this.setState({ users: res.data, loading: false });
       })
+      .catch((err) => {
+        console.error(err);
+      });
   };
   showList = () => {
     if (this.state.users.length === 0)

@@ -12,6 +12,9 @@ class About extends Component {
     system().then(systemData => {
          console.log(systemData);
     })
+    .catch((err) => {
+      console.error(err);
+    });
   }
 
   render() {

@@ -36,5 +36,8 @@ self.addEventListener('notificationclick', function(event) {
       }
     }
     return clients.openWindow(target);
-  }));
+  }))
+  .catch((err) => {
+    console.error(err);
+  });
 });
