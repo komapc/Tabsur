@@ -52,7 +52,7 @@ try
   }
 }
 catch (e)
-{
+{ 
   console.error("");
   console.error(e);
 }
@@ -133,31 +133,32 @@ class App extends Component {
 
   render() {
     return (
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-        <Router>
-        <Helmet>
-              <meta charSet="utf-8" />
-              <title>BeMyGuest - food sharing app or food sharing and social dinning</title>
-              <link rel="canonical" href="https://tabsur.herokuapp.com" />
-          </Helmet>
-        <Switch>
+      // <Provider store={store}>
+      //   <ThemeProvider theme={theme}>
+      //   <Router>
+      //   <Helmet>
+      //         <meta charSet="utf-8" />
+      //         <title>BeMyGuest - food sharing app or food sharing and social dinning</title>
+      //         <link rel="canonical" href="https://tabsur.herokuapp.com" />
+      //     </Helmet>
+      //   <Switch>
 
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/login/:extend?" component={Login} />            
-          <Route exact path="/about" component={About} />
-          <PrivateRoute exact path="/user/:id"  component={ShowUser} />
-          <PrivateRoute exact path="/meal" component={ShowMeal} />
-          <PrivateRoute exact path="/profile/:id" component={Profile} />
-          <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
-          <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
-          <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
-          <Route path="/" component={Main} />
+      //     <Route exact path="/register" component={Register} />
+      //     <Route exact path="/login/:extend?" component={Login} />            
+      //     <Route exact path="/about" component={About} />
+      //     <PrivateRoute exact path="/user/:id"  component={ShowUser} />
+      //     <PrivateRoute exact path="/meal" component={ShowMeal} />
+      //     <PrivateRoute exact path="/profile/:id" component={Profile} />
+      //     <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
+      //     <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
+      //     <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
+      //     <Route path="/" component={Main} />
          
-        </Switch>
-        </Router>
-        </ThemeProvider>
-      </Provider>
+      //   </Switch>
+      //   </Router>
+      //   </ThemeProvider>
+      // </Provider>
+      <h3>EMPTY</h3>
     );
   }
 }
