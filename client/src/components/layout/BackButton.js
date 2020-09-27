@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import backButton from "../../resources/back_button.svg";
 const BackButton = (props) => {
@@ -9,7 +9,6 @@ const BackButton = (props) => {
         hasHistory? props.history.goBack() : props.history.push('/');
     }
     return (
-
         <>
             <img width="20px"
                 alt="back"
