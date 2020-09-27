@@ -6,7 +6,6 @@ const LocationStep = props => {
   const defaultLocationConst = { lng: 34.808, lat: 32.09 };
 
   const [defaultLocation, updateDefaultLocation] = useState(defaultLocationConst);
-  let errors = {};
   const onLocationUpdate = ({ address, location }) => {
     props.update({ "id": "address", "value": address });
     props.update({ "id": "location", "value": location });
