@@ -9,7 +9,6 @@ import FacebookLoginWithButton from 'react-facebook-login';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Logo from "../../resources/logo.png"
 //const keys = require("../config/keys");
 const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 

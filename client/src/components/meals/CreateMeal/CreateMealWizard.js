@@ -12,10 +12,6 @@ import imageStep2 from "../../../resources/wizard/wizard_2.svg";
 import imageStep3 from "../../../resources/wizard/wizard_3.svg";
 import imageStep4 from "../../../resources/wizard/wizard_4.svg";
 import imageStep5 from "../../../resources/wizard/wizard_5.svg";
-import wizard_time from "../../../resources/wizard/wizard_time.svg";
-import wizard_date from "../../../resources/wizard/wizard_date.svg";
-import wizard_location from "../../../resources/wizard/wizard_location.svg";
-import wizard_meal_name from "../../../resources/wizard/wizard_meal_name.svg";
 import Button from '@material-ui/core/Button';
 
 import StepWizard from 'react-step-wizard';
@@ -128,7 +124,7 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
 
 const TopHeader = ({ SW, onExit, history }) => {
   const images = [imageStep1, imageStep2, imageStep3, imageStep4, imageStep5];
-  const stepIcons = [wizard_meal_name, wizard_time, wizard_date, wizard_location, wizard_location]
+  //const stepIcons = [wizard_meal_name, wizard_time, wizard_date, wizard_location, wizard_location]
   return (
     <Fragment>
      

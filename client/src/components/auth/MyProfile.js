@@ -8,14 +8,8 @@ import Avatar from "../layout/Avatar"
 import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import tmpBgImg from "../../resources/images/susi.jpeg";
 import { makeStyles } from '@material-ui/core/styles';
-import { logoutUser } from "../../actions/authActions";
-import store from "../../store";
-import LockIcon from '@material-ui/icons/Lock';
 import Gallery from "../../components/users/Gallery"
 import Friends from "../../components/users/Friends"
 import MyMeals from "../../components/meals/MyMeals"
@@ -194,10 +188,6 @@ const MyProfileTabs = (props) => {
 }
 //#endregion
 
-
-{/* <Button
-          startIcon={<LockIcon />} variant="contained" color="primary" className='centered'
-          href="/login" onClick={handleLogout}>Log Out</Button> */}
 class MyProfile extends Component {
   constructor(props) {
     super(props);
