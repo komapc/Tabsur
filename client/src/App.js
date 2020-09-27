@@ -22,7 +22,7 @@ import CreateMealWizard from "./components/meals/CreateMeal/CreateMealWizard";
 import About from "./components/about/About"
 import Stats from "./components/users/Stats"
 import ChatUser from "./components/chat/ChatUser"
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet"; 
 import "./App.css";
 import { messaging } from "../src/init-fcm";
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -127,6 +127,11 @@ class App extends Component {
       <Provider store={store}>
         <ThemeProvider theme={theme}>
         <Router>
+        <Helmet>
+              <meta charSet="utf-8" />
+              <title>BeMyGuest - food sharing app or food sharing and social dinning</title>
+              <link rel="canonical" href="https://tabsur.herokuapp.com" />
+          </Helmet>
         <Switch>
 
           <Route exact path="/register" component={Register} />
