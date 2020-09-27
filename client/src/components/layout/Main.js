@@ -1,5 +1,5 @@
 import SwipeableViews from 'react-swipeable-views';
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AppFab from './AppFab';
 import { useLocation, useHistory } from "react-router-dom";
 import MyMeals from "../meals/MyMeals"
@@ -27,7 +27,7 @@ const Main = ({auth}, ...props) => {
   const [isSwipable, setSwipability] = useState(true);
   const history = useHistory();
   const handleChange = (event, value) => {
-    if ((value != 0) && !auth.isAuthenticated)
+    if ((value !== 0) && !auth.isAuthenticated)
     {
       history.push(`/Login`);
     }
