@@ -21,7 +21,7 @@ const FBcomponentClicked = (function (response) {
 });
 
 const FBonFailure = (function (err) {
-  console.log(`Failed to login with faceook: ${JSON.stringify(err)}`);
+  console.error(`Failed to login with faceook: ${JSON.stringify(err)}`);
 });
 
 const FBLoginButton = ({ facebookResponse }) => (

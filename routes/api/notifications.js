@@ -33,7 +33,7 @@ router.get("/:id", async (req, response)=> {
 router.put("/:id", async (req, response)=> {
   const id = req.params.id;
   if (isNaN(id)) {
-    console.log("error, empty id");
+    console.error("error, empty id");
     return response.status(400).json("Error in getting notifications: empty id");
   }
   const note=req.body;

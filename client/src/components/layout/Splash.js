@@ -30,7 +30,7 @@ function withSplashScreen(WrappedComponent) {
           });
         }, 1000)
       } catch (err) {
-        console.log(err);
+        console.log(`Splash failed with ${JSON.stringify(err)}`);
         this.setState({
           loading: false,
         });
