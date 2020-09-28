@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { getUserFollowies, getUserFollowers  } from "../../actions/userActions"
-import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 
 import Friend from './Friend';
@@ -11,7 +10,7 @@ const FriendList = (props) => {
   
   return <Box borderRadius="17px" borderColor="black" border="solid 1px">
     {props.list.map(friend => {
-      return <span key={friend.id}> <Friend  name={friend.name} user_id={friend.id} /></span>
+      return <span key={friend.name}> <Friend  name={friend.name} user_id={friend.id} /></span>
     })
     }
   </Box>
@@ -48,9 +47,9 @@ const Friends = (props) => {
 
   return <>
     <div>FOLLOWING</div>
-    <FriendList id={props.id} list={followies}/>
+    <FriendList list={followies}/>
     <div>FOLLOWERS</div>
-    <FriendList id={props.id}  list={followers}/>
+    <FriendList list={followers}/>
   </>
 }
 

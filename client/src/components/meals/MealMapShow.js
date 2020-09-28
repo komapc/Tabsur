@@ -95,7 +95,7 @@ const MealMapShow =
                 <Marker
                     icon="https://www.robotwoods.com/dev/misc/bluecircle.png"
                     position={defaultLocation} />
-                <img src={myLocation}
+                <img src={myLocation} alt='here'
                     onClick={() => { findMe() }} style={{ position: "fixed", right: "33px", top: "55px" }} />
 
             </GoogleMap>;
