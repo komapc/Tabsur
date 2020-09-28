@@ -23,7 +23,7 @@ try
 }
 catch (e)
 {
-  console.error(e);
+  console.error(`initializedFirebaseApp failed with: ${JSON.stringify(e)}`);
 }
 
 export { messaging };
