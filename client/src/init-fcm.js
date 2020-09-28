@@ -1,7 +1,7 @@
 import * as firebase from "firebase/app";
 import "firebase/messaging";
 
-let  messaging = {};
+let  messaging = null;
 try
 {
   const initializedFirebaseApp = firebase.initializeApp({
