@@ -54,17 +54,24 @@ catch (e) {
   console.error("");
   console.error(e);
 }
-const enableMessaging = false;
+const enableMessaging = true;
 if (enableMessaging) {
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker
-      .register("./firebase-messaging-sw.js")
-      .then(function (registration) {
-        console.log(`Firebase Cloud Messaging ServiceWorker registration successful, registration.scope is: ${registration.scope}`);
-      })
-      .catch(function (err) {
-        console.error(`serviceWorker registration error: ${JSON.stringify(err)}.`);
-      });
+  try
+  {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("./firebase-messaging-sw.js")
+        .then(function (registration) {
+          console.log(`Firebase Cloud Messaging ServiceWorker registration successful, registration.scope is: ${registration.scope}`);
+        })
+        .catch(function (err) {
+          console.error(`serviceWorker registration error: ${JSON.stringify(err)}.`);
+        });
+    }
+  }
+  catch(e)
+  {
+    console.error(`Messaging registration failed with: ${JSON.stringify(e)}`);
   }
 }
 const theme = createMuiTheme({
@@ -91,38 +98,45 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    const enableMessaging = false;
-    if (enableMessaging) {
-      const userId = this.state.id;
-      messaging.requestPermission()
-        .then(async function () {
-          const token = await messaging.getToken();
-          console.log(`Firebase token is: ${token}`);
-
-          if (!isNaN(userId) && userId > 0) {
-            setFirebaseCloudMessagingToken(userId, token);
-          } else {
-            console.log(`undefined user.`);
-          }
-        })
-        .catch(function (err) {
-          console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
-        });
+    const enableMessaging = true;
+    try
+    {
       if (enableMessaging) {
-        navigator.serviceWorker.addEventListener("message", (message) => {
-          let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
-          console.log(`message.data: ${JSON.stringify(data)}`);
-          console.log(`message.data.type: ${JSON.stringify(data["gcm.notification.type"])}`);
-          const type = data["gcm.notification.type"];
-          if (type === "0") { //"message"; TODO: use strings vs enums 
-            store.dispatch(setMessagesCount(++this.state.messagesCount));
-          } else if (type === "6") {
-            store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount));
-          } else {
-            store.dispatch(setNotificationsCount(++this.state.notificationsCount));
-          }
-        });
+        const userId = this.state.id;
+        messaging.requestPermission()
+          .then(async function () {
+            const token = await messaging.getToken();
+            console.log(`Firebase token is: ${token}`);
+
+            if (!isNaN(userId) && userId > 0) {
+              setFirebaseCloudMessagingToken(userId, token);
+            } else {
+              console.log(`undefined user.`);
+            }
+          })
+          .catch(function (err) {
+            console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
+          });
+        if (enableMessaging) {
+          navigator.serviceWorker.addEventListener("message", (message) => {
+            let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
+            console.log(`message.data: ${JSON.stringify(data)}`);
+            console.log(`message.data.type: ${JSON.stringify(data["gcm.notification.type"])}`);
+            const type = data["gcm.notification.type"];
+            if (type === "0") { //"message"; TODO: use strings vs enums 
+              store.dispatch(setMessagesCount(++this.state.messagesCount));
+            } else if (type === "6") {
+              store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount));
+            } else {
+              store.dispatch(setNotificationsCount(++this.state.notificationsCount));
+            }
+          });
+        }
       }
+    }
+    catch (e)
+    {
+      console.error(`Messaging initializatin failed with: ${JSON.stringify(e)}`); 
     }
   }
 
