@@ -6,13 +6,13 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { setFirebaseCloudMessagingToken } from "./actions/notifications"
 import setMessagesCount from "./actions/MessagesActions"
-import {setNotificationsCount, setProfileNotificationsCount} from "./actions/notifications"
+import { setNotificationsCount, setProfileNotificationsCount } from "./actions/notifications"
 import { connect, Provider } from "react-redux";
 import store from "./store";
 
 
 import Profile from "./components/users/Profile"
-import Main  from "./components/layout/Main"
+import Main from "./components/layout/Main"
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
@@ -22,15 +22,14 @@ import CreateMealWizard from "./components/meals/CreateMeal/CreateMealWizard";
 import About from "./components/about/About"
 import Stats from "./components/users/Stats"
 import ChatUser from "./components/chat/ChatUser"
-import { Helmet } from "react-helmet"; 
+import { Helmet } from "react-helmet";
 import "./App.css";
 import { messaging } from "../src/init-fcm";
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
 
-try
-{
+try {
   // Check for token to keep user logged in
   if (localStorage.jwtToken) {
     // Set auth token header auth
@@ -51,21 +50,19 @@ try
     }
   }
 }
-catch (e)
-{ 
+catch (e) {
   console.error("");
   console.error(e);
 }
 const enableMessaging = false;
-if (enableMessaging)
-{
+if (enableMessaging) {
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker
       .register("./firebase-messaging-sw.js")
-      .then(function(registration) {
+      .then(function (registration) {
         console.log(`Firebase Cloud Messaging ServiceWorker registration successful, registration.scope is: ${registration.scope}`);
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.error(`serviceWorker registration error: ${JSON.stringify(err)}.`);
       });
   }
@@ -95,71 +92,73 @@ class App extends Component {
 
   async componentDidMount() {
     const enableMessaging = false;
-    if (enableMessaging)
-    {
+    if (enableMessaging) {
       const userId = this.state.id;
       messaging.requestPermission()
-      .then(async function() {
-        const token = await messaging.getToken();
-        console.log(`Firebase token is: ${token}`);
+        .then(async function () {
+          const token = await messaging.getToken();
+          console.log(`Firebase token is: ${token}`);
 
-        if (!isNaN(userId) && userId > 0) {
-          setFirebaseCloudMessagingToken(userId, token);
-        } else { 
-          console.log(`undefined user.`);
-        }
-    })
-    .catch(function(err) {
-      console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
-    }); 
-    if (enableMessaging)
-    {
-      navigator.serviceWorker.addEventListener("message", (message) => {
-        let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
-        console.log(`message.data: ${JSON.stringify(data)}`);
-        console.log(`message.data.type: ${JSON.stringify(data["gcm.notification.type"])}`);
-        const type=data["gcm.notification.type"];
-        if(type === "0") { //"message"; TODO: use strings vs enums 
-          store.dispatch(setMessagesCount(++this.state.messagesCount));
-        } else if(type === "6") { 
-          store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount));
-        } else {
-          store.dispatch(setNotificationsCount(++this.state.notificationsCount));
-        }
-      });
-  }}
+          if (!isNaN(userId) && userId > 0) {
+            setFirebaseCloudMessagingToken(userId, token);
+          } else {
+            console.log(`undefined user.`);
+          }
+        })
+        .catch(function (err) {
+          console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
+        });
+      if (enableMessaging) {
+        navigator.serviceWorker.addEventListener("message", (message) => {
+          let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
+          console.log(`message.data: ${JSON.stringify(data)}`);
+          console.log(`message.data.type: ${JSON.stringify(data["gcm.notification.type"])}`);
+          const type = data["gcm.notification.type"];
+          if (type === "0") { //"message"; TODO: use strings vs enums 
+            store.dispatch(setMessagesCount(++this.state.messagesCount));
+          } else if (type === "6") {
+            store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount));
+          } else {
+            store.dispatch(setNotificationsCount(++this.state.notificationsCount));
+          }
+        });
+      }
+    }
   }
 
 
   render() {
-    return (
-      // <Provider store={store}>
-      //   <ThemeProvider theme={theme}>
-      //   <Router>
-      //   <Helmet>
-      //         <meta charSet="utf-8" />
-      //         <title>BeMyGuest - food sharing app or food sharing and social dinning</title>
-      //         <link rel="canonical" href="https://tabsur.herokuapp.com" />
-      //     </Helmet>
-      //   <Switch>
+    try {
+      return (
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            <Router>
+              <Helmet>
+                <meta charSet="utf-8" />
+                <title>BeMyGuest - food sharing app or food sharing and social dinning</title>
+                <link rel="canonical" href="https://tabsur.herokuapp.com" />
+              </Helmet>
+              <Switch>
 
-      //     <Route exact path="/register" component={Register} />
-      //     <Route exact path="/login/:extend?" component={Login} />            
-      //     <Route exact path="/about" component={About} />
-      //     <PrivateRoute exact path="/user/:id"  component={ShowUser} />
-      //     <PrivateRoute exact path="/meal" component={ShowMeal} />
-      //     <PrivateRoute exact path="/profile/:id" component={Profile} />
-      //     <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
-      //     <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
-      //     <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
-      //     <Route path="/" component={Main} />
-         
-      //   </Switch>
-      //   </Router>
-      //   </ThemeProvider>
-      // </Provider>
-      <h3>EMPTY</h3>
-    );
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login/:extend?" component={Login} />
+                <Route exact path="/about" component={About} />
+                <PrivateRoute exact path="/user/:id" component={ShowUser} />
+                <PrivateRoute exact path="/meal" component={ShowMeal} />
+                <PrivateRoute exact path="/profile/:id" component={Profile} />
+                <PrivateRoute exact path="/Stats/:id" component={Stats} />
+                <PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
+                <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard} />
+                <Route path="/" component={Main} />
+
+              </Switch>
+            </Router>
+          </ThemeProvider>
+        </Provider>)
+    }
+    catch (e) {
+      return <h3>{e}</h3>
+    }
   }
 }
 
