@@ -53,7 +53,7 @@ try {
 catch (e) {
   console.error(`Local storage init failed: ${JSON.stringify(e)}`);
 }
-const enableMessaging = false;
+const enableMessaging = true;
 if (enableMessaging) {
   try {
     if ("serviceWorker" in navigator) {
@@ -95,7 +95,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    const enableMessaging = false;
+    const enableMessaging = true;
     try {
       if (enableMessaging) {
         const userId = this.state.id;
