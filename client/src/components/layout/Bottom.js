@@ -19,12 +19,9 @@ import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined'
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
-import MessageOutlinedIcon from '@material-ui/icons/MessageOutlined';
+//import MessageOutlinedIcon from '@material-ui/icons/MessageOutlined';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
-import SearchIcon from '../../resources/bottom/search_active.svg';
-
-
-import Box from '@material-ui/core/Box';
+//import SearchIcon from '../../resources/bottom/search_active.svg';
 
 const useStyles = makeStyles(theme => ({
   bigIcon: {
@@ -34,38 +31,6 @@ const useStyles = makeStyles(theme => ({
     width: '33px'
   }
 }));
-const BigPersonImg = () => {
-  const classes = useStyles();
-  return (
-    <React.Fragment>
-      <AccountCircleOutlinedIcon className={classes.bigIcon} />
-    </React.Fragment>
-  )
-}
-const BigSearchIcon = () => {
-  const classes = useStyles();
-  return (
-    <React.Fragment>
-      <SearchOutlinedIcon className={classes.bigIcon} />
-    </React.Fragment>
-  )
-}
-const BigChatIcon = () => {
-  const classes = useStyles();
-  return (
-    <React.Fragment>
-      <ChatOutlinedIcon className={classes.bigIcon} />
-    </React.Fragment>
-  )
-}
-const BigAddImg = () => {
-  const classes = useStyles();
-  return (
-    <React.Fragment>
-      <AddCircleOutlineOutlinedIcon className={classes.bigIcon} />
-    </React.Fragment>
-  )
-}
 class Bottom extends Component {
   constructor(props) {
     super(props);
