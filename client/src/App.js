@@ -96,7 +96,7 @@ class App extends Component {
 
   async componentDidMount() {
     const enableMessaging = true;
-    try {
+   
       if (enableMessaging) {
         const userId = this.state.id;
         messaging.requestPermission()
