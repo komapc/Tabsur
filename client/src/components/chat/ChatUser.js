@@ -49,7 +49,7 @@ class ChatUser extends React.Component {
       })
       .catch(err => {
         console.error(err);
-      });;
+      });
     this.setState({ typedMessage: "" });
   }
   onChange = event => {
