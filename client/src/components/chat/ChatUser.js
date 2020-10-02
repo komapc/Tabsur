@@ -46,6 +46,9 @@ class ChatUser extends React.Component {
     sendMessage(sender, receiver, this.state.typedMessage)
       .then(res => { // Callback
         console.log(JSON.stringify(res));
+      })
+      .catch(err => {
+        console.error(err);
       });
     this.setState({ typedMessage: "" });
   }

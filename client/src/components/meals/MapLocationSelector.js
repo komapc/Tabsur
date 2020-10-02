@@ -4,10 +4,6 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-map
 import Geocode from "react-geocode";
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import backArrowIcon from "../../resources/back_arrow.svg"
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import GoogleMaps from "../layout/AutoCompleteField"
-import PlacesAutocomplete from "react-places-autocomplete";
 
 import 'react-google-places-autocomplete/dist/index.min.css';
 

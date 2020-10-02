@@ -51,7 +51,7 @@ router.get("/my/:id", async (req, response) => {
   console.log("get my meals by user id: " + JSON.stringify(req.params));
   const userId = req.params.id;
   if (userId == "undefined") {
-    console.log("error, empty id");
+    console.error("error, empty id");
     response.status(400).json("Error in geting my meals: empty");
     return;
   }
@@ -116,7 +116,7 @@ router.get("/guests/:meal_id", async (req, response) => {
   console.log("Get users by meal_id: " + JSON.stringify(req.params));
   const meal_id = req.params.meal_id;
   if (isNaN(meal_id)) {
-    console.log("error, empty id");
+    console.error("error, empty id");
     response.status(400).json("Error in getting my meal: empty id");
     return;
   }

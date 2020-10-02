@@ -42,7 +42,7 @@ router.post("/upload", async (request, response) => {
   console.log("Uploading: " + JSON.stringify(form));
   return form.parse(request, async (error, fields, files) => {
     if (error) {
-      console.log("parsing error: " + JSON.stringify(fields));
+      console.error("parsing error: " + JSON.stringify(fields));
       throw new Error(error);
     }
     console.log("parsed: " + JSON.stringify(fields));

@@ -6,13 +6,13 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { setFirebaseCloudMessagingToken } from "./actions/notifications"
 import setMessagesCount from "./actions/MessagesActions"
-import {setNotificationsCount, setProfileNotificationsCount} from "./actions/notifications"
+import { setNotificationsCount, setProfileNotificationsCount } from "./actions/notifications"
 import { connect, Provider } from "react-redux";
 import store from "./store";
 
 
 import Profile from "./components/users/Profile"
-import Main  from "./components/layout/Main"
+import Main from "./components/layout/Main"
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
@@ -28,37 +28,49 @@ import { messaging } from "../src/init-fcm";
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
-// Check for token to keep user logged in
-if (localStorage.jwtToken) {
-  // Set auth token header auth
-  const token = localStorage.jwtToken;
-  setAuthToken(token);
-  // Decode token and get user info and exp
-  const decoded = jwt_decode(token);
-  // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded));
-  // Check for expired token
-  const currentTime = Date.now() / 1000; // to get in milliseconds
-  if (decoded.exp < currentTime) {
-    // Logout user
-    store.dispatch(logoutUser());
 
-    // Redirect to login
-    window.location.href = "./login";
+try {
+  // Check for token to keep user logged in
+  if (localStorage.jwtToken) {
+    // Set auth token header auth
+    const token = localStorage.jwtToken;
+    setAuthToken(token);
+    // Decode token and get user info and exp
+    const decoded = jwt_decode(token);
+    // Set user and isAuthenticated
+    store.dispatch(setCurrentUser(decoded));
+    // Check for expired token
+    const currentTime = Date.now() / 1000; // to get in milliseconds
+    if (decoded.exp < currentTime) {
+      // Logout user
+      store.dispatch(logoutUser());
+
+      // Redirect to login
+      window.location.href = "./login";
+    }
   }
 }
-
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker
-    .register("./firebase-messaging-sw.js")
-    .then(function(registration) {
-      console.log(`Firebase Cloud Messaging ServiceWorker registration successful, registration.scope is: ${registration.scope}`);
-    })
-    .catch(function(err) {
-      console.error(`serviceWorker registration error: ${JSON.stringify(err)}.`);
-    });
+catch (e) {
+  console.error(`Local storage init failed: ${JSON.stringify(e)}`);
 }
-
+const enableMessaging = true;
+if (enableMessaging) {
+  try {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("./firebase-messaging-sw.js")
+        .then(function (registration) {
+          console.log(`Firebase Cloud Messaging ServiceWorker registration successful, registration.scope is: ${registration.scope}`);
+        })
+        .catch(function (err) {
+          console.error(`serviceWorker registration error: ${JSON.stringify(err)}.`);
+        });
+    }
+  }
+  catch (e) {
+    console.error(`Messaging registration failed with: ${JSON.stringify(e)}`);
+  }
+}
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -83,60 +95,78 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    const userId = this.state.id;
-    messaging.requestPermission()
-    .then(async function() {
-      const token = await messaging.getToken();
-      console.log(`Firebase token is: ${token}`);
+    const enableMessaging = true;
+    try {
+      if (enableMessaging) {
+        const userId = this.state.id;
+        messaging.requestPermission()
+          .then(async function () {
+            const token = await messaging.getToken();
+            console.log(`Firebase token is: ${token}`);
 
-      if (!isNaN(userId) && userId > 0) {
-        setFirebaseCloudMessagingToken(userId, token);
-      } else { 
-        console.log(`undefined user.`);
+            if (!isNaN(userId) && userId > 0) {
+              setFirebaseCloudMessagingToken(userId, token);
+            } else {
+              console.error(`undefined user.`);
+            }
+          })
+          .catch(function (err) {
+            console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
+          });
+
+        navigator.serviceWorker.addEventListener("message", (message) => {
+          let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
+          console.log(`message.data: ${JSON.stringify(data)}`);
+          console.log(`message.data.type: ${JSON.stringify(data["gcm.notification.type"])}`);
+          const type = data["gcm.notification.type"];
+          if (type === "0") { //"message"; TODO: use strings vs enums 
+            store.dispatch(setMessagesCount(++this.state.messagesCount));
+          } else if (type === "6") {
+            store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount));
+          } else {
+            store.dispatch(setNotificationsCount(++this.state.notificationsCount));
+          }
+        });
       }
-    })
-    .catch(function(err) {
-      console.error(`Unable to get permission to notify. Error: ${JSON.stringify(err)}`);
-    });
-    navigator.serviceWorker.addEventListener("message", (message) => {
-      let data = message.data['firebase-messaging-msg-data'] ? message.data['firebase-messaging-msg-data'].data : message.data.data;
-      console.log(`message.data: ${JSON.stringify(data)}`);
-      console.log(`message.data.type: ${JSON.stringify(data["gcm.notification.type"])}`);
-      const type=data["gcm.notification.type"];
-      if(type === "0") { //"message"; TODO: use strings vs enums 
-        store.dispatch(setMessagesCount(++this.state.messagesCount));
-      } else if(type === "6") { 
-        store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount));
-      } else {
-        store.dispatch(setNotificationsCount(++this.state.notificationsCount));
-      }
-    });
+    }
+    catch (e) {
+      console.error(`Messaging initializatin failed with: ${JSON.stringify(e)}`);
+    }
   }
 
 
   render() {
-    return (
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-        <Router>
-        <Switch>
+    try {
+      return (
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            <Router>
+              <Helmet>
+                <meta charSet="utf-8" />
+                <title>BeMyGuest - food sharing app or food sharing and social dinning</title>
+                <link rel="canonical" href="https://tabsur.herokuapp.com" />
+              </Helmet>
+              <Switch>
 
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/login/:extend?" component={Login} />            
-          <Route exact path="/about" component={About} />
-          <PrivateRoute exact path="/user/:id"  component={ShowUser} />
-          <PrivateRoute exact path="/meal" component={ShowMeal} />
-          <PrivateRoute exact path="/profile/:id" component={Profile} />
-          <PrivateRoute exact path="/Stats/:id" component={Stats} /> 
-          <PrivateRoute exact path="/chatUser/:id"  component={ChatUser} />
-          <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard}  />
-          <Route path="/" component={Main} />
-         
-        </Switch>
-        </Router>
-        </ThemeProvider>
-      </Provider>
-    );
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login/:extend?" component={Login} />
+                <Route exact path="/about" component={About} />
+                <PrivateRoute exact path="/user/:id" component={ShowUser} />
+                <PrivateRoute exact path="/meal" component={ShowMeal} />
+                <PrivateRoute exact path="/profile/:id" component={Profile} />
+                <PrivateRoute exact path="/Stats/:id" component={Stats} />
+                <PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
+                <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard} />
+                <Route path="/" component={Main} />
+
+              </Switch>
+            </Router>
+          </ThemeProvider>
+        </Provider>)
+    }
+    catch (e) {
+      return <h3>{e}</h3>
+    }
   }
 }
 

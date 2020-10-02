@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import MapLocationSelector from "./../MapLocationSelector";
-import locationIcon from "../../../resources/location_icon.svg"
 import { TextField, Grid, Box } from '@material-ui/core';
 const LocationStep = props => {
   const [showMap, setMapVisibility] = useState(false);
   const defaultLocationConst = { lng: 34.808, lat: 32.09 };
 
   const [defaultLocation, updateDefaultLocation] = useState(defaultLocationConst);
-  let errors = {};
   const onLocationUpdate = ({ address, location }) => {
     props.update({ "id": "address", "value": address });
     props.update({ "id": "location", "value": location });
