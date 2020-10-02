@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Gallery from "../../components/users/Gallery"
 import Friends from "../../components/users/Friends"
 import MyMeals from "../../components/meals/MyMeals"
+import { Typography } from "@material-ui/core";
 //#region MyProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
@@ -112,7 +113,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <div>{children}</div>
+          <Typography>{children}</Typography>
         </Box>
       )}
     </div>
