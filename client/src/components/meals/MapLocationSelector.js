@@ -6,10 +6,9 @@ import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import backArrowIcon from "../../resources/back_arrow.svg"
 
 import 'react-google-places-autocomplete/dist/index.min.css';
-
 export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
-Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
+//Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
 
 class MapLocationSelector extends Component {
   constructor(props) {
@@ -48,6 +47,11 @@ class MapLocationSelector extends Component {
       console.log("geolocation is not available.");
     }
   }
+
+  getCoords(lat, lng){
+    console.log(lat, lng);
+  }
+  
   onMarkerDragEnd = (event) => {
     let lat = event.latLng.lat(),
       lng = event.latLng.lng();
@@ -71,7 +75,7 @@ class MapLocationSelector extends Component {
   onAutoCompleteSelect = (event) => {
     const addr = event.description;
     console.log(addr);
-    console.log("event: " + event);
+    console.log("onAutoCompleteSelect event: " + event);
     //setAddress(addr);
     this.setState({ address: addr });
     Geocode.fromAddress(addr)
@@ -100,18 +104,13 @@ class MapLocationSelector extends Component {
         <span className="autocomplete-bar">
           <img onClick={this.props.handleExit}
             className="autocomplete-icon" src={backArrowIcon} alt="Close map" />
-          <GooglePlacesAutocomplete className="autocomplete-span"
-            onSelect={this.onAutoCompleteSelect}
-            initialValue={this.state.address}
-            query={{
-              key: GOOGLE_MAPS_API_KEY,
-              language: 'en',
-            }}>
-          </GooglePlacesAutocomplete>
         </span>
         {/* <GoogleMaps InitialValue="Ramat Gan" /> */}
 
         <MapWithMarker
+          
+          onAutoCompleteSelect = {this.onAutoCompleteSelect}
+          initialValue={this.props.address}
           onDragEnd={this.onMarkerDragEnd}
           defaultLocation={{
             lng: this.state.defaultLocation.lng,
@@ -125,7 +124,9 @@ class MapLocationSelector extends Component {
           containerElement={<div className="map-with-marker-container" />}
           mapElement={<div style={{ height: `90vh`, top: `10vh` }} />}
           googleMapURL={`https://maps.googleapis.com/maps/api/js?libraries=places&key=${GOOGLE_MAPS_API_KEY}`}
-        />
+        >
+           
+    </MapWithMarker>
       </span>
     )
   };
@@ -135,6 +136,15 @@ const MyGoogleMap = (props) => <GoogleMap
   defaultZoom={8}
   defaultCenter={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
 >
+<GooglePlacesAutocomplete className="autocomplete-span"
+    onSelect={props.onAutoCompleteSelect}
+    defaultLocation={props.defaultLocation}
+    defaultPosition={props.defaultLocation}
+    initialValue = {props.initialValue}
+    query={{
+      language: 'en',
+    }}>
+  </GooglePlacesAutocomplete>
   <Marker
     draggable
     defaultPosition={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
