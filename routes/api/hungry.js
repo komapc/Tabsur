@@ -1,4 +1,5 @@
 const pool = require("../db.js");
+const authenticateJWT = require('../authenticateJWT.js');
 const express = require("express");
 const router = express.Router();
 
@@ -62,7 +63,7 @@ router.get("/user/:id", async (req, response) => {
 });
 
 // @route POST api/hungry/
-router.post("/", async (req, response) => {
+router.post("/", authenticateJWT, async (req, response) => {
   // Form validation
   const hungry = req.body;
   const { errors, isValid } = validateMealInput(hungry);
@@ -113,7 +114,7 @@ router.post("/", async (req, response) => {
 // @route DELETE api/hungry/id
 // @desc delete a hungry
 // @access Public (?)
-router.delete("/:hungry_id", async (req, response) => {
+router.delete("/:hungry_id", authenticateJWT, async (req, response) => {
   const hungry = req.body;
   const hungry_id = req.params.hungry_id;
   if (isNaN(hungry_id)) {

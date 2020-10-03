@@ -8,6 +8,7 @@ const multiparty = require('multiparty');
 const insertImageIntoDB = require("./utility.js")
 const router = express.Router();
 const pool = require("../db.js");
+const authenticateJWT = require('../authenticateJWT.js');
 
 // configure the keys for accessing AWS
 AWS.config.update({
@@ -37,7 +38,7 @@ const uploadFile = async (buffer, name, type) => {
 };
 
 //POST route
-router.post("/upload", async (request, response) => {
+router.post("/upload", authenticateJWT, async (request, response) => {
   const form = new multiparty.Form();
   console.log("Uploading: " + JSON.stringify(form));
   return form.parse(request, async (error, fields, files) => {
