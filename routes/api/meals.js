@@ -1,4 +1,5 @@
 const pool = require("../db.js");
+const authenticateJWT = require('../authenticateJWT.js');
 var addNotification = require('./notifications');
 const express = require("express");
 const router = express.Router();
@@ -47,7 +48,7 @@ router.get("/:id", async (req, response) => {
 // @route GET api/meals/my
 // @desc get a list of meals created by me
 // @access Public
-router.get("/my/:id", async (req, response) => {
+router.get("/my/:id", authenticateJWT, async (req, response) => {
   console.log("get my meals by user id: " + JSON.stringify(req.params));
   const userId = req.params.id;
   if (userId == "undefined") {
@@ -81,7 +82,7 @@ router.get("/my/:id", async (req, response) => {
 // @route GET api/meals/attends
 // @desc get a list of meals where the user attends
 // @access Public
-router.get("/attends/:id", async (req, response) => {
+router.get("/attends/:id", authenticateJWT, async (req, response) => {
   console.log("get meals where user attends: " + JSON.stringify(req.params));
   if (req.params.id == "undefined") {
     console.log("error, empty id");
@@ -112,7 +113,7 @@ router.get("/attends/:id", async (req, response) => {
 // @route GET api/meals/guests
 // @desc get a list of users attending a meal
 // @access Public
-router.get("/guests/:meal_id", async (req, response) => {
+router.get("/guests/:meal_id", authenticateJWT, async (req, response) => {
   console.log("Get users by meal_id: " + JSON.stringify(req.params));
   const meal_id = req.params.meal_id;
   if (isNaN(meal_id)) {
@@ -141,7 +142,7 @@ router.get("/guests/:meal_id", async (req, response) => {
 });
 
 // @route POST api/meals/image
-router.post("/image", async (req, response) => {
+router.post("/image", authenticateJWT, async (req, response) => {
   console.log(`query: ${JSON.stringify(req.body)}`);
   if (!req.body.meal_id) {
     return response.status(500).json(`Empty input.`);
@@ -170,7 +171,7 @@ router.post("/image", async (req, response) => {
     });
 });
 // @route POST api/meals/ - create a meal
-router.post("/", async (req, response) => {
+router.post("/", authenticateJWT, async (req, response) => {
   // Form validation
   const meal = req.body;
   const { errors, isValid } = validateMealInput(meal);
@@ -221,7 +222,7 @@ router.post("/", async (req, response) => {
 // @route DELETE api/meals/id
 // @desc delete a meal
 // @access Public (?)
-router.delete("/:meal_id", async (req, response) => {
+router.delete("/:meal_id", authenticateJWT, async (req, response) => {
   const meal = req.body;
   const mealId = req.params.meal_id;
   if (isNaN(mealId)) {

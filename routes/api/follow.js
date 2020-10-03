@@ -1,5 +1,6 @@
 const addNotification = require('./notificationsPush');
 const pool = require("../db.js");
+const authenticateJWT = require('../authenticateJWT.js');
 const express = require("express");
 const router = express.Router();
 
@@ -60,7 +61,7 @@ router.get("/followies/:id", async (req, response) => {
 });
 
 // @route POST follow/unfollow
-router.post("/:id", async (req, response) => {
+router.post("/:id", authenticateJWT, async (req, response) => {
   const follower = req.params.id;
   const followie = req.body.followie;
   const status = req.body.status;

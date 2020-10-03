@@ -1,11 +1,12 @@
 const pool = require("../db.js");
+const authenticateJWT = require('../authenticateJWT.js');
 const express = require("express");
 const router = express.Router();
 
 // @route GET api/chat/
 // @desc get a chat info for the user
 // @access Public
-router.get("/:id", async (req, response) => {
+router.get("/:id", authenticateJWT, async (req, response) => {
   var userId = req.params.id;
   console.log(`get chat messages for user ${userId}`);
   if (isNaN(userId)) {
@@ -65,7 +66,7 @@ router.get("/:id", async (req, response) => {
 // @route GET api/user/
 // @desc get a chat messages for a specific user
 // @access Public
-router.get("/user/:me/:user", async (req, response) => {
+router.get("/user/:me/:user", authenticateJWT, async (req, response) => {
   console.log(`here`);
   var meId = req.params.me;
   var userId = req.params.user

@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../db.js");
+const authenticateJWT = require('../authenticateJWT.js');
 
 // @route GET api/notifications
 // @desc get list og user's notifications
 // @access Public
-router.get("/:id", async (req, response)=> {
+router.get("/:id", authenticateJWT, async (req, response)=> {
   const id = req.params.id;
   if (isNaN(id)) {
     console.log("error, empty id");
@@ -30,7 +31,7 @@ router.get("/:id", async (req, response)=> {
 // @route PUT api/notifications
 // @desc sets notification's status
 // @access Public!??
-router.put("/:id", async (req, response)=> {
+router.put("/:id", authenticateJWT, async (req, response)=> {
   const id = req.params.id;
   if (isNaN(id)) {
     console.error("error, empty id");
@@ -56,7 +57,7 @@ router.put("/:id", async (req, response)=> {
   });
 });
 
-router.post("/token/:id", async (req, response)=> {
+router.post("/token/:id", authenticateJWT, async (req, response)=> {
   const id = req.params.id;
   const token = req.body.token;
 
@@ -83,7 +84,7 @@ router.post("/token/:id", async (req, response)=> {
   });
 });
 
-router.post("/send-message", async (req, response)=> {
+router.post("/send-message", authenticateJWT, async (req, response)=> {
   console.log(`Message: ${req.body.message} from ${req.body.sender} to ${req.body.receiver}`);
   const message =
   {
