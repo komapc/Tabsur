@@ -68,7 +68,7 @@ router.post('/:id', authenticateJWT, async (req, response) => {
 });
 
 /* UPDATE attend */
-router.put('/:id', authenticateJWT, function (req, res, next) {
+router.put('/:id', authenticateJWT, function (req, response, next) {
   return response.status(500).json("failed to update - not implemented");
 });
 
