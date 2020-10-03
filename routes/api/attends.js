@@ -5,10 +5,10 @@ var express = require('express');
 var router = express.Router();
 
 /* GET attend by meal */
-router.get('/meal/:meal_id', authenticateJWT, function (req, res, next) {
+router.get('/meal/:meal_id', authenticateJWT, function (req, response, next) {
   attend.find({ meal_id: req.params.meal_id }, function (err, post) {
     if (err) return next(err); // Why only here using next?
-    res.json(post);
+    response.json(post);
   });
 });
 
