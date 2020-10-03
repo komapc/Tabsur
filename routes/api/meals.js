@@ -10,7 +10,7 @@ const validateMealInput = require("../../validation/meal");
 // @route GET api/meals/
 // @desc get a meal list
 // @access Public
-router.get("/:id", authenticateJWT, async (req, response) => {
+router.get("/:id", async (req, response) => {
   var userId = req.params.id;
   console.log(`get meals for user ${userId}`);
   if (isNaN(userId))
