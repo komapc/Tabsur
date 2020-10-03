@@ -73,7 +73,7 @@ router.put('/:id', authenticateJWT, function (req, res, next) {
 });
 
 /* DELETE attend */
-router.delete('/:id', authenticateJWT, async (req, res, next) => {
+router.delete('/:id', authenticateJWT, async (req, response, next) => {
   console.log("Attend, " + currentConfig.user);
   const attend = req.body;
   const client = await pool.connect();
