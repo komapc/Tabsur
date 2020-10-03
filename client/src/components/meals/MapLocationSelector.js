@@ -38,9 +38,9 @@ class MapLocationSelector extends Component {
             console.error(error);
           }
         )
-        .catch(err => {
-          console.error(`getCurrentPosition failed: ${err}`);
-        });
+          .catch(err => {
+            console.error(`getCurrentPosition failed: ${err}`);
+          });
       });
     }
     else {
@@ -48,10 +48,10 @@ class MapLocationSelector extends Component {
     }
   }
 
-  getCoords(lat, lng){
+  getCoords(lat, lng) {
     console.log(lat, lng);
   }
-  
+
   onMarkerDragEnd = (event) => {
     let lat = event.latLng.lat(),
       lng = event.latLng.lng();
@@ -67,9 +67,9 @@ class MapLocationSelector extends Component {
         console.error(error);
       }
     )
-    .catch(err => {
-      console.error(`fromLatLng failed: ${err}`);
-    });
+      .catch(err => {
+        console.error(`fromLatLng failed: ${err}`);
+      });
   };
 
   onAutoCompleteSelect = (event) => {
@@ -105,12 +105,11 @@ class MapLocationSelector extends Component {
           <img onClick={this.props.handleExit}
             className="autocomplete-icon" src={backArrowIcon} alt="Close map" />
         </span>
-        {/* <GoogleMaps InitialValue="Ramat Gan" /> */}
 
         <MapWithMarker
-          
-          onAutoCompleteSelect = {this.onAutoCompleteSelect}
-          initialValue={this.props.address}
+
+          onAutoCompleteSelect={this.onAutoCompleteSelect}
+          initialValue={this.state.address}
           onDragEnd={this.onMarkerDragEnd}
           defaultLocation={{
             lng: this.state.defaultLocation.lng,
@@ -125,22 +124,22 @@ class MapLocationSelector extends Component {
           mapElement={<div style={{ height: `90vh`, top: `10vh` }} />}
           googleMapURL={`https://maps.googleapis.com/maps/api/js?libraries=places&key=${GOOGLE_MAPS_API_KEY}`}
         >
-           
-    </MapWithMarker>
+
+        </MapWithMarker>
       </span>
     )
   };
 }
 
 const MyGoogleMap = (props) => <GoogleMap
-  defaultZoom={8}
+  defaultZoom={10}
   defaultCenter={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
 >
-<GooglePlacesAutocomplete className="autocomplete-span"
+  <GooglePlacesAutocomplete className="autocomplete-span"
     onSelect={props.onAutoCompleteSelect}
-    defaultLocation={props.defaultLocation}
-    defaultPosition={props.defaultLocation}
-    initialValue = {props.initialValue}
+    defaultLocation={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
+    defaultPosition={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
+    initialValue={props.initialValue}
     query={{
       language: 'en',
     }}>
