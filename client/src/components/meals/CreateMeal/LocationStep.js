@@ -54,6 +54,7 @@ const LocationStep = props => {
             handleLocationUpdate={onLocationUpdate}
             defaultLocation={defaultLocation}
             handleExit={onMapExit}
+            zoom={10}
           />
         </div>
       </Grid>
