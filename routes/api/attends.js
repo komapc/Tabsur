@@ -1,10 +1,11 @@
 const pool = require("../db.js");
+const authenticateJWT = require('../authenticateJWT.js');
 var addNotification = require('./notificationsPush');
 var express = require('express');
 var router = express.Router();
 
 /* GET attend by meal */
-router.get('/meal/:meal_id', function (req, res, next) {
+router.get('/meal/:meal_id', authenticateJWT, function (req, res, next) {
   attend.find({ meal_id: req.params.meal_id }, function (err, post) {
     if (err) return next(err); // Why only here using next?
     res.json(post);
@@ -12,7 +13,7 @@ router.get('/meal/:meal_id', function (req, res, next) {
 });
 
 /* SAVE attend */
-router.post('/:id', async (req, response) => {
+router.post('/:id', authenticateJWT, async (req, response) => {
   const attend = req.body;
   console.log("Attend, request: " + JSON.stringify(attend));
 
@@ -67,7 +68,7 @@ router.post('/:id', async (req, response) => {
 });
 
 /* UPDATE attend */
-router.put('/:id', function (req, res, next) {
+router.put('/:id', authenticateJWT, function (req, res, next) {
   return response.status(500).json("failed to update - not implemented");
 });
 
