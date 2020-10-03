@@ -12,9 +12,7 @@ const authenticateJWT = (req, res, next) => {
             next();
         });
     } else {
-        //res.sendStatus(401);
-        req.user = null;
-        next();
+        res.sendStatus(401);
     }
 };
 module.exports = authenticateJWT;
