@@ -1,4 +1,5 @@
 const pool = require("../db.js");
+const authenticateJWT = require('../authenticateJWT.js');
 var addNotification = require('./notifications');
 const express = require("express");
 const router = express.Router();
@@ -9,7 +10,7 @@ const validateMealInput = require("../../validation/meal");
 // @route GET api/meals/
 // @desc get a meal list
 // @access Public
-router.get("/:id", async (req, response) => {
+router.get("/:id", authenticateJWT, async (req, response) => {
   var userId = req.params.id;
   console.log(`get meals for user ${userId}`);
   if (isNaN(userId))
