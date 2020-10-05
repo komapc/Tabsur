@@ -58,7 +58,7 @@ class ChatList extends Component {
 
         <AppBar position="sticky">
           <Toolbar>
-            CHAT
+            CHAT ({this.props.notificationsCount})
           </Toolbar>
         </AppBar>
         {
@@ -72,6 +72,7 @@ class ChatList extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  notificationsCount: state.notificationsCount
 
 });
 const mapDispatchToProps = (dispatch) => ({
