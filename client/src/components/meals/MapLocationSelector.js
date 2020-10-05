@@ -15,7 +15,8 @@ class MapLocationSelector extends Component {
     super(props);
     this.state = {
       defaultLocation: this.props.defaultLocation,
-      location: this.props.defaultLocation
+      location: this.props.defaultLocation,
+      address: this.props.address
     };
   };
   componentDidMount() {
@@ -25,7 +26,6 @@ class MapLocationSelector extends Component {
         const p = { lng: position.coords.longitude, lat: position.coords.latitude };
 
         console.log(`geolocation is:  ${JSON.stringify(p)}`);
-        //
         Geocode.fromLatLng(p.lat, p.lng).then(
           response => {
             console.log("fromLatLng.");
@@ -75,7 +75,7 @@ class MapLocationSelector extends Component {
   onAutoCompleteSelect = (event) => {
     const addr = event.description;
     console.log(addr);
-    console.log("onAutoCompleteSelect event: " + event);
+    console.log("onAutoCompleteSelect event: " + event.description);
     //setAddress(addr);
     this.setState({ address: addr });
     Geocode.fromAddress(addr)
@@ -111,6 +111,7 @@ class MapLocationSelector extends Component {
           onAutoCompleteSelect={this.onAutoCompleteSelect}
           initialValue={this.state.address}
           onDragEnd={this.onMarkerDragEnd}
+          address={this.props.address}
           defaultLocation={{
             lng: this.state.defaultLocation.lng,
             lat: this.state.defaultLocation.lat
@@ -139,7 +140,7 @@ const MyGoogleMap = (props) => <GoogleMap
     onSelect={props.onAutoCompleteSelect}
     defaultLocation={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
     defaultPosition={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
-    initialValue={props.initialValue}
+    initialValue={props.address}
     query={{
       language: 'en',
     }}>
@@ -152,6 +153,5 @@ const MyGoogleMap = (props) => <GoogleMap
 </GoogleMap>;
 
 const MapWithMarker = withScriptjs(withGoogleMap(MyGoogleMap));
-
 
 export default MapLocationSelector;
