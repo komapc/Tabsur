@@ -101,21 +101,7 @@ nav
     flex-direction: column;
     display:flex;
 }
-.menu
-{
-    background-color:#FFFFFF;
-    position: fixed;
-    right:0px;
-    bottom: 56px;
-    height: 100%;
-    width: 50%;
-    font-size: 150%;
-    color: #13A049;
-    transition: 0.2s;
-    top: 0px;
-    padding-top: 56px;
-    z-index: 100;
-}
+
 
 .menu-hidden
 {
@@ -134,7 +120,7 @@ nav
 .menu:hover {
     color: black;
 }
-
+/* 
 .notes
 {
     background-color:#FFFFFF;
@@ -166,7 +152,7 @@ nav
 }
 .notes:hover {
     color: black;
-}
+} */
 
 .button {
     background-color:#f75c06;
@@ -302,6 +288,7 @@ input
 .autocomplete-span
 {
     background-color: white !important;
+    z-index: 1111;
 }
 .autocomplete-bar
 {  
@@ -311,10 +298,10 @@ input
 .map-with-marker-container
 {
     position: absolute;
-    top: 35px;
-    left: 0%;
-    height: 95%;
-    width: 100%;
+    top: 30px;
+    left: 0px;
+    bottom: 0px;
+    width: 100vw;
 }
 /*user info*/
 .info-back-div
