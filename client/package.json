@@ -28,6 +28,7 @@
     "install": "^0.13.0",
     "jwt-decode": "^2.2.0",
     "material-ui": "^0.20.2",
+    "material-ui-autocomplete-google-places": "^2.3.0",
     "multiparty": "^4.2.2",
     "react": "^16.6.3",
     "react-async-script-loader": "^0.3.0",
