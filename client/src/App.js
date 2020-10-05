@@ -119,12 +119,15 @@ class App extends Component {
           console.log(`message.data: ${JSON.stringify(data)}`);
           console.log(`message.data.type: ${JSON.stringify(data["gcm.notification.type"])}`);
           const type = data["gcm.notification.type"];
-          if (type === "0") { //"message"; TODO: use strings vs enums 
-            store.dispatch(setMessagesCount(++this.state.messagesCount));
-          } else if (type === "6") {
-            store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount));
-          } else {
-            store.dispatch(setNotificationsCount(++this.state.notificationsCount));
+          switch (type)
+          {
+            case "0":  
+              store.dispatch(setMessagesCount(++this.state.messagesCount)); break;
+            case "6":  
+              store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount)); break;
+            default: 
+              store.dispatch(setNotificationsCount(++this.state.notificationsCount)); 
+              break;
           }
         });
       }
