@@ -35,9 +35,7 @@ class ChatUser extends React.Component {
         console.error(error);
       })
   }
-  componentDidMount() {
-
-  };
+  
   sendMessageWithCallback(sender, myName, receiver) {
     //update local state
     const newItem = {name2: myName, name1:receiver, message_text: this.state.typedMessage};
@@ -96,7 +94,8 @@ class ChatUser extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  notificationsCount: state.notificationsCount
 });
 
 export default connect(
