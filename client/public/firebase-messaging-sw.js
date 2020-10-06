@@ -1,8 +1,17 @@
 importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-messaging.js");
-// firebase.initializeApp({
-//   messagingSenderId: "156567484209"
-// });
+
+try
+{
+  firebase.initializeApp({
+    messagingSenderId: "156567484209"
+  });
+}
+catch (e)
+{
+  console.error(`firebase.initializeApp failed: ${e}`);
+}
+
 try
 {
   const messaging = firebase.messaging();
@@ -26,7 +35,7 @@ try
 }
 catch(err)
 {
-  console.log(`Something failed, probably setBackgroundMessageHandler: ${err}.`)
+  console.error(`Something failed, probably setBackgroundMessageHandler: ${err}.`)
 }
 self.addEventListener('notificationclick', function(event) {
   try

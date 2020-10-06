@@ -14,7 +14,7 @@ class ChatList extends Component {
     this.state = {
       user: [],
       loading: true,
-      id: this.props.auth.user.id || -1
+      id: this.props.auth.user.id || -1,
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -22,6 +22,8 @@ class ChatList extends Component {
       this.props.setFabVisibility(false);
       this.props.setSwipability(true);
     }
+    
+    this.setState({notificationsCount:this.props.notificationsCount});
   }
 
   componentDidMount() {
@@ -35,8 +37,7 @@ class ChatList extends Component {
       });
   };
   showList = () => {
-    if (this.state.users.length === 0)
-    {
+    if (this.state.users.length === 0) {
       return <div>No messages yet</div>
     }
     return <div className="map-meal-info" style={{ width: '100%' }}>
@@ -53,12 +54,13 @@ class ChatList extends Component {
     </div>
   }
   render() {
+    
+    console.log(`notifications count: ${this.props.notificationsCount}`);
     return (
       <div className="main">
-
         <AppBar position="sticky">
-          <Toolbar>
-            CHAT ({this.props.notificationsCount})
+          <Toolbar> CHAT
+            {/* CHAT ({this.state.notificationsCount}) */}
           </Toolbar>
         </AppBar>
         {
