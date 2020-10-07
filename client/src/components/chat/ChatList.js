@@ -17,9 +17,9 @@ const showList = (props) => {
       props.users.map(user => {
         const sender = user.sender;
         const receiver = user.receiver;
-        const patner = props.auth.user.id !== sender ? sender : receiver;
+        const partner = props.auth.user.id !== sender ? sender : receiver;
         return <div key={user.id}>
-          <ChatListItem user={user} partner={patner} />
+          <ChatListItem user={user} partner={partner} />
         </div>
       }
       )}
