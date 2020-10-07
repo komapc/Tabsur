@@ -14,6 +14,7 @@ import store from "./store";
 import Profile from "./components/users/Profile"
 import Main from "./components/layout/Main"
 import Register from "./components/auth/Register";
+import Settings from "./components/auth/Settings";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import ShowMeal from "./components/meals/ShowMeal";
@@ -159,6 +160,7 @@ class App extends Component {
                 <PrivateRoute exact path="/profile/:id" component={Profile} />
                 <PrivateRoute exact path="/Stats/:id" component={Stats} />
                 <PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
+                <PrivateRoute exact path="/settings" component={Settings} />
                 <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard} />
                 <Route path="/" component={Main} />
 
