@@ -31,26 +31,26 @@ const useStyles = makeStyles(theme => ({
     width: '33px'
   }
 }));
-class Bottom extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+const Bottom = (props) => {  
+    var state = {
       messagesCount: props.messagesCount,
       notificationsCount: props.notificationsCount,
       profileNotificationsCount: props.profileNotificationsCount
     };
-  }
-  render() {
-    const index = this.props.index;
+ 
+    const index = props.index;    
     // TODO: use tabs enum object from App.js and move it from App.js outside
-    if (index === 1 && this.props.profileNotificationsCount !== 0) {
-      store.dispatch(setProfileNotificationsCount(0));
-    } else if (index === 2 && this.props.notificationsCount !== 0) {
-      store.dispatch(setNotificationsCount(0));
-    } else if (index === 3 && this.props.messagesCount !== 0) {
-      store.dispatch(setMessagesCount(0));
+    switch (index)
+    {
+      case 1: if (props.profileNotificationsCount !== 0)
+        store.dispatch(setProfileNotificationsCount(0)); break;
+        
+      case 2: if (props.notificationsCount !== 0)
+        store.dispatch(setNotificationsCount(0)); break;
+      
+      case 3: if (props.messagesCount !== 0)
+        store.dispatch(setMessagesCount(0)); break;
     }
-
     return (
       // <Box
       //   borderRadius="28px 28px 0px 0px" borderColor="black" position="fixed"
@@ -61,7 +61,7 @@ class Bottom extends Component {
         <div className="footer">
           <Tabs
             value={index}
-            onChange={this.props.onChange}
+            onChange={props.onChange}
             centered
             indicatorColor='primary'
             TabIndicatorProps={{
@@ -72,18 +72,18 @@ class Bottom extends Component {
             <Tab icon={<img className="footer-icons"
               src={index === 0 ? searchActive : search} alt={"search meals"} />} />
             <Tab icon={
-              <Badge badgeContent={this.props.profileNotificationsCount} color="secondary">
+              <Badge badgeContent={props.profileNotificationsCount} color="secondary">
                 <img className="footer-icons"
                   src={index === 1 ? profileActive : profile} alt={"profile"} />
               </Badge>} />
             <Tab icon={
-              <Badge badgeContent={this.props.notificationsCount} color="secondary">
+              <Badge badgeContent={props.notificationsCount} color="secondary">
                 <img className="footer-icons"
                   src={index === 2 ? mealsActive : meals} alt={"my meals"} />
               </Badge>
             } />
             <Tab icon={
-              <Badge badgeContent={this.props.messagesCount} color="secondary">
+              <Badge badgeContent={props.messagesCount} color="secondary">
                 {/* <BigChatIcon /> */}
                 <img className="footer-icons"
                   src={index === 3 ? chatActive : chat} alt={"chat"} />
@@ -94,7 +94,8 @@ class Bottom extends Component {
       //</Box>
     );
   }
-}
+
+
 const mapStateToProps = state => ({
   messagesCount: state.messagesCount,
   notificationsCount: state.notificationsCount,
