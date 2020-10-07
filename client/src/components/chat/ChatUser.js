@@ -1,6 +1,6 @@
 import { withRouter } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
-import React from "react";
 import { getChatMessages } from "../../actions/chatActions";
 import { sendMessage } from "../../actions/notifications"
 
@@ -16,83 +16,90 @@ const ChatLine = (props) => {
     {props.message.name2}: <b>{props.message.message_text}</b>
   </div>
 }
-class ChatUser extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: props.user,
-      messages: [],
-      partner_id: this.props.match.params.id,
-      typedMessage: ""
-    };
-    console.log(`partner: ${this.state.partner_id}`);
-    getChatMessages(this.props.auth.user.id, this.state.partner_id)
-      .then(res => {
-        console.log(res.data);
-        this.setState({ messages: res.data, loading: false });
-      })
-      .catch(error => {
-        console.error(error);
-      })
-  }
-  
-  sendMessageWithCallback(sender, myName, receiver) {
+
+
+const ChatUser = (props) => {
+
+  // this.state = {
+  //   user: props.user,
+  //   messages: [],
+  //   partner_id: this.props.match.params.id,
+  //   typedMessage: ""
+  // };
+
+  const sendMessageWithCallback = (sender, myName, receiver, typedMessage) => {
     //update local state
-    const newItem = {name2: myName, name1:receiver, message_text: this.state.typedMessage};
-    this.setState({ messages: [...this.state.messages, newItem] });
+    const newItem = { name2: myName, name1: receiver, message_text: typedMessage };
+    setMessages([...messages, newItem]);
     //send to server
-    sendMessage(sender, receiver, this.state.typedMessage)
+    sendMessage(sender, receiver, typedMessage)
       .then(res => { // Callback
         console.log(JSON.stringify(res));
       })
       .catch(err => {
         console.error(err);
       });
-    this.setState({ typedMessage: "" });
+     setTypedMessage("");
   }
-  onChange = event => {
-    this.setState({ typedMessage: event.target.value });
+  const onChange = event => {
+    setTypedMessage(event.target.value);
   }
-  render() {
-    return <>
-      <Box style={{ height: "85vh", overflowY:"scroll" }}>
-        <AppBar position="sticky">
-          <Toolbar>
-            <BackButton />
-          Chat with {this.state.messages.name2}</Toolbar>
-        </AppBar>
+  
+  const [typedMessage, setTypedMessage] =  useState("");
+  const [messages, setMessages] = useState([]);
 
-        {this.state.messages.map(message =>
-          <div key={message.id}>
-            <ChatLine message={message}></ChatLine>
-          </div>
-        )}
-      </Box>
-      <Box style={{ top: "85vh", position: "sticky" }}>
+  const partner_id = props.match.params.id;
+  console.log(`partner: ${partner_id}`);
+  
+  useEffect(() => {
+  getChatMessages(props.auth.user.id, partner_id)
+    .then(res => {
+      console.log(res.data);
+        setMessages(res.data);
+    })
+    .catch(error => {
+      console.error(error);
+    })
+  },[]);
 
-        <TextField
-          variant="outlined"
-          label={'message'}
-          placeholder="Message"
-          onChange={this.onChange}
-          id="message"
-          value={this.state.typedMessage}
-          inputProps={{
-            autoComplete: 'off'
-          }}
-        />
-        <Button variant="contained" 
-          type="submit"
-          onClick={() => this.sendMessageWithCallback(
-          this.props.auth.user.id,
-          this.props.auth.user.name,
-          this.state.partner_id
+  return <>
+    <Box style={{ height: "85vh", overflowY: "scroll" }}>
+      <AppBar position="sticky">
+        <Toolbar>
+          <BackButton />
+          Chat with {messages.name2}</Toolbar>
+      </AppBar>
+
+      {messages.map(message =>
+        <div key={message.id}>
+          <ChatLine message={message}></ChatLine>
+        </div>
+      )}
+    </Box>
+    <Box style={{ top: "85vh", position: "sticky" }}>
+
+      <TextField
+        variant="outlined"
+        label={'message'}
+        placeholder="Message"
+        onChange={onChange}
+        id="message"
+        value={typedMessage}
+        inputProps={{
+          autoComplete: 'off'
+        }}
+      />
+      <Button variant="contained"
+        type="submit"
+        onClick={() => sendMessageWithCallback(
+          props.auth.user.id,
+          props.auth.user.name,
+          partner_id,
+          typedMessage
         )}>Send</Button>
-      </Box>
-    </>
-  };
+    </Box>
+  </>
 }
-
 const mapStateToProps = state => ({
   auth: state.auth,
   notificationsCount: state.notificationsCount
