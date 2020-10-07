@@ -27,19 +27,20 @@ const showList = (props) => {
 }
 
 const ChatList = (props) => {
-
   const id = props.auth.user.id || -1;
   const [notificationsCount, setNotificationsCount] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-
+    console.log(`ChatList props: ${JSON.stringify(props)}.`);
+    console.log(`ChatList effect: ${props.active}.`);
     if (props.active) {
       props.setFabVisibility(false);
       props.setSwipability(true);
     }
 
-    setNotificationsCount(props.notificationsCount);
+    //setNotificationsCount(props.notificationsCount);
+    setNotificationsCount(0);
     getChatUsers(id)
       .then(res => {
         console.log(`getChatUsers result: ${JSON.stringify(res.data)}`);
@@ -50,7 +51,7 @@ const ChatList = (props) => {
         console.error(err);
       });
 
-  }, []);
+  }, [props]);
 
   console.log(`notifications count: ${props.notificationsCount}`);
   return (
