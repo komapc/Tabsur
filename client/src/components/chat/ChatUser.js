@@ -60,7 +60,7 @@ const ChatUser = (props) => {
     .catch(error => {
       console.error(error);
     })
-  },[]);
+  },[props]);
 
   return <>
     <Box style={{ height: "85vh", overflowY: "scroll" }}>
