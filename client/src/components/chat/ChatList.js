@@ -28,12 +28,7 @@ const showList = (props) => {
 
 const ChatList = (props) => {
 
-  var state = {
-    user: [],
-    loading: true,
-    id: props.auth.user.id || -1,
-  };
-  
+  const id = props.auth.user.id || -1;
   const [notificationsCount, setNotificationsCount] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,15 +40,13 @@ const ChatList = (props) => {
     }
 
     setNotificationsCount(props.notificationsCount);
-
-
-    getChatUsers(props.auth.user.id)
+    getChatUsers(id)
       .then(res => {
-        console.log(res.data);
+        console.log(`getChatUsers result: ${JSON.stringify(res.data)}`);
         setUsers(res.data);
         setLoading(false);      
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
 
@@ -64,12 +57,12 @@ const ChatList = (props) => {
     <div className="main">
       <AppBar position="sticky">
         <Toolbar>
-          CHAT ({state.notificationsCount})
+          CHAT ({notificationsCount})
       </Toolbar>
       </AppBar>
       {
-        state.loading ?
-          <img src={loadingGIF} alt="loading" /> : showList(users)
+        loading ?
+          <img src={loadingGIF} alt="loading" /> : showList({users:users, auth:props.auth})
       }
     </div>
   )
