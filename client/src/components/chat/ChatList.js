@@ -45,9 +45,9 @@ class ChatList extends Component {
         this.state.users.map(user => {
           const sender = user.sender;
           const receiver = user.receiver;
-          const patner = this.props.auth.user.id !== sender ? sender : receiver;
+          const partner = this.props.auth.user.id !== sender ? sender : receiver;
           return <div key={user.id}>
-            <ChatListItem user={user} partner={patner} />
+            <ChatListItem user={user} partner={partner} />
           </div>
         }
         )}
@@ -69,8 +69,7 @@ class ChatList extends Component {
         }
       </div>
     );
-  }
-}
+  }}
 
 const mapStateToProps = state => ({
   auth: state.auth,
