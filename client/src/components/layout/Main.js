@@ -32,7 +32,7 @@ const Main = ({auth}, ...props) => {
       history.push(`/Login`);
     }
   
-    setIndex(value);
+      setIndex(value);
   };
 
   return <>
