@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import store from "../../store";
 import setMessagesCount from "../../actions/MessagesActions"
@@ -32,14 +32,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 const Bottom = (props) => {  
-    var state = {
-      messagesCount: props.messagesCount,
-      notificationsCount: props.notificationsCount,
-      profileNotificationsCount: props.profileNotificationsCount
-    };
- 
     const index = props.index;    
     // TODO: use tabs enum object from App.js and move it from App.js outside
+    useEffect(() => {
     switch (index)
     {
       case 1: if (props.profileNotificationsCount !== 0)
@@ -51,6 +46,7 @@ const Bottom = (props) => {
       case 3: if (props.messagesCount !== 0)
         store.dispatch(setMessagesCount(0)); break;
     }
+  }, [props]);
     return (
       // <Box
       //   borderRadius="28px 28px 0px 0px" borderColor="black" position="fixed"
