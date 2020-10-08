@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser, getUser } from "../../actions/authActions";
@@ -13,15 +13,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import Gallery from "../../components/users/Gallery"
 import Friends from "../../components/users/Friends"
 import MyMeals from "../../components/meals/MyMeals"
+import { IconButton } from '@material-ui/core';
+import SettingsIcon from '@material-ui/icons/Settings';
 //#region MyProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
     width: "100%",
-    height: theme.spacing(25),
+    height: theme.spacing(5),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#13A049',
+    //backgroundColor: '#13A049',
     //backgroundImage: `url(${tmpBgImg})`,
     backgroundSize: 'cover',
   },
@@ -34,15 +36,19 @@ const useStylesHeader = makeStyles(theme => ({
 }))
 const MyProfileHeader = () => {
   const classes = useStylesHeader()
-  return (
+  return ( <span>
     <React.Fragment>
-      <div className={classes.alignItemsAndJustifyContent}>
-        <div className={classes.wrapper}>
+ 
+        <h3>Profile
+        </h3>
+        <div className={classes.alignItemsAndJustifyContent}>
           <Avatar />
         </div>
-      </div>
       <div className={classes.empty}></div>
-    </React.Fragment>
+    
+      </React.Fragment>
+  
+      </span>
   )
 }
 //#endregion
@@ -57,15 +63,15 @@ const useStylesStats = makeStyles(theme => ({
     justifyContent: 'center'
   },
   header: {
-    color: "#13A049",
-    fontSize: 32,
+    //color: "#13A049",
+    fontSize: 28,
     fontWeight: "fontWeightBold",
     fontStyle: "bold",
     //fontFamily: "Monospace"
     margin: '20px'
   },
   stat: {
-    color: "#13A049",
+    //color: "#13A049",
     fontSize: 16,
     fontWeight: "fontWeightBold",
     alignItems: 'left',
@@ -170,7 +176,7 @@ const MyProfileTabs = (props) => {
           TabIndicatorProps={{ style: { backgroundColor: "primary" } }}>
           <Tab label="Friends" {...a11yProps(0)} />
           <Tab label="Gallery" {...a11yProps(1)} />
-          <Tab label="My Meals" {...a11yProps(2)} />
+          {/* <Tab label="My Meals" {...a11yProps(2)} /> */}
         </Tabs>
       </div>
       <TabPanel value={value} index={0} >
@@ -181,7 +187,7 @@ const MyProfileTabs = (props) => {
       </TabPanel>
 
       <TabPanel value={value} index={2}>
-        <MyMeals/>
+        <MyMeals />
       </TabPanel>
     </React.Fragment>
   )
@@ -241,11 +247,22 @@ class MyProfile extends Component {
     this.props.registerUser(newUser, this.props.history);
   };
 
+  openSettings = () =>{
+    
+    this.props.history.push('/settings')
+  }
   render() {
 
     const { errors } = this.state;
     return (
       <React.Fragment>
+         <IconButton color="primary" aria-label="settings" 
+          style={{position:"absolute", padding:"0px 90%"}}
+           onClick={()=>this.openSettings()}
+         >
+          <SettingsIcon />
+         </IconButton>
+ 
         <MyProfileHeader />
         <MyProfileStats name={this.state.name} userStats={this.state.userStats} />
         <MyProfileTabs id={this.state.userId} />
