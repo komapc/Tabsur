@@ -62,12 +62,34 @@ const ChatList = (props) => {
       </Toolbar>
       </AppBar>
       {
-        loading ?
-          <img src={loadingGIF} alt="loading" /> : showList({users:users, auth:props.auth})
-      }
+        this.state.users.map(user => {
+          const sender = user.sender;
+          const receiver = user.receiver;
+          const partner = this.props.auth.user.id !== sender ? sender : receiver;
+          return <div key={user.id}>
+            <ChatListItem user={user} partner={partner} />
+          </div>
+        }
+        )}
     </div>
-  )
-}
+  }
+  render() {
+    
+    console.log(`notifications count: ${this.props.notificationsCount}`);
+    return (
+      <div className="main">
+        <AppBar position="sticky">
+          <Toolbar> CHAT
+            {/* CHAT ({this.state.notificationsCount}) */}
+          </Toolbar>
+        </AppBar>
+        {
+          this.state.loading ?
+            <img src={loadingGIF} alt="loading" /> : this.showList()
+        }
+      </div>
+    );
+  }}
 
 const mapStateToProps = state => ({
   auth: state.auth,
