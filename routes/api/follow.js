@@ -12,7 +12,7 @@ router.get("/:id", async (req, response) => {
   const meal = req.body;
 
   const SQLquery =
-    `SELECT DISTINCT follower, status, name  
+    `SELECT DISTINCT follower as user_id, status, name  
     FROM follow 
     INNER JOIN
     users ON follow.follower = users.id
@@ -43,7 +43,7 @@ router.get("/followies/:id", async (req, response) => {
     console.log("error, empty id");
     return response.status(400).json("Error in get followies: empty");
   }
-  const SQLquery = `SELECT DISTINCT followie, status, name  
+  const SQLquery = `SELECT DISTINCT followie as user_id, status, name  
   FROM follow 
   INNER JOIN
   users ON follow.followie = users.id

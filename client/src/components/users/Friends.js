@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getUserFollowies, getUserFollowers  } from "../../actions/userActions"
+import { getUserFollowies, getUserFollowers } from "../../actions/userActions"
 import Box from '@material-ui/core/Box';
 
 import Friend from './Friend';
@@ -7,10 +7,10 @@ import Friend from './Friend';
 //list of friends
 const FriendList = (props) => {
   console.log(`FL props: ${JSON.stringify(props)}`);
-  
+
   return <Box borderRadius="17px" borderColor="black" border="solid 1px">
     {props.list.map(friend => {
-      return <span key={friend.name}> <Friend  name={friend.name} user_id={friend.id} /></span>
+      return <span key={friend.name}> <Friend  {...friend} /></span>
     })
     }
   </Box>
@@ -31,8 +31,8 @@ const Friends = (props) => {
       .catch(err => {
         console.error(err);
       });
-  
-  getUserFollowers(props.id)
+
+    getUserFollowers(props.id)
       .then(res => {
         const data = res.data;
         console.log(`Data: ${JSON.stringify(data)}`);
@@ -42,14 +42,14 @@ const Friends = (props) => {
       .catch(err => {
         console.error(err);
       });
-    }, []);
+  }, []);
 
 
   return <>
     <div>FOLLOWING</div>
-    <FriendList list={followies}/>
+    <FriendList list={followies} />
     <div>FOLLOWERS</div>
-    <FriendList list={followers}/>
+    <FriendList list={followers} />
   </>
 }
 

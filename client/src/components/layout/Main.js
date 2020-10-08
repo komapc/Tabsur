@@ -1,5 +1,5 @@
 import SwipeableViews from 'react-swipeable-views';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppFab from './AppFab';
 import { useLocation, useHistory } from "react-router-dom";
 import MyMeals from "../meals/MyMeals"
@@ -39,7 +39,7 @@ const Main = ({auth}, ...props) => {
     <AppFab visible={isFabFabVisible} />
     <div className='main-app'>
       <SwipeableViews index={index} onChangeIndex={value=>handleChange(null, value)} disabled={!isSwipable}>
-
+   
         <div><MealsListMapSwitcher
           setFabVisibility={setFabVisibility}
           setSwipability={setSwipability} active={index === mainTabs.MEALS} /></div>
