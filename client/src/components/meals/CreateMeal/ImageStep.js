@@ -66,7 +66,7 @@ const ImageStep = (props) => {
   return (
     <div className="wizard-container">
       <div className="wizard-image-placeholder-containter"
-      style={{backgroundImage:state.file}}>
+      style={{backgroundImage:state.file, width:"100%", height:"80px"}}>
       <Button
         variant="outlined"
         component="label">
