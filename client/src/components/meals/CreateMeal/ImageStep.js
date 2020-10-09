@@ -7,7 +7,7 @@ import imageCompression from 'browser-image-compression';
 
 const ImageStep = (props) => {
 
-  const [state, updateState] = useState({ "file": placeholder});
+  const [state, updateState] = useState({ "file": placeholder });
 
   const getImage = e => {
     const files = e.target.files;
@@ -30,47 +30,46 @@ const ImageStep = (props) => {
     props.setUploadingState(true);
     // TODO: disable "next/create meal" button
     imageCompression(event.target.files[0], options)
-    .then(function (compressedFile) {
-      const formData = new FormData();
-      formData.append('file', compressedFile);
-      formData.append('uploader', props.form.host_id);
-      axios.post(`${config.SERVER_HOST}/api/images/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then(response => {
-        console.log(response.data);
-        props.update({ "id": "image_id", "value": response.data });
+      .then(function (compressedFile) {
+        const formData = new FormData();
+        formData.append('file', compressedFile);
+        formData.append('uploader', props.form.host_id);
+        axios.post(`${config.SERVER_HOST}/api/images/upload`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+          .then(response => {
+            console.log(response.data);
+            props.update({ "id": "image_id", "value": response.data });
+          })
+          .catch(function (error) {
+            console.error(error);
+          })
+          .finally(() => {
+            props.setUploadingState(false);
+          });
       })
       .catch(function (error) {
         console.error(error);
-      })
-      .finally(() => {
-        props.setUploadingState(false);
       });
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
   }
 
   return (
     <div className="wizard-container">
-      <div className="wizard-image-placeholder-containter">
-        <img className="wizard-image-placeholder" src={state.file} alt="Uploaded" />
-      </div>
+      <div className="wizard-image-placeholder-containter"
+      style={{backgroundImage:state.file}}>
       <Button
+        position
         variant="outlined"
-        component="label"
-      >
-        Choose File <input
+        component="label" >
+        Add Photo <input
           type="file" accept="image/*"
           style={{ display: "none" }}
           onChange={getImage}
         />
       </Button>
-
+      </div>
     </div>
   );
 };
