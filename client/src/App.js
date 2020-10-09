@@ -10,7 +10,6 @@ import { setNotificationsCount, setProfileNotificationsCount } from "./actions/n
 import { connect, Provider } from "react-redux";
 import store from "./store";
 
-
 import Profile from "./components/users/Profile"
 import Main from "./components/layout/Main"
 import Register from "./components/auth/Register";
@@ -75,7 +74,7 @@ if (enableMessaging) {
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#ffff00',
+      main: '#ffffff',
     },
     secondary: {
       main: '#dc004e',

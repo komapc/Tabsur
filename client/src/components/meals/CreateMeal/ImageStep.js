@@ -11,12 +11,20 @@ const ImageStep = (props) => {
 
   const getImage = e => {
     const files = e.target.files;
-    const file = URL.createObjectURL(files[0]);
-    console.log("Path: " + JSON.stringify(file));
+    try
+    {
+      const file = URL.createObjectURL(files[0]);
+      console.log("Path: " + JSON.stringify(file));
 
-    updateState({ "file": file });
+      updateState({ "file": file });
 
-    submitFile(e, files[0]);
+      submitFile(e, files[0]);
+    }
+    catch (e)
+    {
+      console.error(e);
+      alert(`Error uploading image ${e}`);
+    }
   };
 
   const submitFile = (event, file) => {
@@ -60,9 +68,8 @@ const ImageStep = (props) => {
       <div className="wizard-image-placeholder-containter"
       style={{backgroundImage:state.file}}>
       <Button
-        position
         variant="outlined"
-        component="label" >
+        component="label">
         Add Photo <input
           type="file" accept="image/*"
           style={{ display: "none" }}
