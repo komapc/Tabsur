@@ -16,7 +16,22 @@ import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
 import BackBarMui from "../../layout/BackBarMui";
+
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+
 const CreateMealWizard = ({ auth, addMeal }, ...props) => {
+
+  const theme = createMuiTheme({
+    palette: {
+      secondary: {
+        main: '#ffff00',
+      },
+      primary: {
+        main: '#010101',
+      },
+    },
+  });
 
   const formatedDate = new Date(Date.now() + 86400000);
   const history = useHistory();
@@ -53,9 +68,7 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
       SW
     });
   };
-  const backToList = () => {
-    history.push({ pathname: '/', hash: 0 })
-  }
+
   const submit = (e) => {
     e.preventDefault();
     let summedDate = new Date(state.form.date);
@@ -93,27 +106,28 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
   const { SW } = state;
 
   return (
-    <div style={{ width: "100vw", overflow: "hidden" }}>
+    <ThemeProvider theme={theme}>
+      <div style={{ width: "100vw", overflow: "hidden" }}>
 
-      <BackBarMui history={history} />
-      <div className='col-12 col-sm-6 offset-sm-3'>
-        <div className="wizard-middle">
-          <StepWizard
-            style={{ alignItems: 'flex-end' }}
-            onStepChange={onStepChange}
-            transitions={state.transitions}
-            instance={setInstance}>
-            <NameStep update={update} form={state.form} />
-            <LocationStep update={update} form={state.form} />
-            <ImageStep update={update} form={state.form} auth={state.auth} setUploadingState={setUploadingState} />
-            <DescriptionStep update={update} form={state.form} />
-         
-          </StepWizard>
+        <BackBarMui history={history} />
+        <div className='col-12 col-sm-6 offset-sm-3'>
+          <div className="wizard-middle">
+            <StepWizard
+              style={{ alignItems: 'flex-end' }}
+              onStepChange={onStepChange}
+              transitions={state.transitions}
+              instance={setInstance}>
+              <NameStep update={update} form={state.form} />
+              <LocationStep update={update} form={state.form} />
+              <DescriptionStep update={update} form={state.form} />
+              <ImageStep update={update} form={state.form} auth={state.auth} setUploadingState={setUploadingState} />
+            </StepWizard>
+          </div>
         </div>
+
+        {SW && <Navigator SW={SW} submit={submit} uploadingState={state.uploadingState} />}
       </div>
-      {/* <BackBarMui history={history}/> */}
-      {SW && <Navigator SW={SW} submit={submit} uploadingState={state.uploadingState} />}
-    </div>
+    </ThemeProvider>
   );
 };
 
@@ -123,9 +137,8 @@ const Progress = ({ SW }) => {
   return (
     <Fragment>
       <h4 className="wizard-caption">Create Meal</h4>
-      <div >
-        <img src={images[SW.state.activeStep]}
-          alt={SW.step} className="wizard-progress" /></div>
+      <img src={images[SW.state.activeStep]}
+        alt={SW.step} className="wizard-progress" />
 
     </Fragment>)
 }
@@ -135,8 +148,9 @@ const Navigator = ({ SW, submit, uploadingState }) => {
   const first = SW.state.activeStep > 0;
   return <div style={{ textAlign: "center" }} className="wizard-progress-container">
     <Progress SW={SW} />
-    <Button variant="contained" color="primary" onClick={SW.previousStep} disabled={!first}>Back</Button>
     <Button variant="contained" color="primary"
+      onClick={SW.previousStep} disabled={!first}>Back</Button>
+    <Button variant="contained" color="secondary"
       onClick={last ? submit : SW.nextStep}
       disabled={uploadingState}>
       {last ? (uploadingState ? "Wait" : "Done") : "Next"}

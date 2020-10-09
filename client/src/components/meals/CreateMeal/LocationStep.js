@@ -42,7 +42,7 @@ const LocationStep = props => {
       {/* <img className="meal-info-location-icons" src={locationIcon} alt="location" /> */}
       <Grid container  >
         <Box m={2} p={2} width={1}  display={showMap?'none':'block'} onClick={onAddressClickHandle} >
-          <TextField width={1} fullWidth
+          <TextField width={1} fullWidth variant="outlined" 
             onChange={onChange}
             value={props.form.address}
             error={props.form.address.trim() === ""}
