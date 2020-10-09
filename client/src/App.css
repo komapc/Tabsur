@@ -387,23 +387,28 @@ input
 /*wizard*/
 .wizard-caption
 {
-    width: 100%;
+    position: fixed;
+    top:0px;
+    width: 100vw;
     text-align: center;
-    font-size:1.1em; /* TODO: 30% */
-    color:#a2d888;
+    font-size:0.8em; /* TODO: 30% */
+    color:Gray;
+    border-bottom: solid;
     text-transform: uppercase;
-    margin-top: 1em;
-    margin-bottom: 2em;
+    /* margin-top: 1em; */
+    margin-bottom: 1em;
 }
 .wizard-progress
 {
-    height:100px;
+    width:100vw;
 }
 
 .wizard-progress-container
 {
+    position: fixed;
+    top: 80vh;
     text-align: center;
-    width: 100%;
+    width: 100vw;
 }
 .wizard-icon
 {

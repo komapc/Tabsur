@@ -44,7 +44,6 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
     uploadingState: false
   });
 
-
   const setInstance = SW => updateState({
     ...state,
     SW,
@@ -96,12 +95,9 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
   const { SW } = state;
 
   return (
-    <div style={{width:"100vw", overflow:"hidden"}}>
-      {SW && <TopHeader onExit={backToList} SW={SW} history={history} />}
-      {/* <BackBarMui history={history}/> */}
+    <div style={{ width: "100vw", overflow: "hidden" }}>
 
-      {SW && <Navigator SW={SW} submit={submit} uploadingState={state.uploadingState} />}
-
+      <BackBarMui history={history} />
       <div className='col-12 col-sm-6 offset-sm-3'>
         <div className="wizard-middle">
           <StepWizard
@@ -117,21 +113,21 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
           </StepWizard>
         </div>
       </div>
+      {/* <BackBarMui history={history}/> */}
+      {SW && <Navigator SW={SW} submit={submit} uploadingState={state.uploadingState} />}
     </div>
   );
 };
 
 
-const TopHeader = ({ SW, onExit, history }) => {
+const Progress = ({ SW}) => {
   const images = [imageStep1, imageStep2, imageStep3, imageStep4, imageStep5];
-  //const stepIcons = [wizard_meal_name, wizard_time, wizard_date, wizard_location, wizard_location]
   return (
     <Fragment>
-     
-      <BackBarMui history={history} />
       <h4 className="wizard-caption">Create Meal</h4>
-      <div className="wizard-progress-container">
-        <img src={images[SW.state.activeStep]} alt={SW.step} className="wizard-progress" /></div>
+      <div >
+        <img src={images[SW.state.activeStep]} 
+        alt={SW.step} className="wizard-progress" /></div>
 
     </Fragment>)
 }
@@ -139,16 +135,16 @@ const TopHeader = ({ SW, onExit, history }) => {
 const Navigator = ({ SW, submit, uploadingState }) => {
   const last = SW.state.activeStep >= 4;
   const first = SW.state.activeStep > 0;
-  return <div style={{textAlign:"center"}}>
+  return <div style={{ textAlign: "center" }} className="wizard-progress-container">
+    <Progress SW={SW}/> 
     <Button variant="contained" color="primary" onClick={SW.previousStep} disabled={!first}>Back</Button>
-    <Button variant="contained" color="primary" 
-      onClick={last?submit:SW.nextStep}
+    <Button variant="contained" color="primary"
+      onClick={last ? submit : SW.nextStep}
       disabled={uploadingState}>
-      {last?(uploadingState?"Wait":"Done"):"Next"}
+      {last ? (uploadingState ? "Wait" : "Done") : "Next"}
     </Button>
   </div>
 }
-
 
 const mapStateToProps = state => ({
   auth: state.auth,
