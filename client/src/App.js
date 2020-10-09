@@ -75,7 +75,7 @@ if (enableMessaging) {
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#13A049',
+      main: '#ffff00',
     },
     secondary: {
       main: '#dc004e',

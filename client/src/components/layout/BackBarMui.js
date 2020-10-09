@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 const BackBar = (props) => {
     return (
         <React.Fragment>
-            <IconButton aria-label="back" size="medium" color="primary" onClick={props.history.goBack} >
+            <IconButton aria-label="back" size="medium" onClick={props.history.goBack} >
                 <ArrowBackIcon fontSize="inherit" />
             </IconButton>
         </React.Fragment>
