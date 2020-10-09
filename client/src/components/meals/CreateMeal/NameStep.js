@@ -24,11 +24,7 @@ const NameStep = props => {
             onChange={update} value={props.form.name} label="Meal Name" />
 
         </Box >
-        <Box m={2} >
-          <TextField className='wizard-description' id="description" variant="outlined"
-            onChange={update} value={props.form.description}
-            placeholder="Describe the meal" label="Description" />
-        </Box >
+        
         <Box m={2}>
           <TextField variant="outlined"
             onChange={update}

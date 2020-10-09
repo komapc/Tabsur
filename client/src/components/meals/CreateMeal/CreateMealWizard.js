@@ -1,9 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import { useHistory } from "react-router-dom";
-import TimeStep from './TimeStep';
 import NameStep from './NameStep';
 import LocationStep from './LocationStep';
-import GuestStep from './GuestStep';
+import DescriptionStep from './DescriptionStep';
 import ImageStep from './ImageStep';
 
 import PropTypes from "prop-types";
@@ -11,7 +10,6 @@ import imageStep1 from "../../../resources/wizard/wizard_1.svg";
 import imageStep2 from "../../../resources/wizard/wizard_2.svg";
 import imageStep3 from "../../../resources/wizard/wizard_3.svg";
 import imageStep4 from "../../../resources/wizard/wizard_4.svg";
-//import imageStep5 from "../../../resources/wizard/wizard_5.svg";
 import Button from '@material-ui/core/Button';
 
 import StepWizard from 'react-step-wizard';
@@ -107,9 +105,9 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
             instance={setInstance}>
             <NameStep update={update} form={state.form} />
             <LocationStep update={update} form={state.form} />
-            <TimeStep update={update} form={state.form} />
-            {/* <GuestStep update={update} form={state.form} /> */}
             <ImageStep update={update} form={state.form} auth={state.auth} setUploadingState={setUploadingState} />
+            <DescriptionStep update={update} form={state.form} />
+         
           </StepWizard>
         </div>
       </div>
