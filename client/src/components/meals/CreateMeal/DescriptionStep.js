@@ -13,6 +13,9 @@ const DescriptionStep = props => {
       <Grid container spacing={2}>
         <Box m={2} p={2} width={1}>
           <TextField className='wizard-description' id="description" variant="outlined"
+          multiline
+          rows={4}
+          rowsMax={6}
             onChange={update} value={props.form.description}
             placeholder="Describe the meal" label="Description" />
         </Box >
