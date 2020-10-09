@@ -400,7 +400,8 @@ input
 }
 .wizard-progress
 {
-    width:100vw;
+    width:100%;
+    text-align: center;
 }
 
 .wizard-progress-container
@@ -408,7 +409,7 @@ input
     position: fixed;
     top: 80vh;
     text-align: center;
-    width: 100vw;
+    width: 90vw;
 }
 .wizard-icon
 {
