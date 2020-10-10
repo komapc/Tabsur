@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken');
-const keys = require("../config/keys.js");
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (authHeader) {
         const token = authHeader.split(' ')[1];
-        jwt.verify(token, keys.secretOrKey, (err, user) => {
+        jwt.verify(token, process.env.SECRET_OR_KEY, (err, user) => {
             if (err) {
                 return res.sendStatus(403);
             }
