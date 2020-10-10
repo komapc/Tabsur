@@ -100,7 +100,7 @@ router.post("/login", async (req, response) => {
           // Sign token
           jwt.sign(
             payload,
-            keys.secretOrKey,
+            process.env.SECRET_OR_KEY,
             {
               expiresIn: 31556926 // 1 year in seconds
             },
@@ -204,7 +204,7 @@ router.post("/loginFB", async (req, response) => {
       // Sign token
       jwt.sign(
         payload,
-        keys.secretOrKey,
+        process.env.SECRET_OR_KEY,
         {
           expiresIn: 31556926 // 1 year in seconds
         },
