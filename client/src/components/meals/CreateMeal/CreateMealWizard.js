@@ -107,9 +107,12 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div style={{ width: "100vw", overflow: "hidden" }}>
+      
+      <h4 className="wizard-caption">Create Meal</h4>
+      <BackBarMui history={history} />
+       
+      <div style={{ width: "100vw", overflow: "scroll" }}>
 
-        <BackBarMui history={history} />
         <div className='col-12 col-sm-6 offset-sm-3'>
           <div className="wizard-middle">
             <StepWizard
@@ -136,7 +139,6 @@ const Progress = ({ SW }) => {
   const images = [imageStep1, imageStep2, imageStep3, imageStep4];
   return (
     <Fragment>
-      <h4 className="wizard-caption">Create Meal</h4>
       <img src={images[SW.state.activeStep]}
         alt={SW.step} className="wizard-progress" />
 
