@@ -16,8 +16,7 @@ const LocationStep = props => {
   };
 
   const onMapExit = (e) => {
-    if (e)
-    {
+    if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
@@ -41,8 +40,9 @@ const LocationStep = props => {
       {/* Address*/}
       {/* <img className="meal-info-location-icons" src={locationIcon} alt="location" /> */}
       <Grid container  >
-        <Box m={2} p={2} width={1}  display={showMap?'none':'block'} onClick={onAddressClickHandle} >
-          <TextField width={1} fullWidth
+        <h3 style={{ marginLeft: "40px" }}>Meal Location</h3>
+        <Box m={2} p={2} width={1} display={showMap ? 'none' : 'block'} onClick={onAddressClickHandle} >
+          <TextField width={1} fullWidth variant="outlined"
             onChange={onChange}
             value={props.form.address}
             error={props.form.address.trim() === ""}
@@ -50,13 +50,13 @@ const LocationStep = props => {
             label="Location"
             placeholder="Address"
             helperText={props.form.address.trim() === "" ? "Empty" : ""}
-        />
+          />
         </Box >
         <div className={showMap ? 'createMealMap' : 'createMealMap-hidden'} hidden={!showMap}>
           <MapLocationSelector
             handleLocationUpdate={onLocationUpdate}
             defaultLocation={defaultLocation}
-            address = {address}
+            address={address}
             handleExit={onMapExit}
             zoom={10}
           />

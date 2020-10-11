@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     //marginLeft: '5vW',
     //marginRight: '5vw',
 
-    width:'100vw'
+    width: '100vw'
   },
   media: {
     height: 0,
@@ -54,10 +54,11 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: 'Yellow',
     color: 'Black',
-    border:"solid", 
-    borderColor:"Black",
+    border: "solid",
+    borderColor: "Black",
     borderWidth: "1px"
-}}));
+  }
+}));
 function RecipeReviewCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -70,8 +71,8 @@ function RecipeReviewCard(props) {
     <Card className={classes.root}>
       <CardHeader
         onClick={(event) => { props.gotoMeal(event, props.meal) }}
-        avatar={ props.auth.user.id === props.meal.host_id ?
-          <Avatar className={classes.avatar} onClick={(event) => { props.goToUser(event, props.meal.host_id) }}/> :
+        avatar={props.auth.user.id === props.meal.host_id ?
+          <Avatar className={classes.avatar} onClick={(event) => { props.goToUser(event, props.meal.host_id) }} /> :
           <Avatar aria-label="recipe" className={classes.avatar} onClick={(event) => { props.goToUser(event, props.meal.host_id) }}>
             {props.owner[0].toUpperCase()}
           </Avatar>
@@ -81,27 +82,27 @@ function RecipeReviewCard(props) {
             {/* <MoreVertIcon /> */}
           </IconButton>
         }
-        title={<React.Fragment><span style={{fontWeight:900}}>{props.meal.name}</span></React.Fragment>}
-        subheader={<React.Fragment><span  onClick={(event) => { props.goToUser(event, props.meal.host_id) }}>{`by ${props.owner}`}</span></React.Fragment>}
+        title={<React.Fragment><span style={{ fontWeight: 900 }}>{props.meal.name}</span></React.Fragment>}
+        subheader={<React.Fragment><span onClick={(event) => { props.goToUser(event, props.meal.host_id) }}>{`by ${props.owner}`}</span></React.Fragment>}
       />
-      {props.path.indexOf('/static/media/userpic_empty') === -1 ? 
-      <CardMedia
-        onClick={(event) => { props.gotoMeal(event, props.meal) }}
-        className={classes.media}
-        image={props.path}
-        title="Meal picture"
-      /> :
-      null}
+      {props.path.indexOf('/static/media/userpic_empty') === -1 ?
+        <CardMedia
+          onClick={(event) => { props.gotoMeal(event, props.meal) }}
+          className={classes.media}
+          image={props.path}
+          title="Meal picture"
+        /> :
+        null}
       <CardContent onClick={(event) => { props.gotoMeal(event, props.meal) }}>
         <Typography variant="body2" color="textPrimary" component="p">
-          <ScheduleIcon fontSize='small' style={{ color: 'gray',}}/> {props.dat}
+          <ScheduleIcon fontSize='small' style={{ color: 'gray', }} /> {props.dat}
         </Typography>
 
         <Typography variant="body2" color="textPrimary" component="p" onClick={(event) => { props.goToMaps(event, props.meal.id) }}>
-          <RoomIcon fontSize='small' style={{ color: 'gray', }}/> {props.meal.address}
+          <RoomIcon fontSize='small' style={{ color: 'gray', }} /> {props.meal.address}
         </Typography>
         <Typography variant="body2" color="textPrimary" component="p">
-          <PeopleIcon  fontSize='small' style={{ color: 'gray',}}/> {props.meal.guest_count}<span style={{color: 'gray'}}>/</span>{props.meal.Atendee_count}
+          <PeopleIcon fontSize='small' style={{ color: 'gray', }} /> {props.meal.guest_count}<span style={{ color: 'gray' }}>/</span>{props.meal.Atendee_count}
         </Typography>
         {/* <Typography variant="body2" color="textSecondary" component="p">
           This impressive paella is a perfect party dish and a fun meal to cook together with your
@@ -145,10 +146,9 @@ class AttendButton extends React.Component {
       meal: props.meal
     };
   }
-  componentDidUpdate = (prevProps)=>
-  {
-    if(prevProps.meal !== this.props.meal) {
-      this.setState({meal: this.props.meal});
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.meal !== this.props.meal) {
+      this.setState({ meal: this.props.meal });
     }
   }
   handleAttend = (event, newStatus, isEnabled) => {
@@ -164,22 +164,22 @@ class AttendButton extends React.Component {
     const meal = this.state.meal;
     const status = meal.attend_status;
     const isOwner = meal.host_id === this.props.auth.user.id;
-    const isEnabled = (status> 0) || (meal.guest_count >= meal.Atendee_count);
-    
-    const newStatus = status === 0? 3:0;
+    const isEnabled = (status > 0) || (meal.guest_count >= meal.Atendee_count);
+
+    const newStatus = status === 0 ? 3 : 0;
     return <FormControlLabel
-        hidden={isOwner}
-        disabled = {!isEnabled}
-        onClick = {event=>this.handleAttend(event, newStatus, isEnabled)}
-        control={
-          <Switch
-            checked={status>0}
-            name="AttendSwitch"
-            color="primary"
-          />
-        }
-        label="Attend"
-      />
+      hidden={isOwner}
+      disabled={!isEnabled}
+      onClick={event => this.handleAttend(event, newStatus, isEnabled)}
+      control={
+        <Switch
+          checked={status > 0}
+          name="AttendSwitch"
+          color="primary"
+        />
+      }
+      label="Attend"
+    />
   }
 };
 
@@ -228,12 +228,11 @@ class MealListItem extends React.Component {
   }
 
   onJoin = (newStatus) => {
-    if (!this.props.auth.isAuthenticated)
-    {
+    if (!this.props.auth.isAuthenticated) {
       this.props.history.push(`/Login`);
     }
     const user_id = this.props.auth.user.id;
-    const meal=this.state.meal;
+    const meal = this.state.meal;
     const attend = { user_id: user_id, meal_id: meal.id, status: newStatus };
 
     this.props.joinMeal(attend, user_id);
@@ -258,16 +257,16 @@ class MealListItem extends React.Component {
     path = path ? `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
     return (
       <React.Fragment>
-        <RecipeReviewCard 
-          path={path} 
-          owner={owner} 
+        <RecipeReviewCard
+          path={path}
+          owner={owner}
           meal={meal}
           auth={this.props.auth}
-          onJoin={this.onJoin} 
-          dat={dat} 
-          goToUser={this.goToUser} 
-          goToMaps={this.goToMaps} 
-          gotoMeal={this.gotoMeal}/>
+          onJoin={this.onJoin}
+          dat={dat}
+          goToUser={this.goToUser}
+          goToMaps={this.goToMaps}
+          gotoMeal={this.gotoMeal} />
       </React.Fragment>
     )
   };

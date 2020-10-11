@@ -1,9 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import { useHistory } from "react-router-dom";
-import TimeStep from './TimeStep';
 import NameStep from './NameStep';
 import LocationStep from './LocationStep';
-import GuestStep from './GuestStep';
+import DescriptionStep from './DescriptionStep';
 import ImageStep from './ImageStep';
 
 import PropTypes from "prop-types";
@@ -11,14 +10,28 @@ import imageStep1 from "../../../resources/wizard/wizard_1.svg";
 import imageStep2 from "../../../resources/wizard/wizard_2.svg";
 import imageStep3 from "../../../resources/wizard/wizard_3.svg";
 import imageStep4 from "../../../resources/wizard/wizard_4.svg";
-import imageStep5 from "../../../resources/wizard/wizard_5.svg";
 import Button from '@material-ui/core/Button';
 
 import StepWizard from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
 import BackBarMui from "../../layout/BackBarMui";
+
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+
 const CreateMealWizard = ({ auth, addMeal }, ...props) => {
+
+  const theme = createMuiTheme({
+    palette: {
+      secondary: {
+        main: '#ffff00',
+      },
+      primary: {
+        main: '#010101',
+      },
+    },
+  });
 
   const formatedDate = new Date(Date.now() + 86400000);
   const history = useHistory();
@@ -44,7 +57,6 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
     uploadingState: false
   });
 
-
   const setInstance = SW => updateState({
     ...state,
     SW,
@@ -56,9 +68,7 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
       SW
     });
   };
-  const backToList = () => {
-    history.push({ pathname: '/', hash: 0 })
-  }
+
   const submit = (e) => {
     e.preventDefault();
     let summedDate = new Date(state.form.date);
@@ -96,59 +106,59 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
   const { SW } = state;
 
   return (
-    <div style={{width:"100vw", overflow:"hidden"}}>
-      {SW && <TopHeader onExit={backToList} SW={SW} history={history} />}
-      {/* <BackBarMui history={history}/> */}
+    <ThemeProvider theme={theme}>
+      
+      <h4 className="wizard-caption">Create Meal</h4>
+      <BackBarMui history={history} />
+       
+      <div style={{ width: "100vw", overflow: "scroll" }}>
 
-      {SW && <Navigator SW={SW} submit={submit} uploadingState={state.uploadingState} />}
-
-      <div className='col-12 col-sm-6 offset-sm-3'>
-        <div className="wizard-middle">
-          <StepWizard
-            style={{ alignItems: 'flex-end', width: 200 }}
-            onStepChange={onStepChange}
-            transitions={state.transitions}
-            instance={setInstance}>
-            <NameStep update={update} form={state.form} />
-            <LocationStep update={update} form={state.form} />
-            <TimeStep update={update} form={state.form} />
-            <GuestStep update={update} form={state.form} />
-            <ImageStep update={update} form={state.form} auth={state.auth} setUploadingState={setUploadingState} />
-          </StepWizard>
+        <div className='col-12 col-sm-6 offset-sm-3'>
+          <div className="wizard-middle">
+            <StepWizard
+              style={{ alignItems: 'flex-end' }}
+              onStepChange={onStepChange}
+              transitions={state.transitions}
+              instance={setInstance}>
+              <NameStep update={update} form={state.form} />
+              <LocationStep update={update} form={state.form} />
+              <DescriptionStep update={update} form={state.form} />
+              <ImageStep update={update} form={state.form} auth={state.auth} setUploadingState={setUploadingState} />
+            </StepWizard>
+          </div>
         </div>
+
+        {SW && <Navigator SW={SW} submit={submit} uploadingState={state.uploadingState} />}
       </div>
-    </div>
+    </ThemeProvider>
   );
 };
 
 
-const TopHeader = ({ SW, onExit, history }) => {
-  const images = [imageStep1, imageStep2, imageStep3, imageStep4, imageStep5];
-  //const stepIcons = [wizard_meal_name, wizard_time, wizard_date, wizard_location, wizard_location]
+const Progress = ({ SW }) => {
+  const images = [imageStep1, imageStep2, imageStep3, imageStep4];
   return (
     <Fragment>
-     
-      <BackBarMui history={history} />
-      <h4 className="wizard-caption">Create Meal</h4>
-      <div className="wizard-progress-container">
-        <img src={images[SW.state.activeStep]} alt={SW.step} className="wizard-progress" /></div>
+      <img src={images[SW.state.activeStep]}
+        alt={SW.step} className="wizard-progress" />
 
     </Fragment>)
 }
 
 const Navigator = ({ SW, submit, uploadingState }) => {
-  const last = SW.state.activeStep >= 4;
+  const last = SW.state.activeStep >= 3;
   const first = SW.state.activeStep > 0;
-  return <div style={{textAlign:"center"}}>
-    <Button variant="contained" color="primary" onClick={SW.previousStep} disabled={!first}>Back</Button>
-    <Button variant="contained" color="primary" 
-      onClick={last?submit:SW.nextStep}
+  return <div style={{ textAlign: "center" }} className="wizard-progress-container">
+    <Progress SW={SW} />
+    <Button variant="contained" color="primary"
+      onClick={SW.previousStep} disabled={!first}>Back</Button>
+    <Button variant="contained" color="secondary"
+      onClick={last ? submit : SW.nextStep}
       disabled={uploadingState}>
-      {last?(uploadingState?"Wait":"Done"):"Next"}
+      {last ? (uploadingState ? "Wait" : "Done") : "Next"}
     </Button>
   </div>
 }
-
 
 const mapStateToProps = state => ({
   auth: state.auth,

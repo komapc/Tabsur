@@ -7,12 +7,16 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import store from "../../store";
-const handleLogout = (event) =>{
-    store.dispatch(logoutUser());
+const handleLogout = (event) => {
+  store.dispatch(logoutUser());
 }
 
+const onEmailChange = (e) =>
+{
+  console.log(e);
+}
 const Settings = () => {
-  // email: "",
+  var email ="";
   // password: "",
   // errors: {},
   // user: false,
@@ -29,6 +33,19 @@ const Settings = () => {
         justify="center"
         style={{ minHeight: '100vh' }}
       >
+        {/* <div>
+          <TextField
+            variant="outlined"
+            onChange={onEmailChange}
+            value={email}
+            id="email"
+            type="email"
+            
+            label={'Email'}
+            style={{ width: '100%', marginTop: '1vh' }}
+          />
+         </div> */}
+
         <Button onClick={handleLogout}>
           Logout
         </Button>
