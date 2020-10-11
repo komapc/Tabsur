@@ -19,37 +19,36 @@ import SettingsIcon from '@material-ui/icons/Settings';
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
     width: "100%",
+    marginTop: "64px",
     height: theme.spacing(5),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    //backgroundColor: '#13A049',
-    //backgroundImage: `url(${tmpBgImg})`,
     backgroundSize: 'cover',
-  },
-  empty: {
-    height: 64
-  },
-  wrapper: {
-    marginTop: '190px'
   }
 }))
 const MyProfileHeader = () => {
-  const classes = useStylesHeader()
-  return ( <span>
-    <React.Fragment>
+  const classes = useStylesHeader();
+  const  openSettings  = (history)=>{
+    history.push('/settings')
+  }
  
-        <h3 style={{textAlign:"center"}}>Profile
+  const history = useHistory();
+  return <React.Fragment>
+ 
+        <h3 style={{textAlign:"center", width:"90%"}}>Profile
         </h3>
+        <IconButton color="primary" aria-label="settings" 
+          style={{position:"fixed", top:"10px", paddingLeft:"90%"}}
+           onClick={()=>openSettings(history)}
+         >
+          <SettingsIcon color="secondary" />
+         </IconButton>
+
         <div className={classes.alignItemsAndJustifyContent}>
           <Avatar />
         </div>
-      <div className={classes.empty}></div>
-    
       </React.Fragment>
-  
-      </span>
-  )
 }
 //#endregion
 
@@ -68,7 +67,7 @@ const useStylesStats = makeStyles(theme => ({
     fontWeight: "fontWeightBold",
     fontStyle: "bold",
     //fontFamily: "Monospace"
-    margin: '20px'
+    //margin: '20px'
   },
   stat: {
     //color: "#13A049",
@@ -247,86 +246,13 @@ class MyProfile extends Component {
     this.props.registerUser(newUser, this.props.history);
   };
 
-  openSettings = () =>{
-    
-    this.props.history.push('/settings')
-  }
   render() {
-
-    const { errors } = this.state;
     return (
-      <React.Fragment>
+      <React.Fragment style={{width:"90%"}}>
         <MyProfileHeader />
-         <IconButton color="primary" aria-label="settings" 
-          style={{position:"absolute", padding:"0px 90%"}}
-           onClick={()=>this.openSettings()}
-         >
-          <SettingsIcon color="secondary" />
-         </IconButton>
+        
          <MyProfileStats name={this.state.name} userStats={this.state.userStats} />
         <MyProfileTabs id={this.state.userId} />
-        
-
-        {false ? (
-          <div className="row main">
-            <div className="col s8 offset-s2">
-              <form noValidate onSubmit={this.onSubmit} display="none" disabled={true}>
-                <div className="input-field col s12">
-                  <input
-                    onChange={this.onChange}
-                    value={this.state.name}
-                    error={errors.name}
-                    id="name"
-                    type="text"
-                    className={classnames("", {
-                      invalid: errors.name
-                    })}
-                  />
-                  <label htmlFor="name">Name</label>
-                  <span className="red-text">{errors.name}</span>
-                </div>
-                <div className="input-field col s12">
-                  <input
-                    onChange={this.onChange}
-                    value={this.state.email}
-                    error={errors.email}
-                    id="email"
-                    type="email"
-                    className={classnames("", {
-                      invalid: errors.email
-                    })}
-                  />
-                  <label htmlFor="email">Email</label>
-                  <span className="red-text">{errors.email}</span>
-                </div>
-
-                <div className="input-field col s12">
-                  <input
-                    onChange={this.onChange}
-                    value={this.state.address}
-                    error={errors.address}
-                    id="address"
-                    type="address"
-                    className={classnames("", {
-                      invalid: errors.address
-                    })}
-                  />
-                  <label htmlFor="address">Address</label>
-                  <span className="red-text">{errors.address}</span>
-                </div>
-                <div>
-                  More params to come: cousine, images, visit history and more.
-              </div>
-                <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-                  <button
-                    type="submit"
-                    className="button waves-effect waves-light hoverable accent-3" >
-                    Save
-                </button>
-                </div>
-              </form>
-            </div>
-          </div>) : ""}
       </React.Fragment>
     );
   }
