@@ -22,7 +22,7 @@ const NameStep = props => {
 
   return (
     <div className="wizard-container row ">
-
+      <h3 style={{marginLeft:"40px"}}>Meal Details</h3>
       <Grid container spacing={1}>
         <Box m={2} width="1">
           <TextField variant="outlined"
