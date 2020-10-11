@@ -39,7 +39,7 @@ const MyProfileHeader = () => {
   return ( <span>
     <React.Fragment>
  
-        <h3>Profile
+        <h3 style={{textAlign:"center"}}>Profile
         </h3>
         <div className={classes.alignItemsAndJustifyContent}>
           <Avatar />
@@ -256,16 +256,16 @@ class MyProfile extends Component {
     const { errors } = this.state;
     return (
       <React.Fragment>
+        <MyProfileHeader />
          <IconButton color="primary" aria-label="settings" 
           style={{position:"absolute", padding:"0px 90%"}}
            onClick={()=>this.openSettings()}
          >
-          <SettingsIcon />
+          <SettingsIcon color="secondary" />
          </IconButton>
- 
-        <MyProfileHeader />
-        <MyProfileStats name={this.state.name} userStats={this.state.userStats} />
+         <MyProfileStats name={this.state.name} userStats={this.state.userStats} />
         <MyProfileTabs id={this.state.userId} />
+        
 
         {false ? (
           <div className="row main">
