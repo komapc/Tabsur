@@ -426,8 +426,8 @@ input
 
 .wizard-middle
 {
-    margin-top: 88px;
-    height: 30%;/*??*/
+    /* margin-top: 88px; */
+    /* height: 30%; */
     z-index: -1;
 }
 
