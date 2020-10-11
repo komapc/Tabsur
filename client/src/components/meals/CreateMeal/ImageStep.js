@@ -11,8 +11,7 @@ const ImageStep = (props) => {
 
   const getImage = e => {
     const files = e.target.files;
-    try
-    {
+    try {
       const file = URL.createObjectURL(files[0]);
       console.log("Path: " + JSON.stringify(file));
 
@@ -20,8 +19,7 @@ const ImageStep = (props) => {
 
       submitFile(e, files[0]);
     }
-    catch (e)
-    {
+    catch (e) {
       console.error(e);
       alert(`Error uploading image ${e}`);
     }
@@ -36,7 +34,6 @@ const ImageStep = (props) => {
       useWebWorker: true
     }
     props.setUploadingState(true);
-    // TODO: disable "next/create meal" button
     imageCompression(event.target.files[0], options)
       .then(function (compressedFile) {
         const formData = new FormData();
@@ -65,17 +62,23 @@ const ImageStep = (props) => {
 
   return (
     <div className="wizard-container">
+      
+      <h3 style={{marginLeft:"40px"}}>Image</h3>
       <div className="wizard-image-placeholder-containter"
-      style={{backgroundImage:state.file, width:"100%", height:"80px"}}>
-      <Button
-        variant="outlined"
-        component="label">
-        Add Photo <input
-          type="file" accept="image/*"
-          style={{ display: "none" }}
-          onChange={getImage}
-        />
-      </Button>
+        style={{ backgroundImage: `url(${state.file})`, 
+        backgroundRepeat: "no-repeat",
+          width: "300px", height: "300px",
+          backgroundSize:"auto",
+          border:"solid" }}>
+        <Button
+          variant="outlined"
+          component="label">
+          Add Photo <input
+            type="file" accept="image/*"
+            style={{ display: "none" }}
+            onChange={getImage}
+          />
+        </Button>
       </div>
     </div>
   );
