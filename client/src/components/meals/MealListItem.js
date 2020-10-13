@@ -10,7 +10,9 @@ import "./Meals.css";
 
 import React from "react";
 import Switch from '@material-ui/core/Switch';
+import { createMuiTheme } from '@material-ui/core/styles';
 
+import { ThemeProvider } from '@material-ui/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -80,8 +82,20 @@ function MealViewCard(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  return (
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: '#888888',
+      },
+      secondary: {
+        main: '#dc004e',
+      },
+    },
+  });
 
+  
+  return (
+    <ThemeProvider theme={theme}>
     <Card className={classes.root} classes={{ root: classes.card }} >
       <CardHeader
         onClick={(event) => { props.gotoMeal(event, props.meal) }}
@@ -151,6 +165,7 @@ function MealViewCard(props) {
         </CardContent>
       </Collapse> */}
     </Card>
+    </ThemeProvider>
   )
 }
 
