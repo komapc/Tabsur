@@ -68,7 +68,7 @@ const ImageStep = (props) => {
         style={{ backgroundImage: `url(${state.file})`, 
         backgroundRepeat: "no-repeat",
           width: "300px", height: "300px",
-          backgroundSize:"auto",
+          backgroundSize:"cover",
           border:"solid" }}>
         <Button
           variant="outlined"

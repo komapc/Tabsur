@@ -28,6 +28,14 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 var dateFormat = require('dateformat');
 
 const useStyles = makeStyles((theme) => ({
+  palette: {
+    primary: {
+      main: '#000000',
+    },
+    secondary: {
+      main: '#dc004e',
+    }
+  },
   root: {
     //maxWidth: 345,
     //marginTop: '3vh',
@@ -57,9 +65,15 @@ const useStyles = makeStyles((theme) => ({
     border: "solid",
     borderColor: "Black",
     borderWidth: "1px"
-  }
+  },
+  card: {
+    margin: "10px",
+    width: "90vw",
+    borderRadius: 20,
+    borderColor: "Black"
+   }
 }));
-function RecipeReviewCard(props) {
+function MealViewCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -68,7 +82,7 @@ function RecipeReviewCard(props) {
   };
   return (
 
-    <Card className={classes.root}>
+    <Card className={classes.root} classes={{ root: classes.card }} >
       <CardHeader
         onClick={(event) => { props.gotoMeal(event, props.meal) }}
         avatar={props.auth.user.id === props.meal.host_id ?
@@ -95,14 +109,14 @@ function RecipeReviewCard(props) {
         null}
       <CardContent onClick={(event) => { props.gotoMeal(event, props.meal) }}>
         <Typography variant="body2" color="textPrimary" component="p">
-          <ScheduleIcon fontSize='small' style={{ color: 'gray', }} /> {props.dat}
+          <ScheduleIcon fontSize='small' style={{ color: 'black', }} /> {props.dat}
         </Typography>
 
-        <Typography variant="body2" color="textPrimary" component="p" onClick={(event) => { props.goToMaps(event, props.meal.id) }}>
-          <RoomIcon fontSize='small' style={{ color: 'gray', }} /> {props.meal.address}
-        </Typography>
+        {/* <Typography variant="body2" color="textPrimary" component="p" onClick={(event) => { props.goToMaps(event, props.meal.id) }}>
+          <RoomIcon fontSize='small' style={{ color: 'black', }} /> {props.meal.address}
+        </Typography> */}
         <Typography variant="body2" color="textPrimary" component="p">
-          <PeopleIcon fontSize='small' style={{ color: 'gray', }} /> {props.meal.guest_count}<span style={{ color: 'gray' }}>/</span>{props.meal.Atendee_count}
+          <PeopleIcon fontSize='small' style={{ color: 'black', }} /> {props.meal.guest_count}<span style={{ color: 'gray' }}>/</span>{props.meal.Atendee_count}
         </Typography>
         {/* <Typography variant="body2" color="textSecondary" component="p">
           This impressive paella is a perfect party dish and a fun meal to cook together with your
@@ -110,7 +124,8 @@ function RecipeReviewCard(props) {
         </Typography> */}
       </CardContent>
       <CardActions disableSpacing>
-        {props.auth.user.id === props.meal.host_id ? null : <AttendButton meal={props.meal} auth={props.auth} onJoin={props.onJoin} />}
+        {props.auth.user.id === props.meal.host_id ? null : 
+        <AttendButton meal={props.meal} auth={props.auth} onJoin={props.onJoin} />}
         {/* <IconButton aria-label="join">
           <CheckIcon />
         </IconButton> */}
@@ -257,7 +272,7 @@ class MealListItem extends React.Component {
     path = path ? `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
     return (
       <React.Fragment>
-        <RecipeReviewCard
+        <MealViewCard
           path={path}
           owner={owner}
           meal={meal}

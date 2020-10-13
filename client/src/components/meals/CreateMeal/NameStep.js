@@ -22,7 +22,7 @@ const NameStep = props => {
 
   return (
     <div className="wizard-container row ">
-      <h3 style={{marginLeft:"40px"}}>Meal Details</h3>
+      <h3 style={{ marginLeft: "40px" }}>Meal Details</h3>
       <Grid container spacing={1}>
         <Box m={2} width="1">
           <TextField variant="outlined"
@@ -30,9 +30,10 @@ const NameStep = props => {
             onChange={update} value={props.form.name} label="Meal Name" />
 
         </Box >
-        
+
         <Box m={2} width="1">
           <TextField variant="outlined" width="1"
+            className='wizard-description  justify-content-center'
             onChange={update}
             value={props.form.guestCount}
             error={props.form.guestCount === ""}
@@ -45,25 +46,25 @@ const NameStep = props => {
         </Box >
 
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Box m={2}>
+          <Box m={2} width="1">
             <KeyboardDatePicker style={{ borderColor: "transparent" }}
               variant="dialog"
               ampm={false}
               label="date"
               id="date"
               value={props.form.date}
-              onChange={(e) => {   updateDate("date", e)}}
+              onChange={(e) => { updateDate("date", e) }}
               onError={console.log}
               disablePast
               showTodayButton
               autoOk
               format="dd/MM/yyyy"
             />
-            </Box>
-            <Box m={2}>
+          </Box>
+          <Box m={2} width="1">
             <KeyboardTimePicker
               keyboardIcon={<img className="meal-info-icons"
-                src={dateIcon}  alt="date" />}
+                src={dateIcon} alt="date" />}
               variant="dialog"
               ampm={false}
               label="time"
@@ -77,8 +78,8 @@ const NameStep = props => {
             />
           </Box>
         </MuiPickersUtilsProvider>
-          </Grid>
-   </div>
+      </Grid>
+    </div>
   );
 };
 export default NameStep;

@@ -398,18 +398,14 @@ input
     /* margin-top: 1em; */
     margin-bottom: 1em;
 }
-.wizard-progress
-{
-    width:100%;
-    text-align: center;
-}
 
 .wizard-progress-container
 {
     position: fixed;
     top: 80vh;
     text-align: center;
-    width: 90vw;
+    width: 95vw;
+    padding:10px;
 }
 .wizard-icon
 {
