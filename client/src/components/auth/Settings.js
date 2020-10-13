@@ -7,6 +7,9 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import store from "../../store";
+import { useHistory } from "react-router-dom";
+
+import BackBarMui from "../layout/BackBarMui";
 const handleLogout = (event) => {
   store.dispatch(logoutUser());
 }
@@ -21,10 +24,11 @@ const Settings = () => {
   // errors: {},
   // user: false,
   // picture: {}
-
+  const history = useHistory();
   return (
     <>
-      <h1>Settings</h1>
+      <h4 className="wizard-caption">Settings</h4>
+      <BackBarMui history={history} />
       <Grid
         container
         spacing={0}

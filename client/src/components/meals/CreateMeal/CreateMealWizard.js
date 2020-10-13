@@ -138,7 +138,7 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
 const Progress = ({ SW }) => {
   const images = [imageStep1, imageStep2, imageStep3, imageStep4];
   return (
-    <Fragment>
+    <Fragment style={{textAlign:"center"}}>
       <img src={images[SW.state.activeStep]}
         alt={SW.step} className="wizard-progress" />
 
