@@ -37,8 +37,8 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
   return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    id: `tab-${index}`,
+    'aria-controls': `tabpanel-${index}`,
   };
 }
 
@@ -68,9 +68,8 @@ export default function SimpleTabs(props) {
      <AppBar position="sticky"> 
       <Tabs 
         value={value} 
-      
         onChange={handleChange} 
-        aria-label="simple tabs example" 
+        aria-label="tabs" 
         centered 
         indicatorColor='primary'
         TabIndicatorProps={{
@@ -88,8 +87,8 @@ export default function SimpleTabs(props) {
       <TabPanel value={value} index={1}>
         <MealMap />
       </TabPanel> */}
-      <div style={{ display: value === 0 ? 'inline' : 'none' }}><Meals /></div>
-      <div style={{ display: value === 1 ? 'inline' : 'none' }}><MealMap /></div>
+      <div style={{ display: value === 0 ? 'inline' : 'none' }}><Meals {...props}/></div>
+      <div style={{ display: value === 1 ? 'inline' : 'none' }}><MealMap {...props}/></div>
     </div>
   );
 }

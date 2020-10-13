@@ -1,5 +1,5 @@
 import SwipeableViews from 'react-swipeable-views';
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AppFab from './AppFab';
 import { useLocation, useHistory } from "react-router-dom";
 import MyMeals from "../meals/MyMeals"
