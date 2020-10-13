@@ -11,6 +11,7 @@ const Meals = (props) => {
   const id = props.auth.user.id || -1;
 
   const refresh = (props) => {
+    console.log(`refreshing meal list.`);
     return getMeals(props.auth.user.id)
       .then(res => {
         console.log(res.data);
