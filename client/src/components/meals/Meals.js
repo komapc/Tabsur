@@ -1,65 +1,49 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
 import loadingGIF from "../../resources/animation/loading.gif";
 import Grid from '@material-ui/core/Grid';
-class Meals extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      meals: [],
-      loading: true,
-      id: this.props.auth.user.id || -1,
-      active: this.props.active
-    };
-  }
+const Meals = (props) => {
+  const [meals, setMeals] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const id = props.auth.user.id || -1;
 
-  refresh() {
-    getMeals(this.props.auth.user.id)
+  const refresh = (props) => {
+    console.log(`refreshing meal list.`);
+    return getMeals(props.auth.user.id)
       .then(res => {
         console.log(res.data);
-        this.setState({ meals: res.data, loading: false });
+        setMeals(res.data);
       })
       .catch(err => {
         console.error(err);
-        this.setState({ meals: [], loading: false });
+        setMeals([]);
+      })
+      .finally(() => {
+        setLoading(false);
       })
   }
-
-  componentDidMount() {
-    this.refresh();
-  };
-
-  componentWillReceiveProps(nextProps) {
-    // You don't have to do this check first, but it can help prevent an unneeded render
-    if (nextProps.active !== this.state.active) {
-      this.setState({ active: nextProps.startTime });
-      if (nextProps.active) {
-        this.refresh();
-      }
-    }
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        <div className="main">
-          {
-            this.state.loading ?
-              <Grid style={{ width: '100%', textAlign: 'center', }}><img src={loadingGIF} alt="loading" /></Grid> :
-              <div className="map-meal-info">
-                {this.state.meals.map(meal =>
-                  <div key={meal.id}>
-                    <MealListItem meal={meal} />
-                  </div>
-                )}
-              </div>}
-        </div>
-      </React.Fragment>
-    );
-  }
+  
+  useEffect(() => {
+    refresh(props);
+  }, [props]);
+  return < React.Fragment >
+    <div className="main">
+      {
+        loading ?
+          <Grid style={{ width: '100%', textAlign: 'center', }}><
+            img src={loadingGIF} alt="loading" /></Grid> :
+          <div className="map-meal-info">
+            {meals.map(meal =>
+              <div key={meal.id}>
+                <MealListItem meal={meal} />
+              </div>
+            )}
+          </div>}
+    </div>
+  </React.Fragment >
 }
 
 const mapStateToProps = state => ({
