@@ -29,26 +29,26 @@ const useStylesHeader = makeStyles(theme => ({
 }))
 const MyProfileHeader = () => {
   const classes = useStylesHeader();
-  const  openSettings  = (history)=>{
+  const openSettings = (history) => {
     history.push('/settings')
   }
- 
+
   const history = useHistory();
   return <React.Fragment>
- 
-        <h3 style={{textAlign:"center", width:"90%"}}>Profile
-        </h3>
-        <IconButton color="primary" aria-label="settings" 
-          style={{position:"fixed", top:"10px", paddingLeft:"90%"}}
-           onClick={()=>openSettings(history)}
-         >
-          <SettingsIcon color="secondary" />
-         </IconButton>
 
-        <div className={classes.alignItemsAndJustifyContent}>
-          <Avatar />
-        </div>
-      </React.Fragment>
+    <h3 style={{ textAlign: "center", width: "90%" }}>Profile
+        </h3>
+    <IconButton color="primary" aria-label="settings"
+      style={{ position: "fixed", top: "10px", paddingLeft: "90%" }}
+      onClick={() => openSettings(history)}
+    >
+      <SettingsIcon color="secondary" />
+    </IconButton>
+
+    <div className={classes.alignItemsAndJustifyContent}>
+      <Avatar />
+    </div>
+  </React.Fragment>
 }
 //#endregion
 
@@ -248,10 +248,9 @@ class MyProfile extends Component {
 
   render() {
     return (
-      <React.Fragment style={{width:"90%"}}>
+      <React.Fragment>
         <MyProfileHeader />
-        
-         <MyProfileStats name={this.state.name} userStats={this.state.userStats} />
+        <MyProfileStats name={this.state.name} userStats={this.state.userStats} />
         <MyProfileTabs id={this.state.userId} />
       </React.Fragment>
     );
