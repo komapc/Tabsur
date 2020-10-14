@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import NameStep from './NameStep';
 import LocationStep from './LocationStep';
@@ -106,10 +106,7 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
       <h4 className="wizard-caption">Create Meal</h4>
       <BackBarMui history={history} />
        
-      <div style={{ width: "100vw", overflow: "scroll" }}>
-
         <div className='col-12 col-sm-6 offset-sm-3'>
-          <div className="wizard-middle">
             <StepWizard
               style={{ alignItems: 'flex-end' }}
               onStepChange={onStepChange}
@@ -120,12 +117,10 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
               <DescriptionStep update={update} form={state.form} />
               <ImageStep update={update} form={state.form} auth={state.auth} setUploadingState={setUploadingState} />
             </StepWizard>
-          </div>
         </div>
 
         {SW && <Navigator SW={SW} submit={submit} uploadingState={state.uploadingState} />}
-      </div>
-    </ThemeProvider>
+     </ThemeProvider>
   );
 };
 
