@@ -166,7 +166,7 @@ const MyProfileTabs = (props) => {
   };
   return (
     <React.Fragment>
-      <div className={classes.root}>
+      <Box className={classes.root}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -177,7 +177,7 @@ const MyProfileTabs = (props) => {
           <Tab label="Gallery" {...a11yProps(1)} />
           {/* <Tab label="My Meals" {...a11yProps(2)} /> */}
         </Tabs>
-      </div>
+      </Box>
       <TabPanel value={value} index={0} >
         <Friends id={props.id} />
       </TabPanel>
