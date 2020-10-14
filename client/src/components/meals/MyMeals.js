@@ -14,7 +14,7 @@ const TabPanel = (props) => {
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
+      id={`tabpanel-${index}`}
       {...other}
     >
       {children}
