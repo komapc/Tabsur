@@ -85,7 +85,7 @@ function MealViewCard(props) {
   const theme = createMuiTheme({
     palette: {
       primary: {
-        main: '#888888',
+        main: '#FFFF00',
       },
       secondary: {
         main: '#dc004e',
@@ -286,7 +286,6 @@ class MealListItem extends React.Component {
     var path = this.state.meal.path;
     path = path ? `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
     return (
-      <React.Fragment>
         <MealViewCard
           path={path}
           owner={owner}
@@ -297,7 +296,6 @@ class MealListItem extends React.Component {
           goToUser={this.goToUser}
           goToMaps={this.goToMaps}
           gotoMeal={this.gotoMeal} />
-      </React.Fragment>
     )
   };
 }
