@@ -20,22 +20,20 @@ class ChatListItem extends React.Component {
     });
   }
   render() {
-
+    const name = this.state.user.name1 === this.props.auth.user.name ? this.state.user.name2 : this.state.user.name1;
     return (
-      <React.Fragment>
-        <div style={{ width: '100%', borderBottomColor: 'lightgray', borderBottomWidth: '1px', borderBlockEndStyle: 'solid' }}>
-          <CardHeader
-            onClick={this.handleClick}
-            avatar={
-              <Avatar aria-label="recipe" style={{ backgroundColor: '#13A049' }}>
-                {(this.state.user.name1 === this.props.auth.user.name ? this.state.user.name2 : this.state.user.name1)[0].toUpperCase()}
-              </Avatar>
-            }
-            title={<span style={{ fontWeight: 900 }}>{this.state.user.name1 === this.props.auth.user.name ? this.state.user.name2 : this.state.user.name1}</span>}
-            subheader={this.state.user.message_text}
-          />
-        </div>
-      </React.Fragment>
+      <CardHeader
+        onClick={this.handleClick}
+        avatar={
+          <Avatar aria-label="recipe" style={{ backgroundColor: '#13A049' }}>
+            {name[0].toUpperCase()}
+          </Avatar>
+        }
+        title={<span style={{ fontWeight: 900 }}>
+          {name}
+        </span>}
+        subheader={this.state.user.message_text}
+      />
     )
   };
 }

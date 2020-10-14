@@ -10,14 +10,14 @@ import BackButton from "../layout/BackButton";
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 const uuidv1 = require('uuid/v1');
 
 const ChatLine = (props) => {
-  return <div>
+  return <Typography>
     {props.message.name2}: <b>{props.message.message_text}</b>
-  </div>
+  </Typography>
 }
-
 
 const ChatUser = (props) => {
   const sendMessageWithCallback = (sender, myName, receiver, typedMessage) => {
@@ -64,9 +64,9 @@ const ChatUser = (props) => {
       </AppBar>
 
       {messages.map(message =>
-        <div key={uuidv1()}>
+        <Typography key={uuidv1()}>
           <ChatLine message={message}></ChatLine>
-        </div>
+        </Typography>
       )}
     </Box>
     <Box style={{ top: "85vh", position: "sticky" }}>
