@@ -14,7 +14,7 @@ import BackBarMui from "../../layout/BackBarMui";
 
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-
+import Box from '@material-ui/core/Box';
 const CreateMealWizard = ({ auth, addMeal }, ...props) => {
 
   const theme = createMuiTheme({
@@ -105,10 +105,8 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
       
       <h4 className="wizard-caption">Create Meal</h4>
       <BackBarMui history={history} />
-       
-        <div className='col-12 col-sm-6 offset-sm-3'>
+        <Box p={2}>
             <StepWizard
-              style={{ alignItems: 'flex-end' }}
               onStepChange={onStepChange}
               transitions={state.transitions}
               instance={setInstance}>
@@ -117,7 +115,7 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
               <DescriptionStep update={update} form={state.form} />
               <ImageStep update={update} form={state.form} auth={state.auth} setUploadingState={setUploadingState} />
             </StepWizard>
-        </div>
+        </Box>
 
         {SW && <Navigator SW={SW} submit={submit} uploadingState={state.uploadingState} />}
      </ThemeProvider>
