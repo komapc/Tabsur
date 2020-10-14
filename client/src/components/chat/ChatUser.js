@@ -22,6 +22,8 @@ const ChatLine = (props) => {
 const ChatUser = (props) => {
   const sendMessageWithCallback = (sender, myName, receiver, typedMessage) => {
     //update local state
+    if (typedMessage.trim() === '' )
+      return;
     const newItem = { name2: myName, name1: receiver, message_text: typedMessage };
     setMessages([...messages, newItem]);
     //send to server
