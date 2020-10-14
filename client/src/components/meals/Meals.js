@@ -4,6 +4,7 @@ import { getMeals } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
 import loadingGIF from "../../resources/animation/loading.gif";
 import Grid from '@material-ui/core/Grid';
+import { Typography } from "@material-ui/core";
 
 const Meals = (props) => {
   const [meals, setMeals] = useState([]);
@@ -25,24 +26,22 @@ const Meals = (props) => {
         setLoading(false);
       })
   }
-  
+
   useEffect(() => {
     refresh(props);
   }, [props]);
   return < React.Fragment >
-    <div className="main">
+    <>
       {
         loading ?
-          <Grid style={{ width: '100%', textAlign: 'center', }}><
-            img src={loadingGIF} alt="loading" /></Grid> :
-          <div className="map-meal-info">
-            {meals.map(meal =>
-              <div key={meal.id}>
-                <MealListItem meal={meal} />
-              </div>
+          <img src={loadingGIF} alt="loading" /> :
+          <>
+            {meals.length === 0? <Typography>No meals yet</Typography>: 
+            meals.map(meal =>
+              <MealListItem key={meal.id} meal={meal} />
             )}
-          </div>}
-    </div>
+          </>}
+    </>
   </React.Fragment >
 }
 

@@ -6,7 +6,7 @@ import { getGuestList, deleteMeal } from "../../actions/mealActions";
 import { getUserFollowers } from "../../actions/userActions";
 import BackBarMui from "../layout/BackBarMui";
 import Box from '@material-ui/core/Box';
-
+import Button from '@material-ui/core/Button';
 import Friend from '../users/Friend';
 class GuestList extends Component {
   constructor(props) {
@@ -50,7 +50,7 @@ class GuestList extends Component {
   render() {
     let sorted = this.state.guests;
     return (
-      <div>
+      <>
         <h3>Guests list</h3>
         {
           sorted.map(guest =>
@@ -59,7 +59,7 @@ class GuestList extends Component {
             </Box>
           )
         }
-      </div>
+      </>
     );
   }
 };
@@ -87,21 +87,20 @@ class ShowMeal extends Component {
   }
 
   render() {
+    const my = this.state.meal.host_id === this.props.auth.user.id;
     return (
-      <div className="main">
+      <>
         <BackBarMui history={this.props.history} />
         <MealListItem meal={this.state.meal} />
         <GuestList mealId={this.state.meal.id} userId={this.props.auth.user.id} />
         {
-          (this.state.meal.host_id === this.props.auth.user.id) ?
-            <button onClick={(e) => this.deleteMealEvent(e)}> Delete Meal </ button> : ""
-        }
-        {
-          (this.state.meal.host_id === this.props.auth.user.id) ?
-            <button onClick={(e) => this.editMealEvent(e)}> Edit Meal </ button> : ""
+          my? <>
+            <Button variant = "outlined" onClick={(e) => this.deleteMealEvent(e)}> Delete </ Button> 
+            <Button variant = "outlined" onClick={(e) => this.editMealEvent(e)}> Edit </ Button>  
+          </>:""
         }
 
-      </div>
+      </>
     );
   }
 }
