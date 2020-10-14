@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 const Progress = ({ SW }) => {
   const images = [imageStep1, imageStep2, imageStep3, imageStep4];
   return (
-    <Fragment style={{ textAlign: "center" }}>
+    <Fragment>
       <img src={images[SW.state.activeStep]}
         alt={SW.step} className="wizard-progress" />
 
