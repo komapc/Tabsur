@@ -298,7 +298,6 @@ class ShowUser extends Component {
           <BackBarMui history={this.props.history} />
           <ProfileHeader history={this.props.history} /> {/* TODO: Pass avatar img or use Redux. Avatar image not implemented */}
           <ProfileStats name={this.state.user.name} 
-              //userStats={{ meals_created: this.state.user.meals_created }} 
               user = {this.state.user}
               
           />
@@ -306,52 +305,6 @@ class ShowUser extends Component {
 
         </React.Fragment>
 
-
-        {/* {false ? (
-          <div className="info-all">
-            <div className="info-back-div"><img
-              className="info-back"
-              alt="back"
-              onClick={this.props.history.goBack}
-              src={backButton}
-            />
-              <span className="info-caption">profile</span>
-            </div>
-            <div className="info-top">
-              <img className="info-main-image" src={defaultImage} alt="user" />
-              <span className="info-main-name">{this.state.user.name}</span>
-            </div>
-            <div className="info-fields">
-              <div className="row">
-                <div className="info-column">Meals created
-          </div>
-                <div className="info-column">
-                  {this.state.user.meals_created}
-                </div>
-              </div>
-              <div>You follow him?</div>
-              {this.state.followStatus ?
-                <Button variant="outlined" color="primary" onClick={() => this.follow(0, this.props.auth.user.id)}>UnFollow</Button> :
-                <Button variant="outlined" color="primary" onClick={() => this.follow(3, this.props.auth.user.id)}>Follow</Button>}
-            </div>
-            <div>
-              {
-                this.props.auth.user.id !== this.state.id ?
-                  <div>
-                    <input type="text" id="message" placeholder="Message"></input>
-                    <Button
-                      variant="outlined" color="primary"
-                      onClick={() => this.sendMessageWithCallback(
-                        this.props.auth.user.id,
-                        this.state.id,
-                        document.getElementById("message").value
-                      )}>Send</Button>
-                  </div> :
-                  <div></div>
-              }
-            </div>
-          </div>
-        ) : null} */}
       </React.Fragment>
     );
   }
