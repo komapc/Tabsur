@@ -6,18 +6,15 @@ import imageStep3 from "../../../resources/wizard/wizard_3.svg";
 import imageStep4 from "../../../resources/wizard/wizard_4.svg";
 import Button from '@material-ui/core/Button';
 
-
-
 const Progress = ({ SW }) => {
   const images = [imageStep1, imageStep2, imageStep3, imageStep4];
   return (
-    <Fragment style={{textAlign:"center"}}>
+    <Fragment style={{ textAlign: "center" }}>
       <img src={images[SW.state.activeStep]}
         alt={SW.step} className="wizard-progress" />
 
     </Fragment>)
 }
-
 
 const Navigator = ({ SW, submit, uploadingState }) => {
   const last = SW.state.activeStep >= 3;
