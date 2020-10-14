@@ -32,28 +32,28 @@ const ChatUser = (props) => {
       .catch(err => {
         console.error(err);
       });
-     setTypedMessage("");
+    setTypedMessage("");
   }
   const onChange = event => {
     setTypedMessage(event.target.value);
   }
-  
-  const [typedMessage, setTypedMessage] =  useState("");
+
+  const [typedMessage, setTypedMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
   const partner_id = props.match.params.id;
   console.log(`partner: ${partner_id}`);
-  
+
   useEffect(() => {
-  getChatMessages(props.auth.user.id, partner_id)
-    .then(res => {
-      console.log(res.data);
+    getChatMessages(props.auth.user.id, partner_id)
+      .then(res => {
+        console.log(res.data);
         setMessages(res.data);
-    })
-    .catch(error => {
-      console.error(error);
-    })
-  },[props]);
+      })
+      .catch(error => {
+        console.error(error);
+      })
+  }, [props]);
 
   return <>
     <Box style={{ height: "85vh", overflowY: "scroll" }}>
@@ -64,9 +64,7 @@ const ChatUser = (props) => {
       </AppBar>
 
       {messages.map(message =>
-        <Typography key={uuidv1()}>
-          <ChatLine message={message}></ChatLine>
-        </Typography>
+        <ChatLine key={uuidv1()} message={message}></ChatLine>
       )}
     </Box>
     <Box style={{ top: "85vh", position: "sticky" }}>
