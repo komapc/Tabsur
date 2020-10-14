@@ -10,6 +10,7 @@ import BackButton from "../layout/BackButton";
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+const uuidv1 = require('uuid/v1');
 
 const ChatLine = (props) => {
   return <div>
@@ -19,14 +20,6 @@ const ChatLine = (props) => {
 
 
 const ChatUser = (props) => {
-
-  // this.state = {
-  //   user: props.user,
-  //   messages: [],
-  //   partner_id: this.props.match.params.id,
-  //   typedMessage: ""
-  // };
-
   const sendMessageWithCallback = (sender, myName, receiver, typedMessage) => {
     //update local state
     const newItem = { name2: myName, name1: receiver, message_text: typedMessage };
@@ -71,7 +64,7 @@ const ChatUser = (props) => {
       </AppBar>
 
       {messages.map(message =>
-        <div key={message.id}>
+        <div key={uuidv1()}>
           <ChatLine message={message}></ChatLine>
         </div>
       )}
