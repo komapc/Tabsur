@@ -7,6 +7,23 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import loadingGIF from "../../resources/animation/loading.gif";
 import Typography from '@material-ui/core/Typography';
+
+const TheList = (props) =>
+{
+    if (props.users.length === 0) {
+      return <Typography>No messages yet</Typography>
+    }
+    return props.users.sort((a, b) => a.created_at < b.created_at ? 1 : -1)
+    .map(user => {
+      const sender = user.sender;
+      const receiver = user.receiver;
+      const partner = props.myId !== sender ? sender : receiver;
+      return <Fragment key={user.id}>
+        <ChatListItem user={user} partner={partner} />
+      </Fragment>
+    }
+    )
+}
 class ChatList extends Component {
 
   constructor(props) {
@@ -36,21 +53,6 @@ class ChatList extends Component {
         console.error(err);
       });
   };
-  showList = () => {
-    if (this.state.users.length === 0) {
-      return <Typography>No messages yet</Typography>
-    }
-    return this.state.users.sort((a, b) => a.created_at < b.created_at ? 1 : -1)
-    .map(user => {
-      const sender = user.sender;
-      const receiver = user.receiver;
-      const partner = this.props.auth.user.id !== sender ? sender : receiver;
-      return <Typography key={user.id}>
-        <ChatListItem user={user} partner={partner} />
-      </Typography>
-    }
-    )
-  }
 
   render() {
 
@@ -63,7 +65,8 @@ class ChatList extends Component {
         </AppBar>
         {
           this.state.loading ?
-            <img src={loadingGIF} alt="loading" /> : this.showList()
+            <img src={loadingGIF} alt="loading" /> : 
+            <TheList users={this.state.users} myId={this.props.auth.user.id}/>
         }
       </Fragment>
   }
