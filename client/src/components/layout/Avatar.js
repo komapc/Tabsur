@@ -22,7 +22,9 @@ const useStyles = makeStyles(theme => ({
         borderWidth: theme.spacing(1), 
         borderColor: 'white', 
         borderStyle:'solid',
-        backgroundColor: '#13A049'
+        backgroundColor: 'yellow',
+        color: 'Black',
+        border: "solid"
     }
 }));
 
