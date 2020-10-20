@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: "1px"
   },
   card: {
-    margin: "10px",
+    margin: "5vw",
     width: "90vw",
     borderRadius: 20,
     borderColor: "Black"
