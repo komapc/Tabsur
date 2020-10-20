@@ -42,7 +42,7 @@ const MyProfileHeader = () => {
       style={{ position: "fixed", top: "10px", paddingLeft: "90%" }}
       onClick={() => openSettings(history)}
     >
-      <SettingsIcon color="secondary" />
+      <SettingsIcon style={{color:"#000000"}} />
     </IconButton>
 
     <div className={classes.alignItemsAndJustifyContent}>
@@ -139,7 +139,7 @@ const useStylesTabs = makeStyles(theme => ({
   root: {
     flexGrow: 1, // ?
 
-    color: "#13A049",
+    color: "black",
     fontSize: 16,
     fontWeight: "fontWeightBold",
     width: "100%",
@@ -172,7 +172,8 @@ const MyProfileTabs = (props) => {
           onChange={handleChange}
           centered
           indicatorColor='primary'
-          TabIndicatorProps={{ style: { backgroundColor: "primary" } }}>
+          TabIndicatorProps={{ style: { backgroundColor: "primary" } }}
+          >
           <Tab label="Friends" {...a11yProps(0)} />
           <Tab label="Gallery" {...a11yProps(1)} />
           {/* <Tab label="My Meals" {...a11yProps(2)} /> */}
