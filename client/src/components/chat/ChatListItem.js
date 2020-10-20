@@ -25,7 +25,7 @@ class ChatListItem extends React.Component {
       <CardHeader
         onClick={this.handleClick}
         avatar={
-          <Avatar aria-label="recipe" style={{ backgroundColor: '#13A049' }}>
+          <Avatar aria-label="recipe" style={{ backgroundColor: 'yellow', color: 'Black', border: "solid", borderColor: "Black", borderWidth: "1px" }}>
             {name[0].toUpperCase()}
           </Avatar>
         }
