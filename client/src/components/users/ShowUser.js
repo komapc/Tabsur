@@ -30,7 +30,7 @@ const useStylesHeader = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#13A049',
+    backgroundColor: 'yellow',
     //backgroundImage: `url(${tmpBgImg})`,
     backgroundSize: 'cover',
   },
@@ -71,7 +71,7 @@ const useStylesStats = makeStyles(theme => ({
     justifyContent: 'center'
   },
   header: {
-    color: "#13A049",
+    color: "black",
     fontSize: 32,
     fontWeight: "fontWeightBold",
     fontStyle: "bold",
@@ -79,7 +79,7 @@ const useStylesStats = makeStyles(theme => ({
     margin: '20px'
   },
   stat: {
-    color: "#13A049",
+    color: "black",
     fontSize: 16,
     fontWeight: "fontWeightBold",
     alignItems: 'left',
@@ -149,7 +149,7 @@ const useStylesTabs = makeStyles(theme => ({
   root: {
     flexGrow: 1, // ?
 
-    color: "#13A049",
+    color: "black",
     fontSize: 16,
     fontWeight: "fontWeightBold",
     width: "100%",
