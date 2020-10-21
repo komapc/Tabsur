@@ -50,6 +50,7 @@ class ChatList extends Component {
         this.setState({ users: res.data, loading: false });
       })
       .catch((err) => {
+        this.setState({loading: false });
         console.error(err);
       });
   };

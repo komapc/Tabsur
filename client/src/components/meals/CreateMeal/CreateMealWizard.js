@@ -15,6 +15,11 @@ import BackBarMui from "../../layout/BackBarMui";
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
+
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+
+
 const CreateMealWizard = ({ auth, addMeal }, ...props) => {
 
   const theme = createMuiTheme({
@@ -103,7 +108,12 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
   return (
     <ThemeProvider theme={theme}>
       
-      <h4 className="wizard-caption">Create Meal</h4>
+      {/* <h4 className="wizard-caption">Create Meal</h4> */}
+      <AppBar position="sticky">
+          <Toolbar> CREATE MEAL
+            {/* CHAT ({this.state.notificationsCount}) */}
+          </Toolbar>
+        </AppBar>
       <BackBarMui history={history} />
         <Box p={2}>
             <StepWizard
