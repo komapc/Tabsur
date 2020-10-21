@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 
 const TheList = (props) =>
 {
-    if (props.users.length === 0) {
+    if (!props.users || props.users.length === 0) {
       return <Typography>No messages yet</Typography>
     }
     return props.users.sort((a, b) => a.created_at < b.created_at ? 1 : -1)
