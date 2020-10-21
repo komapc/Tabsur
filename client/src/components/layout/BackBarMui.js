@@ -8,7 +8,9 @@ const BackBarMui = (props) => {
             <IconButton aria-label="back" size="medium" onClick={
                 (e) => {
                     console.log("back clicked");
-                    props.history.goBack(e);
+                    const hasHistory = props.history.length>2;
+                    //console.log("Length: " + hasHistory);
+                    hasHistory? props.history.goBack(e) : props.history.push('/');
                 }
             }>
                 <ArrowBackIcon fontSize="inherit" />
