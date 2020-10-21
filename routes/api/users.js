@@ -163,6 +163,12 @@ const addAvatar = async (client, userId, picture) => {
 router.post("/loginFB", async (req, response) => {
   // Form validation
   const newReq = req.body;
+  
+  if (!newReq || !newReq.name)
+  {
+    console.error(`Bad request to login with facebook: ${JSON.stringify(newReq)}`);
+    return response.status(500).json(err);   
+  }
   var newUserId = -1;
   var newUserName = newReq.name;
   console.log(`Login with facebook: ${JSON.stringify(newReq)}`);
