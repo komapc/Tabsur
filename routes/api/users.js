@@ -167,7 +167,7 @@ router.post("/loginFB", async (req, response) => {
   if (!newReq || !newReq.name)
   {
     console.error(`Bad request to login with facebook: ${JSON.stringify(newReq)}`);
-    return response.status(500).json(err);   
+    return response.status(403);   
   }
   var newUserId = -1;
   var newUserName = newReq.name;
