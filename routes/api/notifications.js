@@ -1,7 +1,7 @@
-import { Router } from "express";
-const router = Router();
+const express = require("express");
+const router = express.Router();
 const pool = require("../db.js");
-import authenticateJWT from '../authenticateJWT.js';
+const authenticateJWT = require('../authenticateJWT.js');
 
 // @route GET api/notifications
 // @desc get list og user's notifications
@@ -103,4 +103,4 @@ router.post("/send-message", authenticateJWT, async (req, response)=> {
   return response.json(result);
 });
 
-export default router;
+module.exports = router;
