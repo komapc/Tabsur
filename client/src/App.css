@@ -18,21 +18,13 @@
     /* flex-direction: column; */
 }
 
-.createMealMap-hidden
-{
-    visibility: hidden;
-    position: absolute;
-    height: 0px;
-    width: 100vw;
-    transition: ease-in-out 0.2s;
-}
 
 .createMealMap
 {
-    top: 0px;
+    top: 30px;
     left:0px;
     position: fixed;
-    height:100vh;
+    height:calc("100vh"-"10px");
     width: 100vw;
     background-color: #73d763;
     transition: ease-in-out 0.2s;

@@ -52,7 +52,7 @@ const LocationStep = props => {
             helperText={props.form.address.trim() === "" ? "Empty" : ""}
           />
         </Box >
-        <div className={showMap ? 'createMealMap' : 'createMealMap-hidden'} hidden={!showMap}>
+        <div className={'createMealMap'} hidden={!showMap}>
           <MapLocationSelector
             handleLocationUpdate={onLocationUpdate}
             defaultLocation={defaultLocation}
