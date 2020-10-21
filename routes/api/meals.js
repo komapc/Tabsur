@@ -90,7 +90,11 @@ router.get("/attends/:id", authenticateJWT, async (req, response) => {
     return;
   }
   const SQLquery = `SELECT * FROM (
+    
     SELECT
+    (SELECT images.path
+      FROM meal_images as mi, images 
+      WHERE mi.meal_id=m.id and images.id=image_id and images.status>=0 limit 1),
         (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id),
         (SELECT status AS attend_status FROM attends
            WHERE  meal_id=m.id AND attends.user_id=$1),
