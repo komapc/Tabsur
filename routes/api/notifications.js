@@ -1,7 +1,7 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+const router = Router();
 const pool = require("../db.js");
-const authenticateJWT = require('../authenticateJWT.js');
+import authenticateJWT from '../authenticateJWT.js';
 
 // @route GET api/notifications
 // @desc get list og user's notifications
@@ -9,7 +9,7 @@ const authenticateJWT = require('../authenticateJWT.js');
 router.get("/:id", authenticateJWT, async (req, response)=> {
   const id = req.params.id;
   if (isNaN(id)) {
-    console.log("error, empty id");
+    console.error("error, empty id");
     return response.status(400).json("Error in getting notifications: empty id");
   }
   console.log(`get notifications for ${id}.`);
@@ -103,4 +103,4 @@ router.post("/send-message", authenticateJWT, async (req, response)=> {
   return response.json(result);
 });
 
-module.exports = router;
+export default router;
