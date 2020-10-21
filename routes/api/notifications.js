@@ -91,7 +91,7 @@ router.post("/send-message", authenticateJWT, async (req, response)=> {
     title: 'Message', 
     body: req.body.message, 
     icon: 'resources/Message-Bubble-icon.png', 
-    click_action: '/User/req.body.receiver',
+    click_action: `/User/${req.body.receiver}`,
     receiver: req.body.receiver,
     meal_id:  -1,
     sender: req.body.sender,
