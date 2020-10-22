@@ -4,9 +4,10 @@ import { connect } from "react-redux";
 import { getChatMessages } from "../../actions/chatActions";
 import { sendMessage } from "../../actions/notifications"
 
+import { useHistory } from "react-router-dom";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import BackButton from "../layout/BackButton";
+import BackBarMui from "../layout/BackBarMui";
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -56,12 +57,12 @@ const ChatUser = (props) => {
         console.error(error);
       })
   }, [props]);
-
+  const history = useHistory();
   return <>
     <Box style={{ height: "85vh", overflowY: "scroll" }}>
       <AppBar position="sticky">
         <Toolbar>
-          <BackButton />
+        <BackBarMui history={history} />
           Chat with {messages.name2}</Toolbar>
       </AppBar>
 
