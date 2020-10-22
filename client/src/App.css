@@ -24,7 +24,7 @@
     top: 30px;
     left:0px;
     position: fixed;
-    height:calc("100vh"-"10px");
+    height:calc(100vh - 10px);
     width: 100vw;
     background-color: #73d763;
     transition: ease-in-out 0.2s;
