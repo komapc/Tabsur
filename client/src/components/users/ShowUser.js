@@ -244,7 +244,7 @@ class ShowUser extends Component {
       .then(res => {
         console.log(`getFollowStatus: ${JSON.stringify(res.data)}`);
         const followers = res.data;
-        const found = followers.find(element => element.follower === myUserId);
+        const found = followers.find(element => element.user_id === myUserId);
         const followStatus = found ? found.status : 0;
         this.setState({ followStatus: followStatus });
         console.log(res.data);
@@ -265,7 +265,6 @@ class ShowUser extends Component {
     setFollow(myUserId, body)
       .then(res => {
         console.log(`Follow res: ${JSON.stringify(res)}`);
-        //console.log('this: ' + JSON.stringify(this));
         //change in DB, than change state
         this.setState({ followStatus: new_status });
       })
