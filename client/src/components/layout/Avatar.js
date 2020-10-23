@@ -11,10 +11,6 @@ const useStyles = makeStyles(theme => ({
             margin: theme.spacing(1)
         },
     },
-    small: {
-        width: theme.spacing(5),
-        height: theme.spacing(5),
-    },
     large: {
         width: theme.spacing(17),
         height: theme.spacing(17),
@@ -30,14 +26,7 @@ const useStyles = makeStyles(theme => ({
         color: 'Black', 
         border: "solid", 
         borderColor: "Black", 
-        borderWidth: "1px" },
-    list: {  
-        backgroundColor: 'yellow', 
-        color: 'Black',
-        border: "solid",
-        borderColor: "Black",
-        borderWidth: "1px"
-    }
+        borderWidth: "1px" }
 }));
 
 const Avatar = (props) => {
