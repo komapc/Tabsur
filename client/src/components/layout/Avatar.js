@@ -31,8 +31,9 @@ const useStyles = makeStyles(theme => ({
 
 const Avatar = (props) => {
     const classes = useStyles();
-    // const img = "api/images/avatar/" + props.user;
-    const img = null;
+    const host = "https://tabsur.herokuapp.com"; // TODO: Get dynamically
+    const img = host + "/api/images/avatar/" + props.user.id;
+
     // console.log(props.auth.user); // autorithed user (YOU)
     // console.log(props.class);
     // console.log(props.user); // user to show (may be also you)
@@ -40,7 +41,10 @@ const Avatar = (props) => {
     console.log(className);
     return (
         <div className={classes.root}>
-            <MaterialUiAvatar aria-label="recipe" alt="Avatar alt string" src={img} className={classes[className]} >
+            <MaterialUiAvatar 
+                aria-label="recipe" 
+                src={img} 
+                className={classes[className]} >
                 {props.user !== undefined && props.user.name !== undefined && props.user.name.length > 0 && props.user.id !== props.auth.user.id && className !== "large"? props.user.name[0].toUpperCase() : null}
             </MaterialUiAvatar>
         </div>
