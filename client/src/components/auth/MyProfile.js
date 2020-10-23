@@ -3,7 +3,6 @@ import { withRouter, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser, getUser } from "../../actions/authActions";
-import classnames from "classnames";
 import Avatar from "../layout/Avatar"
 import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
