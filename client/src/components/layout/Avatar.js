@@ -45,7 +45,15 @@ const Avatar = (props) => {
                 aria-label="recipe" 
                 src={img} 
                 className={classes[className]} >
-                {props.user !== undefined && props.user.name !== undefined && props.user.name.length > 0 && props.user.id !== props.auth.user.id && className !== "large"? props.user.name[0].toUpperCase() : null}
+                {
+                    props.user !== undefined && 
+                    props.user.name !== undefined && 
+                    props.user.name.length > 0 && 
+                    props.user.id !== props.auth.user.id && 
+                    className !== "large" 
+
+                    ? props.user.name[0].toUpperCase() : null
+                }
             </MaterialUiAvatar>
         </div>
     );
