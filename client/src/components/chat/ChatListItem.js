@@ -1,7 +1,7 @@
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import React from "react";
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from "../layout/Avatar"
 import CardHeader from '@material-ui/core/CardHeader';
 class ChatListItem extends React.Component {
   constructor(props) {
@@ -21,14 +21,11 @@ class ChatListItem extends React.Component {
   }
   render() {
     const name = this.state.user.name1 === this.props.auth.user.name ? this.state.user.name2 : this.state.user.name1;
+    const partnerId = this.state.user.receiver === this.props.auth.user.id ? this.state.user.sender : this.state.user.receiver;
     return (
       <CardHeader
         onClick={this.handleClick}
-        avatar={
-          <Avatar aria-label="recipe" style={{ backgroundColor: 'yellow', color: 'Black', border: "solid", borderColor: "Black", borderWidth: "1px" }}>
-            {name[0].toUpperCase()}
-          </Avatar>
-        }
+        avatar={<Avatar class="default" user={{name: name, id: partnerId}}/>}
         title={<span style={{ fontWeight: 900 }}>
           {name}
         </span>}

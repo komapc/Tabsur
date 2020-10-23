@@ -26,7 +26,7 @@ const useStylesHeader = makeStyles(theme => ({
     backgroundSize: 'cover',
   }
 }))
-const MyProfileHeader = () => {
+const MyProfileHeader = (props) => {
   const classes = useStylesHeader();
   const openSettings = (history) => {
     history.push('/settings')
@@ -45,7 +45,7 @@ const MyProfileHeader = () => {
     </IconButton>
 
     <div className={classes.alignItemsAndJustifyContent}>
-      <Avatar />
+      <Avatar class="large" user={props.user}/>
     </div>
   </React.Fragment>
 }
@@ -249,7 +249,7 @@ class MyProfile extends Component {
   render() {
     return (
       <React.Fragment>
-        <MyProfileHeader />
+        <MyProfileHeader user={{id: this.state.userId, name:this.state.name}}/>
         <MyProfileStats name={this.state.name} userStats={this.state.userStats} />
         <MyProfileTabs id={this.state.userId} />
       </React.Fragment>
