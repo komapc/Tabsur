@@ -245,7 +245,8 @@ router.get("/:id", async (req, response) => {
   return client.query(`SELECT id, name, 100 AS rate,
   (SELECT COUNT (1) FROM meals WHERE host_id = $1) AS meals_created,
   (SELECT count(1) AS following FROM follow WHERE follower=$1),
-  (SELECT count(1) AS followers FROM follow WHERE followie=$1)
+  (SELECT count(1) AS followers FROM follow WHERE followie=$1),
+  (SELECT COUNT (1) FROM meals WHERE host_id = 34 AND date > CURRENT_TIMESTAMP) AS active_meals
   FROM users WHERE id = $1`, [req.params.id])//
     .then(user => {
       response.json(user.rows);
