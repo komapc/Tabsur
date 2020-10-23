@@ -16,7 +16,7 @@ class GuestList extends Component {
       guests: [],
       followies: [],
       sorted: ["Loading"], //list of guest with followies first
-      userId: this.props.userId
+      userId: this.props ? this.props.userId : props.match.params.id
     }
   }
 
@@ -94,10 +94,10 @@ class ShowMeal extends Component {
         <MealListItem meal={this.state.meal} />
         <GuestList mealId={this.state.meal.id} userId={this.props.auth.user.id} />
         {
-          my? <>
-            <Button variant = "outlined" onClick={(e) => this.deleteMealEvent(e)}> Delete </ Button> 
-            <Button variant = "outlined" onClick={(e) => this.editMealEvent(e)}> Edit </ Button>  
-          </>:""
+          my ? <>
+            <Button variant="outlined" onClick={(e) => this.deleteMealEvent(e)}> Delete </ Button>
+            <Button variant="outlined" onClick={(e) => this.editMealEvent(e)}> Edit </ Button>
+          </> : ""
         }
 
       </>

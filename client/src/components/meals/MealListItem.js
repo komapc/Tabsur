@@ -241,7 +241,7 @@ class MealListItem extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     this.props.history.push({
-      pathname: '/Meal',
+      pathname: `/Meal/${meal.id}`,
       state: { meal: meal }
     });
   }
