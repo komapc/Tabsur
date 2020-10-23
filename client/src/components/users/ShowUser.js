@@ -93,7 +93,7 @@ const ProfileStats = (props) => {
 
   const classes = useStylesStats();
   const userStats = props.user;// ? props.userStats[0] : {}; ???
- //const user = props.user;
+  //const user = props.user;
   console.log(`ProfileStats's props: ${JSON.stringify(props)}`);
 
   return <React.Fragment>
@@ -174,7 +174,11 @@ const ProfileTabs = (props) => {
     setValue(newValue);
   };
 
-  console.log(`props.auth.user.id :${JSON.stringify(props.auth.user.id)}, props.state.id :${JSON.stringify(props.state.id)}`)
+  const itIsMe = props.auth.user.id !== props.state.id;
+  const newStatus = props.followStatus == 3? 0 : 3;
+  console.log(`props.auth.user.id :
+    ${JSON.stringify(props.auth.user.id)}, props.state.id :
+    ${JSON.stringify(props.state.id)}`)
   return (
     <React.Fragment>
       <div className={classes.root}>
@@ -190,12 +194,14 @@ const ProfileTabs = (props) => {
       </div>
       <TabPanel value={value} index={0} >
         {
-          props.auth.user.id !== props.state.id ?
+           itIsMe?
             <React.Fragment>
               <span style={{ marginBottom: '1vh' }}>{
                 props.followStatus ?
-                  <Button variant="contained" startIcon={<NotInterestedIcon />} color="secondary" onClick={() => props.follow(0, props.auth.user.id)}>UnFollow</Button> :
-                  <Button variant="contained" startIcon={<PersonAddIcon />} color="primary" onClick={() => props.follow(3, props.auth.user.id)}>Follow</Button>
+                  <Button variant="contained" startIcon={<NotInterestedIcon />} color="secondary" 
+                    onClick={() => props.follow(newStatus, props.auth.user.id)}>UnFollow</Button> :
+                  <Button variant="contained" startIcon={<PersonAddIcon />} color="primary" 
+                    onClick={() => props.follow(newStatus, props.auth.user.id)}>Follow</Button>
               }</span>
 
               <span style={{ marginBottom: '1vh' }}>
@@ -250,14 +256,15 @@ class ShowUser extends Component {
   }
 
   follow(new_status, myId) {
-    console.log(`myId: ${JSON.stringify(myId)}, thisUserId: ${JSON.stringify(this.state.id)}`);
 
     const myUserId = myId;
     const thisUserId = this.state.id;
+    
+    console.log(`myId: ${JSON.stringify(myId)}, thisUserId: ${JSON.stringify(this.state.id)}`);
     const body = { followie: thisUserId, status: new_status };
     setFollow(myUserId, body)
       .then(res => {
-        console.log('res: ' + JSON.stringify(res));
+        console.log(`Follow res: ${JSON.stringify(res)}`);
         //console.log('this: ' + JSON.stringify(this));
         //change in DB, than change state
         this.setState({ followStatus: new_status });
@@ -297,11 +304,13 @@ class ShowUser extends Component {
         <React.Fragment>
           <BackBarMui history={this.props.history} />
           <ProfileHeader history={this.props.history} /> {/* TODO: Pass avatar img or use Redux. Avatar image not implemented */}
-          <ProfileStats name={this.state.user.name} 
-              user = {this.state.user}
-              
+          <ProfileStats name={this.state.user.name}
+            user={this.state.user}
+
           />
-          <ProfileTabs followStatus={this.state.followStatus} follow={(n, myId) => { this.follow(n, myId) }} auth={this.props.auth} state={this.state} />
+          <ProfileTabs followStatus={this.state.followStatus} 
+            follow={(n, myId) => { this.follow(n, myId) }} 
+            auth={this.props.auth} state={this.state} />
 
         </React.Fragment>
 
