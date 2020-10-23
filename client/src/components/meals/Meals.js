@@ -31,17 +31,15 @@ const Meals = (props) => {
     refresh(props);
   }, [props]);
   return < React.Fragment >
-    <>
-      {
-        loading ?
-          <img src={loadingGIF} alt="loading" /> :
-          <>
-            {meals.length === 0? <Typography>No meals yet</Typography>: 
+    {
+      loading ?
+        <img src={loadingGIF} alt="loading" /> :
+        <>
+          {meals.length === 0 ? <Typography>No meals yet</Typography> :
             meals.map(meal =>
               <MealListItem key={meal.id} meal={meal} />
             )}
-          </>}
-    </>
+        </>}
   </React.Fragment >
 }
 
