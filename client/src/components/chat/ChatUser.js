@@ -40,6 +40,16 @@ const ChatUser = (props) => {
   const onChange = event => {
     setTypedMessage(event.target.value);
   }
+  const handleKeyPress = (event) => {
+    if(event.key === 'Enter'){
+      sendMessageWithCallback(
+        props.auth.user.id,
+        props.auth.user.name,
+        partner_id,
+        typedMessage
+      )
+    }
+  }
 
   const [typedMessage, setTypedMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -73,6 +83,7 @@ const ChatUser = (props) => {
     <Box style={{ top: "85vh", position: "sticky" }}>
 
       <TextField
+        onKeyPress={handleKeyPress}
         variant="outlined"
         label={'message'}
         placeholder="Message"

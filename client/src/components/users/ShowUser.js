@@ -103,7 +103,7 @@ const ProfileStats = (props) => {
     <div className={classes.headerContainer}>
       <Grid container >
         <Grid item xs={6}><span className={classes.stat}>Followers  {userStats.followers}</span></Grid>
-        <Grid item xs={6}><span className={classes.stat}>Active meals  _</span></Grid>
+        <Grid item xs={6}><span className={classes.stat}>Active meals  {userStats.active_meals}</span></Grid>
         <Grid item xs={6}><span className={classes.stat}>Following  {userStats.following}</span></Grid>
         <Grid item xs={6}><span className={classes.stat}>Meals Created {userStats.meals_created}</span></Grid>
       </Grid>
