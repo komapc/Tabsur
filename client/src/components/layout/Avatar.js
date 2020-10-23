@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import MaterialUiAvatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
-import tmpAvatarImg from "../../resources/images/ava.jpeg";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Avatar = () => {
+const Avatar = (props) => {
     const classes = useStyles();
     const img = null; // tmpAvatarImg
     return (
