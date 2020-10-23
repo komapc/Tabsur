@@ -12,7 +12,7 @@ const Friend = (props) => {
   return <div
     style={{ width: '100%', borderBottomColor: 'lightgray', borderBottomWidth: '1px', borderBlockEndStyle: 'solid' }}>
       <CardHeader onClick={handleClick}
-        avatar={<Avatar class="list" user={{name: props.name, id: props.user_id}}/>}
+        avatar={<Avatar class="default" user={{name: props.name, id: props.user_id}}/>}
         title={props.name}>
       </CardHeader>
   </div>
