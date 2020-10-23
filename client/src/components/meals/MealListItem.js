@@ -1,17 +1,12 @@
-
 import defaultImage from "../../resources/userpic_empty.svg";
-
 import { withRouter } from "react-router-dom";
 import { joinMeal } from "../../actions/mealActions"
 import { connect } from "react-redux";
 import config from "../../config";
-
 import "./Meals.css";
-
 import React from "react";
 import Switch from '@material-ui/core/Switch';
 import { createMuiTheme } from '@material-ui/core/styles';
-
 import { ThemeProvider } from '@material-ui/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -20,11 +15,10 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from "../layout/Avatar"
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import RoomIcon from '@material-ui/icons/Room';
 import PeopleIcon from '@material-ui/icons/People';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 var dateFormat = require('dateformat');
@@ -61,13 +55,6 @@ const useStyles = makeStyles((theme) => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
-  avatar: {
-    backgroundColor: 'Yellow',
-    color: 'Black',
-    border: "solid",
-    borderColor: "Black",
-    borderWidth: "1px"
-  },
   card: {
     margin: "5vw",
     width: "90vw",
@@ -99,12 +86,7 @@ function MealViewCard(props) {
     <Card className={classes.root} classes={{ root: classes.card }} >
       <CardHeader
         onClick={(event) => { props.gotoMeal(event, props.meal) }}
-        avatar={props.auth.user.id === props.meal.host_id ?
-          <Avatar className={classes.avatar} onClick={(event) => { props.goToUser(event, props.meal.host_id) }} /> :
-          <Avatar aria-label="recipe" className={classes.avatar} onClick={(event) => { props.goToUser(event, props.meal.host_id) }}>
-            {props.owner[0].toUpperCase()}
-          </Avatar>
-        }
+        avatar={<Avatar class="default" user={{name: props.owner, id: props.meal.host_id}}/>}
         action={
           <IconButton aria-label="settings">
             {/* <MoreVertIcon /> */}

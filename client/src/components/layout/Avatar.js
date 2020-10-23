@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import MaterialUiAvatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
-import tmpAvatarImg from "../../resources/images/ava.jpeg";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -11,10 +10,6 @@ const useStyles = makeStyles(theme => ({
         '& > *': {
             margin: theme.spacing(1)
         },
-    },
-    small: {
-        width: theme.spacing(5),
-        height: theme.spacing(5),
     },
     large: {
         width: theme.spacing(17),
@@ -25,15 +20,41 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: 'yellow',
         color: 'Black',
         border: "solid"
-    }
+    },
+    default: { 
+        backgroundColor: 'yellow', 
+        color: 'Black', 
+        border: "solid", 
+        borderColor: "Black", 
+        borderWidth: "1px" }
 }));
 
-const Avatar = () => {
+const Avatar = (props) => {
     const classes = useStyles();
-    const img = null; // tmpAvatarImg
+    const host = "https://tabsur.herokuapp.com"; // TODO: Get dynamically
+    const img = host + "/api/images/avatar/" + props.user.id;
+
+    // console.log(props.auth.user); // autorithed user (YOU)
+    // console.log(props.class);
+    // console.log(props.user); // user to show (may be also you)
+    const className = props.class === undefined || props.class === "" ? "default" : props.class;
+    console.log(className);
     return (
         <div className={classes.root}>
-            <MaterialUiAvatar alt="Avatar alt string" src={img} className={classes.large} />
+            <MaterialUiAvatar 
+                aria-label="recipe" 
+                src={img} 
+                className={classes[className]} >
+                {
+                    props.user !== undefined && 
+                    props.user.name !== undefined && 
+                    props.user.name.length > 0 && 
+                    props.user.id !== props.auth.user.id && 
+                    className !== "large" 
+
+                    ? props.user.name[0].toUpperCase() : null
+                }
+            </MaterialUiAvatar>
         </div>
     );
 }
