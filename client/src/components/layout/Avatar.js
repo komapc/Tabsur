@@ -31,7 +31,8 @@ const useStyles = makeStyles(theme => ({
 
 const Avatar = (props) => {
     const classes = useStyles();
-    const host = "https://tabsur.herokuapp.com"; // TODO: Get dynamically
+    //const host = "https://tabsur.herokuapp.com"; // TODO: Get dynamically
+    const host = "http://localhost:5000"; 
     const img = host + "/api/images/avatar/" + props.user.id;
 
     // console.log(props.auth.user); // autorithed user (YOU)
