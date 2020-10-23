@@ -24,15 +24,37 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: 'yellow',
         color: 'Black',
         border: "solid"
+    },
+    default: { 
+        backgroundColor: 'yellow', 
+        color: 'Black', 
+        border: "solid", 
+        borderColor: "Black", 
+        borderWidth: "1px" },
+    list: {  
+        backgroundColor: 'yellow', 
+        color: 'Black',
+        border: "solid",
+        borderColor: "Black",
+        borderWidth: "1px"
     }
 }));
 
 const Avatar = (props) => {
     const classes = useStyles();
-    const img = null; // tmpAvatarImg
+    // const img = "api/images/avatar/" + props.user;
+    const img = null;   
+    console.log("---------------------Avatar data");
+    console.log(props.auth.user); // autorithed user (YOU)
+    console.log(props.class);
+    console.log(props.user); // user to show (may be also you)
+    const className = props.class === undefined || props.class === "" ? "default" : props.class;
+    console.log(className);
     return (
         <div className={classes.root}>
-            <MaterialUiAvatar alt="Avatar alt string" src={img} className={classes.large} />
+            <MaterialUiAvatar aria-label="recipe" alt="Avatar alt string" src={img} className={classes[className]} >
+                {props.user !== undefined && props.user.name !== undefined && props.user.name.length > 0 && props.user.id !== props.auth.user.id && className !== "large"? props.user.name[0].toUpperCase() : null}
+            </MaterialUiAvatar>
         </div>
     );
 }

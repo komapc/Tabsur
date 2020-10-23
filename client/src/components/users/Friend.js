@@ -1,5 +1,5 @@
 import React from "react";
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from "../layout/Avatar"
 import { useHistory } from 'react-router-dom';
 import CardHeader from '@material-ui/core/CardHeader';
 
@@ -12,14 +12,7 @@ const Friend = (props) => {
   return <div
     style={{ width: '100%', borderBottomColor: 'lightgray', borderBottomWidth: '1px', borderBlockEndStyle: 'solid' }}>
       <CardHeader onClick={handleClick}
-        avatar={<Avatar aria-label="recipe" style={{ 
-          backgroundColor: 'yellow', 
-          color: 'Black',
-          border: "solid",
-          borderColor: "Black",
-          borderWidth: "1px"}}>
-          {props.name[0].toUpperCase()}
-        </Avatar>}
+        avatar={<Avatar class="list" user={{name: props.name, id: props.user_id}}/>}
         title={props.name}>
       </CardHeader>
   </div>
