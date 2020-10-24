@@ -259,26 +259,39 @@ class MealListItem extends React.Component {
   render() {
 
     const meal = this.state.meal;
+    if (!meal)
+    {
+      console.error(`No meal given.`);
+      return <> </>
+    }
     const owner = meal.host_id === this.props.auth.user.id ? "YOU" : meal.host_name;
-    console.log("MealListItem: " + JSON.stringify(meal));
+    console.log(`MealListItem: ${JSON.stringify(meal)}.`);
     if (Object.keys(meal).length === 0) { // ?
       return <div>EMPTY MEAL</div>
     }
-    const dat = dateFormat(new Date(meal.date), "dd-mm-yyyy HH:MM");
-    var path = this.state.meal.path;
-    path = path ? `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
-    return (
-        <MealViewCard
-          path={path}
-          owner={owner}
-          meal={meal}
-          auth={this.props.auth}
-          onJoin={this.onJoin}
-          dat={dat}
-          goToUser={this.goToUser}
-          goToMaps={this.goToMaps}
-          gotoMeal={this.gotoMeal} />
-    )
+    try
+    {
+      const dat = dateFormat(new Date(meal.date), "dd-mm-yyyy HH:MM");
+      var path = this.state.meal.path;
+      path = path ? `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
+      return (
+          <MealViewCard
+            path={path}
+            owner={owner}
+            meal={meal}
+            auth={this.props.auth}
+            onJoin={this.onJoin}
+            dat={dat}
+            goToUser={this.goToUser}
+            goToMaps={this.goToMaps}
+            gotoMeal={this.gotoMeal} />
+      )
+    }
+    catch(err)
+    {
+      console.error(err);
+      return <> </>
+    }
   };
 }
 

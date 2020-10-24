@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { useEffect, useState, Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import MealListItem from "./MealListItem";
-import { getGuestList, deleteMeal } from "../../actions/mealActions";
+import { getGuestList, deleteMeal, getMealInfo } from "../../actions/mealActions";
 import { getUserFollowers } from "../../actions/userActions";
 import BackBarMui from "../layout/BackBarMui";
 import Box from '@material-ui/core/Box';
@@ -84,13 +84,38 @@ const editMealEvent = (history, meal) => {
 const ShowMeal = (props) => {
 
   const state = props.location.state;
-  const meal = state ? props.location.state.meal : {};
-  const my = meal.host_id === props.auth.user.id;
+  
+  const mealId = props.match.params.id;
+  const [meal, setMeal] = useState({id:mealId, host_id:-1});
+  
+  console.log(`Meal id: ${mealId}`);
+  useEffect(() => {
+  
+  if (state) {
+    setMeal(props.location.state.meal);
+  }
+  else {
+    console.log(`Meal id: ${mealId}`);
+
+    getMealInfo(mealId)
+      .then((res) => {
+        setMeal(res.data[0]);
+        console.log(res.data[0]);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  
+ }
+}, [props]);
+
+ const my = (meal)?
+  meal.host_id === props.auth.user.id : false;
   return (
     <>
       <BackBarMui history={props.history} />
       <MealListItem meal={meal} />
-      <GuestList mealId={meal.id} userId={props.auth.user.id} />
+      <GuestList mealId={mealId} userId={props.auth.user.id} />
       {
         my ? <>
           <Button variant="outlined" onClick={(e) => deleteMealEvent(e)}> Delete </ Button>
@@ -101,12 +126,12 @@ const ShowMeal = (props) => {
     </>
   );
 
-    }
-    
-  const mapStateToProps = state => ({
-    auth: state.auth
-  });
+}
 
-  export default connect(
-    mapStateToProps
-  )(withRouter(ShowMeal));
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps
+)(withRouter(ShowMeal));

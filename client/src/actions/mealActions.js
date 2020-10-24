@@ -71,9 +71,9 @@ export const getAttendByMeal = attendData => {
 
 
 //get info about a meal
-export const getMealInfo = attendData => {
+export const getMealInfo = mealId => {
   return axios
-    .get(`${config.SERVER_HOST}/api/meals/info/${attendData.meal_id}`);
+    .get(`${config.SERVER_HOST}/api/meals/info/${mealId}`);
 };
 
 
