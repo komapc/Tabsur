@@ -3,7 +3,6 @@ import { withRouter, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser, getUser } from "../../actions/authActions";
-import classnames from "classnames";
 import Avatar from "../layout/Avatar"
 import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
@@ -27,7 +26,7 @@ const useStylesHeader = makeStyles(theme => ({
     backgroundSize: 'cover',
   }
 }))
-const MyProfileHeader = () => {
+const MyProfileHeader = (props) => {
   const classes = useStylesHeader();
   const openSettings = (history) => {
     history.push('/settings')
@@ -46,7 +45,7 @@ const MyProfileHeader = () => {
     </IconButton>
 
     <div className={classes.alignItemsAndJustifyContent}>
-      <Avatar />
+      <Avatar class="large" user={props.user}/>
     </div>
   </React.Fragment>
 }
@@ -250,7 +249,7 @@ class MyProfile extends Component {
   render() {
     return (
       <React.Fragment>
-        <MyProfileHeader />
+        <MyProfileHeader user={{id: this.state.userId, name:this.state.name}}/>
         <MyProfileStats name={this.state.name} userStats={this.state.userStats} />
         <MyProfileTabs id={this.state.userId} />
       </React.Fragment>
