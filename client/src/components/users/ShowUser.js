@@ -52,7 +52,7 @@ const ProfileHeader = (props) => {
     <React.Fragment>
       <div className={classes.alignItemsAndJustifyContent}>
         <div className={classes.wrapper}>
-          <Avatar />
+          <Avatar class="large" user={props.user}/>
         </div>
       </div>
       <div className={classes.empty}></div>
@@ -302,7 +302,7 @@ class ShowUser extends Component {
 
         <React.Fragment>
           <BackBarMui history={this.props.history} />
-          <ProfileHeader history={this.props.history} /> {/* TODO: Pass avatar img or use Redux. Avatar image not implemented */}
+          <ProfileHeader history={this.props.history} user={this.state.user}/>
           <ProfileStats name={this.state.user.name}
             user={this.state.user}
 
