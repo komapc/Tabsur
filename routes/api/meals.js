@@ -20,10 +20,17 @@ router.get("/:id", async (req, response) => {
     userId = -1;
   }
   const SQLquery = `
-  SELECT meals.*, images.path FROM meals 
-  JOIN meal_images ON meal_images.meal_id = meals.id
-  JOIN images ON meal_images.image_id = images.id
-  WHERE   meals.id=$1`;
+  SELECT 
+    (SELECT images.path
+      FROM meal_images AS mi, images 
+      WHERE mi.meal_id=m.id and images.id=image_id and images.status>=0 limit 1), 
+    (((SELECT status AS attend_status FROM attends 
+       WHERE  meal_id=m.id AND attends.user_id=$1) UNION 
+      (SELECT 0 AS attend_status) ORDER BY attend_status DESC) LIMIT 1),
+      (SELECT count (user_id) AS "Atendee_count" FROM attends 
+      WHERE meal_id=m.id), 
+    m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
+  WHERE m.date>now()`;
   console.log(`get, SQLquery: [${SQLquery}]`);
   const client = await pool.connect();
   client.query(SQLquery, [userId])
@@ -53,18 +60,13 @@ router.get("/info/:id", async (req, response) => {
     id = -1;
   }
   const SQLquery = `
-  SELECT images.path
-      FROM meal_images AS mi, images 
-      WHERE mi.meal_id=$1 and images.id=image_id and images.status>=0 limit 1), 
-    (((SELECT status AS attend_status FROM attends 
-       WHERE  meal_id=m.id AND attends.user_id=$1) UNION 
-      (SELECT 0 AS attend_status) ORDER BY attend_status DESC) LIMIT 1),
-      (SELECT count (user_id) AS "Atendee_count" FROM attends 
-      WHERE meal_id=m.id), 
-    m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id`;
+  SELECT meals.*, images.path FROM meals 
+  JOIN meal_images ON meal_images.meal_id = meals.id
+  JOIN images ON meal_images.image_id = images.id
+  WHERE   meals.id=$1`;
   console.log(`get, SQLquery: [${SQLquery}]`);
   const client = await pool.connect();
-  client.query(SQLquery, [userId])
+  client.query(SQLquery, [id])
     .then(resp => {
       response.json(resp.rows);
     })
