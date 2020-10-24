@@ -35,12 +35,12 @@ export const addMeal = (userData, onDone) => dispatch => {
 
 
 //delete meal
-export const deleteMeal = (id) =>  {
+export const deleteMeal = (id) => {
   return axios.delete(`${config.SERVER_HOST}/api/meals/${id}`);
 }
 //get
-export const getMeals = (id) =>  {
-  return axios.get(`${config.SERVER_HOST}/api/meals/${id}`); 
+export const getMeals = (id) => {
+  return axios.get(`${config.SERVER_HOST}/api/meals/${id}`);
 };
 
 //get my meals
@@ -66,7 +66,14 @@ export const joinMeal = (attendData, id) => dispatch => {
 //get attends by meal (?)
 export const getAttendByMeal = attendData => {
   return axios
-    .get(`${config.SERVER_HOST}/api/attends/meal/` + attendData.meal_id, attendData);
+    .get(`${config.SERVER_HOST}/api/attends/meal/${attendData.meal_id}`, attendData);
+};
+
+
+//get info about a meal
+export const getMealInfo = attendData => {
+  return axios
+    .get(`${config.SERVER_HOST}/api/meals/info/${attendData.meal_id}`);
 };
 
 

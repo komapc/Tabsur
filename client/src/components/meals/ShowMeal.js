@@ -64,51 +64,49 @@ class GuestList extends Component {
   }
 };
 
-class ShowMeal extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = props.location.state;
-  }
+const deleteMealEvent = (history, meal) => {
+  deleteMeal(meal.id).then(res => {
+    console.log(res.data);
 
-  deleteMealEvent = (e) => {
-    deleteMeal(this.state.meal.id).then(res => {
-      console.log(res.data);
-
-      this.props.history.push({ pathname: '/MyMeals' });
-    })
-      .catch(err => {
-        console.error(err);
-      });
-  }
-
-  editMealEvent = (e) => {
-    this.props.history.push({ pathname: `/EditMeal/${this.state.meal.id}` });
-  }
-
-  render() {
-    const my = this.state.meal.host_id === this.props.auth.user.id;
-    return (
-      <>
-        <BackBarMui history={this.props.history} />
-        <MealListItem meal={this.state.meal} />
-        <GuestList mealId={this.state.meal.id} userId={this.props.auth.user.id} />
-        {
-          my ? <>
-            <Button variant="outlined" onClick={(e) => this.deleteMealEvent(e)}> Delete </ Button>
-            <Button variant="outlined" onClick={(e) => this.editMealEvent(e)}> Edit </ Button>
-          </> : ""
-        }
-
-      </>
-    );
-  }
+    history.push({ pathname: '/MyMeals' });
+  })
+    .catch(err => {
+      console.error(err);
+    });
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
-});
+const editMealEvent = (history, meal) => {
+  history.push({ pathname: `/EditMeal/${meal.id}` });
+}
 
-export default connect(
-  mapStateToProps
-)(withRouter(ShowMeal));
+
+const ShowMeal = (props) => {
+
+  const state = props.location.state;
+  const meal = state ? props.location.state.meal : {};
+  const my = meal.host_id === props.auth.user.id;
+  return (
+    <>
+      <BackBarMui history={props.history} />
+      <MealListItem meal={meal} />
+      <GuestList mealId={meal.id} userId={props.auth.user.id} />
+      {
+        my ? <>
+          <Button variant="outlined" onClick={(e) => deleteMealEvent(e)}> Delete </ Button>
+          <Button variant="outlined" onClick={() => editMealEvent(props.history, meal)}> Edit </ Button>
+        </> : ""
+      }
+
+    </>
+  );
+
+    }
+    
+  const mapStateToProps = state => ({
+    auth: state.auth
+  });
+
+  export default connect(
+    mapStateToProps
+  )(withRouter(ShowMeal));
