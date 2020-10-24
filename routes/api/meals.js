@@ -16,6 +16,7 @@ router.get("/:id", async (req, response) => {
   if (isNaN(userId))
   {
     //return response.status(400).json("Error in geting  meals: wrong ID");
+    //when user is not logged-in
     userId = -1;
   }
   const SQLquery = `
@@ -25,7 +26,7 @@ router.get("/:id", async (req, response) => {
       WHERE mi.meal_id=m.id and images.id=image_id and images.status>=0 limit 1), 
     (((SELECT status AS attend_status FROM attends 
        WHERE  meal_id=m.id AND attends.user_id=$1) UNION 
-      (SELECT -1 AS attend_status) ORDER BY attend_status DESC) LIMIT 1),
+      (SELECT 0 AS attend_status) ORDER BY attend_status DESC) LIMIT 1),
       (SELECT count (user_id) AS "Atendee_count" FROM attends 
       WHERE meal_id=m.id), 
     m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
