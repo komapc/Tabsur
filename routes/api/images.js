@@ -125,6 +125,9 @@ router.get('/gallery/:userId', async function (req, response, next) {
 
 //get avatar
 router.get('/avatar/:userId', async function (req, response, next) {
+  if(req.params.userId === undefined || req.params.userId === "undefined" ) {  // TODO: is number bigger than 0
+    return response.status(400);
+  }
   console.log(`Get an avatar for user [${req.params.userId}]`);
   const client = await pool.connect();
   const query = `SELECT path, status FROM user_images 
