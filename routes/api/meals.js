@@ -59,7 +59,10 @@ router.get("/info/:id", async (req, response) => {
     return response.status(500).json("Bad meal id");
   }
   const SQLquery = `
-  SELECT meals.*, images.path FROM meals 
+  SELECT meals.*, images.path, 
+    (SELECT count (user_id) AS "Atendee_count" FROM attends 
+        WHERE meal_id=$1)
+  FROM meals 
   JOIN meal_images ON meal_images.meal_id = meals.id
   JOIN images ON meal_images.image_id = images.id
   WHERE   meals.id=$1`;

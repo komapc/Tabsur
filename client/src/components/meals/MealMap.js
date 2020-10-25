@@ -8,20 +8,18 @@ class MealMap extends Component {
   constructor(props) {
     super(props);
     const position = { lng: 31.808, lat: 32.09 };
-    let  selected=0;
-    const params=this.props.match?this.props.match.params:{};
-    if (this.props.selectedMeal>0)
-    {
-      selected=this.props.selectedMeal;
+    let selected = 0;
+    const params = this.props.match ? this.props.match.params : {};
+    if (this.props.selectedMeal > 0) {
+      selected = this.props.selectedMeal;
     }
-    else if (!isNaN(params.meal_id))
-    {
+    else if (!isNaN(params.meal_id)) {
       selected = params.meal_id;
     };
     this.state = {
       meals: [],
       meal: {},
-      isSelected: selected>0,
+      isSelected: selected > 0,
       selectedMealId: selected,
       defaultLocation: position
     };
@@ -45,32 +43,31 @@ class MealMap extends Component {
       .then(res => {
         console.log(res);
         this.setState({ meals: res.data });
-        if (!this.state.isSelected)
-        {
+        if (!this.state.isSelected) {
           return;
         }
         const obj = this.state.meals.filter(m => {
           return m.id === parseInt(this.state.selectedMealId);
         })
         console.log("componentDidMount: " + JSON.stringify(obj));
-        this.setState({ meal: obj[0]});
+        this.setState({ meal: obj[0] });
       })
       .catch(err => {
         console.error(`Failed: ${err}`);
       });
 
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition( (position)=>{
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
 
-          const p = { lng: position.coords.longitude, lat: position.coords.latitude };
+        const p = { lng: position.coords.longitude, lat: position.coords.latitude };
 
-          console.log("geolocation is: ", JSON.stringify(p));
-          this.setState({defaultLocation:p});
-        });
-      }
-      else {
-        console.log("geolocation is not available.");
-      }
+        console.log("geolocation is: ", JSON.stringify(p));
+        this.setState({ defaultLocation: p });
+      });
+    }
+    else {
+      console.log("geolocation is not available.");
+    }
   }
 
   render() {
@@ -87,10 +84,8 @@ class MealMap extends Component {
           selectedMeal={this.state.selectedMealId}
         />
 
-        <div>
-          <BottomMealInfo
-            meal={this.state.meal} />
-        </div>
+        <BottomMealInfo
+          meal={this.state.meal} />
       </div>
 
     );
