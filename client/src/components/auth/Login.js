@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Typography from '@material-ui/core/Typography';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -8,6 +9,9 @@ import GoogleLogin from 'react-google-login';
 import FacebookLoginWithButton from 'react-facebook-login';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 //const keys = require("../config/keys");
 const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
@@ -46,11 +50,11 @@ class Login extends Component {
       email: "",
       password: "",
       errors: {},
-      user:false,
-      picture:{}
+      user: false,
+      picture: {}
     };
   }
-  
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/");
@@ -82,9 +86,8 @@ class Login extends Component {
     console.log(response);
   }
 
-  facebookResponse = (response) => 
-  { 
-    console.log( JSON.stringify(response)  ); 
+  facebookResponse = (response) => {
+    console.log(JSON.stringify(response));
     const userData = {
       email: response.email,
       name: response.name,
@@ -93,106 +96,114 @@ class Login extends Component {
 
     this.props.loginUserFB(userData);
   }
- 
+
   render() {
     const { errors } = this.state;
-    const formMinWidth = window.innerWidth < 500 ? window.innerWidth : 500;
     return (
-      <div className="main">
+      <Grid container spacing={4}
+    >
         <Grid
-          container
-          spacing={0}
-          direction="column"
+          item xs={12}
+          justify="space-around"
           alignItems="center"
           justify="center"
-          style={{ minHeight: '100vh' }}
         >
 
-        <Grid item style={{ minWidth: `${formMinWidth}px` }}>
-        <div>
-          <div>
-            <div>
-                Don't have an account? <Link to="/register">Register</Link>
-            </div>
-            <form noValidate onSubmit={this.onSubmit}>
-              <div>
-                <TextField
-                  variant="outlined"
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  id="email"
-                  type="email"
-                  className={classnames("", {
-                    invalid: errors.email || errors.emailnotfound
-                  })}
-                  label={'Email'}
-                  style={{width: '100%', marginTop: '1vh'}}
-                />
-                {/* <label htmlFor="email">Email</label> */}
-                <span className="red-text">
-                  {errors.email}
-                  {errors.emailnotfound}
-                </span>
-              </div>
-              <div>
-                <TextField
-                  variant="outlined"  
-                  label={'Password'}
-                  onChange={this.onChange}
-                  value={this.state.password}
-                  error={errors.password}
-                  id="password"
-                  type="password"
-                  className={classnames("", {
-                    invalid: errors.password || errors.passwordincorrect
-                  })}
-                  style={{width: '100%', marginTop: '1vh'}}
-                />
-                
-                {/* <label htmlFor="password">Password</label> */}
-                <span className="red-text">
-                  {errors.password}
-                  {errors.passwordincorrect}
-                </span>
-              </div>
-              <div>
-                <Button
-                  variant="contained" color="primary"
-                  type="submit"
-                  style={{width: '100%', marginTop: '1vh'}}
-                  // className="button waves-effect waves-light hoverable accent-3"
-                >
-                  Login
-                </Button>
-                <div>
-              {this.state.user ? <div>{JSON.stringify(this.state.user)}</div> :
-                <div className="btn-fb-login-wrapper"><FBLoginButton facebookResponse={this.facebookResponse} /></div>
-              }
-            </div>
-              </div>
-            </form>
-            {(this.props.match.params.extend)?
-            <span>
-            <GoogleLogin
-              clientId={`${googleKey}`}
-              buttonText="Login"
-              onSuccess={this.props.responseGoogle}
-              onFailure={this.props.responseGoogle}
-              cookiePolicy={'single_host_origin'}
-            />
-            
-            </span>
-            :<span/>
-            }
-           
-          </div>
-        </div>
-  </Grid>   
+          Don't have an account? <Link to="/register">Register</Link>
+        </Grid>
 
-</Grid> 
-        
-      </div>
+
+        <form noValidate onSubmit={this.onSubmit}>
+         
+            <TextField 
+              variant="outlined"
+              onChange={this.onChange}
+              value={this.state.email}
+              error={errors.email}
+              id="email"
+              type="email"
+              className={classnames("", {
+                invalid: errors.email || errors.emailnotfound
+              })}
+              label={'Email'}
+              style={{paddingLeft:'10px', width:'90vw'}}
+            />
+             <Grid
+              xs={12}
+              item
+              justify="space-around"
+              alignItems="center"
+              justify="center"
+            >
+            <Typography className="red-text">
+              {errors.email}
+              {errors.emailnotfound}
+            </Typography>
+          </Grid> 
+          <Grid
+            item xs={12}
+            justify="space-around"
+            direction="column"
+            alignItems="center"
+            justify="center"
+          >
+            <TextField
+              variant="outlined"
+              label={'Password'}
+              onChange={this.onChange}
+              value={this.state.password}
+              error={errors.password}
+              id="password"
+              type="password"
+              className={classnames("", {
+                invalid: errors.password || errors.passwordincorrect
+              })}
+              style={{paddingLeft:'10px', width:'90vw'}}
+            />
+
+            <span className="red-text">
+              {errors.password}
+              {errors.passwordincorrect}
+            </span>
+          </Grid>
+          <Grid
+            item xs={12}
+            justify="space-around"
+            direction="column"
+            alignItems="center"
+            justify="center"
+          >
+            <Button
+              variant="contained" color="primary"
+              type="submit"
+              style={{width:'90vw'}}
+            >
+              Login
+                </Button>
+            {this.state.user ?
+              <div>{JSON.stringify(this.state.user)}</div> :
+              <div className="btn-fb-login-wrapper">
+                <FBLoginButton facebookResponse={this.facebookResponse} /></div>
+            }
+          </Grid>
+        </form>
+        {
+          (this.props.match.params.extend) ?
+            <span>
+              <GoogleLogin xs={12}
+                clientId={`${googleKey}`}
+                buttonText="Login"
+                onSuccess={this.props.responseGoogle}
+                onFailure={this.props.responseGoogle}
+                cookiePolicy={'single_host_origin'}
+              />
+
+            </span>
+            : <span />
+        }
+
+      </Grid >
+
     );
   }
 }

@@ -12,16 +12,22 @@ const ImageStep = (props) => {
   const getImage = e => {
     const files = e.target.files;
     try {
-      const file = URL.createObjectURL(files[0]);
-      console.log("Path: " + JSON.stringify(file));
+      const fileObj=files[0];
+      console.log(`Uploading ${fileObj}.`);
+      if (!fileObj)
+      {
+        console.error(`Error uploading ${fileObj}.`);
+      }
+      const path = URL.createObjectURL(fileObj);
+      console.log("Path: " + JSON.stringify(path));
 
-      updateState({ "file": file });
+      updateState({ "file": path });
 
-      submitFile(e, files[0]);
+      submitFile(e, fileObj);
     }
     catch (e) {
       console.error(e);
-      alert(`Error uploading image ${e}`);
+      //alert(`Error uploading image ${e}`);
     }
   };
 
@@ -62,14 +68,17 @@ const ImageStep = (props) => {
 
   return (
     <div className="wizard-container">
-      
-      <h3 style={{marginLeft:"40px"}}>Image</h3>
+
+      <h3 style={{ marginLeft: "40px" }}>Image</h3>
       <div className="wizard-image-placeholder-containter"
-        style={{ backgroundImage: `url(${state.file})`, 
-        backgroundRepeat: "no-repeat",
+        style={{
+          backgroundImage: `url(${state.file})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           width: "300px", height: "300px",
-          backgroundSize:"cover",
-          border:"solid" }}>
+          border: "solid"
+        }}>
         <Button
           variant="outlined"
           component="label">
