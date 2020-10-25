@@ -88,8 +88,6 @@ export const getGuestList = mealId => {
   return axios.get(`${config.SERVER_HOST}/api/meals/guests/${mealId}`)
 };
 
-
-
 // User loading
 export const setUserLoading = () => {
   return {
