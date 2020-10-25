@@ -86,7 +86,7 @@ const ShowMeal = (props) => {
   const state = props.location.state;
   
   const mealId = props.match.params.id;
-  const [meal, setMeal] = useState({id:mealId, host_id:-1});
+  const [meal, setMeal] = useState(null);
   
   console.log(`Meal id: ${mealId}`);
   useEffect(() => {
@@ -114,7 +114,7 @@ const ShowMeal = (props) => {
   return (
     <>
       <BackBarMui history={props.history} />
-      <MealListItem meal={meal} />
+      {meal?<MealListItem meal={meal} />:<></>}
       <GuestList mealId={mealId} userId={props.auth.user.id} />
       {
         my ? <>
@@ -125,7 +125,6 @@ const ShowMeal = (props) => {
 
     </>
   );
-
 }
 
 const mapStateToProps = state => ({
