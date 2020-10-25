@@ -32,11 +32,6 @@ const useStyles = makeStyles(theme => ({
 const Avatar = (props) => {
     const classes = useStyles();
     const img = null;
-
-    // console.log(props.auth.user); // autorithed user (YOU)
-    // console.log(props.class);
-    // console.log(props.user); // user to show (may be also you)
-    
     const className = props.class === undefined || props.class === "" ? "default" : props.class;
     console.log(className);
     return (
