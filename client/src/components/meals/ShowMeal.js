@@ -118,7 +118,7 @@ const ShowMeal = (props) => {
       <GuestList mealId={mealId} userId={props.auth.user.id} />
       {
         my ? <>
-          <Button variant="outlined" onClick={(e) => deleteMealEvent(e)}> Delete </ Button>
+          <Button variant="outlined" onClick={(e) => deleteMealEvent(props.history, meal)}> Delete </ Button>
           <Button variant="outlined" onClick={() => editMealEvent(props.history, meal)}> Edit </ Button>
         </> : ""
       }
