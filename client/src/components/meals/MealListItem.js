@@ -112,7 +112,9 @@ function MealViewCard(props) {
           <RoomIcon fontSize='small' style={{ color: 'black', }} /> {props.meal.address}
         </Typography> */}
         <Typography variant="body2" color="textPrimary" component="p">
-          <PeopleIcon fontSize='small' style={{ color: 'black', }} /> {props.meal.guest_count}<span style={{ color: 'gray' }}>/</span>{props.meal.Atendee_count}
+          <PeopleIcon fontSize='small' style={{ color: 'black', }} /> 
+          {props.meal.Atendee_count}<span style={{ color: 'gray' }}> of </span>
+          {props.meal.guest_count}
         </Typography>
         {/* <Typography variant="body2" color="textSecondary" component="p">
           This impressive paella is a perfect party dish and a fun meal to cook together with your
