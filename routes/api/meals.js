@@ -16,16 +16,17 @@ router.get("/:id", async (req, response) => {
   if (isNaN(userId))
   {
     //return response.status(400).json("Error in geting  meals: wrong ID");
+    //when user is not logged-in
     userId = -1;
   }
   const SQLquery = `
   SELECT 
     (SELECT images.path
-      FROM meal_images as mi, images 
+      FROM meal_images AS mi, images 
       WHERE mi.meal_id=m.id and images.id=image_id and images.status>=0 limit 1), 
     (((SELECT status AS attend_status FROM attends 
        WHERE  meal_id=m.id AND attends.user_id=$1) UNION 
-      (SELECT -1 AS attend_status) ORDER BY attend_status DESC) LIMIT 1),
+      (SELECT 0 AS attend_status) ORDER BY attend_status DESC) LIMIT 1),
       (SELECT count (user_id) AS "Atendee_count" FROM attends 
       WHERE meal_id=m.id), 
     m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
@@ -44,6 +45,41 @@ router.get("/:id", async (req, response) => {
       client.release();
     });
 })
+
+
+// @route GET api/meals/info/id
+// @desc get info about specific meal
+// @access Public
+router.get("/info/:id", async (req, response) => {
+  var id = req.params.id;
+  console.log(`get info for meal ${id}`);
+  if (isNaN(id))
+  {
+    //return response.status(400).json("Error in geting  meals: wrong ID");
+    //when user is not logged-in
+    id = -1;
+  }
+  const SQLquery = `
+  SELECT meals.*, images.path FROM meals 
+  JOIN meal_images ON meal_images.meal_id = meals.id
+  JOIN images ON meal_images.image_id = images.id
+  WHERE   meals.id=$1`;
+  console.log(`get, SQLquery: [${SQLquery}]`);
+  const client = await pool.connect();
+  client.query(SQLquery, [id])
+    .then(resp => {
+      response.json(resp.rows);
+    })
+    .catch(err => {
+      console.error(err);
+      response.status(500).json(err);
+    })
+    .finally(() => {
+      client.release();
+    });
+})
+
+
 
 // @route GET api/meals/my
 // @desc get a list of meals created by me
