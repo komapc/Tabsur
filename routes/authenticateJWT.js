@@ -12,8 +12,8 @@ const authenticateJWT = (req, res, next) => {
             next();
         });
     } else {
-        console.error(err);
-        return res.status(401).json(err);
+        console.error("wrong authHeader.");
+        return res.status(401).json("wrong authHeader.");
     }
 };
 module.exports=authenticateJWT;
