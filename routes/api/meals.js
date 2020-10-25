@@ -55,9 +55,8 @@ router.get("/info/:id", async (req, response) => {
   console.log(`get info for meal ${id}`);
   if (isNaN(id))
   {
-    //return response.status(400).json("Error in geting  meals: wrong ID");
-    //when user is not logged-in
-    id = -1;
+    console.error(`Bad meal id: ${id}`);
+    return response.status(500).json("Bad meal id");
   }
   const SQLquery = `
   SELECT meals.*, images.path FROM meals 
@@ -68,6 +67,7 @@ router.get("/info/:id", async (req, response) => {
   const client = await pool.connect();
   client.query(SQLquery, [id])
     .then(resp => {
+      console.log(`INFO about ${id}: ${JSON.stringify(resp)}.`);
       response.json(resp.rows);
     })
     .catch(err => {
