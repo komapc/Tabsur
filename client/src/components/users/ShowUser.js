@@ -175,7 +175,7 @@ const ProfileTabs = (props) => {
   };
 
   const itIsMe = props.auth.user.id !== props.state.id;
-  const newStatus = props.followStatus == 3? 0 : 3;
+  const newStatus = props.followStatus === 3? 0 : 3;
   console.log(`props.auth.user.id :
     ${JSON.stringify(props.auth.user.id)}, props.state.id :
     ${JSON.stringify(props.state.id)}`)
