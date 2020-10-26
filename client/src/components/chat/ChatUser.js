@@ -66,7 +66,7 @@ const ChatUser = (props) => {
       .catch(error => {
         console.error(error);
       })
-  }, [props]);
+  }, [props, partner_id]);
   const history = useHistory();
   return <>
     <Box style={{ height: "85vh", overflowY: "scroll" }}>
