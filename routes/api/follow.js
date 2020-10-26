@@ -80,6 +80,11 @@ router.post("/:id", authenticateJWT, async (req, response) => {
   client.query(SQLquery, [follower, followie, status])
     .then(resp => {
       console.log(`Query response: ${JSON.stringify(resp)}`);
+      if (status <= 0)
+      {
+        //no notification on unfollow
+        return; 
+      }
       const message =
       {
         title: 'Follower',
@@ -94,9 +99,9 @@ router.post("/:id", authenticateJWT, async (req, response) => {
       const answer = addNotification(message);
 
       return answer
-        .then(answer => {
-          console.log(`notification result: ${JSON.stringify(answer)}`);
-          response.json(answer);
+        .then(noteAnswer => {
+          console.log(`notification result: ${JSON.stringify(noteAnswer)}`);
+          response.json(noteAnswer);
         })
         .catch(err=>
         {

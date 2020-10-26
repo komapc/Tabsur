@@ -15,13 +15,7 @@ import searchActive from "../../resources/bottom/search_active.svg"
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Badge from '@material-ui/core/Badge';
-import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
-//import MessageOutlinedIcon from '@material-ui/icons/MessageOutlined';
-import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
-//import SearchIcon from '../../resources/bottom/search_active.svg';
 
 const useStyles = makeStyles(theme => ({
   bigIcon: {
@@ -45,8 +39,10 @@ const Bottom = (props) => {
       
       case 3: if (props.messagesCount !== 0)
         store.dispatch(setMessagesCount(0)); break;
+      default:
+        console.log(`Switched to non-existing tab ${index}?`);
     }
-  }, [props]);
+  }, [props, index]);
     return (
       // <Box
       //   borderRadius="28px 28px 0px 0px" borderColor="black" position="fixed"
