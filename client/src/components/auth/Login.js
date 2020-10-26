@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Typography from '@material-ui/core/Typography';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -9,11 +9,9 @@ import GoogleLogin from 'react-google-login';
 import FacebookLoginWithButton from 'react-facebook-login';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-//const keys = require("../config/keys");
+import Paper from '@material-ui/core/Paper';
+
 const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
 const FBcomponentClicked = (function (response) {
@@ -100,8 +98,22 @@ class Login extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <Grid container spacing={4}
-    >
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+        style={{ minHeight: '100vh', width: '100%' }}
+      >
+        
+        <Fragment style={{ 
+                  padding: '10%'
+                }}>
+        <Paper elevation={3} variant="outlined" style={{borderColor: 'black'}}>
+        <div style={{ 
+                  padding: '10%'
+                }}>
         <Grid
           item xs={12}
           justify="space-around"
@@ -111,8 +123,7 @@ class Login extends Component {
           Don't have an account? <Link to="/register">Register</Link>
         </Grid>
 
-
-        <form noValidate onSubmit={this.onSubmit}>
+        <form noValidate onSubmit={this.onSubmit} >
          
             <TextField 
               variant="outlined"
@@ -125,7 +136,7 @@ class Login extends Component {
                 invalid: errors.email || errors.emailnotfound
               })}
               label={'Email'}
-              style={{paddingLeft:'10px', width:'90vw'}}
+              style={{ width:'100%', marginTop: '10%'}}
             />
              <Grid
               xs={12}
@@ -155,7 +166,7 @@ class Login extends Component {
               className={classnames("", {
                 invalid: errors.password || errors.passwordincorrect
               })}
-              style={{paddingLeft:'10px', width:'90vw'}}
+              style={{width:'100%', marginTop: '10%'}}
             />
 
             <span className="red-text">
@@ -172,7 +183,7 @@ class Login extends Component {
             <Button
               variant="contained" color="primary"
               type="submit"
-              style={{width:'90vw'}}
+              style={{width:'100%', marginTop: '10%'}}
             >
               Login
                 </Button>
@@ -185,7 +196,7 @@ class Login extends Component {
         </form>
         {
           (this.props.match.params.extend) ?
-            <span>
+            <span> 
               <GoogleLogin xs={12}
                 clientId={`${googleKey}`}
                 buttonText="Login"
@@ -197,7 +208,9 @@ class Login extends Component {
             </span>
             : <span />
         }
-
+      </div>
+      </Paper>
+      </Fragment>
       </Grid >
 
     );
