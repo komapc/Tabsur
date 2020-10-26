@@ -7,6 +7,7 @@ import { getUserFollowers } from "../../actions/userActions";
 import BackBarMui from "../layout/BackBarMui";
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import Friend from '../users/Friend';
 class GuestList extends Component {
   constructor(props) {
@@ -119,16 +120,27 @@ const ShowMeal = (props) => {
   meal.host_id === props.auth.user.id : false;
   return (
     <>
-      <BackBarMui history={props.history} />
-      {meal?<MealListItem meal={meal} />:<></>}
-      <GuestList mealId={mealId} userId={props.auth.user.id} />
-      {
-        my ? <>
-          <Button variant="outlined" onClick={(e) => deleteMealEvent(props.history, meal)}> Delete </ Button>
-          <Button variant="outlined" onClick={() => editMealEvent(props.history, meal)}> Edit </ Button>
-        </> : ""
-      }
-
+    
+    <BackBarMui history={props.history} />
+    <Grid container spacing={2}
+    justify="space-around"
+    alignItems="flex-start"
+    direction="column">
+      <Box  style={{width:"80vw"}}m={2} xs={12} >
+        {meal?<MealListItem meal={meal} />:<></>}
+        <h3>Description</h3> 
+        <div >{meal?meal.description:""}</div>
+        <h3>Address</h3> 
+        <div>{meal?meal.address:""}</div>
+        <GuestList mealId={mealId} userId={props.auth.user.id} />
+        {
+          my ? <>
+            <Button variant="outlined" onClick={(e) => deleteMealEvent(props.history, meal)}> Delete </ Button>
+            <Button variant="outlined" onClick={() => editMealEvent(props.history, meal)}> Edit </ Button>
+          </> : ""
+        }
+    </Box>
+    </Grid>
     </>
   );
 }
