@@ -42,7 +42,7 @@ const Friends = (props) => {
       .catch(err => {
         console.error(err);
       });
-  }, []);
+  }, [props.id]);
 
 
   return <>

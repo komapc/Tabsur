@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import MealListItem from "./MealListItem";
 import loadingGIF from "../../resources/animation/loading.gif";
-import Grid from '@material-ui/core/Grid';
 import { Typography } from "@material-ui/core";
 
 const Meals = (props) => {

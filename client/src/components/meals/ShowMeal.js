@@ -113,7 +113,7 @@ const ShowMeal = (props) => {
       });
   
  }
-}, [props]);
+}, [mealId, props, state]);
 
  const my = (meal)?
   meal.host_id === props.auth.user.id : false;

@@ -40,18 +40,18 @@ const Main = ({auth}, ...props) => {
     <div className='main-app'>
       <SwipeableViews index={index} onChangeIndex={value=>handleChange(null, value)} disabled={!isSwipable}>
    
-        <div><MealsListMapSwitcher
+        <MealsListMapSwitcher
           setFabVisibility={setFabVisibility}
-          setSwipability={setSwipability} active={index === mainTabs.MEALS} /></div>
-        <div><MyProfile active={index === mainTabs.MY_PROFILE}
+          setSwipability={setSwipability} active={index === mainTabs.MEALS} />
+        <MyProfile active={index === mainTabs.MY_PROFILE}
           setFabVisibility={setFabVisibility}
-          setSwipability={setSwipability} /></div>
-        <div><MyMeals active={index === mainTabs.MY_MEALS}
+          setSwipability={setSwipability} />
+        <MyMeals active={index === mainTabs.MY_MEALS}
           setFabVisibility={setFabVisibility}
-          setSwipability={setSwipability} /></div>
-        <div><ChatList active={index === mainTabs.CHAT}
+          setSwipability={setSwipability} />
+        <ChatList active={index === mainTabs.CHAT}
           setFabVisibility={setFabVisibility}
-          setSwipability={setSwipability} /> </div>
+          setSwipability={setSwipability} />
       </SwipeableViews>
     </div>
     <Bottom onChange={handleChange} index={index} />
