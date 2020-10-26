@@ -106,7 +106,6 @@ class Login extends Component {
           item xs={12}
           justify="space-around"
           alignItems="center"
-          justify="center"
         >
 
           Don't have an account? <Link to="/register">Register</Link>
@@ -133,7 +132,6 @@ class Login extends Component {
               item
               justify="space-around"
               alignItems="center"
-              justify="center"
             >
             <Typography className="red-text">
               {errors.email}
@@ -145,7 +143,6 @@ class Login extends Component {
             justify="space-around"
             direction="column"
             alignItems="center"
-            justify="center"
           >
             <TextField
               variant="outlined"
@@ -171,7 +168,6 @@ class Login extends Component {
             justify="space-around"
             direction="column"
             alignItems="center"
-            justify="center"
           >
             <Button
               variant="contained" color="primary"
