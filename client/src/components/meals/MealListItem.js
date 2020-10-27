@@ -172,12 +172,16 @@ class AttendButton extends React.Component {
   render() {
     const meal = this.state.meal;
     const status = meal.attend_status;
+    console.log(`Auth: ${JSON.stringify(this.props.auth)}`);
+    const isAuthenticated = this.props.auth.isAuthenticated;
     const isOwner = meal.host_id === this.props.auth.user.id;
     const isEnabled = (status > 0) || (meal.guest_count >= meal.Atendee_count);
-
     const newStatus = status === 0 ? 3 : 0;
+    if (isOwner || !isAuthenticated)
+    {
+        return <></>
+    }
     return <FormControlLabel
-      hidden={isOwner}
       disabled={!isEnabled}
       onClick={event => this.handleAttend(event, newStatus, isEnabled)}
       control={

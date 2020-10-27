@@ -68,14 +68,14 @@ router.get("/info/:id", async (req, response) => {
   WHERE   meals.id=$1`;
   console.log(`get, SQLquery: [${SQLquery}]`);
   const client = await pool.connect();
-  client.query(SQLquery, [id])
+  return client.query(SQLquery, [id])
     .then(resp => {
-      console.log(`INFO about ${id}: ${JSON.stringify(resp)}.`);
-      response.json(resp.rows);
+      console.log(`INFO about ${id}: ${JSON.stringify(resp.rows)}.`);
+      return response.json(resp.rows);
     })
     .catch(err => {
       console.error(err);
-      response.status(500).json(err);
+      return response.status(500).json(err);
     })
     .finally(() => {
       client.release();
