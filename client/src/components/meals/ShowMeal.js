@@ -56,8 +56,12 @@ class GuestList extends Component {
 
   render() {
     let sorted = this.state.guests;
+    {if ( this.state.guests.length === 0)
+      return <> </>;
+    } 
     return (
       <>
+       
         <h3>Guests list</h3>
         {
           sorted.map(guest =>
