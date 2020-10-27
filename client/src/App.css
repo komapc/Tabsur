@@ -256,8 +256,11 @@ input
 
 .autocomplete-icon
 {
-    width: 20px;
-    float:left;
+    position: fixed !important;
+    top:70px;
+    color:red !important;
+    z-index:1234;
+    width:20px;
 }
 .white
 {
@@ -269,9 +272,9 @@ input
     position: absolute;
     top: 5px;
     left:30px  !important;
-    width: 90% !important;
-    float: right !important;
-    height: 40px !important;
+    width: calc(100vw - 50px) !important;
+    float: right;
+    height: 40px;
 } 
 .google-places-autocomplete :focus {
 
@@ -284,8 +287,18 @@ input
 }
 .autocomplete-bar
 {  
-    width: 100%;
+    width: 100vw;
+    border: solid;
+    border-color: black;
 } 
+.autocomplete-back
+{
+    position: absolute;
+    top:30px;
+    background-color: yellow;
+    border:solid;
+
+}
 
 .map-with-marker-container
 {
