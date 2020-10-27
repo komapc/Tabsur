@@ -16,6 +16,7 @@ const LocationStep = props => {
   };
 
   const onMapExit = (e) => {
+    console.log(`Exit map clicked: ${showMap}.`);
     if (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -39,8 +40,8 @@ const LocationStep = props => {
     <>
       {/* Address*/}
       {/* <img className="meal-info-location-icons" src={locationIcon} alt="location" /> */}
-      <Grid container  >
-        <h3 style={{ marginLeft: "40px" }}>Meal Location</h3>
+      <Grid container>
+        <h3 style={{ marginLeft: "40px" }} display={showMap ? 'none' : 'block'} >Meal Location</h3>
         <Box m={2} p={2} width={1} display={showMap ? 'none' : 'block'} onClick={onAddressClickHandle} >
           <TextField width={1} fullWidth variant="outlined"
             onChange={onChange}

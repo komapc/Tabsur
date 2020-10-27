@@ -99,13 +99,14 @@ class MapLocationSelector extends Component {
   }
 
   render() {
+    
+  //const history=useHistory();
     return (
-      <span className="main">
+      <>
         <span className="autocomplete-bar">
           <img onClick={this.props.handleExit}
             className="autocomplete-icon" src={backArrowIcon} alt="Close map" />
-        </span>
-
+        </span>        
         <MapWithMarker
 
           onAutoCompleteSelect={this.onAutoCompleteSelect}
@@ -124,18 +125,19 @@ class MapLocationSelector extends Component {
           containerElement={<div className="map-with-marker-container" />}
           mapElement={<div style={{ height: `90vh`, top: `10vh` }} />}
           googleMapURL={`https://maps.googleapis.com/maps/api/js?libraries=places&key=${GOOGLE_MAPS_API_KEY}`}
-        >
-
-        </MapWithMarker>
-      </span>
+        />
+      </>
     )
   };
 }
 
-const MyGoogleMap = (props) => <GoogleMap
-  defaultZoom={10}
-  defaultCenter={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
->
+const MyGoogleMap = (props) => 
+{
+  
+
+return <>
+<span className="autocomplete-bar">
+
   <GooglePlacesAutocomplete className="autocomplete-span"
     onSelect={props.onAutoCompleteSelect}
     defaultLocation={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
@@ -145,13 +147,20 @@ const MyGoogleMap = (props) => <GoogleMap
       language: 'en',
     }}>
   </GooglePlacesAutocomplete>
+      </span>
+      <GoogleMap
+  defaultZoom={10}
+  defaultCenter={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
+>
+
   <Marker
     draggable
     defaultPosition={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
     onDragEnd={props.onDragEnd}
   />
-</GoogleMap>;
-
+</GoogleMap>
+</>;
+}
 const MapWithMarker = withScriptjs(withGoogleMap(MyGoogleMap));
 
 export default MapLocationSelector;
