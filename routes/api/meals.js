@@ -156,7 +156,9 @@ router.get("/attends/:id", authenticateJWT, async (req, response) => {
 // @route GET api/meals/guests
 // @desc get a list of users attending a meal
 // @access Public
-router.get("/guests/:meal_id", authenticateJWT, async (req, response) => {
+router.get("/guests/:meal_id", 
+//authenticateJWT,  //Paker's request: show guests even when not logged-in
+async (req, response) => {
   console.log("Get users by meal_id: " + JSON.stringify(req.params));
   const meal_id = req.params.meal_id;
   if (isNaN(meal_id)) {
