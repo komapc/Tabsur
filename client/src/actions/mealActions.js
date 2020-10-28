@@ -36,15 +36,27 @@ export const addMeal = (userData, onDone) => dispatch => {
 
 //delete meal
 export const deleteMeal = (id) => {
+  if (isNaN(id))
+  {
+    return new Promise( ()=>[])
+  }
   return axios.delete(`${config.SERVER_HOST}/api/meals/${id}`);
 }
 //get
 export const getMeals = (id) => {
+  if (isNaN(id))
+  {
+    return new Promise( ()=>[]);
+  }
   return axios.get(`${config.SERVER_HOST}/api/meals/${id}`);
 };
 
 //get my meals
 export const getMyMeals = (id) => {
+  if (isNaN(id))
+  {
+    return new Promise( ()=>[]);
+  }
   return axios.get(`${config.SERVER_HOST}/api/meals/my/${id}`);
 };
 
@@ -72,6 +84,10 @@ export const getAttendByMeal = attendData => {
 
 //get info about a meal
 export const getMealInfo = mealId => {
+  if (isNaN(mealId))
+  {
+    return new Promise( ()=>[])
+  }
   return axios
     .get(`${config.SERVER_HOST}/api/meals/info/${mealId}`);
 };
@@ -79,6 +95,10 @@ export const getMealInfo = mealId => {
 
 //get a list of meals where the user attends
 export const getAttendedMeals = userId => {
+  if (isNaN(userId))
+  {
+    return new Promise( ()=>[])
+  }
   return axios
     .get(`${config.SERVER_HOST}/api/meals/attends/${userId}`);
 };

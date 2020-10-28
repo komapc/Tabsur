@@ -86,10 +86,10 @@ export const setCurrentUser = decoded => {
   };
 };
 
-// Get user info
-export const getUser = (id) => {
-  return axios.get(`${config.SERVER_HOST}/api/users/${id}`)
-};
+// // Get user info
+// export const getUser = (id) => {
+//   return axios.get(`${config.SERVER_HOST}/api/users/${id}`)
+// };
 
 // User loading
 export const setUserLoading = () => {
