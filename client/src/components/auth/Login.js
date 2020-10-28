@@ -106,111 +106,99 @@ class Login extends Component {
         justify="center"
         style={{ minHeight: '100vh', width: '100%' }}
       >
-        
-        <Fragment style={{ 
-                  padding: '10%'
-                }}>
-        <Paper elevation={3} variant="outlined" style={{borderColor: 'black'}}>
-        <div style={{ 
-                  padding: '10%'
-                }}>
-        <Grid
-          item xs={12}
-          justify="space-around"
-          alignItems="center"
-        >
 
-          Don't have an account? <Link to="/register">Register</Link>
-        </Grid>
+        <Fragment>
+          <Paper elevation={3} variant="outlined" style={{ borderColor: 'black' }}>
+            <div style={{
+              padding: '10%'
+            }}>
+              <Grid
+                item xs={12}
+              >
 
-        <form noValidate onSubmit={this.onSubmit} >
-         
-            <TextField 
-              variant="outlined"
-              onChange={this.onChange}
-              value={this.state.email}
-              error={errors.email}
-              id="email"
-              type="email"
-              className={classnames("", {
-                invalid: errors.email || errors.emailnotfound
-              })}
-              label={'Email'}
-              style={{ width:'100%', marginTop: '10%'}}
-            />
-             <Grid
-              xs={12}
-              item
-              justify="space-around"
-              alignItems="center"
-            >
-            <Typography className="red-text">
-              {errors.email}
-              {errors.emailnotfound}
-            </Typography>
-          </Grid> 
-          <Grid
-            item xs={12}
-            justify="space-around"
-            direction="column"
-            alignItems="center"
-          >
-            <TextField
-              variant="outlined"
-              label={'Password'}
-              onChange={this.onChange}
-              value={this.state.password}
-              error={errors.password}
-              id="password"
-              type="password"
-              className={classnames("", {
-                invalid: errors.password || errors.passwordincorrect
-              })}
-              style={{width:'100%', marginTop: '10%'}}
-            />
+                Don't have an account? <Link to="/register">Register</Link>
+              </Grid>
 
-            <span className="red-text">
-              {errors.password}
-              {errors.passwordincorrect}
-            </span>
-          </Grid>
-          <Grid
-            item xs={12}
-            justify="space-around"
-            direction="column"
-            alignItems="center"
-          >
-            <Button
-              variant="contained" color="primary"
-              type="submit"
-              style={{width:'100%', marginTop: '10%'}}
-            >
-              Login
+              <form noValidate onSubmit={this.onSubmit} >
+
+                <TextField
+                  variant="outlined"
+                  onChange={this.onChange}
+                  value={this.state.email}
+                  error={errors.email}
+                  id="email"
+                  type="email"
+                  className={classnames("", {
+                    invalid: errors.email || errors.emailnotfound
+                  })}
+                  label={'Email'}
+                  style={{ width: '100%', marginTop: '10%' }}
+                />
+                <Grid
+                  xs={12}
+                  item
+                >
+                  <Typography className="red-text">
+                    {errors.email}
+                    {errors.emailnotfound}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item xs={12}
+                >
+                  <TextField
+                    variant="outlined"
+                    label={'Password'}
+                    onChange={this.onChange}
+                    value={this.state.password}
+                    error={errors.password}
+                    id="password"
+                    type="password"
+                    className={classnames("", {
+                      invalid: errors.password || errors.passwordincorrect
+                    })}
+                    style={{ width: '100%', marginTop: '10%' }}
+                  />
+
+                  <span className="red-text">
+                    {errors.password}
+                    {errors.passwordincorrect}
+                  </span>
+                </Grid>
+                <Grid
+                  item xs={12}
+                >
+                  <Button
+                    variant="contained" color="primary"
+                    type="submit"
+                    style={{ width: '100%', marginTop: '10%' }}
+                  >
+                    Login
                 </Button>
-            {this.state.user ?
-              <div>{JSON.stringify(this.state.user)}</div> :
-              <div className="btn-fb-login-wrapper">
-                <FBLoginButton facebookResponse={this.facebookResponse} /></div>
-            }
-          </Grid>
-        </form>
-        {
-          (this.props.match.params.extend) ?
-            <span> 
-              <GoogleLogin xs={12}
-                clientId={`${googleKey}`}
-                buttonText="Login"
-                onSuccess={this.props.responseGoogle}
-                onFailure={this.props.responseGoogle}
-                cookiePolicy={'single_host_origin'}
-              />
+                  {this.state.user ?
+                    <div>{JSON.stringify(this.state.user)}</div> :
+                    <div className="btn-fb-login-wrapper">
+                      <FBLoginButton facebookResponse={this.facebookResponse} /></div>
+                  }
+                </Grid>
+              </form>
+              {
+                (this.props.match.params.extend) ?
+                  <span>
+                    <GoogleLogin xs={12}
+                      clientId={`${googleKey}`}
+                      buttonText="Login"
+                      onSuccess={this.props.responseGoogle}
+                      onFailure={this.props.responseGoogle}
+                      cookiePolicy={'single_host_origin'}
+                    />
 
-            </span>
-            : <span />
-        }
-      </div>
-      </Paper>
-      </Fragment>
+                  </span>
+                  : <> </>
+              }
+            </div>
+          </Paper>
+        </Fragment>
       </Grid >
 
     );
