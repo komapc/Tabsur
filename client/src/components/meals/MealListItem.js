@@ -33,11 +33,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   root: {
-    //maxWidth: 345,
-    //marginTop: '3vh',
     marginBottom: '5vh',
-    //marginLeft: '5vW',
-    //marginRight: '5vw',
 
     width: '100vw'
   },
@@ -60,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     width: "90vw",
     borderRadius: 20,
     borderColor: "Black"
-   }
+  }
 }));
 function MealViewCard(props) {
   const classes = useStyles();
@@ -80,75 +76,74 @@ function MealViewCard(props) {
     },
   });
 
-  
   return (
     <ThemeProvider theme={theme}>
-    <Card className={classes.root} classes={{ root: classes.card }} >
-      <CardHeader
-        onClick={(event) => { props.gotoMeal(event, props.meal) }}
-        avatar={<Avatar class="default" user={{name: props.owner, id: props.meal.host_id}}/>}
-        action={
-          <IconButton aria-label="settings">
-            {/* <MoreVertIcon /> */}
-          </IconButton>
-        }
-        title={<React.Fragment><span style={{ fontWeight: 900 }}>{props.meal.name}</span></React.Fragment>}
-        subheader={<React.Fragment><span onClick={(event) => { props.goToUser(event, props.meal.host_id) }}>{`by ${props.owner}`}</span></React.Fragment>}
-      />
-      {props.path.indexOf('/static/media/userpic_empty') === -1 ?
-        <CardMedia
+      <Card className={classes.root} classes={{ root: classes.card }} >
+        <CardHeader
           onClick={(event) => { props.gotoMeal(event, props.meal) }}
-          className={classes.media}
-          image={props.path}
-          title="Meal picture"
-        /> :
-        null}
-      <CardContent onClick={(event) => { props.gotoMeal(event, props.meal) }}>
-        <Typography variant="body2" color="textPrimary" component="p">
-          <ScheduleIcon fontSize='small' style={{ color: 'black', }} /> {props.dat}
-        </Typography>
+          avatar={<Avatar class="default" user={{ name: props.owner, id: props.meal.host_id }} />}
+          action={
+            <IconButton aria-label="settings">
+              {/* <MoreVertIcon /> */}
+            </IconButton>
+          }
+          title={<React.Fragment><span style={{ fontWeight: 900 }}>{props.meal.name}</span></React.Fragment>}
+          subheader={<React.Fragment><span onClick={(event) => { props.goToUser(event, props.meal.host_id) }}>{`by ${props.owner}`}</span></React.Fragment>}
+        />
+        {props.path.indexOf('/static/media/userpic_empty') === -1 ?
+          <CardMedia
+            onClick={(event) => { props.gotoMeal(event, props.meal) }}
+            className={classes.media}
+            image={props.path}
+            title="Meal picture"
+          /> :
+          null}
+        <CardContent onClick={(event) => { props.gotoMeal(event, props.meal) }}>
+          <Typography variant="body2" color="textPrimary" component="p">
+            <ScheduleIcon fontSize='small' style={{ color: 'black', }} /> {props.dat}
+          </Typography>
 
-        {/* <Typography variant="body2" color="textPrimary" component="p" onClick={(event) => { props.goToMaps(event, props.meal.id) }}>
+          {/* <Typography variant="body2" color="textPrimary" component="p" onClick={(event) => { props.goToMaps(event, props.meal.id) }}>
           <RoomIcon fontSize='small' style={{ color: 'black', }} /> {props.meal.address}
         </Typography> */}
-        <Typography variant="body2" color="textPrimary" component="p">
-          <PeopleIcon fontSize='small' style={{ color: 'black', }} /> 
-          {props.meal.Atendee_count}<span style={{ color: 'gray' }}> of </span>
-          {props.meal.guest_count}
-        </Typography>
-        {/* <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" color="textPrimary" component="p">
+            <PeopleIcon fontSize='small' style={{ color: 'black', }} />
+            {props.meal.Atendee_count}<span style={{ color: 'gray' }}> of </span>
+            {props.meal.guest_count}
+          </Typography>
+          {/* <Typography variant="body2" color="textSecondary" component="p">
           This impressive paella is a perfect party dish and a fun meal to cook together with your
           guests. Add 1 cup of frozen peas along with the mussels, if you like.
         </Typography> */}
-      </CardContent>
-      <CardActions disableSpacing>
-        {props.auth.user.id === props.meal.host_id ? null : 
-        <AttendButton meal={props.meal} auth={props.auth} onJoin={props.onJoin} />}
-        {/* <IconButton aria-label="join">
+        </CardContent>
+        <CardActions disableSpacing>
+          {props.auth.user.id === props.meal.host_id ? null :
+            <AttendButton meal={props.meal} auth={props.auth} onJoin={props.onJoin} />}
+          {/* <IconButton aria-label="join">
           <CheckIcon />
         </IconButton> */}
-        {/* <IconButton aria-label="like">
+          {/* <IconButton aria-label="like">
           <FavoriteIcon />
         </IconButton> */}
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          {/* <ExpandMoreIcon /> */}
-        </IconButton>
-      </CardActions>
-      {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            {/* <ExpandMoreIcon /> */}
+          </IconButton>
+        </CardActions>
+        {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>
             Hi.
           </Typography>
         </CardContent>
       </Collapse> */}
-    </Card>
+      </Card>
     </ThemeProvider>
   )
 }
@@ -261,8 +256,7 @@ class MealListItem extends React.Component {
   render() {
 
     const meal = this.state.meal;
-    if (!meal)
-    {
+    if (!meal) {
       console.error(`No meal given.`);
       return <> </>
     }
@@ -271,26 +265,24 @@ class MealListItem extends React.Component {
     if (Object.keys(meal).length === 0) { // ?
       return <div>EMPTY MEAL</div>
     }
-    try
-    {
+    try {
       const dat = dateFormat(new Date(meal.date), "dd-mm-yyyy HH:MM");
       var path = this.state.meal.path;
       path = path ? `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
       return (
-          <MealViewCard
-            path={path}
-            owner={owner}
-            meal={meal}
-            auth={this.props.auth}
-            onJoin={this.onJoin}
-            dat={dat}
-            goToUser={this.goToUser}
-            goToMaps={this.goToMaps}
-            gotoMeal={this.gotoMeal} />
+        <MealViewCard
+          path={path}
+          owner={owner}
+          meal={meal}
+          auth={this.props.auth}
+          onJoin={this.onJoin}
+          dat={dat}
+          goToUser={this.goToUser}
+          goToMaps={this.goToMaps}
+          gotoMeal={this.gotoMeal} />
       )
     }
-    catch(err)
-    {
+    catch (err) {
       console.error(err);
       return <> </>
     }
