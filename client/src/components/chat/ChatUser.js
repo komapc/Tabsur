@@ -21,6 +21,7 @@ const ChatLine = (props) => {
 }
 
 const ChatUser = (props) => {
+ 
   const sendMessageWithCallback = (sender, myName, receiver, typedMessage) => {
     //update local state
     if (typedMessage.trim() === '' )
@@ -58,6 +59,10 @@ const ChatUser = (props) => {
   console.log(`partner: ${partner_id}`);
 
   useEffect(() => {
+    if (!props.auth.user.isAuthenticated)
+    {
+      return;
+    }
     getChatMessages(props.auth.user.id, partner_id)
       .then(res => {
         console.log(res.data);

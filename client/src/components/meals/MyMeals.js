@@ -33,12 +33,17 @@ class MyMeals extends Component {
     this.updateLists();
   }
   updateLists() {
+    
+    if (!this.props.auth.isAuthenticated)
+    {
+      return;
+    }
     getMyMeals(this.props.auth.user.id)
       .then(res => {
         console.log(res.data);
         this.setState({ meals: res.data });
       }).catch(err => {
-        console.error(err);
+        console.error(`getMyMeals error: ${err}`);
       });
     getAttendedMeals(this.props.auth.user.id)
       .then(res => {

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getUser } from "../../actions/authActions";
+import { getUserInfo } from "../../actions/userActions";
 
 // TODO: remove this file
 class Profile extends Component {
@@ -13,7 +13,7 @@ class Profile extends Component {
       errors: {}
     };
 
-    getUser(this.props.match.params.id)
+    getUserInfo(this.props.match.params.id)
       .then(res => {
         console.log(res.data);
         this.setState({ user: res.data });

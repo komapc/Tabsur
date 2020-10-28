@@ -20,7 +20,12 @@ const Friends = (props) => {
   const [followers, setFollowers] = useState([]);
 
   useEffect(() => {
-    console.log(`useEffect called ${props.id}.`);
+    if (isNaN(props.id))
+    {
+      console.log(`Friends  called with bad id: ${props.id}.`);
+    
+      return;
+    }
     getUserFollowies(props.id)
       .then(res => {
         const data = res.data;
