@@ -1,10 +1,9 @@
-import { withRouter } from "react-router-dom";
-import React, { useState, useEffect } from 'react';
+import { withRouter, useHistory } from "react-router-dom";
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { connect } from "react-redux";
 import { getChatMessages } from "../../actions/chatActions";
 import { sendMessage } from "../../actions/notifications"
 
-import { useHistory } from "react-router-dom";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import BackBarMui from "../layout/BackBarMui";
@@ -21,13 +20,14 @@ const ChatLine = (props) => {
 }
 
 const ChatUser = (props) => {
- 
+
   const sendMessageWithCallback = (sender, myName, receiver, typedMessage) => {
     //update local state
-    if (typedMessage.trim() === '' )
+    if (typedMessage.trim() === '')
       return;
     const newItem = { name2: myName, name1: receiver, message_text: typedMessage };
     setMessages([...messages, newItem]);
+     
     //send to server
     sendMessage(sender, receiver, typedMessage)
       .then(res => { // Callback
@@ -42,7 +42,7 @@ const ChatUser = (props) => {
     setTypedMessage(event.target.value);
   }
   const handleKeyPress = (event) => {
-    if(event.key === 'Enter'){
+    if (event.key === 'Enter') {
       sendMessageWithCallback(
         props.auth.user.id,
         props.auth.user.name,
@@ -58,34 +58,64 @@ const ChatUser = (props) => {
   const partner_id = props.match.params.id;
   console.log(`partner: ${partner_id}`);
 
+  const messageRef = useRef();
   useEffect(() => {
-    if (!props.auth.user.isAuthenticated)
-    {
+    if (!props.auth.isAuthenticated) {
       return;
     }
     getChatMessages(props.auth.user.id, partner_id)
       .then(res => {
         console.log(res.data);
         setMessages(res.data);
+
+        if (messageRef.current) {
+
+          console.log("useEffects, before scroll");
+          messageRef.current.scrollIntoView(
+            {
+              behavior: 'smooth',
+              block: 'end',
+              inline: 'nearest'
+            })
+        }
       })
       .catch(error => {
         console.error(error);
       })
+
   }, [props, partner_id]);
+
+  useEffect(() => {
+  
+
+        if (messageRef.current) {
+
+          console.log("useEffects, before scroll");
+          messageRef.current.scrollIntoView(
+            {
+              behavior: 'smooth',
+              block: 'end',
+              inline: 'nearest'
+            })
+        }
+
+  }, [messages]);
   const history = useHistory();
   return <>
-    <Box style={{ height: "85vh", overflowY: "scroll" }}>
-      <AppBar position="sticky">
-        <Toolbar>
+    <AppBar position="sticky">
+      <Toolbar>
         <BackBarMui history={history} />
-          Chat with {messages.name2}</Toolbar>
-      </AppBar>
+    Chat with {messages.name2}</Toolbar>
+    </AppBar>
+    <Box style={{ height: "calc(100vh - 140px)", overflowY: "scroll" }}  >
 
-      {messages.map(message =>
-        <ChatLine key={uuidv1()} message={message}></ChatLine>
-      )}
+      <div ref={messageRef}>
+        {messages.map(message =>
+          <ChatLine key={uuidv1()} message={message} />
+        )}
+      </div >
     </Box>
-    <Box style={{ top: "85vh", position: "sticky" }}>
+    <Box style={{ bottom: "10px", left: "40px", position: "fixed" }}>
 
       <TextField
         onKeyPress={handleKeyPress}
