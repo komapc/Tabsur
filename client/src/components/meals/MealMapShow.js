@@ -26,7 +26,8 @@ export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
 const MealMapShow =
     React.memo(
-        ({ meals, defaultLocation, onMarkerClick, onMapClick, userId, selectedMeal }) => {
+        ({ meals, defaultLocation, onMarkerClick, onMapClick, userId, selectedMeal }) => 
+        {
         const getMealIcon = (meal, userId, isSelected) => {
             const selectedIndex = isSelected ? 1 : 0;
             console.log(`meal: ${JSON.stringify(meal)}`);
@@ -114,6 +115,7 @@ const MealMapShow =
                 googleMapURL={`https://maps.googleapis.com/maps/api/js?libraries=places&key=${GOOGLE_MAPS_API_KEY}`}
             />
         )
-    });
+    }
+    );
 
 export default MealMapShow;
