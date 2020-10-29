@@ -68,21 +68,19 @@ router.get("/info/:id", async (req, response) => {
   WHERE   meals.id=$1`;
   console.log(`get, SQLquery: [${SQLquery}]`);
   const client = await pool.connect();
-  client.query(SQLquery, [id])
+  return client.query(SQLquery, [id])
     .then(resp => {
-      console.log(`INFO about ${id}: ${JSON.stringify(resp)}.`);
-      response.json(resp.rows);
+      console.log(`INFO about ${id}: ${JSON.stringify(resp.rows)}.`);
+      return response.json(resp.rows);
     })
     .catch(err => {
       console.error(err);
-      response.status(500).json(err);
+      return response.status(500).json(err);
     })
     .finally(() => {
       client.release();
     });
 })
-
-
 
 // @route GET api/meals/my
 // @desc get a list of meals created by me
@@ -90,7 +88,7 @@ router.get("/info/:id", async (req, response) => {
 router.get("/my/:id", authenticateJWT, async (req, response) => {
   console.log("get my meals by user id: " + JSON.stringify(req.params));
   const userId = req.params.id;
-  if (userId == "undefined") {
+  if (isNaN(userId)){
     console.error("error, empty id");
     response.status(400).json("Error in geting my meals: empty");
     return;
@@ -123,7 +121,7 @@ router.get("/my/:id", authenticateJWT, async (req, response) => {
 // @access Public
 router.get("/attends/:id", authenticateJWT, async (req, response) => {
   console.log("get meals where user attends: " + JSON.stringify(req.params));
-  if (req.params.id == "undefined") {
+  if (isNaN(req.params.id)) {
     console.log("error, empty id");
     response.status(400).json("Error in geting attended meals: empty");
     return;

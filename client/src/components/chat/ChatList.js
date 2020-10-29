@@ -8,12 +8,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import loadingGIF from "../../resources/animation/loading.gif";
 import Typography from '@material-ui/core/Typography';
 
-const TheList = (props) =>
-{
-    if (!props.users || props.users.length === 0) {
-      return <Typography>No messages yet</Typography>
-    }
-    return props.users.sort((a, b) => a.created_at < b.created_at ? 1 : -1)
+const TheList = (props) => {
+  if (!props.users || props.users.length === 0) {
+    return <Typography>No messages yet</Typography>
+  }
+  return props.users.sort((a, b) => a.created_at < b.created_at ? 1 : -1)
     .map(user => {
       const sender = user.sender;
       const receiver = user.receiver;
@@ -50,7 +49,7 @@ class ChatList extends Component {
         this.setState({ users: res.data, loading: false });
       })
       .catch((err) => {
-        this.setState({loading: false });
+        this.setState({ loading: false });
         console.error(err);
       });
   };
@@ -59,17 +58,19 @@ class ChatList extends Component {
 
     console.log(`notifications count: ${this.props.notificationsCount}`);
     return <Fragment>
-        <AppBar position="sticky">
-          <Toolbar> CHAT
+      <AppBar position="sticky">
+        <Toolbar> CHAT
             {/* CHAT ({this.state.notificationsCount}) */}
-          </Toolbar>
-        </AppBar>
-        {
-          this.state.loading ?
-            <img src={loadingGIF} alt="loading" /> : 
-            <TheList users={this.state.users} myId={this.props.auth.user.id}/>
+        </Toolbar>
+      </AppBar>
+      {
+        this.state.loading ?
+          <img src={loadingGIF} alt="loading" /> :
+          (this.props.auth.isAuthenticated)?
+            <TheList users={this.state.users} myId={this.props.auth.user.id} />
+            :<></>
         }
-      </Fragment>
+    </Fragment>
   }
 }
 
