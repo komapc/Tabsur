@@ -18,7 +18,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 //#region MyProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
-    width: "100%",
+    width: "100vw",
     marginTop: "64px",
     height: theme.spacing(5),
     display: 'flex',
@@ -36,10 +36,10 @@ const MyProfileHeader = (props) => {
   const history = useHistory();
   return <React.Fragment>
 
-    <h3 style={{ textAlign: "center", width: "90%" }}>Profile
+    <h3 style={{ textAlign: "center", width: "90vw" }}>Profile
         </h3>
     <IconButton color="primary" aria-label="settings"
-      style={{ position: "fixed", top: "10px", paddingLeft: "90%" }}
+      style={{ position: "fixed", top: "10px", paddingLeft: "90vw" }}
       onClick={() => openSettings(history)}
     >
       <SettingsIcon style={{color:"#000000"}} />
@@ -56,7 +56,7 @@ const MyProfileHeader = (props) => {
 //#region MyProfileStats
 const useStylesStats = makeStyles(theme => ({
   headerContainer: {
-    width: "100%",
+    width: "100vw",
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
@@ -142,7 +142,7 @@ const useStylesTabs = makeStyles(theme => ({
     color: "black",
     fontSize: 16,
     fontWeight: "fontWeightBold",
-    width: "100%",
+    width: "100cw",
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
