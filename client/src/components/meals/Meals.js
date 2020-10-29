@@ -13,7 +13,7 @@ const Meals = (props) => {
   const refresh = (props) => {
     if (!props.auth.isAuthenticated)
     {
-      console.warning(`Friends  called with bad id: ${props.id}.`);
+      console.warn(`Friends  called with bad id: ${props.id}.`);
       return;
     }
     console.log(`refreshing meal list.`);
