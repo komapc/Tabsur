@@ -22,6 +22,7 @@ const Meals = (props) => {
         setMeals([]);
       })
       .finally(() => {
+        console.log("loading set to false.")
         setLoading(false);
       })
   }

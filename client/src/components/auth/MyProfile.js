@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { withRouter, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { registerUser, getUser } from "../../actions/authActions";
+import { registerUser } from "../../actions/authActions";
+import { getUserInfo } from "../../actions/userActions";
 import Avatar from "../layout/Avatar"
 import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
@@ -205,7 +206,7 @@ class MyProfile extends Component {
       errors: {}
     };
     console.log(`user id: ${JSON.stringify(this.state.userId)}`);
-    getUser(this.state.userId)
+    getUserInfo(this.state.userId)
       .then(res => {
         console.log(res.data);
         //setUserStats(res.data);
