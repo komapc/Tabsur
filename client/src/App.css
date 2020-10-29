@@ -53,7 +53,7 @@
     background-color: white;
     left: 0;
     bottom: 0;
-    width: calc(100% - 1px);
+    width: calc(100vw - 2px);
     margin: 3px 3px 0px 0px;
     text-align: center;
     z-index: 1000;
@@ -159,11 +159,7 @@ nav
     flex-shrink: 2;
     display:flex;
  }
- .navbar-icons
- {
-    height:30px;
-    margin-left: 0px;
- }
+
 
  .footer-icons
  {
@@ -178,11 +174,6 @@ nav
     border-color: white;
 }
 
- .botttom-menu-link
- {
-     bottom:    -5px;
- }
-
 .link
 {
     color: #13A049;
@@ -190,7 +181,7 @@ nav
     margin-left: 10%;
 
 }
-.vertical-spacer
+.ddx
 {
     padding: 12%;
     border: none;
@@ -262,11 +253,7 @@ input
     z-index:1234;
     width:20px;
 }
-.white
-{
-    background-color: white !important;
-    
-}
+
 .google-places-autocomplete
 {
     position: absolute;
@@ -309,86 +296,7 @@ input
     width: 100vw;
 }
 /*user info*/
-.info-back-div
-{
-    height: 50px;
-    width: 100%;
-    vertical-align: middle;
-    text-align: center;
-    padding: 13px;
-}
-.info-back
-{
-    position:fixed;
-    left:30px;
-    height: 18px;
-    vertical-align: middle;
-}
-.info-caption
-{
-    text-transform: uppercase;
-    font-weight: 700;
-    color: #009245;
-    width: 100%;
-    font-size: 15px;
-}
-.info-main-image
-{
-    position: absolute;
-    top:100px;
-    text-align: center;
-    height:120px;
-    width:100%;
-}
 
-.info-main-name
-{
-    position: absolute;
-    top: 250px;
-    width: 100%;
-    text-align: center;
-    vertical-align: bottom;
-    color: white;
-    font-family: 'Calibri';
-    font-size: 20px;
-    font-weight: 800;
-    font-style: italic;
-}
-.info-fields
-{
-    margin:40px;
-    color:#009245;
-}
-
-.info-column {
-    float: left;
-    width: 50%;
-}
-
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-.info-main
-{
-    position: absolute;
-    top:0px;
-    width: 100%;
-}
-.info-top
-{
-    background-color: #009245;
-    width: 100%;
-    height: 260px;
-}
-
-.info-text
-{
-    color: #009245;
-}
 /*wizard*/
 .wizard-caption
 {
