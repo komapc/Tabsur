@@ -14,6 +14,8 @@ import hosted_t from "../../resources/map/my_meal_icon_touched.svg"
 import available_t from "../../resources/map/active_meal_icon_touched.svg"
 
 import myLocation from "../../resources/map/my_location.svg"
+import blueCircle from "../../resources/map/bluecircle.png"
+
 const attended = [attended_u, attended_t]
 const fullUp = [fullUp_u, fullUp_t]
 const hosted = [hosted_u, hosted_t]
@@ -23,7 +25,8 @@ export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
 Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
 const MealMapShow =
-    React.memo(({ meals, defaultLocation, onMarkerClick, onMapClick, userId, selectedMeal }) => {
+    React.memo(
+        ({ meals, defaultLocation, onMarkerClick, onMapClick, userId, selectedMeal }) => {
         const getMealIcon = (meal, userId, isSelected) => {
             const selectedIndex = isSelected ? 1 : 0;
             console.log(`meal: ${JSON.stringify(meal)}`);
@@ -93,7 +96,7 @@ const MealMapShow =
                 )}
 
                 <Marker
-                    icon="https://www.robotwoods.com/dev/misc/bluecircle.png"
+                    icon={blueCircle}
                     position={defaultLocation} />
                 <img src={myLocation} alt='here'
                     onClick={() => { findMe() }} style={{ position: "fixed", right: "33px", top: "55px" }} />
@@ -105,9 +108,9 @@ const MealMapShow =
         return (
             <MapWithMarker
                 yesIWantToUseGoogleMapApiInternals
-                loadingElement={<div style={{ height: `100%` }} />}
-                containerElement={<div style={{ height: `100%`, width: `100%` }} />}
-                mapElement={<div style={{ height: `100%`, width: `100%` }} />}
+                loadingElement={<div style={{ height: `100vw` }} />}
+                containerElement={<div style={{ height: `100%`, width: `100vw` }} />}
+                mapElement={<div style={{ height: `100%`, width: `100vw` }} />}
                 googleMapURL={`https://maps.googleapis.com/maps/api/js?libraries=places&key=${GOOGLE_MAPS_API_KEY}`}
             />
         )
