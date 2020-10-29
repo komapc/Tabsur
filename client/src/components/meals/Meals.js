@@ -14,6 +14,7 @@ const Meals = (props) => {
     if (!props.auth.isAuthenticated)
     {
       console.warn(`Friends  called with bad id: ${props.id}.`);
+      setLoading(false);
       return;
     }
     console.log(`refreshing meal list.`);
@@ -27,7 +28,7 @@ const Meals = (props) => {
         setMeals([]);
       })
       .finally(() => {
-        console.log("loading set to false.")
+        console.log("loading set to false.");
         setLoading(false);
       })
   }
