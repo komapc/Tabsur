@@ -16,7 +16,7 @@ const MealMap = (props) => {
   };
 
   const [meals, setMeals] = useState([]);
-  
+
   const [defaultLocation, setDefaultLocation] = useState(position);
   const [isSelected, setIsSelected] = useState(selected > 0);
   const [selectedMealId, setSelectedMealId] = useState(selected);
@@ -30,17 +30,13 @@ const MealMap = (props) => {
   }
 
   const onMarkerClicked = (event) => {
-    
+
     setIsSelected(true);
     setMeal(event);
     setSelectedMealId(event.id);
     console.log(`onMarkerClicked: ${JSON.stringify(selectedMealId)}`);
   }
 
-  // useEffect(() =>
-  // {
-
-  // })
   useEffect(() => {
     console.log("MealMap, use effects");
     getMeals(props.auth.user.id)
@@ -54,11 +50,14 @@ const MealMap = (props) => {
           return m.id === parseInt(selectedMealId);
         })
         console.log(`componentDidMount: ${JSON.stringify(obj)}`);
-        setMeal( obj[0]);
+        setMeal(obj[0]);
       })
       .catch(err => {
         console.error(`Failed: ${err}`);
       });
+  }, [selectedMealId]);
+  useEffect(() => {
+
 
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -93,7 +92,7 @@ const MealMap = (props) => {
         meal={meal} />
     </div>
 
-  );
+  )
 }
 
 const mapStateToProps = state => ({
