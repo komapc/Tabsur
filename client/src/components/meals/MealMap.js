@@ -86,7 +86,7 @@ const MealMap = (props) => {
         onMarkerClick={onMarkerClicked}
         onMapClick={onMapClicked}
         userId={props.auth.user.id}
-        selectedMeal={0} //selectedMealId
+        selectedMeal={selectedMealId}
       />
 
       <BottomMealInfo
