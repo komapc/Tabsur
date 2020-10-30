@@ -51,7 +51,7 @@ class Register extends Component {
     };
 
     this.props.registerUser(newUser, this.props.history);
-    console.trace("newUser: " + JSON.stringify(newUser));
+    console.trace(`newUser: ${JSON.stringify(newUser)}`);
   };
 
   render() {
@@ -85,7 +85,7 @@ class Register extends Component {
                   className={classnames("", {
                     invalid: errors.name
                   })}
-                  style={{width: '100%', marginTop: '1vh'}}
+                  style={{width: '100%', margin: '1vh'}}
                   label={'Name'}
                 />    
                 <span className="red-text">{errors.name}</span>
@@ -101,7 +101,7 @@ class Register extends Component {
                   className={classnames("", {
                     invalid: errors.email
                   })}
-                  style={{width: '100%', marginTop: '1vh'}}
+                  style={{width: '100%', margin: '1vh'}}
                   label={'Email'}
                 />
                 <span className="red-text">{errors.email}</span>
@@ -117,7 +117,7 @@ class Register extends Component {
                   className={classnames("", {
                     invalid: errors.password
                   })}
-                  style={{width: '100%', marginTop: '1vh'}}
+                  style={{width: '100%', margin: '1vh'}}
                   label={'Password'}
                 />
                 <span className="red-text">{errors.password}</span>
@@ -133,13 +133,13 @@ class Register extends Component {
                   className={classnames("", {
                     invalid: errors.password2
                   })}
-                  style={{width: '100%', marginTop: '1vh'}}
+                  style={{width: '100%', margin: '1vh'}}
                   label={'Confirm Password'}
                 />
                 <span className="red-text">{errors.password2}</span>
               </div>
               <div>
-                <Button type="submit" style={{width: '100%', marginTop: '1vh'}} variant="contained" color="primary">
+                <Button type="submit" style={{width: '100%', margin: '1vh'}} variant="contained" color="primary">
                   Sign up
                 </Button>
               </div>
