@@ -19,7 +19,7 @@ const EditMeal = (props) => {
     console.log(`New values: ${JSON.stringify(meal)}`);
 
     return props.editMeal(meal, () => {
-      history.push({ pathname: '/', hash: '#2' });
+     // history.push({ pathname: '/', hash: '#2' });
     }, props.history);
   }
   useEffect(() => {
@@ -100,7 +100,7 @@ const EditMeal = (props) => {
           value={meal.guest_count}
           error={meal.guest_count === ""}
           type="Number"
-          id="guestCount"
+          id="guest_count"
           label="Guest Count"
           placeholder="Guest Count"
           helperText={meal.guest_count < 0 || meal.guest_count > 100 ? "Wrong number" : ""}

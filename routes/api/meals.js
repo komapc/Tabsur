@@ -234,7 +234,7 @@ router.post("/", authenticateJWT, async (req, response) => {
 
   return client.query(query,
     [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
-    meal.address, meal.guestCount, meal.host_id, meal.date, meal.visibility, meal.description])
+    meal.address, meal.guest_count, meal.host_id, meal.date, meal.visibility, meal.description])
     .then(res => {
       
       console.log(`query done.`);
@@ -263,7 +263,42 @@ router.post("/", authenticateJWT, async (req, response) => {
 
 
 router.put("/", authenticateJWT, async (req, response) => {
-  console.error(`Editing meal is not implemented yet ${JSON.stringify(req.body)}`);
+ // console.error(`Editing meal is not implemented yet ${JSON.stringify(req.body)}`);
+ const meal = req.body;
+ const { errors, isValid } = validateMealInput(meal);
+
+ // Check validation
+ if (!isValid) {
+   return response.status(400).json(errors);
+ }
+
+ const client = await pool.connect();
+ //todo: insert image
+ const query = `UPDATE meals 
+ SET name=$1,  guest_count=$2
+ WHERE id=$3`;
+ console.log(`connected running [${query}]`);
+
+ return client.query(query,
+   [meal.name,  meal.guest_count,  meal.id])
+   .then(res => {
+     
+     console.log(`query done.`);
+    
+     return response.json(res.rows[0]);
+    //TODO: add notification to all followers + people in the area
+   }
+   )
+   .catch(e => {
+     console.error(`Exception catched in creating meal: ${JSON.stringify(e)}`);
+     response.status(500).json(e);
+   })
+   .finally(() =>
+   {
+     client.release();
+   })
+
+
   response.status(500).json(req.body);
 });
 

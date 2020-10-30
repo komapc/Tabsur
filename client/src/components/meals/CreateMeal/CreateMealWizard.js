@@ -48,7 +48,7 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
       address: "",
       location: "",
       host_id: auth.user.id,
-      guestCount: 3,
+      guest_count: 3,
       image_id: -1,
     },
     transitions: {
@@ -82,7 +82,7 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
       address: state.form.address,
       location: state.form.location,
       host_id: auth.user.id,
-      guestCount: state.form.guestCount,
+      guest_count: state.form.guest_count,
       image_id: state.form.image_id ? state.form.image_id : -2
     };
     console.log(JSON.stringify(newMeal));
