@@ -1,95 +1,99 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import MealMapShow from './MealMapShow';
 import BottomMealInfo from './BottomMealInfo'
-class MealMap extends Component {
+const MealMap = (props) => {
 
-  constructor(props) {
-    super(props);
-    const position = { lng: 31.808, lat: 32.09 };
-    let selected = 0;
-    const params = this.props.match ? this.props.match.params : {};
-    if (this.props.selectedMeal > 0) {
-      selected = this.props.selectedMeal;
+  const position = { lng: 31.808, lat: 32.09 };
+  let selected = 0;
+  const params = props.match ? props.match.params : {};
+  if (props.selectedMeal > 0) {
+    selected = props.selectedMeal;
+  }
+  else if (!isNaN(params.meal_id)) {
+    selected = params.meal_id;
+  };
+
+  const [meals, setMeals] = useState([]);
+
+  const [defaultLocation, setDefaultLocation] = useState(position);
+  const [isSelected, setIsSelected] = useState(selected > 0);
+  const [selectedMealId, setSelectedMealId] = useState(selected);
+  const [meal, setMeal] = useState(null);
+
+
+  const onMapClicked = (event) => {
+    console.log(`Map clicked`);
+    setIsSelected(false);
+    setSelectedMealId(0);
+    setMeal(null);
+  }
+
+  const onMarkerClicked = (event) => {
+
+    setIsSelected(true);
+    setMeal(event);
+    setSelectedMealId(event.id);
+    console.log(`onMarkerClicked: ${JSON.stringify(selectedMealId)}`);
+  }
+
+  useEffect(() => {
+    console.log("MealMap, use effects");
+    if (!isSelected) {
+      return;
     }
-    else if (!isNaN(params.meal_id)) {
-      selected = params.meal_id;
-    };
-    this.state = {
-      meals: [],
-      meal: {},
-      isSelected: selected > 0,
-      selectedMealId: selected,
-      defaultLocation: position
-    };
+    const obj = meals.filter(m => {
+      return m.id === parseInt(selectedMealId);
+    })
+    setMeal(obj[0]);
 
-  }
-  onMapClicked = (event) => {
-    this.setState({ isSelected: false, selectedMealId: {} });
-  }
+  }, [selectedMealId, isSelected, meal, meals]);
 
-  onMarkerClicked = (event) => {
-    this.setState({
-      meal: event,
-      isSelected: true,
-      selectedMealId: event.id
-    });
-    console.log("onMarkerClicked: " + JSON.stringify(this.state.selectedMealId));
-  }
-
-  componentDidMount() {
-    getMeals(this.props.auth.user.id)
+  useEffect(() => {
+    getMeals(props.auth.user.id)
       .then(res => {
         console.log(res);
-        this.setState({ meals: res.data });
-        if (!this.state.isSelected) {
-          return;
-        }
-        const obj = this.state.meals.filter(m => {
-          return m.id === parseInt(this.state.selectedMealId);
-        })
-        console.log("componentDidMount: " + JSON.stringify(obj));
-        this.setState({ meal: obj[0] });
+        setMeals(res.data);
+
       })
       .catch(err => {
         console.error(`Failed: ${err}`);
       });
-
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
 
         const p = { lng: position.coords.longitude, lat: position.coords.latitude };
 
-        console.log("geolocation is: ", JSON.stringify(p));
-        this.setState({ defaultLocation: p });
+        console.log(`geolocation is ${JSON.stringify(p)}`);
+        setDefaultLocation(p);
       });
     }
     else {
       console.log("geolocation is not available.");
     }
-  }
+  }, []);
 
-  render() {
-    console.log("Selected meal: " + JSON.stringify(this.state.meal));
-    return (
-      <div className={this.state.isSelected ? 'meals-map-info' : 'meals-map'}>
 
-        <MealMapShow
-          meals={this.state.meals}
-          defaultLocation={this.state.defaultLocation}
-          onMarkerClick={this.onMarkerClicked}
-          onMapClick={this.onMapClicked}
-          userId={this.props.auth.user.id}
-          selectedMeal={this.state.selectedMealId}
-        />
 
-        <BottomMealInfo
-          meal={this.state.meal} />
-      </div>
+  //console.log(`Selected meal: ${JSON.stringify(meal)}`);
+  return (
+    <div className={isSelected ? 'meals-map-info' : 'meals-map'}>
 
-    );
-  }
+      <MealMapShow
+        meals={meals}
+        defaultLocation={defaultLocation}
+        onMarkerClick={onMarkerClicked}
+        onMapClick={onMapClicked}
+        userId={props.auth.user.id}
+        selectedMeal={selectedMealId}
+      />
+
+      <BottomMealInfo
+        meal={meal} />
+    </div>
+
+  )
 }
 
 const mapStateToProps = state => ({
