@@ -18,13 +18,11 @@ const validateLoginInput = require("../../validation/login");
 // @desc Register user
 // @access Public
 router.post("/register", async (req, response) => {
-  // Form validation
-
   const { errors, isValid } = validateRegisterInput(req.body);
   const input = req.body;
   // Check validation
   if (!isValid) {
-    console.log("invalid input: " + JSON.stringify(errors));
+    console.error(`Invalid input: ${JSON.stringify(errors)}`);
     return response.status(400).json(errors);
   }
   try {
@@ -35,8 +33,11 @@ router.post("/register", async (req, response) => {
     console.log("connected");
     bcrypt.genSalt(10, async (err, salt) => {
       bcrypt.hash(input.password, salt, async (err, hash) => {
-        if (err) throw err;
-
+        if (err) 
+        {
+          console.error(`bcrypt failed: ${JSON.stringify(err)}.`)
+          throw err;
+        }
         client.query('INSERT INTO users (name, email, password, location, address)' +
           'VALUES ($1, $2, $3, $4, $5)',
           [newUser.name, newUser.email, hash, newUser.location, newUser.address])
@@ -44,7 +45,7 @@ router.post("/register", async (req, response) => {
             return response.status(201).json(user);
           })
           .catch(err => {
-            console.error(err);
+            console.error(`Insert query failed: ${JSON.stringify(err)}`);
             return response.status(500).json(newUser);
           })
           .finally(() => {
