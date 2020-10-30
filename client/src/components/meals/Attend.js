@@ -13,7 +13,7 @@ class Attend extends Component {
       meal: {
         location: { lng: 0, lat: 0 },
         address: '',
-        guestCount: 0,
+        guest_count: 0,
       },
       attends: []
     };
@@ -63,7 +63,7 @@ class Attend extends Component {
               <div>Do you want to attend <b>{this.state.meal.name}</b>? </div>
               <div>It is hosted by <Link to={"/Profile/" + this.state.meal.host}> {this.state.meal.host}</Link> </div>
               <div> today at <b> {this.state.meal.time}</b> </div>
-              <div> Guest count <b> {this.state.meal.guestCount}</b> </div>
+              <div> Guest count <b> {this.state.meal.guest_count}</b> </div>
               <div>at {this.state.meal.address}</div>
               {/* <div>at {this.state.meal.location.lng}, {this.state.meal.location.lat} (see map) </div> */}
             </div>
