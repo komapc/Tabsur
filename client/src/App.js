@@ -17,6 +17,7 @@ import Settings from "./components/auth/Settings";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import ShowMeal from "./components/meals/ShowMeal";
+import EditMeal from "./components/meals/EditMeal";
 import ShowUser from "./components/users/ShowUser";
 import CreateMealWizard from "./components/meals/CreateMeal/CreateMealWizard";
 import About from "./components/about/About"
@@ -160,6 +161,7 @@ class App extends Component {
                 <PrivateRoute exact path="/Stats/:id" component={Stats} />
                 <PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
                 <PrivateRoute exact path="/settings" component={Settings} />
+                <PrivateRoute exact path="/EditMeal" component={EditMeal} />
                 <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard} />
                 <Route path="/" component={Main} />
 
