@@ -91,6 +91,11 @@ const editMealEvent = (history, meal) => {
   history.push({ pathname: `/EditMeal/${meal.id}` });
 }
 
+const goToMaps = (event, id) => {
+  event.stopPropagation();
+  event.preventDefault();
+  this.props.history.push(`/MealMap/${id}`);//todo: fix, redirect properly to the map
+}
 
 const ShowMeal = (props) => {
 
@@ -135,7 +140,10 @@ const ShowMeal = (props) => {
         <h3>Description</h3> 
         <div >{meal?meal.description:""}</div>
         <h3>Address</h3> 
-        <div>{meal?meal.address:""}</div>
+         {/* <Typography variant="body2" color="textPrimary" component="p" onClick={(event) => { props.goToMaps(event, props.meal.id) }}>
+          <RoomIcon fontSize='small' style={{ color: 'black', }} /> {props.meal.address}
+        </Typography> */}
+        <div onClick={(event) => { goToMaps(event, props.meal.id) }}>{meal?meal.address:""}</div>
         <GuestList mealId={mealId} userId={props.auth.user.id} />
         {
           my ? <>
