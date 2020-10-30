@@ -45,10 +45,10 @@ export const editMeal = (meal, onDone) => dispatch => {
           })
     .catch(err => {
       console.error(`Error in edit meal: ${JSON.stringify(err)}`);
-      dispatch({
-        type: GET_ERRORS,
-        //payload: err.response.data
-      })
+      // dispatch({
+      //   //type: GET_ERRORS,
+      //   //payload: err.response.data
+      // })
     })
     .finally(()=>
     {

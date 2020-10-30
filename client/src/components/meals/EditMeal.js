@@ -18,7 +18,7 @@ const EditMeal = (props) => {
     e.preventDefault();
     console.log(`New values: ${JSON.stringify(meal)}`);
 
-    return editMeal(meal, () => {
+    return props.editMeal(meal, () => {
       history.push({ pathname: '/', hash: '#2' });
     }, props.history);
   }

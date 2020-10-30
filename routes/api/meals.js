@@ -263,8 +263,8 @@ router.post("/", authenticateJWT, async (req, response) => {
 
 
 router.put("/", authenticateJWT, async (req, response) => {
-  console.error(`Editing meal is not implemented yet ${JSON.stringify(req)}`);
-  response.status(500).json(req);
+  console.error(`Editing meal is not implemented yet ${JSON.stringify(req.body)}`);
+  response.status(500).json(req.body);
 });
 
 // @route DELETE api/meals/id
