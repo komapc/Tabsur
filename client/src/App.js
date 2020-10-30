@@ -161,7 +161,7 @@ class App extends Component {
                 <PrivateRoute exact path="/Stats/:id" component={Stats} />
                 <PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
                 <PrivateRoute exact path="/settings" component={Settings} />
-                <PrivateRoute exact path="/EditMeal" component={EditMeal} />
+                <PrivateRoute exact path="/EditMeal/:id" component={EditMeal} />
                 <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard} />
                 <Route path="/" component={Main} />
 

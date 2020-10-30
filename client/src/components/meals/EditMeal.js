@@ -1,137 +1,131 @@
-import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { addMeal, getMeals } from "../../actions/mealActions";
+import { getMealInfo, editMeal } from "../../actions/mealActions";
 import classnames from "classnames";
+import { TextField, Grid, Box, Button } from '@material-ui/core';
+import { useHistory } from "react-router-dom";
 
-class Meals extends Component {
+const EditMeal = (props) => {
 
-  constructor() {
-    super();
-    this.state = {
-      user: "",
-      name: "",
-      type: "",
-      location: "",
-      guests: 0, //max number of invited guests
-      errors: {},
-    };
-  }
+  const mealId = props.match.params.id;
+  const [meal, setMeal] = useState({ name: "", guest_count: "0", errors: {} });
 
-  onChange = e => {
-    this.setState({ [e.target.id]: e.target.value });
-  };
-
-  onSubmit = e => {
+  const history = useHistory();
+  const onSubmit = e => {
+    
     e.preventDefault();
+    console.log(`New values: ${JSON.stringify(meal)}`);
 
-    const newMeal = {
-      name: this.state.name,
-      host: this.props.auth.user.id,
-      guests: this.state.guests,
-      createdAt: this.state.date,
-      location: this.state.location || "here and now"
-    };
-
-    this.props.addMeal(newMeal, this.props.history);
-  };
-
-  render() {
-    const { errors } = this.state;
-    const { user } = this.props.auth;
-    return (
-      <div className="main">
-        <div className="row">
-          <div className="landing-copy ">
-            <h4>
-              <b>Edit the meal</b> {user.name}
-
-            </h4>
-            <form noValidate onSubmit={this.onSubmit}>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.name}
-                  error={errors.name}
-                  id="name"
-                  type="text"
-                  className={classnames("", {
-                    invalid: errors.name
-                  })}
-                />
-                <label htmlFor="name">Meal name</label>
-                <span className="red-text">{errors.name}</span>
-              </div>
-
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.date}
-                  error={errors.password}
-                  id="date"
-                  type="date"
-                  className={classnames("", {
-                    invalid: errors.password
-                  })}
-                />
-                <label htmlFor="date">Date</label>
-                <span className="red-text">{errors.name}</span>
-              </div>
-
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.location}
-                  error={errors.password}
-                  id="location"
-                  type="text"
-
-                />
-                <label htmlFor="location">Location</label>
-                <span className="red-text">{errors.name}</span>
-              </div>
-
-              <div className="input-field col s12">
-                <input min={0} max={10}
-                  onChange={this.onChange}
-                  value={this.state.guests}
-                  error={errors.password}
-                  id="guests"
-                  type="number"
-
-                />
-                <label htmlFor="guests">Max number of guests</label>
-                <span className="red-text">{errors.name}</span>
-              </div>
-
-
-              <div className="col s12" >
-                <button
-                  type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable blue accent-3">
-                  Add and invite!
-                </button>
-              </div>
-            </form>
-
-          </div>
-        </div>
-      </div>
-    );
+    return editMeal(meal, () => {
+      history.push({ pathname: '/', hash: '#2' });
+    }, props.history);
   }
+  useEffect(() => {
+    console.log(`Meal id: ${mealId}`);
+
+    getMealInfo(mealId)
+      .then((res) => {
+        setMeal(res.data[0]);
+        console.log(res.data[0]);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+
+  }, [mealId, props]);
+
+
+  const errors = meal.errors || {}; //todo
+  const { user } = props.auth;
+  return (
+    <Grid container spacing={2}>
+      <Box m={2} width="1">
+        <h4>Edit the meal</h4>
+      </Box>
+      <Box m={2} width="1">
+        <TextField
+         onChange={n => 
+          {
+            //alert(JSON.stringify(n.target));
+            setMeal({...meal, name:n.target.value});
+          }
+        }
+          value={meal.name}
+          error={errors.name}
+          id="name"
+          type="text"
+          className={classnames("", {
+            invalid: errors.name
+          })}
+        />
+        <label htmlFor="name">Meal name</label>
+        <span className="red-text">{errors.name}</span>
+      </Box>
+      {/* <Box m={2} width="1">
+        <TextField
+          onChange={onChange}
+          value={meal.date}
+          error={errors.password}
+          id="date"
+          type="date"
+          className={classnames("", {
+            invalid: errors.password
+          })}
+        />
+      </Box> */}
+      {/* <Box m={2} width="1">
+      <TextField
+        onChange={onChange}
+        value={JSON.stringify(meal.location)}
+        error={errors.password}
+        id="location"
+        type="text"
+
+      />
+     
+      <label htmlFor="location">Location</label>
+      <span className="red-text">{errors.name}</span>
+       </Box> */}
+       
+      <Box m={2} p={2} width={1}>
+        <TextField width={1}
+          onChange={n => 
+            {
+              //alert(JSON.stringify(n.target));
+              setMeal({...meal, guest_count:n.target.value});
+            }
+          }
+          value={meal.guest_count}
+          error={meal.guest_count === ""}
+          type="Number"
+          id="guestCount"
+          label="Guest Count"
+          placeholder="Guest Count"
+          helperText={meal.guest_count < 0 || meal.guest_count > 100 ? "Wrong number" : ""}
+        />
+      </Box >
+      <Button variant="outlined"
+        onClick={onSubmit}>   Submit
+      </Button>
+
+    </Grid>
+  );
 }
 
-Meals.propTypes = {
-  addMeal: PropTypes.func.isRequired,
+EditMeal.propTypes = {
   auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  editMeal: (form, history) => editMeal(form, history)(dispatch),
+});
 export default connect(
-  mapStateToProps,
-  { addMeal }
-)(withRouter(Meals));
+  mapStateToProps,mapDispatchToProps
+)(withRouter(EditMeal));
