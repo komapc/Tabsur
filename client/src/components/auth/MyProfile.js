@@ -142,7 +142,7 @@ const useStylesTabs = makeStyles(theme => ({
     color: "black",
     fontSize: 16,
     fontWeight: "fontWeightBold",
-    width: "100cw",
+    width: "100vw",
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
