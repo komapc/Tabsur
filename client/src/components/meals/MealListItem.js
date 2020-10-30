@@ -231,7 +231,7 @@ class MealListItem extends React.Component {
   goToUser = (event, host_id) => {
     event.stopPropagation();
     event.preventDefault();
-    this.props.history.push(`/user/${host_id}`);
+    this.props.history.push(`../user/${host_id}`);
   }
 
   goToMaps = (event, id) => {
