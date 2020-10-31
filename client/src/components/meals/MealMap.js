@@ -50,8 +50,9 @@ const MealMap = (props) => {
 
   }, [selectedMealId, isSelected, meal, meals]);
 
+  const userid = props.auth.user.id;
   useEffect(() => {
-    getMeals(props.auth.user.id)
+    getMeals(userid)
       .then(res => {
         console.log(res);
         setMeals(res.data);
@@ -72,7 +73,7 @@ const MealMap = (props) => {
     else {
       console.log("geolocation is not available.");
     }
-  }, []);
+  }, [userid]);
 
 
 

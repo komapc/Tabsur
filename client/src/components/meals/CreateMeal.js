@@ -28,7 +28,7 @@ class CreateMeal extends Component {
       location: defaultLocationConst,
       defaultLocation:defaultLocationConst,
       address: " ",
-      guestCount: 2,
+      guest_count: 2,
       errors: {},
       showMap: false,
       selectedDate: new Date(now + 86400000),
@@ -72,7 +72,7 @@ class CreateMeal extends Component {
       address: this.state.address,
       location: this.state.location,
       host_id: this.props.auth.user.id,
-      guestCount: this.state.guestCount,
+      guest_count: this.state.guest_count,
       image_path: "#RANDOM"
     };
 
@@ -149,14 +149,14 @@ class CreateMeal extends Component {
                 min={0} max={10}
                 onChange={this.onChange}
                 pattern='[0-9][0-9][0-9]'
-                value={this.state.guestCount}
-                error={errors.guestCount}
-                id="guestCount" name="guestCount"
+                value={this.state.guest_count}
+                error={errors.guest_count}
+                id="guest_count" name="guest_count"
                 type="number"  maxLength="2"
                 notched="true"
               /> 
-              <label htmlFor="guestCount"  shrink>Number of guests</label>
-              <span className="red-text">{errors.guestCount}  </span>
+              <label htmlFor="guest_count"  shrink>Number of guests</label>
+              <span className="red-text">{errors.guest_count}  </span>
             </span>
           </div>
 
