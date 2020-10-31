@@ -253,9 +253,9 @@ input
 .wizard-progress-container
 {
     position: fixed;
-    top: 80vh;
+    top: calc(100vh - 140px);;
     text-align: center;
-    width: 95vw;
+    width:95vw;
     padding:10px;
 }
 .wizard-icon
