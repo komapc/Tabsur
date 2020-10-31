@@ -172,12 +172,12 @@ const ProfileTabs = (props) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  
-  const follow = async (new_status, thisUserId, myId) => {
 
-    console.log(`myId: ${JSON.stringify(myId)}, thisUserId: ${JSON.stringify(thisUserId)}`);
+  const follow = async (new_status, thisUserId, myUserId) => {
+
+    console.log(`myUserId: ${JSON.stringify(myUserId)}, thisUserId: ${JSON.stringify(thisUserId)}`);
     const body = { followie: thisUserId, status: new_status };
-    return setFollow(myId, body)
+    return setFollow(myUserId, body)
       .then(res => {
         console.log(`Follow res: ${JSON.stringify(res)}`);
         //change in DB, than change state
@@ -234,9 +234,9 @@ const ProfileTabs = (props) => {
               <span style={{ marginBottom: '1vh' }}>{
                 followStatus ?
                   <Button variant="contained" startIcon={<NotInterestedIcon />} color="secondary"
-                    onClick={() => follow(newStatus, props.auth.user.id)}>UnFollow</Button> :
+                    onClick={() => follow(newStatus, props.thisUserId, props.myUserId)}>UnFollow</Button> :
                   <Button variant="contained" startIcon={<PersonAddIcon />} color="primary"
-                    onClick={() => follow(newStatus, props.auth.user.id)}>Follow</Button>
+                    onClick={() => follow(newStatus, props.thisUserId, props.myUserId)}>Follow</Button>
               }</span>
 
               <span style={{ marginBottom: '1vh' }}>
@@ -261,7 +261,7 @@ const ShowUser = (props) => {
 
   const [user, setUser] = useState({});
   const thisUserId = props.match.params.id;
-  const getUserInfoEvent = (myId, userId) => {
+  const getUserInfoEvent = (userId) => {
     return getUserInfo(userId)
       .then(res => {
         console.log(`getUserInfo: ${JSON.stringify(res.data)}`);
@@ -277,8 +277,8 @@ const ShowUser = (props) => {
 
   console.log(`User id: ${thisUserId}`);
   useEffect(() => {
-    getUserInfoEvent(myUserId, thisUserId);
-  }, [myUserId, thisUserId]);
+    getUserInfoEvent(thisUserId);
+  }, [thisUserId]);
 
   return (
     <React.Fragment>
