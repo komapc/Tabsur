@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from '@material-ui/core/Button';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -52,7 +52,7 @@ const ProfileHeader = (props) => {
     <React.Fragment>
       <div className={classes.alignItemsAndJustifyContent}>
         <div className={classes.wrapper}>
-          <Avatar class="large" user={props.user}/>
+          <Avatar class="large" user={props.user} />
         </div>
       </div>
       <div className={classes.empty}></div>
@@ -174,11 +174,11 @@ const ProfileTabs = (props) => {
     setValue(newValue);
   };
 
-  const itIsMe = props.auth.user.id !== props.state.id;
-  const newStatus = props.followStatus === 3? 0 : 3;
+  const itIsMe = props.auth.user.id !== props.thisUserId;
+  const newStatus = props.followStatus === 3 ? 0 : 3;
   console.log(`props.auth.user.id :
-    ${JSON.stringify(props.auth.user.id)}, props.state.id :
-    ${JSON.stringify(props.state.id)}`)
+    ${JSON.stringify(props.auth.user.id)}, thisUserId :
+    ${JSON.stringify(props.thisUserId)}`)
   return (
     <React.Fragment>
       <div className={classes.root}>
@@ -194,91 +194,87 @@ const ProfileTabs = (props) => {
       </div>
       <TabPanel value={value} index={0} >
         {
-           itIsMe?
+          itIsMe ?
             <React.Fragment>
               <span style={{ marginBottom: '1vh' }}>{
                 props.followStatus ?
-                  <Button variant="contained" startIcon={<NotInterestedIcon />} color="secondary" 
+                  <Button variant="contained" startIcon={<NotInterestedIcon />} color="secondary"
                     onClick={() => props.follow(newStatus, props.auth.user.id)}>UnFollow</Button> :
-                  <Button variant="contained" startIcon={<PersonAddIcon />} color="primary" 
+                  <Button variant="contained" startIcon={<PersonAddIcon />} color="primary"
                     onClick={() => props.follow(newStatus, props.auth.user.id)}>Follow</Button>
               }</span>
 
               <span style={{ marginBottom: '1vh' }}>
-                <Button variant="contained" startIcon={<CreateIcon />} color="primary" href={`/ChatUser/${props.state.id}`}>Write</Button>
+                <Button variant="contained" startIcon={<CreateIcon />} 
+                  color="primary" href={`/ChatUser/${props.thisUserId}`}>Write</Button>
               </span>
             </React.Fragment>
-            : <div className="centered"><Button startIcon={<InfoIcon />} variant="contained" color="primary" href={`/About`}>About</Button></div>
+            : <div className="centered"><Button startIcon={<InfoIcon />} 
+              variant="contained" color="primary" href={`/About`}>About</Button></div>
         }
 
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Gallery id={props.state.id} />
+        <Gallery id={props.thisUserId} />
       </TabPanel>
     </React.Fragment>
   )
 }
 //#endregion
 
-class ShowUser extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: this.props.match.params.id,
-      user: {},
-      followStatus: 0,
-      ...props
-    };
-  }
 
-  componentDidMount() {
-    this.getUserInfoEvent();
-    this.getFollowStatusEvent();
-  }
+const ShowUser = (props) => {
 
-  getFollowStatusEvent() {
-    const myUserId = this.props.auth.user.id;
-    const thisUserId = this.state.id;
+  const [followStatus, setFollowStatus] = useState(false);
+  const [user, setUser] = useState({});
+  const thisUserId = props.match.params.id;
+  //   user: {},
+  //   followStatus: 0,
+  //   ...props
+  // };
+  //}
+
+
+
+  const getFollowStatusEvent = (myUserId, thisUserId) => {
+
     getFollowStatus(thisUserId)
       .then(res => {
         console.log(`getFollowStatus: ${JSON.stringify(res.data)}`);
         const followers = res.data;
         const found = followers.find(element => element.user_id === myUserId);
-        const followStatus = found ? found.status : 0;
-        this.setState({ followStatus: followStatus });
+        setFollowStatus(found ? found.status : 0);
         console.log(res.data);
       })
       .catch(err => {
-        this.setState({ followStatus: -1 });
+        setFollowStatus(-1);
         console.error(err);
       });
   }
 
-  follow(new_status, myId) {
+  const follow = (new_status, thisUserId, myId) => {
 
-    const myUserId = myId;
-    const thisUserId = this.state.id;
-    
-    console.log(`myId: ${JSON.stringify(myId)}, thisUserId: ${JSON.stringify(this.state.id)}`);
+    console.log(`myId: ${JSON.stringify(myId)}, thisUserId: ${JSON.stringify(thisUserId)}`);
     const body = { followie: thisUserId, status: new_status };
-    setFollow(myUserId, body)
+    setFollow(myId, body)
       .then(res => {
         console.log(`Follow res: ${JSON.stringify(res)}`);
         //change in DB, than change state
-        this.setState({ followStatus: new_status });
+        //setState({ followStatus: new_status });
+        setFollowStatus(new_status);
       })
       .catch(err => {
-        //this.setState({ followStatus: -1 }); // !!!
+        //setState({ followStatus: -1 }); // !!!
         console.error(err);
       });
   }
 
-  getUserInfoEvent() {
-    getUserInfo(this.state.id)
+  const getUserInfoEvent = (myId, userId) => {
+    getUserInfo(userId)
       .then(res => {
         console.log(`getUserInfo: ${JSON.stringify(res.data)}`);
-        this.setState({ user: res.data[0] });
+        setUser(res.data[0]);
         console.log(res.data);
       })
       .catch(err => {
@@ -286,36 +282,35 @@ class ShowUser extends Component {
       });
   }
 
-  sendMessageWithCallback(sender, receiver, message) {
-    sendMessage(sender, receiver, message)
-      .then(res => { // Callback
-        console.log(JSON.stringify(res));
-      })
-      .catch(err => {
-        console.error(`sendMessage failed: ${err}`);
-      });;
-  }
+  const myUserId = props.auth.user.id;
 
-  render() {
-    return (
+  console.log(`User id: ${thisUserId}`);
+  useEffect(() => {
+    getUserInfoEvent(myUserId, thisUserId);
+    getFollowStatusEvent(myUserId, thisUserId);
+  }, [props]);
+
+  return (
+    <React.Fragment>
+
       <React.Fragment>
+        <BackBarMui history={props.history} />
+        <ProfileHeader history={props.history} user={user} />
+        <ProfileStats name={user.name}
+          user={user}
 
-        <React.Fragment>
-          <BackBarMui history={this.props.history} />
-          <ProfileHeader history={this.props.history} user={this.state.user}/>
-          <ProfileStats name={this.state.user.name}
-            user={this.state.user}
-
-          />
-          <ProfileTabs followStatus={this.state.followStatus} 
-            follow={(n, myId) => { this.follow(n, myId) }} 
-            auth={this.props.auth} state={this.state} />
-
-        </React.Fragment>
+        />
+        <ProfileTabs followStatus={followStatus}
+          follow={(n, myId) => { follow(n, thisUserId, myId) }}
+          auth={props.auth} thisUserId={thisUserId}
+        //state={state} 
+        />
 
       </React.Fragment>
-    );
-  }
+
+    </React.Fragment>
+  );
+
 }
 
 const mapStateToProps = state => ({

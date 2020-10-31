@@ -15,15 +15,15 @@ module.exports = function validateMealInput(data) {
   data.address = !isEmpty(data.address) ? data.address : "";
 
   if (Validator.isEmpty(data.address)) {
-    errors.address = "Address field is required";
+    errors.address = "Address field is required.";
   }
 
   if (isEmpty(data.guest_count))
   { 
-    errors.guest_count = "Number of invited guests is empty";
+    errors.guest_count = "Number of invited guests is empty.";
   }
   else if (isNaN(data.guest_count) || data.guest_count === "") {
-    errors.guest_count = `Number of invited guests is not a number, "${data.name}" is given`;
+    errors.guest_count = `Number of invited guests is not a number, "${data.name}" is given.`;
   }
   else 
   {
@@ -32,7 +32,7 @@ module.exports = function validateMealInput(data) {
       errors.guest_count = "Number of invited guests should be a positive number";
     }
   }
-  console.log("validate: " + JSON.stringify(errors));
+  console.log(`Validate: ${JSON.stringify(errors)}`);
   return {
     errors,
     isValid: isEmpty(errors)
