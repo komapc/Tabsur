@@ -133,7 +133,7 @@ class App extends Component {
       }
     }
     catch (e) {
-      console.error(`Messaging initializatin failed with: ${JSON.stringify(e)}`);
+      console.error(`Messaging initialization failed with: ${JSON.stringify(e)}`);
     }
   }
 
@@ -147,7 +147,7 @@ class App extends Component {
               <Helmet>
                 <meta charSet="utf-8" />
                 <title>BeMyGuest - food sharing app or food sharing and social dinning</title>
-                <link rel="canonical" href="https://tabsur.herokuapp.com" />
+                <link rel="canonical" href="https://www.bemyguest.app" />
               </Helmet>
               <Switch>
 
