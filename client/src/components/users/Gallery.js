@@ -18,7 +18,7 @@ const Gallery = (props) => {
     .catch(err => {
       console.error(err);
     });
-  }, []);
+  }, [props.id]);
 
   
   return <>
@@ -26,7 +26,7 @@ const Gallery = (props) => {
      {/* Under Construction : {JSON.stringify(images)}  */}
      {images.map(image => {
          const path =`${config.SERVER_HOST}/api/${image.path}.undefined`;
-          return <img width="50vw" height="50vw" src={path} key={image.id} />
+          return <img width="50vw" height="50vw" src={path} key={image.id} alt={image.id}/>
         })
       }
     </>

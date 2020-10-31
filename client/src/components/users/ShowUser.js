@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 
 import { getFollowStatus, setFollow, getUserInfo } from "../../actions/userActions"
 import Gallery from "./Gallery"
-import { sendMessage } from "../../actions/notifications"
 
 import PropTypes from "prop-types";
 import Avatar from "../layout/Avatar"
@@ -31,7 +30,6 @@ const useStylesHeader = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'yellow',
-    //backgroundImage: `url(${tmpBgImg})`,
     backgroundSize: 'cover',
   },
   empty: {
@@ -152,7 +150,7 @@ const useStylesTabs = makeStyles(theme => ({
     color: "black",
     fontSize: 16,
     fontWeight: "fontWeightBold",
-    width: "100%",
+    width: "100vw",
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -176,9 +174,8 @@ const ProfileTabs = (props) => {
 
   const itIsMe = props.auth.user.id !== props.thisUserId;
   const newStatus = props.followStatus === 3 ? 0 : 3;
-  console.log(`props.auth.user.id :
-    ${JSON.stringify(props.auth.user.id)}, thisUserId :
-    ${JSON.stringify(props.thisUserId)}`)
+  console.log(`props.auth.user.id:  ${JSON.stringify(props.auth.user.id)}, 
+              thisUserId:  ${JSON.stringify(props.thisUserId)}`);
   return (
     <React.Fragment>
       <div className={classes.root}>
@@ -229,13 +226,6 @@ const ShowUser = (props) => {
   const [followStatus, setFollowStatus] = useState(false);
   const [user, setUser] = useState({});
   const thisUserId = props.match.params.id;
-  //   user: {},
-  //   followStatus: 0,
-  //   ...props
-  // };
-  //}
-
-
 
   const getFollowStatusEvent = (myUserId, thisUserId) => {
 
@@ -261,7 +251,6 @@ const ShowUser = (props) => {
       .then(res => {
         console.log(`Follow res: ${JSON.stringify(res)}`);
         //change in DB, than change state
-        //setState({ followStatus: new_status });
         setFollowStatus(new_status);
       })
       .catch(err => {
@@ -288,7 +277,7 @@ const ShowUser = (props) => {
   useEffect(() => {
     getUserInfoEvent(myUserId, thisUserId);
     getFollowStatusEvent(myUserId, thisUserId);
-  }, [props]);
+  }, [myUserId, thisUserId]);
 
   return (
     <React.Fragment>
@@ -296,18 +285,13 @@ const ShowUser = (props) => {
       <React.Fragment>
         <BackBarMui history={props.history} />
         <ProfileHeader history={props.history} user={user} />
-        <ProfileStats name={user.name}
-          user={user}
-
+        <ProfileStats name={user.name} user={user}
         />
         <ProfileTabs followStatus={followStatus}
           follow={(n, myId) => { follow(n, thisUserId, myId) }}
           auth={props.auth} thisUserId={thisUserId}
-        //state={state} 
         />
-
       </React.Fragment>
-
     </React.Fragment>
   );
 
