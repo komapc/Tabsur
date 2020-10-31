@@ -31,6 +31,7 @@ const Bottom = (props) => {
     useEffect(() => {
     switch (index)
     {
+      case 0: break;//Nothing to do?
       case 1: if (props.profileNotificationsCount !== 0)
         store.dispatch(setProfileNotificationsCount(0)); break;
         
