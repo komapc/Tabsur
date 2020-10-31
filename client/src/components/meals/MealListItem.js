@@ -103,9 +103,6 @@ function MealViewCard(props) {
             <ScheduleIcon fontSize='small' style={{ color: 'black', }} /> {props.dat}
           </Typography>
 
-          {/* <Typography variant="body2" color="textPrimary" component="p" onClick={(event) => { props.goToMaps(event, props.meal.id) }}>
-          <RoomIcon fontSize='small' style={{ color: 'black', }} /> {props.meal.address}
-        </Typography> */}
           <Typography variant="body2" color="textPrimary" component="p">
             <PeopleIcon fontSize='small' style={{ color: 'black', }} />
             {props.meal.Atendee_count}<span style={{ color: 'gray' }}> of </span>
@@ -234,11 +231,6 @@ class MealListItem extends React.Component {
     this.props.history.push(`../user/${host_id}`);
   }
 
-  goToMaps = (event, id) => {
-    event.stopPropagation();
-    event.preventDefault();
-    this.props.history.push(`/MealMap/${id}`);//todo: fix, redirect properly to the map
-  }
 
   onJoin = (newStatus) => {
     if (!this.props.auth.isAuthenticated) {
@@ -282,7 +274,6 @@ class MealListItem extends React.Component {
           onJoin={this.onJoin}
           dat={dat}
           goToUser={this.goToUser}
-          goToMaps={this.goToMaps}
           gotoMeal={this.gotoMeal} />
       )
     }

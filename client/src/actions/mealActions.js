@@ -33,6 +33,29 @@ export const addMeal = (userData, onDone) => dispatch => {
     );
 };
 
+// add a meal and image
+export const editMeal = (meal, onDone) => dispatch => {
+  console.log("edit meal");
+  return axios
+    .put(`${config.SERVER_HOST}/api/meals/`, meal)
+    .then(res => {
+      console.log(`meal edit got result: ${JSON.stringify(res.data)}`);
+      const meal_id = res.data.id;
+      console.log(`meal put: ${JSON.stringify(meal_id)}`);
+          })
+    .catch(err => {
+      console.error(`Error in edit meal: ${JSON.stringify(err)}`);
+      // dispatch({
+      //   //type: GET_ERRORS,
+      //   //payload: err.response.data
+      // })
+    })
+    .finally(()=>
+    {
+      return onDone();
+    })
+};
+
 
 //delete meal
 export const deleteMeal = (id) => {

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
 import Fab from '@material-ui/core/Fab';
-import Badge from '@material-ui/core/Badge';
+//import Badge from '@material-ui/core/Badge';
 import AddIcon from '@material-ui/icons/Add';//todo: use Yana's image
 import Zoom from '@material-ui/core/Zoom';
 
