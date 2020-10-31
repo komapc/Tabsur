@@ -78,13 +78,13 @@ router.post("/:id", authenticateJWT, async (req, response) => {
     RETURNING follower`;
   console.log(JSON.stringify(SQLquery));
   const client = await pool.connect();
-  client.query(SQLquery, [follower, followie, status])
+  return client.query(SQLquery, [follower, followie, status])
     .then(resp => {
       console.log(`Query response: ${JSON.stringify(resp.rows)}`);
       if (status <= 0)
       {
         //no notification on unfollow
-        return;
+        return   response.json(resp);
       }
       const message =
       {
