@@ -8,7 +8,6 @@ import { Typography } from "@material-ui/core";
 const Meals = (props) => {
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
-//  const id = props.auth.user.id || -1;
 
   const refresh = (props) => {
     if (!props.auth.isAuthenticated)

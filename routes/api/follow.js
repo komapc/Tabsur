@@ -74,16 +74,17 @@ router.post("/:id", authenticateJWT, async (req, response) => {
     VALUES ($1, $2, $3) 
     ON CONFLICT (follower, followie) 
     DO UPDATE SET 
-    status = $3 WHERE follow.follower=$2 AND follow.followie = $1`;
+    status = $3 WHERE follow.follower=$2 AND follow.followie = $1
+    RETURNING follower`;
   console.log(JSON.stringify(SQLquery));
   const client = await pool.connect();
   client.query(SQLquery, [follower, followie, status])
     .then(resp => {
-      console.log(`Query response: ${JSON.stringify(resp)}`);
+      console.log(`Query response: ${JSON.stringify(resp.rows)}`);
       if (status <= 0)
       {
         //no notification on unfollow
-        return; 
+        return;
       }
       const message =
       {
