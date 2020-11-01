@@ -20,6 +20,12 @@ class MapLocationSelector extends Component {
     };
   };
   componentDidMount() {
+    navigator.permissions.query({name:'geolocation'})
+    .then((permissionStatus) =>
+    { 
+      //test permissions; for now - do nothing
+      console.log(`Permission: ${JSON.stringify(permissionStatus)}.`);  
+    });
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
 
