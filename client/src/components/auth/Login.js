@@ -78,6 +78,7 @@ class Login extends Component {
     };
 
     this.props.loginUser(userData);
+    console.log(`Errors: ${this.state.errors}`);
   };
 
   responseGoogle = (response) => {
@@ -113,7 +114,7 @@ class Login extends Component {
               padding: '10%', width: `90vw`
             }}>
 
-              <Grid item spacing={1} xs={12}>
+              <Grid item xs={12}>
                 Don't have an account? <Link to="/register">Register</Link>
               </Grid>
 
@@ -121,7 +122,7 @@ class Login extends Component {
             <form noValidate onSubmit={this.onSubmit} >
 
               <TextField
-                variant="outlined"
+                variant="standard" color="secondary"
                 onChange={this.onChange}
                 value={this.state.email}
                 error={errors.email}
@@ -142,7 +143,7 @@ class Login extends Component {
               </Grid>
               <Grid xs={12} item >
                 <TextField
-                  variant="outlined"
+                  variant="standard" color="secondary"
                   label={'Password'}
                   onChange={this.onChange}
                   value={this.state.password}
@@ -162,7 +163,7 @@ class Login extends Component {
               </Grid>
               <Grid xs={12} item >
                 <Button
-                  variant="contained" color="primary"
+                  variant="contained" color="secondary"
                   type="submit"
                   style={{ width: '100%', marginTop: '10%' }}
                 >
@@ -177,16 +178,13 @@ class Login extends Component {
             </form>
             {
               (this.props.match.params.extend) ?
-                <span>
-                  <GoogleLogin xs={12}
-                    clientId={`${googleKey}`}
-                    buttonText="Login"
-                    onSuccess={this.props.responseGoogle}
-                    onFailure={this.props.responseGoogle}
-                    cookiePolicy={'single_host_origin'}
-                  />
-
-                </span>
+                <GoogleLogin xs={12}
+                  clientId={`${googleKey}`}
+                  buttonText="Login"
+                  onSuccess={this.props.responseGoogle}
+                  onFailure={this.props.responseGoogle}
+                  cookiePolicy={'single_host_origin'}
+                />
                 : <> </>
             }
           </Paper>
