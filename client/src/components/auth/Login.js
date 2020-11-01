@@ -85,7 +85,7 @@ class Login extends Component {
   }
 
   facebookResponse = (response) => {
-    console.log(JSON.stringify(response));
+    console.log(`facebookResponse: ${JSON.stringify(response)}`);
     const userData = {
       email: response.email,
       name: response.name,
@@ -100,103 +100,95 @@ class Login extends Component {
     return (
       <Grid
         container
-        spacing={0}
+        spacing={1}
         direction="column"
         alignItems="center"
         justify="center"
-        style={{ minHeight: '100vh', width: '100%' }}
+        style={{ minHeight: '100vh', width: '100vw' }}
       >
 
         <Fragment>
           <Paper elevation={3} variant="outlined" style={{ borderColor: 'black' }}>
             <div style={{
-              padding: '10%'
+              padding: '10%', width: `90vw`
             }}>
-              <Grid
-                item xs={12}
-              >
 
+              <Grid item spacing={1} xs={12}>
                 Don't have an account? <Link to="/register">Register</Link>
               </Grid>
 
-              <form noValidate onSubmit={this.onSubmit} >
+            </div>
+            <form noValidate onSubmit={this.onSubmit} >
 
+              <TextField
+                variant="outlined"
+                onChange={this.onChange}
+                value={this.state.email}
+                error={errors.email}
+                id="email"
+                type="email"
+                className={classnames("", {
+                  invalid: errors.email || errors.emailnotfound
+                })}
+                label={'Email'}
+                xs={12}
+                style={{ width: '100%' }}
+              />
+              <Grid xs={12} item >
+                <Typography className="red-text">
+                  {errors.email}
+                  {errors.emailnotfound}
+                </Typography>
+              </Grid>
+              <Grid xs={12} item >
                 <TextField
                   variant="outlined"
+                  label={'Password'}
                   onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  id="email"
-                  type="email"
+                  value={this.state.password}
+                  error={errors.password}
+                  id="password"
+                  type="password"
                   className={classnames("", {
-                    invalid: errors.email || errors.emailnotfound
+                    invalid: errors.password || errors.passwordincorrect
                   })}
-                  label={'Email'}
                   style={{ width: '100%', marginTop: '10%' }}
                 />
-                <Grid
-                  xs={12}
-                  item
+
+                <span className="red-text">
+                  {errors.password}
+                  {errors.passwordincorrect}
+                </span>
+              </Grid>
+              <Grid xs={12} item >
+                <Button
+                  variant="contained" color="primary"
+                  type="submit"
+                  style={{ width: '100%', marginTop: '10%' }}
                 >
-                  <Typography className="red-text">
-                    {errors.email}
-                    {errors.emailnotfound}
-                  </Typography>
-                </Grid>
-                <Grid
-                  item xs={12}
-                >
-                  <TextField
-                    variant="outlined"
-                    label={'Password'}
-                    onChange={this.onChange}
-                    value={this.state.password}
-                    error={errors.password}
-                    id="password"
-                    type="password"
-                    className={classnames("", {
-                      invalid: errors.password || errors.passwordincorrect
-                    })}
-                    style={{ width: '100%', marginTop: '10%' }}
+                  Login
+                </Button>
+                {this.state.user ?
+                  <div>{JSON.stringify(this.state.user)}</div> :
+                  <div className="btn-fb-login-wrapper">
+                    <FBLoginButton facebookResponse={this.facebookResponse} /></div>
+                }
+              </Grid>
+            </form>
+            {
+              (this.props.match.params.extend) ?
+                <span>
+                  <GoogleLogin xs={12}
+                    clientId={`${googleKey}`}
+                    buttonText="Login"
+                    onSuccess={this.props.responseGoogle}
+                    onFailure={this.props.responseGoogle}
+                    cookiePolicy={'single_host_origin'}
                   />
 
-                  <span className="red-text">
-                    {errors.password}
-                    {errors.passwordincorrect}
-                  </span>
-                </Grid>
-                <Grid
-                  item xs={12}
-                >
-                  <Button
-                    variant="contained" color="primary"
-                    type="submit"
-                    style={{ width: '100%', marginTop: '10%' }}
-                  >
-                    Login
-                </Button>
-                  {this.state.user ?
-                    <div>{JSON.stringify(this.state.user)}</div> :
-                    <div className="btn-fb-login-wrapper">
-                      <FBLoginButton facebookResponse={this.facebookResponse} /></div>
-                  }
-                </Grid>
-              </form>
-              {
-                (this.props.match.params.extend) ?
-                  <span>
-                    <GoogleLogin xs={12}
-                      clientId={`${googleKey}`}
-                      buttonText="Login"
-                      onSuccess={this.props.responseGoogle}
-                      onFailure={this.props.responseGoogle}
-                      cookiePolicy={'single_host_origin'}
-                    />
-
-                  </span>
-                  : <> </>
-              }
-            </div>
+                </span>
+                : <> </>
+            }
           </Paper>
         </Fragment>
       </Grid >
