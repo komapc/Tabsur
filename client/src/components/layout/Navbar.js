@@ -51,13 +51,11 @@ class Navbar extends Component {
           </span>
           <span onClick={this.openNotifications} >
             <Badge badgeContent={this.props.notificationsCount} color="secondary">
-              {/* <img className="navbar-icons" src={notification} alt={"Notifications"} /> */}
               <NotificationsOutlinedIcon fontSize="large" color="primary" alt={"Notifications"} />
             </Badge>
           </span>
           <span onClick={this.openMenu}>
             <Badge badgeContent={0} color="secondary">
-              {/* <img className="navbar-icons" src={sandwich} alt={"..."} /> */}
               <MoreVertIcon fontSize="large" color="primary" alt={"Menu"} />
             </Badge>
           </span>

@@ -28,9 +28,10 @@ export const getFollowStatus = userId => {
 };
 
 //set follow/unfollow status
-export const setFollow = (myUserId, body) => {
+export const setFollow =  (myUserId, body) => {
   console.log(`Setting follower status for ${myUserId}.`);
   if (isNaN(myUserId)) {
+    console.log("myUserId is bad. Are you logged-in?");
     return new Promise(() => []);
   }
   return axios.post(`${config.SERVER_HOST}/api/follow/${myUserId}`, body);
