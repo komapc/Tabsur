@@ -19,14 +19,14 @@ export const registerUser = (userData, history) => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
-        payload: err
+        payload: err.response.data
       })
     );
 };
 
 // Login - get user token
 export const loginUser = userData => dispatch => {
-  console.log(`userData, ${config.SERVER_HOST}`);
+  console.log(`userData, ${JSON.stringify(userData)}`);
   axios
     .post(`${config.SERVER_HOST}/api/users/login`, userData)
     .then(res => {
@@ -34,6 +34,8 @@ export const loginUser = userData => dispatch => {
 
       // Set token to localStorage
       const { token } = res.data;
+      
+      console.log(`Login user got result [${JSON.stringify(res.data)}]`);
       localStorage.setItem("jwtToken", token);
       // Set token to Auth header
       setAuthToken(token);
@@ -43,10 +45,13 @@ export const loginUser = userData => dispatch => {
       dispatch(setCurrentUser(decoded));
     })
     .catch(err =>
+    {
+      console.warn(`Login failed: ${JSON.stringify(err)}`);
       dispatch({
         type: GET_ERRORS,
-        payload: err
+        payload: err.response.data
       })
+    }
     );
 };
 
