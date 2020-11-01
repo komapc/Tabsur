@@ -69,15 +69,14 @@ router.post("/login", async (req, response) => {
   const newReq = req.body;
   const { errors, isValid } = validateLoginInput(req.body);
   if (!isValid) {
-    console.log("invalid input: " + JSON.stringify(errors));
+    console.log(`Invalid input: ${JSON.stringify(errors)}.`);
     return response.status(400).json(errors);
   }
-  console.log(`Login: ${newReq.email}`);
+  console.log(`Login: ${newReq.email}.`);
   const client = await pool.connect();
   client.query('SELECT id, name, password FROM users WHERE email = $1 OR id = $2 LIMIT 1',
     [newReq.email, newReq.id])
     .then(res => {
-
       //no record found
       if (res.rows === undefined || res.rows.length == 0) {
         console.error(`error: user [${newReq.email}] doesn't exist.`);

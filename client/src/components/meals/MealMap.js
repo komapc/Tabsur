@@ -54,7 +54,7 @@ const MealMap = (props) => {
   useEffect(() => {
     getMeals(userid)
       .then(res => {
-        console.log(res);
+        console.log(`getMeals result: ${JSON.stringify(res)}`);
         setMeals(res.data);
 
       })

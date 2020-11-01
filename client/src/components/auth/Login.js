@@ -57,7 +57,7 @@ class Login extends Component {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/");
     }
-
+console.log(`componentWillReceiveProps: ${JSON.stringify(nextProps)}.`);
     if (nextProps.errors) {
       this.setState({
         errors: nextProps.errors
@@ -77,8 +77,8 @@ class Login extends Component {
       password: this.state.password
     };
 
-    this.props.loginUser(userData);
-    console.log(`Errors: ${this.state.errors}`);
+    this.props.loginUser(userData); 
+    console.log(`Errors: ${JSON.stringify(this.state.errors)}`);
   };
 
   responseGoogle = (response) => {
@@ -107,7 +107,7 @@ class Login extends Component {
         justify="center"
         style={{ minHeight: '100vh', width: '100vw' }}
       >
-
+        <b>{JSON.stringify(errors)}</b>
         <Fragment>
           <Paper elevation={3} variant="outlined" style={{ borderColor: 'black' }}>
             <div style={{
