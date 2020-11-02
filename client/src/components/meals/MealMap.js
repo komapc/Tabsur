@@ -76,7 +76,10 @@ const MealMap = (props) => {
   }, [userid]);
 
 
-
+  if (!props.visible)
+  {
+    return <></>;
+  }
   //console.log(`Selected meal: ${JSON.stringify(meal)}`);
   return (
     <div className={isSelected ? 'meals-map-info' : 'meals-map'}>

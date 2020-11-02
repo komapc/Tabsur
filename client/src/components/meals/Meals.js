@@ -6,6 +6,7 @@ import loadingGIF from "../../resources/animation/loading.gif";
 import { Typography } from "@material-ui/core";
 
 const Meals = (props) => {
+ 
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -35,7 +36,11 @@ const Meals = (props) => {
   useEffect(() => {
     refresh(props);
   }, [props]);
-  return < React.Fragment >
+  if (!props.visible)
+  {
+    return <></>;
+  }
+  return <>
     {
       loading ?
         <img src={loadingGIF} alt="loading" /> :
@@ -45,7 +50,7 @@ const Meals = (props) => {
               <MealListItem key={meal.id} meal={meal} />
             )}
         </>}
-  </React.Fragment >
+  </>
 }
 
 const mapStateToProps = state => ({
