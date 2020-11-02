@@ -39,7 +39,7 @@ const MyProfileHeader = (props) => {
     <h3 style={{ textAlign: "center", width: "90vw" }}>Profile
         </h3>
     <IconButton color="primary" aria-label="settings"
-      style={{ position: "fixed", top: "10px", paddingLeft: "90vw" }}
+      style={{ position: "absolute", top: "10px", paddingLeft: "90vw" }}
       onClick={() => openSettings(history)}
     >
       <SettingsIcon style={{color:"#000000"}} />

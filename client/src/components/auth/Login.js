@@ -107,7 +107,6 @@ console.log(`componentWillReceiveProps: ${JSON.stringify(nextProps)}.`);
         justify="center"
         style={{ minHeight: '100vh', width: '100vw' }}
       >
-        <b>{JSON.stringify(errors)}</b>
         <Fragment>
           <Paper elevation={3} variant="outlined" style={{ borderColor: 'black' }}>
             <div style={{
