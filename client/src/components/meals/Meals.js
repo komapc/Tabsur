@@ -12,18 +12,18 @@ const Meals = (props) => {
   const refresh = (props) => {
     if (!props.auth.isAuthenticated)
     {
-      console.warn(`Friends  called with bad id: ${props.id}.`);
-      setLoading(false);
-      return;
+      console.warn(`Get Meals called with bad id: ${props.id}.`);
+      // setLoading(false);
+      // return;
     }
     console.log(`refreshing meal list.`);
     return getMeals(props.auth.user.id)
       .then(res => {
-        console.log(res.data);
+        console.log(`getMeals returned ${JSON.stringify(res.data)}`);
         setMeals(res.data);
       })
       .catch(err => {
-        console.error(err);
+        console.error(`getMeals error: ${JSON.stringify(err)}`);
         setMeals([]);
       })
       .finally(() => {
