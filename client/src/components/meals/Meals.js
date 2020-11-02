@@ -6,24 +6,25 @@ import loadingGIF from "../../resources/animation/loading.gif";
 import { Typography } from "@material-ui/core";
 
 const Meals = (props) => {
+ 
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const refresh = (props) => {
     if (!props.auth.isAuthenticated)
     {
-      console.warn(`Friends  called with bad id: ${props.id}.`);
-      setLoading(false);
-      return;
+      console.warn(`Get Meals called with bad id: ${props.id}.`);
+      // setLoading(false);
+      // return;
     }
     console.log(`refreshing meal list.`);
     return getMeals(props.auth.user.id)
       .then(res => {
-        console.log(res.data);
+        console.log(`getMeals returned ${JSON.stringify(res.data)}`);
         setMeals(res.data);
       })
       .catch(err => {
-        console.error(err);
+        console.error(`getMeals error: ${JSON.stringify(err)}`);
         setMeals([]);
       })
       .finally(() => {
@@ -35,7 +36,11 @@ const Meals = (props) => {
   useEffect(() => {
     refresh(props);
   }, [props]);
-  return < React.Fragment >
+  if (!props.visible)
+  {
+    return <></>;
+  }
+  return <>
     {
       loading ?
         <img src={loadingGIF} alt="loading" /> :
@@ -45,7 +50,7 @@ const Meals = (props) => {
               <MealListItem key={meal.id} meal={meal} />
             )}
         </>}
-  </React.Fragment >
+  </>
 }
 
 const mapStateToProps = state => ({
