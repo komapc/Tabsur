@@ -153,18 +153,18 @@ return <>
       language: 'en',
     }}>
   </GooglePlacesAutocomplete>
-      </span>
+  </span>
       <GoogleMap
-  defaultZoom={10}
-  defaultCenter={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
->
+        defaultZoom={10}
+        defaultCenter={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
+      >
 
-  <Marker
-    draggable
-    defaultPosition={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
-    onDragEnd={props.onDragEnd}
-  />
-</GoogleMap>
+        <Marker
+          draggable
+          defaultPosition={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
+          onDragEnd={props.onDragEnd}
+        />
+      </GoogleMap>
 </>;
 }
 const MapWithMarker = withScriptjs(withGoogleMap(MyGoogleMap));

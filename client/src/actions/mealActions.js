@@ -69,7 +69,7 @@ export const deleteMeal = (id) => {
 export const getMeals = (id) => {
   if (isNaN(id))
   {
-    return new Promise( ()=>[]);
+    id=-1;//call anyway
   }
   return axios.get(`${config.SERVER_HOST}/api/meals/${id}`);
 };
