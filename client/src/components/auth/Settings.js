@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import store from "../../store";
 import { useHistory } from "react-router-dom";
+import Toolbar from '@material-ui/core/Toolbar';
 
 import BackBarMui from "../layout/BackBarMui";
 const handleLogout = (event) => {
@@ -27,8 +28,9 @@ const Settings = () => {
   const history = useHistory();
   return (
     <>
-      <h4 className="wizard-caption">Settings</h4>
-      <BackBarMui history={history} />
+      <Toolbar>
+        <BackBarMui history={history} />
+        Settings</Toolbar>
       <Grid
         container
         spacing={0}
@@ -50,7 +52,7 @@ const Settings = () => {
           />
          </div> */}
 
-        <Button onClick={handleLogout}>
+        <Button variant="outlined" onClick={handleLogout}>
           Logout
         </Button>
 
