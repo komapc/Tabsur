@@ -10,7 +10,7 @@ const LocationStep = props => {
   const onLocationUpdate = ({ address, location }) => {
     props.update({ "id": "address", "value": address });
     props.update({ "id": "location", "value": location });
-    console.log(`onLocationUpdate: ${address}`);
+    console.log(`onLocationUpdate: ${address}; location: ${JSON.stringify(location)}`);
     setAddress(address);
     updateDefaultLocation(location);
   };
