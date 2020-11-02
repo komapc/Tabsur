@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleTabs(props) {
+export default function MealsTabs(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -58,37 +58,32 @@ export default function SimpleTabs(props) {
     props.setSwipability(newValue !== 1);
     setValue(newValue);
   };
-  if (props.active)
-  { 
+  if (props.active) {
     props.setFabVisibility(true);
     props.setSwipability(value !== 1);
   }
   return (
     <div className={classes.root}>
-     <AppBar position="sticky"> 
-      <Tabs 
-        value={value} 
-        onChange={handleChange} 
-        aria-label="tabs" 
-        centered 
-        indicatorColor='primary'
-        TabIndicatorProps={{
-        style: {
-          backgroundColor: "primary",
-         
-      }}}>
-        <Tab label="List" {...a11yProps(0)} />
-        <Tab label="Map" {...a11yProps(1)} />
-      </Tabs>
-     </AppBar> 
-      {/* <TabPanel value={value} index={0}>
-        <Meals/>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <MealMap />
-      </TabPanel> */}
-      <div style={{ display: value === 0 ? 'inline' : 'none' }}><Meals {...props}/></div>
-      <div style={{ display: value === 1 ? 'inline' : 'none' }}><MealMap {...props}/></div>
+      <AppBar position="sticky">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="tabs"
+          centered
+          indicatorColor='primary'
+          TabIndicatorProps={{
+            style: {
+              backgroundColor: "primary",
+
+            }
+          }}>
+          <Tab label="List" {...a11yProps(0)} />
+          <Tab label="Map" {...a11yProps(1)} />
+        </Tabs>
+      </AppBar>
+
+      <Meals visible={value === 0} {...props} />
+      <MealMap visible={value === 1} {...props} />
     </div>
   );
 }
