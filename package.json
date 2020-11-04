@@ -34,6 +34,7 @@
     "multiparty": "^4.2.2",
     "node-fetch": "^2.6.1",
     "pg": "^7.18.2",
+    "react-scripts": "^4.0.0",
     "validator": "^12.2.0"
   },
   "repository": {
