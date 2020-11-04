@@ -264,7 +264,9 @@ class MealListItem extends React.Component {
     try {
       const dat = dateFormat(new Date(meal.date), "dd-mm-yyyy HH:MM");
       var path = this.state.meal.path;
-      path = path ? `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
+      //path = path ? `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
+      path=`https://s3.us-east-2.amazonaws.com/images.dining.philosophers.com/${path}.undefined`;
+
       return (
         <MealViewCard
           path={path}
