@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { system } from "../../actions/authActions";
 class About extends Component {
 
-
   constructor(props) {
     super(props);
     this.state = {
