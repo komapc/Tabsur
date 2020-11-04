@@ -258,14 +258,15 @@ class MealListItem extends React.Component {
     }
     const owner = meal.host_id === this.props.auth.user.id ? "YOU" : meal.host_name;
     console.log(`MealListItem: ${JSON.stringify(meal)}.`);
-    if (Object.keys(meal).length === 0) { // ?
+    if (Object.keys(meal).length === 0) { 
       return <div>EMPTY MEAL</div>
     }
     try {
       const dat = dateFormat(new Date(meal.date), "dd-mm-yyyy HH:MM");
       var path = this.state.meal.path;
-      //path = path ? `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
-      path=`https://s3.us-east-2.amazonaws.com/images.dining.philosophers.com/${path}.undefined`;
+      path = path ?
+        `https://s3.us-east-2.amazonaws.com/images.dining.philosophers.com/${path}.undefined`
+        : defaultImage;
 
       return (
         <MealViewCard
