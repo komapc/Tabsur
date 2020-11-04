@@ -19,6 +19,7 @@
   "author": "Mark&Yana",
   "license": "MIT",
   "dependencies": {
+    "react-scripts": "^4.0.0",
     "aws-sdk": "^2.683.0",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
