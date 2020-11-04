@@ -22,7 +22,7 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import PeopleIcon from '@material-ui/icons/People';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 var dateFormat = require('dateformat');
-
+const BUCKET='https://s3.us-east-2.amazonaws.com/images.dining.philosophers.com';
 const useStyles = makeStyles((theme) => ({
   palette: {
     primary: {
@@ -265,7 +265,7 @@ class MealListItem extends React.Component {
       const dat = dateFormat(new Date(meal.date), "dd-mm-yyyy HH:MM");
       var path = this.state.meal.path;
       path = path ?
-        `https://s3.us-east-2.amazonaws.com/images.dining.philosophers.com/${path}.undefined`
+        `${BUCKET}/${path}.undefined`
         : defaultImage;
 
       return (
