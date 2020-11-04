@@ -22,6 +22,7 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import PeopleIcon from '@material-ui/icons/People';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 var dateFormat = require('dateformat');
+const BUCKET='s3.us-east-2.amazonaws.com/images.dining.philosophers.com';
 
 const useStyles = makeStyles((theme) => ({
   palette: {
@@ -145,33 +146,24 @@ function MealViewCard(props) {
   )
 }
 
-class AttendButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      meal: props.meal
-    };
-  }
-  componentDidUpdate = (prevProps) => {
-    if (prevProps.meal !== this.props.meal) {
-      this.setState({ meal: this.props.meal });
-    }
-  }
-  handleAttend = (event, newStatus, isEnabled) => {
+const AttendButton = (props) => {
+  
+  console.log(`AttendButton: ${JSON.stringify(props)}`);
+  //const [meal, setMeal] = React.useState(props.meal);
+  const meal = props.meal;
+  const handleAttend = (event, newStatus, isEnabled) => {
     event.stopPropagation();
     if (!isEnabled)
       return;
-    const user_id = this.props.auth.user.id;
-    console.log(`handleAttend:  ${JSON.stringify(this.state.meal)}, ${user_id}, new status: ${newStatus}`);
-    this.props.onJoin(newStatus);
+    const user_id = props.auth.user.id;
+    console.log(`handleAttend:  ${JSON.stringify(meal)}, ${user_id}, new status: ${newStatus}`);
+    props.onJoin(newStatus);
   }
 
-  render() {
-    const meal = this.state.meal;
-    const status = meal.attend_status;
-    console.log(`Auth: ${JSON.stringify(this.props.auth)}`);
-    const isAuthenticated = this.props.auth.isAuthenticated;
-    const isOwner = meal.host_id === this.props.auth.user.id;
+    const status = props.meal.attend_status;
+    console.log(`Auth: ${JSON.stringify(props.auth)}`);
+    const isAuthenticated = props.auth.isAuthenticated;
+    const isOwner = meal.host_id === props.auth.user.id;
     const isEnabled = (status > 0) || (meal.guest_count >= meal.Atendee_count);
     const newStatus = status === 0 ? 3 : 0;
     if (isOwner || !isAuthenticated)
@@ -180,7 +172,7 @@ class AttendButton extends React.Component {
     }
     return <FormControlLabel
       disabled={!isEnabled}
-      onClick={event => this.handleAttend(event, newStatus, isEnabled)}
+      onClick={event => handleAttend(event, newStatus, isEnabled)}
       control={
         <Switch
           checked={status > 0}
@@ -190,8 +182,7 @@ class AttendButton extends React.Component {
       }
       label="Attend"
     />
-  }
-};
+}
 
 class MealImage extends React.Component {
   render() {
@@ -265,7 +256,7 @@ class MealListItem extends React.Component {
       const dat = dateFormat(new Date(meal.date), "dd-mm-yyyy HH:MM");
       var path = this.state.meal.path;
       path = path ?
-        `https://s3.us-east-2.amazonaws.com/images.dining.philosophers.com/${path}.undefined`
+        `https://${BUCKET}/${path}.undefined`
         : defaultImage;
 
       return (
