@@ -149,7 +149,6 @@ function MealViewCard(props) {
 const AttendButton = (props) => {
   
   console.log(`AttendButton: ${JSON.stringify(props)}`);
-  //const [meal, setMeal] = React.useState(props.meal);
   const meal = props.meal;
   const handleAttend = (event, newStatus, isEnabled) => {
     event.stopPropagation();
