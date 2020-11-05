@@ -35,7 +35,7 @@
     "multiparty": "^4.2.1",
     "node-fetch": "^2.6.0",
     "pg": "^7.18.2",
-    "react": "^16.6.3",
+    "react": "^17.0.1",
     "react-scripts": "^4.0.0",
     "validator": "^12.2.0"
   },
