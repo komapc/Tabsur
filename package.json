@@ -19,21 +19,23 @@
   "author": "Mark&Yana",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.784.0",
+    "aws-sdk": "^2.683.0",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
     "body-parser": "^1.18.3",
-    "concurrently": "^5.3.0",
+    "concurrently": "^5.1.0",
     "cors": "^2.8.5",
+    "devenv": "^1.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "file-type": "^14.7.1",
+    "file-type": "^14.5.0",
     "heroku-ssl-redirect": "0.0.4",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.3.0",
-    "multiparty": "^4.2.2",
-    "node-fetch": "^2.6.1",
+    "multiparty": "^4.2.1",
+    "node-fetch": "^2.6.0",
     "pg": "^7.18.2",
+    "react": "^16.6.3",
     "react-scripts": "^4.0.0",
     "validator": "^12.2.0"
   },
@@ -45,6 +47,6 @@
     "node": "12.18.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.2"
   }
 }
