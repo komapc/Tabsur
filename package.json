@@ -36,6 +36,7 @@
     "node-fetch": "^2.6.0",
     "pg": "^7.18.2",
     "react": "^17.0.1",
+    "react-script": "^2.0.5",
     "react-scripts": "^4.0.0",
     "validator": "^12.2.0"
   },
