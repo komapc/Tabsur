@@ -117,7 +117,7 @@ const ShowMeal = (props) => {
     getMealInfo(mealId)
       .then((res) => {
         setMeal(res.data[0]);
-        console.log(res.data[0]);
+        console.log(`getMealInfo: ${JSON.stringify(res.data[0])}`);
       })
       .catch(err => {
         console.error(err);
