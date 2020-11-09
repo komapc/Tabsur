@@ -18,7 +18,7 @@ const authenticateJWT = (req, res, next) => {
         return res.status(401).json("wrong authHeader.");
     }
 };
-const checkAuthenticateJWT = (req, res, next) => {
+const checkAuthenticationJWT = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (authHeader) {
         const token = authHeader.split(' ')[1];
@@ -30,4 +30,4 @@ const checkAuthenticateJWT = (req, res, next) => {
     }
     next();
 }
-module.exports=authenticateJWT;
+module.exports={authenticateJWT, checkAuthenticationJWT};
