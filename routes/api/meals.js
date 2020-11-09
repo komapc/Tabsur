@@ -52,6 +52,7 @@ router.get("/:id", async (req, response) => {
 // @access Public
 router.get("/info/:id", checkAuthenticateJWT, async (req, response) => {
   var id = req.params.id;
+  // var id = req?.user?.id ?? -1;
   console.log(`get info for meal ${id}`);
   if (isNaN(id))
   {
