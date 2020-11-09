@@ -22,7 +22,7 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import PeopleIcon from '@material-ui/icons/People';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 var dateFormat = require('dateformat');
-const BUCKET='s3.us-east-2.amazonaws.com/images.dining.philosophers.com';
+const BUCKET = 's3.us-east-2.amazonaws.com/images.dining.philosophers.com';
 
 const useStyles = makeStyles((theme) => ({
   palette: {
@@ -109,20 +109,12 @@ function MealViewCard(props) {
             {props.meal.Atendee_count}<span style={{ color: 'gray' }}> of </span>
             {props.meal.guest_count}
           </Typography>
-          {/* <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook together with your
-          guests. Add 1 cup of frozen peas along with the mussels, if you like.
-        </Typography> */}
+
         </CardContent>
         <CardActions disableSpacing>
           {props.auth.user.id === props.meal.host_id ? null :
             <AttendButton meal={props.meal} auth={props.auth} onJoin={props.onJoin} />}
-          {/* <IconButton aria-label="join">
-          <CheckIcon />
-        </IconButton> */}
-          {/* <IconButton aria-label="like">
-          <FavoriteIcon />
-        </IconButton> */}
+
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,
@@ -134,20 +126,14 @@ function MealViewCard(props) {
             {/* <ExpandMoreIcon /> */}
           </IconButton>
         </CardActions>
-        {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>
-            Hi.
-          </Typography>
-        </CardContent>
-      </Collapse> */}
+
       </Card>
     </ThemeProvider>
   )
 }
 
 const AttendButton = (props) => {
-  
+
   console.log(`AttendButton: ${JSON.stringify(props)}`);
   const meal = props.meal;
   const handleAttend = (event, newStatus, isEnabled) => {
@@ -159,28 +145,27 @@ const AttendButton = (props) => {
     props.onJoin(newStatus);
   }
 
-    const status = props.meal.attend_status;
-    console.log(`Auth: ${JSON.stringify(props.auth)}`);
-    const isAuthenticated = props.auth.isAuthenticated;
-    const isOwner = meal.host_id === props.auth.user.id;
-    const isEnabled = (status > 0) || (meal.guest_count >= meal.Atendee_count);
-    const newStatus = status === 0 ? 3 : 0;
-    if (isOwner || !isAuthenticated)
-    {
-        return <></>
+  const status = props.meal.attend_status;
+  console.log(`Auth: ${JSON.stringify(props.auth)}`);
+  const isAuthenticated = props.auth.isAuthenticated;
+  const isOwner = meal.host_id === props.auth.user.id;
+  const isEnabled = (status > 0) || (meal.guest_count >= meal.Atendee_count);
+  const newStatus = status === 0 ? 3 : 0;
+  if (isOwner) {
+    return <></>
+  }
+  return <FormControlLabel
+    disabled={!isEnabled}
+    onClick={event => handleAttend(event, newStatus, isEnabled)}
+    control={
+      <Switch
+        checked={status > 0}
+        name="AttendSwitch"
+        color="primary"
+      />
     }
-    return <FormControlLabel
-      disabled={!isEnabled}
-      onClick={event => handleAttend(event, newStatus, isEnabled)}
-      control={
-        <Switch
-          checked={status > 0}
-          name="AttendSwitch"
-          color="primary"
-        />
-      }
-      label="Attend"
-    />
+    label="Attend"
+  />
 }
 
 class MealImage extends React.Component {
@@ -248,7 +233,7 @@ class MealListItem extends React.Component {
     }
     const owner = meal.host_id === this.props.auth.user.id ? "YOU" : meal.host_name;
     console.log(`MealListItem: ${JSON.stringify(meal)}.`);
-    if (Object.keys(meal).length === 0) { 
+    if (Object.keys(meal).length === 0) {
       return <div>EMPTY MEAL</div>
     }
     try {
