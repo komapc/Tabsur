@@ -114,7 +114,7 @@ const ShowMeal = (props) => {
   else {
     console.log(`Meal id: ${mealId}`);
 
-    getMealInfo(mealId)
+    getMealInfo(mealId, props.auth.user.id)
       .then((res) => {
         setMeal(res.data[0]);
         console.log(`getMealInfo: ${JSON.stringify(res.data[0])}`);
