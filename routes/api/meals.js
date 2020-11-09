@@ -50,9 +50,12 @@ router.get("/:id", async (req, response) => {
 // @route GET api/meals/info/id
 // @desc get info about specific meal
 // @access Public
-router.get("/info/:id", async (req, response) => {
-  var id = req.params.id;
-  console.log(`get info for meal ${id}`);
+router.get("/info/:id/:userId", async (req, response) => {
+  const id = req.params.id;
+  
+  console.log(`get info params ${JSON.stringify(req.params)}.`);
+  const userId = req.params.userId??-1;
+  console.log(`get info for meal ${id}, user: ${userId}.`);
   if (isNaN(id))
   {
     console.error(`Bad meal id: ${id}`);
@@ -60,6 +63,8 @@ router.get("/info/:id", async (req, response) => {
   }
   const SQLquery = `
   SELECT meals.*, images.path, users.name AS host_name,
+    (SELECT status AS attend_status FROM attends
+      WHERE  meal_id=$1 AND attends.user_id=$2), 
     (SELECT count (user_id) AS "Atendee_count" FROM attends 
         WHERE meal_id=$1)
   FROM meals 
@@ -69,7 +74,7 @@ router.get("/info/:id", async (req, response) => {
   WHERE   meals.id=$1`;
   console.log(`get, SQLquery: [${SQLquery}]`);
   const client = await pool.connect();
-  return client.query(SQLquery, [id])
+  return client.query(SQLquery, [id, userId])
     .then(resp => {
       console.log(`INFO about ${id}: ${JSON.stringify(resp.rows)}.`);
       return response.json(resp.rows);
