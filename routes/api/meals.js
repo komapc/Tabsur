@@ -49,7 +49,7 @@ router.get("/:id", async (req, response) => {
 // @route GET api/meals/info/id
 // @desc get info about specific meal
 // @access Public
-router.get("/info/:id", checkAuthenticateJWT, async (req, response) => {
+router.get("/info/:id", checkAuthenticationJWT, async (req, response) => {
   var id = req.params.id;
   // var id = req?.user?.id ?? -1;
   console.log(`get info for meal ${id}`);
