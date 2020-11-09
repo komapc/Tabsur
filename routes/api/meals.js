@@ -1,5 +1,5 @@
 const pool = require("../db.js");
-const { authenticateJWT, checkAuthenticationJWT } = require('../authenticateJWT.js');
+const {authenticateJWT, checkAuthenticationJWT} = require('../authenticateJWT.js');
 var addNotification = require('./notifications');
 const express = require("express");
 const router = express.Router();
@@ -13,7 +13,8 @@ const validateMealInput = require("../../validation/meal");
 router.get("/:id", async (req, response) => {
   var userId = req.params.id;
   console.log(`get meals for user ${userId}`);
-  if (isNaN(userId)) {
+  if (isNaN(userId))
+  {
     //return response.status(400).json("Error in geting  meals: wrong ID");
     //when user is not logged-in
     userId = -1;
@@ -53,7 +54,8 @@ router.get("/info/:id", checkAuthenticationJWT, async (req, response) => {
   var id = req.params.id;
   // var id = req?.user?.id ?? -1;
   console.log(`get info for meal ${id}`);
-  if (isNaN(id)) {
+  if (isNaN(id))
+  {
     console.error(`Bad meal id: ${id}`);
     return response.status(500).json("Bad meal id");
   }
@@ -88,7 +90,7 @@ router.get("/info/:id", checkAuthenticationJWT, async (req, response) => {
 router.get("/my/:id", authenticateJWT, async (req, response) => {
   console.log("get my meals by user id: " + JSON.stringify(req.params));
   const userId = req.params.id;
-  if (isNaN(userId)) {
+  if (isNaN(userId)){
     console.error("error, empty id");
     response.status(400).json("Error in geting my meals: empty");
     return;
@@ -110,8 +112,9 @@ router.get("/my/:id", authenticateJWT, async (req, response) => {
       console.error(err);
       return response.status(500).json(err);
     })
-    .finally(() => {
-      client.release();
+    .finally(()=>
+    {
+        client.release();
     });
 });
 
@@ -153,35 +156,35 @@ router.get("/attends/:id", authenticateJWT, async (req, response) => {
 // @route GET api/meals/guests
 // @desc get a list of users attending a meal
 // @access Public
-router.get("/guests/:meal_id",
-  //authenticateJWT,  //Paker's request: show guests even when not logged-in
-  async (req, response) => {
-    console.log("Get users by meal_id: " + JSON.stringify(req.params));
-    const meal_id = req.params.meal_id;
-    if (isNaN(meal_id)) {
-      console.error("error, empty id");
-      response.status(400).json("Error in getting my meal: empty id");
-      return;
-    }
+router.get("/guests/:meal_id", 
+//authenticateJWT,  //Paker's request: show guests even when not logged-in
+async (req, response) => {
+  console.log("Get users by meal_id: " + JSON.stringify(req.params));
+  const meal_id = req.params.meal_id;
+  if (isNaN(meal_id)) {
+    console.error("error, empty id");
+    response.status(400).json("Error in getting my meal: empty id");
+    return;
+  }
 
-    const SQLquery = `SELECT a.user_id, u.name FROM attends as a  
+  const SQLquery = `SELECT a.user_id, u.name FROM attends as a  
    INNER JOIN users as u ON a.user_id=u.id WHERE meal_id=$1`;
-    console.log(SQLquery);
-    const client = await pool.connect();
-    client.query(SQLquery, [meal_id])
-      .then(resp => {
-        console.error(`Query result: ${JSON.stringify(resp.rows)}`);
-        return response.json(resp.rows);
-      })
-      .catch(err => {
-        console.error(`Failed query: ${err}`);
-        return response.status(500).json(err);
-      }
-      )
-      .finally(() => {
-        client.release();
-      })
-  });
+  console.log(SQLquery);
+  const client = await pool.connect();
+  client.query(SQLquery, [meal_id])
+    .then(resp => {
+      console.error(`Query result: ${JSON.stringify(resp.rows)}`);
+      return response.json(resp.rows);
+    })
+    .catch(err => {
+      console.error(`Failed query: ${err}`);
+      return response.status(500).json(err);
+    }
+    )
+    .finally(()=>{
+      client.release();
+    })
+});
 
 // @route POST api/meals/image
 router.post("/image", authenticateJWT, async (req, response) => {
@@ -193,7 +196,7 @@ router.post("/image", authenticateJWT, async (req, response) => {
   let image_path = req.body.image_path;
   let image_id = req.body.image_id;
   const client = await pool.connect();
-
+ 
   if (isNaN(image_id) || isNaN(meal_id)) {
     return response.status(500).json("Bad params: image_id");
   }
@@ -235,65 +238,67 @@ router.post("/", authenticateJWT, async (req, response) => {
     [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
     meal.address, meal.guest_count, meal.host_id, meal.date, meal.visibility, meal.description])
     .then(res => {
-
+      
       console.log(`query done.`);
       const message =
       {
-        title: 'New meal',
-        body: 'A new meal in your areas',
-        icon: 'resources/Message-Bubble-icon.png',
+        title: 'New meal', 
+        body:  'A new meal in your areas', 
+        icon: 'resources/Message-Bubble-icon.png', 
         click_action: '/Meals/',
         sender: -1,
         type: 5
       }
       return response.json(res.rows[0]);
-      //TODO: add notification to all followers + people in the area
+     //TODO: add notification to all followers + people in the area
     }
     )
     .catch(e => {
       console.error(`Exception catched in creating meal: ${JSON.stringify(e)}`);
       response.status(500).json(e);
     })
-    .finally(() => {
+    .finally(() =>
+    {
       client.release();
     })
 });
 
 
 router.put("/", authenticateJWT, async (req, response) => {
-  // console.error(`Editing meal is not implemented yet ${JSON.stringify(req.body)}`);
-  const meal = req.body;
-  const { errors, isValid } = validateMealInput(meal);
+ // console.error(`Editing meal is not implemented yet ${JSON.stringify(req.body)}`);
+ const meal = req.body;
+ const { errors, isValid } = validateMealInput(meal);
 
-  // Check validation
-  if (!isValid) {
-    return response.status(400).json(errors);
-  }
+ // Check validation
+ if (!isValid) {
+   return response.status(400).json(errors);
+ }
 
-  const client = await pool.connect();
-  //todo: insert image
-  const query = `UPDATE meals 
+ const client = await pool.connect();
+ //todo: insert image
+ const query = `UPDATE meals 
  SET name=$1,  guest_count=$2
  WHERE id=$3`;
-  console.log(`connected running [${query}]`);
+ console.log(`connected running [${query}]`);
 
-  return client.query(query,
-    [meal.name, meal.guest_count, meal.id])
-    .then(res => {
-
-      console.log(`query done.`);
-
-      return response.json(res.rows[0]);
-      //TODO: add notification to all followers + people in the area
-    }
-    )
-    .catch(e => {
-      console.error(`Exception catched in creating meal: ${JSON.stringify(e)}`);
-      response.status(500).json(e);
-    })
-    .finally(() => {
-      client.release();
-    })
+ return client.query(query,
+   [meal.name,  meal.guest_count,  meal.id])
+   .then(res => {
+     
+     console.log(`query done.`);
+    
+     return response.json(res.rows[0]);
+    //TODO: add notification to all followers + people in the area
+   }
+   )
+   .catch(e => {
+     console.error(`Exception catched in creating meal: ${JSON.stringify(e)}`);
+     response.status(500).json(e);
+   })
+   .finally(() =>
+   {
+     client.release();
+   })
 
 
   response.status(500).json(req.body);
