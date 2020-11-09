@@ -171,8 +171,8 @@ async (req, response) => {
     return;
   }
 
-  const SQLquery = `SELECT a.user_id, u.name FROM attends as a  
-   INNER JOIN users as u ON a.user_id=u.id WHERE meal_id=$1`;
+  const SQLquery = `SELECT a.user_id, u.name, a.status FROM attends AS a  
+   INNER JOIN users as u ON a.user_id=u.id WHERE meal_id=$1 AND status>0`;
   console.log(SQLquery);
   const client = await pool.connect();
   client.query(SQLquery, [meal_id])
