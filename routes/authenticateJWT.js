@@ -23,14 +23,11 @@ const checkAuthenticateJWT = (req, res, next) => {
     if (authHeader) {
         const token = authHeader.split(' ')[1];
         jwt.verify(token, process.env.SECRET_OR_KEY, (err, user) => {
-            if (err) {
-                next();
+            if (!err) {
+                req.user = user;
             }
-            req.user = user;
-            next();
         });
-    } else {
-        next();
     }
+    next();
 }
 module.exports=authenticateJWT;
