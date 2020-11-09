@@ -50,7 +50,7 @@ router.get("/:id", async (req, response) => {
 // @route GET api/meals/info/id
 // @desc get info about specific meal
 // @access Public
-router.get("/info/:id", async (req, response) => {
+router.get("/info/:id", checkAuthenticateJWT, async (req, response) => {
   var id = req.params.id;
   console.log(`get info for meal ${id}`);
   if (isNaN(id))
