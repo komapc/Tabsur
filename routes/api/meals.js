@@ -1,5 +1,5 @@
 const pool = require("../db.js");
-const authenticateJWT = require('../authenticateJWT.js');
+const {authenticateJWT, tryAuthenticateJWT} = require('../authenticateJWT.js');
 var addNotification = require('./notifications');
 const express = require("express");
 const router = express.Router();
@@ -50,11 +50,12 @@ router.get("/:id", async (req, response) => {
 // @route GET api/meals/info/id
 // @desc get info about specific meal
 // @access Public
-router.get("/info/:id/:userId", async (req, response) => {
+router.get("/info/:id/:userId", tryAuthenticateJWT, async (req, response) => {
   const id = req.params.id;
   
   console.log(`get info params ${JSON.stringify(req.params)}.`);
-  const userId = req.params.userId??-1;
+  // const userId = req.params.userId??-1;
+  const userId = req?.user?.id??-1;
   console.log(`get info for meal ${id}, user: ${userId}.`);
   if (isNaN(id))
   {
