@@ -25,7 +25,7 @@ const EditMeal = (props) => {
   useEffect(() => {
     console.log(`Meal id: ${mealId}`);
 
-    getMealInfo(mealId)
+    getMealInfo(mealId, props.auth.user.id)
       .then((res) => {
         setMeal(res.data[0]);
         console.log(res.data[0]);

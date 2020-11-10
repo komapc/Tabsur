@@ -106,13 +106,15 @@ export const getAttendByMeal = attendData => {
 
 
 //get info about a meal
-export const getMealInfo = mealId => {
+//userId is needed for attend button
+export const getMealInfo = (mealId, userId) => {
   if (isNaN(mealId))
   {
     return new Promise( ()=>[])
   }
+  console.log(`getMealInfo action, userId=${userId}`);
   return axios
-    .get(`${config.SERVER_HOST}/api/meals/info/${mealId}`);
+    .get(`${config.SERVER_HOST}/api/meals/info/${mealId}/${userId}`);
 };
 
 
