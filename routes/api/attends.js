@@ -1,5 +1,5 @@
 const pool = require("../db.js");
-const authenticateJWT = require('../authenticateJWT.js');
+const {authenticateJWT} = require('../authenticateJWT.js');
 var addNotification = require('./notificationsPush');
 var express = require('express');
 var router = express.Router();
