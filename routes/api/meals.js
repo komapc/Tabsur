@@ -67,7 +67,7 @@ router.get("/info/:id/:userId", tryAuthenticateJWT, async (req, response) => {
     (SELECT status AS attend_status FROM attends
       WHERE  meal_id=$1 AND attends.user_id=$2), 
     (SELECT count (user_id) AS "Atendee_count" FROM attends 
-        WHERE meal_id=$1)
+        WHERE meal_id=$1 AND status>0)
   FROM meals 
   JOIN meal_images ON meal_images.meal_id = meals.id
   JOIN images ON meal_images.image_id = images.id
@@ -105,7 +105,7 @@ router.get("/my/:id", authenticateJWT, async (req, response) => {
       FROM meal_images as mi, images 
       WHERE mi.meal_id=m.id and images.id=image_id and images.status>=0 limit 1),
     (SELECT count (user_id) AS "Atendee_count" FROM attends 
-      WHERE meal_id=m.id), 
+      WHERE meal_id=m.id AND status>0), 
     0 as attend_status, m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id 
     WHERE m.date>now() AND host_id=$1`;
   const client = await pool.connect();
