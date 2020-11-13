@@ -1,6 +1,6 @@
 const addNotification = require('./notificationsPush');
 const pool = require("../db.js");
-const authenticateJWT = require('../authenticateJWT.js');
+const {authenticateJWT} = require('../authenticateJWT.js');
 const express = require("express");
 const router = express.Router();
 
