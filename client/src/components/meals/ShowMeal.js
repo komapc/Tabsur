@@ -2,80 +2,12 @@ import React, { useEffect, useState, Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import MealListItem from "./MealListItem";
-import { getGuestList, deleteMeal, getMealInfo } from "../../actions/mealActions";
-import { getUserFollowers } from "../../actions/userActions";
+import { deleteMeal, getMealInfo } from "../../actions/mealActions";
+import AttenderList from "./AttenderList";
 import BackBarMui from "../layout/BackBarMui";
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Friend from '../users/Friend';
-//todo: use GuestList component
-class GuestList extends Component {
-  constructor(props) {
-    super(props);
-    this.state =
-    {
-      guests: [],
-      followies: [],
-      sorted: ["Loading"], //list of guest with followies first
-      userId: this.props ? this.props.userId : props.match.params.id
-    };
-  }
-
-  getGuests = () => {
-    getGuestList(this.props.mealId)
-      .then(res => {
-        console.log(res.data);
-        this.setState({ guests: res.data });
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }
-
-  getFollowies = () => {
-    const userId = this.state.userId;
-    if (!userId)
-    {
-      this.setState({ followies: [] });
-      return;
-    }
-    getUserFollowers(userId)
-      .then(res => {
-        console.log(`Followies: ${JSON.stringify(res.data)}`);
-        this.setState({ followies: res.data });
-      })
-      .catch(err => {
-        this.setState({ followies: [] });
-        console.error(err);
-      });
-  }
-  componentDidMount() {
-    this.getFollowies();
-    this.getGuests();
-  }
-
-  render() {
-    let sorted = this.state.guests;
-    if ( this.state.guests.length === 0)
-      return <> </>;
-     
-    return (
-      <>
-       
-        <h3>Guests list</h3>
-        {
-          sorted.map(guest =>
-            <Box key={guest.user_id} m={1}>
-              <Friend user_id={guest.user_id} name={guest.name} />
-            </Box>
-          )
-        }
-      </>
-    );
-  }
-};
-
 
 const deleteMealEvent = (history, meal) => {
   deleteMeal(meal.id).then(res => {
@@ -86,17 +18,17 @@ const deleteMealEvent = (history, meal) => {
     .catch(err => {
       console.error(err);
     });
-}
+};
 
 const editMealEvent = (history, meal) => {
   history.push({ pathname: `/EditMeal/${meal.id}` });
-}
+};
 
 const goToMaps = (event, id) => {
   event.stopPropagation();
   event.preventDefault();
   this.props.history.push(`/MealMap/${id}`);//todo: fix, redirect properly to the map
-}
+};
 
 const ShowMeal = (props) => {
 
@@ -145,7 +77,7 @@ const ShowMeal = (props) => {
           <RoomIcon fontSize='small' style={{ color: 'black', }} /> {props.meal.address}
         </Typography> */}
         <div onClick={(event) => { goToMaps(event, props.meal.id) }}>{meal?meal.address:""}</div>
-        <GuestList mealId={mealId} userId={props.auth.user.id} />
+        <AttenderList  mealId={mealId} userId={props.auth.user.id} />
         {
           my ? <>
             <Button variant="outlined" onClick={(e) => deleteMealEvent(props.history, meal)}> Delete </ Button>
