@@ -172,7 +172,7 @@ class CreateMeal extends Component {
           </div>
         </form>
        
-       <div className={this.state.showMap ? 'createMealMap' : 'createMealMap-hidden'}>
+        <div className={this.state.showMap ? 'createMealMap' : 'createMealMap-hidden'}>
           <MapLocationSelector
             handleLocationUpdate={this.onLocationUpdate}
             // address={this.state.address}

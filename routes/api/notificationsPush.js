@@ -21,8 +21,8 @@ const pushNotification = (notification, registration_ids) =>
   .finally(()=>
   {
     console.log('pushNotification done.'); 
-  })
-}
+  });
+};
 
 const addNotificationToDB = async (message) =>
 {
@@ -77,7 +77,7 @@ const addNotificationToDB = async (message) =>
   .finally(() => {
     client.release();
   });
-}
+};
 
 //add notificatin/message to the DB + push 
 addNotification = async (notification) =>
@@ -92,12 +92,12 @@ addNotification = async (notification) =>
         return answer;
       })
       .catch(error =>{
-        console.error(`pushNotification failed: ${JSON.stringify(error)}.`)
+        console.error(`pushNotification failed: ${JSON.stringify(error)}.`);
       })
     .catch(error =>{
-      console.error(`addNotificationToDB failed: ${JSON.stringify(error)}.`)
+      console.error(`addNotificationToDB failed: ${JSON.stringify(error)}.`);
     });
   });
-}
+};
 
 module.exports =  addNotification;

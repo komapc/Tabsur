@@ -20,12 +20,11 @@ class Attend extends Component {
 
     getMyMeals(this.props.auth.user.id)
       .then(res => {
-        this.setState({ meal: res.data })
-      })
-      
+        this.setState({ meal: res.data });
+      })      
       .catch(err => {
         console.error(`getMyMeals failed: ${err}`);
-      });;
+      });
 
     getAttendByMeal(this.state.meal)
       .then(res => {
