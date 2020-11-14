@@ -10,9 +10,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
-import Gallery from "../../components/users/Gallery"
-import Friends from "../../components/users/Friends"
-import MyMeals from "../../components/meals/MyMeals"
+import Gallery from "../../components/users/Gallery";
+import { Friends } from "../../components/users/Friends";
+import MyMeals from "../../components/meals/MyMeals";
 import { IconButton } from '@material-ui/core';
 import SettingsIcon from '@material-ui/icons/Settings';
 //#region MyProfileHeader
@@ -26,29 +26,27 @@ const useStylesHeader = makeStyles(theme => ({
     justifyContent: 'center',
     backgroundSize: 'cover',
   }
-}))
+}));
 const MyProfileHeader = (props) => {
   const classes = useStylesHeader();
   const openSettings = (history) => {
-    history.push('/settings')
-  }
+    history.push('/settings');
+  };
 
   const history = useHistory();
-  return <React.Fragment>
-
-    <h3 style={{ textAlign: "center", width: "90vw" }}>Profile
-        </h3>
+  return <>
+    <h3 style={{ textAlign: "center", width: "90vw" }}>Profile </h3>
     <IconButton color="primary" aria-label="settings"
       style={{ position: "absolute", top: "10px", paddingLeft: "90vw" }}
       onClick={() => openSettings(history)}
     >
-      <SettingsIcon style={{color:"#000000"}} />
+      <SettingsIcon style={{ color: "#000000" }} />
     </IconButton>
 
     <div className={classes.alignItemsAndJustifyContent}>
-      <Avatar class="large" user={props.user}/>
+      <Avatar class="large" user={props.user} />
     </div>
-  </React.Fragment>
+  </>
 }
 //#endregion
 
@@ -173,7 +171,7 @@ const MyProfileTabs = (props) => {
           centered
           indicatorColor='primary'
           TabIndicatorProps={{ style: { backgroundColor: "primary" } }}
-          >
+        >
           <Tab label="Friends" {...a11yProps(0)} />
           <Tab label="Gallery" {...a11yProps(1)} />
           {/* <Tab label="My Meals" {...a11yProps(2)} /> */}
@@ -250,7 +248,7 @@ class MyProfile extends Component {
   render() {
     return (
       <React.Fragment>
-        <MyProfileHeader user={{id: this.state.userId, name:this.state.name}}/>
+        <MyProfileHeader user={{ id: this.state.userId, name: this.state.name }} />
         <MyProfileStats name={this.state.name} userStats={this.state.userStats} />
         <MyProfileTabs id={this.state.userId} />
       </React.Fragment>

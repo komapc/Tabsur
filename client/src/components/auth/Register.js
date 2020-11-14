@@ -68,87 +68,87 @@ class Register extends Component {
           style={{ minHeight: '100vh' }}
         >
           <Grid item style={{ minWidth: `${formMinWidth}px` }}>
-          <div className="row">
-          <div >
-            <div>
-                Already registered? <Link to="/login">Log in</Link>
-            </div>
-            <form noValidate onSubmit={this.onSubmit}>
-              <div>
-                <TextField
-                  variant="outlined"
-                  onChange={this.onChange}
-                  value={this.state.name}
-                  error={errors.name}
-                  id="name"
-                  type="text"
-                  className={classnames("", {
-                    invalid: errors.name
-                  })}
-                  style={{width: '100%', margin: '1vh'}}
-                  label={'Name'}
-                />    
-                <span className="red-text">{errors.name}</span>
-              </div>
-              <div>
-                <TextField
-                 variant="outlined"
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  id="email"
-                  type="email"
-                  className={classnames("", {
-                    invalid: errors.email
-                  })}
-                  style={{width: '100%', margin: '1vh'}}
-                  label={'Email'}
-                />
-                <span className="red-text">{errors.email}</span>
-              </div>
-              <div>
-                <TextField
-                variant="outlined"
-                  onChange={this.onChange}
-                  value={this.state.password}
-                  error={errors.password}
-                  id="password"
-                  type="password"
-                  className={classnames("", {
-                    invalid: errors.password
-                  })}
-                  style={{width: '100%', margin: '1vh'}}
-                  label={'Password'}
-                />
-                <span className="red-text">{errors.password}</span>
-              </div>
-              <div>
-                <TextField
-                variant="outlined"
-                  onChange={this.onChange}
-                  value={this.state.password2}
-                  error={errors.password2}
-                  id="password2"
-                  type="password"
-                  className={classnames("", {
-                    invalid: errors.password2
-                  })}
-                  style={{width: '100%', margin: '1vh'}}
-                  label={'Confirm Password'}
-                />
-                <span className="red-text">{errors.password2}</span>
-              </div>
-              <div>
-                <Button type="submit" style={{width: '100%', margin: '1vh'}} variant="contained" color="primary">
-                  Sign up
+            <div className="row">
+              <div >
+                <div>
+                  Already registered? <Link to="/login">Log in</Link>
+                </div>
+                <form noValidate onSubmit={this.onSubmit}>
+                  <div>
+                    <TextField
+                      variant="outlined"
+                      onChange={this.onChange}
+                      value={this.state.name}
+                      error={errors.name}
+                      id="name"
+                      type="text"
+                      className={classnames("", {
+                        invalid: errors.name
+                      })}
+                      style={{ width: '100%', margin: '1vh' }}
+                      label={'Name'}
+                    />
+                    <span className="red-text">{errors.name}</span>
+                  </div>
+                  <div>
+                    <TextField
+                      variant="outlined"
+                      onChange={this.onChange}
+                      value={this.state.email}
+                      error={errors.email}
+                      id="email"
+                      type="email"
+                      className={classnames("", {
+                        invalid: errors.email
+                      })}
+                      style={{ width: '100%', margin: '1vh' }}
+                      label={'Email'}
+                    />
+                    <span className="red-text">{errors.email}</span>
+                  </div>
+                  <div>
+                    <TextField
+                      variant="outlined"
+                      onChange={this.onChange}
+                      value={this.state.password}
+                      error={errors.password}
+                      id="password"
+                      type="password"
+                      className={classnames("", {
+                        invalid: errors.password
+                      })}
+                      style={{ width: '100%', margin: '1vh' }}
+                      label={'Password'}
+                    />
+                    <span className="red-text">{errors.password}</span>
+                  </div>
+                  <div>
+                    <TextField
+                      variant="outlined"
+                      onChange={this.onChange}
+                      value={this.state.password2}
+                      error={errors.password2}
+                      id="password2"
+                      type="password"
+                      className={classnames("", {
+                        invalid: errors.password2
+                      })}
+                      style={{ width: '100%', margin: '1vh' }}
+                      label={'Confirm Password'}
+                    />
+                    <span className="red-text">{errors.password2}</span>
+                  </div>
+                  <div>
+                    <Button type="submit" style={{ width: '100%', margin: '1vh' }} variant="contained" color="primary">
+                      Sign up
                 </Button>
+                  </div>
+                </form>
               </div>
-            </form>
-          </div>
-        </div>
+            </div>
           </Grid>
         </Grid>
-        
+
       </div>
     );
   }
