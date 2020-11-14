@@ -30,7 +30,7 @@ const Meals = (props) => {
       .finally(() => {
         console.log("loading set to false.");
         setLoading(false);
-      })
+      });
   }
 
   useEffect(() => {

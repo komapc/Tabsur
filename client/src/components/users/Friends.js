@@ -59,4 +59,4 @@ const Friends = (props) => {
 }
 
 
-export default Friends;
+export { Friends, FriendList};
