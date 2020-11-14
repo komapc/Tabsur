@@ -22,7 +22,7 @@ const LocationStep = props => {
       e.stopPropagation();
     }
     setMapVisibility(false);
-  }
+  };
 
   const onChange = e => {
     props.update(e.target);
@@ -30,11 +30,11 @@ const LocationStep = props => {
   };
 
   const onAddressClickHandle = e => {
-    e.target.blur()
+    e.target.blur();
     e.preventDefault();
     e.stopPropagation();
     setMapVisibility(true);
-  }
+  };
 
   return (
     <>

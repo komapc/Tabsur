@@ -39,7 +39,6 @@ router.get("/:id", async (req, response) => {
 router.get("/followies/:id", async (req, response) => {
   console.log("get followies by user id: " + JSON.stringify(req.params));
   if (req.params.id == "undefined") {
-    client.end();
     console.log("error, empty id");
     return response.status(400).json("Error in get followies: empty");
   }
@@ -57,7 +56,7 @@ router.get("/followies/:id", async (req, response) => {
       console.error(err);
       return response.status(500).json(err);
     })
-    .finally(()=> client.release())
+    .finally(()=> client.release());
 });
 
 // @route POST follow/unfollow
@@ -96,7 +95,7 @@ router.post("/:id", authenticateJWT, async (req, response) => {
         meal_id: -1,
         sender: -1,
         type: 6
-      }
+      };
       const answer = addNotification(message);
 
       return answer
@@ -116,7 +115,7 @@ router.post("/:id", authenticateJWT, async (req, response) => {
     })
     .finally(() => {
       client.release();
-    })
+    });
 });
 
 module.exports = router;

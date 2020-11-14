@@ -19,7 +19,7 @@ class GuestList extends Component {
       followies: [],
       sorted: ["Loading"], //list of guest with followies first
       userId: this.props ? this.props.userId : props.match.params.id
-    }
+    };
   }
 
   getGuests = () => {
