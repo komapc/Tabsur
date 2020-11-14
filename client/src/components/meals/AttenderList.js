@@ -1,8 +1,7 @@
-import React, { useEffect, useState, Component } from "react";
-import { getGuestList, deleteMeal, getMealInfo } from "../../actions/mealActions";
+import React, { Component } from "react";
+import { getGuestList } from "../../actions/mealActions";
 import { getUserFollowers } from "../../actions/userActions";
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import Friend from '../users/Friend';
 //todo: use GuestList component
 class AttenderList extends Component {
@@ -57,9 +56,8 @@ class AttenderList extends Component {
      
     return (
       <>
-       
         <h3>Guests list</h3>
-        {
+         {
           sorted.map(guest =>
             <Box key={guest.user_id} m={1}>
               <Friend user_id={guest.user_id} name={guest.name} />
