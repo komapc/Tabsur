@@ -5,10 +5,10 @@ const keys = require("../../config/keys");
 const fileType = require('file-type');
 const bluebird = require('bluebird');
 const multiparty = require('multiparty');
-const insertImageIntoDB = require("./utility.js")
+const insertImageIntoDB = require("./utility.js");
 const router = express.Router();
 const pool = require("../db.js");
-const {authenticateJWT} = require('../authenticateJWT.js');
+const { authenticateJWT } = require('../authenticateJWT.js');
 
 // configure the keys for accessing AWS
 AWS.config.update({
@@ -33,7 +33,7 @@ const uploadFile = async (buffer, name, type) => {
     ContentType: type.mime,
     Key: `${name}.${type.ext}`
   };
-  console.log(`uploadFile, bucket: ${JSON.stringify(params.Bucket)}`)
+  console.log(`uploadFile, bucket: ${JSON.stringify(params.Bucket)}`);
   return s3.upload(params).promise();
 };
 
@@ -46,19 +46,19 @@ router.post("/upload", authenticateJWT, async (request, response) => {
       console.error("parsing error: " + JSON.stringify(fields));
       throw new Error(error);
     }
-    console.log("parsed: " + JSON.stringify(fields));
-    console.log("Uploading file: " + JSON.stringify(files));
-    
+    console.log(`parsed: JSON.stringify(fields)`);
+    console.log(`Uploading file: JSON.stringify(files)`);
+
     const path = files.file[0].path;
     const buffer = fs.readFileSync(path);
-    const type = "jpeg"//await fileType(buffer);
+    const type = "jpeg"; //await fileType(buffer);
     const timestamp = Date.now().toString();
     const fileName = `images/${timestamp}-lg`;
     const uploader = fields.uploader;
     return await uploadFile(buffer, fileName, type)
-      .then(async res =>  {
+      .then(async res => {
         console.log("uploadFile result: " + JSON.stringify(res));
-        return ress = insertImageIntoDB(fileName, uploader)
+        return insertImageIntoDB(fileName, uploader)
           .then((insertedImageID) => {
             console.log(`insertImageIntoDB [${insertedImageID}]`);
             console.log(`send file [${fileName}], res: [${JSON.stringify(insertedImageID)}]`);
@@ -72,7 +72,7 @@ router.post("/upload", authenticateJWT, async (request, response) => {
       .catch(error => {
         console.error(`/upload error: ${JSON.stringify(error)}`);
         return error;
-      })
+      });
   });
 });
 
@@ -117,15 +117,14 @@ router.get('/gallery/:userId', async function (req, response, next) {
       console.error(`getting images failed:  ${err}`);
       return response.status(500).json(err);
     })
-    .finally(()=>
-    {
+    .finally(() => {
       client.release();
     });
 });
 
 //get avatar
 router.get('/avatar/:userId', async function (req, response, next) {
-  if(req.params.userId === undefined || req.params.userId === "undefined" ) {  // TODO: is number bigger than 0
+  if (req.params.userId === undefined || req.params.userId === "undefined") {  // TODO: is number bigger than 0
     return response.status(400);
   }
   console.log(`Get an avatar for user [${req.params.userId}]`);
@@ -144,8 +143,7 @@ router.get('/avatar/:userId', async function (req, response, next) {
       console.error(`getting images failed:  ${err}`);
       return response.status(500).json(err);
     })
-    .finally(()=>
-    {
+    .finally(() => {
       client.release();
     });
 });
