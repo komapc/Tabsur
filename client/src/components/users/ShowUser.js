@@ -43,7 +43,7 @@ const useStylesHeader = makeStyles(theme => ({
       margin: theme.spacing(1),
     },
   }
-}))
+}));
 const ProfileHeader = (props) => {
   const classes = useStylesHeader();
   return (
