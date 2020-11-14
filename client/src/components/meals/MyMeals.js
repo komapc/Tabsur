@@ -33,9 +33,8 @@ class MyMeals extends Component {
     this.updateLists();
   }
   updateLists() {
-    
-    if (!this.props.auth.isAuthenticated)
-    {
+
+    if (!this.props.auth.isAuthenticated) {
       return;
     }
     getMyMeals(this.props.auth.user.id)
@@ -87,22 +86,14 @@ class MyMeals extends Component {
         <TabPanel value={this.state.value} index={0}>
           <div className="flow-text grey-text text-darken-1">
             {this.state.meals.map(meal =>
-              <div key={meal.id}>
-                <div key={meal.id}>
-                  <MealListItem meal={meal} />
-                </div>
-              </div>
+              <MealListItem key={meal.id} meal={meal} />
             )}
           </div>
         </TabPanel>
         <TabPanel value={this.state.value} index={1}>
           <div className="flow-text grey-text text-darken-1">
             {this.state.mealsAttended.map(meal =>
-              <div key={meal.id}>
-                <div key={meal.id}>
-                  <MealListItem meal={meal} />
-                </div>
-              </div>
+              <MealListItem key={meal.id} meal={meal} />
             )}
           </div >
         </TabPanel>
@@ -112,7 +103,6 @@ class MyMeals extends Component {
 }
 const mapStateToProps = state => ({
   auth: state.auth,
-
 });
 
 export default connect(
