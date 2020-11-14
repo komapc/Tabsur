@@ -31,14 +31,14 @@ const uploadFile = async (buffer, name, type) => {
     ContentType: type.mime,
     Key: `${name}.${type.ext}`
   };
-  console.log(`uploadFile, bucket: ${JSON.stringify(params.Bucket)}`)
+  console.log(`uploadFile, bucket: ${JSON.stringify(params.Bucket)}`);
   return s3.upload(params).promise();
 };
 
 /// utils
 
 const insertImageIntoDB = async (imagePath, uploader) => {
-  console.log(`Inserting image [${JSON.stringify(imagePath)}]`)
+  console.log(`Inserting image [${JSON.stringify(imagePath)}]`);
   //console.log(`Inserting image [${JSON.stringify(imagePath)}] from user [${JSON.stringify(uploader)}]`);
   if (isNaN(uploader) || imagePath === "")
   {

@@ -7,7 +7,7 @@ import {
   MuiPickersUtilsProvider
 } from '@material-ui/pickers';
 
-import dateIcon from "../../../resources/date.svg"
+import dateIcon from "../../../resources/date.svg";
 
 const NameStep = props => {
   const update = (e) => {

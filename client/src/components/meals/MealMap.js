@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { getMeals } from "../../actions/mealActions";
 import MealMapShow from './MealMapShow';
-import BottomMealInfo from './BottomMealInfo'
+import BottomMealInfo from './BottomMealInfo';
 const MealMap = (props) => {
 
   const position = { lng: 31.808, lat: 32.09 };
@@ -28,7 +28,7 @@ const MealMap = (props) => {
     setIsSelected(false);
     setSelectedMealId(0);
     setMeal(null);
-  }
+  };
 
   const onMarkerClicked = (event) => {
 
@@ -36,7 +36,7 @@ const MealMap = (props) => {
     setMeal(event);
     setSelectedMealId(event.id);
     console.log(`onMarkerClicked: ${JSON.stringify(selectedMealId)}`);
-  }
+  };
 
   useEffect(() => {
     console.log("MealMap, use effects");
@@ -45,7 +45,7 @@ const MealMap = (props) => {
     }
     const obj = meals.filter(m => {
       return m.id === parseInt(selectedMealId);
-    })
+    });
     setMeal(obj[0]);
 
   }, [selectedMealId, isSelected, meal, meals]);
@@ -78,7 +78,7 @@ const MealMap = (props) => {
 
   if (!props.visible)
   {
-    return <></>;
+    return <> </>;
   }
   //console.log(`Selected meal: ${JSON.stringify(meal)}`);
   return (
