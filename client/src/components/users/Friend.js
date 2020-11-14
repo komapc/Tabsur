@@ -7,7 +7,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 const Friend = (props) => {
   const history = useHistory();
   const handleClick = () => {
-    history.push(`user/${props.user_id}`);
+    history.push(`../user/${props.user_id}`);
   };
   return <div
     style={{ width: '100%', borderBottomColor: 'lightgray', borderBottomWidth: '1px', borderBlockEndStyle: 'solid' }}>
