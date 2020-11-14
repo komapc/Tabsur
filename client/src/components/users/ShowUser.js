@@ -240,11 +240,11 @@ const ProfileTabs = (props) => {
               }</span>
 
               <span style={{ marginBottom: '1vh' }}>
-                <Button variant="contained" startIcon={<CreateIcon />} 
+                <Button variant="contained" startIcon={<CreateIcon />}
                   color="primary" href={`/ChatUser/${props.thisUserId}`}>Write</Button>
               </span>
             </React.Fragment>
-            : <div className="centered"><Button startIcon={<InfoIcon />} 
+            : <div className="centered"><Button startIcon={<InfoIcon />}
               variant="contained" color="primary" href={`/About`}>About</Button></div>
         }
 
@@ -287,7 +287,7 @@ const ShowUser = (props) => {
         <BackBarMui history={props.history} />
         <ProfileHeader history={props.history} user={user} />
         <ProfileStats name={user.name} user={user} />
-        <ProfileTabs myUserId={myUserId} auth={props.auth} thisUserId={thisUserId}/>
+        <ProfileTabs myUserId={myUserId} auth={props.auth} thisUserId={thisUserId} />
       </React.Fragment>
     </React.Fragment>
   );
