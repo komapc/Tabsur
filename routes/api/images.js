@@ -46,8 +46,8 @@ router.post("/upload", authenticateJWT, async (request, response) => {
       console.error("parsing error: " + JSON.stringify(fields));
       throw new Error(error);
     }
-    console.log(`parsed: JSON.stringify(fields)`);
-    console.log(`Uploading file: JSON.stringify(files)`);
+    console.log(`parsed: ${JSON.stringify(fields)}`);
+    console.log(`Uploading file: ${JSON.stringify(files)}`);
 
     const path = files.file[0].path;
     const buffer = fs.readFileSync(path);
