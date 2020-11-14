@@ -63,7 +63,7 @@ router.get("/info/:id/:userId", tryAuthenticateJWT, async (req, response) => {
   SELECT meals.*, images.path, users.name AS host_name,
     (SELECT status AS attend_status FROM attends
       WHERE  meal_id=$1 AND attends.user_id=$2), 
-    (SELECT count distinct (user_id) AS "Atendee_count" FROM attends 
+    (SELECT count (user_id) AS "Atendee_count" FROM attends 
         WHERE meal_id=$1 AND status>0)
   FROM meals 
   JOIN meal_images ON meal_images.meal_id = meals.id

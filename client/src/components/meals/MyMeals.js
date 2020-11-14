@@ -6,7 +6,20 @@ import { getMyMeals, getAttendedMeals } from "../../actions/mealActions";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
+import { Typography } from "@material-ui/core";
 
+
+const MealList = (props) => {
+  {
+    return <>
+    {props.meals.length === 0 ? <Typography>{props.EmptyMealMessage}</Typography> :
+    props.meals.map(meal =>
+      <MealListItem key={meal.id} meal={meal} />
+    )}
+    </>
+
+  }
+}
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
@@ -33,9 +46,8 @@ class MyMeals extends Component {
     this.updateLists();
   }
   updateLists() {
-    
-    if (!this.props.auth.isAuthenticated)
-    {
+
+    if (!this.props.auth.isAuthenticated) {
       return;
     }
     getMyMeals(this.props.auth.user.id)
@@ -68,7 +80,7 @@ class MyMeals extends Component {
     };
 
     return (
-      <div >
+      < >
         <AppBar position="sticky">
           <Tabs
             value={this.state.value}
@@ -85,34 +97,19 @@ class MyMeals extends Component {
           </Tabs>
         </AppBar>
         <TabPanel value={this.state.value} index={0}>
-          <div className="flow-text grey-text text-darken-1">
-            {this.state.meals.map(meal =>
-              <div key={meal.id}>
-                <div key={meal.id}>
-                  <MealListItem meal={meal} />
-                </div>
-              </div>
-            )}
-          </div>
+
+          <MealList meals={this.state.meals} EmptyMealMessage="No active meals" />
         </TabPanel>
         <TabPanel value={this.state.value} index={1}>
-          <div className="flow-text grey-text text-darken-1">
-            {this.state.mealsAttended.map(meal =>
-              <div key={meal.id}>
-                <div key={meal.id}>
-                  <MealListItem meal={meal} />
-                </div>
-              </div>
-            )}
-          </div >
+
+          <MealList meals={this.state.meals} EmptyMealMessage="No meals" />
         </TabPanel>
-      </div>
+      </>
     );
   }
 }
 const mapStateToProps = state => ({
   auth: state.auth,
-
 });
 
 export default connect(
