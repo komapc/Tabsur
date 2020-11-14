@@ -3,11 +3,11 @@ import Button from '@material-ui/core/Button';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { getFollowStatus, setFollow, getUserInfo } from "../../actions/userActions"
-import Gallery from "./Gallery"
+import Gallery from "./Gallery";
+import { getFollowStatus, setFollow, getUserInfo } from "../../actions/userActions";
 
 import PropTypes from "prop-types";
-import Avatar from "../layout/Avatar"
+import Avatar from "../layout/Avatar";
 import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -45,7 +45,7 @@ const useStylesHeader = makeStyles(theme => ({
   }
 }))
 const ProfileHeader = (props) => {
-  const classes = useStylesHeader()
+  const classes = useStylesHeader();
   return (
     <React.Fragment>
       <div className={classes.alignItemsAndJustifyContent}>
