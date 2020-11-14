@@ -1,71 +1,58 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { getGuestList } from "../../actions/mealActions";
 import { getUserFollowers } from "../../actions/userActions";
 import Box from '@material-ui/core/Box';
-import Friend from '../users/Friend';
+import { UserList } from '../users/Friends';
 //todo: use GuestList component
-class AttenderList extends Component {
-  constructor(props) {
-    super(props);
-    this.state =
-    {
-      guests: [],
-      followies: [],
-      sorted: ["Loading"], //list of guest with followies first
-      userId: this.props ? this.props.userId : props.match.params.id
-    };
-  }
+const AttenderList = (props) => {
+  const userId = props.userId;// props.match.params.id;
+  const [guests, setGuests] = useState([]);
+  const [followies, setfollowies] = useState([]);
+  //const [sorted, setSorted] = useState(["Loading"]);
 
-  getGuests = () => {
-    getGuestList(this.props.mealId)
+  const getGuests = (mealId) => {
+    getGuestList(mealId)
       .then(res => {
-        console.log(res.data);
-        this.setState({ guests: res.data });
+        console.log(`mealId: ${mealId}, getGuests: ${res.data}`);
+        setGuests(res.data);
       })
       .catch(err => {
         console.error(err);
       });
-  }
+  };
 
-  getFollowies = () => {
-    const userId = this.state.userId;
-    if (!userId)
-    {
-      this.setState({ followies: [] });
+  const getFollowies = (userId) => {
+    if (!userId) {
+      setfollowies([]);
       return;
     }
     getUserFollowers(userId)
       .then(res => {
         console.log(`Followies: ${JSON.stringify(res.data)}`);
-        this.setState({ followies: res.data });
+        setfollowies(res.data);
       })
       .catch(err => {
-        this.setState({ followies: [] });
+        setfollowies([]);
         console.error(err);
       });
-  }
-  componentDidMount() {
-    this.getFollowies();
-    this.getGuests();
-  }
+  };
 
-  render() {
-    let sorted = this.state.guests;
-    if ( this.state.guests.length === 0)
-      return <> </>;
-     
-    return (
-      <>
-        <h3>Guests list</h3>
-         {
-          sorted.map(guest =>
-            <Box key={guest.user_id} m={1}>
-              <Friend user_id={guest.user_id} name={guest.name} />
-            </Box>
-          )
-        }
-      </>
-    );
-  }
+  useEffect(() => {
+    
+    getFollowies(userId);
+    getGuests(props.mealId);
+  }, [userId, props.mealId]);
+
+  const sorted = guests;
+  if ( guests.length === 0)
+    return <> </>;
+    //todo: use followies and put them first
+  return (
+    
+    <>
+      <h3>Guests list</h3>
+      <UserList list={sorted} />
+    </>
+  );
 };
 export default AttenderList;
