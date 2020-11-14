@@ -3,7 +3,7 @@ import MapLocationSelector from "./../MapLocationSelector";
 import { TextField, Grid, Box } from '@material-ui/core';
 const LocationStep = props => {
   const [showMap, setMapVisibility] = useState(false);
-  const [address, setAddress] = useState(props["location"]);
+  const [address, setAddress] = useState(props.location);
   const defaultLocationConst = { lng: 34.808, lat: 32.09 };
 
   const [defaultLocation, updateDefaultLocation] = useState(defaultLocationConst);
