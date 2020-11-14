@@ -13,20 +13,19 @@ class BottomMealInfo extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(prevProps.meal !== this.props.meal) {
-      this.setState({meal: this.props.meal});
+    if (prevProps.meal !== this.props.meal) {
+      this.setState({ meal: this.props.meal });
     }
   }
 
   render() {
     const meal = this.state.meal;
-    if (typeof meal === 'undefined')
-    {
+    if (typeof meal === 'undefined') {
       return <div>Nothing is selected</div>
-    } 
+    }
     return (
       <div onClick={this.handleAttend}>
-        <MealListItem  meal={meal} />
+        <MealListItem meal={meal} />
       </div>
     )
   };
