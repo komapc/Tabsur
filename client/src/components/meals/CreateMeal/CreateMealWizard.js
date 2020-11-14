@@ -37,7 +37,7 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
   const history = useHistory();
 
   if (!auth.isAuthenticated) {
-    history.push({ pathname: '/login' })
+    history.push({ pathname: '/login' });
   }
   const [state, updateState] = useState({
     form: {
@@ -72,8 +72,9 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
   const submit = (e) => {
     e.preventDefault();
     let summedDate = new Date(state.form.date);
-    summedDate.setHours(state.form.time.getHours());
-    summedDate.setMinutes(state.form.time.getMinutes());
+    const time = new Date(state.form.time);
+    summedDate.setHours(time.getHours());
+    summedDate.setMinutes(time.getMinutes());
     const formattedDate = new Date(summedDate).getTime();
     const newMeal = {
       name: state.form.name,
@@ -107,28 +108,28 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      
+
       {/* <h4 className="wizard-caption">Create Meal</h4> */}
       <AppBar position="sticky">
-          <Toolbar> CREATE MEAL
+        <Toolbar> CREATE MEAL
             {/* CHAT ({this.state.notificationsCount}) */}
-          </Toolbar>
-        </AppBar>
+        </Toolbar>
+      </AppBar>
       <BackBarMui history={history} />
-        <Box p={2}>
-            <StepWizard
-              onStepChange={onStepChange}
-              transitions={state.transitions}
-              instance={setInstance}>
-              <NameStep update={update} form={state.form} />
-              <LocationStep update={update} form={state.form} />
-              <DescriptionStep update={update} form={state.form} />
-              <ImageStep update={update} form={state.form} auth={state.auth} setUploadingState={setUploadingState} />
-            </StepWizard>
-        </Box>
+      <Box p={2}>
+        <StepWizard
+          onStepChange={onStepChange}
+          transitions={state.transitions}
+          instance={setInstance}>
+          <NameStep update={update} form={state.form} />
+          <LocationStep update={update} form={state.form} />
+          <DescriptionStep update={update} form={state.form} />
+          <ImageStep update={update} form={state.form} auth={state.auth} setUploadingState={setUploadingState} />
+        </StepWizard>
+      </Box>
 
-        {SW && <Navigator SW={SW} submit={submit} uploadingState={state.uploadingState} />}
-     </ThemeProvider>
+      {SW && <Navigator SW={SW} submit={submit} uploadingState={state.uploadingState} />}
+    </ThemeProvider>
   );
 };
 
