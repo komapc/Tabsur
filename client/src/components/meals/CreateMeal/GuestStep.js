@@ -21,7 +21,7 @@ const NameStep = props => {
           placeholder="Guest Count"
           helperText={props.form.guest_count < 0 || props.form.guest_count > 100 ? "Wrong number" : ""}
         />
-      </Box >
+      </Box>
     </div>
   );
 };

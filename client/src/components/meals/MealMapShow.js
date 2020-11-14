@@ -6,15 +6,15 @@ import { GoogleMap, Marker, withGoogleMap, withScriptjs } from "react-google-map
 import attended_u from "../../resources/map/attended_meal_icon.svg";
 import fullUp_u from "../../resources/map/full_meal_icon.svg";
 import hosted_u from "../../resources/map/my_meal_icon.svg"
-import available_u from "../../resources/map/active_meal_icon.svg"
+import available_u from "../../resources/map/active_meal_icon.svg";
 
 import attended_t from "../../resources/map/attended_meal_icon_touched.svg";
 import fullUp_t from "../../resources/map/full_meal_icon_touched.svg";
-import hosted_t from "../../resources/map/my_meal_icon_touched.svg"
-import available_t from "../../resources/map/active_meal_icon_touched.svg"
+import hosted_t from "../../resources/map/my_meal_icon_touched.svg";
+import available_t from "../../resources/map/active_meal_icon_touched.svg";
 
-import myLocation from "../../resources/map/my_location.svg"
-import blueCircle from "../../resources/map/bluecircle.png"
+import myLocation from "../../resources/map/my_location.svg";
+import blueCircle from "../../resources/map/bluecircle.png";
 
 const attended = [attended_u, attended_t]
 const fullUp = [fullUp_u, fullUp_t]

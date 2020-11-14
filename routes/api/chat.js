@@ -69,7 +69,7 @@ router.get("/:id", authenticateJWT, async (req, response) => {
 router.get("/user/:me/:user", authenticateJWT, async (req, response) => {
   console.log(`here`);
   var meId = req.params.me;
-  var userId = req.params.user
+  var userId = req.params.user;
   console.log(`Get chat messages between ${meId} and ${userId}.`);
   if (isNaN(userId)) {
     return response.status(400).json("Error in geting meals: wrong ID");

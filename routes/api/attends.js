@@ -1,5 +1,5 @@
 const pool = require("../db.js");
-const {authenticateJWT} = require('../authenticateJWT.js');
+const { authenticateJWT } = require('../authenticateJWT.js');
 var addNotification = require('./notificationsPush');
 var express = require('express');
 var router = express.Router();
@@ -38,7 +38,7 @@ router.post('/:id', authenticateJWT, async (req, response) => {
     .then(ans => {
       if (status) {
         console.log(`Answer: ${JSON.stringify(ans.rows[0])}`);
-        const host=ans.rows[0].host_id;
+        const host = ans.rows[0].host_id;
         const message =
         {
           title: 'Attend',
@@ -49,7 +49,7 @@ router.post('/:id', authenticateJWT, async (req, response) => {
           meal_id: attend.meal_id,
           sender: -1,
           type: 5
-        }
+        };
         addNotification(message);
 
         return response.status(201).json(ans.rows);
@@ -79,12 +79,12 @@ router.delete('/:id', authenticateJWT, async (req, response, next) => {
   const client = await pool.connect();
 
   console.log("connected");
-  client.query('DELETE FROM attends WHERE ' +
-    'meal_id = $1 AND user_id=$2',
+  client.query(`DELETE FROM attends WHERE 
+    meal_id = $1 AND user_id=$2`,
     [attend.meal_id, attend.user_id])
     .catch(err => { console.error(err); return response.status(500).json("failed to delete"); })
     .then(answer => { return response.status(201).json(answer); })
-    .finally(()=>client.release())
+    .finally(() => client.release());
 });
 
 module.exports = router;

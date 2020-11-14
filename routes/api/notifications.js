@@ -96,7 +96,7 @@ router.post("/send-message", authenticateJWT, async (req, response)=> {
     meal_id:  -1,
     sender: req.body.sender,
     type: 0
-  }
+  };
 
   const result = await addNotification(message);
   console.log(`Notification added.`);

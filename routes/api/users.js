@@ -35,11 +35,11 @@ router.post("/register", async (req, response) => {
       bcrypt.hash(input.password, salt, async (err, hash) => {
         if (err) 
         {
-          console.error(`bcrypt failed: ${JSON.stringify(err)}.`)
+          console.error(`bcrypt failed: ${JSON.stringify(err)}.`);
           throw err;
         }
-        client.query('INSERT INTO users (name, email, password, location, address)' +
-          'VALUES ($1, $2, $3, $4, $5)',
+        client.query(`INSERT INTO users (name, email, password, location, address)
+          VALUES ($1, $2, $3, $4, $5)`,
           [newUser.name, newUser.email, hash, newUser.location, newUser.address])
           .then(user => {
             return response.status(201).json(user);
@@ -121,7 +121,7 @@ router.post("/login", async (req, response) => {
           console.error("bcrypt error:" + err);
           return response.status(500).json(newReq);
         })
-        .finally(() => client.release())
+        .finally(() => client.release());
 
     });
 });
@@ -154,8 +154,8 @@ const addAvatar = async (client, userId, picture) => {
     .catch((err) => {
       console.error(`Add avatar error: ${err}.`);
     }
-    )
-}
+    );
+};
 
 // @route POST api/users/loginFB
 // @desc Login user and return JWT token
@@ -193,7 +193,7 @@ router.post("/loginFB", async (req, response) => {
           })
           .finally(() => {
             //client.release();
-          })
+          });
       }
       else {
         newUserId = res.rows[0].id;
@@ -229,9 +229,9 @@ router.post("/loginFB", async (req, response) => {
     .finally(async () => {
       await addAvatar(client, newUserId, newReq.picture);
       client.release();
-    })
+    });
+});
 
-})
 // @route GET api/users
 // @desc get public user properties
 // @access Public

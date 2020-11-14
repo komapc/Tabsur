@@ -38,7 +38,7 @@ const Meals = (props) => {
   }, [props]);
   if (!props.visible)
   {
-    return <></>;
+    return <> </>;
   }
   return <>
     {

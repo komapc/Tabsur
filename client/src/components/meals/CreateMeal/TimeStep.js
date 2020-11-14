@@ -8,7 +8,7 @@ import {
 } from '@material-ui/pickers';
 
 import Grid from '@material-ui/core/Grid';
-import dateIcon from "../../../resources/date.svg"
+import dateIcon from "../../../resources/date.svg";
 const TimeStep = (props) => {
   const update = (id, value) => {
     console.log(id + ", " + value);
