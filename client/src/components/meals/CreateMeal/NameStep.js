@@ -1,6 +1,7 @@
 import React from 'react';
 import { TextField, Grid, Box } from '@material-ui/core';
-import DateFnsUtils from '@date-io/date-fns';
+import MomentUtils from '@date-io/moment';
+import 'date-fns';
 import {
   KeyboardDatePicker,
   KeyboardTimePicker,
@@ -45,7 +46,7 @@ const NameStep = props => {
           />
         </Box >
 
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <MuiPickersUtilsProvider utils={MomentUtils}>
           <Box m={2} width="1">
             <KeyboardDatePicker style={{ borderColor: "transparent" }}
               variant="dialog"
