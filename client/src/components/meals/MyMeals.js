@@ -93,7 +93,7 @@ const MyMeals = (props) => {
       </TabPanel>
       <TabPanel value={value} index={1}>
 
-        <MealList meals={meals} EmptyMealMessage="No meals" caption="Active meals" />
+        <MealList meals={attended} EmptyMealMessage="No meals" caption="Active meals" />
       </TabPanel>
     </>
   );
