@@ -62,7 +62,6 @@ const ShowMeal = (props) => {
     meal.host_id === props.auth.user.id : false;
   return (
     <>
-
       <BackBarMui history={props.history} />
       <Grid container spacing={2}
         justify="space-around"
@@ -73,9 +72,7 @@ const ShowMeal = (props) => {
           <h3>Description</h3>
           <div >{meal ? meal.description : ""}</div>
           <h3>Address</h3>
-          {/* <Typography variant="body2" color="textPrimary" component="p" onClick={(event) => { props.goToMaps(event, props.meal.id) }}>
-          <RoomIcon fontSize='small' style={{ color: 'black', }} /> {props.meal.address}
-        </Typography> */}
+         
           <div onClick={(event) => { goToMaps(event, props.meal.id) }}>{meal ? meal.address : ""}</div>
           <AttenderList mealId={mealId} userId={props.auth.user.id} />
           {

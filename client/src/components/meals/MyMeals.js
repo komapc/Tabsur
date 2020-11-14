@@ -18,7 +18,6 @@ const MealList = (props) => {
           <MealListItem key={meal.id} meal={meal} />
         )}
       </>
-
     }
   </>
 }
@@ -67,15 +66,18 @@ const MyMeals = (props) => {
       });
   }
 
-  const handleChange = (event, newValue) => {
-   setValue(newValue);
-  }
+  const now = new Date();
+  const currentMeals = meals.filter(meal => new Date(meal.date) >= now);
+  const pastMeals = meals.filter(meal => new Date(meal.date) < now);
+  const currentAttended = attended.filter(meal => new Date(meal.date) >= now);
+  const pastAttended = attended.filter(meal => new Date(meal.date) < now);
+
   return (
     <>
       <AppBar position="sticky">
         <Tabs
           value={value}
-          onChange={handleChange}
+          onChange={(e, newValue) => { setValue(newValue) }}
           centered
           indicatorColor='primary'
           TabIndicatorProps={{
@@ -88,12 +90,12 @@ const MyMeals = (props) => {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-
-        <MealList meals={meals} EmptyMealMessage="No active meals" caption="Active meals" />
+        <MealList meals={currentMeals} EmptyMealMessage="No active meals" caption="Active meals" />
+        <MealList meals={pastMeals} EmptyMealMessage="No meals" caption="Past meals" />
       </TabPanel>
       <TabPanel value={value} index={1}>
-
-        <MealList meals={attended} EmptyMealMessage="No meals" caption="Active meals" />
+        <MealList meals={currentAttended} EmptyMealMessage="No meals" caption="Active attended meals" />
+        <MealList meals={pastAttended} EmptyMealMessage="No meals" caption="Past attended meals" />
       </TabPanel>
     </>
   );
