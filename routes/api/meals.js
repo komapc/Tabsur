@@ -27,7 +27,7 @@ router.get("/:id", async (req, response) => {
        WHERE  meal_id=m.id AND attends.user_id=$1) UNION 
       (SELECT 0 AS attend_status) ORDER BY attend_status DESC) LIMIT 1),
       (SELECT count (user_id) AS "Atendee_count" FROM attends 
-      WHERE meal_id=m.id), 
+      WHERE meal_id=m.id AND status>0), 
     m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
   WHERE m.date>now()`;
   console.log(`get, SQLquery: [${SQLquery}]`);
@@ -135,7 +135,7 @@ router.get("/attends/:id", authenticateJWT, async (req, response) => {
     (SELECT images.path
       FROM meal_images as mi, images 
       WHERE mi.meal_id=m.id and images.id=image_id and images.status>=0 limit 1),
-        (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id),
+        (SELECT count (user_id) AS "Atendee_count" FROM attends WHERE meal_id=m.id AND status>0),
         (SELECT status AS attend_status FROM attends
            WHERE  meal_id=m.id AND attends.user_id=$1),
         m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
@@ -160,7 +160,7 @@ router.get("/attends/:id", authenticateJWT, async (req, response) => {
 router.get("/guests/:meal_id",
   //authenticateJWT,  //Paker's request: show guests even when not logged-in
   async (req, response) => {
-    console.log("Get users by meal_id: " + JSON.stringify(req.params));
+    console.log(`Get users by meal_id:  ${JSON.stringify(req.params)}`);
     const meal_id = req.params.meal_id;
     if (isNaN(meal_id)) {
       console.error("error, empty id");
