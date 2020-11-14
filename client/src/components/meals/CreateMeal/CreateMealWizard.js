@@ -72,8 +72,9 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
   const submit = (e) => {
     e.preventDefault();
     let summedDate = new Date(state.form.date);
-    summedDate.setHours(state.form.time.getHours());
-    summedDate.setMinutes(state.form.time.getMinutes());
+    const time = new Date(state.form.time);
+    summedDate.setHours(time.getHours());
+    summedDate.setMinutes(time.getMinutes());
     const formattedDate = new Date(summedDate).getTime();
     const newMeal = {
       name: state.form.name,

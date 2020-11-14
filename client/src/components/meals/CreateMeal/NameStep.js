@@ -20,7 +20,6 @@ const NameStep = props => {
     props.update({ "id": id, "value": value });
   };
 
-
   return (
     <div className="wizard-container row ">
       <h3 style={{ marginLeft: "40px" }}>Meal Details</h3>
@@ -59,7 +58,7 @@ const NameStep = props => {
               disablePast
               showTodayButton
               autoOk
-              format="dd/MM/yyyy"
+              format="DD/MM/yyyy"
             />
           </Box>
           <Box m={2} width="1">
