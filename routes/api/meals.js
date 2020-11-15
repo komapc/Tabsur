@@ -1,5 +1,5 @@
 const pool = require("../db.js");
-const {authenticateJWT, tryAuthenticateJWT} = require('../authenticateJWT.js');
+const { authenticateJWT, tryAuthenticateJWT } = require('../authenticateJWT.js');
 var addNotification = require('./notifications');
 const express = require("express");
 const router = express.Router();
@@ -28,7 +28,7 @@ router.get("/:id", async (req, response) => {
       (SELECT 0 AS attend_status) ORDER BY attend_status DESC) LIMIT 1),
       (SELECT count (user_id) AS "Atendee_count" FROM attends 
       WHERE meal_id=m.id AND status>0), 
-    m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
+    m.*, u.name AS host_name, u.id AS host_id FROM meals AS m JOIN users AS u ON m.host_id = u.id
   WHERE m.date>now()`;
   console.log(`get, SQLquery: [${SQLquery}]`);
   const client = await pool.connect();
@@ -103,8 +103,8 @@ router.get("/my/:id", authenticateJWT, async (req, response) => {
       WHERE mi.meal_id=m.id and images.id=image_id and images.status>=0 limit 1),
     (SELECT count (user_id) AS "Atendee_count" FROM attends 
       WHERE meal_id=m.id AND status>0), 
-    0 as attend_status, m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id 
-    WHERE m.date>now() AND host_id=$1`;
+    0 as attend_status, m.*, u.name  AS host_name FROM meals AS m JOIN users AS u on m.host_id = u.id 
+    WHERE  host_id=$1`;
   const client = await pool.connect();
   client.query(SQLquery, [userId])
     .then(resp => {
@@ -138,7 +138,7 @@ router.get("/attends/:id", authenticateJWT, async (req, response) => {
         (SELECT count (user_id) AS "Atendee_count" FROM attends WHERE meal_id=m.id AND status>0),
         (SELECT status AS attend_status FROM attends
            WHERE  meal_id=m.id AND attends.user_id=$1),
-        m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
+        m.*, u.name AS host_name, u.id AS host_id FROM meals AS m JOIN users AS u ON m.host_id = u.id
       ) AS sel WHERE attend_status > 0`;
   const client = await pool.connect();
   client.query(SQLquery, [req.params.id])
@@ -321,7 +321,7 @@ router.delete("/:meal_id", authenticateJWT, async (req, response) => {
     }
     )
     .catch(e => {
-      console.error("exception catched: " + e);
+      console.error(`Exception catched: ${JSON.stringfy(e)}`);
       response.status(500).json(e);
     })
     .finally(() => {

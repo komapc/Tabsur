@@ -1,6 +1,6 @@
 import defaultImage from "../../resources/userpic_empty.svg";
 import { withRouter } from "react-router-dom";
-import { joinMeal } from "../../actions/mealActions"
+import { joinMeal } from "../../actions/mealActions";
 import { connect } from "react-redux";
 import config from "../../config";
 import "./Meals.css";
