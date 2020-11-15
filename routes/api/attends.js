@@ -1,8 +1,8 @@
 const pool = require("../db.js");
 const { authenticateJWT } = require('../authenticateJWT.js');
-var addNotification = require('./notificationsPush');
-var express = require('express');
-var router = express.Router();
+const addNotification = require('./notificationsPush');
+const express = require('express');
+const router = express.Router();
 
 /* GET attend by meal */
 router.get('/meal/:meal_id', authenticateJWT, function (req, response, next) {
