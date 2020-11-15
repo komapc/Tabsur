@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 
 const deleteMealEvent = (history, meal) => {
   deleteMeal(meal.id).then(res => {
-    console.log(res.data);
+    console.log(`Meal deleted: ${JSON.stringify(res.data)}`);
 
     history.push({ pathname: '/MyMeals' });
   })
@@ -21,7 +21,7 @@ const deleteMealEvent = (history, meal) => {
 };
 
 const editMealEvent = (history, meal) => {
-  history.push({ pathname: `/EditMeal/${meal.id}` });
+  history.goBack();
 };
 
 const goToMaps = (event, id) => {
@@ -33,59 +33,56 @@ const goToMaps = (event, id) => {
 const ShowMeal = (props) => {
 
   const state = props.location.state;
-  
+
   const mealId = props.match.params.id;
   const [meal, setMeal] = useState(null);
-  
+
   console.log(`Meal id: ${mealId}`);
   useEffect(() => {
-  
-  if (state) {
-    setMeal(props.location.state.meal);
-  }
-  else {
-    console.log(`Meal id: ${mealId}`);
 
-    getMealInfo(mealId, props.auth.user.id)
-      .then((res) => {
-        setMeal(res.data[0]);
-        console.log(`getMealInfo: ${JSON.stringify(res.data[0])}`);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  
- }
-}, [mealId, props, state]);
+    if (state) {
+      setMeal(props.location.state.meal);
+    }
+    else {
+      console.log(`Meal id: ${mealId}`);
 
- const my = (meal)?
-  meal.host_id === props.auth.user.id : false;
+      getMealInfo(mealId, props.auth.user.id)
+        .then((res) => {
+          setMeal(res.data[0]);
+          console.log(`getMealInfo: ${JSON.stringify(res.data[0])}`);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+
+    }
+  }, [mealId, props, state]);
+
+  const my = (meal) ?
+    meal.host_id === props.auth.user.id : false;
   return (
     <>
-    
-    <BackBarMui history={props.history} />
-    <Grid container spacing={2}
-    justify="space-around"
-    alignItems="flex-start"
-    direction="column">
-      <Box  style={{width:"80vw"}}m={2} xs={12} >
-        {meal?<MealListItem meal={meal} />:<></>}
-        <h3>Description</h3> 
-        <div >{meal?meal.description:""}</div>
-        <h3>Address</h3> 
-         {/* <Typography variant="body2" color="textPrimary" component="p" onClick={(event) => { props.goToMaps(event, props.meal.id) }}>
-          <RoomIcon fontSize='small' style={{ color: 'black', }} /> {props.meal.address}
-        </Typography> */}
-        <div onClick={(event) => { goToMaps(event, props.meal.id) }}>{meal?meal.address:""}</div>
-        <AttenderList  mealId={mealId} userId={props.auth.user.id} />
-        {
-          my ? <>
-            <Button variant="outlined" onClick={(e) => deleteMealEvent(props.history, meal)}> Delete </ Button>
-            <Button variant="outlined" onClick={() => editMealEvent(props.history, meal)}> Edit </ Button>
-          </> : ""
-        }
-    </Box>
-    </Grid>
+      <BackBarMui history={props.history} />
+      <Grid container spacing={2}
+        justify="space-around"
+        alignItems="flex-start"
+        direction="column">
+        <Box style={{ width: "80vw" }} m={2} xs={12} >
+          {meal ? <MealListItem meal={meal} /> : <></>}
+          <h3>Description</h3>
+          <div >{meal ? meal.description : ""}</div>
+          <h3>Address</h3>
+         
+          <div onClick={(event) => { goToMaps(event, props.meal.id) }}>{meal ? meal.address : ""}</div>
+          <AttenderList mealId={mealId} userId={props.auth.user.id} />
+          {
+            my ? <>
+              <Button variant="outlined" onClick={(e) => deleteMealEvent(props.history, meal)}> Delete </ Button>
+              <Button variant="outlined" onClick={() => editMealEvent(props.history, meal)}> Edit </ Button>
+            </> : ""
+          }
+        </Box>
+      </Grid>
     </>
   );
 }

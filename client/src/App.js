@@ -4,14 +4,14 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 
 import { setCurrentUser, logoutUser } from "./actions/authActions";
-import { setFirebaseCloudMessagingToken } from "./actions/notifications"
+import { setFirebaseCloudMessagingToken } from "./actions/notifications";
 import setMessagesCount from "./actions/MessagesActions"
-import { setNotificationsCount, setProfileNotificationsCount } from "./actions/notifications"
+import { setNotificationsCount, setProfileNotificationsCount } from "./actions/notifications";
 import { connect, Provider } from "react-redux";
 import store from "./store";
 
-import Profile from "./components/users/Profile"
-import Main from "./components/layout/Main"
+import Profile from "./components/users/Profile";
+import Main from "./components/layout/Main";
 import Register from "./components/auth/Register";
 import Settings from "./components/auth/Settings";
 import Login from "./components/auth/Login";
@@ -20,9 +20,9 @@ import ShowMeal from "./components/meals/ShowMeal";
 import EditMeal from "./components/meals/EditMeal";
 import ShowUser from "./components/users/ShowUser";
 import CreateMealWizard from "./components/meals/CreateMeal/CreateMealWizard";
-import About from "./components/about/About"
-import Stats from "./components/users/Stats"
-import ChatUser from "./components/chat/ChatUser"
+import About from "./components/about/About";
+import Stats from "./components/users/Stats";
+import ChatUser from "./components/chat/ChatUser";
 import { Helmet } from "react-helmet";
 import "./App.css";
 import { messaging } from "../src/init-fcm";

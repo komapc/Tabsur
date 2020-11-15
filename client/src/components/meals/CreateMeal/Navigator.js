@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import imageStep1 from "../../../resources/wizard/wizard_1.svg";
 import imageStep2 from "../../../resources/wizard/wizard_2.svg";
@@ -9,11 +9,11 @@ import Button from '@material-ui/core/Button';
 const Progress = ({ SW }) => {
   const images = [imageStep1, imageStep2, imageStep3, imageStep4];
   return (
-    <Fragment>
+    <>
       <img src={images[SW.state.activeStep]}
         alt={SW.step} className="wizard-progress" />
 
-    </Fragment>)
+    </>)
 }
 
 const Navigator = ({ SW, submit, uploadingState }) => {

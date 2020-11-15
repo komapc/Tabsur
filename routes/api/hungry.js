@@ -30,8 +30,8 @@ router.get("/:id", async (req, response) => {
     })
     .finally(() => {
       client.release();
-    })
-})
+    });
+});
 
 // @route GET api/meals/my
 // @desc get a list of meals created by me
@@ -97,7 +97,7 @@ router.post("/", authenticateJWT, async (req, response) => {
         meal_id:  -1,
         sender: -1,
         type: 7
-      }
+      };
       addNotification(message);
     }
     )
@@ -138,7 +138,7 @@ router.delete("/:hungry_id", authenticateJWT, async (req, response) => {
     })
     .finally(() => {
       client.release();
-    })
+    });
 });
 
 module.exports = router;

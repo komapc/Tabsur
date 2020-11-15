@@ -27,11 +27,11 @@ const ChatUser = (props) => {
       return;
     const newItem = { name2: myName, name1: receiver, message_text: typedMessage };
     setMessages([...messages, newItem]);
-     
+
     //send to server
     sendMessage(sender, receiver, typedMessage)
       .then(res => { // Callback
-        console.log(JSON.stringify(res));
+        console.log(`sendMessage: ${JSON.stringify(res)}`);
       })
       .catch(err => {
         console.error(err);
@@ -40,7 +40,8 @@ const ChatUser = (props) => {
   }
   const onChange = event => {
     setTypedMessage(event.target.value);
-  }
+  };
+
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       sendMessageWithCallback(
@@ -50,7 +51,7 @@ const ChatUser = (props) => {
         typedMessage
       )
     }
-  }
+  };
 
   const [typedMessage, setTypedMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -69,8 +70,6 @@ const ChatUser = (props) => {
         setMessages(res.data);
 
         if (messageRef.current) {
-
-          console.log("useEffects, before scroll");
           messageRef.current.scrollIntoView(
             {
               behavior: 'smooth',
@@ -86,18 +85,18 @@ const ChatUser = (props) => {
   }, [props, partner_id]);
 
   useEffect(() => {
-  
 
-        if (messageRef.current) {
 
-          console.log("useEffects, before scroll");
-          messageRef.current.scrollIntoView(
-            {
-              behavior: 'smooth',
-              block: 'end',
-              inline: 'nearest'
-            })
-        }
+    if (messageRef.current) {
+
+      console.log("useEffects, before scroll");
+      messageRef.current.scrollIntoView(
+        {
+          behavior: 'smooth',
+          block: 'end',
+          inline: 'nearest'
+        })
+    }
 
   }, [messages]);
   const history = useHistory();
@@ -108,12 +107,11 @@ const ChatUser = (props) => {
     Chat with {messages.name2}</Toolbar>
     </AppBar>
     <Box style={{ height: "calc(100vh - 140px)", overflowY: "scroll" }}  >
-
       <div ref={messageRef}>
         {messages.map(message =>
           <ChatLine key={uuidv1()} message={message} />
         )}
-      </div >
+      </div>
     </Box>
     <Box style={{ bottom: "10px", left: "40px", position: "fixed" }}>
 
@@ -139,7 +137,8 @@ const ChatUser = (props) => {
         )}>Send</Button>
     </Box>
   </>
-}
+};
+
 const mapStateToProps = state => ({
   auth: state.auth,
   notificationsCount: state.notificationsCount

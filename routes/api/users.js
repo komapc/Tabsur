@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 //const passport = require("passport");
-const insertImageIntoDB = require("./utility.js")
+const insertImageIntoDB = require("./utility.js");
 const pool = require("../db.js");
 
 // Load input validation
@@ -33,8 +33,7 @@ router.post("/register", async (req, response) => {
     console.log("connected");
     bcrypt.genSalt(10, async (err, salt) => {
       bcrypt.hash(input.password, salt, async (err, hash) => {
-        if (err) 
-        {
+        if (err) {
           console.error(`bcrypt failed: ${JSON.stringify(err)}.`);
           throw err;
         }
@@ -163,11 +162,10 @@ const addAvatar = async (client, userId, picture) => {
 router.post("/loginFB", async (req, response) => {
   // Form validation
   const newReq = req.body;
-  
-  if (!newReq || !newReq.name)
-  {
+
+  if (!newReq || !newReq.name) {
     console.error(`Bad request to login with facebook: ${JSON.stringify(newReq)}`);
-    return response.status(403);   
+    return response.status(403);
   }
   var newUserId = -1;
   var newUserName = newReq.name;

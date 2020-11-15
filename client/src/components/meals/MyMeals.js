@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import MealListItem from "./MealListItem";
 import { getMyMeals, getAttendedMeals } from "../../actions/mealActions";
@@ -10,15 +10,16 @@ import { Typography } from "@material-ui/core";
 
 
 const MealList = (props) => {
-  {
-    return <>
+  return <>
     {props.meals.length === 0 ? <Typography>{props.EmptyMealMessage}</Typography> :
-    props.meals.map(meal =>
-      <MealListItem key={meal.id} meal={meal} />
-    )}
-    </>
-
-  }
+      <>
+        <h3>{props.caption}</h3>
+        {props.meals.map(meal =>
+          <MealListItem key={meal.id} meal={meal} />
+        )}
+      </>
+    }
+  </>
 }
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -34,79 +35,70 @@ const TabPanel = (props) => {
     </div>
   )
 }
-class MyMeals extends Component {
+const MyMeals = (props) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      meals: [],
-      mealsAttended: [],
-      value: 0
-    };
-    this.updateLists();
-  }
-  updateLists() {
+  const [meals, setMeals] = useState([]);
+  const [attended, setAttended] = useState([]);
+  const [value, setValue] = useState(0);
 
-    if (!this.props.auth.isAuthenticated) {
+  const id = props.auth.user.id;
+  useEffect(() => {
+    updateLists();
+  }, [props, id]);
+
+  const updateLists = () => {
+    if (!props.auth.isAuthenticated) {
       return;
     }
-    getMyMeals(this.props.auth.user.id)
+    getMyMeals(id)
       .then(res => {
         console.log(res.data);
-        this.setState({ meals: res.data });
+        setMeals(res.data);
       }).catch(err => {
         console.error(`getMyMeals error: ${err}`);
       });
-    getAttendedMeals(this.props.auth.user.id)
+    getAttendedMeals(id)
       .then(res => {
         console.log(res.data);
-        this.setState({ mealsAttended: res.data });
+        setAttended(res.data);
       }).catch(err => {
         console.error(err);
       });
   }
-  componentDidUpdate(nextProps) {
-    if (nextProps.active !== this.state.active) {
-      this.setState({ active: nextProps.active });
-      if (nextProps.active) {
-        this.updateLists();
-      }
-    }
-  }
 
-  render() {
-    const handleChange = (event, newValue) => {
-      this.setState({ value: newValue });
-    };
+  const now = new Date();
+  const currentMeals = meals.filter(meal => new Date(meal.date) >= now);
+  const pastMeals = meals.filter(meal => new Date(meal.date) < now);
+  const currentAttended = attended.filter(meal => new Date(meal.date) >= now);
+  const pastAttended = attended.filter(meal => new Date(meal.date) < now);
 
-    return (
-      < >
-        <AppBar position="sticky">
-          <Tabs
-            value={this.state.value}
-            onChange={handleChange}
-            centered
-            indicatorColor='primary'
-            TabIndicatorProps={{
-              style: {
-                backgroundColor: "primary"
-              }
-            }}>
-            <Tab label="Created" />
-            <Tab label="Attended" />
-          </Tabs>
-        </AppBar>
-        <TabPanel value={this.state.value} index={0}>
-
-          <MealList meals={this.state.meals} EmptyMealMessage="No active meals" />
-        </TabPanel>
-        <TabPanel value={this.state.value} index={1}>
-
-          <MealList meals={this.state.meals} EmptyMealMessage="No meals" />
-        </TabPanel>
-      </>
-    );
-  }
+  return (
+    <>
+      <AppBar position="sticky">
+        <Tabs
+          value={value}
+          onChange={(e, newValue) => { setValue(newValue) }}
+          centered
+          indicatorColor='primary'
+          TabIndicatorProps={{
+            style: {
+              backgroundColor: "primary"
+            }
+          }}>
+          <Tab label="Created" />
+          <Tab label="Attended" />
+        </Tabs>
+      </AppBar>
+      <TabPanel value={value} index={0}>
+        <MealList meals={currentMeals} EmptyMealMessage="No active meals" caption="Active meals" />
+        <MealList meals={pastMeals} EmptyMealMessage="No meals" caption="Past meals" />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <MealList meals={currentAttended} EmptyMealMessage="No meals" caption="Active attended meals" />
+        <MealList meals={pastAttended} EmptyMealMessage="No meals" caption="Past attended meals" />
+      </TabPanel>
+    </>
+  );
 }
 const mapStateToProps = state => ({
   auth: state.auth,

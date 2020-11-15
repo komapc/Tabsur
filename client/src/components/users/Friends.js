@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getUserFollowies, getUserFollowers } from "../../actions/userActions"
+import { getUserFollowies, getUserFollowers } from "../../actions/userActions";
 import Box from '@material-ui/core/Box';
 
 import Friend from './Friend';
