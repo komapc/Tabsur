@@ -1,4 +1,3 @@
-const express = require("express");
 const fcm = require('../firebaseCloudMessages');
 const pool = require("../db.js");
 
@@ -88,9 +87,9 @@ addNotification = async (notification) => {
         .catch(error => {
           console.error(`pushNotification failed: ${JSON.stringify(error)}.`);
         })
-        .catch(error => {
-          console.error(`addNotificationToDB failed: ${JSON.stringify(error)}.`);
-        });
+    })
+    .catch(error => {
+      console.error(`addNotificationToDB failed: ${JSON.stringify(error)}.`);
     });
 };
 
