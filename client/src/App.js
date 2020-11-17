@@ -108,7 +108,7 @@ class App extends Component {
             if (!isNaN(userId) && userId > 0) {
               setFirebaseCloudMessagingToken(userId, token);
             } else {
-              console.error(`undefined user.`);
+              console.error(`setFirebaseCloudMessagingToken:undefined user.`);
             }
           })
           .catch(function (err) {
