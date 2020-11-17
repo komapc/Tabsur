@@ -21,36 +21,46 @@ class MapLocationSelector extends Component {
   }
 
   componentDidMount() {
-    navigator.permissions.query({ name: 'geolocation' })
-      .then((permissionStatus) => {
-        //test permissions; for now - do nothing
-        console.log(`Permission: ${JSON.stringify(permissionStatus)}.`);
-      });
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-
-        const p = { lng: position.coords.longitude, lat: position.coords.latitude };
-
-        console.log(`geolocation is:  ${JSON.stringify(p)}`);
-        Geocode.fromLatLng(p.lat, p.lng).then(
-          response => {
-            console.log("fromLatLng.");
-            const addr = response.results[0].formatted_address;
-            console.log("onMarkerDragEnd, address: " + addr);
-            this.props.handleLocationUpdate(
-              { defaultLocation: p, address: addr, location: p });
-          },
-          error => {
-            console.error(error);
-          }
-        )
-          .catch(err => {
-            console.error(`getCurrentPosition failed: ${err}`);
+    try {
+      if (!navigator.permissions || !navigator.permissions.query) {
+        console.error(`Failed to get navigator.permissions.`)
+      }
+      else {
+        navigator.permissions.query({ name: 'geolocation' })
+          .then((permissionStatus) => {
+            //test permissions; for now - do nothing
+            console.log(`Permission: ${JSON.stringify(permissionStatus)}.`);
           });
-      });
+      }
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+
+          const p = { lng: position.coords.longitude, lat: position.coords.latitude };
+
+          console.log(`geolocation is:  ${JSON.stringify(p)}`);
+          Geocode.fromLatLng(p.lat, p.lng).then(
+            response => {
+              console.log("fromLatLng.");
+              const addr = response.results[0].formatted_address;
+              console.log("onMarkerDragEnd, address: " + addr);
+              this.props.handleLocationUpdate(
+                { defaultLocation: p, address: addr, location: p });
+            },
+            error => {
+              console.error(error);
+            }
+          )
+            .catch(err => {
+              console.error(`getCurrentPosition failed: ${err}`);
+            });
+        });
+      }
+      else {
+        console.log("geolocation is not available.");
+      }
     }
-    else {
-      console.log("geolocation is not available.");
+    catch (err) {
+      console.error(`geolocation error: ${JSON.stringify(err)}`);
     }
   }
 
