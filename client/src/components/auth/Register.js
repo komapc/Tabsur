@@ -66,7 +66,7 @@ class Register extends Component {
           justify="center"
           style={{ minHeight: '90vh' }}
         >
-          <Grid item >
+          <Grid item>
             <div className="row">
               <>
                 <>
@@ -78,7 +78,7 @@ class Register extends Component {
                       variant="outlined"
                       onChange={this.onChange}
                       value={this.state.name}
-                      error={errors.name}
+                      error={!!errors.name}
                       id="name"
                       type="text"
                       className={classnames("", {
