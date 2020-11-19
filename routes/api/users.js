@@ -130,11 +130,11 @@ const addAvatar = async (client, userId, picture) => {
   console.log(`Add avatar: ${JSON.stringify(picture)}`);
   const query = `
   INSERT INTO user_images
-    (id, image_id)
+    (image_id, user_id)
     SELECT $1, $2
     WHERE
     NOT EXISTS (
-    SELECT id FROM user_images WHERE id = $1 and image_id=$2
+    SELECT id FROM user_images WHERE image_id = $1 and user_id=$2
     );`;
 
   const url = picture.data.url;
