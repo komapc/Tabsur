@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { getUserFollowies, getUserFollowers } from "../../actions/userActions"
+import { getUserFollowies, getUserFollowers } from "../../actions/userActions";
 import Box from '@material-ui/core/Box';
 
 import Friend from './Friend';
 
 //list of friends
-const FriendList = (props) => {
+const UserList = (props) => {
   console.log(`FL props: ${JSON.stringify(props)}`);
 
   return <Box borderRadius="17px" borderColor="black" border="solid 1px">
@@ -52,11 +52,11 @@ const Friends = (props) => {
 
   return <>
     <div>FOLLOWING</div>
-    <FriendList list={followies} />
+    <UserList list={followies} />
     <div>FOLLOWERS</div>
-    <FriendList list={followers} />
+    <UserList list={followers} />
   </>
 }
 
 
-export default Friends;
+export { UserList, Friends};

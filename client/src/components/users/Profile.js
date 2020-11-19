@@ -20,13 +20,13 @@ class Profile extends Component {
       })
       .catch(err => {
         console.error(`getUser failed: ${err}`);
-      });;
+      });
   }
 
   render() {
     //const { errors } = this.state;
     if (!this.state.user) {
-      return <div> Loading </div>
+      return <div> Loading </div>;
     }
     return (
 

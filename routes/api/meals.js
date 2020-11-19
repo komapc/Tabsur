@@ -1,5 +1,5 @@
 const pool = require("../db.js");
-const {authenticateJWT, tryAuthenticateJWT} = require('../authenticateJWT.js');
+const { authenticateJWT, tryAuthenticateJWT } = require('../authenticateJWT.js');
 var addNotification = require('./notifications');
 const express = require("express");
 const router = express.Router();
@@ -27,8 +27,8 @@ router.get("/:id", async (req, response) => {
        WHERE  meal_id=m.id AND attends.user_id=$1) UNION 
       (SELECT 0 AS attend_status) ORDER BY attend_status DESC) LIMIT 1),
       (SELECT count (user_id) AS "Atendee_count" FROM attends 
-      WHERE meal_id=m.id), 
-    m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
+      WHERE meal_id=m.id AND status>0), 
+    m.*, u.name AS host_name, u.id AS host_id FROM meals AS m JOIN users AS u ON m.host_id = u.id
   WHERE m.date>now()`;
   console.log(`get, SQLquery: [${SQLquery}]`);
   const client = await pool.connect();
@@ -43,7 +43,7 @@ router.get("/:id", async (req, response) => {
     .finally(() => {
       client.release();
     });
-})
+});
 
 
 // @route GET api/meals/info/id
@@ -84,7 +84,7 @@ router.get("/info/:id/:userId", tryAuthenticateJWT, async (req, response) => {
     .finally(() => {
       client.release();
     });
-})
+});
 
 // @route GET api/meals/my
 // @desc get a list of meals created by me
@@ -103,8 +103,8 @@ router.get("/my/:id", authenticateJWT, async (req, response) => {
       WHERE mi.meal_id=m.id and images.id=image_id and images.status>=0 limit 1),
     (SELECT count (user_id) AS "Atendee_count" FROM attends 
       WHERE meal_id=m.id AND status>0), 
-    0 as attend_status, m.*, u.name  AS host_name FROM meals  AS m JOIN users AS u on m.host_id = u.id 
-    WHERE m.date>now() AND host_id=$1`;
+    0 as attend_status, m.*, u.name  AS host_name FROM meals AS m JOIN users AS u on m.host_id = u.id 
+    WHERE  host_id=$1`;
   const client = await pool.connect();
   client.query(SQLquery, [userId])
     .then(resp => {
@@ -135,10 +135,10 @@ router.get("/attends/:id", authenticateJWT, async (req, response) => {
     (SELECT images.path
       FROM meal_images as mi, images 
       WHERE mi.meal_id=m.id and images.id=image_id and images.status>=0 limit 1),
-        (SELECT count (user_id) AS "Atendee_count" from attends where meal_id=m.id),
+        (SELECT count (user_id) AS "Atendee_count" FROM attends WHERE meal_id=m.id AND status>0),
         (SELECT status AS attend_status FROM attends
            WHERE  meal_id=m.id AND attends.user_id=$1),
-        m.*, u.name AS host_name, u.id AS host_id FROM meals  AS m JOIN users AS u ON m.host_id = u.id
+        m.*, u.name AS host_name, u.id AS host_id FROM meals AS m JOIN users AS u ON m.host_id = u.id
       ) AS sel WHERE attend_status > 0`;
   const client = await pool.connect();
   client.query(SQLquery, [req.params.id])
@@ -151,7 +151,7 @@ router.get("/attends/:id", authenticateJWT, async (req, response) => {
     })
     .finally(() => {
       client.release();
-    })
+    });
 });
 
 // @route GET api/meals/guests
@@ -160,7 +160,7 @@ router.get("/attends/:id", authenticateJWT, async (req, response) => {
 router.get("/guests/:meal_id",
   //authenticateJWT,  //Paker's request: show guests even when not logged-in
   async (req, response) => {
-    console.log("Get users by meal_id: " + JSON.stringify(req.params));
+    console.log(`Get users by meal_id:  ${JSON.stringify(req.params)}`);
     const meal_id = req.params.meal_id;
     if (isNaN(meal_id)) {
       console.error("error, empty id");
@@ -184,7 +184,7 @@ router.get("/guests/:meal_id",
       )
       .finally(() => {
         client.release();
-      })
+      });
   });
 
 // @route POST api/meals/image
@@ -201,7 +201,7 @@ router.post("/image", authenticateJWT, async (req, response) => {
   if (isNaN(image_id) || isNaN(meal_id)) {
     return response.status(500).json("Bad params: image_id");
   }
-  const query = `INSERT INTO meal_images (meal_id, image_id) VALUES ($1, $2) RETURNING id`
+  const query = `INSERT INTO meal_images (meal_id, image_id) VALUES ($1, $2) RETURNING id`;
   client.query(query, [meal_id, image_id])
     .then((res) => {
       console.log(`insert query done: ${JSON.stringify(res.rows)}`);
@@ -249,7 +249,7 @@ router.post("/", authenticateJWT, async (req, response) => {
         click_action: '/Meals/',
         sender: -1,
         type: 5
-      }
+      };
       return response.json(res.rows[0]);
       //TODO: add notification to all followers + people in the area
     }
@@ -260,7 +260,7 @@ router.post("/", authenticateJWT, async (req, response) => {
     })
     .finally(() => {
       client.release();
-    })
+    });
 });
 
 
@@ -297,10 +297,7 @@ router.put("/", authenticateJWT, async (req, response) => {
     })
     .finally(() => {
       client.release();
-    })
-
-
-  response.status(500).json(req.body);
+    });
 });
 
 // @route DELETE api/meals/id
@@ -324,7 +321,7 @@ router.delete("/:meal_id", authenticateJWT, async (req, response) => {
     }
     )
     .catch(e => {
-      console.error("exception catched: " + e);
+      console.error(`Exception catched: ${JSON.stringfy(e)}`);
       response.status(500).json(e);
     })
     .finally(() => {

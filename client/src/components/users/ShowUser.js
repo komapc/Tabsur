@@ -3,11 +3,11 @@ import Button from '@material-ui/core/Button';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { getFollowStatus, setFollow, getUserInfo } from "../../actions/userActions"
-import Gallery from "./Gallery"
+import Gallery from "./Gallery";
+import { getFollowStatus, setFollow, getUserInfo } from "../../actions/userActions";
 
 import PropTypes from "prop-types";
-import Avatar from "../layout/Avatar"
+import Avatar from "../layout/Avatar";
 import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -43,9 +43,9 @@ const useStylesHeader = makeStyles(theme => ({
       margin: theme.spacing(1),
     },
   }
-}))
+}));
 const ProfileHeader = (props) => {
-  const classes = useStylesHeader()
+  const classes = useStylesHeader();
   return (
     <React.Fragment>
       <div className={classes.alignItemsAndJustifyContent}>
@@ -240,11 +240,11 @@ const ProfileTabs = (props) => {
               }</span>
 
               <span style={{ marginBottom: '1vh' }}>
-                <Button variant="contained" startIcon={<CreateIcon />} 
+                <Button variant="contained" startIcon={<CreateIcon />}
                   color="primary" href={`/ChatUser/${props.thisUserId}`}>Write</Button>
               </span>
             </React.Fragment>
-            : <div className="centered"><Button startIcon={<InfoIcon />} 
+            : <div className="centered"><Button startIcon={<InfoIcon />}
               variant="contained" color="primary" href={`/About`}>About</Button></div>
         }
 
@@ -287,7 +287,7 @@ const ShowUser = (props) => {
         <BackBarMui history={props.history} />
         <ProfileHeader history={props.history} user={user} />
         <ProfileStats name={user.name} user={user} />
-        <ProfileTabs myUserId={myUserId} auth={props.auth} thisUserId={thisUserId}/>
+        <ProfileTabs myUserId={myUserId} auth={props.auth} thisUserId={thisUserId} />
       </React.Fragment>
     </React.Fragment>
   );

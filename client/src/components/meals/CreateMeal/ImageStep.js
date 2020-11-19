@@ -12,22 +12,20 @@ const ImageStep = (props) => {
   const getImage = e => {
     const files = e.target.files;
     try {
-      const fileObj=files[0];
+      const fileObj = files[0];
       console.log(`Uploading ${fileObj}.`);
-      if (!fileObj)
-      {
+      if (!fileObj) {
         console.error(`Error uploading ${fileObj}.`);
       }
       const path = URL.createObjectURL(fileObj);
-      console.log("Path: " + JSON.stringify(path));
+      console.log(`Path: ${JSON.stringify(path)}`);
 
       updateState({ "file": path });
 
       submitFile(e, fileObj);
     }
-    catch (e) {
-      console.error(e);
-      //alert(`Error uploading image ${e}`);
+    catch (err) {
+      console.error(err);
     }
   };
 

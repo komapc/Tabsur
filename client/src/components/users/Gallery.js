@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getUserImages } from "../../actions/userActions"
+import { getUserImages } from "../../actions/userActions";
 
 import config from "../../config";
 

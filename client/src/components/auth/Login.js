@@ -39,7 +39,7 @@ const FBLoginButton = ({ facebookResponse }) => (
     redirectUri="/"
     isMobile={false}
     icon="fa-facebook" />
-)
+);
 
 class Login extends Component {
   constructor() {
@@ -57,7 +57,7 @@ class Login extends Component {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/");
     }
-console.log(`componentWillReceiveProps: ${JSON.stringify(nextProps)}.`);
+    console.log(`componentWillReceiveProps: ${JSON.stringify(nextProps)}.`);
     if (nextProps.errors) {
       this.setState({
         errors: nextProps.errors
@@ -77,13 +77,13 @@ console.log(`componentWillReceiveProps: ${JSON.stringify(nextProps)}.`);
       password: this.state.password
     };
 
-    this.props.loginUser(userData); 
+    this.props.loginUser(userData);
     console.log(`Errors: ${JSON.stringify(this.state.errors)}`);
   };
 
   responseGoogle = (response) => {
     console.log(response);
-  }
+  };
 
   facebookResponse = (response) => {
     console.log(`facebookResponse: ${JSON.stringify(response)}`);
@@ -94,7 +94,7 @@ console.log(`componentWillReceiveProps: ${JSON.stringify(nextProps)}.`);
     };
 
     this.props.loginUserFB(userData);
-  }
+  };
 
   render() {
     const { errors } = this.state;
