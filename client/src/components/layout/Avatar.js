@@ -1,8 +1,9 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import MaterialUiAvatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
+import config from "../../../src/config.js";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,7 +33,16 @@ const useStyles = makeStyles(theme => ({
 
 const Avatar = (props) => {
     const classes = useStyles();
-    const img = null;
+    const avatarRequest = `${config.SERVER_HOST}/api/images/avatar/${props.user.id}`;
+    const [img, setImg] = useState(null);
+    useEffect(() => {
+        fetch(avatarRequest)
+            .then(res => res.json())
+            .then((result) => {
+                setImg(result);
+            });
+    });
+
     const className = props.class === undefined || props.class === "" ? "default" : props.class;
     console.log(className);
     return (
