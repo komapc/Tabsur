@@ -56,7 +56,6 @@ class Register extends Component {
 
   render() {
     const { errors } = this.state;
-    const formMinWidth = window.innerWidth < 500 ? window.innerWidth : 500;
     return (
       <div className="main">
         <Grid
@@ -65,27 +64,27 @@ class Register extends Component {
           direction="column"
           alignItems="center"
           justify="center"
-          style={{ minHeight: '100vh' }}
+          style={{ minHeight: '90vh' }}
         >
-          <Grid item style={{ minWidth: `${formMinWidth}px` }}>
+          <Grid item>
             <div className="row">
-              <div >
-                <div>
+              <>
+                <>
                   Already registered? <Link to="/login">Log in</Link>
-                </div>
+                </>
                 <form noValidate onSubmit={this.onSubmit}>
                   <div>
                     <TextField
                       variant="outlined"
                       onChange={this.onChange}
                       value={this.state.name}
-                      error={errors.name}
+                      error={!!errors.name}
                       id="name"
                       type="text"
                       className={classnames("", {
                         invalid: errors.name
                       })}
-                      style={{ width: '100%', margin: '1vh' }}
+                      style={{ width: '80vw', margin: '3vh' }}
                       label={'Name'}
                     />
                     <span className="red-text">{errors.name}</span>
@@ -101,12 +100,12 @@ class Register extends Component {
                       className={classnames("", {
                         invalid: errors.email
                       })}
-                      style={{ width: '100%', margin: '1vh' }}
+                      style={{ width: '80vw', margin: '3vh' }}
                       label={'Email'}
                     />
                     <span className="red-text">{errors.email}</span>
                   </div>
-                  <div>
+                  <>
                     <TextField
                       variant="outlined"
                       onChange={this.onChange}
@@ -117,12 +116,12 @@ class Register extends Component {
                       className={classnames("", {
                         invalid: errors.password
                       })}
-                      style={{ width: '100%', margin: '1vh' }}
+                      style={{ width: '80vw', margin: '3vh' }}
                       label={'Password'}
                     />
                     <span className="red-text">{errors.password}</span>
-                  </div>
-                  <div>
+                  </>
+                  <>
                     <TextField
                       variant="outlined"
                       onChange={this.onChange}
@@ -133,18 +132,17 @@ class Register extends Component {
                       className={classnames("", {
                         invalid: errors.password2
                       })}
-                      style={{ width: '100%', margin: '1vh' }}
+                      style={{ width: '80vw', margin: '3vh' }}
                       label={'Confirm Password'}
                     />
                     <span className="red-text">{errors.password2}</span>
-                  </div>
-                  <div>
-                    <Button type="submit" style={{ width: '100%', margin: '1vh' }} variant="contained" color="primary">
-                      Sign up
+                  </>
+                  <Button type="submit"
+                    style={{ width: '80vw', margin: '3vh' }} variant="contained" color="primary">
+                    Sign up
                 </Button>
-                  </div>
                 </form>
-              </div>
+              </>
             </div>
           </Grid>
         </Grid>
