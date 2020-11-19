@@ -14,19 +14,20 @@ const useStyles = makeStyles(theme => ({
     large: {
         width: theme.spacing(17),
         height: theme.spacing(17),
-        borderWidth: theme.spacing(1), 
-        borderColor: 'white', 
-        borderStyle:'solid',
+        borderWidth: theme.spacing(1),
+        borderColor: 'white',
+        borderStyle: 'solid',
         backgroundColor: 'yellow',
         color: 'Black',
         border: "solid"
     },
-    default: { 
-        backgroundColor: 'yellow', 
-        color: 'Black', 
-        border: "solid", 
-        borderColor: "Black", 
-        borderWidth: "1px" }
+    default: {
+        backgroundColor: 'yellow',
+        color: 'Black',
+        border: "solid",
+        borderColor: "Black",
+        borderWidth: "1px"
+    }
 }));
 
 const Avatar = (props) => {
@@ -36,18 +37,18 @@ const Avatar = (props) => {
     console.log(className);
     return (
         <div className={classes.root}>
-            <MaterialUiAvatar 
-                aria-label="recipe" 
-                src={img} 
+            <MaterialUiAvatar
+                aria-label="recipe"
+                src={img}
                 className={classes[className]} >
                 {
-                    props.user !== undefined && 
-                    props.user.name !== undefined && 
-                    props.user.name.length > 0 && 
-                    props.user.id !== props.auth.user.id && 
-                    className !== "large" 
+                    props.user !== undefined &&
+                        props.user.name !== undefined &&
+                        props.user.name.length > 0 &&
+                        props.user.id !== props.auth.user.id &&
+                        className !== "large"
 
-                    ? props.user.name[0].toUpperCase() : null
+                        ? props.user.name[0].toUpperCase() : null
                 }
             </MaterialUiAvatar>
         </div>
