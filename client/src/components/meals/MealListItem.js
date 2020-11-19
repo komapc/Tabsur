@@ -1,6 +1,6 @@
 import defaultImage from "../../resources/userpic_empty.svg";
 import { withRouter } from "react-router-dom";
-import { joinMeal } from "../../actions/mealActions"
+import { joinMeal } from "../../actions/mealActions";
 import { connect } from "react-redux";
 import config from "../../config";
 import "./Meals.css";
@@ -15,7 +15,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Avatar from "../layout/Avatar"
+import Avatar from "../layout/Avatar";
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ScheduleIcon from '@material-ui/icons/Schedule';
@@ -84,9 +84,7 @@ function MealViewCard(props) {
           onClick={(event) => { props.gotoMeal(event, props.meal) }}
           avatar={<Avatar class="default" user={{ name: props.owner, id: props.meal.host_id }} />}
           action={
-            <IconButton aria-label="settings">
-              {/* <MoreVertIcon /> */}
-            </IconButton>
+            <IconButton aria-label="settings"/>
           }
           title={<React.Fragment><span style={{ fontWeight: 900 }}>{props.meal.name}</span></React.Fragment>}
           subheader={<React.Fragment><span onClick={(event) => { props.goToUser(event, props.meal.host_id) }}>{`by ${props.owner}`}</span></React.Fragment>}

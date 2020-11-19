@@ -31,7 +31,7 @@ router.get("/:id", async (req, response) => {
     .finally(() => {
       client.release();
     });
-})
+});
 
 // @route GET api/followies
 // @desc get a list of users I fllow
