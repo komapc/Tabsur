@@ -9,6 +9,7 @@ const insertImageIntoDB = require("./utility.js");
 const router = express.Router();
 const pool = require("../db.js");
 const { authenticateJWT } = require('../authenticateJWT.js');
+const fetch = require('node-fetch');
 
 // configure the keys for accessing AWS
 AWS.config.update({
@@ -135,9 +136,11 @@ router.get('/avatar/:userId', async function (req, response, next) {
   console.log(`connected running [${query}]`);
   return client.query(query, [req.params.userId])
     .then(data => {
-      // return response.status(201).json(user);
       console.log(`data: ${JSON.stringify(data.rows)}`);
-      return response.json(data.rows);
+      if (data && data.rows && data.rows[0]) {
+        return response.json(data.rows[0].path);
+      }
+      return response.status(200).json(null);
     })
     .catch(err => {
       console.error(`getting images failed:  ${err}`);
