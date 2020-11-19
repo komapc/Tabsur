@@ -120,14 +120,13 @@ class App extends Component {
           console.log(`message.data: ${JSON.stringify(data)}`);
           console.log(`message.data.type: ${JSON.stringify(data["gcm.notification.type"])}`);
           const type = data["gcm.notification.type"];
-          switch (type)
-          {
-            case "0":  
+          switch (type) {
+            case "0":
               store.dispatch(setMessagesCount(++this.state.messagesCount)); break;
-            case "6":  
+            case "6":
               store.dispatch(setProfileNotificationsCount(++this.state.profileNotificationsCount)); break;
-            default: 
-              store.dispatch(setNotificationsCount(++this.state.notificationsCount)); 
+            default:
+              store.dispatch(setNotificationsCount(++this.state.notificationsCount));
               break;
           }
         });

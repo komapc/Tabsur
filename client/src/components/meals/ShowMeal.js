@@ -72,7 +72,7 @@ const ShowMeal = (props) => {
           <h3>Description</h3>
           <div >{meal ? meal.description : ""}</div>
           <h3>Address</h3>
-         
+
           <div onClick={(event) => { goToMaps(event, props.meal.id) }}>{meal ? meal.address : ""}</div>
           <AttenderList mealId={mealId} userId={props.auth.user.id} />
           {

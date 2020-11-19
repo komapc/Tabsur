@@ -14,7 +14,6 @@ switch (env) {
     case 'production':
     default:
         config.SERVER_HOST = host;
-
 }
 
 export default config;

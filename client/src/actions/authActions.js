@@ -34,7 +34,7 @@ export const loginUser = userData => dispatch => {
 
       // Set token to localStorage
       const { token } = res.data;
-      
+
       console.log(`Login user got result [${JSON.stringify(res.data)}]`);
       localStorage.setItem("jwtToken", token);
       // Set token to Auth header
@@ -44,8 +44,7 @@ export const loginUser = userData => dispatch => {
       // Set current user
       dispatch(setCurrentUser(decoded));
     })
-    .catch(err =>
-    {
+    .catch(err => {
       console.warn(`Login failed: ${JSON.stringify(err)}`);
       dispatch({
         type: GET_ERRORS,
@@ -69,18 +68,17 @@ export const loginUserFB = userData => dispatch => {
       setAuthToken(token);
       // Decode token to get user data
       const decoded = jwt_decode(token);
-      const merged = {...userData, ...decoded}
+      const merged = { ...userData, ...decoded }
       // Set current user
       dispatch(setCurrentUser(merged));
     })
-    .catch(err =>
-    {
+    .catch(err => {
       console.error(`loginFB failed: ${JSON.stringify(err)}`);
       dispatch({
         type: GET_ERRORS,
         payload: err
       })
-      }
+    }
     );
 }
 // Set logged in user

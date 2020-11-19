@@ -1,6 +1,5 @@
 //this file is used only for AddMeal, but should be used everywhere.
 import axios from "axios";
-import { GET_ERRORS, USER_LOADING } from "./types";
 import config from "../config";
 
 
