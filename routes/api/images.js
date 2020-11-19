@@ -9,7 +9,6 @@ const insertImageIntoDB = require("./utility.js");
 const router = express.Router();
 const pool = require("../db.js");
 const { authenticateJWT } = require('../authenticateJWT.js');
-const fetch = require('node-fetch');
 
 // configure the keys for accessing AWS
 AWS.config.update({
