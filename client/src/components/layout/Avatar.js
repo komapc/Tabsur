@@ -46,9 +46,8 @@ const Avatar = (props) => {
                         props.user.name !== undefined &&
                         props.user.name.length > 0 &&
                         props.user.id !== props.auth.user.id &&
-                        className !== "large"
-
-                        ? props.user.name[0].toUpperCase() : null
+                        className !== "large" ?
+                        props.user.name[0].toUpperCase() : null
                 }
             </MaterialUiAvatar>
         </div>
