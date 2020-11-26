@@ -250,14 +250,6 @@ input
     margin-bottom: 1em;
 }
 
-.wizard-progress-container
-{
-    position: fixed;
-    top: calc(100vh - 140px);;
-    text-align: center;
-    width:95vw;
-    padding:10px;
-}
 .wizard-icon
 {
     text-align: center;
