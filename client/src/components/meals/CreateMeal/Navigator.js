@@ -9,17 +9,14 @@ import Button from '@material-ui/core/Button';
 const Progress = ({ SW }) => {
   const images = [imageStep1, imageStep2, imageStep3, imageStep4];
   return (
-    <>
       <img src={images[SW.state.activeStep]}
-        alt={SW.step} className="wizard-progress" />
-
-    </>)
+        alt={SW.step} />)
 }
 
 const Navigator = ({ SW, submit, uploadingState }) => {
   const last = SW.state.activeStep >= 3;
   const first = SW.state.activeStep > 0;
-  return <div style={{ textAlign: "center" }} className="wizard-progress-container">
+  return <div className="wizard-progress-container">
     <Progress SW={SW} />
     <Button variant="contained" color="primary"
       onClick={SW.previousStep} disabled={!first}>Back</Button>

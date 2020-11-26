@@ -108,8 +108,6 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
 
   return (
     <ThemeProvider theme={theme}>
-
-      {/* <h4 className="wizard-caption">Create Meal</h4> */}
       <AppBar position="sticky">
         <Toolbar> CREATE MEAL
             {/* CHAT ({this.state.notificationsCount}) */}

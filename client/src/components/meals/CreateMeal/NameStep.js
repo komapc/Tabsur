@@ -16,12 +16,12 @@ const NameStep = props => {
   };
 
   const updateDate = (id, value) => {
-    console.log(id + ", " + value);
+    console.log(`id: ${id},  value=${value}`);
     props.update({ "id": id, "value": value });
   };
 
   return (
-    <div className="wizard-container row ">
+    <Grid container spacing={1}>
       <h3 style={{ marginLeft: "40px" }}>Meal Details</h3>
       <Grid container spacing={1}>
         <Box m={2} width="1">
@@ -79,7 +79,7 @@ const NameStep = props => {
           </Box>
         </MuiPickersUtilsProvider>
       </Grid>
-    </div>
+    </Grid>
   );
 };
 export default NameStep;
