@@ -44,7 +44,7 @@
     "url": "https://github.com/komapc/BeMyGuest"
   },
   "engines": {
-    "node": "14.15.0"
+    "node": "^18.19.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
