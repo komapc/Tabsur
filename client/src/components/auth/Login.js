@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser, loginUserFB } from "../../actions/authActions";
 import classnames from "classnames";
-import GoogleLogin from 'react-google-login';
 import FacebookLoginWithButton from 'react-facebook-login';
 
 const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
