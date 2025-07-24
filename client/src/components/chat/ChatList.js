@@ -3,10 +3,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getChatUsers } from "../../actions/chatActions";
 import ChatListItem from "./ChatListItem";
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import loadingGIF from "../../resources/animation/loading.gif";
-import Typography from '@material-ui/core/Typography';
 
 const TheList = (props) => {
   if (!props.users || props.users.length === 0) {

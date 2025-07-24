@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
 import BackBarMui from "../../layout/BackBarMui";
 
-import { createMuiTheme } from '@material-ui/core/styles';
+// import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 
