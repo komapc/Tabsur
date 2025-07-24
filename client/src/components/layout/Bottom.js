@@ -15,7 +15,7 @@ import searchActive from "../../resources/bottom/search_active.svg"
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Badge from '@material-ui/core/Badge';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   bigIcon: {

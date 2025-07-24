@@ -5,16 +5,9 @@ import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 import { getUserInfo } from "../../actions/userActions";
 import Avatar from "../layout/Avatar"
-import Grid from '@material-ui/core/Grid';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
-import { makeStyles } from '@material-ui/core/styles';
 import Gallery from "../../components/users/Gallery";
 import { Friends } from "../../components/users/Friends";
 import MyMeals from "../../components/meals/MyMeals";
-import { IconButton } from '@material-ui/core';
-import SettingsIcon from '@material-ui/icons/Settings';
 //#region MyProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {

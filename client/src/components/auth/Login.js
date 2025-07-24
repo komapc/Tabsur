@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import Typography from '@material-ui/core/Typography';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -7,10 +6,6 @@ import { loginUser, loginUserFB } from "../../actions/authActions";
 import classnames from "classnames";
 import GoogleLogin from 'react-google-login';
 import FacebookLoginWithButton from 'react-facebook-login';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 
 const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
