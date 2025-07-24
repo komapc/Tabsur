@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from "react";
+import Typography from '@mui/material/Typography';
+
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";

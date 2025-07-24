@@ -26,8 +26,7 @@ import ChatUser from "./components/chat/ChatUser";
 import { Helmet } from "react-helmet";
 import "./App.css";
 import { messaging } from "../src/init-fcm";
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 try {
