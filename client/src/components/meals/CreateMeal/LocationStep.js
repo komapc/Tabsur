@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import MapLocationSelector from "./../MapLocationSelector";
-import { TextField, Grid, Box } from '@material-ui/core';
+import { TextField, Grid, Box } from '@mui/material';
 const LocationStep = props => {
   const [showMap, setMapVisibility] = useState(false);
   const [address, setAddress] = useState(props.location);

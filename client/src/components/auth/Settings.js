@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser, loginUserFB, logoutUser } from "../../actions/authActions";
-import FacebookLoginWithButton from 'react-facebook-login';
+//import FacebookLoginWithButton from 'react-facebook-login';
 import store from "../../store";
 import { useHistory } from "react-router-dom";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import Avatar from "../layout/Avatar"
 import { useHistory } from 'react-router-dom';
-import CardHeader from '@material-ui/core/CardHeader';
+import CardHeader from '@mui/material/CardHeader';
 
 //one item of the list
 const Friend = (props) => {

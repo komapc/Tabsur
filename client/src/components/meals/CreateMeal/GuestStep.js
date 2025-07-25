@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { TextField, Box } from '@material-ui/core';
+import { TextField, Box } from '@mui/material';
 const NameStep = props => {
 
   const update = (e) => {

@@ -26,7 +26,7 @@ import ChatUser from "./components/chat/ChatUser";
 import { Helmet } from "react-helmet";
 import "./App.css";
 import { messaging } from "../src/init-fcm";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 
 try {
@@ -71,7 +71,7 @@ if (enableMessaging) {
     console.error(`Messaging registration failed with: ${JSON.stringify(e)}`);
   }
 }
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       main: '#ffffff',

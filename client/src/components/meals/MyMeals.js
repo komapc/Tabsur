@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import MealListItem from "./MealListItem";
 import { getMyMeals, getAttendedMeals } from "../../actions/mealActions";
 
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import AppBar from '@material-ui/core/AppBar';
-import { Typography } from "@material-ui/core";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import AppBar from '@mui/material/AppBar';
+import { Typography } from "@mui/material";
 
 
 const MealList = (props) => {

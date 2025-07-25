@@ -8,6 +8,7 @@ import Avatar from "../layout/Avatar"
 import Gallery from "../../components/users/Gallery";
 import { Friends } from "../../components/users/Friends";
 import MyMeals from "../../components/meals/MyMeals";
+import { makeStyles } from '@mui/styles';
 //#region MyProfileHeader
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
