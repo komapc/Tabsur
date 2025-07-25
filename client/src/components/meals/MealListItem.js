@@ -5,22 +5,22 @@ import { connect } from "react-redux";
 import config from "../../config";
 import "./Meals.css";
 import React from "react";
-import Switch from '@material-ui/core/Switch';
-// import { createMuiTheme } from '@material-ui/core/styles';
-// import { ThemeProvider } from '@material-ui/styles';
-// import { makeStyles } from '@material-ui/core/styles';
+import Switch from '@mui/material/Switch';
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
 import Avatar from "../layout/Avatar";
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import ScheduleIcon from '@material-ui/icons/Schedule';
-import PeopleIcon from '@material-ui/icons/People';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import ScheduleIcon from '@mui/icons-material/Schedule';
+import PeopleIcon from '@mui/icons-material/People';
+import FormControlLabel from '@mui/material/FormControlLabel';
 var dateFormat = require('dateformat');
 const BUCKET = 's3.us-east-2.amazonaws.com/images.dining.philosophers.com';
 
@@ -66,7 +66,7 @@ function MealViewCard(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const theme = createMuiTheme({
+  const theme = createTheme({
     palette: {
       primary: {
         main: '#FFFF00',

@@ -12,17 +12,15 @@ import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
 import BackBarMui from "../../layout/BackBarMui";
 
-// import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
-import Box from '@material-ui/core/Box';
-
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import Box from '@mui/material/Box';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 
 
 const CreateMealWizard = ({ auth, addMeal }, ...props) => {
 
-  const theme = createMuiTheme({
+  const theme = createTheme({
     palette: {
       secondary: {
         main: '#ffff00',

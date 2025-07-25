@@ -2,7 +2,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import React from "react";
 import Avatar from "../layout/Avatar"
-import CardHeader from '@material-ui/core/CardHeader';
+import CardHeader from '@mui/material/CardHeader';
 class ChatListItem extends React.Component {
   constructor(props) {
     super(props);

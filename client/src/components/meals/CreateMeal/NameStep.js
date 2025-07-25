@@ -1,12 +1,12 @@
 import React from 'react';
-import { TextField, Grid, Box } from '@material-ui/core';
+import { TextField, Grid, Box } from '@mui/material';
 import MomentUtils from '@date-io/moment';
 import 'date-fns';
-import {
-  KeyboardDatePicker,
-  KeyboardTimePicker,
-  MuiPickersUtilsProvider
-} from '@material-ui/pickers';
+// import {
+//   KeyboardDatePicker,
+//   KeyboardTimePicker,
+//   MuiPickersUtilsProvider
+// } from '@mui/x-date-pickers';
 
 import dateIcon from "../../../resources/date.svg";
 
@@ -45,7 +45,7 @@ const NameStep = props => {
           />
         </Box >
 
-        <MuiPickersUtilsProvider utils={MomentUtils}>
+        {/* <MuiPickersUtilsProvider utils={MomentUtils}>
           <Box m={2} width="1">
             <KeyboardDatePicker style={{ borderColor: "transparent" }}
               variant="dialog"
@@ -77,7 +77,7 @@ const NameStep = props => {
               format="HH:mm"
             />
           </Box>
-        </MuiPickersUtilsProvider>
+        </MuiPickersUtilsProvider> */}
       </Grid>
     </div>
   );

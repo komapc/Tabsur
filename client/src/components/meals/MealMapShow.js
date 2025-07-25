@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import Geocode from "react-geocode";
-import { GoogleMap, Marker, withGoogleMap, withScriptjs } from "react-google-maps";
+import { GoogleMap, Marker, withGoogleMap, withScriptjs } from '@react-google-maps/api';
 
 import attended_u from "../../resources/map/attended_meal_icon.svg";
 import fullUp_u from "../../resources/map/full_meal_icon.svg";
@@ -104,7 +104,7 @@ const MealMapShow =
 
                 </GoogleMap>;
             }
-            const MapWithMarker = withScriptjs(withGoogleMap(MyGoogleMap));
+            const MapWithMarker = LoadScript(MyGoogleMap);
 
             return (
                 <MapWithMarker

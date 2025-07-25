@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-// import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { connect } from "react-redux";
-import Fab from '@material-ui/core/Fab';
-//import Badge from '@material-ui/core/Badge';
-import AddIcon from '@material-ui/icons/Add';//todo: use Yana's image
-import Zoom from '@material-ui/core/Zoom';
+import Fab from '@mui/material/Fab';
+import Badge from '@mui/material/Badge';
+import AddIcon from '@mui/icons-material/Add';//todo: use Yana's image
+
+import Zoom from '@mui/material/Zoom';
 
 const useStyles = makeStyles(theme => ({
     root: {

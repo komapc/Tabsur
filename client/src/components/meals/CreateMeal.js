@@ -5,12 +5,12 @@ import { connect } from "react-redux";
 import { addMeal } from "../../actions/mealActions";
 import MapLocationSelector from "./MapLocationSelector";
 import DateFnsUtils from '@date-io/date-fns';
-import {
-  KeyboardDateTimePicker,
-  MuiPickersUtilsProvider
-} from '@material-ui/pickers';
+// import {
+//   KeyboardDateTimePicker,
+//   MuiPickersUtilsProvider
+// } from '@mui/x-date-pickers';
 
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import attend from "../../resources/attended.svg"
 import locationIcon from "../../resources/location_icon.svg"
 import dateIcon from "../../resources/date.svg"

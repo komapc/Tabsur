@@ -1,11 +1,11 @@
-import React from "react";
 import { Component } from "react";
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api'; // <-- Import LoadScript here
+
+import { createTheme } from '@mui/styles';
 import Geocode from "react-geocode";
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import backArrowIcon from "../../resources/back_arrow.svg";
 
-import 'react-google-places-autocomplete/dist/index.min.css';
 export const GOOGLE_MAPS_API_KEY = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
 //Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
@@ -121,25 +121,22 @@ class MapLocationSelector extends Component {
           <img onClick={this.props.handleExit}
             className="autocomplete-icon" src={backArrowIcon} alt="Close map" />
         </span>
-        <MapWithMarker
-
-          onAutoCompleteSelect={this.onAutoCompleteSelect}
-          initialValue={this.state.address}
-          onDragEnd={this.onMarkerDragEnd}
-          address={this.props.address}
-          defaultLocation={{
-            lng: this.state.defaultLocation.lng,
-            lat: this.state.defaultLocation.lat
-          }}
-          location={{
-            lng: this.state.location.lng,
-            lat: this.state.location.lat
-          }}
-          loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div className="map-with-marker-container" />}
-          mapElement={<div style={{ height: `90vh`, top: `10vh` }} />}
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?libraries=places&key=${GOOGLE_MAPS_API_KEY}`}
-        />
+        <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={['places']}>
+          <MyGoogleMap
+            onAutoCompleteSelect={this.onAutoCompleteSelect}
+            initialValue={this.state.address}
+            onDragEnd={this.onMarkerDragEnd}
+            address={this.props.address}
+            defaultLocation={{
+              lng: this.state.defaultLocation.lng,
+              lat: this.state.defaultLocation.lat
+            }}
+            location={{
+              lng: this.state.location.lng,
+              lat: this.state.location.lat
+            }}
+          />
+        </LoadScript>
       </>
     )
   };
@@ -148,11 +145,8 @@ class MapLocationSelector extends Component {
 const MyGoogleMap = (props) => {
   return <>
     <span className="autocomplete-bar">
-
       <GooglePlacesAutocomplete className="autocomplete-span"
         onSelect={props.onAutoCompleteSelect}
-        defaultLocation={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
-        defaultPosition={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
         initialValue={props.address}
         query={{
           language: 'en',
@@ -160,18 +154,17 @@ const MyGoogleMap = (props) => {
       </GooglePlacesAutocomplete>
     </span>
     <GoogleMap
-      defaultZoom={10}
-      defaultCenter={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
+      zoom={10}
+      center={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
+      mapContainerStyle={{ height: '90vh', width: '100%' }}
     >
-
       <Marker
         draggable
-        defaultPosition={{ lat: props.defaultLocation.lat, lng: props.defaultLocation.lng }}
+        position={{ lat: props.location.lat, lng: props.location.lng }}
         onDragEnd={props.onDragEnd}
       />
     </GoogleMap>
   </>;
 }
-const MapWithMarker = withScriptjs(withGoogleMap(MyGoogleMap));
 
 export default MapLocationSelector;

@@ -4,11 +4,11 @@ import notification from "../../resources/notification.svg"
 import setMessagesCount from "../../actions/MessagesActions"
 import Menu from "./Menu.js"
 import Notifications from "./Notifications";
-import Badge from '@material-ui/core/Badge';
+import Badge from '@mui/material/Badge';
 import { connect } from "react-redux";
-import MessageOutlinedIcon from '@material-ui/icons/MessageOutlined';
-import NotificationsOutlinedIcon from '@material-ui/icons/NotificationsOutlined';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MessageOutlinedIcon '@mui/icons-material//MessageOutlined';
+import NotificationsOutlinedIcon '@mui/icons-material//NotificationsOutlined';
+import MoreVertIcon '@mui/icons-material//MoreVert';
 import store from "../../store";
 import setNotificationsCount from "../../actions/notifications"
 
