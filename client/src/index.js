@@ -8,11 +8,8 @@ import { createRoot } from 'react-dom/client';
 const container = document.getElementById('root');
 const root = createRoot(container);
 
-// const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-const baseUrl = document.baseURI;
-
 root.render(
-  <BrowserRouter basename={baseUrl}>
+  <BrowserRouter basename="/">
     <Provider store={store}>
       <App />
     </Provider>

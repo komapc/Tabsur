@@ -1,4 +1,4 @@
-import SwipeableViews from 'react-swipeable-views';
+import SwipeableViews from 'react-swipeable-views-react-18-fix';
 
 import { useState } from "react";
 import AppFab from './AppFab';
