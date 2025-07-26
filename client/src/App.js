@@ -151,7 +151,7 @@ class App extends Component {
               </Helmet>
               <Switch>
 
-                <Route exact path="/register" component={Register} />
+                {/* <Route exact path="/register" component={Register} />
                 <Route exact path="/login/:extend?" component={Login} />
                 <Route exact path="/about" component={About} />
                 <PrivateRoute exact path="/user/:id" component={ShowUser} />
@@ -161,7 +161,7 @@ class App extends Component {
                 <PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
                 <PrivateRoute exact path="/settings" component={Settings} />
                 <PrivateRoute exact path="/EditMeal/:id" component={EditMeal} />
-                <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard} />
+                <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard} /> */}
                 <Route path="/" component={Main} />
 
               </Switch>
