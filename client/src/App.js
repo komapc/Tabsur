@@ -151,17 +151,17 @@ class App extends Component {
               </Helmet>
               <Switch>
 
-                {/* <Route exact path="/register" component={Register} />
-                <Route exact path="/login/:extend?" component={Login} />
-                <Route exact path="/about" component={About} />
-                <PrivateRoute exact path="/user/:id" component={ShowUser} />
-                <Route exact path="/meal/:id" component={ShowMeal} />
-                <PrivateRoute exact path="/profile/:id" component={Profile} />
-                <PrivateRoute exact path="/Stats/:id" component={Stats} />
-                <PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
-                <PrivateRoute exact path="/settings" component={Settings} />
-                <PrivateRoute exact path="/EditMeal/:id" component={EditMeal} />
-                <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard} /> */}
+                  <Route exact path="/register" component={Register} />
+                  <Route exact path="/login/:extend?" component={Login} />
+                  <Route exact path="/about" component={About} />
+                  <PrivateRoute exact path="/user/:id" component={ShowUser} />
+                  <Route exact path="/meal/:id" component={ShowMeal} />
+                  <PrivateRoute exact path="/profile/:id" component={Profile} />
+                  <PrivateRoute exact path="/Stats/:id" component={Stats} />
+                  <PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
+                  <PrivateRoute exact path="/settings" component={Settings} />
+                  <PrivateRoute exact path="/EditMeal/:id" component={EditMeal} />
+                  <PrivateRoute exact path="/createMealWizard" component={CreateMealWizard} />
                 <Route path="/" component={Main} />
 
               </Switch>
