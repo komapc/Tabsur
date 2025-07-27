@@ -1,12 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import { makeStyles } from '@mui/styles';
 import { connect } from "react-redux";
 import Fab from '@mui/material/Fab';
-import Badge from '@mui/material/Badge';
-import AddIcon from '@mui/icons-material/Add';//todo: use Yana's image
-
+import AddIcon from '@mui/icons-material/Add';
 import Zoom from '@mui/material/Zoom';
-
+import { createTheme, ThemeProvider } from "@mui/material/styles"; 
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
@@ -16,13 +14,8 @@ const useStyles = makeStyles(theme => ({
     },
     wrapper: {
         position: "fixed",
-        //position: "absolute",
         bottom: "48px",
-        //right: "5vw",
-        // overflowY: 'visible',
-        // overflowX: 'visible',
         zIndex: 1001,
-
         marginLeft: 'auto',
         marginRight: 'auto',
         left: 0,
@@ -37,50 +30,25 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const AppFab = (props) => {
+const AppFab = React.memo((props) => {
     const classes = useStyles();
     return (
-        
-        <React.Fragment>
-            <div className={classes.root}>
-                <div className={classes.wrapper}>
-                    <Zoom
-                    in={true}
-                    >
+        <div className={classes.root}>
+            <div className={classes.wrapper}>
+                <Zoom in={props.visible !== false}> {/* Ensure it's not undefined and treat undefined as true */}
                     <Fab className={classes.fab} href="/createMealWizard">
-                        {/* <Badge badgeContent={props.messagesCount} color="secondary"> */}
-                            {/* <ChatIcon /> */}
-                            <AddIcon />
-                        {/* </Badge> */}
+                        <AddIcon />
                     </Fab>
-                    </Zoom>
-                </div>
+                </Zoom>
             </div>
-        </React.Fragment>
+        </div>
     );
-}
-
-class FabWrapper extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          messagesCount: props.messagesCount
-        };
-      }
-
-    render() {
-        return (
-            <React.Fragment>
-                { this.props.visible ? <AppFab messagesCount={this.props.messagesCount}/> : null}
-            </React.Fragment>
-        );
-    }
-}
-
-const mapStateToProps = state => ({
-    //auth: state.auth,
-    notificationsCount: state.notificationsCount,
-    messagesCount: state.messagesCount
 });
 
-export default connect(mapStateToProps)(FabWrapper);
+const mapStateToProps = state => ({
+    auth: state.auth,  //If it is not used - remove
+    notificationsCount: state.notificationsCount, //If it is not used - remove
+    messagesCount: state.messagesCount //If it is not used - remove
+});
+
+export default connect(mapStateToProps)(AppFab);

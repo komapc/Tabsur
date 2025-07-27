@@ -109,7 +109,7 @@ const ChatUser = (props) => {
     <Box style={{ height: "calc(100vh - 140px)", overflowY: "scroll" }}  >
       <div ref={messageRef}>
         {messages.map(message =>
-          <ChatLine key={uuidv1()} message={message} />
+          <ChatLine key={uuidv4()} message={message} />
         )}
       </div>
     </Box>
