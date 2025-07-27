@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import { Component, Fragment, Typography, AppBar, Toolbar } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getChatUsers } from "../../actions/chatActions";

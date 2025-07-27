@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Toolbar, Grid, Button } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser, loginUserFB, logoutUser } from "../../actions/authActions";

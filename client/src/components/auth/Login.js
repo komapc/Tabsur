@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import { Component, Fragment, Grid, Paper, TextField, Button, GoogleLogin } from "react";
 import Typography from '@mui/material/Typography';
 
 import { Link } from "react-router-dom";
@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser, loginUserFB } from "../../actions/authActions";
 import classnames from "classnames";
-//import FacebookLoginWithButton from 'react-facebook-login';
+// import FacebookLoginWithButton from 'react-facebook-login';
 
 const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
 
@@ -22,20 +22,20 @@ const FBonFailure = (function (err) {
   console.error(`Failed to login with faceook: ${JSON.stringify(err)}`);
 });
 
-const FBLoginButton = ({ facebookResponse }) => (
-  <FacebookLoginWithButton
-    appId="441252456797282"
-    // autoLoad="false"
-    fields="name,email,picture"
-    onClick={FBcomponentClicked}
-    onFailure={FBonFailure}
-    callback={facebookResponse}
-    textButton="Continue with Facebook"
-    size="metro"
-    redirectUri="/"
-    isMobile={false}
-    icon="fa-facebook" />
-);
+// const FBLoginButton = ({ facebookResponse }) => (
+//   <FacebookLoginWithButton
+//     appId="441252456797282"
+//     // autoLoad="false"
+//     fields="name,email,picture"
+//     onClick={FBcomponentClicked}
+//     onFailure={FBonFailure}
+//     callback={facebookResponse}
+//     textButton="Continue with Facebook"
+//     size="metro"
+//     redirectUri="/"
+//     isMobile={false}
+//     icon="fa-facebook" />
+// );
 
 class Login extends Component {
   constructor() {
@@ -167,7 +167,8 @@ class Login extends Component {
                 {this.state.user ?
                   <div>{JSON.stringify(this.state.user)}</div> :
                   <div className="btn-fb-login-wrapper">
-                    <FBLoginButton facebookResponse={this.facebookResponse} /></div>
+                    {/* <FBLoginButton facebookResponse={this.facebookResponse} /> */}
+                  </div>
                 }
               </Grid>
             </form>

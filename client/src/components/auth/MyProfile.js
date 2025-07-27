@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, IconButton, SettingsIcon, Grid, Box, Tab, Tabs } from "react";
 import { withRouter, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";

@@ -7,7 +7,8 @@ import "./Meals.css";
 import React from "react";
 import Switch from '@mui/material/Switch';
 import { createTheme } from '@mui/material/styles';
-import { ThemeProvider } from '@mui/styles';
+import { ThemeProvider } from "@mui/material/styles"; 
+
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import Card from '@mui/material/Card';
