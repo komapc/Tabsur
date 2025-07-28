@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import MaterialUiAvatar from '@material-ui/core/Avatar';
-import { makeStyles } from '@material-ui/core/styles';
+import MaterialUiAvatar from '@mui/material/Avatar';
+import { makeStyles } from '@mui/styles';
 import { connect } from "react-redux";
 import config from "../../../src/config.js";
 

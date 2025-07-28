@@ -12,10 +12,10 @@ import chatActive from "../../resources/bottom/chat_active.svg"
 import profileActive from "../../resources/bottom/profile_active.svg"
 import searchActive from "../../resources/bottom/search_active.svg"
 
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Badge from '@material-ui/core/Badge';
-import { makeStyles } from '@material-ui/core/styles';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Badge from '@mui/material/Badge';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(theme => ({
   bigIcon: {
