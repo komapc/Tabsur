@@ -1,16 +1,14 @@
 import { useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import SwipeableViews from 'react-swipeable-views-react-18-fix'; // Keep this import
+import SwipeableViews from "react-swipeable-views-react-18-fix"; // Keep this import
+import MealsListMapSwitcher from "../meals/MealsListMapSwitcher";
 
-// import AppFab from "./AppFab"; 
+import AppFab from "./AppFab";
 import MyMeals from "../meals/MyMeals";
 import MyProfile from "../auth/MyProfile";
 import ChatList from "../chat/ChatList";
 import Bottom from "./Bottom";
-import MealsListMapSwitcher from '../meals/MealsListMapSwitcher';
-
-import withSplashScreen from "./Splash";
 
 const mainTabs = {
   MEALS: 0,
@@ -19,7 +17,7 @@ const mainTabs = {
   CHAT: 3,
 };
 
-const Main = ({ auth }) => {
+const Main = ({ auth, theme }) => {
   const location = useLocation();
   const history = useHistory();
 
@@ -31,7 +29,7 @@ const Main = ({ auth }) => {
   const [isSwipable, setSwipability] = useState(true);
 
   const handleChange = (event, value) => {
-    if ((value !== 0) && !auth.isAuthenticated) {
+    if (value !== 0 && !auth.isAuthenticated) {
       history.push(`/Login`);
       return; // Prevent the index from changing if the user is not authenticated
     }
@@ -41,32 +39,39 @@ const Main = ({ auth }) => {
     history.push(`#${value}`);
   };
 
-
   return (
     <>
-      {/* <AppFab visible={isFabFabVisible} /> */}
-      <div className='main-app'>
-        <SwipeableViews index={index} onChangeIndex={value => handleChange(null, value)} disabled={!isSwipable}>
-          <MealsListMapSwitcher
+      <div className="main-app">
+        <SwipeableViews
+          index={index}
+          onChangeIndex={(value) => handleChange(null, value)}
+          disabled={!isSwipable}
+        >
+          {/* <MealsListMapSwitcher
+            theme={theme}
+            active={index === mainTabs.MEALS}
             setFabVisibility={setFabVisibility}
             setSwipability={setSwipability}
-            active={index === mainTabs.MEALS}
-          />
-          <MyProfile
+            isFabFabVisible={isFabFabVisible}
+            index={index}
+            handleChange={handleChange}
+            isSwipable={isSwipable}
+          /> */}
+          {/* <MyProfile
             active={index === mainTabs.MY_PROFILE}
             setFabVisibility={setFabVisibility}
             setSwipability={setSwipability}
-          />
+          /> */}
           <MyMeals
             active={index === mainTabs.MY_MEALS}
             setFabVisibility={setFabVisibility}
             setSwipability={setSwipability}
           />
-          <ChatList
+          {/* <ChatList
             active={index === mainTabs.CHAT}
             setFabVisibility={setFabVisibility}
             setSwipability={setSwipability}
-          />
+          /> */}
         </SwipeableViews>
       </div>
       <Bottom onChange={handleChange} index={index} />
@@ -74,7 +79,7 @@ const Main = ({ auth }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 

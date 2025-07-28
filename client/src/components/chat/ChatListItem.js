@@ -1,14 +1,16 @@
+import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import React from "react";
-import Avatar from "../layout/Avatar"
-import CardHeader from '@mui/material/CardHeader';
+import Avatar from "../layout/Avatar";
+import CardHeader from "@mui/material/CardHeader";
+
 class ChatListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: this.props.user,
-      auth: this.props.auth
+      // Initialize state directly from props in the constructor
+      user: this.props.user || {}, // Provide a default empty object
+      auth: this.props.auth || {} // Provide a default empty object
     };
   }
 
@@ -18,27 +20,26 @@ class ChatListItem extends React.Component {
     this.props.history.push({
       pathname: `/ChatUser/${this.props.partner}`
     });
-  }
+  };
+
   render() {
-    const name = this.state.user.name1 === this.props.auth.user.name ? this.state.user.name2 : this.state.user.name1;
-    const partnerId = this.state.user.receiver === this.props.auth.user.id ? this.state.user.sender : this.state.user.receiver;
+    const { user, auth } = this.state;
+    const name = user.name1 === auth.user.name ? user.name2 : user.name1;
+    const partnerId = user.receiver === auth.user.id ? user.sender : user.receiver;
+
     return (
       <CardHeader
         onClick={this.handleClick}
-        avatar={<Avatar class="default" user={{name: name, id: partnerId}}/>}
-        title={<span style={{ fontWeight: 900 }}>
-          {name}
-        </span>}
-        subheader={this.state.user.message_text}
+        avatar={<Avatar class="default" user={{ name: name, id: partnerId }} />}
+        title={<span style={{ fontWeight: 900 }}>{name}</span>}
+        subheader={user.message_text}
       />
-    )
-  };
+    );
+  }
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 
-export default connect(
-  mapStateToProps
-)(withRouter(ChatListItem));
+export default withRouter(connect(mapStateToProps)(ChatListItem)); 
