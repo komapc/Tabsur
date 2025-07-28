@@ -5,9 +5,9 @@ import MealListItem from "./MealListItem";
 import { deleteMeal, getMealInfo } from "../../actions/mealActions";
 import AttenderList from "./AttenderList";
 import BackBarMui from "../layout/BackBarMui";
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 
 const deleteMealEvent = (history, meal) => {
   deleteMeal(meal.id).then(res => {

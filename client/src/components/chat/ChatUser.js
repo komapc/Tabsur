@@ -4,14 +4,14 @@ import { connect } from "react-redux";
 import { getChatMessages } from "../../actions/chatActions";
 import { sendMessage } from "../../actions/notifications"
 
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 import BackBarMui from "../layout/BackBarMui";
-import TextField from '@material-ui/core/TextField';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-const uuidv1 = require('uuid/v1');
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { v4 as uuidv4 } from 'uuid';
 
 const ChatLine = (props) => {
   return <Typography>
@@ -109,7 +109,7 @@ const ChatUser = (props) => {
     <Box style={{ height: "calc(100vh - 140px)", overflowY: "scroll" }}  >
       <div ref={messageRef}>
         {messages.map(message =>
-          <ChatLine key={uuidv1()} message={message} />
+          <ChatLine key={uuidv4()} message={message} />
         )}
       </div>
     </Box>

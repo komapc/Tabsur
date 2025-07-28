@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getMealInfo, editMeal } from "../../actions/mealActions";
 import classnames from "classnames";
-import { TextField, Grid, Box, Button } from '@material-ui/core';
+import { TextField, Grid, Box, Button } from '@mui/material';
 import { useHistory } from "react-router-dom";
 
 const EditMeal = (props) => {

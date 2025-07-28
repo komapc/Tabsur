@@ -1,6 +1,6 @@
 import React from "react";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import IconButton from '@mui/material/IconButton';
 
 const BackBarMui = (props) => {
     const handleClick = (e) => {

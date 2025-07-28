@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -8,18 +8,18 @@ import { getFollowStatus, setFollow, getUserInfo } from "../../actions/userActio
 
 import PropTypes from "prop-types";
 import Avatar from "../layout/Avatar";
-import Grid from '@material-ui/core/Grid';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@mui/material/Grid';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { makeStyles } from '@mui/styles';
 
-import CreateIcon from '@material-ui/icons/Create';
-import NotInterestedIcon from '@material-ui/icons/NotInterested';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import CreateIcon from '@mui/icons-material/Create';
+import NotInterestedIcon from  '@mui/icons-material/NotInterested';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import BackBarMui from "../layout/BackBarMui";
-import InfoIcon from '@material-ui/icons/Info';
+import InfoIcon from  '@mui/icons-material/Info';
 
 //#region ProfileHeader
 const useStylesHeader = makeStyles(theme => ({

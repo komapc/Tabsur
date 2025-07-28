@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getGuestList } from "../../actions/mealActions";
 import { getUserFollowers } from "../../actions/userActions";
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import { UserList } from '../users/Friends';
 //todo: use GuestList component
 const AttenderList = (props) => {
