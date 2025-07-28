@@ -2,7 +2,7 @@ import { Component, Fragment, Typography, AppBar, Toolbar } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getChatUsers } from "../../actions/chatActions";
-import ChatListItem from "./ChatListItem";
+import ChatListItem from "./ChatListItem"; // <---- POTENTIAL PROBLEM
 import loadingGIF from "../../resources/animation/loading.gif";
 
 const TheList = (props) => {
