@@ -1,6 +1,10 @@
+require('dotenv').config();
+
 module.exports = {
-    google: "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4",
-    facebook_id:"441252456797282",
-    AWS_KEY:"AKIAIEHBGMJGB6L7LL7Q",
-    S3_BUCKET:"images.dining.philosophers.com"
+    google: process.env.GOOGLE_API_KEY,
+    facebook_id: process.env.FACEBOOK_APP_ID,
+    AWS_KEY: process.env.AWS_ACCESS_KEY_ID,
+    AWS_SECRET: process.env.AWS_SECRET_ACCESS_KEY,
+    S3_BUCKET: process.env.S3_BUCKET,
+    secretOrKey: process.env.SECRET_OR_KEY
 };

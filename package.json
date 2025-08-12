@@ -7,6 +7,7 @@
     "client-install": "npm install --prefix client",
     "start": "export NODE_ENV=production && node server.js",
     "server": "export NODE_ENV=production && nodemon server.js",
+    "server-debug": "export NODE_ENV=debug && nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "export NODE_ENV=production && npm run-script client-install && cd client && react-scripts build; cd ..",
@@ -14,15 +15,24 @@
     "start-db": "docker-compose -p coolanu-db -f db/local-docker-compose.yaml up -d ",
     "stop-db": "docker-compose -p coolanu-db -f db/local-docker-compose.yaml down",
     "migrate-local-db": "bash ./db/migrate.sh",
-    "debug": "concurrently \"nodemon server.js\" \"npm run client\""
+    "debug": "concurrently \"npm run server-debug\" \"npm run client\"",
+    "test-setup": "./test-mode.sh",
+    "test-server": "export NODE_ENV=test && export DB_PORT=5433 && export DB_NAME=coolanu_test && nodemon server.js",
+    "test-client": "cd client && REACT_APP_SERVER_HOST_DEV=http://localhost:5000 npm start",
+    "test-dev": "concurrently \"npm run test-server\" \"npm run test-client\"",
+    "test-cleanup": "./stop-test-mode.sh",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=30000",
+    "test:watch": "cross-env NODE_ENV=test jest --watch",
+    "test:full": "./run-tests.sh"
   },
   "author": "Mark&Yana",
   "license": "MIT",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.864.0",
+    "@aws-sdk/s3-request-presigner": "^3.864.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.2.0",
-    "aws-sdk": "^2.683.0",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
     "body-parser": "^1.18.3",
@@ -32,7 +42,6 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "file-type": "^21.0.0",
-    "fix": "^0.0.3",
     "heroku-ssl-redirect": "0.0.4",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^9.0.2",
@@ -50,7 +59,17 @@
   "engines": {
     "node": "^24.4.*"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "verbose": true
+  },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "cross-env": "^10.0.0",
+    "jest": "^27.5.1",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.4"
   }
 }
