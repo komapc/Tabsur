@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import { loginUser, loginUserFB } from "../../actions/authActions";
 import classnames from "classnames";
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
-const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
+const googleKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -85,7 +85,7 @@ const Login = (props) => {
       justify="center"
       style={{ minHeight: "100vh", width: "100vw" }}
     >
-      <Paper elevation={3} variant="outlined" style={{ borderColor: "black" }}>
+      <Paper elevation={3} style={{ borderColor: "black" }}>
         <div
           style={{
             padding: "10%",

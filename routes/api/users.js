@@ -45,7 +45,11 @@ router.post("/register", async (req, response) => {
           })
           .catch(err => {
             console.error(`Insert query failed: ${JSON.stringify(err)}`);
-            return response.status(500).json(newUser);
+            // Check if it's a duplicate email error
+            if (err.code === '23505' && err.constraint === 'unique_user_email') {
+              return response.status(400).json({ email: "Email already exists" });
+            }
+            return response.status(500).json({ error: "Registration failed" });
           })
           .finally(() => {
             client.release();
@@ -99,7 +103,7 @@ router.post("/login", async (req, response) => {
           // Sign token
           jwt.sign(
             payload,
-            process.env.SECRET_OR_KEY,
+            keys.secretOrKey,
             {
               expiresIn: 31556926 // 1 year in seconds
             },
@@ -208,7 +212,7 @@ router.post("/loginFB", async (req, response) => {
       // Sign token
       jwt.sign(
         payload,
-        process.env.SECRET_OR_KEY,
+        keys.secretOrKey,
         {
           expiresIn: 31556926 // 1 year in seconds
         },
