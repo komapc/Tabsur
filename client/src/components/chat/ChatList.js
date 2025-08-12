@@ -1,4 +1,7 @@
-import { Component, Fragment, Typography, AppBar, Toolbar } from "react";
+import React, { Component, Fragment } from "react";
+import Typography from '@mui/material/Typography';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getChatUsers } from "../../actions/chatActions";
@@ -6,19 +9,30 @@ import ChatListItem from "./ChatListItem"; // <---- POTENTIAL PROBLEM
 import loadingGIF from "../../resources/animation/loading.gif";
 
 const TheList = (props) => {
+  // Sanity tests
+  console.log(`TheList - users:`, props.users);
+  console.log(`TheList - myId:`, props.myId);
+
   if (!props.users || props.users.length === 0) {
     return <Typography>No messages yet</Typography>
   }
-  return props.users.sort((a, b) => a.created_at < b.created_at ? 1 : -1)
-    .map(user => {
-      const sender = user.sender;
-      const receiver = user.receiver;
-      const partner = props.myId !== sender ? sender : receiver;
-      return <Fragment key={user.id}>
-        <ChatListItem user={user} partner={partner} />
-      </Fragment>
-    }
-    )
+  
+  try {
+    return props.users.sort((a, b) => a.created_at < b.created_at ? 1 : -1)
+      .map(user => {
+        const sender = user.sender;
+        const receiver = user.receiver;
+        const partner = props.myId !== sender ? sender : receiver;
+        return <Fragment key={user.id || Math.random()}>
+          <div style={{padding: '8px', borderBottom: '1px solid #eee'}}>
+            Chat with User {partner} - {user.created_at}
+          </div>
+        </Fragment>
+      })
+  } catch (error) {
+    console.error('TheList render error:', error);
+    return <Typography>Error loading chat list</Typography>;
+  }
 }
 class ChatList extends Component {
 
@@ -52,22 +66,31 @@ class ChatList extends Component {
   };
 
   render() {
+    // Sanity tests
+    console.log(`ChatList render - notifications count: ${this.props.notificationsCount}`);
+    console.log(`ChatList render - loading: ${this.state.loading}`);
+    console.log(`ChatList render - authenticated: ${this.props.auth?.isAuthenticated}`);
+    console.log(`ChatList render - users count: ${this.state.users?.length}`);
 
-    console.log(`notifications count: ${this.props.notificationsCount}`);
-    return <Fragment>
-      <AppBar position="sticky">
-        <Toolbar> CHAT
-            {/* CHAT ({this.state.notificationsCount}) */}
-        </Toolbar>
-      </AppBar>
-      {
-        this.state.loading ?
-          <img src={loadingGIF} alt="loading" /> :
-          (this.props.auth.isAuthenticated)?
-            <TheList users={this.state.users} myId={this.props.auth.user.id} />
-            :<></>
+    try {
+      return <Fragment>
+        <AppBar position="sticky">
+          <Toolbar> CHAT
+              {/* CHAT ({this.state.notificationsCount}) */}
+          </Toolbar>
+        </AppBar>
+        {
+          this.state.loading ?
+            <img src={loadingGIF} alt="loading" /> :
+            (this.props.auth?.isAuthenticated)?
+              <TheList users={this.state.users || []} myId={this.props.auth.user?.id} />
+              :<Typography>Please log in to view messages</Typography>
         }
-    </Fragment>
+      </Fragment>
+    } catch (error) {
+      console.error('ChatList render error:', error);
+      return <div>Chat temporarily unavailable</div>;
+    }
   }
 }
 

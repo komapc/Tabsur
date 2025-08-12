@@ -41,6 +41,18 @@ const theme = createTheme({
     secondary: {
       main: "#dc004e",
     },
+    text: {
+      secondary: "#757575",
+    },
+    background: {
+      paper: "#ffffff",
+    },
+  },
+  spacing: 8, // This creates the spacing function
+  transitions: {
+    duration: {
+      shortest: 150,
+    },
   },
 });
 
@@ -72,7 +84,7 @@ try {
 }
 
 const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
-const enableMessaging = true;
+const enableMessaging = false;
 if (enableMessaging) {
   try {
     if ("serviceWorker" in navigator) {
