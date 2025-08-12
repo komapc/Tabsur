@@ -52,14 +52,12 @@ const MyMeals = (props) => {
     }
     getMyMeals(id)
       .then(res => {
-        console.log(res.data);
         setMeals(res.data);
       }).catch(err => {
         console.error(`getMyMeals error: ${err}`);
       });
     getAttendedMeals(id)
       .then(res => {
-        console.log(res.data);
         setAttended(res.data);
       }).catch(err => {
         console.error(err);
