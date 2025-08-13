@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
   Toolbar,
   Grid,
@@ -230,7 +231,7 @@ const Settings = ({ auth, errors }) => {
   const handleDeactivateAccount = async () => {
     if (!auth.user?.id) return;
     
-    if (!confirm("Are you sure you want to deactivate your account? You can reactivate it later by logging in.")) {
+    if (!window.confirm("Are you sure you want to deactivate your account? You can reactivate it later by logging in.")) {
       return;
     }
     
@@ -255,7 +256,7 @@ const Settings = ({ auth, errors }) => {
   const handleDeleteAccount = async () => {
     if (!auth.user?.id) return;
     
-    if (!confirm("Are you sure you want to permanently delete your account? This action cannot be undone.")) {
+    if (!window.confirm("Are you sure you want to permanently delete your account? This action cannot be undone.")) {
       return;
     }
     
