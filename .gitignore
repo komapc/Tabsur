@@ -1,8 +1,54 @@
-/node_modules
-package-lock.json
-.idea
-/.vs
-/.vscode
+# AWS CLI installation files
+aws/
+awscli-bundle/
+awscli-bundle.zip
+awscliv2.zip
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Environment variables
 .env
-client/.env
-MERN
+.env.local
+.env.production
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+migration_backups/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node modules (if any)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database dumps
+*.sql
+*.dump
+
+# AWS credentials (never commit these!)
+.aws/
+credentials
