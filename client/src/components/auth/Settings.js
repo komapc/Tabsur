@@ -53,7 +53,7 @@ import {
 import store from "../../store";
 import { useHistory } from "react-router-dom";
 import BackBarMui from "../layout/BackBarMui";
-import { checkAuthState, cleanupToken } from "../../utils/setAuthToken";
+import setAuthToken, { checkAuthState, cleanupToken } from "../../utils/setAuthToken";
 
 const Settings = ({ auth, errors }) => {
   const history = useHistory();
@@ -620,6 +620,44 @@ const Settings = ({ auth, errors }) => {
                 }}
               >
                 Test API Call
+              </Button>
+              <Button 
+                variant="outlined" 
+                color="info"
+                onClick={async () => {
+                  try {
+                    // Test the failing endpoints to see what's happening
+                    const token = localStorage.getItem("jwtToken");
+                    console.log("🔍 Testing failing endpoints with token:", token ? `${token.substring(0, 30)}...` : 'None');
+                    
+                    const endpoints = [
+                      'http://localhost:5000/api/meals/my/3',
+                      'http://localhost:5000/api/meals/attends/3',
+                      'http://localhost:5000/api/chat/3'
+                    ];
+                    
+                    for (const endpoint of endpoints) {
+                      try {
+                        const response = await fetch(endpoint, {
+                          headers: {
+                            'Authorization': `Bearer ${token}`
+                          }
+                        });
+                        console.log(`🔍 ${endpoint}: ${response.status} ${response.statusText}`);
+                        if (response.status === 403) {
+                          const errorData = await response.text();
+                          console.log(`🔍 403 Error details:`, errorData);
+                        }
+                      } catch (error) {
+                        console.error(`🔍 Error testing ${endpoint}:`, error);
+                      }
+                    }
+                  } catch (error) {
+                    console.error("🔍 Test Failing Endpoints Error:", error);
+                  }
+                }}
+              >
+                Test Failing Endpoints
               </Button>
               <Button 
                 variant="outlined" 
