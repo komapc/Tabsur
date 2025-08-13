@@ -53,7 +53,7 @@ import {
 import store from "../../store";
 import { useHistory } from "react-router-dom";
 import BackBarMui from "../layout/BackBarMui";
-import { checkAuthState } from "../../utils/setAuthToken";
+import { checkAuthState, cleanupToken } from "../../utils/setAuthToken";
 
 const Settings = ({ auth, errors }) => {
   const history = useHistory();
@@ -620,6 +620,19 @@ const Settings = ({ auth, errors }) => {
                 }}
               >
                 Test API Call
+              </Button>
+              <Button 
+                variant="outlined" 
+                color="warning"
+                onClick={() => {
+                  const cleanedToken = cleanupToken();
+                  if (cleanedToken) {
+                    setAuthToken(cleanedToken);
+                    console.log("🧹 Token cleaned and reset");
+                  }
+                }}
+              >
+                Clean Token
               </Button>
             </Box>
           </CardContent>

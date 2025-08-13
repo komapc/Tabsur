@@ -41,8 +41,10 @@ axios.interceptors.response.use(
 const setAuthToken = token => {
   if (token) {
     // Apply authorization token to every request if logged in
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    console.log("🔑 Auth token set:", `Bearer ${token.substring(0, 20)}...`);
+    // Check if token already has "Bearer " prefix to avoid double prefixing
+    const authHeader = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
+    axios.defaults.headers.common["Authorization"] = authHeader;
+    console.log("🔑 Auth token set:", `${authHeader.substring(0, 30)}...`);
     console.log("🔍 Current axios headers:", axios.defaults.headers.common);
   } else {
     // Delete auth header
@@ -69,6 +71,19 @@ export const checkAuthState = () => {
     token: token,
     header: headers.Authorization
   };
+};
+
+// Function to clean up malformed tokens
+export const cleanupToken = () => {
+  const token = localStorage.getItem("jwtToken");
+  if (token && token.startsWith('Bearer ')) {
+    // Remove the "Bearer " prefix if it exists
+    const cleanToken = token.replace('Bearer ', '');
+    localStorage.setItem("jwtToken", cleanToken);
+    console.log("🧹 Cleaned up malformed token, removed 'Bearer ' prefix");
+    return cleanToken;
+  }
+  return token;
 };
 
 export default setAuthToken;
