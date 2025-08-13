@@ -5,14 +5,12 @@ import { connect } from "react-redux";
 import { getMealInfo, editMeal } from "../../actions/mealActions";
 import classnames from "classnames";
 import { TextField, Grid, Box, Button } from '@mui/material';
-import { useHistory } from "react-router-dom";
 
 const EditMeal = (props) => {
 
   const mealId = props.match.params.id;
   const [meal, setMeal] = useState({ name: "", guest_count: "0", errors: {} });
 
-  const history = useHistory();
   const onSubmit = e => {
     
     e.preventDefault();
@@ -38,7 +36,6 @@ const EditMeal = (props) => {
 
 
   const errors = meal.errors || {}; //todo
-  const { user } = props.auth;
   return (
     <Grid container spacing={2}>
       <Box m={2} width="1">

@@ -1,13 +1,25 @@
-import React, { Component } from "react";
-import sandwich from "../../resources/menu.svg"
-import notification from "../../resources/notification.svg"
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { 
+  AppBar, 
+  Toolbar, 
+  Typography, 
+  Button, 
+  IconButton, 
+  Badge,
+  Box
+} from '@mui/material';
+import {
+  Notifications as NotificationsIcon,
+  AccountCircle as AccountCircleIcon,
+  ExitToApp as LogoutIcon,
+  MessageOutlined as MessageOutlinedIcon,
+  NotificationsOutlined as NotificationsOutlinedIcon
+} from '@mui/icons-material';
 import setMessagesCount from "../../actions/MessagesActions"
 import Menu from "./Menu.js"
 import Notifications from "./Notifications";
-import Badge from '@mui/material/Badge';
-import { connect } from "react-redux";
-import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined';
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import store from "../../store";
 import setNotificationsCount from "../../actions/notifications"

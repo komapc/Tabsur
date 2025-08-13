@@ -43,26 +43,26 @@ const MyMeals = (props) => {
 
   const id = props.auth.user.id;
   useEffect(() => {
+    const updateLists = () => {
+      if (!props.auth.isAuthenticated) {
+        return;
+      }
+      getMyMeals(id)
+        .then(res => {
+          setMeals(res.data);
+        }).catch(err => {
+          console.error(`getMyMeals error: ${err}`);
+        });
+      getAttendedMeals(id)
+        .then(res => {
+          setAttended(res.data);
+        }).catch(err => {
+          console.error(err);
+        });
+    };
+    
     updateLists();
   }, [props, id]);
-
-  const updateLists = () => {
-    if (!props.auth.isAuthenticated) {
-      return;
-    }
-    getMyMeals(id)
-      .then(res => {
-        setMeals(res.data);
-      }).catch(err => {
-        console.error(`getMyMeals error: ${err}`);
-      });
-    getAttendedMeals(id)
-      .then(res => {
-        setAttended(res.data);
-      }).catch(err => {
-        console.error(err);
-      });
-  }
 
   const now = new Date();
   const currentMeals = meals.filter(meal => new Date(meal.date) >= now);

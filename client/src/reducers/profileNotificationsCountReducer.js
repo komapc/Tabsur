@@ -2,13 +2,13 @@ import { SET_PROFILE_NOTIFICATIONS_COUNT } from "../actions/types";
 
 const initialState =  0;
 
-export default function(state = initialState, action) {
-  console.log(`notifications reducer: ${JSON.stringify(action)}`); 
+const profileNotificationsCountReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_PROFILE_NOTIFICATIONS_COUNT:
-      console.log("messages reducer: SET_PROFILE_NOTIFICATIONS_COUNT, " + JSON.stringify(action.profileNotificationsCount));
-      return action.profileNotificationsCount;
+      return action.payload;
     default:
       return state;
   }
-}
+};
+
+export default profileNotificationsCountReducer;

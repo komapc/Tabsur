@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { getGuestList } from "../../actions/mealActions";
 import { getUserFollowers } from "../../actions/userActions";
-import Box from '@mui/material/Box';
+import { 
+  List, 
+  ListItem, 
+  ListItemText, 
+  ListItemAvatar, 
+  Avatar, 
+  Typography,
+  Chip
+} from '@mui/material';
 import { UserList } from '../users/Friends';
 //todo: use GuestList component
 const AttenderList = (props) => {
   const userId = props.userId;// props.match.params.id;
   const [guests, setGuests] = useState([]);
-  const [followies, setfollowies] = useState([]);
   //const [sorted, setSorted] = useState(["Loading"]);
 
   const getGuests = (mealId) => {
@@ -23,16 +30,13 @@ const AttenderList = (props) => {
 
   const getFollowies = (userId) => {
     if (!userId) {
-      setfollowies([]);
       return;
     }
     getUserFollowers(userId)
       .then(res => {
         console.log(`Followies: ${JSON.stringify(res.data)}`);
-        setfollowies(res.data);
       })
       .catch(err => {
-        setfollowies([]);
         console.error(err);
       });
   };
