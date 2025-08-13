@@ -2,12 +2,16 @@ import { SET_MESSAGES_COUNT } from "../actions/types";
 
 const initialState = 0;
 
-export default function(state = initialState, action) {
+const messagesReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_MESSAGES_COUNT:
-      console.log("messages reducer: SET_MESSAGES_COUNT, " + JSON.stringify(action.messagesCount));
-      return action.messagesCount;
+      return {
+        ...state,
+        count: action.payload
+      };
     default:
       return state;
   }
-}
+};
+
+export default messagesReducer;

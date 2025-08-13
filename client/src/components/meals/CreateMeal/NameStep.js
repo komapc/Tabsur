@@ -1,23 +1,19 @@
 import React from 'react';
-import { TextField, Grid, Box } from '@mui/material';
-import MomentUtils from '@date-io/moment';
-import 'date-fns';
-// import {
-//   KeyboardDatePicker,
-//   KeyboardTimePicker,
-//   MuiPickersUtilsProvider
-// } from '@mui/x-date-pickers';
-
-import dateIcon from "../../../resources/date.svg";
+import { 
+  TextField, 
+  Typography, 
+  Box, 
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Grid
+} from '@mui/material';
 
 const NameStep = props => {
   const update = (e) => {
     props.update(e.target);
-  };
-
-  const updateDate = (id, value) => {
-    console.log(id + ", " + value);
-    props.update({ "id": id, "value": value });
   };
 
   return (
@@ -44,40 +40,6 @@ const NameStep = props => {
             helperText={props.form.guest_count < 0 || props.form.guest_count > 100 ? "Wrong number" : ""}
           />
         </Box >
-
-        {/* <MuiPickersUtilsProvider utils={MomentUtils}>
-          <Box m={2} width="1">
-            <KeyboardDatePicker style={{ borderColor: "transparent" }}
-              variant="dialog"
-              ampm={false}
-              label="date"
-              id="date"
-              value={props.form.date}
-              onChange={(e) => { updateDate("date", e) }}
-              onError={console.log}
-              disablePast
-              showTodayButton
-              autoOk
-              format="DD/MM/yyyy"
-            />
-          </Box>
-          <Box m={2} width="1">
-            <KeyboardTimePicker
-              keyboardIcon={<img className="meal-info-icons"
-                src={dateIcon} alt="date" />}
-              variant="dialog"
-              ampm={false}
-              label="time"
-              id="time"
-              value={props.form.time}
-              onChange={(e) => { updateDate("time", e) }}
-              onError={console.log}
-              disablePast
-              autoOk
-              format="HH:mm"
-            />
-          </Box>
-        </MuiPickersUtilsProvider> */}
       </Grid>
     </div>
   );

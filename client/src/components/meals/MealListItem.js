@@ -1,27 +1,30 @@
-import defaultImage from "../../resources/userpic_empty.svg";
-import { withRouter } from "react-router-dom";
-import { joinMeal } from "../../actions/mealActions";
-import { connect } from "react-redux";
-import config from "../../config";
-import "./Meals.css";
-import React from "react";
-import Switch from '@mui/material/Switch';
-import { createTheme } from '@mui/material/styles';
-import { ThemeProvider } from "@mui/material/styles"; 
-
+import React from 'react';
+import { connect } from 'react-redux';
+import { useHistory, withRouter } from 'react-router-dom';
+import { 
+  Card, 
+  CardContent, 
+  Typography, 
+  Button, 
+  Box,
+  Chip,
+  Avatar,
+  CardHeader,
+  CardMedia,
+  CardActions,
+  IconButton,
+  Switch,
+  FormControlLabel
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Avatar from "../layout/Avatar";
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import PeopleIcon from '@mui/icons-material/People';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import defaultImage from "../../resources/userpic_empty.svg";
+import { joinMeal } from "../../actions/mealActions";
+import config from "../../config";
+import "./Meals.css";
 var dateFormat = require('dateformat');
 const BUCKET = 's3.us-east-2.amazonaws.com/images.dining.philosophers.com';
 

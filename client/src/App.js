@@ -32,7 +32,6 @@ import "./App.css";
 import { messaging } from "../src/init-fcm";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ErrorBoundary from "./components/common/ErrorBoundary";
-import AppFab from "./components/layout/AppFab"; 
 
 const theme = createTheme({
   palette: {

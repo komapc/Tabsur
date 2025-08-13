@@ -91,19 +91,20 @@ function a11yProps(index) {
 
 export default function MealsListMapSwitcher(props) {
   const [value, setValue] = React.useState(0);
+  const { active, setFabVisibility, setSwipability } = props;
 
   const handleChange = (event, newValue) => {
-    props.setFabVisibility(true);
-    props.setSwipability(newValue !== 1);
+    setFabVisibility(true);
+    setSwipability(newValue !== 1);
     setValue(newValue);
   };
 
   React.useEffect(() => {
-    if (props.active) {
-      props.setFabVisibility(true);
-      props.setSwipability(value !== 1);
+    if (active) {
+      setFabVisibility(true);
+      setSwipability(value !== 1);
     }
-  }, [props.active, value, props.setFabVisibility, props.setSwipability]);
+  }, [active, value, setFabVisibility, setSwipability]);
 
   return (
     <Box sx={{ flexGrow: 1, bgcolor: 'background.paper' }}>
