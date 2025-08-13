@@ -1,14 +1,16 @@
-import { GET_ERRORS } from "../actions/types";
+import { GET_ERRORS, CLEAR_ERRORS } from '../actions/types';
 
 const initialState = {};
 
-export default function(state = initialState, action) {
-  console.log("error reducer: " + JSON.stringify(action)); 
+const errorReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ERRORS:
-      console.log("error reducer: GET_ERRORS, " + JSON.stringify(action.payload));
-      return action.payload || {};
+      return action.payload;
+    case CLEAR_ERRORS:
+      return {};
     default:
       return state;
   }
-}
+};
+
+export default errorReducer;

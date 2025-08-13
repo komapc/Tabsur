@@ -10,13 +10,11 @@ import {
   Card,
   CardContent,
   Switch,
-  FormControlLabel,
   Divider,
   Alert,
   Snackbar,
   Avatar,
   IconButton,
-  Paper,
   List,
   ListItem,
   ListItemText,
@@ -33,9 +31,7 @@ import {
   Save,
   Edit,
   Cancel,
-  PhotoCamera,
   Settings as SettingsIcon,
-  Language,
   DarkMode,
   VolumeUp,
   Visibility
@@ -92,24 +88,24 @@ const Settings = ({ auth, errors }) => {
       });
       
       // Load user preferences
+      const loadUserPreferences = async () => {
+        try {
+          const response = await getUserPreferences(auth.user.id);
+          if (response.data) {
+            setPreferences(prev => ({
+              ...prev,
+              ...response.data
+            }));
+          }
+        } catch (error) {
+          console.log("Could not load user preferences:", error);
+          // Use default preferences if loading fails
+        }
+      };
+      
       loadUserPreferences();
     }
   }, [auth.user]);
-
-  const loadUserPreferences = async () => {
-    try {
-      const response = await getUserPreferences(auth.user.id);
-      if (response.data) {
-        setPreferences(prev => ({
-          ...prev,
-          ...response.data
-        }));
-      }
-    } catch (error) {
-      console.log("Could not load user preferences:", error);
-      // Use default preferences if loading fails
-    }
-  };
 
   const handleLogout = () => {
     store.dispatch(logoutUser());
