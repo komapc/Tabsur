@@ -598,6 +598,29 @@ const Settings = ({ auth, errors }) => {
               >
                 Check Redux State
               </Button>
+              <Button 
+                variant="outlined" 
+                color="info"
+                onClick={async () => {
+                  try {
+                    // Test a simple authenticated API call
+                    const response = await fetch('http://localhost:5000/api/users/system', {
+                      headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("jwtToken")}`
+                      }
+                    });
+                    console.log("🔍 Test API Response:", response.status, response.statusText);
+                    if (response.ok) {
+                      const data = await response.json();
+                      console.log("🔍 Test API Data:", data);
+                    }
+                  } catch (error) {
+                    console.error("🔍 Test API Error:", error);
+                  }
+                }}
+              >
+                Test API Call
+              </Button>
             </Box>
           </CardContent>
         </Card>
