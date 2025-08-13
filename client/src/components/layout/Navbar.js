@@ -6,9 +6,9 @@ import Menu from "./Menu.js"
 import Notifications from "./Notifications";
 import Badge from '@mui/material/Badge';
 import { connect } from "react-redux";
-import MessageOutlinedIcon '@mui/icons-material//MessageOutlined';
-import NotificationsOutlinedIcon '@mui/icons-material//NotificationsOutlined';
-import MoreVertIcon '@mui/icons-material//MoreVert';
+import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined';
+import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import store from "../../store";
 import setNotificationsCount from "../../actions/notifications"
 
