@@ -9,7 +9,7 @@ const validateMealInput = require('../../validation/meal');
 // @desc get a meal list;
 // @access Public;
 router.get('/:id', async (req, response) => {
-  const userId = req.params.id;
+  let userId = req.params.id;
   console.log(`get meals for user ${userId}`);
   if (isNaN(userId)) {
   //return response.status(400).json('Error in geting  meals: wrong ID');

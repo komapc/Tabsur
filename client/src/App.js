@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import setAuthToken from "./utils/setAuthToken";
+import setAuthToken, { cleanupToken } from "./utils/setAuthToken";
 
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { setFirebaseCloudMessagingToken } from "./actions/notifications";
@@ -60,21 +60,27 @@ const theme = createTheme({
 try {
   // Check for token to keep user logged in
   if (localStorage.jwtToken) {
-    // Set auth token header auth
-    const token = localStorage.jwtToken;
+    // Clean up any malformed tokens first
+    const token = cleanupToken();
+    console.log("Found JWT token in localStorage, length:", token.length);
     setAuthToken(token);
     // Decode token and get user info and exp
     const decoded = jwt_decode(token);
+    console.log("Decoded token user ID:", decoded.id, "exp:", decoded.exp);
     // Set user and isAuthenticated
     store.dispatch(setCurrentUser(decoded));
     // Check for expired token
     const currentTime = Date.now() / 1000; // to get in milliseconds
+    console.log("Current time:", currentTime);
     if (decoded.exp < currentTime) {
+      console.log("Token expired, logging out user");
       // Logout user
       store.dispatch(logoutUser());
 
       // Redirect to login
       window.location.href = "./login";
+    } else {
+      console.log("Token is valid, user authenticated");
     }
   }
   else {
@@ -114,7 +120,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.auth.user.id || 0,
+      id: (props.auth && props.auth.user && props.auth.user.id) || 0,
       notificationsCount: 0,
       profileNotificationsCount: 0,
       messagesCount: 0,
