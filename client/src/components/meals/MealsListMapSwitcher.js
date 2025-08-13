@@ -5,8 +5,8 @@ import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import attendListIcon from "../../resources/attend_list.svg";
-import attendMapIcon from "../../resources/attend_button_map.svg";
+import listIcon from "../../resources/list_icon.svg";
+import mapIcon from "../../resources/map_icon.svg";
 import Meals from "../meals/Meals";
 import MealMap from "../meals/MealMap";
 
@@ -41,15 +41,14 @@ const TabContent = styled(Box)(({ theme }) => ({
   minHeight: 'calc(100vh - 200px)',
 }));
 
-const TabIcon = styled('img')({
-  width: '24px',
-  height: '24px',
+const TabIcon = styled('img')(({ theme, active }) => ({
+  width: '20px',
+  height: '20px',
   marginRight: '8px',
-  filter: 'brightness(0.7)',
-  '&.active': {
-    filter: 'brightness(1)',
-  },
-});
+  filter: active ? 'none' : 'brightness(0.6)',
+  opacity: active ? 1 : 0.7,
+  transition: 'all 0.2s ease-in-out',
+}));
 
 const TabLabel = styled(Box)({
   display: 'flex',
@@ -132,9 +131,9 @@ export default function MealsListMapSwitcher(props) {
             label={
               <TabLabel>
                 <TabIcon 
-                  src={attendListIcon} 
+                  src={listIcon} 
                   alt="List View"
-                  className={value === 0 ? 'active' : ''}
+                  active={value === 0}
                 />
                 <span>List</span>
               </TabLabel>
@@ -145,9 +144,9 @@ export default function MealsListMapSwitcher(props) {
             label={
               <TabLabel>
                 <TabIcon 
-                  src={attendMapIcon} 
+                  src={mapIcon} 
                   alt="Map View"
-                  className={value === 1 ? 'active' : ''}
+                  active={value === 1}
                 />
                 <span>Map</span>
               </TabLabel>
