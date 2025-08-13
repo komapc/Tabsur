@@ -18,7 +18,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 
 
-const CreateMealWizard = ({ auth, addMeal }, ...props) => {
+const CreateMealWizard = ({ auth, addMeal }) => {
 
   const theme = createTheme({
     palette: {
@@ -63,7 +63,7 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
   const onStepChange = (stats) => {
     updateState({
       ...state,
-      SW
+      stats
     });
   };
 
@@ -122,7 +122,7 @@ const CreateMealWizard = ({ auth, addMeal }, ...props) => {
           <NameStep update={update} form={state.form} />
           <LocationStep update={update} form={state.form} />
           <DescriptionStep update={update} form={state.form} />
-          <ImageStep update={update} form={state.form} auth={state.auth} setUploadingState={setUploadingState} />
+          <ImageStep update={update} form={state.form} auth={auth} setUploadingState={setUploadingState} />
         </StepWizard>
       </Box>
 
@@ -135,6 +135,7 @@ const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
+
 CreateMealWizard.propTypes = {
   addMeal: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
