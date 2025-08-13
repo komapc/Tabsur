@@ -35,6 +35,19 @@ axios.interceptors.response.use(
       message: error.message,
       data: error.response?.data
     });
+    
+    // Handle JWT signature errors by clearing invalid tokens
+    if (error.response?.status === 403 && error.response?.data?.name === 'JsonWebTokenError') {
+      console.warn("🔐 JWT signature error detected - clearing invalid token");
+      localStorage.removeItem("jwtToken");
+      delete axios.defaults.headers.common["Authorization"];
+      
+      // Redirect to login if we're not already there
+      if (window.location.pathname !== '/login' && window.location.pathname !== '/') {
+        window.location.href = '/login';
+      }
+    }
+    
     return Promise.reject(error);
   }
 );
@@ -72,6 +85,26 @@ export const checkAuthState = () => {
     token: token,
     header: headers.Authorization
   };
+};
+
+// Function to run sanity check on server
+export const runServerSanityCheck = async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/sanity-check');
+    console.log("🔍 Server Sanity Check:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("❌ Server Sanity Check Failed:", error);
+    return null;
+  }
+};
+
+// Function to clear invalid authentication
+export const clearInvalidAuth = () => {
+  console.log("🧹 Clearing invalid authentication");
+  localStorage.removeItem("jwtToken");
+  delete axios.defaults.headers.common["Authorization"];
+  window.location.href = '/login';
 };
 
 // Function to clean up malformed tokens

@@ -53,7 +53,7 @@ import {
 import store from "../../store";
 import { useHistory } from "react-router-dom";
 import BackBarMui from "../layout/BackBarMui";
-import setAuthToken, { checkAuthState, cleanupToken } from "../../utils/setAuthToken";
+import setAuthToken, { checkAuthState, cleanupToken, runServerSanityCheck, clearInvalidAuth } from "../../utils/setAuthToken";
 
 const Settings = ({ auth, errors }) => {
   const history = useHistory();
@@ -695,6 +695,27 @@ const Settings = ({ auth, errors }) => {
                 }}
               >
                 Clean Token
+              </Button>
+              <Button 
+                variant="outlined" 
+                color="success"
+                onClick={async () => {
+                  const sanityCheck = await runServerSanityCheck();
+                  if (sanityCheck) {
+                    console.log("✅ Server sanity check passed");
+                  }
+                }}
+              >
+                Server Sanity Check
+              </Button>
+              <Button 
+                variant="outlined" 
+                color="error"
+                onClick={() => {
+                  clearInvalidAuth();
+                }}
+              >
+                Clear Invalid Auth
               </Button>
             </Box>
           </CardContent>
