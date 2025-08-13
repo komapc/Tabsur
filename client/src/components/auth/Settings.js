@@ -53,6 +53,7 @@ import {
 import store from "../../store";
 import { useHistory } from "react-router-dom";
 import BackBarMui from "../layout/BackBarMui";
+import { checkAuthState } from "../../utils/setAuthToken";
 
 const Settings = ({ auth, errors }) => {
   const history = useHistory();
@@ -565,6 +566,39 @@ const Settings = ({ auth, errors }) => {
                 />
               </ListItem>
             </List>
+          </CardContent>
+        </Card>
+
+        {/* Debug Section */}
+        <Card sx={{ mb: 3 }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
+              <SettingsIcon sx={{ mr: 1 }} />
+              Debug & Testing
+            </Typography>
+            
+            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+              <Button 
+                variant="outlined" 
+                color="info"
+                onClick={() => {
+                  const authState = checkAuthState();
+                  console.log("🔍 Manual Auth Check:", authState);
+                }}
+              >
+                Check Auth State
+              </Button>
+              <Button 
+                variant="outlined" 
+                color="info"
+                onClick={() => {
+                  console.log("🔍 Redux Auth State:", auth);
+                  console.log("🔍 Local Storage Token:", localStorage.getItem("jwtToken"));
+                }}
+              >
+                Check Redux State
+              </Button>
+            </Box>
           </CardContent>
         </Card>
 
