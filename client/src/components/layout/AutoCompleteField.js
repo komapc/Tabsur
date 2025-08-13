@@ -25,8 +25,8 @@ const autocompleteService = { current: null };
 
 const useStyles = makeStyles((theme) => ({
   icon: {
-    color: theme.palette.text.secondary,
-    marginRight: theme.spacing(2),
+    color: theme?.palette?.text?.secondary || '#757575',
+    marginRight: theme?.spacing ? theme.spacing(2) : '16px',
   },
 }));
 

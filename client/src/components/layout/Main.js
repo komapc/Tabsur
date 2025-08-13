@@ -39,39 +39,51 @@ const Main = ({ auth, theme }) => {
     history.push(`#${value}`);
   };
 
+  // Sanity tests for Main component
+  console.log(`Main render - index: ${index}, authenticated: ${auth?.isAuthenticated}`);
+  console.log(`Main render - isFabFabVisible: ${isFabFabVisible}, isSwipable: ${isSwipable}`);
+
   return (
     <>
+      <AppFab visible={isFabFabVisible} />
       <div className="main-app">
         <SwipeableViews
           index={index}
           onChangeIndex={(value) => handleChange(null, value)}
           disabled={!isSwipable}
         >
-          {/* <MealsListMapSwitcher
-            theme={theme}
-            active={index === mainTabs.MEALS}
-            setFabVisibility={setFabVisibility}
-            setSwipability={setSwipability}
-            isFabFabVisible={isFabFabVisible}
-            index={index}
-            handleChange={handleChange}
-            isSwipable={isSwipable}
-          /> */}
-          {/* <MyProfile
-            active={index === mainTabs.MY_PROFILE}
-            setFabVisibility={setFabVisibility}
-            setSwipability={setSwipability}
-          /> */}
-          <MyMeals
-            active={index === mainTabs.MY_MEALS}
-            setFabVisibility={setFabVisibility}
-            setSwipability={setSwipability}
-          />
-          {/* <ChatList
-            active={index === mainTabs.CHAT}
-            setFabVisibility={setFabVisibility}
-            setSwipability={setSwipability}
-          /> */}
+          <div>
+            {console.log('Rendering Meals tab')}
+            <MealsListMapSwitcher
+              active={index === mainTabs.MEALS}
+              setFabVisibility={setFabVisibility}
+              setSwipability={setSwipability}
+            />
+          </div>
+          <div>
+            {console.log('Rendering Profile tab')}
+            <MyProfile
+              active={index === mainTabs.MY_PROFILE}
+              setFabVisibility={setFabVisibility}
+              setSwipability={setSwipability}
+            />
+          </div>
+          <div>
+            {console.log('Rendering MyMeals tab')}
+            <MyMeals
+              active={index === mainTabs.MY_MEALS}
+              setFabVisibility={setFabVisibility}
+              setSwipability={setSwipability}
+            />
+          </div>
+          <div>
+            {console.log('Rendering Chat tab')}
+            <ChatList
+              active={index === mainTabs.CHAT}
+              setFabVisibility={setFabVisibility}
+              setSwipability={setSwipability}
+            />
+          </div>
         </SwipeableViews>
       </div>
       <Bottom onChange={handleChange} index={index} />

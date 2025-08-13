@@ -1,14 +1,7 @@
 const express = require('express');
-const AWS = require('aws-sdk');
 const keys = require("../../config/keys");
 const router = express.Router();
 const pool = require("../db.js");
-
-// configure the keys for accessing AWS
-AWS.config.update({
-  accessKeyId: keys.AWS_KEY,//process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-});
 
 
 // @route GET api/system

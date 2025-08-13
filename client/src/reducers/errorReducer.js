@@ -7,7 +7,7 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case GET_ERRORS:
       console.log("error reducer: GET_ERRORS, " + JSON.stringify(action.payload));
-      return action.payload;
+      return action.payload || {};
     default:
       return state;
   }

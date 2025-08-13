@@ -25,7 +25,7 @@ import InfoIcon from  '@mui/icons-material/Info';
 const useStylesHeader = makeStyles(theme => ({
   alignItemsAndJustifyContent: {
     width: "100%",
-    height: theme.spacing(25),
+    height: theme?.spacing ? theme.spacing(25) : '200px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -40,7 +40,7 @@ const useStylesHeader = makeStyles(theme => ({
   },
   margin: {
     margin: {
-      margin: theme.spacing(1),
+      margin: theme?.spacing ? theme.spacing(1) : '8px',
     },
   }
 }));
