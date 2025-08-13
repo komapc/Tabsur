@@ -41,6 +41,18 @@ const theme = createTheme({
     secondary: {
       main: "#dc004e",
     },
+    text: {
+      secondary: "#757575",
+    },
+    background: {
+      paper: "#ffffff",
+    },
+  },
+  spacing: 8, // This creates the spacing function
+  transitions: {
+    duration: {
+      shortest: 150,
+    },
   },
 });
 
@@ -64,12 +76,15 @@ try {
       window.location.href = "./login";
     }
   }
+  else {
+    console.log("No JWT token found in localStorage.");
+  }
 } catch (e) {
   console.error(`Local storage init failed: ${JSON.stringify(e)}`);
 }
 
 const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
-const enableMessaging = true;
+const enableMessaging = false;
 if (enableMessaging) {
   try {
     if ("serviceWorker" in navigator) {
@@ -85,6 +100,9 @@ if (enableMessaging) {
             `serviceWorker registration error: ${JSON.stringify(err)}.`
           );
         });
+    }
+    else {
+      console.error("Service Worker is not supported in this browser.");
     }
   } catch (e) {
     console.error(`Messaging registration failed with: ${JSON.stringify(e)}`);
@@ -139,6 +157,11 @@ class App extends Component {
     if (enableMessaging) {
       try {
         const userId = this.state.id;
+
+        // Initialize Firebase (replace with your actual config)
+        //import { initializeApp } from "firebase/app";
+        //const app = initializeApp(firebaseConfig);
+
         messaging
           .requestPermission()
           .then(async function () {
@@ -159,12 +182,12 @@ class App extends Component {
 
         // Add event listener in componentDidMount
         navigator.serviceWorker.addEventListener("message", this.handleMessage);
-
       } catch (e) {
         console.error(`Messaging initialization failed with: ${JSON.stringify(e)}`);
       }
     }
   }
+
 
   componentWillUnmount() {
     // Remove the event listener when the component unmounts to prevent memory leaks

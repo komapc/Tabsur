@@ -1,21 +1,28 @@
 #!/usr/bin/env sh
 
-export FLYWAY_LOCATIONS=filesystem:/tmp/migrations
-export FLYWAY_URL='jdbc:postgresql://host.docker.internal:5432/coolanu'
-export FLYWAY_USER=coolanu
-export FLYWAY_PASSWORD='coolanu'
+# Set database connection variables (can be overridden by environment)
+DB_HOST="${DB_HOST:-localhost}"
+DB_PORT="${DB_PORT:-5432}"
+DB_NAME="${DB_NAME:-coolanu}"
+DB_USER="${DB_USER:-coolanu}"
+DB_PASSWORD="${DB_PASSWORD:-coolanu}"
+MIGRATION_DIR="./migrations"
 
-docker pull flyway/flyway:6.3.1
+echo "🗄️  Connecting to database: $DB_HOST:$DB_PORT/$DB_NAME"
 
-docker container ls -a --filter "name=coolanu-migration" -q | xargs docker rm -f
+execute_sql() {
+  local sql_file="$1"
+  echo "Executing SQL file: $sql_file"
+  psql -h "$DB_HOST" -p "$DB_PORT" -d "$DB_NAME" -U "$DB_USER" -f "$sql_file"
+  if [ $? -ne 0 ]; then
+    echo "Error executing $sql_file"
+    exit 1
+  fi
+}
 
-docker run \
-    --name "coolanu-migration" \
-    -v $(pwd)/db/migrations:/tmp/migrations \
-    -e FLYWAY_LOCATIONS \
-    -e FLYWAY_URL \
-    -e FLYWAY_USER \
-    -e FLYWAY_PASSWORD \
-    --rm \
-    flyway/flyway:6.3.1 \
-    migrate
+# Find all SQL migration files in the migration directory and sort them numerically
+find "$MIGRATION_DIR" -name "V*.sql" | sort -V | while read -r sql_file; do
+  execute_sql "$sql_file"
+done
+
+echo "Migration complete."

@@ -19,7 +19,7 @@ export const registerUser = (userData, history) => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data
+        payload: err.response?.data || { general: "Registration failed" }
       })
     );
 };
@@ -49,7 +49,7 @@ export const loginUser = userData => dispatch => {
       console.warn(`Login failed: ${JSON.stringify(err)}`);
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data
+        payload: err.response?.data || { general: "Login failed" }
       })
     }
     );
@@ -78,7 +78,7 @@ export const loginUserFB = userData => dispatch => {
       console.error(`loginFB failed: ${JSON.stringify(err)}`);
       dispatch({
         type: GET_ERRORS,
-        payload: err
+        payload: err.response?.data || { general: "Facebook login failed" }
       })
       }
     );

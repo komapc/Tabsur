@@ -7,6 +7,14 @@ module.exports = {
         password: 'coolanu',
         ssl: false
     },
+    pgConfigTest : {
+        host: '127.0.0.1',
+        port: process.env.DB_PORT || 5433,
+        database: process.env.DB_NAME || 'coolanu_test',
+        user: 'coolanu',
+        password: 'coolanu',
+        ssl: false
+    },
     pgConfigProduction : {
         host: process.env.PG_HOST,
         port: 5432,

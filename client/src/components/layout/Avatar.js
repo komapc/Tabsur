@@ -9,13 +9,13 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         '& > *': {
-            margin: theme.spacing(1)
+            margin: theme?.spacing ? theme.spacing(1) : '8px'
         },
     },
     large: {
-        width: theme.spacing(17),
-        height: theme.spacing(17),
-        borderWidth: theme.spacing(1),
+        width: theme?.spacing ? theme.spacing(17) : '136px',
+        height: theme?.spacing ? theme.spacing(17) : '136px',
+        borderWidth: theme?.spacing ? theme.spacing(1) : '8px',
         borderColor: 'white',
         borderStyle: 'solid',
         backgroundColor: 'yellow',
