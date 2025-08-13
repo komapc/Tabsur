@@ -1,0 +1,109 @@
+# This workflow locates REST API file contracts
+# (Swagger or OpenAPI format, v2 and v3, JSON and YAML)
+# and runs 200+ security checks on them using 42Crunch Security Audit technology.
+#
+# Documentation is located here: https://docs.42crunch.com/latest/content/tasks/integrate_github_actions.htm
+#
+# To use this workflow, you will need to complete the following setup steps.
+#
+# 1. Create a free 42Crunch account at https://platform.42crunch.com/register
+#
+# 2. Follow steps at https://docs.42crunch.com/latest/content/tasks/integrate_github_actions.htm
+#    to create an API Token on the 42Crunch platform
+#
+# 3. Add a secret in GitHub as explained in https://docs.42crunch.com/latest/content/tasks/integrate_github_actions.htm,
+#    store the 42Crunch API Token in that secret, and supply the secret's name as api-token parameter in this workflow
+#
+# 4. Rename this file from .yml.disabled to .yml to enable the workflow
+#
+# If you have any questions or need help contact https://support.42crunch.com
+
+name: "42Crunch REST API Static Security Testing"
+
+# follow standard Code Scanning triggers
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ main, master ]
+  schedule:
+    - cron: '38 13 * * 6'
+  workflow_dispatch:
+
+jobs:
+  check-token:
+    runs-on: ubuntu-latest
+    outputs:
+      has-token: ${{ steps.check-token.outputs.has-token }}
+      has-api-files: ${{ steps.check-files.outputs.api_files_exist }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check if API token exists
+        id: check-token
+        run: |
+          if [ -n "${{ secrets.API_TOKEN }}" ]; then
+            echo "has-token=true" >> $GITHUB_OUTPUT
+            echo "✅ API_TOKEN is configured"
+          else
+            echo "has-token=false" >> $GITHUB_OUTPUT
+            echo "⚠️ API_TOKEN is not configured"
+          fi
+
+      - name: Check for OpenAPI files
+        id: check-files
+        run: |
+          if find . -name "*.yml" -o -name "*.yaml" -o -name "*.json" | grep -E "(openapi|swagger)" | head -1; then
+            echo "api_files_exist=true" >> $GITHUB_OUTPUT
+            echo "✅ Found OpenAPI files"
+          else
+            echo "api_files_exist=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ No OpenAPI files found"
+          fi
+
+  rest-api-static-security-testing:
+    runs-on: ubuntu-latest
+    needs: check-token
+    if: ${{ needs.check-token.outputs.has-token == 'true' && needs.check-token.outputs.has-api-files == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 42Crunch REST API Static Security Testing
+        uses: 42Crunch/api-security-audit-action@v1
+        with:
+          # Please create free account at https://platform.42crunch.com/register
+          # Follow these steps to configure API_TOKEN https://docs.42crunch.com/latest/content/tasks/integrate_github_actions.htm
+          api-token: ${{ secrets.API_TOKEN }}
+          # Fail if any OpenAPI file scores lower than 75
+          min-score: 75
+          # Upload results to Github code scanning
+          upload-to-code-scanning: true
+          # Github token for uploading the results
+          github-token: ${{ github.token }}
+
+  skip-security-audit:
+    runs-on: ubuntu-latest
+    needs: check-token
+    if: ${{ needs.check-token.outputs.has-token != 'true' || needs.check-token.outputs.has-api-files != 'true' }}
+    steps:
+      - name: Skip 42Crunch Analysis
+        run: |
+          echo "🔍 42Crunch API Security Analysis Skipped"
+          echo ""
+          if [ "${{ needs.check-token.outputs.has-token }}" != "true" ]; then
+            echo "⚠️ Reason: API_TOKEN secret not configured"
+            echo ""
+            echo "To enable 42Crunch API security scanning:"
+            echo "1. Create free account at https://platform.42crunch.com/register"
+            echo "2. Generate API token in platform settings"
+            echo "3. Add API_TOKEN to GitHub repository secrets"
+            echo "4. Re-run the workflow"
+          else
+            echo "ℹ️ Reason: No OpenAPI specification files found"
+            echo ""
+            echo "To enable API security scanning:"
+            echo "1. Add OpenAPI/Swagger specification files (*.yml, *.yaml, *.json)"
+            echo "2. Files should contain 'openapi' or 'swagger' in filename or content"
+            echo "3. Example: docs/openapi.yml (already present in this repo)"
+          fi
