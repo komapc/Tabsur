@@ -30,7 +30,7 @@ import ChatUser from "./components/chat/ChatUser";
 import { Helmet } from "react-helmet";
 import "./App.css";
 import { messaging } from "../src/init-fcm";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";\nimport ErrorBoundary from "./components/common/ErrorBoundary";
 import AppFab from "./components/layout/AppFab"; 
 
 const theme = createTheme({
@@ -197,41 +197,43 @@ class App extends Component {
   render() {
     try {
       return (
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            <GoogleOAuthProvider clientId={googleKey}>  
-              <Router>
-                <Helmet>
-                  <meta charSet="utf-8" />
-                  <title>
-                    BeMyGuest - food sharing app or food sharing and social
-                    dinning
-                  </title>
-                  <link rel="canonical" href="https://www.bemyguest.app" />
-                </Helmet>
-                {/* <AppFab visible={true} /> */}
-                <Switch>
-                  <Route exact path="/register" component={Register} />
-                  <Route exact path="/login/:extend?" component={Login} />
-                  <Route exact path="/about" component={About} />
-                  <PrivateRoute exact path="/user/:id" component={ShowUser} />
-                  <Route exact path="/meal/:id" component={ShowMeal} />
-                  <PrivateRoute exact path="/profile/:id" component={Profile} />
-                  <PrivateRoute exact path="/Stats/:id" component={Stats} />
-                  <PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
-                  <PrivateRoute exact path="/settings" component={Settings} />
-                  <PrivateRoute exact path="/EditMeal/:id" component={EditMeal} />
-                  <PrivateRoute
-                    exact
-                    path="/createMealWizard"
-                    component={CreateMealWizard}
-                  />
-                  <Route path="/" component={Main} />
-                </Switch>
-              </Router>
-            </GoogleOAuthProvider>
-          </ThemeProvider>
-        </Provider>
+        <ErrorBoundary>
+          <Provider store={store}>
+            <ThemeProvider theme={theme}>
+              <GoogleOAuthProvider clientId={googleKey}>  
+                <Router>
+                  <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>
+                      BeMyGuest - food sharing app or food sharing and social
+                      dinning
+                    </title>
+                    <link rel="canonical" href="https://www.bemyguest.app" />
+                  </Helmet>
+                  {/* <AppFab visible={true} /> */}
+                  <Switch>
+                    <Route exact path="/register" component={Register} />
+                    <Route exact path="/login/:extend?" component={Login} />
+                    <Route exact path="/about" component={About} />
+                    <PrivateRoute exact path="/user/:id" component={ShowUser} />
+                    <Route exact path="/meal/:id" component={ShowMeal} />
+                    <PrivateRoute exact path="/profile/:id" component={Profile} />
+                    <PrivateRoute exact path="/Stats/:id" component={Stats} />
+                    <PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
+                    <PrivateRoute exact path="/settings" component={Settings} />
+                    <PrivateRoute exact path="/EditMeal/:id" component={EditMeal} />
+                    <PrivateRoute
+                      exact
+                      path="/createMealWizard"
+                      component={CreateMealWizard}
+                    />
+                    <Route path="/" component={Main} />
+                  </Switch>
+                </Router>
+              </GoogleOAuthProvider>
+            </ThemeProvider>
+          </Provider>
+        </ErrorBoundary>
       );
     } catch (e) {
       return <h3>{e}</h3>;
