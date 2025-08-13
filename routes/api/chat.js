@@ -1,5 +1,5 @@
 const pool = require('../db.js');
-const {authenticateJWT} = require('../authenticateJWT.js');
+const { authenticateJWT } = require('../authenticateJWT.js');
 const express = require('express');
 const router = express.Router();
 // @route GET api/chat/
@@ -9,7 +9,7 @@ router.get('/:id', authenticateJWT, async (req, response) => {
   const userId = req.params.id;
   console.log(`get chat messages for user ${userId}`);
   if (isNaN(userId)) {
-  return response.status(400).json('Error in geting  meals: wrong ID');
+    return response.status(400).json('Error in geting  meals: wrong ID');
   // userId = -1;
   }
   //todo: get messages with  reveiver OR sender, top 1 for every user // name1 - receiverName, name2 - senderName;
@@ -48,14 +48,14 @@ router.get('/:id', authenticateJWT, async (req, response) => {
   console.log(`get, SQLquery: [${SQLquery}]`);
   const client = await pool.connect();
   return client.query(SQLquery, [userId])
-  .then(resp => {
-    return response.json(resp.rows);
-  })
-  .catch(err => {
-    console.error(err);
-    return response.status(500).json(err);
-  })
-  .finally(() => client.release());
+    .then(resp => {
+      return response.json(resp.rows);
+    })
+    .catch(err => {
+      console.error(err);
+      return response.status(500).json(err);
+    })
+    .finally(() => client.release());
 });
 // @route GET api/user/
 // @desc get a chat messages for a specific user;
@@ -66,7 +66,7 @@ router.get('/user/:me/:user', authenticateJWT, async (req, response) => {
   const userId = req.params.user;
   console.log(`Get chat messages between ${meId} and ${userId}.`);
   if (isNaN(userId)) {
-  return response.status(400).json('Error in geting meals: wrong ID');
+    return response.status(400).json('Error in geting meals: wrong ID');
   }
   //todo: get messages between two users;
   const SQLquery = `SELECT
@@ -79,14 +79,14 @@ router.get('/user/:me/:user', authenticateJWT, async (req, response) => {
   console.log(`get, SQLquery: [${SQLquery}], me: ${meId}, her: ${userId}`);
   const client = await pool.connect();
   return client.query(SQLquery, [userId, meId])
-  .then(resp => {
-    console.log(JSON.stringify(resp.rows));
-    return response.json(resp.rows);
-  })
-  .catch(err => {
-    console.error(`Query failed: ${JSON.stringify(err)}`);
-    return response.status(500).json(err);
-  })
-  .finally(() => client.release());
+    .then(resp => {
+      console.log(JSON.stringify(resp.rows));
+      return response.json(resp.rows);
+    })
+    .catch(err => {
+      console.error(`Query failed: ${JSON.stringify(err)}`);
+      return response.status(500).json(err);
+    })
+    .finally(() => client.release());
 });
 module.exports = router;
