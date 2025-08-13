@@ -1,7 +1,7 @@
 # 🍽️ BeMyGuest - Food Sharing Social Dining App
 
 [![CI/CD](https://github.com/yourusername/Tabsur/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/Tabsur/actions/workflows/ci.yml)
-[![Security Scan](https://github.com/yourusername/Tabsur/actions/workflows/crunch42-analysis.yml/badge.svg)](https://github.com/yourusername/Tabsur/actions/workflows/crunch42-analysis.yml)
+[![Deploy](https://github.com/yourusername/Tabsur/actions/workflows/deploy.yml/badge.svg)](https://github.com/yourusername/Tabsur/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 BeMyGuest is a full-stack social dining application that connects people through shared meals. Users can host dinner events, join others' meals, and build a community around food sharing.
