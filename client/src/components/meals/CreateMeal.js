@@ -4,11 +4,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addMeal } from "../../actions/mealActions";
 import MapLocationSelector from "./MapLocationSelector";
-import DateFnsUtils from '@date-io/date-fns';
-// import {
-//   KeyboardDateTimePicker,
-//   MuiPickersUtilsProvider
-// } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 
 import Grid from '@mui/material/Grid';
 import attend from "../../resources/attended.svg"
@@ -103,23 +100,17 @@ class CreateMeal extends Component {
           <div className="date-div">
             {/* <span><img className="meal-info-icons" src={dateIcon} alt="date" /></span> */}
             <span>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Grid container justify="space-around"><span><img className="meal-info-icons" src={dateIcon} alt="date" /></span>
-                  <KeyboardDateTimePicker
-                    variant="dialog"
-                    ampm={false}
+                  <DateTimePicker
                     label="date & time"
-                    id="selectedDate"
                     value={this.state.selectedDate}
                     onChange={(value) => { this.setState({ selectedDate: value }) }}
-                    onError={console.log}
                     disablePast
-                    showTodayButton
-                    autoOk
                     format="yyyy/MM/dd HH:mm"
                   />
                 </Grid>
-              </MuiPickersUtilsProvider>
+              </LocalizationProvider>
             </span>
           </div>
 

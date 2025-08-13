@@ -1,10 +1,10 @@
 const fcm = require('../firebaseCloudMessages');
-const pool = require("../db.js");
+const pool = require('../db.js');
 
 const pushNotification = (notification, registration_ids) => {
   return fcm.sendNotification(JSON.stringify({
     notification: notification,
-    "registration_ids": registration_ids !== null && registration_ids.length > 0 ? registration_ids.split(';') : ""
+    'registration_ids': registration_ids !== null && registration_ids.length > 0 ? registration_ids.split(';') : ''
   }))
     .then(response => {
       console.log(JSON.stringify(`Got a response from fcm: ${JSON.stringify(response)}`));
@@ -24,9 +24,9 @@ const addNotificationToDB = async (message) => {
   //example of param:
   // const message =
   // {
-  //   title: 'Attend', 
-  //   body:  'A user wants to join your meal', 
-  //   icon: 'resources/Message-Bubble-icon.png', 
+  //   title: 'Attend',
+  //   body:  'A user wants to join your meal',
+  //   icon: 'resources/Message-Bubble-icon.png',
   //   click_action: '/Meals/',
   //   receiver: attend.user_id,
   //   meal_id:  attend.meal_id,
@@ -51,13 +51,13 @@ const addNotificationToDB = async (message) => {
   console.log(`Connected.`);
   return client.query(query,
     [message.meal_id,
-    message.receiver,
-    message.body,
-    message.sender,
-    message.type,
-    message.click_action,
-    message.icon,
-    message.title,
+      message.receiver,
+      message.body,
+      message.sender,
+      message.type,
+      message.click_action,
+      message.icon,
+      message.title
     ])
     .then(resp => {
       console.log(`Message inserted successfully.`);
@@ -73,7 +73,7 @@ const addNotificationToDB = async (message) => {
     });
 };
 
-//add notificatin/message to the DB + push 
+//add notificatin/message to the DB + push
 addNotification = async (notification) => {
   return addNotificationToDB(notification)
     .then(resp => {
@@ -86,7 +86,7 @@ addNotification = async (notification) => {
         })
         .catch(error => {
           console.error(`pushNotification failed: ${JSON.stringify(error)}.`);
-        })
+        });
     })
     .catch(error => {
       console.error(`addNotificationToDB failed: ${JSON.stringify(error)}.`);

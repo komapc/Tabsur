@@ -7,7 +7,7 @@ const testConfig = {
   host: 'localhost',
   database: 'coolanu_test',
   password: 'coolanu',
-  port: 5433,
+  port: 5433
 };
 
 let app;
@@ -19,20 +19,20 @@ describe('Integration Tests - User Registration and Login', () => {
     process.env.NODE_ENV = 'test';
     process.env.DB_PORT = '5433';
     process.env.DB_NAME = 'coolanu_test';
-    
+
     // Create database connection
     pool = new Pool(testConfig);
-    
+
     // Wait for database connection
     await new Promise(resolve => setTimeout(resolve, 2000));
-    
+
     // Import app after setting environment
     const express = require('express');
     const bodyParser = require('body-parser');
     const cors = require('cors');
-    
+
     const users = require('../routes/api/users');
-    
+
     app = express();
     app.use(cors());
     app.use(bodyParser.urlencoded({ extended: false }));
@@ -49,7 +49,7 @@ describe('Integration Tests - User Registration and Login', () => {
   beforeEach(async () => {
     // Clean up test data before each test
     try {
-      await pool.query("DELETE FROM users WHERE email LIKE '%test%'");
+      await pool.query('DELETE FROM users WHERE email LIKE \'%test%\'');
     } catch (err) {
       // Table might not exist yet, ignore error
       console.log('Cleanup warning:', err.message);
@@ -69,7 +69,7 @@ describe('Integration Tests - User Registration and Login', () => {
     it('should complete full user registration and login flow', async () => {
       // Step 1: Register a new user
       console.log('🧪 Testing user registration...');
-      
+
       const registerResponse = await request(app)
         .post('/api/users/register')
         .send(testUser)
@@ -79,7 +79,7 @@ describe('Integration Tests - User Registration and Login', () => {
 
       // Step 2: Attempt login with the registered user
       console.log('🧪 Testing user login...');
-      
+
       const loginResponse = await request(app)
         .post('/api/users/login')
         .send({
@@ -96,7 +96,7 @@ describe('Integration Tests - User Registration and Login', () => {
       } else {
         console.log('❌ Login failed with status:', loginResponse.status);
         console.log('Response body:', loginResponse.body);
-        
+
         // Still pass the test if user was created successfully
         expect(registerResponse.status).toBe(201);
       }
@@ -104,7 +104,7 @@ describe('Integration Tests - User Registration and Login', () => {
 
     it('should reject duplicate email registration', async () => {
       console.log('🧪 Testing duplicate email rejection...');
-      
+
       // Register user first time
       await request(app)
         .post('/api/users/register')
@@ -125,7 +125,7 @@ describe('Integration Tests - User Registration and Login', () => {
 
     it('should reject login with wrong password', async () => {
       console.log('🧪 Testing wrong password rejection...');
-      
+
       // Register user first
       await request(app)
         .post('/api/users/register')

@@ -28,7 +28,7 @@ app.use('/api/meals', meals);
 
 describe('Meals API', () => {
   let testMeal;
-  
+
   beforeEach(() => {
     testMeal = {
       name: 'Test Meal',
@@ -45,7 +45,7 @@ describe('Meals API', () => {
     it('should create a new meal with valid data', async () => {
       const pool = require('../routes/db.js');
       const mockClient = await pool.connect();
-      
+
       // Mock successful meal creation
       mockClient.query.mockResolvedValueOnce({
         rows: [{ id: 1, ...testMeal, host_id: 1 }]
@@ -61,7 +61,7 @@ describe('Meals API', () => {
         name: testMeal.name,
         description: testMeal.description
       });
-      
+
       expect(mockClient.query).toHaveBeenCalledWith(
         expect.stringContaining('INSERT INTO meals'),
         expect.arrayContaining([
@@ -104,12 +104,12 @@ describe('Meals API', () => {
     it('should return list of meals', async () => {
       const pool = require('../routes/db.js');
       const mockClient = await pool.connect();
-      
+
       const mockMeals = [
         { id: 1, name: 'Meal 1', host_id: 1 },
         { id: 2, name: 'Meal 2', host_id: 2 }
       ];
-      
+
       mockClient.query.mockResolvedValueOnce({
         rows: mockMeals
       });
@@ -125,7 +125,7 @@ describe('Meals API', () => {
     it('should filter meals by location when provided', async () => {
       const pool = require('../routes/db.js');
       const mockClient = await pool.connect();
-      
+
       mockClient.query.mockResolvedValueOnce({
         rows: [{ id: 1, name: 'Local Meal' }]
       });
@@ -146,14 +146,14 @@ describe('Meals API', () => {
     it('should return a specific meal by id', async () => {
       const pool = require('../routes/db.js');
       const mockClient = await pool.connect();
-      
-      const mockMeal = { 
-        id: 1, 
-        name: 'Test Meal', 
+
+      const mockMeal = {
+        id: 1,
+        name: 'Test Meal',
         host_id: 1,
         host_name: 'Test User'
       };
-      
+
       mockClient.query.mockResolvedValueOnce({
         rows: [mockMeal]
       });
@@ -169,7 +169,7 @@ describe('Meals API', () => {
     it('should return 404 for non-existent meal', async () => {
       const pool = require('../routes/db.js');
       const mockClient = await pool.connect();
-      
+
       mockClient.query.mockResolvedValueOnce({
         rows: []
       });
@@ -186,12 +186,12 @@ describe('Meals API', () => {
     it('should update a meal owned by the authenticated user', async () => {
       const pool = require('../routes/db.js');
       const mockClient = await pool.connect();
-      
+
       // Mock finding the meal (owned by user)
       mockClient.query.mockResolvedValueOnce({
         rows: [{ id: 1, host_id: 1 }]
       });
-      
+
       // Mock successful update
       mockClient.query.mockResolvedValueOnce({
         rows: [{ id: 1, ...testMeal, host_id: 1 }]
@@ -208,7 +208,7 @@ describe('Meals API', () => {
     it('should reject update of meal not owned by user', async () => {
       const pool = require('../routes/db.js');
       const mockClient = await pool.connect();
-      
+
       // Mock finding meal owned by different user
       mockClient.query.mockResolvedValueOnce({
         rows: [{ id: 1, host_id: 2 }] // Different user owns this meal
@@ -227,12 +227,12 @@ describe('Meals API', () => {
     it('should delete a meal owned by the authenticated user', async () => {
       const pool = require('../routes/db.js');
       const mockClient = await pool.connect();
-      
+
       // Mock finding the meal (owned by user)
       mockClient.query.mockResolvedValueOnce({
         rows: [{ id: 1, host_id: 1 }]
       });
-      
+
       // Mock successful deletion
       mockClient.query.mockResolvedValueOnce({
         rows: [{ id: 1 }]
@@ -248,7 +248,7 @@ describe('Meals API', () => {
     it('should reject deletion of meal not owned by user', async () => {
       const pool = require('../routes/db.js');
       const mockClient = await pool.connect();
-      
+
       // Mock finding meal owned by different user
       mockClient.query.mockResolvedValueOnce({
         rows: [{ id: 1, host_id: 2 }]
