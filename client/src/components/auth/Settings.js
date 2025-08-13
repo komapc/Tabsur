@@ -623,6 +623,30 @@ const Settings = ({ auth, errors }) => {
               </Button>
               <Button 
                 variant="outlined" 
+                color="success"
+                onClick={async () => {
+                  try {
+                    // Test with axios to see if there's a difference
+                    const token = localStorage.getItem("jwtToken");
+                    console.log("🔍 Testing with axios, token:", token ? `${token.substring(0, 30)}...` : 'None');
+                    
+                    // Import axios dynamically
+                    const { default: axios } = await import('axios');
+                    const response = await axios.get('http://localhost:5000/api/users/system', {
+                      headers: {
+                        'Authorization': `Bearer ${token}`
+                      }
+                    });
+                    console.log("🔍 Axios Test Response:", response.status, response.data);
+                  } catch (error) {
+                    console.error("🔍 Axios Test Error:", error.response?.status, error.response?.data);
+                  }
+                }}
+              >
+                Test with Axios
+              </Button>
+              <Button 
+                variant="outlined" 
                 color="info"
                 onClick={async () => {
                   try {
