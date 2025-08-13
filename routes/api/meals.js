@@ -14,7 +14,7 @@ router.get('/:id', async (req, response) => {
   if (isNaN(userId)) {
   //return response.status(400).json('Error in geting  meals: wrong ID');
   //when user is not logged-in;
-  userId = -1;
+  let userId = -1;
   }
   const SQLquery = `
   SELECT
