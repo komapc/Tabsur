@@ -1,330 +1,102 @@
-# 🍽️ BeMyGuest - Food Sharing Social Dining App
+# Tabsur Database Migration & Cost Optimization
 
-[![CI/CD](https://github.com/yourusername/Tabsur/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/Tabsur/actions/workflows/ci.yml)
-[![Deploy](https://github.com/yourusername/Tabsur/actions/workflows/deploy.yml/badge.svg)](https://github.com/yourusername/Tabsur/actions/workflows/deploy.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+## 🎯 Project Overview
 
-BeMyGuest is a full-stack social dining application that connects people through shared meals. Users can host dinner events, join others' meals, and build a community around food sharing.
+This repository contains the migration of the Tabsur database from AWS us-east-1 to eu-west-1, including cost optimization strategies and infrastructure as code.
 
-## 🌟 Features
+## 🚀 What's Included
 
-- **🏠 Host Meals**: Create and manage dinner events at your location
-- **🔍 Discover Events**: Find nearby meals using interactive maps
-- **👥 Social Networking**: Connect with fellow food enthusiasts
-- **💬 Real-time Chat**: Message other users and coordinate meetups
-- **📱 Mobile-First Design**: Responsive design for all devices
-- **🗺️ Location Services**: Google Maps integration for meal discovery
-- **🔔 Push Notifications**: Real-time updates via Firebase Cloud Messaging
-- **📸 Photo Sharing**: Upload and share meal photos
+### 📁 Scripts
+- **`migrate-to-eu-west-1.sh`** - Complete database migration script
+- **`complete-migration.sh`** - Final migration steps after snapshot copy
+- **`check-migration-status.sh`** - Migration progress monitoring
+- **`deploy-aws.sh`** - AWS deployment automation
 
-## 🏗️ Architecture
+### 🏗️ Terraform Infrastructure
+- **`terraform/`** - Complete infrastructure as code
+  - **`main.tf`** - Main configuration with eu-west-1 region
+  - **`modules/rds/`** - RDS database configuration
+  - **`variables.tf`** - Configuration variables
+  - **`outputs.tf`** - Output values
 
-### Tech Stack
-- **Frontend**: React 18, Material-UI v7, Redux, React Router
-- **Backend**: Node.js, Express.js, PostgreSQL
-- **Authentication**: JWT with Google OAuth
-- **Real-time**: Firebase Cloud Messaging
-- **Maps**: Google Maps API
-- **Storage**: AWS S3
-- **Cache**: Redis
-- **Deployment**: Docker, Docker Compose
+### 📊 Migration Benefits
+- **Cost Reduction**: 75% storage savings (20GB → 5GB)
+- **Performance**: 3-4x faster latency from Israel
+- **Support**: PostgreSQL 15.7 (4+ years vs End of Life)
+- **Region**: eu-west-1 (Ireland) for better performance
 
-### Project Structure
-```
-Tabsur/
-├── client/                 # React frontend application
-│   ├── src/
-│   │   ├── components/     # React components
-│   │   ├── actions/        # Redux actions
-│   │   ├── reducers/       # Redux reducers
-│   │   └── utils/          # Utility functions
-│   └── public/             # Static assets
-├── routes/                 # Express API routes
-│   └── api/                # API endpoints
-├── db/                     # Database migrations
-├── tests/                  # Test suites
-├── docker/                 # Docker configurations
-├── docs/                   # API documentation
-└── .github/                # GitHub Actions workflows
-```
+## 🔧 Prerequisites
 
-## 🚀 Quick Start
+- AWS CLI configured with appropriate permissions
+- PostgreSQL client tools (pg_dump, psql)
+- Terraform >= 1.0
 
-### Prerequisites
-- Docker & Docker Compose
-- Node.js 24.4+ (for local development)
-- PostgreSQL (if running without Docker)
+## 📋 Migration Process
 
-### 1. Clone Repository
+### Phase 1: Preparation
+1. Update Terraform for eu-west-1 region
+2. Create new database in target region
+3. Prepare migration scripts
+
+### Phase 2: Data Migration
+1. Create database snapshot
+2. Copy snapshot to eu-west-1
+3. Restore database from snapshot
+
+### Phase 3: Upgrade & Optimization
+1. Upgrade PostgreSQL to 15.7
+2. Reduce storage to 5GB
+3. Test functionality
+
+### Phase 4: Switch & Cleanup
+1. Update application configuration
+2. Delete old database
+3. Verify cost savings
+
+## 💰 Cost Optimization
+
+### Before Migration
+- **Monthly Cost**: $59.86 (2 databases running)
+- **Storage**: 20GB GP2
+- **PostgreSQL**: 11.22 (End of Life)
+
+### After Migration
+- **Monthly Cost**: $29.93 (1 database)
+- **Storage**: 5GB GP2
+- **PostgreSQL**: 15.7 (4+ years support)
+- **Annual Savings**: $359.16
+
+## 🚨 Important Notes
+
+- **Reserved Instances**: Cannot be canceled once purchased
+- **Migration Time**: 1-2 hours total
+- **Downtime**: Minimal (blue-green migration)
+- **Backup**: 3-day retention for cost savings
+
+## 🔍 Usage
+
+### Check Migration Status
 ```bash
-git clone https://github.com/yourusername/Tabsur.git
-cd Tabsur
+./check-migration-status.sh
 ```
 
-### 2. Environment Setup
+### Complete Migration
 ```bash
-# Copy environment template
-cp .env.example .env
-
-# Edit with your configuration
-nano .env
+./complete-migration.sh
 ```
 
-### 3. Deploy with Docker
+### Deploy Infrastructure
 ```bash
-# Development environment
-./deploy.sh debug
-
-# Production environment  
-./deploy.sh release
+cd terraform
+terraform init
+terraform plan
+terraform apply
 ```
 
-### 4. Access Application
-- **Client**: http://localhost:3000
-- **API**: http://localhost:5000
-- **Database**: localhost:5432 (debug mode)
+## 📞 Support
 
-## 🔧 Development
+For migration issues or cost optimization questions, refer to the migration scripts and Terraform documentation.
 
-### Local Development Setup
-```bash
-# Install server dependencies
-npm install
+## 📝 License
 
-# Install client dependencies
-cd client && npm install
-
-# Start development servers
-npm run debug
-```
-
-### Available Scripts
-```bash
-# Development
-npm run debug          # Start both client and server in debug mode
-npm run server-debug   # Start server in debug mode
-npm run client         # Start client only
-
-# Testing
-npm test              # Run server tests
-npm run test:full     # Run full test suite
-./deploy.sh test      # Run all tests
-
-# Database
-npm run start-db      # Start PostgreSQL with Docker
-npm run migrate-local-db  # Run database migrations
-
-# Production
-npm run build         # Build production bundle
-npm start             # Start production server
-```
-
-### Testing
-```bash
-# Run unit tests
-npm test
-
-# Run client tests with coverage
-cd client && npm test -- --coverage
-
-# Run integration tests
-npm run test:full
-
-# Run all tests via deployment script
-./deploy.sh test
-```
-
-## 📊 API Documentation
-
-### OpenAPI Specification
-API documentation is available in OpenAPI 3.0 format:
-- **File**: `docs/openapi.yml`
-- **Interactive Docs**: http://localhost:5000/api-docs (when server is running)
-
-### Key Endpoints
-```bash
-# Authentication
-POST /api/users/register    # Register new user
-POST /api/users/login       # Login user
-
-# Meals
-GET  /api/meals            # List meals
-POST /api/meals            # Create meal
-GET  /api/meals/:id        # Get meal details
-PUT  /api/meals/:id        # Update meal
-DELETE /api/meals/:id      # Delete meal
-
-# System
-GET /api/system/health     # Health check
-```
-
-## 🐳 Docker Deployment
-
-### Environment Configurations
-
-#### Debug (Development)
-- Local database and Redis
-- Development optimizations
-- Debug logging enabled
-- Source code mounting
-
-```bash
-./deploy.sh debug
-```
-
-#### Release (Production)
-- External database (AWS RDS)
-- Production optimizations
-- Security hardening
-- Resource limits
-
-```bash
-./deploy.sh release
-```
-
-### Docker Commands
-```bash
-# View logs
-./deploy.sh logs
-
-# Stop services
-./deploy.sh stop
-
-# Restart services
-./deploy.sh restart
-
-# Health check
-curl http://localhost:5000/api/system/health
-```
-
-## 🔒 Security
-
-### Authentication & Authorization
-- JWT-based authentication
-- Google OAuth integration
-- Route-level authorization
-- Token expiration handling
-
-### Security Features
-- Input validation and sanitization
-- SQL injection prevention
-- XSS protection
-- Rate limiting
-- Secure headers
-- Environment variable protection
-
-### Security Scanning
-- Automated vulnerability scanning via Trivy
-- 42Crunch API security audit
-- npm audit for dependencies
-- Docker image scanning
-
-## 🚀 Deployment & CI/CD
-
-### GitHub Actions Workflows
-- **CI/CD Pipeline**: Automated testing, building, and deployment
-- **Security Scanning**: Vulnerability and API security audits
-- **Manual Deployment**: Controlled staging and production deployments
-
-### Deployment Environments
-- **Staging**: Automatic deployment from `develop` branch
-- **Production**: Automatic deployment from `main` branch
-- **Manual**: On-demand deployment with version control
-
-### Monitoring & Health Checks
-- Application health endpoints
-- Database connectivity checks
-- Service availability monitoring
-- Automated rollback on failures
-
-## 🧪 Testing Strategy
-
-### Test Coverage
-- **Unit Tests**: Component and function testing
-- **Integration Tests**: API endpoint testing
-- **End-to-End Tests**: User workflow testing
-- **Security Tests**: Vulnerability scanning
-
-### Test Execution
-```bash
-# All tests
-./deploy.sh test
-
-# Server tests only
-npm test
-
-# Client tests only
-cd client && npm test
-
-# Coverage report
-cd client && npm test -- --coverage
-```
-
-## 📱 Mobile Support
-
-### Progressive Web App (PWA)
-- Mobile-responsive design
-- Offline capability (planned)
-- Push notifications
-- App-like experience
-
-### Mobile Features
-- Touch-friendly interface
-- Swipeable tabs
-- Location services
-- Camera integration for photos
-
-## 🤝 Contributing
-
-### Development Process
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Code Standards
-- ESLint for JavaScript linting
-- Prettier for code formatting
-- Jest for testing
-- Conventional commits
-
-### Pull Request Checklist
-- [ ] Tests pass locally and in CI
-- [ ] Code follows style guidelines
-- [ ] Documentation updated if needed
-- [ ] Security considerations addressed
-- [ ] Performance impact assessed
-
-## 📞 Support & Documentation
-
-### Getting Help
-1. **Documentation**: Check this README and `/docs` directory
-2. **Issues**: Search existing [GitHub issues](https://github.com/yourusername/Tabsur/issues)
-3. **Discussions**: Join [GitHub Discussions](https://github.com/yourusername/Tabsur/discussions)
-4. **Wiki**: Additional documentation in the [project wiki](https://github.com/yourusername/Tabsur/wiki)
-
-### Useful Links
-- [Deployment Guide](DEPLOYMENT.md) - Detailed deployment instructions
-- [API Documentation](docs/openapi.yml) - OpenAPI specification
-- [GitHub Actions Guide](.github/README.md) - CI/CD documentation
-- [Development Guide](DEVELOPMENT_GUIDE.md) - Local development setup
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- React community for excellent documentation
-- Material-UI team for beautiful components
-- Google Maps team for location services
-- Firebase team for real-time messaging
-- 42Crunch for API security analysis
-- Contributors and beta testers
-
----
-
-**Made with ❤️ by the BeMyGuest Team**
-
-*Bringing people together through shared meals* 🍽️
+This project is part of the Tabsur application infrastructure.

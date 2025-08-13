@@ -1,0 +1,136 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY_CLIENT: tabsur-client
+  ECR_REPOSITORY_SERVER: tabsur-server
+  ECR_REPOSITORY_FB: tabsur-fb
+  ECS_CLUSTER: tabsur-cluster
+  ECS_SERVICE_CLIENT: tabsur-client-service
+  ECS_SERVICE_SERVER: tabsur-server-service
+
+jobs:
+  test:
+    name: Test and Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.4.1'
+          cache: 'npm'
+      
+      - name: Install server dependencies
+        run: npm ci
+      
+      - name: Install client dependencies
+        run: |
+          cd client
+          npm ci
+      
+      - name: Run server tests
+        run: npm run test:full
+      
+      - name: Run server linter
+        run: npm run lint:server
+      
+      - name: Run client linter
+        run: npm run lint:client
+      
+      - name: Build client
+        run: |
+          cd client
+          npm run build
+      
+      - name: Health check
+        run: npm run health
+
+  build-and-push:
+    name: Build and Push Docker Images
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      
+      - name: Build and push client image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_CLIENT:${{ github.sha }} -f Dockerfile.client .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_CLIENT:${{ github.sha }}
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY_CLIENT:${{ github.sha }} $ECR_REGISTRY/$ECR_REPOSITORY_CLIENT:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_CLIENT:latest
+          echo "Client image pushed: $ECR_REGISTRY/$ECR_REPOSITORY_CLIENT:${{ github.sha }}"
+      
+      - name: Build and push server image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_SERVER:${{ github.sha }} -f Dockerfile.server .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_SERVER:${{ github.sha }}
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY_SERVER:${{ github.sha }} $ECR_REGISTRY/$ECR_REPOSITORY_SERVER:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_SERVER:latest
+          echo "Server image pushed: $ECR_REGISTRY/$ECR_REPOSITORY_SERVER:${{ github.sha }}"
+
+  deploy:
+    name: Deploy to AWS
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Deploy to ECS
+        run: |
+          echo "Deploying client service..."
+          aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE_CLIENT --force-new-deployment
+          
+          echo "Deploying server service..."
+          aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE_SERVER --force-new-deployment
+          
+          echo "Waiting for services to stabilize..."
+          aws ecs wait services-stable --cluster $ECS_CLUSTER --services $ECS_SERVICE_CLIENT $ECS_SERVICE_SERVER
+          
+          echo "Deployment completed successfully!"
+      
+      - name: Get service status
+        run: |
+          echo "Client service status:"
+          aws ecs describe-services --cluster $ECS_CLUSTER --services $ECS_SERVICE_CLIENT --query 'services[0].{Status:status,RunningCount:runningCount,DesiredCount:desiredCount}'
+          
+          echo "Server service status:"
+          aws ecs describe-services --cluster $ECS_CLUSTER --services $ECS_SERVICE_SERVER --query 'services[0].{Status:status,RunningCount:runningCount,DesiredCount:desiredCount}'
+
