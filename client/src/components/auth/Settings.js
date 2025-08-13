@@ -1,7 +1,8 @@
-import { Toolbar, Grid, Button } from "react";
+import { Toolbar, Grid, Button } from "@mui/material";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser, loginUserFB, logoutUser } from "../../actions/authActions";
+import { TextField } from "@mui/material";
 //import FacebookLoginWithButton from 'react-facebook-login';
 import store from "../../store";
 import { useHistory } from "react-router-dom";
@@ -35,7 +36,7 @@ const Settings = () => {
         justify="center"
         style={{ minHeight: '100vh' }}
       >
-        {/* <div>
+        <div>
           <TextField
             variant="outlined"
             onChange={onEmailChange}
@@ -46,7 +47,7 @@ const Settings = () => {
             label={'Email'}
             style={{ width: '100%', marginTop: '1vh' }}
           />
-         </div> */}
+         </div>
 
         <Button variant="outlined" onClick={handleLogout}>
           Logout
