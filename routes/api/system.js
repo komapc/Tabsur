@@ -60,7 +60,7 @@ router.get('/meals', async (req, response) => {
   const SQLquery = `
   SELECT meals.id, meals.name, meals.created_at, meals.location,
   meals.address, meals.guest_count, meals.date,
-  users.name as owner_name, users.id as user_id;
+  users.name as owner_name, users.id as user_id
   FROM meals INNER JOIN users  ON meals.host_id = users.id`;
   console.log(`SQLquery: [${SQLquery}]`);
   const client = await pool.connect();
@@ -82,10 +82,10 @@ const getMealsStats = async (days) => {
   console.log(`get meal stats`);
   const SQLquery = `
   SELECT TRUNC(extract(epoch FROM now()-created_at)/(60*60*24*$1))*$1 days_before,
-  COUNT (0) AS mealsCreated, 2*$1 AS activeMeals;
+  COUNT (0) AS mealsCreated, 2*$1 AS activeMeals
   FROM meals
-  GROUP BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1));
-  ORDER BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1));
+  GROUP BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1))
+  ORDER BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1))
 `;
   console.log(`SQLquery: [${SQLquery}]`);
   const client = await pool.connect();
@@ -107,10 +107,10 @@ const getUsersStat = async (days) => {
   console.log(`get user stats`);
   const SQLquery = `
   SELECT TRUNC(extract(epoch FROM now()-created_at)/(60*60*24*$1))*$1 days_before,
-  COUNT (0) as usersCreated, 3*$1 as activeUsers;
+  COUNT (0) as usersCreated, 3*$1 as activeUsers
   FROM users
-  GROUP BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1));
-  ORDER BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1));
+  GROUP BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1))
+  ORDER BY TRUNC(extract(epoch from now()-created_at)/(60*60*24*$1))
 `;
   console.log(`SQLquery: [${SQLquery}]`);
   const client = await pool.connect();
@@ -248,7 +248,7 @@ const renameUser = async (id, newName) => {
 // @access
 router.put('/user', async (req, response) => {
   const id = req.params.id;
-  const newname = req.params.name;
+  const newName = req.params.name;
   console.log(`rename user ${id} to ${newName}.`);
   const result = await renameUser(id, newName);
   return response.json(result);
