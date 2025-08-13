@@ -1,0 +1,147 @@
+name: Deploy Application
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      version:
+        description: 'Version to deploy (leave empty for latest)'
+        required: false
+        type: string
+
+  release:
+    types: [published]
+
+env:
+  NODE_VERSION: '24.4.1'
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'production' }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set deployment variables
+      id: vars
+      run: |
+        if [ "${{ github.event_name }}" = "release" ]; then
+          echo "environment=production" >> $GITHUB_OUTPUT
+          echo "version=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+        else
+          echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          echo "version=${{ github.event.inputs.version || 'latest' }}" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Configure AWS credentials
+      if: steps.vars.outputs.environment == 'production'
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
+
+    - name: Deploy to staging
+      if: steps.vars.outputs.environment == 'staging'
+      run: |
+        echo "🚀 Deploying to staging environment"
+        echo "Version: ${{ steps.vars.outputs.version }}"
+        
+        # Create deployment directory
+        mkdir -p deploy
+        
+        # Copy deployment files
+        cp docker-compose.debug.yml deploy/
+        cp .env.example deploy/.env
+        cp deploy.sh deploy/
+        
+        # Example staging deployment (customize for your infrastructure)
+        echo "📋 Staging deployment would:"
+        echo "- Pull latest Docker images"
+        echo "- Update staging environment variables"
+        echo "- Run database migrations if needed"
+        echo "- Deploy using docker-compose.debug.yml"
+        echo "- Run health checks"
+        echo "- Send notification to team"
+
+    - name: Deploy to production
+      if: steps.vars.outputs.environment == 'production'
+      run: |
+        echo "🚀 Deploying to production environment"
+        echo "Version: ${{ steps.vars.outputs.version }}"
+        
+        # Create deployment directory
+        mkdir -p deploy
+        
+        # Copy deployment files
+        cp docker-compose.release.yml deploy/
+        cp deploy.sh deploy/
+        
+        # Example production deployment (customize for your infrastructure)
+        echo "📋 Production deployment would:"
+        echo "- Validate all required secrets are present"
+        echo "- Pull specified version Docker images"
+        echo "- Run pre-deployment checks"
+        echo "- Deploy using docker-compose.release.yml"
+        echo "- Run database migrations if needed"
+        echo "- Perform health checks"
+        echo "- Update load balancer configuration"
+        echo "- Send success notification"
+
+    - name: Validate deployment
+      run: |
+        echo "🏥 Running post-deployment validation"
+        
+        # Wait for services to be ready
+        sleep 30
+        
+        # Example health checks (customize for your endpoints)
+        echo "Checking application health..."
+        
+        # In real deployment, you would:
+        # - Check health endpoints
+        # - Validate database connectivity
+        # - Test critical user journeys
+        # - Monitor error rates
+        
+        echo "✅ Deployment validation completed"
+
+    - name: Notify deployment status
+      if: always()
+      run: |
+        if [ "${{ job.status }}" = "success" ]; then
+          echo "✅ Deployment to ${{ steps.vars.outputs.environment }} succeeded"
+          # Send success notification (Slack, email, etc.)
+        else
+          echo "❌ Deployment to ${{ steps.vars.outputs.environment }} failed"
+          # Send failure notification and rollback if needed
+        fi
+
+  rollback:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: failure()
+    environment: ${{ github.event.inputs.environment || 'production' }}
+    
+    steps:
+    - name: Rollback deployment
+      run: |
+        echo "🔄 Rolling back failed deployment"
+        
+        # Example rollback procedure
+        echo "📋 Rollback would:"
+        echo "- Stop current deployment"
+        echo "- Restore previous version"
+        echo "- Validate rollback success"
+        echo "- Notify team of rollback"
