@@ -15,16 +15,7 @@ import searchActive from "../../resources/bottom/search_active.svg"
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Badge from '@mui/material/Badge';
-import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles(theme => ({
-  bigIcon: {
-    height: '33px',
-    margin: '12px',
-    marginBottom: '1px',
-    width: '33px'
-  }
-}));
 const Bottom = (props) => {  
     const index = props.index;    
     // TODO: use tabs enum object from App.js and move it from App.js outside

@@ -4,7 +4,6 @@ import jwt_decode from "jwt-decode";
 
 import {
   GET_ERRORS,
-  GET_CURRENT_USER,
   SET_CURRENT_USER,
   USER_LOADING
 } from "./types";

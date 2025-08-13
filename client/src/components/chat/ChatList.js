@@ -1,11 +1,22 @@
-import React, { Component, Fragment } from "react";
-import Typography from '@mui/material/Typography';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { getChatUsers } from '../../actions/chatActions';
+import { 
+  Container, 
+  Typography, 
+  List, 
+  ListItem, 
+  ListItemText, 
+  ListItemAvatar, 
+  Avatar, 
+  Box,
+  CircularProgress,
+  Alert,
+  AppBar,
+  Toolbar
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { getChatUsers } from "../../actions/chatActions";
-import ChatListItem from "./ChatListItem"; // <---- POTENTIAL PROBLEM
 import loadingGIF from "../../resources/animation/loading.gif";
 
 const TheList = (props) => {

@@ -1,7 +1,9 @@
 //this file is used only for AddMeal, but should be used everywhere.
 import axios from "axios";
-import { GET_ERRORS, USER_LOADING } from "./types";
 import config from "../config";
+
+export const GET_CHAT_MESSAGES = 'GET_CHAT_MESSAGES';
+export const GET_CHAT_MESSAGES_LOADING = 'GET_CHAT_MESSAGES_LOADING';
 
 
 //get a list of chat partners + last message
