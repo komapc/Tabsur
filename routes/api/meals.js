@@ -9,12 +9,12 @@ const validateMealInput = require('../../validation/meal');
 // @desc get a meal list;
 // @access Public;
 router.get('/:id', async (req, response) => {
-  let userId = req.params.id;
+  const userId = req.params.id;
   console.log(`get meals for user ${userId}`);
   if (isNaN(userId)) {
   //return response.status(400).json('Error in geting  meals: wrong ID');
   //when user is not logged-in;
-  let userId = -1;
+    const userId = -1;
   }
   const SQLquery = `
   SELECT
@@ -51,8 +51,8 @@ router.get('/info/:id/:userId', tryAuthenticateJWT, async (req, response) => {
   const userId = req.params.userId ?? -1;
   console.log(`get info for meal ${id}, user: ${userId}.`);
   if (isNaN(id)) {
-  console.error(`Bad meal id: ${id}`);
-  return response.status(500).json('Bad meal id');
+    console.error(`Bad meal id: ${id}`);
+    return response.status(500).json('Bad meal id');
   }
   const SQLquery = `
   SELECT meals.*, images.path, users.name AS host_name,
@@ -87,9 +87,9 @@ router.get('/my/:id', authenticateJWT, async (req, response) => {
   console.log('get my meals by user id: ' + JSON.stringify(req.params));
   const userId = req.params.id;
   if (isNaN(userId)) {
-  console.error('error, empty id');
-  response.status(400).json('Error in geting my meals: empty');
-  return;
+    console.error('error, empty id');
+    response.status(400).json('Error in geting my meals: empty');
+    return;
   }
   const SQLquery = `SELECT
   (SELECT images.path
@@ -118,9 +118,9 @@ router.get('/my/:id', authenticateJWT, async (req, response) => {
 router.get('/attends/:id', authenticateJWT, async (req, response) => {
   console.log('get meals where user attends: ' + JSON.stringify(req.params));
   if (isNaN(req.params.id)) {
-  console.log('error, empty id');
-  response.status(400).json('Error in geting attended meals: empty');
-  return;
+    console.log('error, empty id');
+    response.status(400).json('Error in geting attended meals: empty');
+    return;
   }
   const SQLquery = `SELECT * FROM (
   SELECT
@@ -151,42 +151,42 @@ router.get('/attends/:id', authenticateJWT, async (req, response) => {
 router.get('/guests/:meal_id',
   //authenticateJWT,  //Paker's request: show guests even when not logged-in;
   async (req, response) => {
-  console.log(`Get users by meal_id:  ${JSON.stringify(req.params)}`);
-  const meal_id = req.params.meal_id;
-  if (isNaN(meal_id)) {
-    console.error('error, empty id');
-    response.status(400).json('Error in getting my meal: empty id');
-    return;
-  }
-  const SQLquery = `SELECT a.user_id, u.name, a.status FROM attends AS a
+    console.log(`Get users by meal_id:  ${JSON.stringify(req.params)}`);
+    const meal_id = req.params.meal_id;
+    if (isNaN(meal_id)) {
+      console.error('error, empty id');
+      response.status(400).json('Error in getting my meal: empty id');
+      return;
+    }
+    const SQLquery = `SELECT a.user_id, u.name, a.status FROM attends AS a
    INNER JOIN users as u ON a.user_id=u.id WHERE meal_id=$1 AND status>0`;
-  console.log(SQLquery);
-  const client = await pool.connect();
-  client.query(SQLquery, [meal_id])
-    .then(resp => {
-      console.error(`Query result: ${JSON.stringify(resp.rows)}`);
-      return response.json(resp.rows);
-    })
-    .catch(err => {
-      console.error(`Failed query: ${err}`);
-      return response.status(500).json(err);
-    })
-    .finally(() => {
-      client.release();
-    });
-});
+    console.log(SQLquery);
+    const client = await pool.connect();
+    client.query(SQLquery, [meal_id])
+      .then(resp => {
+        console.error(`Query result: ${JSON.stringify(resp.rows)}`);
+        return response.json(resp.rows);
+      })
+      .catch(err => {
+        console.error(`Failed query: ${err}`);
+        return response.status(500).json(err);
+      })
+      .finally(() => {
+        client.release();
+      });
+  });
 // @route POST api/meals/image;
 router.post('/image', authenticateJWT, async (req, response) => {
   console.log(`query: ${JSON.stringify(req.body)}`);
   if (!req.body.meal_id) {
-  return response.status(500).json(`Empty input.`);
+    return response.status(500).json(`Empty input.`);
   }
   const meal_id = req.body.meal_id;
   let image_path = req.body.image_path;
-  let image_id = req.body.image_id;
+  const image_id = req.body.image_id;
   const client = await pool.connect();
   if (isNaN(image_id) || isNaN(meal_id)) {
-  return response.status(500).json('Bad params: image_id');
+    return response.status(500).json('Bad params: image_id');
   }
   const query = `INSERT INTO meal_images (meal_id, image_id) VALUES ($1, $2) RETURNING id`;
   client.query(query, [meal_id, image_id])
@@ -210,7 +210,7 @@ router.post('/', authenticateJWT, async (req, response) => {
   const { errors, isValid } = validateMealInput(meal);
   // Check validation;
   if (!isValid) {
-  return response.status(400).json(errors);
+    return response.status(400).json(errors);
   }
   console.log(`add meal - start, ${JSON.stringify(req.body)}`);
   const client = await pool.connect();
@@ -220,8 +220,8 @@ router.post('/', authenticateJWT, async (req, response) => {
   VALUES($1, $2, $3, $4, $5, $6, (to_timestamp($7/ 1000.0)), $8, $9) RETURNING id`;
   console.log(`connected running [${query}]`);
   return client.query(query,
-  [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
-  meal.address, meal.guest_count, meal.host_id, meal.date, meal.visibility, meal.description])
+    [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
+      meal.address, meal.guest_count, meal.host_id, meal.date, meal.visibility, meal.description])
     .then(res => {
       console.log(`query done.`);
       const message =
@@ -250,7 +250,7 @@ router.put('/', authenticateJWT, async (req, response) => {
   const { errors, isValid } = validateMealInput(meal);
   // Check validation;
   if (!isValid) {
-  return response.status(400).json(errors);
+    return response.status(400).json(errors);
   }
   const client = await pool.connect();
   //todo: insert image;
@@ -259,7 +259,7 @@ router.put('/', authenticateJWT, async (req, response) => {
  WHERE id=$3`;
   console.log(`connected running [${query}]`);
   return client.query(query,
-  [meal.name, meal.guest_count, meal.id])
+    [meal.name, meal.guest_count, meal.id])
     .then(res => {
       console.log(`query done.`);
       return response.json(res.rows[0]);
@@ -280,12 +280,12 @@ router.delete('/:meal_id', authenticateJWT, async (req, response) => {
   const meal = req.body;
   const mealId = req.params.meal_id;
   if (isNaN(mealId)) {
-  return response.status(400).json(`mealId: wrong meal id format: ${mealId}.`);
+    return response.status(400).json(`mealId: wrong meal id format: ${mealId}.`);
   }
   console.log(`delete ${mealId}`);
   const client = await pool.connect();
   client.query('DELETE FROM meals WHERE id=$1',
-  [mealId])
+    [mealId])
     .then(() => {
       console.log('deleted.');
       return response.status(201).json(req.body);
