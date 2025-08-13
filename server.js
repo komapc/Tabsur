@@ -41,7 +41,7 @@ app.get('/health', (req, res) => {
 app.get('/sanity-check', (req, res) => {
   const jwtSecret = process.env.SECRET_OR_KEY;
   const hasJwtSecret = !!jwtSecret && jwtSecret !== 'your-super-secret-jwt-key-change-this';
-  
+
   res.status(200).json({
     status: 'OK',
     timestamp: new Date().toISOString(),
@@ -72,7 +72,7 @@ app.use('/api/system', system);
 // Serve static assets in production
 console.log('server.js, env =', process.env.NODE_ENV);
 
-if (process.env.NODE_ENV !== 'debug') {
+if (process.env.NODE_ENV !== 'production') {
   // Serve static files from React build
   app.use(express.static('client/build'));
 
