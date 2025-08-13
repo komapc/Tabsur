@@ -1,0 +1,15 @@
+# Copy this file to terraform.tfvars and fill in your values
+
+# Database password (required)
+db_password = "your-secure-password-here"
+
+# JWT secret ARN (optional - will use default if not provided)
+jwt_secret_arn = ""
+
+# Domain name (optional - for custom domain)
+domain_name = ""
+
+# SSL certificate ARN (optional - for HTTPS)
+certificate_arn = ""
+
+
