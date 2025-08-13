@@ -22,8 +22,13 @@
     "test-dev": "concurrently \"npm run test-server\" \"npm run test-client\"",
     "test-cleanup": "./stop-test-mode.sh",
     "test": "cross-env NODE_ENV=test jest --testTimeout=30000",
-    "test:watch": "cross-env NODE_ENV=test jest --watch",
-    "test:full": "./run-tests.sh"
+    "test:watch": "cross-env NODE_ENV=test jest --watch", 
+    "test:full": "./run-tests.sh",
+    "health": "node health-check.js",
+    "lint:server": "npx eslint . --ext .js --ignore-pattern node_modules --ignore-pattern client",
+    "lint:client": "cd client && npm run lint",
+    "lint:fix:server": "npx eslint . --ext .js --ignore-pattern node_modules --ignore-pattern client --fix",
+    "lint:fix:client": "cd client && npm run lint:fix"
   },
   "author": "Mark&Yana",
   "license": "MIT",
@@ -67,7 +72,9 @@
     "verbose": true
   },
   "devDependencies": {
+    "@eslint/js": "^9.33.0",
     "cross-env": "^10.0.0",
+    "eslint": "^8.57.1",
     "jest": "^27.5.1",
     "nodemon": "^3.1.10",
     "supertest": "^7.1.4"

@@ -10,7 +10,7 @@
     "@mui/icons-material": "^7.2.0",
     "@mui/material": "^7.2.0",
     "@mui/styles": "^6.5.0",
-    "@mui/x-date-pickers": "^8.9.0",
+    "@mui/x-date-pickers": "^8.10.0",
     "@react-google-maps/api": "^2.20.7",
     "@react-oauth/google": "^0.12.2",
     "autosuggest-highlight": "^3.1.1",
@@ -50,6 +50,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "lint": "eslint src --ext .js,.jsx",
+    "lint:fix": "eslint src --ext .js,.jsx --fix",
     "eject": "react-scripts eject",
     "stop": "node server.stop.js"
   },
@@ -72,7 +74,9 @@
   },
   "jest": {
     "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": ["@testing-library/jest-dom"],
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom"
+    ],
     "moduleNameMapping": {
       "\\.(css|less|scss|sass)$": "identity-obj-proxy"
     }

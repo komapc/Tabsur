@@ -30,7 +30,8 @@ import ChatUser from "./components/chat/ChatUser";
 import { Helmet } from "react-helmet";
 import "./App.css";
 import { messaging } from "../src/init-fcm";
-import { createTheme, ThemeProvider } from "@mui/material/styles";\nimport ErrorBoundary from "./components/common/ErrorBoundary";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import ErrorBoundary from "./components/common/ErrorBoundary";
 import AppFab from "./components/layout/AppFab"; 
 
 const theme = createTheme({
