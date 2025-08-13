@@ -7,7 +7,8 @@ axios.interceptors.request.use(
       method: config.method?.toUpperCase(),
       url: config.url,
       headers: config.headers,
-      auth: config.headers?.Authorization ? `${config.headers.Authorization.substring(0, 20)}...` : 'None'
+      auth: config.headers?.Authorization ? `${config.headers.Authorization.substring(0, 20)}...` : 'None',
+      fullAuth: config.headers?.Authorization || 'None'
     });
     return config;
   },
