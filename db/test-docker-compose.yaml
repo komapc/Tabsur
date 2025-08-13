@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  coolanu-test-db:
+    image: postgres:12.2
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: coolanu
+      POSTGRES_PASSWORD: coolanu
+      POSTGRES_DB: coolanu_test
+    volumes:
+      - test_db_data:/var/lib/postgresql/data
+
+volumes:
+  test_db_data:

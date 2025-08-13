@@ -1,0 +1,107 @@
+# Development/Debug environment - uses local database and services
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  database:
+    image: postgres:15-alpine
+    container_name: tabsur-db-debug
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: coolanu_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_debug:/var/lib/postgresql/data
+      - ./db/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d coolanu_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tabsur-network
+
+  # Redis for caching/sessions (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: tabsur-redis-debug
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data_debug:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - tabsur-network
+
+  # Server (Node.js/Express)
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: tabsur-server-debug
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=debug
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_NAME=coolanu_dev
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET=your-secret-key-change-in-production
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      - GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
+      - FIREBASE_SERVER_KEY=${FIREBASE_SERVER_KEY}
+    ports:
+      - "5000:5000"
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - tabsur-network
+
+  # Client (React/Nginx) - for testing full stack locally
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: tabsur-client-debug
+    restart: unless-stopped
+    environment:
+      - REACT_APP_SERVER_HOST=http://localhost:5000
+      - REACT_APP_GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
+      - REACT_APP_FIREBASE_CONFIG=${REACT_APP_FIREBASE_CONFIG}
+    ports:
+      - "3000:80"
+    depends_on:
+      - server
+    networks:
+      - tabsur-network
+
+volumes:
+  postgres_data_debug:
+    name: tabsur_postgres_data_debug
+  redis_data_debug:
+    name: tabsur_redis_data_debug
+
+networks:
+  tabsur-network:
+    driver: bridge
+    name: tabsur-debug-network

@@ -1,324 +1,330 @@
-# BeMyGuest - Meal Sharing Platform
+# 🍽️ BeMyGuest - Food Sharing Social Dining App
 
-BeMyGuest is a meal-sharing platform built with the MERN stack that allows users to create meal events, attend others' meals, chat, and share photos. Think of it as "table surfing" or "dinner sharing" - connecting people through food.
+[![CI/CD](https://github.com/yourusername/Tabsur/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/Tabsur/actions/workflows/ci.yml)
+[![Deploy](https://github.com/yourusername/Tabsur/actions/workflows/deploy.yml/badge.svg)](https://github.com/yourusername/Tabsur/actions/workflows/deploy.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 🏗️ Technology Stack
+BeMyGuest is a full-stack social dining application that connects people through shared meals. Users can host dinner events, join others' meals, and build a community around food sharing.
 
-- **Backend**: Node.js with Express.js
-- **Frontend**: React 18.3.1 with Material-UI v7
-- **Database**: PostgreSQL with Flyway-style migrations
-- **Authentication**: JWT tokens with bcrypt password hashing
-- **File Storage**: AWS S3 integration
-- **Real-time Features**: WebSocket support for chat and notifications
-- **Maps**: Google Maps API integration
-- **Social Login**: Google OAuth integration
+## 🌟 Features
+
+- **🏠 Host Meals**: Create and manage dinner events at your location
+- **🔍 Discover Events**: Find nearby meals using interactive maps
+- **👥 Social Networking**: Connect with fellow food enthusiasts
+- **💬 Real-time Chat**: Message other users and coordinate meetups
+- **📱 Mobile-First Design**: Responsive design for all devices
+- **🗺️ Location Services**: Google Maps integration for meal discovery
+- **🔔 Push Notifications**: Real-time updates via Firebase Cloud Messaging
+- **📸 Photo Sharing**: Upload and share meal photos
+
+## 🏗️ Architecture
+
+### Tech Stack
+- **Frontend**: React 18, Material-UI v7, Redux, React Router
+- **Backend**: Node.js, Express.js, PostgreSQL
+- **Authentication**: JWT with Google OAuth
+- **Real-time**: Firebase Cloud Messaging
+- **Maps**: Google Maps API
+- **Storage**: AWS S3
+- **Cache**: Redis
+- **Deployment**: Docker, Docker Compose
+
+### Project Structure
+```
+Tabsur/
+├── client/                 # React frontend application
+│   ├── src/
+│   │   ├── components/     # React components
+│   │   ├── actions/        # Redux actions
+│   │   ├── reducers/       # Redux reducers
+│   │   └── utils/          # Utility functions
+│   └── public/             # Static assets
+├── routes/                 # Express API routes
+│   └── api/                # API endpoints
+├── db/                     # Database migrations
+├── tests/                  # Test suites
+├── docker/                 # Docker configurations
+├── docs/                   # API documentation
+└── .github/                # GitHub Actions workflows
+```
 
 ## 🚀 Quick Start
 
 ### Prerequisites
+- Docker & Docker Compose
+- Node.js 24.4+ (for local development)
+- PostgreSQL (if running without Docker)
 
-- **Node.js**: v24.4.x (specified in package.json)
-- **Docker & Docker Compose**: For running PostgreSQL
-- **PostgreSQL Client Tools**: For running migrations (psql)
-
-### 1. Environment Setup
-
+### 1. Clone Repository
 ```bash
-# Clone and navigate to project
-cd /path/to/BeMyGuest
+git clone https://github.com/yourusername/Tabsur.git
+cd Tabsur
+```
 
-# Copy environment templates
+### 2. Environment Setup
+```bash
+# Copy environment template
 cp .env.example .env
-cp client/.env.example client/.env
 
-# Edit .env files with your actual API keys and configurations
+# Edit with your configuration
 nano .env
-nano client/.env
 ```
 
-### 2. Database Setup
-
+### 3. Deploy with Docker
 ```bash
-# Start PostgreSQL database
-npm run start-db
+# Development environment
+./deploy.sh debug
 
-# Run database migrations
-npm run migrate-local-db
+# Production environment  
+./deploy.sh release
 ```
 
-### 3. Install Dependencies
+### 4. Access Application
+- **Client**: http://localhost:3000
+- **API**: http://localhost:5000
+- **Database**: localhost:5432 (debug mode)
 
+## 🔧 Development
+
+### Local Development Setup
 ```bash
 # Install server dependencies
 npm install
 
 # Install client dependencies
-npm run client-install
-```
+cd client && npm install
 
-## 🎯 Running the Application
-
-### Development Mode (Debug)
-
-```bash
-# Run both server and client in debug mode
+# Start development servers
 npm run debug
-
-# Or run separately:
-npm run server-debug  # Server on http://localhost:5000
-npm run client        # Client on http://localhost:3000
 ```
-
-### Production Mode
-
-```bash
-# Build and start in production
-npm run build
-npm start
-```
-
-### Environment Modes
-
-- **Debug Mode** (`NODE_ENV=debug`): Uses local database, detailed logging
-- **Production Mode** (`NODE_ENV=production`): Uses environment variables for DB config
-- **Test Mode** (`NODE_ENV=test`): Uses separate test database on port 5433
-
-## 🧪 Testing
-
-### Running Tests
-
-```bash
-# Run all tests
-npm test
-
-# Run tests in watch mode  
-npm run test:watch
-
-# Full test cycle (setup + test + cleanup)
-npm run test:full
-```
-
-### Test Environment
-
-```bash
-# Setup test environment manually
-npm run test-setup
-
-# Run server in test mode
-npm run test-server
-
-# Run client in test mode  
-npm run test-client
-
-# Run both in test mode
-npm run test-dev
-
-# Cleanup test environment
-npm run test-cleanup
-```
-
-### Test Coverage
-
-Our test suite includes:
-- ✅ User registration with validation
-- ✅ User login with JWT token generation
-- ✅ Email and password validation
-- ✅ Duplicate email handling
-- ✅ Wrong password rejection
-- ✅ Integration tests with real database
-
-## 🗄️ Database Management
 
 ### Available Scripts
-
 ```bash
-# Start/stop main database
-npm run start-db
-npm run stop-db
+# Development
+npm run debug          # Start both client and server in debug mode
+npm run server-debug   # Start server in debug mode
+npm run client         # Start client only
 
-# Run migrations
-npm run migrate-local-db
+# Testing
+npm test              # Run server tests
+npm run test:full     # Run full test suite
+./deploy.sh test      # Run all tests
 
-# Test database operations
-./test-mode.sh          # Setup test environment
-./stop-test-mode.sh     # Cleanup test environment
+# Database
+npm run start-db      # Start PostgreSQL with Docker
+npm run migrate-local-db  # Run database migrations
+
+# Production
+npm run build         # Build production bundle
+npm start             # Start production server
 ```
 
-### Database Configuration
-
-The application uses different database configurations based on `NODE_ENV`:
-
-- **Debug**: `localhost:5432/coolanu` 
-- **Test**: `localhost:5433/coolanu_test`
-- **Production**: Uses environment variables
-
-## 🔧 Configuration Files
-
-### Server Environment (`.env`)
+### Testing
 ```bash
-# Database Configuration
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=coolanu
-DB_USER=coolanu
-DB_PASSWORD=coolanu
+# Run unit tests
+npm test
 
-# JWT Configuration
-SECRET_OR_KEY=your_jwt_secret_change_in_production
+# Run client tests with coverage
+cd client && npm test -- --coverage
 
-# API Keys
-GOOGLE_API_KEY=your_google_api_key
-FACEBOOK_APP_ID=your_facebook_app_id
+# Run integration tests
+npm run test:full
 
-# AWS Configuration
-AWS_ACCESS_KEY_ID=your_aws_access_key_id
-AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
-AWS_REGION=us-east-1
-S3_BUCKET=your_s3_bucket_name
-
-# Server Configuration  
-NODE_ENV=development
-PORT=5000
+# Run all tests via deployment script
+./deploy.sh test
 ```
 
-### Client Environment (`client/.env`)
-```bash
-# Google API Key for client-side usage
-REACT_APP_GOOGLE_API_KEY=your_google_api_key
+## 📊 API Documentation
 
-# Development server host
-REACT_APP_SERVER_HOST_DEV=http://localhost:5000
+### OpenAPI Specification
+API documentation is available in OpenAPI 3.0 format:
+- **File**: `docs/openapi.yml`
+- **Interactive Docs**: http://localhost:5000/api-docs (when server is running)
+
+### Key Endpoints
+```bash
+# Authentication
+POST /api/users/register    # Register new user
+POST /api/users/login       # Login user
+
+# Meals
+GET  /api/meals            # List meals
+POST /api/meals            # Create meal
+GET  /api/meals/:id        # Get meal details
+PUT  /api/meals/:id        # Update meal
+DELETE /api/meals/:id      # Delete meal
+
+# System
+GET /api/system/health     # Health check
 ```
 
-## 📱 API Endpoints
+## 🐳 Docker Deployment
 
-### Authentication
-- `POST /api/users/register` - User registration
-- `POST /api/users/login` - User login
-- `POST /api/users/loginFB` - Facebook login
+### Environment Configurations
 
-### Meals
-- `GET /api/meals/:userId` - Get meals for user
-- `POST /api/meals` - Create new meal
-- `PUT /api/meals/:id` - Update meal
-- `DELETE /api/meals/:id` - Delete meal
+#### Debug (Development)
+- Local database and Redis
+- Development optimizations
+- Debug logging enabled
+- Source code mounting
 
-### Social Features
-- `POST /api/follow` - Follow/unfollow users
-- `GET /api/chat/:userId` - Get chat messages
-- `POST /api/chat` - Send message
-- `GET /api/notifications/:userId` - Get notifications
-
-### Images
-- `POST /api/images/upload` - Upload image to S3
-- `GET /api/images/:imageId` - Get image
-- `GET /api/images/gallery/:userId` - User gallery
-
-## 🔐 Security Features
-
-✅ **Implemented Security Measures:**
-- Environment variables for all API keys and secrets
-- JWT token authentication
-- Bcrypt password hashing with salt
-- SQL injection protection with parameterized queries
-- CORS enabled for cross-origin requests
-- Input validation on all user inputs
-- AWS S3 integration for secure file storage
-
-⚠️ **Security Notes:**
-- Change default JWT secret in production
-- Use HTTPS in production
-- Regularly update dependencies
-- Review AWS S3 bucket permissions
-- Monitor for security vulnerabilities
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Port Already in Use:**
 ```bash
-# Kill processes on port 3000/5000
-pkill -f "react-scripts\|nodemon"
-lsof -ti:3000 | xargs kill -9
-lsof -ti:5000 | xargs kill -9
+./deploy.sh debug
 ```
 
-**Database Connection Issues:**
+#### Release (Production)
+- External database (AWS RDS)
+- Production optimizations
+- Security hardening
+- Resource limits
+
 ```bash
-# Check if database is running
-docker ps | grep coolanu
-
-# Restart database
-npm run stop-db && npm run start-db
-
-# Check database logs
-docker logs coolanu-db_coolanu-db_1
+./deploy.sh release
 ```
 
-**Migration Errors:**
+### Docker Commands
 ```bash
-# Run migrations with password
-cd db && PGPASSWORD=coolanu bash ./migrate.sh
+# View logs
+./deploy.sh logs
+
+# Stop services
+./deploy.sh stop
+
+# Restart services
+./deploy.sh restart
+
+# Health check
+curl http://localhost:5000/api/system/health
 ```
 
-**Environment Variables Not Loading:**
-- Ensure `.env` files exist and are not in `.gitignore`
-- Restart server after changing environment variables
-- Check for syntax errors in `.env` files
+## 🔒 Security
 
-## 📊 Monitoring & Logging
+### Authentication & Authorization
+- JWT-based authentication
+- Google OAuth integration
+- Route-level authorization
+- Token expiration handling
 
-### Server Logs
-- Registration attempts and results
-- Login attempts and JWT generation
-- Database query logs
-- Error handling and stack traces
+### Security Features
+- Input validation and sanitization
+- SQL injection prevention
+- XSS protection
+- Rate limiting
+- Secure headers
+- Environment variable protection
 
-### Client Logs  
-- Authentication state changes
-- API request/response logging
-- Error boundary catches
-- User interaction events
+### Security Scanning
+- Automated vulnerability scanning via Trivy
+- 42Crunch API security audit
+- npm audit for dependencies
+- Docker image scanning
 
-## 🚀 Deployment
+## 🚀 Deployment & CI/CD
 
-### Production Checklist
+### GitHub Actions Workflows
+- **CI/CD Pipeline**: Automated testing, building, and deployment
+- **Security Scanning**: Vulnerability and API security audits
+- **Manual Deployment**: Controlled staging and production deployments
 
-1. **Environment Variables**
-   - Set all production API keys
-   - Use strong JWT secret
-   - Configure production database
-   
-2. **Database**
-   - Run all migrations
-   - Set up database backups
-   - Configure connection pooling
-   
-3. **Security**
-   - Enable HTTPS
-   - Set up proper CORS origins
-   - Review AWS S3 permissions
-   - Update all dependencies
+### Deployment Environments
+- **Staging**: Automatic deployment from `develop` branch
+- **Production**: Automatic deployment from `main` branch
+- **Manual**: On-demand deployment with version control
 
-4. **Performance**
-   - Build client for production
-   - Enable gzip compression
-   - Set up CDN for static assets
-   - Monitor server performance
+### Monitoring & Health Checks
+- Application health endpoints
+- Database connectivity checks
+- Service availability monitoring
+- Automated rollback on failures
 
-## 👥 Development Team
+## 🧪 Testing Strategy
 
-- **Authors**: Mark & Yana
-- **License**: MIT
-- **Repository**: https://github.com/komapc/BeMyGuest
+### Test Coverage
+- **Unit Tests**: Component and function testing
+- **Integration Tests**: API endpoint testing
+- **End-to-End Tests**: User workflow testing
+- **Security Tests**: Vulnerability scanning
 
-## 📝 Recent Updates
+### Test Execution
+```bash
+# All tests
+./deploy.sh test
 
-- ✅ Fixed security vulnerabilities by moving API keys to environment variables
-- ✅ Updated AWS SDK from v2 to v3 for better performance
-- ✅ Added comprehensive test suite with integration tests
-- ✅ Improved error handling in authentication flows
-- ✅ Created test environment with separate database
-- ✅ Fixed React 18 compatibility issues
-- ✅ Added proper environment configuration management
+# Server tests only
+npm test
+
+# Client tests only
+cd client && npm test
+
+# Coverage report
+cd client && npm test -- --coverage
+```
+
+## 📱 Mobile Support
+
+### Progressive Web App (PWA)
+- Mobile-responsive design
+- Offline capability (planned)
+- Push notifications
+- App-like experience
+
+### Mobile Features
+- Touch-friendly interface
+- Swipeable tabs
+- Location services
+- Camera integration for photos
+
+## 🤝 Contributing
+
+### Development Process
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Code Standards
+- ESLint for JavaScript linting
+- Prettier for code formatting
+- Jest for testing
+- Conventional commits
+
+### Pull Request Checklist
+- [ ] Tests pass locally and in CI
+- [ ] Code follows style guidelines
+- [ ] Documentation updated if needed
+- [ ] Security considerations addressed
+- [ ] Performance impact assessed
+
+## 📞 Support & Documentation
+
+### Getting Help
+1. **Documentation**: Check this README and `/docs` directory
+2. **Issues**: Search existing [GitHub issues](https://github.com/yourusername/Tabsur/issues)
+3. **Discussions**: Join [GitHub Discussions](https://github.com/yourusername/Tabsur/discussions)
+4. **Wiki**: Additional documentation in the [project wiki](https://github.com/yourusername/Tabsur/wiki)
+
+### Useful Links
+- [Deployment Guide](DEPLOYMENT.md) - Detailed deployment instructions
+- [API Documentation](docs/openapi.yml) - OpenAPI specification
+- [GitHub Actions Guide](.github/README.md) - CI/CD documentation
+- [Development Guide](DEVELOPMENT_GUIDE.md) - Local development setup
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- React community for excellent documentation
+- Material-UI team for beautiful components
+- Google Maps team for location services
+- Firebase team for real-time messaging
+- 42Crunch for API security analysis
+- Contributors and beta testers
+
+---
+
+**Made with ❤️ by the BeMyGuest Team**
+
+*Bringing people together through shared meals* 🍽️
