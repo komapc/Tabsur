@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import setAuthToken from "./utils/setAuthToken";
+import setAuthToken, { cleanupToken } from "./utils/setAuthToken";
 
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { setFirebaseCloudMessagingToken } from "./actions/notifications";
@@ -60,8 +60,8 @@ const theme = createTheme({
 try {
   // Check for token to keep user logged in
   if (localStorage.jwtToken) {
-    // Set auth token header auth
-    const token = localStorage.jwtToken;
+    // Clean up any malformed tokens first
+    const token = cleanupToken();
     console.log("Found JWT token in localStorage, length:", token.length);
     setAuthToken(token);
     // Decode token and get user info and exp
