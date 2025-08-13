@@ -74,7 +74,7 @@ const addNotificationToDB = async (message) => {
 };
 
 //add notificatin/message to the DB + push
-addNotification = async (notification) => {
+const addNotification = async (notification) => {
   return addNotificationToDB(notification)
     .then(resp => {
       const tokens = resp.rows[0].tokens;
