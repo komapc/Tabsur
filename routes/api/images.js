@@ -1,15 +1,14 @@
 const express = require('express');
 const { S3Client, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
 const fs = require('fs');
-const keys = require("../../config/keys");
-const fileType = require('file-type');
+const keys = require('../../config/keys');
+// const fileType = require('file-type');
 const multiparty = require('multiparty');
-const insertImageIntoDB = require("./utility.js");
+const insertImageIntoDB = require('./utility.js');
 const router = express.Router();
-const pool = require("../db.js");
+const pool = require('../db.js');
 const { authenticateJWT } = require('../authenticateJWT.js');
-
-// create S3 instance with v3 SDK
+// create S3 instance with v3 SDK;
 const s3Client = new S3Client({
   region: process.env.AWS_REGION || 'us-east-1',
   credentials: {
@@ -17,9 +16,8 @@ const s3Client = new S3Client({
     secretAccessKey: keys.AWS_SECRET
   }
 });
-
-// abstracts function to upload a file returning a promise
-const uploadFile = async (buffer, name, type) => {
+// abstracts function to upload a file returning a promise;
+const uploadFile = async (buffer, name) => {
   const params = {
     ACL: 'public-read',
     Body: buffer,
@@ -31,28 +29,26 @@ const uploadFile = async (buffer, name, type) => {
   const command = new PutObjectCommand(params);
   return s3Client.send(command);
 };
-
-//POST route
-router.post("/upload", authenticateJWT, async (request, response) => {
+//POST route;
+router.post('/upload', authenticateJWT, async (request, response) => {
   const form = new multiparty.Form();
-  console.log("Uploading: " + JSON.stringify(form));
+  console.log('Uploading: ' + JSON.stringify(form));
   return form.parse(request, async (error, fields, files) => {
     if (error) {
-      console.error("parsing error: " + JSON.stringify(fields));
+      console.error('parsing error: ' + JSON.stringify(fields));
       throw new Error(error);
     }
     console.log(`parsed: ${JSON.stringify(fields)}`);
     console.log(`Uploading file: ${JSON.stringify(files)}`);
-
     const path = files.file[0].path;
     const buffer = fs.readFileSync(path);
-    const type = "jpeg"; //await fileType(buffer);
+    const type = 'jpeg'; //await fileType(buffer);
     const timestamp = Date.now().toString();
     const fileName = `images/${timestamp}-lg`;
     const uploader = fields.uploader;
     return await uploadFile(buffer, fileName, type)
       .then(async res => {
-        console.log("uploadFile result: " + JSON.stringify(res));
+        console.log('uploadFile result: ' + JSON.stringify(res));
         return insertImageIntoDB(fileName, uploader)
           .then((insertedImageID) => {
             console.log(`insertImageIntoDB [${insertedImageID}]`);
@@ -70,28 +66,23 @@ router.post("/upload", authenticateJWT, async (request, response) => {
       });
   });
 });
-
-router.put('/:imageId', function (req, response, next) {
+router.put('/:imageId', function (req, response) {
   console.log(`Putting ${JSON.stringify(req.params.imageId)}`);
-  return response.status(401).send("Not supported");
+  return response.status(401).send('Not supported');
 });
-
-
-router.get('/:imageId', async function (req, res, next) {
+router.get('/:imageId', async function (req, res) {
   console.log(`Getting [${JSON.stringify(req.params.imageId)}]`);
   const params = { Bucket: keys.S3_BUCKET, Key: `images/${req.params.imageId}` };
   const command = new GetObjectCommand(params);
-  
   try {
     const data = await s3Client.send(command);
     if (!data) {
       console.error(`params ${JSON.stringify(params)}`);
-      res.status(404).send("empty data");
+      res.status(404).send('empty data');
       return;
     }
     res.writeHead(200, { 'Content-Type': 'image/jpeg' });
-    
-    // Convert stream to buffer for v3
+    // Convert stream to buffer for v3;
     const chunks = [];
     data.Body.on('data', chunk => chunks.push(chunk));
     data.Body.on('end', () => {
@@ -101,12 +92,11 @@ router.get('/:imageId', async function (req, res, next) {
     });
   } catch (err) {
     console.error(`S3 getObject error: ${JSON.stringify(err)}`);
-    res.status(404).send("Image not found");
+    res.status(404).send('Image not found');
   }
 });
-
-//get images for a user AKA gallery
-router.get('/gallery/:userId', async function (req, response, next) {
+//get images for a user AKA gallery;
+router.get('/gallery/:userId', async function (req, response) {
   console.log(`Get images for a user [${req.params.userId}]`);
   const client = await pool.connect();
   const query = `SELECT i.path, i.id FROM images as i
@@ -116,7 +106,7 @@ router.get('/gallery/:userId', async function (req, response, next) {
   //console.log(`connected running [${query}]`);
   return client.query(query, [req.params.userId])
     .then(data => {
-      // return response.status(201).json(user);
+    // return response.status(201).json(user);
       console.log(`data: ${JSON.stringify(data.rows)}`);
       return response.json(data.rows);
     })
@@ -128,15 +118,14 @@ router.get('/gallery/:userId', async function (req, response, next) {
       client.release();
     });
 });
-
-//get avatar
-router.get('/avatar/:userId', async function (req, response, next) {
-  if (req.params.userId === undefined || req.params.userId === "undefined") {  // TODO: is number bigger than 0
+//get avatar;
+router.get('/avatar/:userId', async function (req, response) {
+  if (req.params.userId === undefined || req.params.userId === 'undefined') {  // TODO: is number bigger than 0
     return response.status(400);
   }
   console.log(`Get an avatar for user [${req.params.userId}]`);
   const client = await pool.connect();
-  const query = `SELECT path, status FROM user_images 
+  const query = `SELECT path, status FROM user_images
   INNER JOIN images ON user_images.image_id = images.id
   WHERE user_images.user_id = $1`;
   console.log(`connected running [${query}]`);
@@ -156,7 +145,5 @@ router.get('/avatar/:userId', async function (req, response, next) {
       client.release();
     });
 });
-
-/// utils
-
+/// utils;
 module.exports = router;

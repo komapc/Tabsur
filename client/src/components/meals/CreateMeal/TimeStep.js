@@ -1,10 +1,6 @@
 
-import DateFnsUtils from '@date-io/date-fns';
-// import {
-//   KeyboardDatePicker,
-//   KeyboardTimePicker,
-//   MuiPickersUtilsProvider
-// } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider, DatePicker, TimePicker } from '@mui/x-date-pickers';
 
 import Grid from '@mui/material/Grid';
 import dateIcon from "../../../resources/date.svg";
@@ -17,25 +13,19 @@ const TimeStep = (props) => {
   return (
     <div className="wizard-container">
       <div className="date-div">
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
           <Grid container justify="space-around">
-            <KeyboardDatePicker style={{ borderColor: "transparent" }}
-              variant="dialog"
-              ampm={false}
+            <DatePicker
               label="date"
-              id="date"
               value={props.form.date}
               onChange={(e) => { update("date", e) }}
-              onError={console.log}
               disablePast
-              showTodayButton
-              autoOk
               format="dd/MM/yyyy"
             />
           </Grid>
 
           <Grid container justify="space-around" style={{ borderColor: "transparent" }}>
-            <KeyboardTimePicker
+            <TimePicker
               keyboardIcon={<img className="meal-info-icons"
                 src={dateIcon} alt="date" />}
               variant="dialog"
@@ -50,7 +40,7 @@ const TimeStep = (props) => {
               format="HH:mm"
             />
           </Grid>
-        </MuiPickersUtilsProvider>
+        </LocalizationProvider>
       </div>
     </div>
   );

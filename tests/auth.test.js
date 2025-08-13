@@ -20,7 +20,7 @@ app.use('/api/users', users);
 
 describe('Authentication API', () => {
   let testUser;
-  
+
   beforeEach(() => {
     testUser = {
       name: 'Test User',
@@ -36,7 +36,7 @@ describe('Authentication API', () => {
     it('should register a new user with valid data', async () => {
       const pool = require('../routes/db.js');
       const mockClient = await pool.connect();
-      
+
       // Mock successful registration
       mockClient.query.mockResolvedValueOnce({
         rows: [{ id: 1, ...testUser }]
@@ -98,7 +98,7 @@ describe('Authentication API', () => {
     it('should login with valid credentials', async () => {
       const pool = require('../routes/db.js');
       const mockClient = await pool.connect();
-      
+
       // Mock user found in database
       mockClient.query.mockResolvedValueOnce({
         rows: [{

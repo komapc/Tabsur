@@ -26,7 +26,7 @@ class LocationSearchInput extends React.Component {
       fields: ["name", "geometry"]
     };
     this.placesService.getDetails(request, (place, status) => {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
         this.props.onPlaceChanged(place);
       }
     });
