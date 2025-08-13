@@ -1,0 +1,502 @@
+openapi: 3.0.3
+info:
+  title: BeMyGuest API
+  description: |
+    BeMyGuest is a food-sharing social dining application API.
+    
+    ## Authentication
+    Most endpoints require JWT authentication via Bearer token.
+    
+    ## Rate Limiting
+    API requests are rate limited to prevent abuse.
+  version: 1.0.1
+  contact:
+    name: BeMyGuest Support
+    email: support@bemyguest.app
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:5000/api
+    description: Development server
+  - url: https://api.bemyguest.app/api
+    description: Production server
+
+security:
+  - bearerAuth: []
+
+paths:
+  # System endpoints
+  /system/health:
+    get:
+      tags:
+        - System
+      summary: Health check endpoint
+      description: Check the health status of the application
+      security: []
+      responses:
+        '200':
+          description: System is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  DB:
+                    type: boolean
+                    example: true
+                  server:
+                    type: boolean
+                    example: true
+                  mealsCreatedToday:
+                    type: integer
+                    example: 5
+                  users:
+                    type: integer
+                    example: 150
+                  onlineUsers:
+                    type: integer
+                    example: 45
+                  activeMeals:
+                    type: integer
+                    example: 12
+
+  # Authentication endpoints
+  /users/register:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new user
+      description: Create a new user account
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - password
+                - password2
+                - location
+                - address
+              properties:
+                name:
+                  type: string
+                  minLength: 2
+                  maxLength: 50
+                  example: "John Doe"
+                email:
+                  type: string
+                  format: email
+                  example: "john@example.com"
+                password:
+                  type: string
+                  minLength: 8
+                  pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$'
+                  example: "SecurePass123"
+                password2:
+                  type: string
+                  description: "Password confirmation"
+                  example: "SecurePass123"
+                location:
+                  type: string
+                  pattern: '^-?\d+\.?\d*,-?\d+\.?\d*$'
+                  example: "40.7128,-74.0060"
+                address:
+                  type: string
+                  minLength: 5
+                  maxLength: 200
+                  example: "123 Main St, New York, NY"
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /users/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login user
+      description: Authenticate user and return JWT token
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "john@example.com"
+                password:
+                  type: string
+                  minLength: 8
+                  example: "SecurePass123"
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  token:
+                    type: string
+                    description: JWT token
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '400':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # Meals endpoints
+  /meals:
+    get:
+      tags:
+        - Meals
+      summary: Get list of meals
+      description: Retrieve a list of available meals
+      parameters:
+        - name: location
+          in: query
+          description: Filter by location coordinates
+          schema:
+            type: string
+            pattern: '^-?\d+\.?\d*,-?\d+\.?\d*$'
+            example: "40.7128,-74.0060"
+        - name: radius
+          in: query
+          description: Search radius in kilometers
+          schema:
+            type: number
+            minimum: 1
+            maximum: 100
+            example: 10
+        - name: limit
+          in: query
+          description: Number of meals to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          description: Number of meals to skip
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: List of meals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meal'
+
+    post:
+      tags:
+        - Meals
+      summary: Create a new meal
+      description: Create a new meal event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - location
+                - address
+                - meal_time
+                - max_guests
+              properties:
+                name:
+                  type: string
+                  minLength: 3
+                  maxLength: 100
+                  example: "Italian Night Dinner"
+                description:
+                  type: string
+                  maxLength: 1000
+                  example: "Homemade pasta and wine"
+                location:
+                  type: string
+                  pattern: '^-?\d+\.?\d*,-?\d+\.?\d*$'
+                  example: "40.7128,-74.0060"
+                address:
+                  type: string
+                  minLength: 5
+                  maxLength: 200
+                  example: "123 Main St, New York, NY"
+                meal_time:
+                  type: string
+                  format: date-time
+                  example: "2024-01-15T19:00:00Z"
+                max_guests:
+                  type: integer
+                  minimum: 1
+                  maximum: 20
+                  example: 4
+                image_url:
+                  type: string
+                  format: uri
+                  example: "https://example.com/meal.jpg"
+      responses:
+        '201':
+          description: Meal created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meal'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /meals/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    get:
+      tags:
+        - Meals
+      summary: Get meal by ID
+      description: Retrieve a specific meal by its ID
+      responses:
+        '200':
+          description: Meal details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MealDetail'
+        '404':
+          description: Meal not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      tags:
+        - Meals
+      summary: Update meal
+      description: Update a meal (only by the meal host)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 3
+                  maxLength: 100
+                description:
+                  type: string
+                  maxLength: 1000
+                meal_time:
+                  type: string
+                  format: date-time
+                max_guests:
+                  type: integer
+                  minimum: 1
+                  maximum: 20
+      responses:
+        '200':
+          description: Meal updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meal'
+        '403':
+          description: Not authorized to update this meal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Meal not found
+
+    delete:
+      tags:
+        - Meals
+      summary: Delete meal
+      description: Delete a meal (only by the meal host)
+      responses:
+        '200':
+          description: Meal deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Meal deleted successfully"
+        '403':
+          description: Not authorized to delete this meal
+        '404':
+          description: Meal not found
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "John Doe"
+        email:
+          type: string
+          format: email
+          example: "john@example.com"
+        location:
+          type: string
+          example: "40.7128,-74.0060"
+        address:
+          type: string
+          example: "123 Main St, New York, NY"
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-01-01T00:00:00Z"
+
+    Meal:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Italian Night Dinner"
+        description:
+          type: string
+          example: "Homemade pasta and wine"
+        host_id:
+          type: integer
+          example: 1
+        host_name:
+          type: string
+          example: "John Doe"
+        location:
+          type: string
+          example: "40.7128,-74.0060"
+        address:
+          type: string
+          example: "123 Main St, New York, NY"
+        meal_time:
+          type: string
+          format: date-time
+          example: "2024-01-15T19:00:00Z"
+        max_guests:
+          type: integer
+          example: 4
+        current_guests:
+          type: integer
+          example: 2
+        image_url:
+          type: string
+          format: uri
+          example: "https://example.com/meal.jpg"
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-01-01T00:00:00Z"
+
+    MealDetail:
+      allOf:
+        - $ref: '#/components/schemas/Meal'
+        - type: object
+          properties:
+            attendees:
+              type: array
+              items:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    example: 2
+                  user_name:
+                    type: string
+                    example: "Jane Smith"
+                  joined_at:
+                    type: string
+                    format: date-time
+                    example: "2024-01-02T10:00:00Z"
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "An error occurred"
+        error:
+          type: string
+          example: "INVALID_INPUT"
+
+    ValidationError:
+      type: object
+      additionalProperties:
+        type: string
+      example:
+        email: "Email is required"
+        password: "Password must be at least 8 characters"
+
+tags:
+  - name: System
+    description: System health and information endpoints
+  - name: Authentication
+    description: User authentication and registration
+  - name: Meals
+    description: Meal management operations
