@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const authenticateJWT = require('../authenticateJWT');
+const { authenticateJWT } = require('../authenticateJWT');
 const pool = require('../db');
 const addNotification = require('./notificationsPush');
 // @route GET api/notifications;
@@ -37,7 +37,7 @@ router.put('/:id', authenticateJWT, async (req, response)=> {
   }
   const note=req.body;
   console.log(`change notification's status ${id} for ${JSON.stringify(note)}`);
-  const query=`UPDATE notifications SET 'status'=$1 WHERE 'id'=$2 RETURNING id`;
+  const query=`UPDATE notifications SET status=$1 WHERE id=$2 RETURNING id`;
   console.log(query);
   const client = await pool.connect();
   client.query(query, [note.status, id])

@@ -4,6 +4,7 @@ import jwt_decode from "jwt-decode";
 
 import {
   GET_ERRORS,
+  CLEAR_ERRORS,
   SET_CURRENT_USER,
   USER_LOADING
 } from "./types";
@@ -97,6 +98,13 @@ export const setUserLoading = () => {
   };
 };
 
+// Clear errors
+export const clearErrors = () => {
+  return {
+    type: CLEAR_ERRORS
+  };
+};
+
 // Log user out
 export const logoutUser = () => dispatch => {
   // Remove token from local storage
@@ -106,6 +114,7 @@ export const logoutUser = () => dispatch => {
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
   //todo: logout from FB!
+  dispatch({ type: CLEAR_ERRORS });
 };
 
 
