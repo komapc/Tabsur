@@ -1,7 +1,7 @@
 variable "environment" {
   description = "Environment name (e.g., dev, staging, prod)"
   type        = string
-  default     = "prod"
+  default     = "dev"
 }
 
 variable "aws_region" {
@@ -16,40 +16,10 @@ variable "availability_zone" {
   default     = "eu-west-1a"
 }
 
-variable "use_existing_vpc" {
-  description = "Whether to use an existing VPC"
-  type        = bool
-  default     = false
-}
-
-variable "existing_vpc_name" {
-  description = "Name of existing VPC to use"
-  type        = string
-  default     = ""
-}
-
-variable "existing_subnet_id" {
-  description = "ID of existing subnet to use"
-  type        = string
-  default     = ""
-}
-
-variable "vpc_cidr" {
-  description = "CIDR block for VPC"
-  type        = string
-  default     = "10.0.0.0/16"
-}
-
-variable "public_subnet_cidr" {
-  description = "CIDR block for public subnet"
-  type        = string
-  default     = "10.0.1.0/24"
-}
-
 variable "ami_id" {
   description = "AMI ID for the EC2 instance"
   type        = string
-  default     = "ami-0a7e505f26c66ccb1" # Ubuntu 22.04 LTS in eu-west-1
+  default     = "ami-0a0c8eebcdd6dcbd0" # Ubuntu 22.04 LTS in eu-west-1
 }
 
 variable "instance_type" {
@@ -58,10 +28,19 @@ variable "instance_type" {
   default     = "t3.micro"
 }
 
-variable "ssh_public_key_path" {
-  description = "Path to SSH public key file"
+variable "key_name" {
+  description = "Name of the EC2 key pair for SSH access"
   type        = string
-  default     = "~/.ssh/coolanu-postgres.pub"
+}
+
+variable "vpc_id" {
+  description = "VPC ID where the instance will be launched"
+  type        = string
+}
+
+variable "subnet_id" {
+  description = "Subnet ID where the instance will be launched"
+  type        = string
 }
 
 variable "db_name" {
@@ -112,9 +91,7 @@ variable "allowed_pgadmin_cidrs" {
   default     = ["0.0.0.0/0"] # Restrict this in production
 }
 
-variable "backup_retention_days" {
-  description = "Number of days to retain backups"
-  type        = number
-  default     = 7
+variable "iam_instance_profile_name" {
+  description = "Name of the IAM instance profile for the EC2 instance"
+  type        = string
 }
-

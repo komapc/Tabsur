@@ -16,11 +16,19 @@ module.exports = {
     ssl: false
   },
   pgConfigProduction : {
-    host: process.env.PG_HOST,
+    host: process.env.PG_HOST || '3.249.94.227',
     port: 5432,
-    database: process.env.PG_DATABASE,
-    user: process.env.PG_USER,
-    password: process.env.PG_PASSWORD,
+    database: process.env.PG_DATABASE || 'coolanu',
+    user: process.env.PG_USER || 'coolanu_user',
+    password: process.env.PG_PASSWORD || 'coolanu123',
+    ssl: false
+  },
+  pgConfigSelfManaged : {
+    host: '3.249.94.227',
+    port: 5432,
+    database: 'coolanu',
+    user: 'coolanu_user',
+    password: 'coolanu123',
     ssl: false
   }
 };
