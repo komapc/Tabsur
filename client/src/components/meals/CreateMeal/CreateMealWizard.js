@@ -43,11 +43,13 @@ const CreateMealWizard = ({ auth, addMeal }) => {
       description: "",
       date: formatedDate,
       time: formatedDate,
-      address: "",
-      location: "",
+      address: "Default Address",  // Set default address
+      location: { lng: 34.808, lat: 32.09 },  // Set default location (Tel Aviv)
       host_id: auth.user.id,
       guest_count: 3,
       image_id: -1,
+      type: 1,        // Add default meal type
+      visibility: 1,   // Add default visibility (1 = public)
     },
     transitions: {
     },
@@ -82,7 +84,9 @@ const CreateMealWizard = ({ auth, addMeal }) => {
       location: state.form.location,
       host_id: auth.user.id,
       guest_count: state.form.guest_count,
-      image_id: state.form.image_id ? state.form.image_id : -2
+      image_id: state.form.image_id ? state.form.image_id : -2,
+      type: state.form.type,           // Add meal type
+      visibility: state.form.visibility // Add visibility
     };
     console.log(JSON.stringify(newMeal));
     return addMeal(newMeal, () => {
