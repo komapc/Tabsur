@@ -16,6 +16,13 @@ jest.mock('../routes/db.js', () => ({
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Mock bcrypt
+jest.mock('bcryptjs', () => ({
+  genSalt: jest.fn().mockResolvedValue('mocksalt'),
+  hash: jest.fn().mockResolvedValue('mockhash'),
+  compare: jest.fn().mockResolvedValue(true)
+}));
 app.use('/api/users', users);
 
 describe('Authentication API', () => {
