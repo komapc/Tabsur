@@ -211,10 +211,10 @@ class App extends Component {
                   <Helmet>
                     <meta charSet="utf-8" />
                     <title>
-                      BeMyGuest - food sharing app or food sharing and social
+                      Tabsur - food sharing app or food sharing and social
                       dinning
                     </title>
-                    <link rel="canonical" href="https://www.bemyguest.app" />
+                    <link rel="canonical" href="https://www.tabsur.app" />
                   </Helmet>
                   {/* <AppFab visible={true} /> */}
                   <Switch>

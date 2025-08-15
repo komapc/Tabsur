@@ -26,7 +26,7 @@ class About extends Component {
               <small>{user}</small>
             </h4>
             <div>
-              Welcome to BeMyGuest community!
+              Welcome to Tabsur community!
               <br />
               If you have food &ndash; invite guests,
               <br />

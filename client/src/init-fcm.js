@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getMessaging } from 'firebase/messaging';
+import { getMessaging, isSupported } from 'firebase/messaging';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4",
@@ -13,13 +13,29 @@ const firebaseConfig = {
 };
 
 let messaging = null;
-try {
-  const app = initializeApp(firebaseConfig);
-  messaging = getMessaging(app);
-  // To use your VAPID key when requesting a token:
-  // getToken(messaging, { vapidKey: "BNJJF1av86BIQPia6y1p4aqlPNRkH4C7IkExrREYb5xyr1EDpUAJtxMrVs0cpCeoIJjP2WEQGIC9FkKDamngxGc" });
-} catch (e) {
-  console.error(`Firebase initialization failed: ${JSON.stringify(e)}`);
-}
+
+// Check if Firebase messaging is supported in this browser
+const initializeFirebase = async () => {
+  try {
+    const app = initializeApp(firebaseConfig);
+    
+    // Check if messaging is supported before initializing
+    const messagingSupported = await isSupported();
+    
+    if (messagingSupported) {
+      messaging = getMessaging(app);
+      console.log('Firebase messaging initialized successfully');
+      // To use your VAPID key when requesting a token:
+      // getToken(messaging, { vapidKey: "BNJJF1av86BIQPia6y1p4aqlPNRkH4C7IkExrREYb5xyr1EDpUAJtxMrVs0cpCeoIJjP2WEQGIC9FkKDamngxGc" });
+    } else {
+      console.log('Firebase messaging not supported in this browser - notifications will be disabled');
+    }
+  } catch (e) {
+    console.warn('Firebase initialization failed - notifications will be disabled:', e.message);
+  }
+};
+
+// Initialize Firebase
+initializeFirebase();
 
 export { messaging };

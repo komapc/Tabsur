@@ -1,0 +1,143 @@
+# Git and version control
+.git
+.gitignore
+.gitattributes
+
+# Node modules (will be installed fresh)
+node_modules
+client/node_modules
+**/node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory
+coverage
+*.lcov
+.nyc_output
+
+# Dependency directories
+jspm_packages
+
+# Optional npm cache
+.npm
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+*.tar.gz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Environment files (will be copied selectively)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker files
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Terraform and deployment
+terraform/
+*.tf
+*.tfstate
+*.tfvars
+deploy*.sh
+*.env
+ec2-config.env
+
+# Documentation
+*.md
+docs/
+README*
+
+# Tests
+tests/
+__tests__/
+*.test.js
+*.spec.js
+test*.js
+
+# Build artifacts
+build/
+dist/
+out/
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+
+# Archives
+*.zip
+*.tar.gz
+*.tar
+
+# Instance info
+instance-info*.txt
+
+# Backup files
+backups/
+migration_backups/
+
+# Scripts
+scripts/
+
+# Client build (will be built fresh)
+client/build/
+
+# Removed MERN references
+
+# Large media files
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.webm
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Cache directories
+.cache/
+.parcel-cache/
+.next/
+.nuxt/

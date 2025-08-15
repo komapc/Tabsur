@@ -1,22 +1,20 @@
-# BeMyGuest - Deployment Guide
+# Tabsur - Deployment Guide
 
-This guide covers deploying BeMyGuest using Docker in both development and production environments.
+This guide covers deploying Tabsur using Docker in both development and production environments.
 
 ## 🏗️ Architecture Overview
 
 ### Development (Debug) Environment
-- **Client**: React app served by Nginx (port 3000)
-- **Server**: Node.js/Express API (port 5000)
+- **Client**: React development server (port 3000)
+- **Server**: Node.js/Express API with hot reload (port 5000)
 - **Database**: PostgreSQL (port 5432)
-- **Cache**: Redis (port 6379)
 - **All services**: Run locally with Docker Compose
 
 ### Production (Release) Environment
-- **Client**: Optimized React build with Nginx
-- **Server**: Node.js/Express with production optimizations
-- **Database**: External (AWS RDS, etc.)
-- **Cache**: External Redis (AWS ElastiCache, etc.)
-- **Load Balancer**: Nginx (optional scaling)
+- **Client**: Optimized React build with Nginx (port 80)
+- **Server**: Node.js/Express with production optimizations (port 5000)
+- **Database**: External PostgreSQL (AWS RDS, etc.)
+- **Load Balancer**: Nginx (port 8080)
 
 ## 🚀 Quick Start
 
@@ -242,7 +240,7 @@ docker inspect tabsur-server-debug
 1. **Horizontal scaling**: Multiple server instances with load balancer
 2. **Database scaling**: Read replicas, connection pooling
 3. **CDN**: Static asset delivery
-4. **Caching**: Redis for sessions and data
+4. **Caching**: Not used
 
 ## 🚨 Production Checklist
 

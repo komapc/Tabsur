@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# BeMyGuest Deployment Script
+# Tabsur Deployment Script
 set -e
 
 # Colors for output
@@ -13,7 +13,7 @@ NC='\033[0m' # No Color
 ENVIRONMENT=${1:-debug}
 PROJECT_NAME="tabsur"
 
-echo -e "${GREEN}🚀 BeMyGuest Deployment Script${NC}"
+echo -e "${GREEN}🚀 Tabsur Deployment Script${NC}"
 echo -e "${YELLOW}Environment: $ENVIRONMENT${NC}"
 
 # Function to check if command exists
@@ -168,7 +168,7 @@ show_info() {
         echo -e "${GREEN}🌐 Client: http://localhost:3000${NC}"
         echo -e "${GREEN}🔧 Server: http://localhost:5000${NC}"
         echo -e "${GREEN}🗄️  Database: localhost:5432${NC}"
-        echo -e "${GREEN}📝 Redis: localhost:6379${NC}"
+        echo -e "${GREEN}📝 Redis: Not used${NC}"
     else
         echo -e "${GREEN}🌐 Application: http://localhost${NC}"
         echo -e "${GREEN}🔧 API: http://localhost:5000${NC}"

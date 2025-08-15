@@ -21,8 +21,6 @@ function loadScript(src, position, id) {
   position.appendChild(script);
 }
 
-const autocompleteService = { current: null };
-
 const useStyles = makeStyles((theme) => ({
   icon: {
     color: theme?.palette?.text?.secondary || '#757575',
@@ -51,8 +49,20 @@ export default function GoogleMaps(props) {
 
   const fetch = React.useMemo(
     () =>
-      throttle((request, callback) => {
-        autocompleteService.current.getPlacePredictions(request, callback);
+      throttle(async (request, callback) => {
+        try {
+          // Use the newer AutocompleteSuggestion API instead of deprecated AutocompleteService
+          if (window.google && window.google.maps && window.google.maps.places) {
+            const service = new window.google.maps.places.AutocompleteSuggestion();
+            const response = await service.getPlacePredictions(request);
+            callback(response.predictions || []);
+          } else {
+            callback([]);
+          }
+        } catch (error) {
+          console.warn('Google Places API error:', error);
+          callback([]);
+        }
       }, 200),
     [],
   );
@@ -60,12 +70,8 @@ export default function GoogleMaps(props) {
   React.useEffect(() => {
     let active = true;
 
-    if (!autocompleteService.current && window.google) {
-      autocompleteService.current = new window.google.maps.places.AutocompleteService();
-    }
-    if (!autocompleteService.current) {
-      return undefined;
-    }
+    // Remove the old AutocompleteService initialization
+    // The new API doesn't require pre-initialization
 
     if (inputValue === '') {
       setOptions(value ? [value] : []);

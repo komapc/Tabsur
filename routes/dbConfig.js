@@ -1,10 +1,10 @@
 module.exports = {
   pgConfigLocal : {
-    host: '127.0.0.1',
-    port: 5432,
-    database: 'coolanu',
-    user: 'coolanu',
-    password: 'coolanu',
+    host: process.env.DB_HOST || '127.0.0.1',
+    port: process.env.DB_PORT || 5432,
+    database: process.env.DB_NAME || 'coolanu',
+    user: process.env.DB_USER || 'coolanu',
+    password: process.env.DB_PASSWORD || 'coolanu',
     ssl: false
   },
   pgConfigTest : {

@@ -25,28 +25,12 @@ services:
     networks:
       - tabsur-network
 
-  # Redis for caching/sessions (optional)
-  redis:
-    image: redis:7-alpine
-    container_name: tabsur-redis-debug
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data_debug:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 3s
-      retries: 3
-    networks:
-      - tabsur-network
-
-  # Server (Node.js/Express)
+  # Server (Node.js/Express) - Debug mode
   server:
     build:
       context: .
-      dockerfile: Dockerfile.server
+      dockerfile: Dockerfile.server.multistage
+      target: debug
     container_name: tabsur-server-debug
     restart: unless-stopped
     environment:
@@ -56,8 +40,6 @@ services:
       - DB_NAME=coolanu_dev
       - DB_USER=postgres
       - DB_PASSWORD=postgres
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
       - JWT_SECRET=your-secret-key-change-in-production
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
@@ -70,36 +52,41 @@ services:
     depends_on:
       database:
         condition: service_healthy
-      redis:
-        condition: service_healthy
     volumes:
       - ./logs:/app/logs
+      - ./server.js:/app/server.js:ro
+      - ./routes:/app/routes:ro
+      - ./config:/app/config:ro
+      - ./validation:/app/validation:ro
     networks:
       - tabsur-network
 
-  # Client (React/Nginx) - for testing full stack locally
+  # Client (React) - Debug mode with hot reloading
   client:
     build:
       context: .
-      dockerfile: Dockerfile.client
+      dockerfile: Dockerfile.client.multistage
+      target: debug
     container_name: tabsur-client-debug
     restart: unless-stopped
     environment:
+      - NODE_ENV=development
       - REACT_APP_SERVER_HOST=http://localhost:5000
       - REACT_APP_GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
       - REACT_APP_FIREBASE_CONFIG=${REACT_APP_FIREBASE_CONFIG}
     ports:
-      - "3000:80"
+      - "3000:3000"
     depends_on:
       - server
+    volumes:
+      - ./client/src:/app/src:ro
+      - ./client/public:/app/public:ro
     networks:
       - tabsur-network
 
 volumes:
   postgres_data_debug:
     name: tabsur_postgres_data_debug
-  redis_data_debug:
-    name: tabsur_redis_data_debug
 
 networks:
   tabsur-network:
