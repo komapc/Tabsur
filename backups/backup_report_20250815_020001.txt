@@ -1,0 +1,28 @@
+PostgreSQL Backup Report
+========================
+Timestamp: Fri Aug 15 02:00:16 AM IDT 2025
+Database: coolanu
+Host: 3.249.94.227:5432
+User: coolanu_user
+
+Backup Details:
+- File: coolanu_backup_20250815_020001.sql
+- Size: 72K
+- Location: ./backups/coolanu_backup_20250815_020001.sql
+- S3 Location: 
+
+System Information:
+- Hostname: ilo-sona-teli
+- OS: Linux ilo-sona-teli 6.14.0-27-generic #27~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue Jul 22 17:38:49 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+- Disk Usage: /dev/mapper/ubuntu--vg-ubuntu--lv  935G   93G  796G  11% /
+
+Database Statistics:
+- Tables: 12
+- Database Size: 8061 kB
+
+Backup Configuration:
+- Compression: 
+- S3 Upload: 
+- Retention:  days
+- Slack Notifications: 
+

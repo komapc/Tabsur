@@ -18,15 +18,12 @@ const system = require('./routes/api/system');
 
 const app = express();
 
-// Security middleware
-app.use(sslRedirect());
+// Security middleware - only use SSL redirect in production with proper SSL setup
+if (process.env.NODE_ENV === 'production' && process.env.FORCE_HTTPS === 'true') {
+  app.use(sslRedirect());
+}
 
-// CORS configuration
-const corsOptions = {
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
-  credentials: true
-};
-app.use(cors(corsOptions));
+// CORS is handled by nginx proxy
 
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -107,7 +104,7 @@ const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`);
   console.log(`Environment: ${process.env.NODE_ENV}`);
-  console.log(`CORS Origin: ${corsOptions.origin}`);
+  console.log(`CORS handled by nginx proxy`);
 });
 
 // Graceful shutdown

@@ -13,7 +13,7 @@ switch (env) {
         break;
     case 'production':
     default:
-        config.SERVER_HOST = host;
+        config.SERVER_HOST = process.env.REACT_APP_SERVER_HOST || host + ':8080';
 
 }
 

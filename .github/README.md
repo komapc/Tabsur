@@ -12,7 +12,7 @@ This directory contains GitHub Actions workflows for CI/CD, testing, and deploym
 - **lint-and-test**: Runs ESLint and unit tests for both client and server
 - **security-scan**: Trivy vulnerability scanning and npm audit
 - **build-docker**: Builds and pushes Docker images to GitHub Container Registry
-- **integration-test**: Full stack testing with PostgreSQL and Redis
+- **integration-test**: Full stack testing with PostgreSQL
 - **deploy-staging**: Automatic deployment to staging (develop branch)
 - **deploy-production**: Automatic deployment to production (main branch)
 

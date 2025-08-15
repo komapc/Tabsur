@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: BeMyGuest API
+  title: Tabsur API
   description: |
-    BeMyGuest is a food-sharing social dining application API.
+    Tabsur is a food-sharing social dining application API.
     
     ## Authentication
     Most endpoints require JWT authentication via Bearer token.
@@ -11,8 +11,8 @@ info:
     API requests are rate limited to prevent abuse.
   version: 1.0.1
   contact:
-    name: BeMyGuest Support
-    email: support@bemyguest.app
+    name: Tabsur Support
+          email: support@tabsur.app
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
@@ -20,7 +20,7 @@ info:
 servers:
   - url: http://localhost:5000/api
     description: Development server
-  - url: https://api.bemyguest.app/api
+  - url: https://api.tabsur.app/api
     description: Production server
 
 security:

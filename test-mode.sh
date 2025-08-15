@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🧪 Starting BeMyGuest in TEST MODE"
+echo "🧪 Starting Tabsur in TEST MODE"
 echo "================================="
 
 # Set test environment variables
