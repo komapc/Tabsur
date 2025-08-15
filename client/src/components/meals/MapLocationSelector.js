@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { GoogleMap } from '@react-google-maps/api';
 import Geocode from "react-geocode";
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import backArrowIcon from "../../resources/back_arrow.svg";
@@ -240,34 +240,28 @@ const MapLocationSelector = ({ defaultLocation, address, handleLocationUpdate, h
       </div>
       
       {mapError && (
-        <Alert severity="error" sx={{ mb: 2 }}>
+        <Alert severity="error" onClose={() => setMapError(null)}>
           {mapError}
         </Alert>
       )}
-
-      <LoadScript 
-        googleMapsApiKey={GOOGLE_MAPS_API_KEY} 
-        libraries={MAPS_LIBRARIES}
-        onError={onMapError}
+  
+      <div className="autocomplete-bar">
+        <GooglePlacesAutocomplete 
+          className="autocomplete-span"
+          onSelect={handleAddressSelect}
+          initialValue={currentAddress}
+          query={{ language: 'en' }}
+        />
+      </div>
+      <GoogleMap
+        zoom={10}
+        center={defaultLocation}
+        mapContainerStyle={MAP_CONTAINER_STYLE}
+        onLoad={onMapLoad}
       >
-        <div className="autocomplete-bar">
-          <GooglePlacesAutocomplete 
-            className="autocomplete-span"
-            onSelect={handleAddressSelect}
-            initialValue={currentAddress}
-            query={{ language: 'en' }}
-          />
-        </div>
-        <GoogleMap
-          zoom={10}
-          center={defaultLocation}
-          mapContainerStyle={MAP_CONTAINER_STYLE}
-          onLoad={onMapLoad}
-        >
-          {/* Note: Using deprecated Marker API - will need migration in future */}
-          {/* TODO: Migrate to google.maps.marker.AdvancedMarkerElement when available */}
-        </GoogleMap>
-      </LoadScript>
+        {/* Note: Using deprecated Marker API - will need migration in future */}
+        {/* TODO: Migrate to google.maps.marker.AdvancedMarkerElement when available */}
+      </GoogleMap>
     </>
   );
 };

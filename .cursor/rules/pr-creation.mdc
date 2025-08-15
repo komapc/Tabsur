@@ -1,0 +1,27 @@
+# PR Creation Rule
+
+When I say "make PR", I mean create an actual Pull Request, not just push a branch.
+
+## PR Creation Workflow:
+1. **Create Branch**: Always work on feature/fix branches, never directly on master/main
+2. **Make Changes**: Implement the requested features or fixes
+3. **Commit Frequently**: Make commits after every change (see commit-after-fixes rule)
+4. **Push Branch**: Push the branch to origin
+5. **Create PR**: Go to GitHub/GitLab and create an actual Pull Request
+6. **Link PR**: Share the PR URL for review
+
+## Never Just Push:
+- Don't just push a branch when asked to "make PR"
+- Don't assume pushing equals creating a PR
+- Always create the actual Pull Request interface
+
+## Example Response:
+When asked to "make PR":
+- ✅ "I'll create a PR for this feature. Let me push the branch and create the PR..."
+- ❌ "I'll push the changes to the branch" (without mentioning PR creation)
+
+**Remember**: "make PR" = create Pull Request, not just push branch!
+description:
+globs:
+alwaysApply: false
+---

@@ -15,7 +15,6 @@ const {
   mealCreationLimiter, 
   searchLimiter 
 } = require('./middleware/rate-limiting');
-
 // Import routes
 const users = require('./routes/api/users');
 const meals = require('./routes/api/meals');
@@ -58,7 +57,6 @@ app.get('/health', (req, res) => {
 app.get('/sanity-check', (req, res) => {
   const jwtSecret = process.env.SECRET_OR_KEY;
   const hasJwtSecret = !!jwtSecret && jwtSecret !== 'your-super-secret-jwt-key-change-this';
-
   res.status(200).json({
     status: 'OK',
     timestamp: new Date().toISOString(),

@@ -20,6 +20,7 @@ import Settings from "./components/auth/Settings";
 import Login from "./components/auth/Login";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import PrivateRoute from "./components/private-route/PrivateRoute";
+import GoogleMapsProvider from "./components/common/GoogleMapsProvider";
 import ShowMeal from "./components/meals/ShowMeal";
 import EditMeal from "./components/meals/EditMeal";
 import ShowUser from "./components/users/ShowUser";
@@ -207,35 +208,37 @@ class App extends Component {
           <Provider store={store}>
             <ThemeProvider theme={theme}>
               <GoogleOAuthProvider clientId={googleKey}>  
-                <Router>
-                  <Helmet>
-                    <meta charSet="utf-8" />
-                    <title>
-                      Tabsur - food sharing app or food sharing and social
-                      dinning
-                    </title>
-                    <link rel="canonical" href="https://www.tabsur.app" />
-                  </Helmet>
-                  {/* <AppFab visible={true} /> */}
-                  <Switch>
-                    <Route exact path="/register" component={Register} />
-                    <Route exact path="/login/:extend?" component={Login} />
-                    <Route exact path="/about" component={About} />
-                    <PrivateRoute exact path="/user/:id" component={ShowUser} />
-                    <Route exact path="/meal/:id" component={ShowMeal} />
-                    <PrivateRoute exact path="/profile/:id" component={Profile} />
-                    <PrivateRoute exact path="/Stats/:id" component={Stats} />
-                    <PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
-                    <PrivateRoute exact path="/settings" component={Settings} />
-                    <PrivateRoute exact path="/EditMeal/:id" component={EditMeal} />
-                    <PrivateRoute
-                      exact
-                      path="/createMealWizard"
-                      component={CreateMealWizard}
-                    />
-                    <Route path="/" component={Main} />
-                  </Switch>
-                </Router>
+                <GoogleMapsProvider>
+                  <Router>
+                    <Helmet>
+                      <meta charSet="utf-8" />
+                      <title>
+                        Tabsur - food sharing app or food sharing and social
+                        dinning
+                      </title>
+                      <link rel="canonical" href="https://www.tabsur.app" />
+                    </Helmet>
+                    {/* <AppFab visible={true} /> */}
+                    <Switch>
+                      <Route exact path="/register" component={Register} />
+                      <Route exact path="/login/:extend?" component={Login} />
+                      <Route exact path="/about" component={About} />
+                      <PrivateRoute exact path="/user/:id" component={ShowUser} />
+                      <Route exact path="/meal/:id" component={ShowMeal} />
+                      <PrivateRoute exact path="/profile/:id" component={Profile} />
+                      <PrivateRoute exact path="/Stats/:id" component={Stats} />
+                      <PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
+                      <PrivateRoute exact path="/settings" component={Settings} />
+                      <PrivateRoute exact path="/EditMeal/:id" component={EditMeal} />
+                      <PrivateRoute
+                        exact
+                        path="/createMealWizard"
+                        component={CreateMealWizard}
+                      />
+                      <Route path="/" component={Main} />
+                    </Switch>
+                  </Router>
+                </GoogleMapsProvider>
               </GoogleOAuthProvider>
             </ThemeProvider>
           </Provider>

@@ -137,15 +137,16 @@ describe('Input Sanitization Middleware', () => {
 
   describe('Integration', () => {
     it('should sanitize and validate inputs together', async () => {
+      // Create input that will still be too long even after XSS sanitization
       const maliciousInput = {
-        name: '<script>alert("xss")</script>' + 'a'.repeat(1000), // XSS + too long
+        name: '<script>alert("xss")</script>' + 'a'.repeat(1001), // XSS + exceeds 1000 limit
         description: '<img src="x" onerror="alert(1)">'
       };
 
       const response = await request(app)
         .post('/test')
         .send(maliciousInput)
-        .expect(400); // Should fail validation first
+        .expect(400); // Should fail validation after sanitization
 
       expect(response.body.error).toBe('Input too long');
       expect(response.body.message).toContain('name exceeds maximum length');

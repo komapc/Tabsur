@@ -107,12 +107,18 @@ const createSearchLimiter = () => rateLimit({
   }
 });
 
+
 describe('Rate Limiting Middleware', () => {
   let app;
 
   beforeEach(() => {
     app = express();
     app.use(bodyParser.json());
+    
+    // Set trust proxy to handle X-Forwarded-For headers in tests
+    app.set('trust proxy', true);
+    
+
     
     // Test endpoints for different rate limiters
     app.post('/api/test', createApiLimiter(), (req, res) => {
@@ -147,12 +153,17 @@ describe('Rate Limiting Middleware', () => {
     });
 
     it('should block requests after limit exceeded', async () => {
-      // Make 100 requests (at limit)
-      for (let i = 0; i < 100; i++) {
+      // Make 99 requests (just under limit)
+      for (let i = 0; i < 99; i++) {
         await request(app)
           .post('/api/test')
           .expect(200);
       }
+
+      // 100th request should succeed (at limit)
+      await request(app)
+        .post('/api/test')
+        .expect(200);
 
       // 101st request should be blocked
       const response = await request(app)
@@ -185,12 +196,17 @@ describe('Rate Limiting Middleware', () => {
     });
 
     it('should block login attempts after limit exceeded', async () => {
-      // Make 5 requests (at limit)
-      for (let i = 0; i < 5; i++) {
+      // Make 4 requests (just under limit)
+      for (let i = 0; i < 4; i++) {
         await request(app)
           .post('/auth/login')
           .expect(200);
       }
+
+      // 5th request should succeed (at limit)
+      await request(app)
+        .post('/auth/login')
+        .expect(200);
 
       // 6th request should be blocked
       const response = await request(app)
@@ -213,12 +229,17 @@ describe('Rate Limiting Middleware', () => {
     });
 
     it('should block uploads after limit exceeded', async () => {
-      // Make 10 requests (at limit)
-      for (let i = 0; i < 10; i++) {
+      // Make 9 requests (just under limit)
+      for (let i = 0; i < 9; i++) {
         await request(app)
           .post('/upload')
           .expect(200);
       }
+
+      // 10th request should succeed (at limit)
+      await request(app)
+        .post('/upload')
+        .expect(200);
 
       // 11th request should be blocked
       const response = await request(app)
@@ -241,12 +262,17 @@ describe('Rate Limiting Middleware', () => {
     });
 
     it('should block meal creations after daily limit exceeded', async () => {
-      // Make 20 requests (at limit)
-      for (let i = 0; i < 20; i++) {
+      // Make 19 requests (just under limit)
+      for (let i = 0; i < 19; i++) {
         await request(app)
           .post('/meals')
           .expect(200);
       }
+
+      // 20th request should succeed (at limit)
+      await request(app)
+        .post('/meals')
+        .expect(200);
 
       // 21st request should be blocked
       const response = await request(app)
@@ -269,12 +295,17 @@ describe('Rate Limiting Middleware', () => {
     });
 
     it('should block searches after hourly limit exceeded', async () => {
-      // Make 50 requests (at limit)
-      for (let i = 0; i < 50; i++) {
+      // Make 49 requests (just under limit)
+      for (let i = 0; i < 49; i++) {
         await request(app)
           .get('/search')
           .expect(200);
       }
+
+      // 50th request should succeed (at limit)
+      await request(app)
+        .get('/search')
+        .expect(200);
 
       // 51st request should be blocked
       const response = await request(app)
@@ -309,13 +340,19 @@ describe('Rate Limiting Middleware', () => {
       const ip1 = '192.168.1.1';
       const ip2 = '192.168.1.2';
 
-      // IP1 makes 100 requests
-      for (let i = 0; i < 100; i++) {
+      // IP1 makes 99 requests (just under limit)
+      for (let i = 0; i < 99; i++) {
         await request(app)
           .post('/api/test')
           .set('X-Forwarded-For', ip1)
           .expect(200);
       }
+
+      // IP1 makes 100th request (at limit)
+      await request(app)
+        .post('/api/test')
+        .set('X-Forwarded-For', ip1)
+        .expect(200);
 
       // IP2 should still be able to make requests
       await request(app)

@@ -146,7 +146,7 @@ describe('Validation Functions - Negative Tests', () => {
       expect(errors.name).toBeDefined();
     });
 
-    it('should reject empty address', () => {
+    it('should accept empty address (now optional)', () => {
       const input = {
         name: 'Test Meal',
         description: 'Test description',
@@ -162,8 +162,8 @@ describe('Validation Functions - Negative Tests', () => {
       
       const { errors, isValid } = validateMealInput(input);
       
-      expect(isValid).toBe(false);
-      expect(errors.address).toBeDefined();
+      // Address is now optional, so this should pass
+      expect(isValid).toBe(true);
     });
 
     it('should reject negative guest count', () => {
@@ -208,14 +208,17 @@ describe('Validation Functions - Negative Tests', () => {
 
     it('should reject missing required fields', () => {
       const input = {
-        name: 'Test Meal'
-        // Missing description, date, address, location, host_id, guest_count
+        name: 'Test Meal',
+        // Missing description, date, location, host_id, guest_count
       };
       
       const { errors, isValid } = validateMealInput(input);
       
       expect(isValid).toBe(false);
-      expect(errors.address).toBeDefined();
+      expect(errors.description).toBeDefined();
+      expect(errors.date).toBeDefined();
+      expect(errors.location).toBeDefined();
+      expect(errors.host_id).toBeDefined();
       expect(errors.guest_count).toBeDefined();
     });
   });

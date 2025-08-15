@@ -12,9 +12,11 @@ jest.mock('../routes/db.js', () => ({
 
 // Mock bcrypt
 jest.mock('bcryptjs', () => ({
-  genSalt: jest.fn().mockImplementation((rounds, callback) => callback(null, 'mocksalt')),
-  hash: jest.fn().mockImplementation((password, salt, callback) => callback(null, 'mockhash')),
-  compare: jest.fn().mockImplementation((password, hash, callback) => callback(null, true))
+// Mock bcrypt
+jest.mock('bcryptjs', () => ({
+  genSalt: jest.fn().mockResolvedValue('mocksalt'),
+  hash: jest.fn().mockResolvedValue('mockhash'),
+  compare: jest.fn().mockResolvedValue(true)
 }));
 
 // Mock JWT

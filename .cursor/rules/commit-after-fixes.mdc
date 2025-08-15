@@ -1,0 +1,34 @@
+---
+alwaysApply: true
+---
+
+# Commit After Fixes Rule
+
+Always make a commit after any fix, bug fix, or code improvement. This ensures that:
+
+1. **Version Control**: All changes are properly tracked in git history
+2. **Code Review**: Changes can be reviewed and reverted if needed
+3. **Collaboration**: Team members can see what was fixed and when
+4. **Debugging**: Easy to identify which commit introduced or fixed specific issues
+
+## When to Commit:
+- After fixing a bug
+- After resolving a linter error
+- After implementing a requested feature
+- After refactoring code
+- After updating dependencies
+- After any code improvement
+
+## Commit Message Guidelines:
+- Use clear, descriptive commit messages
+- Start with a verb (Fix, Add, Update, Refactor, etc.)
+- Include context about what was changed
+- Reference issue numbers if applicable
+
+## Example Commit Messages:
+- `Fix: Resolve authentication token validation error`
+- `Add: Implement user profile image upload`
+- `Update: Upgrade React dependencies to latest version`
+- `Refactor: Clean up meal creation wizard component`
+
+**Remember**: Small, frequent commits are better than large, infrequent ones. Each commit should represent a single logical change or fix.
