@@ -94,6 +94,7 @@ const sqlInjectionProtection = (req, res, next) => {
     /(\b(union|select|insert|update|delete|drop|create|alter|exec|execute|script|javascript|vbscript|onload|onerror|onclick)\s*\(/i,
     /(\b(union|select|insert|update|delete|drop|create|alter|exec|execute|script|javascript|vbscript|onload|onerror|onclick)\s*=/i
   ];
+  ];
   
   const checkValue = (value) => {
     if (typeof value === 'string') {
