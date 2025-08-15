@@ -6,10 +6,34 @@ module.exports = function validateMealInput(data) {
 
   // Convert empty fields to an empty string so we can use validator functions
   data.name = !isEmpty(data.name) ? data.name : '';
+  data.description = !isEmpty(data.description) ? data.description : '';
+  data.date = !isEmpty(data.date) ? String(data.date) : '';
+  data.location = !isEmpty(data.location) ? String(data.location) : '';
+  data.host_id = !isEmpty(data.host_id) ? String(data.host_id) : '';
 
   // Name checks
   if (Validator.isEmpty(data.name)) {
     errors.name = `Name field is required, "${data.name}" is given`;
+  }
+
+  // Description checks
+  if (Validator.isEmpty(data.description)) {
+    errors.description = 'Description field is required';
+  }
+
+  // Date checks
+  if (Validator.isEmpty(data.date)) {
+    errors.date = 'Date field is required';
+  }
+
+  // Location checks
+  if (Validator.isEmpty(data.location)) {
+    errors.location = 'Location field is required';
+  }
+
+  // Host ID checks
+  if (Validator.isEmpty(data.host_id)) {
+    errors.host_id = 'Host ID field is required';
   }
 
   // Address is optional for now - can be empty string

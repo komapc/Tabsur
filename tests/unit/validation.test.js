@@ -207,3 +207,19 @@ describe('Validation Functions - Negative Tests', () => {
     });
 
     it('should reject missing required fields', () => {
+      const input = {
+        name: 'Test Meal',
+        // Missing description, date, location, host_id, guest_count
+      };
+      
+      const { errors, isValid } = validateMealInput(input);
+      
+      expect(isValid).toBe(false);
+      expect(errors.description).toBeDefined();
+      expect(errors.date).toBeDefined();
+      expect(errors.location).toBeDefined();
+      expect(errors.host_id).toBeDefined();
+      expect(errors.guest_count).toBeDefined();
+    });
+  });
+});
