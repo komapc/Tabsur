@@ -14,12 +14,16 @@ jest.mock('../routes/db.js', () => ({
 }));
 
 // Mock authentication middleware
-jest.mock('../routes/authenticateJWT.js', () => {
-  return jest.fn((req, res, next) => {
+jest.mock('../routes/authenticateJWT.js', () => ({
+  authenticateJWT: jest.fn((req, res, next) => {
     req.user = { id: 1, name: 'Test User', email: 'test@example.com' };
     next();
-  });
-});
+  }),
+  tryAuthenticateJWT: jest.fn((req, res, next) => {
+    req.user = { id: 1, name: 'Test User', email: 'test@example.com' };
+    next();
+  })
+}));
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
