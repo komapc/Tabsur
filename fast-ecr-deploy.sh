@@ -73,7 +73,7 @@ services:
       - DB_PASSWORD=coolanu
       - DB_SSL=false
       - JWT_SECRET=QqjLQPGsAmE0suGWbKBqcdGuDeX237kPRJCO/aIzoaA=
-      - GOOGLE_MAPS_API_KEY=AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4
+      - GOOGLE_MAPS_API_KEY=AIzaSyB_l00z3A2dNzBA7X2Xag9obkOPwb7FoVw
     ports:
       - "5000:5000"
     networks:
@@ -85,7 +85,7 @@ services:
     restart: unless-stopped
     environment:
       - REACT_APP_SERVER_HOST=http://localhost:5000
-      - REACT_APP_GOOGLE_MAPS_API_KEY=AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4
+      - REACT_APP_GOOGLE_MAPS_API_KEY=AIzaSyB_l00z3A2dNzBA7X2Xag9obkOPwb7FoVw
     ports:
       - "80:80"
     depends_on:

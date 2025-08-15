@@ -12,11 +12,12 @@ module.exports = function validateMealInput(data) {
     errors.name = `Name field is required, "${data.name}" is given`;
   }
 
+  // Address is optional for now - can be empty string
   data.address = !isEmpty(data.address) ? data.address : '';
-
-  if (Validator.isEmpty(data.address)) {
-    errors.address = 'Address field is required.';
-  }
+  
+  // Add missing required fields with defaults
+  data.type = !isEmpty(data.type) ? data.type : 'dinner';
+  data.visibility = !isEmpty(data.visibility) ? data.visibility : 'public';
 
   // Guest count validation - handle 0 as valid
   if (data.guest_count === undefined || data.guest_count === null || data.guest_count === '') {

@@ -1,0 +1,28 @@
+# Deployment Rule
+
+When I say "deploy", always deploy both release and debug Docker containers.
+
+## Deployment Workflow:
+1. **Debug Deployment**: Deploy debug version first for testing
+2. **Release Deployment**: Deploy production release version
+3. **Both Environments**: Ensure both are running and accessible
+
+## Commands to Run:
+- `./deploy.sh` - Deploys debug environment
+- `./fast-ecr-deploy.sh` - Deploys production release to ECR
+
+## Never Deploy Just One:
+- Don't deploy only debug when asked to "deploy"
+- Don't deploy only release when asked to "deploy"
+- Always deploy both environments
+
+## Example Response:
+When asked to "deploy":
+- ✅ "I'll deploy both debug and release versions. Starting with debug..."
+- ❌ "I'll deploy the debug version" (without mentioning release)
+
+**Remember**: "deploy" = both debug AND release, not just one!
+description:
+globs:
+alwaysApply: false
+---

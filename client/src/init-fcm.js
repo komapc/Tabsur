@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getMessaging, isSupported } from 'firebase/messaging';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4",
+  apiKey: "AIzaSyB_l00z3A2dNzBA7X2Xag9obkOPwb7FoVw",
   authDomain: "tabsur.firebaseapp.com",
   databaseURL: "https://tabsur.firebaseio.com",
   projectId: "tabsur",
