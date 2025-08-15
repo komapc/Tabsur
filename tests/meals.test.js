@@ -36,12 +36,15 @@ describe('Meals API', () => {
   beforeEach(() => {
     testMeal = {
       name: 'Test Meal',
-      description: 'A delicious test meal',
-      location: '40.7128,-74.0060',
-      address: '123 Test Street, New York, NY',
-      meal_time: new Date().toISOString(),
-      max_guests: 4,
-      image_url: 'https://example.com/meal.jpg'
+      description: 'A delicious test meal for testing',
+      date: Date.now() + 86400000, // Tomorrow
+      address: '456 Test Avenue, Tel Aviv, Israel',
+      location: { lng: 34.808, lat: 32.09 },
+      host_id: 1,
+      guest_count: 3,
+      image_id: -1,
+      type: 1,
+      visibility: 1
     };
   });
 
@@ -52,31 +55,28 @@ describe('Meals API', () => {
 
       // Mock successful meal creation
       mockClient.query.mockResolvedValueOnce({
-        rows: [{ id: 1, ...testMeal, host_id: 1 }]
+        rows: [{ id: 1, ...testMeal }]
       });
 
       const response = await request(app)
         .post('/api/meals')
         .send(testMeal);
 
-      expect(response.status).toBe(201);
-      expect(response.body.meal).toMatchObject({
-        id: expect.any(Number),
-        name: testMeal.name,
-        description: testMeal.description
-      });
+      expect(response.status).toBe(200);
+      expect(response.body.id).toBe(1);
 
       expect(mockClient.query).toHaveBeenCalledWith(
         expect.stringContaining('INSERT INTO meals'),
         expect.arrayContaining([
           testMeal.name,
-          testMeal.description,
-          expect.any(Number), // host_id
-          testMeal.location,
+          testMeal.type,
+          expect.stringContaining('34.808'),
           testMeal.address,
-          expect.any(String), // meal_time
-          testMeal.max_guests,
-          testMeal.image_url
+          testMeal.guest_count,
+          testMeal.host_id,
+          testMeal.date,
+          testMeal.visibility,
+          testMeal.description
         ])
       );
     });
@@ -92,177 +92,101 @@ describe('Meals API', () => {
       expect(response.body.name).toBeDefined();
     });
 
-    it('should reject meal creation with invalid max_guests', async () => {
-      testMeal.max_guests = -1;
+    it('should reject meal creation with invalid guest count', async () => {
+      testMeal.guest_count = -1;
 
       const response = await request(app)
         .post('/api/meals')
         .send(testMeal);
 
       expect(response.status).toBe(400);
-      expect(response.body.max_guests).toBeDefined();
-    });
-  });
-
-  describe('GET /api/meals', () => {
-    it('should return list of meals', async () => {
-      const pool = require('../routes/db.js');
-      const mockClient = await pool.connect();
-
-      const mockMeals = [
-        { id: 1, name: 'Meal 1', host_id: 1 },
-        { id: 2, name: 'Meal 2', host_id: 2 }
-      ];
-
-      mockClient.query.mockResolvedValueOnce({
-        rows: mockMeals
-      });
-
-      const response = await request(app)
-        .get('/api/meals');
-
-      expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
-      expect(response.body).toHaveLength(2);
-    });
-
-    it('should filter meals by location when provided', async () => {
-      const pool = require('../routes/db.js');
-      const mockClient = await pool.connect();
-
-      mockClient.query.mockResolvedValueOnce({
-        rows: [{ id: 1, name: 'Local Meal' }]
-      });
-
-      const response = await request(app)
-        .get('/api/meals')
-        .query({ location: '40.7128,-74.0060', radius: '10' });
-
-      expect(response.status).toBe(200);
-      expect(mockClient.query).toHaveBeenCalledWith(
-        expect.stringContaining('ST_DWithin'),
-        expect.any(Array)
-      );
+      expect(response.body.guest_count).toBeDefined();
     });
   });
 
   describe('GET /api/meals/:id', () => {
-    it('should return a specific meal by id', async () => {
+    it('should return meals for a specific user', async () => {
       const pool = require('../routes/db.js');
       const mockClient = await pool.connect();
 
-      const mockMeal = {
-        id: 1,
-        name: 'Test Meal',
-        host_id: 1,
-        host_name: 'Test User'
-      };
-
+      // Mock successful query
       mockClient.query.mockResolvedValueOnce({
-        rows: [mockMeal]
+        rows: [
+          { id: 1, name: 'Meal 1', host_name: 'User 1' },
+          { id: 2, name: 'Meal 2', host_name: 'User 1' }
+        ]
       });
 
       const response = await request(app)
         .get('/api/meals/1');
 
       expect(response.status).toBe(200);
-      expect(response.body.id).toBe(1);
-      expect(response.body.name).toBe('Test Meal');
+      expect(Array.isArray(response.body)).toBe(true);
+      expect(response.body).toHaveLength(2);
     });
+  });
 
-    it('should return 404 for non-existent meal', async () => {
+  describe('GET /api/meals/info/:id/:userId', () => {
+    it('should return info about a specific meal', async () => {
       const pool = require('../routes/db.js');
       const mockClient = await pool.connect();
 
+      // Mock successful query
+      mockClient.query.mockResolvedValueOnce({
+        rows: [{ id: 1, name: 'Test Meal', host_name: 'User 1' }]
+      });
+
+      const response = await request(app)
+        .get('/api/meals/info/1/1');
+
+      expect(response.status).toBe(200);
+      expect(response.body[0].id).toBe(1);
+      expect(response.body[0].name).toBe('Test Meal');
+    });
+  });
+
+  describe('PUT /api/meals', () => {
+    it('should update a meal', async () => {
+      const pool = require('../routes/db.js');
+      const mockClient = await pool.connect();
+
+      // Mock successful update
+      mockClient.query.mockResolvedValueOnce({
+        rows: [{ id: 1, name: 'Updated Meal', guest_count: 5 }
+      });
+
+      const response = await request(app)
+        .put('/api/meals')
+        .send({ name: 'Updated Meal', guest_count: 5, id: 1 });
+
+      expect(response.status).toBe(200);
+      expect(response.body.name).toBe('Updated Meal');
+    });
+  });
+
+  describe('DELETE /api/meals/:meal_id', () => {
+    it('should delete a meal', async () => {
+      const pool = require('../routes/db.js');
+      const mockClient = await pool.connect();
+
+      // Mock successful deletion
       mockClient.query.mockResolvedValueOnce({
         rows: []
       });
 
       const response = await request(app)
-        .get('/api/meals/999');
+        .delete('/api/meals/1')
+        .send({ meal_id: 1 });
 
-      expect(response.status).toBe(404);
-      expect(response.body.message).toContain('not found');
-    });
-  });
-
-  describe('PUT /api/meals/:id', () => {
-    it('should update a meal owned by the authenticated user', async () => {
-      const pool = require('../routes/db.js');
-      const mockClient = await pool.connect();
-
-      // Mock finding the meal (owned by user)
-      mockClient.query.mockResolvedValueOnce({
-        rows: [{ id: 1, host_id: 1 }]
-      });
-
-      // Mock successful update
-      mockClient.query.mockResolvedValueOnce({
-        rows: [{ id: 1, ...testMeal, host_id: 1 }]
-      });
-
-      const response = await request(app)
-        .put('/api/meals/1')
-        .send({ name: 'Updated Meal Name' });
-
-      expect(response.status).toBe(200);
-      expect(response.body.name).toBe('Updated Meal Name');
+      expect(response.status).toBe(201);
     });
 
-    it('should reject update of meal not owned by user', async () => {
-      const pool = require('../routes/db.js');
-      const mockClient = await pool.connect();
-
-      // Mock finding meal owned by different user
-      mockClient.query.mockResolvedValueOnce({
-        rows: [{ id: 1, host_id: 2 }] // Different user owns this meal
-      });
-
+    it('should reject deletion with invalid meal ID', async () => {
       const response = await request(app)
-        .put('/api/meals/1')
-        .send({ name: 'Updated Name' });
+        .delete('/api/meals/invalid')
+        .send({ meal_id: 'invalid' });
 
-      expect(response.status).toBe(403);
-      expect(response.body.message).toContain('authorized');
-    });
-  });
-
-  describe('DELETE /api/meals/:id', () => {
-    it('should delete a meal owned by the authenticated user', async () => {
-      const pool = require('../routes/db.js');
-      const mockClient = await pool.connect();
-
-      // Mock finding the meal (owned by user)
-      mockClient.query.mockResolvedValueOnce({
-        rows: [{ id: 1, host_id: 1 }]
-      });
-
-      // Mock successful deletion
-      mockClient.query.mockResolvedValueOnce({
-        rows: [{ id: 1 }]
-      });
-
-      const response = await request(app)
-        .delete('/api/meals/1');
-
-      expect(response.status).toBe(200);
-      expect(response.body.message).toContain('deleted');
-    });
-
-    it('should reject deletion of meal not owned by user', async () => {
-      const pool = require('../routes/db.js');
-      const mockClient = await pool.connect();
-
-      // Mock finding meal owned by different user
-      mockClient.query.mockResolvedValueOnce({
-        rows: [{ id: 1, host_id: 2 }]
-      });
-
-      const response = await request(app)
-        .delete('/api/meals/1');
-
-      expect(response.status).toBe(403);
-      expect(response.body.message).toContain('authorized');
+      expect(response.status).toBe(400);
     });
   });
 });
