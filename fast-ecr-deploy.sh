@@ -72,7 +72,7 @@ services:
       - DB_USER=coolanu_user
       - DB_PASSWORD=coolanu
       - DB_SSL=false
-      - JWT_SECRET=VsUW1TUGO8/ukNpsSCRJSPXTVCAtcnyI1NgoVMOvZyE=
+      - JWT_SECRET=QqjLQPGsAmE0suGWbKBqcdGuDeX237kPRJCO/aIzoaA=
       - GOOGLE_MAPS_API_KEY=AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4
     ports:
       - "5000:5000"
