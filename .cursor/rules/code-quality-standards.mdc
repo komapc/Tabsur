@@ -1,0 +1,39 @@
+---
+alwaysApply: true
+---
+
+# Code Quality Standards
+
+Maintain high code quality standards across the Tabsur project:
+
+## Code Style & Formatting:
+- Use consistent indentation (2 spaces for JS/JSX)
+- Follow ESLint rules and fix warnings
+- Use meaningful variable and function names
+- Keep functions small and focused (max 20-30 lines)
+- Add JSDoc comments for complex functions
+
+## React Best Practices:
+- Use functional components with hooks
+- Avoid prop drilling - use context or state management
+- Memoize expensive calculations with useMemo
+- Use useCallback for event handlers passed to child components
+- Keep components focused on single responsibility
+
+## Error Handling:
+- Always handle async operations with try-catch
+- Provide meaningful error messages
+- Use error boundaries for React components
+- Log errors appropriately for debugging
+
+## Performance:
+- Avoid unnecessary re-renders
+- Use React.memo for expensive components
+- Lazy load routes and heavy components
+- Optimize bundle size with code splitting
+
+## Security:
+- Sanitize all user inputs
+- Validate data on both client and server
+- Use environment variables for sensitive data
+- Implement proper authentication and authorization
