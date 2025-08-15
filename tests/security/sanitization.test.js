@@ -148,6 +148,7 @@ describe('Input Sanitization Middleware', () => {
         .expect(400); // Should fail validation first
 
       expect(response.body.error).toBe('Input too long');
+      expect(response.body.message).toContain('name exceeds maximum length');
     });
 
     it('should handle complex nested objects', async () => {
@@ -169,9 +170,9 @@ describe('Input Sanitization Middleware', () => {
         .send(complexInput)
         .expect(200);
 
-      // Should sanitize nested strings
-      expect(response.body.body.user.name).not.toContain('<script>');
-      expect(response.body.body.user.profile.bio).not.toContain('<img>');
+      // Should sanitize nested strings - DOMPurify removes all HTML tags
+      expect(response.body.body.user.name).toBe('alert("xss")'); // Only text content remains
+      expect(response.body.body.user.profile.bio).toBe(''); // Empty string after sanitization
       
       // Should preserve non-string values
       expect(response.body.body.settings.theme).toBe('dark');

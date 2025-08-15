@@ -6,7 +6,7 @@ import backArrowIcon from "../../resources/back_arrow.svg";
 import { Alert, Box, Typography, Button } from '@mui/material';
 
 // Make API key configurable - in production this should come from environment variables
-const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || "AIzaSyB_l00z3A2dNzBA7X2Xag9obkOPwb7FoVw";
+const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const MAPS_LIBRARIES = ['places'];
 const MAP_CONTAINER_STYLE = { height: '90vh', width: '100%' };
 

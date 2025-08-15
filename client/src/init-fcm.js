@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getMessaging, isSupported } from 'firebase/messaging';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4",
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   authDomain: "tabsur.firebaseapp.com",
   databaseURL: "https://tabsur.firebaseio.com",
   projectId: "tabsur",

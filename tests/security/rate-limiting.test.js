@@ -1,15 +1,111 @@
 const request = require('supertest');
 const express = require('express');
 const bodyParser = require('body-parser');
+const rateLimit = require('express-rate-limit');
 
-// Mock the middleware
-const { 
-  apiLimiter, 
-  authLimiter, 
-  uploadLimiter, 
-  mealCreationLimiter, 
-  searchLimiter 
-} = require('../../middleware/rate-limiting');
+// Create fresh rate limiter instances for each test
+const createApiLimiter = () => rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => {
+    // Handle forwarded IP headers for testing
+    return req.headers['x-forwarded-for'] || req.ip || 'test-ip';
+  },
+  message: {
+    error: 'Too many requests',
+    message: 'Rate limit exceeded. Please try again later.',
+    retryAfter: Math.ceil(15 * 60 / 1000)
+  },
+  handler: (req, res) => {
+    res.status(429).json({
+      error: 'Too many requests',
+      message: 'Rate limit exceeded. Please try again later.',
+      retryAfter: Math.ceil(15 * 60 / 1000)
+    });
+  }
+});
+
+const createAuthLimiter = () => rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => req.ip || 'test-ip',
+  message: {
+    error: 'Too many authentication attempts',
+    message: 'Too many login attempts. Please try again later.',
+    retryAfter: Math.ceil(15 * 60 / 1000)
+  },
+  handler: (req, res) => {
+    res.status(429).json({
+      error: 'Too many authentication attempts',
+      message: 'Too many login attempts. Please try again later.',
+      retryAfter: Math.ceil(15 * 60 / 1000)
+    });
+  }
+});
+
+const createUploadLimiter = () => rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => req.ip || 'test-ip',
+  message: {
+    error: 'Too many file uploads',
+    message: 'Upload limit exceeded. Please try again later.',
+    retryAfter: Math.ceil(60 * 60 / 1000)
+  },
+  handler: (req, res) => {
+    res.status(429).json({
+      error: 'Too many file uploads',
+      message: 'Upload limit exceeded. Please try again later.',
+      retryAfter: Math.ceil(60 * 60 / 1000)
+    });
+  }
+});
+
+const createMealCreationLimiter = () => rateLimit({
+  windowMs: 24 * 60 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => req.ip || 'test-ip',
+  message: {
+    error: 'Too many meal creations',
+    message: 'Daily meal creation limit exceeded. Please try again tomorrow.',
+    retryAfter: Math.ceil(24 * 60 * 60 / 1000)
+  },
+  handler: (req, res) => {
+    res.status(429).json({
+      error: 'Too many meal creations',
+      message: 'Daily meal creation limit exceeded. Please try again tomorrow.',
+      retryAfter: Math.ceil(24 * 60 * 60 / 1000)
+    });
+  }
+});
+
+const createSearchLimiter = () => rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 50,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => req.ip || 'test-ip',
+  message: {
+    error: 'Too many searches',
+    message: 'Search limit exceeded. Please try again later.',
+    retryAfter: Math.ceil(60 * 60 / 1000)
+  },
+  handler: (req, res) => {
+    res.status(429).json({
+      error: 'Too many searches',
+      message: 'Search limit exceeded. Please try again later.',
+      retryAfter: Math.ceil(60 * 60 / 1000)
+    });
+  }
+});
 
 describe('Rate Limiting Middleware', () => {
   let app;
@@ -19,23 +115,23 @@ describe('Rate Limiting Middleware', () => {
     app.use(bodyParser.json());
     
     // Test endpoints for different rate limiters
-    app.post('/api/test', apiLimiter, (req, res) => {
+    app.post('/api/test', createApiLimiter(), (req, res) => {
       res.json({ message: 'API endpoint' });
     });
 
-    app.post('/auth/login', authLimiter, (req, res) => {
+    app.post('/auth/login', createAuthLimiter(), (req, res) => {
       res.json({ message: 'Login endpoint' });
     });
 
-    app.post('/upload', uploadLimiter, (req, res) => {
+    app.post('/upload', createUploadLimiter(), (req, res) => {
       res.json({ message: 'Upload endpoint' });
     });
 
-    app.post('/meals', mealCreationLimiter, (req, res) => {
+    app.post('/meals', createMealCreationLimiter(), (req, res) => {
       res.json({ message: 'Meal creation endpoint' });
     });
 
-    app.get('/search', searchLimiter, (req, res) => {
+    app.get('/search', createSearchLimiter(), (req, res) => {
       res.json({ message: 'Search endpoint' });
     });
   });

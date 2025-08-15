@@ -21,7 +21,7 @@ const fullUp = [fullUp_u, fullUp_t];
 const hosted = [hosted_u, hosted_t];
 const available = [available_u, available_t];
 
-export const GOOGLE_MAPS_API_KEY = "AIzaSyB_l00z3A2dNzBA7X2Xag9obkOPwb7FoVw";
+export const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
 const MealMapShow =
