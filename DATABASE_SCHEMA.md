@@ -1,6 +1,6 @@
-# BeMyGuest Database Schema
+# Tabsur Database Schema
 
-This document describes the PostgreSQL database schema for the BeMyGuest meal-sharing platform.
+This document describes the PostgreSQL database schema for the Tabsur meal-sharing platform.
 
 ## 🗄️ Overview
 

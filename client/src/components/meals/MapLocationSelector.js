@@ -23,45 +23,85 @@ const MapLocationSelector = ({ defaultLocation, address, handleLocationUpdate, h
   const [billingError, setBillingError] = useState(false);
 
   useEffect(() => {
-    if ("geolocation" in navigator) {
-      setIsLoading(true);
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const coords = { 
-            lng: position.coords.longitude, 
-            lat: position.coords.latitude 
-          };
-          
-          if (GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== "YOUR_API_KEY_HERE") {
-            Geocode.fromLatLng(coords.lat, coords.lng)
-              .then(response => {
-                const addr = response.results[0]?.formatted_address;
-                if (addr) {
-                  handleLocationUpdate({ 
-                    defaultLocation: coords, 
-                    address: addr, 
-                    location: coords 
-                  });
-                }
-                setIsLoading(false);
-              })
-              .catch(error => {
-                console.warn("Geocoding error:", error);
-                if (error.message && error.message.includes("billing")) {
-                  setBillingError(true);
-                }
-                setIsLoading(false);
-              });
-          } else {
-            setIsLoading(false);
-          }
-        },
-        (error) => {
-          console.warn("Geolocation error:", error);
+    setIsLoading(true);
+    
+    // Check if we're in a secure context (HTTPS or localhost)
+    const isSecureContext = window.isSecureContext || window.location.protocol === 'https:' || window.location.hostname === 'localhost';
+    
+    if (!isSecureContext) {
+      console.warn("Geolocation requires HTTPS. Using default location.");
+      setIsLoading(false);
+      // Set a default location (e.g., city center)
+      const defaultCoords = { lng: 0, lat: 0 };
+      handleLocationUpdate({ 
+        defaultLocation: defaultCoords, 
+        address: "Default Location", 
+        location: defaultCoords 
+      });
+      return;
+    }
+    
+    if (!("geolocation" in navigator)) {
+      console.warn("Geolocation not supported in this browser");
+      setIsLoading(false);
+      // Set a default location
+      const defaultCoords = { lng: 0, lat: 0 };
+      handleLocationUpdate({ 
+        defaultLocation: defaultCoords, 
+        address: "Default Location", 
+        location: defaultCoords 
+      });
+      return;
+    }
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const coords = { 
+          lng: position.coords.longitude, 
+          lat: position.coords.latitude 
+        };
+        
+        if (GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== "YOUR_API_KEY_HERE") {
+          Geocode.fromLatLng(coords.lat, coords.lng)
+            .then(response => {
+              const addr = response.results[0]?.formatted_address;
+              if (addr) {
+                handleLocationUpdate({ 
+                  defaultLocation: coords, 
+                  address: addr, 
+                  location: coords 
+                });
+              }
+              setIsLoading(false);
+            })
+            .catch(error => {
+              console.warn("Geocoding error:", error);
+              if (error.message && error.message.includes("billing")) {
+                setBillingError(true);
+              }
+              setIsLoading(false);
+            });
+        } else {
           setIsLoading(false);
         }
-      );
-    }
+      },
+      (error) => {
+        console.warn("Geolocation error:", error);
+        setIsLoading(false);
+        
+        // Handle specific geolocation errors
+        if (error.code === 1) {
+          console.warn("Geolocation permission denied or HTTPS required");
+          // Set a default location
+          const defaultCoords = { lng: 0, lat: 0 };
+          handleLocationUpdate({ 
+            defaultLocation: defaultCoords, 
+            address: "Default Location", 
+            location: defaultCoords 
+          });
+        }
+      }
+    );
   }, [handleLocationUpdate]);
 
   const handleMarkerDrag = (event) => {

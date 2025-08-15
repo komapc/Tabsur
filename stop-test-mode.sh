@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🛑 Stopping BeMyGuest TEST MODE"
+echo "🛑 Stopping Tabsur TEST MODE"
 echo "==============================="
 
 # Kill any running processes

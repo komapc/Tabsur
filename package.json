@@ -1,11 +1,11 @@
 {
-  "name": "BeMyGuest",
-  "version": "1.0.1",
-  "description": "BeMyGuest (table-surfing) alpha",
+  "name": "tabsur",
+  "version": "2.0.0",
+  "description": "Tabsur - Social meal planning application",
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
-    "start": "export NODE_ENV=production && node server.js",
+    "start": "node server.js",
     "server": "export NODE_ENV=production && nodemon server.js",
     "server-debug": "export NODE_ENV=debug && nodemon server.js",
     "client": "npm start --prefix client",
@@ -59,7 +59,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/komapc/BeMyGuest"
+    "url": "https://github.com/komapc/tabsur"
   },
   "engines": {
     "node": "^24.4.*"

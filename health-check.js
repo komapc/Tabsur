@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Health Check Script for BeMyGuest Development
+ * Health Check Script for Tabsur Development
  * Verifies that all components are running properly
  */
 

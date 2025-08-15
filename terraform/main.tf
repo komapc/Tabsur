@@ -3,13 +3,17 @@ terraform {
   # backend "s3" {
   #   bucket = "tabsur-terraform-state"
   #   key    = "terraform-self-managed.tfstate"
-  #   region = "eu-west-1"
+  #   region = "eu-central-1"
   # }
   
   required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.0"
     }
   }
 }
@@ -99,15 +103,15 @@ locals {
 resource "aws_key_pair" "postgres_key" {
   key_name   = "${var.environment}-postgres-key"
   public_key = file(var.ssh_public_key_path)
-  
+
   tags = {
     Environment = var.environment
   }
 }
 
-# IAM Role for EC2
+# IAM Role for EC2 instances
 resource "aws_iam_role" "postgres_role" {
-  name = "${var.environment}-postgres-ec2-role"
+  name = "${var.environment}-postgres-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -127,16 +131,10 @@ resource "aws_iam_role" "postgres_role" {
   }
 }
 
-# IAM Instance Profile
-resource "aws_iam_instance_profile" "postgres_profile" {
-  name = "${var.environment}-postgres-ec2-profile"
-  role = aws_iam_role.postgres_role.name
-}
-
-# IAM Policy for S3 backup access
-resource "aws_iam_policy" "postgres_backup_policy" {
-  name        = "${var.environment}-postgres-backup-policy"
-  description = "Policy for PostgreSQL backup to S3"
+# IAM Policy for S3 access
+resource "aws_iam_policy" "postgres_policy" {
+  name        = "${var.environment}-postgres-policy"
+  description = "Policy for PostgreSQL EC2 instance"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -144,14 +142,14 @@ resource "aws_iam_policy" "postgres_backup_policy" {
       {
         Effect = "Allow"
         Action = [
-          "s3:PutObject",
           "s3:GetObject",
+          "s3:PutObject",
           "s3:DeleteObject",
           "s3:ListBucket"
         ]
         Resource = [
-          "arn:aws:s3:::${var.environment}-coolanu-postgres-backups",
-          "arn:aws:s3:::${var.environment}-coolanu-postgres-backups/*"
+          aws_s3_bucket.postgres_backups.arn,
+          "${aws_s3_bucket.postgres_backups.arn}/*"
         ]
       }
     ]
@@ -159,30 +157,32 @@ resource "aws_iam_policy" "postgres_backup_policy" {
 }
 
 # Attach policy to role
-resource "aws_iam_role_policy_attachment" "postgres_backup_attachment" {
+resource "aws_iam_role_policy_attachment" "postgres_policy_attachment" {
   role       = aws_iam_role.postgres_role.name
-  policy_arn = aws_iam_policy.postgres_backup_policy.arn
+  policy_arn = aws_iam_policy.postgres_policy.arn
 }
 
-# Attach additional policies for EC2
-resource "aws_iam_role_policy_attachment" "postgres_ssm_attachment" {
-  role       = aws_iam_role.postgres_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+# IAM Instance Profile
+resource "aws_iam_instance_profile" "postgres_profile" {
+  name = "${var.environment}-postgres-profile"
+  role = aws_iam_role.postgres_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "postgres_cloudwatch_attachment" {
-  role       = aws_iam_role.postgres_role.name
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
-}
-
-# S3 Bucket for backups
+# S3 Bucket for PostgreSQL backups
 resource "aws_s3_bucket" "postgres_backups" {
-  bucket = "${var.environment}-coolanu-postgres-backups"
+  bucket = "${var.environment}-coolanu-postgres-backups-${random_string.bucket_suffix.result}"
 
   tags = {
-    Name        = "${var.environment}-postgres-backups"
+    Name        = "${var.environment}-coolanu-postgres-backups"
     Environment = var.environment
   }
+}
+
+# Random string for unique bucket name
+resource "random_string" "bucket_suffix" {
+  length  = 8
+  special = false
+  upper   = false
 }
 
 # S3 Bucket versioning
@@ -237,33 +237,6 @@ resource "aws_cloudwatch_log_group" "postgres_logs" {
 }
 
 # Self-Managed PostgreSQL on EC2
-# module "postgres" {
-#   source = "./modules/ec2-postgres"
-#   
-#   environment         = var.environment
-#   aws_region         = var.aws_region
-#   availability_zone  = var.availability_zone
-#   ami_id             = var.ami_id
-#   instance_type      = var.instance_type
-#   key_name           = aws_key_pair.postgres_key.key_name
-#   vpc_id             = local.vpc_id
-#   subnet_id          = local.subnet_id
-#   
-#   db_name            = var.db_name
-#   db_user            = var.db_user
-#   db_password        = var.db_password
-#   
-#   root_volume_size   = var.root_volume_size
-#   data_volume_size   = var.data_volume_size
-#   
-#   allowed_ssh_cidrs  = var.allowed_ssh_cidrs
-#   allowed_db_cidrs   = var.allowed_db_cidrs
-#   allowed_pgadmin_cidrs = var.allowed_pgadmin_cidrs
-#   
-#   iam_instance_profile_name = aws_iam_instance_profile.postgres_profile.name
-# }
-
-# Create EC2 instance directly
 resource "aws_instance" "postgres" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
