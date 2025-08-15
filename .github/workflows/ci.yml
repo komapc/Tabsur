@@ -172,15 +172,7 @@ jobs:
         ports:
           - 5432:5432
 
-      redis:
-        image: redis:7-alpine
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 3s
-          --health-retries 5
-        ports:
-          - 6379:6379
+      # Redis removed - not used in application
 
     steps:
     - name: Checkout code
@@ -218,8 +210,7 @@ jobs:
         DB_NAME: coolanu_test
         DB_USER: postgres
         DB_PASSWORD: postgres
-        REDIS_HOST: localhost
-        REDIS_PORT: 6379
+        # Redis removed - not used in application
         JWT_SECRET: test-secret
 
   # Deploy to staging

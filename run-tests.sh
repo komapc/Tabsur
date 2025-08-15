@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🧪 Running BeMyGuest Tests"
+echo "🧪 Running Tabsur Tests"
 echo "========================="
 
 # Setup test environment

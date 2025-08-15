@@ -1,102 +1,154 @@
-# Tabsur Database Migration & Cost Optimization
+# Tabsur - Social Meal Planning App
 
 ## 🎯 Project Overview
 
-This repository contains the migration of the Tabsur database from AWS us-east-1 to eu-west-1, including cost optimization strategies and infrastructure as code.
+Tabsur is a social meal planning application that connects people through shared dining experiences. Users can create meals, invite guests, and discover dining opportunities in their area.
 
-## 🚀 What's Included
+## 🚀 Tech Stack
 
-### 📁 Scripts
-- **`migrate-to-eu-west-1.sh`** - Complete database migration script
-- **`complete-migration.sh`** - Final migration steps after snapshot copy
-- **`check-migration-status.sh`** - Migration progress monitoring
-- **`deploy-aws.sh`** - AWS deployment automation
+### Frontend
+- **React** - Modern UI framework with Material-UI components
+- **Redux** - State management
+- **Google Maps API** - Location services and geolocation
+- **Firebase** - Push notifications (when supported)
 
-### 🏗️ Terraform Infrastructure
-- **`terraform/`** - Complete infrastructure as code
-  - **`main.tf`** - Main configuration with eu-west-1 region
-  - **`modules/rds/`** - RDS database configuration
-  - **`variables.tf`** - Configuration variables
-  - **`outputs.tf`** - Output values
+### Backend
+- **Node.js/Express** - RESTful API server
+- **PostgreSQL** - Primary database
+- **JWT** - Authentication and session management
+- **Nginx** - Load balancer and reverse proxy
 
-### 📊 Migration Benefits
-- **Cost Reduction**: 75% storage savings (20GB → 5GB)
-- **Performance**: 3-4x faster latency from Israel
-- **Support**: PostgreSQL 15.7 (4+ years vs End of Life)
-- **Region**: eu-west-1 (Ireland) for better performance
+### Infrastructure
+- **Docker** - Containerization with multi-stage builds
+- **AWS EC2** - Production hosting
+- **AWS ECR** - Container registry
+- **Docker Compose** - Local development environment
 
-## 🔧 Prerequisites
+## 🏗️ Architecture
 
-- AWS CLI configured with appropriate permissions
-- PostgreSQL client tools (pg_dump, psql)
-- Terraform >= 1.0
-
-## 📋 Migration Process
-
-### Phase 1: Preparation
-1. Update Terraform for eu-west-1 region
-2. Create new database in target region
-3. Prepare migration scripts
-
-### Phase 2: Data Migration
-1. Create database snapshot
-2. Copy snapshot to eu-west-1
-3. Restore database from snapshot
-
-### Phase 3: Upgrade & Optimization
-1. Upgrade PostgreSQL to 15.7
-2. Reduce storage to 5GB
-3. Test functionality
-
-### Phase 4: Switch & Cleanup
-1. Update application configuration
-2. Delete old database
-3. Verify cost savings
-
-## 💰 Cost Optimization
-
-### Before Migration
-- **Monthly Cost**: $59.86 (2 databases running)
-- **Storage**: 20GB GP2
-- **PostgreSQL**: 11.22 (End of Life)
-
-### After Migration
-- **Monthly Cost**: $29.93 (1 database)
-- **Storage**: 5GB GP2
-- **PostgreSQL**: 15.7 (4+ years support)
-- **Annual Savings**: $359.16
-
-## 🚨 Important Notes
-
-- **Reserved Instances**: Cannot be canceled once purchased
-- **Migration Time**: 1-2 hours total
-- **Downtime**: Minimal (blue-green migration)
-- **Backup**: 3-day retention for cost savings
-
-## 🔍 Usage
-
-### Check Migration Status
-```bash
-./check-migration-status.sh
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Nginx (LB)   │───▶│  React Client   │    │  PostgreSQL    │
+│   Port 8080    │    │   Port 80       │    │   Port 5432    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │
+         └───────────────────────┼───▶ Express API Server
+                                 │      Port 5000
+                                 └───▶ Authentication (JWT)
 ```
 
-### Complete Migration
+## 🔧 Quick Start
+
+### Prerequisites
+- Docker and Docker Compose
+- Node.js 18+ (for local development)
+- PostgreSQL client tools
+
+### Local Development
 ```bash
-./complete-migration.sh
+# Clone the repository
+git clone <repository-url>
+cd Tabsur
+
+# Start local environment
+docker-compose -f docker-compose.debug.yml up -d
+
+# Access the application
+# Frontend: http://localhost:3000
+# Backend: http://localhost:5000
+# Database: localhost:5432
+# PgAdmin: http://localhost:5050
 ```
 
-### Deploy Infrastructure
+### Production Deployment
 ```bash
-cd terraform
-terraform init
-terraform plan
-terraform apply
+# Deploy to AWS EC2
+./fast-ecr-deploy.sh
+
+# Or build locally and deploy
+./build.sh production
 ```
 
-## 📞 Support
+## 📁 Project Structure
 
-For migration issues or cost optimization questions, refer to the migration scripts and Terraform documentation.
+```
+Tabsur/
+├── client/                 # React frontend
+│   ├── src/
+│   │   ├── components/    # React components
+│   │   ├── actions/       # Redux actions
+│   │   ├── reducers/      # Redux reducers
+│   │   └── config.js      # Frontend configuration
+├── routes/                 # Express API routes
+├── config/                 # Server configuration
+├── validation/             # Input validation
+├── db/                     # Database migrations
+├── docker/                 # Docker configurations
+├── terraform/              # Infrastructure as Code
+└── docs/                   # Documentation
+```
+
+## 🚀 Key Features
+
+- **User Authentication** - JWT-based login/registration
+- **Meal Creation** - Multi-step wizard for creating meals
+- **Location Services** - Google Maps integration for meal locations
+- **Social Features** - Follow users, attend meals, chat
+- **Real-time Updates** - Push notifications (when supported)
+- **Responsive Design** - Mobile-first UI with Material-UI
+
+## 🔒 Security
+
+- JWT authentication with secure tokens
+- Input validation and sanitization
+- CORS protection via Nginx
+- Environment-based configuration
+- No hardcoded secrets
+
+## 📊 Performance
+
+- Multi-stage Docker builds for optimized images
+- Nginx load balancing and caching
+- Database connection pooling
+- Optimized React bundle with code splitting
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+npm test
+
+# Run specific test suites
+npm run test:server
+npm run test:client
+
+# Test setup and cleanup
+./test-mode.sh
+./stop-test-mode.sh
+```
+
+## 📚 Documentation
+
+- [Development Guide](DEVELOPMENT_GUIDE.md) - Local development setup
+- [Deployment Guide](DEPLOYMENT.md) - Production deployment
+- [Database Schema](DATABASE_SCHEMA.md) - Database structure
+- [CI/CD Setup](CI_CD_SETUP.md) - GitHub Actions workflow
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
 ## 📝 License
 
 This project is part of the Tabsur application infrastructure.
+
+## 🆘 Support
+
+For issues or questions:
+1. Check the documentation
+2. Review existing issues
+3. Create a new issue with detailed information

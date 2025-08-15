@@ -6,5 +6,5 @@ module.exports = {
   AWS_KEY: process.env.AWS_ACCESS_KEY_ID,
   AWS_SECRET: process.env.AWS_SECRET_ACCESS_KEY,
   S3_BUCKET: process.env.S3_BUCKET,
-  secretOrKey: process.env.SECRET_OR_KEY
+  secretOrKey: process.env.JWT_SECRET
 };
