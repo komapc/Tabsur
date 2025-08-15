@@ -5,6 +5,16 @@ const path = require('path');
 const cors = require('cors');
 const sslRedirect = require('heroku-ssl-redirect');
 
+// Import security middleware
+const { securityMiddleware, additionalSecurityHeaders, sqlInjectionProtection } = require('./middleware/security');
+const { sanitizeInput, validateInput } = require('./middleware/sanitization');
+const { 
+  apiLimiter, 
+  authLimiter, 
+  uploadLimiter, 
+  mealCreationLimiter, 
+  searchLimiter 
+} = require('./middleware/rate-limiting');
 // Import routes
 const users = require('./routes/api/users');
 const meals = require('./routes/api/meals');
@@ -23,11 +33,20 @@ if (process.env.NODE_ENV === 'production' && process.env.FORCE_HTTPS === 'true')
   app.use(sslRedirect());
 }
 
+// Security and protection middleware
+app.use(securityMiddleware);
+app.use(additionalSecurityHeaders);
+app.use(sqlInjectionProtection);
+
 // CORS is handled by nginx proxy
 
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: '10mb' }));
+
+// Input sanitization and validation middleware
+app.use(sanitizeInput);
+app.use(validateInput);
 
 // Health check endpoint (before other routes)
 app.get('/health', (req, res) => {
@@ -38,7 +57,6 @@ app.get('/health', (req, res) => {
 app.get('/sanity-check', (req, res) => {
   const jwtSecret = process.env.SECRET_OR_KEY;
   const hasJwtSecret = !!jwtSecret && jwtSecret !== 'your-super-secret-jwt-key-change-this';
-
   res.status(200).json({
     status: 'OK',
     timestamp: new Date().toISOString(),
@@ -55,16 +73,19 @@ app.get('/sanity-check', (req, res) => {
   });
 });
 
-// API Routes
-app.use('/api/users', users);
-app.use('/api/meals', meals);
-app.use('/api/hungry', hungry);
-app.use('/api/attends', attends);
-app.use('/api/follow', follow);
-app.use('/api/notifications', notifications);
-app.use('/api/chat', chat);
-app.use('/api/images', images);
-app.use('/api/system', system);
+// Apply general API rate limiting
+app.use('/api/', apiLimiter);
+
+// API Routes with specific rate limiting
+app.use('/api/users', authLimiter, users);
+app.use('/api/meals', mealCreationLimiter, meals);
+app.use('/api/hungry', searchLimiter, hungry);
+app.use('/api/attends', apiLimiter, attends);
+app.use('/api/follow', apiLimiter, follow);
+app.use('/api/notifications', apiLimiter, notifications);
+app.use('/api/chat', apiLimiter, chat);
+app.use('/api/images', uploadLimiter, images);
+app.use('/api/system', apiLimiter, system);
 
 // Serve static assets in production
 console.log('server.js, env =', process.env.NODE_ENV);
