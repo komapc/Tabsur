@@ -1,4 +1,5 @@
 const rateLimit = require('express-rate-limit');
+const { ipKeyGenerator } = require('express-rate-limit');
 
 /**
  * General API rate limiting
@@ -62,7 +63,7 @@ const uploadLimiter = rateLimit({
   legacyHeaders: false,
   keyGenerator: (req) => {
     // Use user ID if authenticated, IP if not
-    return req.user ? req.user.id : req.ip;
+    return req.user ? req.user.id : ipKeyGenerator(req);
   },
   handler: (req, res) => {
     res.status(429).json({
@@ -88,7 +89,7 @@ const mealCreationLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: (req) => {
-    return req.user ? req.user.id : req.ip;
+    return req.user ? req.user.id : ipKeyGenerator(req);
   },
   handler: (req, res) => {
     res.status(429).json({
