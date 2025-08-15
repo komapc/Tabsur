@@ -89,7 +89,7 @@ try {
   console.error(`Local storage init failed: ${JSON.stringify(e)}`);
 }
 
-const googleKey = "AIzaSyBxcuGXRxmHIsiI6tDQDVWIgtGkU-CHZ-4";
+const googleKey = "AIzaSyB_l00z3A2dNzBA7X2Xag9obkOPwb7FoVw";
 const enableMessaging = false;
 if (enableMessaging) {
   try {
