@@ -152,7 +152,7 @@ describe('Meals API', () => {
 
       // Mock successful update
       mockClient.query.mockResolvedValueOnce({
-        rows: [{ id: 1, name: 'Updated Meal', guest_count: 5 }
+        rows: [{ id: 1, name: 'Updated Meal', guest_count: 5 }]
       });
 
       const response = await request(app)
