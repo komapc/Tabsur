@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import { GoogleMap, Marker } from '@react-google-maps/api';
+import { Box, Typography, Chip, Avatar, Button } from '@mui/material';
+import { useHistory } from "react-router-dom";
 
 import Geocode from "react-geocode";
-import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api';
-
 import attended_u from "../../resources/map/attended_meal_icon.svg";
 import fullUp_u from "../../resources/map/full_meal_icon.svg";
 import hosted_u from "../../resources/map/my_meal_icon.svg"
@@ -104,16 +105,8 @@ const MealMapShow =
 
                 </GoogleMap>;
             }
-            const MapWithMarker = LoadScript(MyGoogleMap);
-
             return (
-                <MapWithMarker
-                    yesIWantToUseGoogleMapApiInternals
-                    loadingElement={<div style={{ height: `100vw` }} />}
-                    containerElement={<div style={{ height: `100%`, width: `100vw` }} />}
-                    mapElement={<div style={{ height: `100%`, width: `100vw` }} />}
-                    googleMapURL={`https://maps.googleapis.com/maps/api/js?libraries=places&key=${GOOGLE_MAPS_API_KEY}`}
-                />
+                <MyGoogleMap />
             )
         }
     );
