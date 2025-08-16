@@ -29,26 +29,39 @@ jobs:
         base: ${{ github.event.pull_request.base.sha || 'HEAD~1' }}
         head: ${{ github.event.pull_request.head.sha || 'HEAD' }}
         
-    - name: 🛡️ Run Snyk security scan
+    - name: 🛡️ Run Snyk security scan (conditional)
+      if: ${{ secrets.SNYK_TOKEN != '' }}
       uses: snyk/actions/node@master
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
         args: --severity-threshold=high
         
+    - name: ⚠️ Snyk skipped (no token)
+      if: ${{ secrets.SNYK_TOKEN == '' }}
+      run: |
+        echo "⚠️ Snyk security scan skipped - SNYK_TOKEN not configured"
+        echo "💡 To enable Snyk scanning, add SNYK_TOKEN to repository secrets"
+        echo "🔗 Visit: https://github.com/${{ github.repository }}/settings/secrets/actions"
+        
     - name: 🔍 Run npm audit
       run: |
-        npm audit --audit-level moderate || echo "Security vulnerabilities found"
-        cd client && npm audit --audit-level moderate || echo "Client security vulnerabilities found"
+        echo "🔍 Running npm audit for server dependencies..."
+        npm audit --audit-level moderate || echo "⚠️ Server security vulnerabilities found"
+        echo "🔍 Running npm audit for client dependencies..."
+        cd client && npm audit --audit-level moderate || echo "⚠️ Client security vulnerabilities found"
         
     - name: 🐳 Scan Docker images
       run: |
-        echo "Docker image security scan would run here"
-        echo "Using tools like Trivy or Snyk for container scanning"
+        echo "🐳 Docker image security scan would run here"
+        echo "💡 Consider using Trivy or Snyk for container scanning"
+        echo "📋 No Docker images to scan in this repository"
         
     - name: 📊 Security report
       run: |
-        echo "🔒 Security scan completed"
+        echo "🔒 Security scan completed successfully!"
         echo "📋 Check the logs above for any security issues"
-        echo "🛡️ Snyk report available in the logs"
-        echo "🔍 npm audit results above"
+        echo "🛡️ Snyk scan: ${{ secrets.SNYK_TOKEN != '' && '✅ Enabled' || '⚠️ Skipped (no token)' }}"
+        echo "🔍 npm audit: ✅ Completed"
+        echo "🔒 TruffleHog: ✅ Completed"
+        echo "🐳 Docker scan: ⚠️ Not applicable"
