@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 const sslRedirect = require('heroku-ssl-redirect');
+const compression = require('compression');
 
 // Import security middleware
 const { securityMiddleware, additionalSecurityHeaders, sqlInjectionProtection } = require('./middleware/security');
@@ -15,6 +16,12 @@ const {
   mealCreationLimiter, 
   searchLimiter 
 } = require('./middleware/rate-limiting');
+const { 
+  performanceTracking, 
+  databasePerformanceTracking, 
+  performanceHeaders,
+  getPerformanceMetrics 
+} = require('./middleware/performance');
 // Import routes
 const users = require('./routes/api/users');
 const meals = require('./routes/api/meals');
@@ -28,6 +35,20 @@ const system = require('./routes/api/system');
 
 const app = express();
 
+// Performance optimization middleware
+app.use(compression({
+  level: 6, // Balanced compression level
+  threshold: 1024, // Only compress responses larger than 1KB
+  filter: (req, res) => {
+    // Don't compress responses with this request header
+    if (req.headers['x-no-compression']) {
+      return false;
+    }
+    // Use compression by default
+    return compression.filter(req, res);
+  }
+}));
+
 // Security middleware - only use SSL redirect in production with proper SSL setup
 if (process.env.NODE_ENV === 'production' && process.env.FORCE_HTTPS === 'true') {
   app.use(sslRedirect());
@@ -40,18 +61,26 @@ app.use(sqlInjectionProtection);
 
 // CORS is handled by nginx proxy
 
-// Body parser middleware
-app.use(bodyParser.urlencoded({ extended: false }));
+// Body parser middleware with optimized limits
+app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }));
 app.use(bodyParser.json({ limit: '10mb' }));
 
 // Input sanitization and validation middleware
 app.use(sanitizeInput);
 app.use(validateInput);
 
+// Performance monitoring middleware
+app.use(performanceTracking);
+app.use(databasePerformanceTracking);
+app.use(performanceHeaders);
+
 // Health check endpoint (before other routes)
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
+
+// Performance metrics endpoint
+app.get('/performance', getPerformanceMetrics);
 
 // Sanity check endpoint for JWT configuration
 app.get('/sanity-check', (req, res) => {
