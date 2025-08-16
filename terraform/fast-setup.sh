@@ -24,7 +24,7 @@ services:
     environment:
       POSTGRES_DB: coolanu
       POSTGRES_USER: coolanu
-      POSTGRES_PASSWORD: coolanu123
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-your_secure_password_here}
     ports:
       - "5432:5432"
     volumes:
@@ -39,5 +39,5 @@ EOF
 sudo docker-compose up -d
 
 echo "PostgreSQL should be running on port 5432"
-echo "Database: coolanu, User: coolanu, Password: coolanu123"
+echo "Database: coolanu, User: coolanu, Password: [HIDDEN]"
 

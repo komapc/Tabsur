@@ -50,7 +50,7 @@ services:
     environment:
       POSTGRES_DB: coolanu
       POSTGRES_USER: coolanu_user
-      POSTGRES_PASSWORD: coolanu123
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-your_secure_password_here}
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -93,10 +93,10 @@ EOF
 cat > .env << 'EOF'
 DB_NAME=coolanu
 DB_USER=coolanu_user
-DB_PASSWORD=coolanu123
+DB_PASSWORD=${DB_PASSWORD:-your_secure_password_here}
 POSTGRES_DB=coolanu
 POSTGRES_USER=coolanu_user
-POSTGRES_PASSWORD=coolanu123
+POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-your_secure_password_here}
 EOF
 
 # Create backup directory
@@ -190,7 +190,7 @@ EOF
 echo "=== Setup Complete ==="
 echo "PostgreSQL is running on port 5432"
 echo "PgAdmin is available at http://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4):5050"
-echo "Database credentials: coolanu_user/coolanu123"
+echo "Database credentials: coolanu_user/[HIDDEN]"
 echo "Backup script: /opt/coolanu/backup.sh"
 echo "Monitoring script: /opt/coolanu/monitor.sh"
 echo "Logs: docker-compose logs -f postgres"

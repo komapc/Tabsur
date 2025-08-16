@@ -8,7 +8,7 @@ set -e
 # Configuration
 DB_NAME="${DB_NAME:-coolanu}"
 DB_USER="${DB_USER:-coolanu_user}"
-DB_PASSWORD="${DB_PASSWORD:-coolanu123}"
+DB_PASSWORD="${DB_PASSWORD:-your_secure_password_here}"
 DB_HOST="${DB_HOST:-3.249.94.227}"
 DB_PORT="${DB_PORT:-5432}"
 
