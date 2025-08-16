@@ -4,8 +4,8 @@ const testUsers = {
   valid: {
     name: 'Test User',
     email: 'test@example.com',
-    password: 'testpassword123',
-    password2: 'testpassword123',
+    password: process.env.TEST_USER_PASSWORD || 'test_password_placeholder',
+    password2: process.env.TEST_USER_PASSWORD || 'test_password_placeholder',
     location: { lng: 34.808, lat: 32.09 }, // Tel Aviv
     address: '123 Test Street, Tel Aviv, Israel'
   },
@@ -47,40 +47,40 @@ const testMeals = {
 };
 
 const testDatabase = {
-  host: 'localhost',
-  port: 5433,
-  database: 'coolanu_test',
-  user: 'coolanu',
-  password: 'koolanu'
+  host: process.env.TEST_DB_HOST || 'localhost',
+  port: process.env.TEST_DB_PORT || 5433,
+  database: process.env.TEST_DB_NAME || 'test_database',
+  user: process.env.TEST_DB_USER || 'test_user',
+  password: process.env.TEST_DB_PASSWORD || 'test_password_placeholder'
 };
 
 const testEnvironment = {
-                test: {
-                NODE_ENV: 'test',
-                DB_HOST: 'localhost',
-                DB_PORT: 5433,
-                DB_NAME: 'coolanu_test',
-                DB_USER: 'coolanu',
-                DB_PASSWORD: 'koolanu',
-                JWT_SECRET: 'test-jwt-secret-key'
-              },
-                debug: {
-                NODE_ENV: 'debug',
-                DB_HOST: 'database',
-                DB_PORT: 5432,
-                DB_NAME: 'coolanu',
-                DB_USER: 'postgres',
-                DB_PASSWORD: 'koolanu'
-              },
-                release: {
-                NODE_ENV: 'production',
-                DB_HOST: '3.249.94.227',
-                DB_PORT: 5432,
-                DB_NAME: 'coolanu',
-                DB_USER: 'coolanu_user',
-                DB_PASSWORD: 'koolanu',
-                JWT_SECRET: 'test_jwt_secret_for_testing_only'
-              }
+  test: {
+    NODE_ENV: 'test',
+    DB_HOST: process.env.TEST_DB_HOST || 'localhost',
+    DB_PORT: process.env.TEST_DB_PORT || 5433,
+    DB_NAME: process.env.TEST_DB_NAME || 'test_database',
+    DB_USER: process.env.TEST_DB_USER || 'test_user',
+    DB_PASSWORD: process.env.TEST_DB_PASSWORD || 'test_password_placeholder',
+    JWT_SECRET: process.env.TEST_JWT_SECRET || 'test_jwt_secret_placeholder'
+  },
+  debug: {
+    NODE_ENV: 'debug',
+    DB_HOST: process.env.DEBUG_DB_HOST || 'database',
+    DB_PORT: process.env.DEBUG_DB_PORT || 5432,
+    DB_NAME: process.env.DEBUG_DB_NAME || 'debug_database',
+    DB_USER: process.env.DEBUG_DB_USER || 'debug_user',
+    DB_PASSWORD: process.env.DEBUG_DB_PASSWORD || 'debug_password_placeholder'
+  },
+  release: {
+    NODE_ENV: 'production',
+    DB_HOST: process.env.PROD_DB_HOST || 'production_host',
+    DB_PORT: process.env.PROD_DB_PORT || 5432,
+    DB_NAME: process.env.PROD_DB_NAME || 'production_database',
+    DB_USER: process.env.PROD_DB_USER || 'production_user',
+    DB_PASSWORD: process.env.PROD_DB_PASSWORD || 'production_password_placeholder',
+    JWT_SECRET: process.env.PROD_JWT_SECRET || 'production_jwt_secret_placeholder'
+  }
 };
 
 module.exports = {
