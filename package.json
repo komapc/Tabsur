@@ -47,7 +47,8 @@
     "ci:lint": "npm run lint",
     "ci:security": "npm run security:audit",
     "ci:build": "npm run build",
-    "ci:full": "npm run ci:lint && npm run ci:test && npm run ci:security && npm run ci:build"
+    "ci:full": "npm run ci:lint && npm run ci:test && npm run ci:security && npm run ci:build",
+    "ci:install": "node scripts/suppress-security-warnings.js"
   },
   "author": "Mark&Yana",
   "license": "MIT",
