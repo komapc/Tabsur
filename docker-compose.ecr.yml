@@ -15,11 +15,11 @@ services:
       - DB_PORT=5432
       - DB_NAME=coolanu
       - DB_USER=coolanu_user
-      - DB_PASSWORD=coolanu
+      - DB_PASSWORD=${DB_PASSWORD}
       - DB_SSL=false
-      - JWT_SECRET=QqjLQPGsAmE0suGWbKBqcdGuDeX237kPRJCO/aIzoaA=
-      - GOOGLE_MAPS_API_KEY=AIzaSyB_l00z3A2dNzBA7X2Xag9obkOPwb7FoVw
-      - CORS_ORIGIN=http://3.72.76.56
+      - JWT_SECRET=${JWT_SECRET}
+      - GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
+      - CORS_ORIGIN=https://bemyguest.dedyn.io
     ports:
       - "5000:5000"
     networks:
@@ -40,8 +40,8 @@ services:
     container_name: tabsur-client
     restart: unless-stopped
     environment:
-      - REACT_APP_SERVER_HOST=http://3.72.76.56:8080
-      - REACT_APP_GOOGLE_MAPS_API_KEY=AIzaSyB_l00z3A2dNzBA7X2Xag9obkOPwb7FoVw
+      - REACT_APP_SERVER_HOST=https://api.bemyguest.dedyn.io
+      - REACT_APP_GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
     ports:
       - "80:80"
     depends_on:
@@ -63,7 +63,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx-domain.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       server:
         condition: service_healthy

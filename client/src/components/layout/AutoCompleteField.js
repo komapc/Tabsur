@@ -8,7 +8,7 @@ import { makeStyles } from '@mui/styles';
 import parse from "autosuggest-highlight/umd/parse";
 
 import throttle from 'lodash/throttle';
-export const GOOGLE_MAPS_API_KEY = "AIzaSyB_l00z3A2dNzBA7X2Xag9obkOPwb7FoVw";
+export const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 function loadScript(src, position, id) {
   if (!position) {
     return;

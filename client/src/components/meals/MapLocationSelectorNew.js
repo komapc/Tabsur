@@ -112,6 +112,6 @@ class MapLocationSelector extends React.Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyB_l00z3A2dNzBA7X2Xag9obkOPwb7FoVw",
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   libraries: ["places"]
 })(MapLocationSelector);

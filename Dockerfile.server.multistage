@@ -1,11 +1,7 @@
-# Multi-stage Node.js server Dockerfile - Production & Debug modes
-# Build with: docker build --target production -t tabsur-server:prod .
-# Build with: docker build --target debug -t tabsur-server:debug .
+# Multi-stage Dockerfile for Tabsur Server - Optimized for Speed
+FROM node:18-alpine AS base
 
-# Base stage with common dependencies
-FROM node:24.4.1-alpine AS base
-
-# Install common packages
+# Install system dependencies
 RUN apk add --no-cache curl
 
 # Create app directory and user
@@ -13,51 +9,16 @@ WORKDIR /app
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001
 
-# Copy package files for dependency installation
+# Copy package files first for better caching
 COPY package*.json ./
 
-# Install dependencies based on target
-FROM base AS deps-prod
-RUN npm ci --only=production --cache /tmp/.npm && \
-    rm -rf /tmp/.npm
+# Install dependencies
+FROM base AS deps
+RUN npm ci --cache .npm --prefer-offline --no-audit --no-fund
 
-FROM base AS deps-debug
-RUN npm ci --cache /tmp/.npm && \
-    rm -rf /tmp/.npm
-
-# Production stage
-FROM base AS production
-# Copy production dependencies
-COPY --from=deps-prod /app/node_modules ./node_modules
-
-# Copy source code
-COPY server.js ./
-COPY routes/ ./routes/
-COPY config/ ./config/
-COPY validation/ ./validation/
-COPY middleware/ ./middleware/
-COPY .env* ./
-
-# Change ownership and switch user
-RUN chown -R nodejs:nodejs /app
-USER nodejs
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:${PORT:-5000}/api/system/health || exit 1
-
-# Expose port
-EXPOSE 5000
-
-# Start the server
-CMD ["npm", "start"]
-
-# Debug stage
+# Development stage
 FROM base AS debug
-# Copy debug dependencies (including dev tools)
-COPY --from=deps-debug /app/node_modules ./node_modules
-
-# Copy source code
+COPY --from=deps /app/node_modules ./node_modules
 COPY server.js ./
 COPY routes/ ./routes/
 COPY config/ ./config/
@@ -68,16 +29,40 @@ COPY .env* ./
 # Install nodemon for development
 RUN npm install -g nodemon
 
-# Change ownership and switch user
+# Set ownership
 RUN chown -R nodejs:nodejs /app
 USER nodejs
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:${PORT:-5000}/health || exit 1
 
 # Expose port
 EXPOSE 5000
 
-# Start with nodemon for hot reloading
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:5000/api/system/health || exit 1
+
+# Development command
 CMD ["nodemon", "server.js"]
+
+# Production stage
+FROM base AS production
+COPY --from=deps /app/node_modules ./node_modules
+COPY server.js ./
+COPY routes/ ./routes/
+COPY config/ ./config/
+COPY validation/ ./validation/
+COPY middleware/ ./middleware/
+COPY .env* ./
+
+# Set ownership
+RUN chown -R nodejs:nodejs /app
+USER nodejs
+
+# Expose port
+EXPOSE 5000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:5000/api/system/health || exit 1
+
+# Production command
+CMD ["node", "server.js"]

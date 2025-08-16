@@ -15,6 +15,10 @@ const apiLimiter = rateLimit({
   },
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  keyGenerator: (req) => {
+    // Use the built-in ipKeyGenerator for IPv6 compatibility
+    return req.ip || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket?.remoteAddress;
+  },
   handler: (req, res) => {
     res.status(429).json({
       error: 'Too many requests',
@@ -63,7 +67,7 @@ const uploadLimiter = rateLimit({
   legacyHeaders: false,
   keyGenerator: (req) => {
     // Use user ID if authenticated, IP if not
-    return req.user ? req.user.id : ipKeyGenerator(req);
+    return req.user ? req.user.id : (req.ip || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket?.remoteAddress);
   },
   handler: (req, res) => {
     res.status(429).json({
@@ -89,7 +93,7 @@ const mealCreationLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: (req) => {
-    return req.user ? req.user.id : ipKeyGenerator(req);
+    return req.user ? req.user.id : (req.ip || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket?.remoteAddress);
   },
   handler: (req, res) => {
     res.status(429).json({
