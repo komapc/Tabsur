@@ -1,0 +1,38 @@
+# NEVER Push to Master Rule
+
+**CRITICAL**: NEVER push directly to master/main branch. ALWAYS create Pull Requests.
+
+## Strict Workflow:
+1. **ALWAYS** work on feature/fix branches
+2. **NEVER** use `git push origin master`
+3. **ALWAYS** use `git push --set-upstream origin <branch-name>`
+4. **ALWAYS** create Pull Requests for code review
+5. **NEVER** merge directly to master
+
+## Commands to NEVER Use:
+- ❌ `git push origin master`
+- ❌ `git push master`
+- ❌ `git push` (when on master branch)
+
+## Commands to ALWAYS Use:
+- ✅ `git checkout -b feature/description`
+- ✅ `git push --set-upstream origin feature/description`
+- ✅ Create PR on GitHub/GitLab
+
+## Branch Naming:
+- `fix/issue-description`
+- `feature/new-feature`
+- `refactor/component-name`
+- `docs/update-readme`
+
+## Example Workflow:
+```bash
+git checkout -b fix/google-maps-warnings
+# make changes
+git add .
+git commit -m "Fix: resolve Google Maps API warnings"
+git push --set-upstream origin fix/google-maps-warnings
+# Create PR on GitHub
+```
+
+**Remember**: Master branch is sacred. Only PRs can merge to master!
