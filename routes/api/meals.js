@@ -247,16 +247,16 @@ router.post('/', authenticateJWT, async (req, response) => {
 router.put('/', authenticateJWT, async (req, response) => {
   // console.error(`Editing meal is not implemented yet ${JSON.stringify(req.body)}`);
   const meal = req.body;
-  
+
   // Use the flexible update validation
   const { validateMealUpdate } = require('../../validation/meal');
   const { errors, isValid } = validateMealUpdate(meal);
-  
+
   // Check validation;
   if (!isValid) {
     return response.status(400).json(errors);
   }
-  
+
   const client = await pool.connect();
   //todo: insert image;
   const query = `UPDATE meals

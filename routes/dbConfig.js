@@ -10,7 +10,7 @@ module.exports = {
     max: 20, // Maximum number of clients in the pool
     idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
     connectionTimeoutMillis: 2000, // Return an error after 2 seconds if connection could not be established
-    maxUses: 7500, // Close (and replace) a connection after it has been used 7500 times
+    maxUses: 7500 // Close (and replace) a connection after it has been used 7500 times
   },
   pgConfigTest : {
     host: '127.0.0.1',
@@ -23,7 +23,7 @@ module.exports = {
     max: 5,
     idleTimeoutMillis: 10000,
     connectionTimeoutMillis: 1000,
-    maxUses: 1000,
+    maxUses: 1000
   },
   pgConfigProduction : {
     host: process.env.PG_HOST || '3.249.94.227',
@@ -35,7 +35,7 @@ module.exports = {
       rejectUnauthorized: false, // For self-signed certificates
       ca: process.env.PG_SSL_CA,
       cert: process.env.PG_SSL_CERT,
-      key: process.env.PG_SSL_KEY,
+      key: process.env.PG_SSL_KEY
     },
     // Production pooling optimization
     max: 25, // Larger pool for production load
@@ -44,7 +44,7 @@ module.exports = {
     maxUses: 10000, // Higher usage limit for production
     // Statement timeout to prevent long-running queries
     statement_timeout: 30000, // 30 seconds
-    query_timeout: 30000,
+    query_timeout: 30000
   },
   pgConfigSelfManaged : {
     host: '3.249.94.227',
@@ -56,7 +56,7 @@ module.exports = {
       rejectUnauthorized: false,
       ca: process.env.PG_SSL_CA,
       cert: process.env.PG_SSL_CERT,
-      key: process.env.PG_SSL_KEY,
+      key: process.env.PG_SSL_KEY
     },
     // Self-managed pooling settings
     max: 20,
@@ -64,6 +64,6 @@ module.exports = {
     connectionTimeoutMillis: 3000,
     maxUses: 8000,
     statement_timeout: 30000,
-    query_timeout: 30000,
+    query_timeout: 30000
   }
 };

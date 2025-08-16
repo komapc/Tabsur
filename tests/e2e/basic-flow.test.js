@@ -1,6 +1,6 @@
 /**
  * 🧪 Basic E2E Flow Tests for Tabsur App
- * 
+ *
  * This test suite covers basic user flows:
  * - User registration and login
  * - Basic navigation
@@ -94,11 +94,11 @@ describe('🧪 Basic Tabsur App Flow Tests', () => {
     test('✅ Meal data validation works', () => {
       // Test meal data validation
       const validateMeal = (meal) => {
-        return Boolean(meal.name && 
-               meal.description && 
-               meal.date && 
-               meal.time && 
-               meal.location && 
+        return Boolean(meal.name &&
+               meal.description &&
+               meal.date &&
+               meal.time &&
+               meal.location &&
                meal.maxAttendees > 0);
       };
 
@@ -130,7 +130,7 @@ describe('🧪 Basic Tabsur App Flow Tests', () => {
         const mealDate = new Date(dateString);
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        
+
         return mealDate >= today;
       };
 
@@ -152,8 +152,8 @@ describe('🧪 Basic Tabsur App Flow Tests', () => {
     test('✅ User data validation works', () => {
       // Test user data validation
       const validateUser = (user) => {
-        return user.name && 
-               user.email && 
+        return user.name &&
+               user.email &&
                user.password &&
                user.name.length >= 2 &&
                user.password.length >= 6;
@@ -196,7 +196,7 @@ describe('🧪 Basic Tabsur App Flow Tests', () => {
       // Test basic input sanitization
       const sanitizeInput = (input) => {
         if (typeof input !== 'string') return '';
-        
+
         // Remove script tags and dangerous content
         return input
           .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
@@ -220,7 +220,7 @@ describe('🧪 Basic Tabsur App Flow Tests', () => {
       // Test JWT token validation logic
       const validateToken = (token) => {
         if (!token || typeof token !== 'string') return false;
-        
+
         // Basic JWT format validation (header.payload.signature)
         const parts = token.split('.');
         return parts.length === 3;
@@ -243,13 +243,13 @@ describe('🧪 Basic Tabsur App Flow Tests', () => {
       // Test API endpoint construction
       const buildApiUrl = (baseUrl, endpoint, params = {}) => {
         const url = new URL(endpoint, baseUrl);
-        
+
         Object.keys(params).forEach(key => {
           if (params[key] !== null && params[key] !== undefined) {
             url.searchParams.append(key, params[key]);
           }
         });
-        
+
         return url.toString();
       };
 
@@ -342,27 +342,27 @@ describe('🧪 Basic Tabsur App Flow Tests', () => {
 
       const updateLoadingState = (currentState, action) => {
         switch (action) {
-          case 'START_LOADING':
-            return loadingStates.loading;
-          case 'LOADING_SUCCESS':
-            return loadingStates.success;
-          case 'LOADING_ERROR':
-            return loadingStates.error;
-          case 'RESET':
-            return loadingStates.idle;
-          default:
-            return currentState;
+        case 'START_LOADING':
+          return loadingStates.loading;
+        case 'LOADING_SUCCESS':
+          return loadingStates.success;
+        case 'LOADING_ERROR':
+          return loadingStates.error;
+        case 'RESET':
+          return loadingStates.idle;
+        default:
+          return currentState;
         }
       };
 
       let state = loadingStates.idle;
-      
+
       state = updateLoadingState(state, 'START_LOADING');
       expect(state).toBe(loadingStates.loading);
-      
+
       state = updateLoadingState(state, 'LOADING_SUCCESS');
       expect(state).toBe(loadingStates.success);
-      
+
       state = updateLoadingState(state, 'RESET');
       expect(state).toBe(loadingStates.idle);
     });

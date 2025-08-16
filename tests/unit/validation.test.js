@@ -11,9 +11,9 @@ describe('Validation Functions - Negative Tests', () => {
         password: 'password123',
         password2: 'password123'
       };
-      
+
       const { errors, isValid } = validateRegisterInput(input);
-      
+
       expect(isValid).toBe(false);
       expect(errors.name).toBeDefined();
     });
@@ -25,9 +25,9 @@ describe('Validation Functions - Negative Tests', () => {
         password: 'password123',
         password2: 'password123'
       };
-      
+
       const { errors, isValid } = validateRegisterInput(input);
-      
+
       expect(isValid).toBe(false);
       expect(errors.email).toBeDefined();
     });
@@ -39,9 +39,9 @@ describe('Validation Functions - Negative Tests', () => {
         password: '123',
         password2: '123'
       };
-      
+
       const { errors, isValid } = validateRegisterInput(input);
-      
+
       expect(isValid).toBe(false);
       expect(errors.password).toBeDefined();
     });
@@ -53,9 +53,9 @@ describe('Validation Functions - Negative Tests', () => {
         password: 'password123',
         password2: 'differentpassword'
       };
-      
+
       const { errors, isValid } = validateRegisterInput(input);
-      
+
       expect(isValid).toBe(false);
       expect(errors.password2).toBeDefined();
     });
@@ -65,9 +65,9 @@ describe('Validation Functions - Negative Tests', () => {
         name: 'Test User'
         // Missing email, password, password2
       };
-      
+
       const { errors, isValid } = validateRegisterInput(input);
-      
+
       expect(isValid).toBe(false);
       expect(errors.email).toBeDefined();
       expect(errors.password).toBeDefined();
@@ -81,9 +81,9 @@ describe('Validation Functions - Negative Tests', () => {
         email: '',
         password: 'password123'
       };
-      
+
       const { errors, isValid } = validateLoginInput(input);
-      
+
       expect(isValid).toBe(false);
       expect(errors.email).toBeDefined();
     });
@@ -93,9 +93,9 @@ describe('Validation Functions - Negative Tests', () => {
         email: 'invalid-email',
         password: 'password123'
       };
-      
+
       const { errors, isValid } = validateLoginInput(input);
-      
+
       expect(isValid).toBe(false);
       expect(errors.email).toBeDefined();
     });
@@ -105,9 +105,9 @@ describe('Validation Functions - Negative Tests', () => {
         email: 'test@example.com',
         password: ''
       };
-      
+
       const { errors, isValid } = validateLoginInput(input);
-      
+
       expect(isValid).toBe(false);
       expect(errors.password).toBeDefined();
     });
@@ -117,9 +117,9 @@ describe('Validation Functions - Negative Tests', () => {
         email: 'test@example.com'
         // Missing password
       };
-      
+
       const { errors, isValid } = validateLoginInput(input);
-      
+
       expect(isValid).toBe(false);
       expect(errors.password).toBeDefined();
     });
@@ -139,9 +139,9 @@ describe('Validation Functions - Negative Tests', () => {
         type: 1,
         visibility: 1
       };
-      
+
       const { errors, isValid } = validateMealInput(input);
-      
+
       expect(isValid).toBe(false);
       expect(errors.name).toBeDefined();
     });
@@ -159,9 +159,9 @@ describe('Validation Functions - Negative Tests', () => {
         type: 1,
         visibility: 1
       };
-      
+
       const { errors, isValid } = validateMealInput(input);
-      
+
       // Address is now optional, so this should pass
       expect(isValid).toBe(true);
     });
@@ -179,9 +179,9 @@ describe('Validation Functions - Negative Tests', () => {
         type: 1,
         visibility: 1
       };
-      
+
       const { errors, isValid } = validateMealInput(input);
-      
+
       expect(isValid).toBe(false);
       expect(errors.guest_count).toBeDefined();
     });
@@ -199,21 +199,21 @@ describe('Validation Functions - Negative Tests', () => {
         type: 1,
         visibility: 1
       };
-      
+
       const { errors, isValid } = validateMealInput(input);
-      
+
       expect(isValid).toBe(false);
       expect(errors.guest_count).toBeDefined();
     });
 
     it('should reject missing required fields', () => {
       const input = {
-        name: 'Test Meal',
+        name: 'Test Meal'
         // Missing description, date, location, host_id, guest_count
       };
-      
+
       const { errors, isValid } = validateMealInput(input);
-      
+
       expect(isValid).toBe(false);
       expect(errors.description).toBeDefined();
       expect(errors.date).toBeDefined();
