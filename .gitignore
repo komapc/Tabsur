@@ -1,30 +1,98 @@
-# AWS CLI installation files
-aws/
-awscli-bundle/
-awscli-bundle.zip
-awscliv2.zip
+# Dependencies
+node_modules/
+client/node_modules/
 
-# Terraform
-*.tfstate
-*.tfstate.*
-.terraform/
-.terraform.lock.hcl
+# Production builds
+client/build/
+client/dist/
+
+# Cache files (may contain hardcoded secrets)
+client/node_modules/.cache/
+node_modules/.cache/
+*.cache
 
 # Environment variables
 .env
 .env.local
-.env.production
-.env.development
-.env.test
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Logs
-*.log
-logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 
-# Temporary files
-*.tmp
-*.temp
-migration_backups/
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env.test
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+public
+
+# Storybook build outputs
+.out
+.storybook-out
+
+# Temporary folders
+tmp/
+temp/
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
 # OS generated files
 .DS_Store
@@ -35,32 +103,23 @@ migration_backups/
 ehthumbs.db
 Thumbs.db
 
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
 
-# Node modules (if any)
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Terraform
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/.terraform.lock.hcl
 
-# Database dumps
+# Database backups
+backups/
+migration_backups/
 *.sql
 *.dump
 
-# AWS credentials (never commit these!)
-.aws/
-credentials
-ec2-config.env
-
-# Security files
-*.pem
-*.key
-*.crt
-*.p12
-*.pfx
-secrets/
-config/secrets.json
+# Logs
+logs/
+*.log
