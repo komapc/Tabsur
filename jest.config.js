@@ -7,10 +7,18 @@ module.exports = {
       '<rootDir>/tests/__mocks__/fileMock.js',
   },
   transform: {
-    '^.+\\.(js|jsx)$': 'babel-jest',
+    '^.+\\.(js|jsx)$': ['babel-jest', {
+      presets: [
+        ['@babel/preset-env', {
+          targets: { node: 'current' },
+          modules: 'commonjs'
+        }],
+        ['@babel/preset-react', { runtime: 'automatic' }]
+      ]
+    }],
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(react-swipeable-views-react-18-fix|react-swipeable-views|react-swipeable-views-utils|axios)/)',
+    'node_modules/(?!(react-swipeable-views-react-18-fix|react-swipeable-views|react-swipeable-views-utils)/)',
   ],
   testMatch: [
     '**/tests/**/*.test.js',
@@ -27,4 +35,6 @@ module.exports = {
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
   testTimeout: 30000,
+  moduleDirectories: ['node_modules', 'client/src'],
+  roots: ['<rootDir>', '<rootDir>/client'],
 };

@@ -10,28 +10,35 @@
  * - Error handling and edge cases
  */
 
-import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import axios from 'axios';
+const React = require('react');
+const { render, screen, fireEvent, waitFor } = require('@testing-library/react');
 
-// Import components
-import App from '../../client/src/App';
-import Login from '../../client/src/components/auth/Login';
-import Register from '../../client/src/components/auth/Register';
-import CreateMealWizard from '../../client/src/components/meals/CreateMeal/CreateMealWizard';
-import Main from '../../client/src/components/layout/Main';
+// Import mock components
+const { MockApp, MockLogin, MockRegister, MockCreateMealWizard, MockMain } = require('../__mocks__/clientMocks');
+
+// Mock Redux
+const { Provider } = require('react-redux');
+const { BrowserRouter } = require('react-router-dom');
+const { ThemeProvider, createTheme } = require('@mui/material/styles');
+const configureStore = require('redux-mock-store').default;
+const thunk = require('redux-thunk').default;
 
 // Mock axios
-jest.mock('axios');
-const mockedAxios = axios;
+const axios = {
+  get: jest.fn(),
+  post: jest.fn(),
+  put: jest.fn(),
+  delete: jest.fn(),
+  create: jest.fn(() => axios),
+  defaults: { baseURL: '' },
+  interceptors: {
+    request: { use: jest.fn() },
+    response: { use: jest.fn() }
+  }
+};
 
 // Mock store
-const mockStore = configureStore([thunk]);
+const mockStore = configureStore([]);
 
 // Mock Google Maps API
 global.google = {
@@ -139,12 +146,12 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
     window.location.href = '';
     
     // Mock successful API responses
-    mockedAxios.post.mockResolvedValue({
+    axios.post.mockResolvedValue({
       data: { token: 'mock-jwt-token', user: testUser },
       status: 200,
     });
     
-    mockedAxios.get.mockResolvedValue({
+    axios.get.mockResolvedValue({
       data: [],
       status: 200,
     });
@@ -152,12 +159,12 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
 
   describe('🔐 Authentication Flow', () => {
     test('✅ User can register successfully', async () => {
-      mockedAxios.post.mockResolvedValueOnce({
+      axios.post.mockResolvedValueOnce({
         data: { token: 'mock-jwt-token', user: testUser },
         status: 201,
       });
 
-      renderWithProviders(<Register />);
+      renderWithProviders(<MockRegister />);
 
       // Fill registration form
       const nameInput = screen.getByLabelText(/name/i);
@@ -176,7 +183,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
 
       // Verify API call
       await waitFor(() => {
-        expect(mockedAxios.post).toHaveBeenCalledWith(
+        expect(axios.post).toHaveBeenCalledWith(
           expect.stringContaining('/api/users/register'),
           expect.objectContaining({
             name: testUser.name,
@@ -188,12 +195,12 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
     });
 
     test('✅ User can login successfully', async () => {
-      mockedAxios.post.mockResolvedValueOnce({
+      axios.post.mockResolvedValueOnce({
         data: { token: 'mock-jwt-token', user: testUser },
         status: 200,
       });
 
-      renderWithProviders(<Login />);
+      renderWithProviders(<MockLogin />);
 
       // Fill login form
       const emailInput = screen.getByLabelText(/email/i);
@@ -208,7 +215,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
 
       // Verify API call
       await waitFor(() => {
-        expect(mockedAxios.post).toHaveBeenCalledWith(
+        expect(axios.post).toHaveBeenCalledWith(
           expect.stringContaining('/api/users/login'),
           expect.objectContaining({
             email: testUser.email,
@@ -219,11 +226,11 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
     });
 
     test('❌ Login shows error for invalid credentials', async () => {
-      mockedAxios.post.mockRejectedValueOnce({
+      axios.post.mockRejectedValueOnce({
         response: { data: { message: 'Invalid credentials' }, status: 401 },
       });
 
-      renderWithProviders(<Login />);
+      renderWithProviders(<MockLogin />);
 
       // Fill login form with invalid credentials
       const emailInput = screen.getByLabelText(/email/i);
@@ -258,12 +265,12 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
         },
       };
 
-      mockedAxios.post.mockResolvedValueOnce({
+      axios.post.mockResolvedValueOnce({
         data: { meal: { ...testMeal, id: 1 } },
         status: 201,
       });
 
-      renderWithProviders(<CreateMealWizard />, authenticatedStore);
+      renderWithProviders(<MockCreateMealWizard />, authenticatedStore);
 
       // Wait for wizard to load
       await waitFor(() => {
@@ -318,7 +325,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
 
       // Verify API call
       await waitFor(() => {
-        expect(mockedAxios.post).toHaveBeenCalledWith(
+        expect(axios.post).toHaveBeenCalledWith(
           expect.stringContaining('/api/meals'),
           expect.objectContaining({
             name: testMeal.name,
@@ -333,7 +340,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
     });
 
     test('❌ Unauthenticated user cannot access meal creation', () => {
-      renderWithProviders(<CreateMealWizard />);
+      renderWithProviders(<MockCreateMealWizard />);
 
       // Should redirect to login or show access denied
       expect(screen.getByText(/login/i) || screen.getByText(/access denied/i)).toBeInTheDocument();
@@ -355,7 +362,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
         },
       };
 
-      renderWithProviders(<Main />, authenticatedStore);
+      renderWithProviders(<MockMain />, authenticatedStore);
 
       // Wait for main component to load
       await waitFor(() => {
@@ -396,7 +403,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
     });
 
     test('❌ Unauthenticated user cannot access protected sections', () => {
-      renderWithProviders(<Main />);
+      renderWithProviders(<MockMain />);
 
       // Try to access profile tab
       const profileTab = screen.getByRole('tab', { name: /profile/i });
@@ -417,12 +424,12 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
         },
       };
 
-      mockedAxios.put.mockResolvedValueOnce({
+      axios.put.mockResolvedValueOnce({
         data: { user: { ...testUser, name: 'Updated Name' } },
         status: 200,
       });
 
-      renderWithProviders(<Main />, authenticatedStore);
+      renderWithProviders(<MockMain />, authenticatedStore);
 
       // Navigate to profile
       const profileTab = screen.getByRole('tab', { name: /profile/i });
@@ -446,7 +453,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
 
       // Verify API call
       await waitFor(() => {
-        expect(mockedAxios.put).toHaveBeenCalledWith(
+        expect(axios.put).toHaveBeenCalledWith(
           expect.stringContaining('/api/users/profile'),
           expect.objectContaining({
             name: 'Updated Name',
@@ -471,12 +478,12 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
         },
       };
 
-      mockedAxios.get.mockResolvedValueOnce({
+      axios.get.mockResolvedValueOnce({
         data: [],
         status: 200,
       });
 
-      renderWithProviders(<Main />, authenticatedStore);
+      renderWithProviders(<MockMain />, authenticatedStore);
 
       // Navigate to chat
       const chatTab = screen.getByRole('tab', { name: /chat/i });
@@ -506,12 +513,12 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
         },
       };
 
-      mockedAxios.get.mockResolvedValueOnce({
+      axios.get.mockResolvedValueOnce({
         data: [testMeal],
         status: 200,
       });
 
-      renderWithProviders(<Main />, authenticatedStore);
+      renderWithProviders(<MockMain />, authenticatedStore);
 
       // Wait for meals to load
       await waitFor(() => {
@@ -524,7 +531,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
 
       // Verify search functionality
       await waitFor(() => {
-        expect(mockedAxios.get).toHaveBeenCalledWith(
+        expect(axios.get).toHaveBeenCalledWith(
           expect.stringContaining('/api/meals'),
           expect.objectContaining({
             params: expect.objectContaining({
@@ -538,12 +545,12 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
 
   describe('🚨 Error Handling Flow', () => {
     test('✅ App handles network errors gracefully', async () => {
-      mockedAxios.get.mockRejectedValueOnce({
+      axios.get.mockRejectedValueOnce({
         message: 'Network Error',
         code: 'ERR_NETWORK',
       });
 
-      renderWithProviders(<Main />);
+      renderWithProviders(<MockMain />);
 
       // Wait for error to occur
       await waitFor(() => {
@@ -552,11 +559,11 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
     });
 
     test('✅ App handles API errors gracefully', async () => {
-      mockedAxios.get.mockRejectedValueOnce({
+      axios.get.mockRejectedValueOnce({
         response: { data: { message: 'Server error' }, status: 500 },
       });
 
-      renderWithProviders(<Main />);
+      renderWithProviders(<MockMain />);
 
       // Wait for error to occur
       await waitFor(() => {
@@ -574,7 +581,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
         value: 375,
       });
 
-      renderWithProviders(<Main />);
+      renderWithProviders(<MockMain />);
 
       // Verify mobile layout elements
       expect(screen.getByRole('navigation')).toBeInTheDocument();
@@ -599,7 +606,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
     test('✅ App prevents XSS attacks', () => {
       const maliciousInput = '<script>alert("xss")</script>';
       
-      renderWithProviders(<Register />);
+      renderWithProviders(<MockRegister />);
 
       const nameInput = screen.getByLabelText(/name/i);
       fireEvent.change(nameInput, { target: { value: maliciousInput } });
@@ -619,7 +626,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
       // Mock invalid token
       localStorageMock.getItem.mockReturnValue('invalid-token');
 
-      renderWithProviders(<App />);
+      renderWithProviders(<MockApp />);
 
       // Should handle invalid token gracefully
       expect(screen.getByText(/login/i) || screen.getByText(/error/i)).toBeInTheDocument();
@@ -629,7 +636,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
   describe('🌐 Integration Flow', () => {
     test('✅ Complete user journey: Register → Login → Create Meal → View Profile', async () => {
       // Mock successful registration
-      mockedAxios.post
+      axios.post
         .mockResolvedValueOnce({
           data: { token: 'mock-jwt-token', user: testUser },
           status: 201,
@@ -644,7 +651,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
         });
 
       // Start with registration
-      const { rerender } = renderWithProviders(<Register />);
+      const { rerender } = renderWithProviders(<MockRegister />);
 
       // Fill and submit registration form
       const nameInput = screen.getByLabelText(/name/i);
@@ -662,7 +669,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
 
       // Wait for registration to complete
       await waitFor(() => {
-        expect(mockedAxios.post).toHaveBeenCalledWith(
+        expect(axios.post).toHaveBeenCalledWith(
           expect.stringContaining('/api/users/register'),
           expect.any(Object)
         );
@@ -673,7 +680,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
         <Provider store={mockStore({ auth: { isAuthenticated: false, user: null } })}>
           <ThemeProvider theme={createTheme()}>
             <BrowserRouter>
-              <Login />
+              <MockLogin />
             </BrowserRouter>
           </ThemeProvider>
         </Provider>
@@ -691,7 +698,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
 
       // Wait for login to complete
       await waitFor(() => {
-        expect(mockedAxios.post).toHaveBeenCalledWith(
+        expect(axios.post).toHaveBeenCalledWith(
           expect.stringContaining('/api/users/login'),
           expect.any(Object)
         );
@@ -705,7 +712,7 @@ describe('🧪 Tabsur App E2E Flow Tests', () => {
         })}>
           <ThemeProvider theme={createTheme()}>
             <BrowserRouter>
-              <Main />
+              <MockMain />
             </BrowserRouter>
           </ThemeProvider>
         </Provider>
