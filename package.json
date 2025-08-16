@@ -25,6 +25,13 @@
     "test:watch": "cross-env NODE_ENV=test jest --watch",
     "test:full": "./run-tests.sh",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage --testTimeout=30000",
+    "test:playwright": "playwright test",
+    "test:playwright:ui": "playwright test --ui",
+    "test:playwright:headed": "playwright test --headed",
+    "test:playwright:debug": "playwright test --debug",
+    "test:playwright:install": "playwright install",
+    "test:playwright:install-deps": "playwright install-deps",
+    "test:playwright:report": "playwright show-report",
     "lint": "npm run lint:server && npm run lint:client",
     "lint:fix": "npm run lint:fix:server && npm run lint:fix:client",
     "health": "node health-check.js",
@@ -99,6 +106,7 @@
     "react-router-dom": "^5.3.4",
     "redux-mock-store": "^1.5.5",
     "redux-thunk": "^3.1.0",
-    "supertest": "^7.1.4"
+    "supertest": "^7.1.4",
+    "@playwright/test": "^1.54.2"
   }
 }
