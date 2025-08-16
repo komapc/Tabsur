@@ -2,113 +2,111 @@ const request = require('supertest');
 const express = require('express');
 const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
-const { ipKeyGenerator } = require('express-rate-limit');
 
-// Create fresh rate limiters for each test to avoid shared state
-const createRateLimiters = () => {
-  const apiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-    message: {
+// Create fresh rate limiter instances for each test
+const createApiLimiter = () => rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => {
+    // Handle forwarded IP headers for testing
+    return req.headers['x-forwarded-for'] || req.ip || 'test-ip';
+  },
+  message: {
+    error: 'Too many requests',
+    message: 'Rate limit exceeded. Please try again later.',
+    retryAfter: Math.ceil(15 * 60 / 1000)
+  },
+  handler: (req, res) => {
+    res.status(429).json({
       error: 'Too many requests',
       message: 'Rate limit exceeded. Please try again later.',
       retryAfter: Math.ceil(15 * 60 / 1000)
-    },
-    standardHeaders: true,
-    legacyHeaders: false,
-    handler: (req, res) => {
-      res.status(429).json({
-        error: 'Too many requests',
-        message: 'Rate limit exceeded. Please try again later.',
-        retryAfter: Math.ceil(15 * 60 / 1000)
-      });
-    }
-  });
+    });
+  }
+});
 
-  const authLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 5, // limit each IP to 5 requests per windowMs
-    message: {
+const createAuthLimiter = () => rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => req.ip || 'test-ip',
+  message: {
+    error: 'Too many authentication attempts',
+    message: 'Too many login attempts. Please try again later.',
+    retryAfter: Math.ceil(15 * 60 / 1000)
+  },
+  handler: (req, res) => {
+    res.status(429).json({
       error: 'Too many authentication attempts',
       message: 'Too many login attempts. Please try again later.',
       retryAfter: Math.ceil(15 * 60 / 1000)
-    },
-    standardHeaders: true,
-    legacyHeaders: false,
-    handler: (req, res) => {
-      res.status(429).json({
-        error: 'Too many authentication attempts',
-        message: 'Too many login attempts. Please try again later.',
-        retryAfter: Math.ceil(15 * 60 / 1000)
-      });
-    }
-  });
+    });
+  }
+});
 
-  const uploadLimiter = rateLimit({
-    windowMs: 60 * 60 * 1000, // 1 hour
-    max: 10, // limit each IP to 10 uploads per hour
-    message: {
+const createUploadLimiter = () => rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => req.ip || 'test-ip',
+  message: {
+    error: 'Too many file uploads',
+    message: 'Upload limit exceeded. Please try again later.',
+    retryAfter: Math.ceil(60 * 60 / 1000)
+  },
+  handler: (req, res) => {
+    res.status(429).json({
       error: 'Too many file uploads',
       message: 'Upload limit exceeded. Please try again later.',
       retryAfter: Math.ceil(60 * 60 / 1000)
-    },
-    standardHeaders: true,
-    legacyHeaders: false,
-    handler: (req, res) => {
-      res.status(429).json({
-        error: 'Too many file uploads',
-        message: 'Upload limit exceeded. Please try again later.',
-        retryAfter: Math.ceil(60 * 60 / 1000)
-      });
-    }
-  });
+    });
+  }
+});
 
-  const mealCreationLimiter = rateLimit({
-    windowMs: 24 * 60 * 60 * 1000, // 24 hours
-    max: 20, // limit each IP to 20 meals per day
-    message: {
+const createMealCreationLimiter = () => rateLimit({
+  windowMs: 24 * 60 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => req.ip || 'test-ip',
+  message: {
+    error: 'Too many meal creations',
+    message: 'Daily meal creation limit exceeded. Please try again tomorrow.',
+    retryAfter: Math.ceil(24 * 60 * 60 / 1000)
+  },
+  handler: (req, res) => {
+    res.status(429).json({
       error: 'Too many meal creations',
       message: 'Daily meal creation limit exceeded. Please try again tomorrow.',
       retryAfter: Math.ceil(24 * 60 * 60 / 1000)
-    },
-    standardHeaders: true,
-    legacyHeaders: false,
-    handler: (req, res) => {
-      res.status(429).json({
-        error: 'Too many meal creations',
-        message: 'Daily meal creation limit exceeded. Please try again tomorrow.',
-        retryAfter: Math.ceil(24 * 60 * 60 / 1000)
-      });
-    }
-  });
+    });
+  }
+});
 
-  const searchLimiter = rateLimit({
-    windowMs: 60 * 60 * 1000, // 1 hour
-    max: 50, // limit each IP to 50 searches per hour
-    message: {
+const createSearchLimiter = () => rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 50,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => req.ip || 'test-ip',
+  message: {
+    error: 'Too many searches',
+    message: 'Search limit exceeded. Please try again later.',
+    retryAfter: Math.ceil(60 * 60 / 1000)
+  },
+  handler: (req, res) => {
+    res.status(429).json({
       error: 'Too many searches',
       message: 'Search limit exceeded. Please try again later.',
       retryAfter: Math.ceil(60 * 60 / 1000)
-    },
-    standardHeaders: true,
-    legacyHeaders: false,
-    handler: (req, res) => {
-      res.status(429).json({
-        error: 'Too many searches',
-        message: 'Search limit exceeded. Please try again later.',
-        retryAfter: Math.ceil(60 * 60 / 1000)
-      });
-    }
-  });
+    });
+  }
+});
 
-  return {
-    apiLimiter,
-    authLimiter,
-    uploadLimiter,
-    mealCreationLimiter,
-    searchLimiter
-  };
-};
 
 describe('Rate Limiting Middleware', () => {
   let app;
@@ -120,33 +118,26 @@ describe('Rate Limiting Middleware', () => {
     // Set trust proxy to handle X-Forwarded-For headers in tests
     app.set('trust proxy', true);
     
-    // Create fresh rate limiters for each test
-    const {
-      apiLimiter,
-      authLimiter,
-      uploadLimiter,
-      mealCreationLimiter,
-      searchLimiter
-    } = createRateLimiters();
+
     
     // Test endpoints for different rate limiters
-    app.post('/api/test', apiLimiter, (req, res) => {
+    app.post('/api/test', createApiLimiter(), (req, res) => {
       res.json({ message: 'API endpoint' });
     });
 
-    app.post('/auth/login', authLimiter, (req, res) => {
+    app.post('/auth/login', createAuthLimiter(), (req, res) => {
       res.json({ message: 'Login endpoint' });
     });
 
-    app.post('/upload', uploadLimiter, (req, res) => {
+    app.post('/upload', createUploadLimiter(), (req, res) => {
       res.json({ message: 'Upload endpoint' });
     });
 
-    app.post('/meals', mealCreationLimiter, (req, res) => {
+    app.post('/meals', createMealCreationLimiter(), (req, res) => {
       res.json({ message: 'Meal creation endpoint' });
     });
 
-    app.get('/search', searchLimiter, (req, res) => {
+    app.get('/search', createSearchLimiter(), (req, res) => {
       res.json({ message: 'Search endpoint' });
     });
   });

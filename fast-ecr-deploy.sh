@@ -70,6 +70,7 @@ services:
       - DB_PORT=5432
       - DB_NAME=coolanu
       - DB_USER=coolanu_user
+<<<<<<< HEAD
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_SSL=false
       - JWT_SECRET=${JWT_SECRET}
