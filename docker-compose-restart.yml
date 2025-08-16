@@ -20,12 +20,6 @@ services:
       - "5000:5000"
     networks:
       - tabsur-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/api/system/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
 
   client:
     image: 272007598366.dkr.ecr.eu-central-1.amazonaws.com/tabsur-client:latest
@@ -34,48 +28,27 @@ services:
     environment:
       - REACT_APP_SERVER_HOST=https://api.bemyguest.dedyn.io
       - REACT_APP_GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY:-your_google_maps_key}
-    # Remove port mapping - only loadbalancer should expose ports
-    expose:
-      - "80"
+    ports:
+      - "80:80"
     depends_on:
-      server:
-        condition: service_healthy
+      - server
     networks:
       - tabsur-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80/"]
-      interval: 30s
-      timeout: 3s
-      retries: 3
-      start_period: 10s
 
   loadbalancer:
     image: nginx:alpine
     container_name: tabsur-lb
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
     volumes:
-      - ./nginx-https.conf:/etc/nginx/nginx.conf:ro
-      - ./ssl-certs:/etc/letsencrypt:ro
+      - ./nginx-domain.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      server:
-        condition: service_healthy
-      client:
-        condition: service_healthy
+      - server
+      - client
     networks:
       - tabsur-network
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/health"]
-      interval: 30s
-      timeout: 3s
-      retries: 3
-      start_period: 10s
 
 networks:
   tabsur-network:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16
