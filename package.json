@@ -28,7 +28,15 @@
     "lint:server": "npx eslint . --ext .js --ignore-pattern node_modules --ignore-pattern client",
     "lint:client": "cd client && npm run lint",
     "lint:fix:server": "npx eslint . --ext .js --ignore-pattern node_modules --ignore-pattern client --fix",
-    "lint:fix:client": "cd client && npm run lint:fix"
+    "lint:fix:client": "cd client && npm run lint:fix",
+    "security:audit": "npm audit --audit-level moderate",
+    "security:fix": "npm audit fix",
+    "ci:test": "npm run test:coverage",
+    "ci:lint": "npm run lint",
+    "ci:security": "npm run security:audit",
+    "ci:build": "npm run build",
+    "ci:full": "npm run ci:lint && npm run ci:test && npm run ci:security && npm run ci:build",
+    "ci:install": "node scripts/suppress-security-warnings.js"
   },
   "author": "Mark&Yana",
   "license": "MIT",
