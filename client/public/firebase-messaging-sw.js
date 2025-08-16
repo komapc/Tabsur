@@ -4,7 +4,7 @@ importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-messaging.js");
 try
 {
   firebase.initializeApp({
-    messagingSenderId: "156567484209"
+    messagingSenderId: "156567484209" // This will be replaced during build
   });
 }
 catch (e)

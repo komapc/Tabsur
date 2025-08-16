@@ -3,13 +3,13 @@ import { getMessaging, isSupported } from 'firebase/messaging';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: "tabsur.firebaseapp.com",
-  databaseURL: "https://tabsur.firebaseio.com",
-  projectId: "tabsur",
-  storageBucket: "tabsur.appspot.com",
-  messagingSenderId: "156567484209",
-  appId: "1:156567484209:web:811366754f1a296b482210",
-  measurementId: "G-TWDTEWH15M"
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || "tabsur.firebaseapp.com",
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL || "https://tabsur.firebaseio.com",
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "tabsur",
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || "tabsur.appspot.com",
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || "156567484209",
+  appId: process.env.REACT_APP_FIREBASE_APP_ID || "1:156567484209:web:811366754f1a296b482210",
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID || "G-TWDTEWH15M"
 };
 
 let messaging = null;
@@ -26,7 +26,7 @@ const initializeFirebase = async () => {
       messaging = getMessaging(app);
       console.log('Firebase messaging initialized successfully');
       // To use your VAPID key when requesting a token:
-      // getToken(messaging, { vapidKey: "BNJJF1av86BIQPia6y1p4aqlPNRkH4C7IkExrREYb5xyr1EDpUAJtxMrVs0cpCeoIJjP2WEQGIC9FkKDamngxGc" });
+      // getToken(messaging, { vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY });
     } else {
       console.log('Firebase messaging not supported in this browser - notifications will be disabled');
     }
