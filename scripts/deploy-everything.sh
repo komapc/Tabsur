@@ -16,7 +16,7 @@ NC='\033[0m' # No Color
 
 # Configuration
 EC2_IP="3.72.76.56"
-SSH_KEY="~/.ssh/coolanu-postgres"
+SSH_KEY="$HOME/.ssh/coolanu-postgres"
 REMOTE_DIR="/opt/tabsur"
 
 echo -e "${BLUE}📋 Deployment Summary:${NC}"
