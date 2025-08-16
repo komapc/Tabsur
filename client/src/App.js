@@ -90,7 +90,7 @@ try {
   console.error(`Local storage init failed: ${JSON.stringify(e)}`);
 }
 
-const googleKey = "AIzaSyB_l00z3A2dNzBA7X2Xag9obkOPwb7FoVw";
+const googleKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const enableMessaging = false;
 if (enableMessaging) {
   try {

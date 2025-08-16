@@ -14,6 +14,8 @@ awscliv2.zip
 .env
 .env.local
 .env.production
+.env.development
+.env.test
 
 # Logs
 *.log
@@ -52,3 +54,13 @@ yarn-error.log*
 # AWS credentials (never commit these!)
 .aws/
 credentials
+ec2-config.env
+
+# Security files
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+config/secrets.json
