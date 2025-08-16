@@ -1,72 +1,44 @@
-# Multi-stage React client Dockerfile - Production & Debug modes
-# Build with: docker build --target production -t tabsur-client:prod .
-# Build with: docker build --target debug -t tabsur-client:debug .
+# Multi-stage Dockerfile for Tabsur Client - Optimized for Speed
+FROM node:18-alpine AS base
 
-# Base stage with common dependencies
-FROM node:24.4.1-alpine AS base
+# Install system dependencies
+RUN apk add --no-cache curl
+
+# Create app directory and user
 WORKDIR /app
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
 
-# Copy package files for dependency installation
+# Copy package files first for better caching
 COPY client/package*.json ./
 
-# Install dependencies based on target
-FROM base AS deps-prod
-RUN npm ci --cache /tmp/.npm && \
-    rm -rf /tmp/.npm
-
-FROM base AS deps-debug
-RUN npm ci --cache /tmp/.npm && \
-    rm -rf /tmp/.npm
+# Install dependencies
+FROM base AS deps
+RUN npm ci --cache .npm --prefer-offline --no-audit --no-fund
 
 # Build stage
-FROM base AS build-prod
-# Copy production dependencies
-COPY --from=deps-prod /app/node_modules ./node_modules
-
-# Copy source code
+FROM base AS build
+COPY --from=deps /app/node_modules ./node_modules
 COPY client/ ./
 
-# Build the application
-RUN npm run build
-
-FROM base AS build-debug
-# Copy debug dependencies
-COPY --from=deps-debug /app/node_modules ./node_modules
-
-# Copy source code
-COPY client/ ./
-
-# Build the application
+# Build the app
 RUN npm run build
 
 # Production stage with nginx
 FROM nginx:alpine AS production
-# Copy custom nginx config
-COPY docker/nginx.conf /etc/nginx/nginx.conf
 
-# Copy built app from build stage
-COPY --from=build-prod /app/build /usr/share/nginx/html
+# Copy built app
+COPY --from=build /app/build /usr/share/nginx/html
 
-# Add health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:80/ || exit 1
+# Copy nginx configuration
+COPY nginx-domain.conf /etc/nginx/nginx.conf
 
 # Expose port
 EXPOSE 80
 
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost/ || exit 1
+
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
-
-# Debug stage with development server
-FROM node:24.4.1-alpine AS debug
-# Copy debug dependencies
-COPY --from=deps-debug /app/node_modules ./node_modules
-
-# Copy source code
-COPY client/ ./
-
-# Expose port
-EXPOSE 3000
-
-# Start development server
-CMD ["npm", "start"]

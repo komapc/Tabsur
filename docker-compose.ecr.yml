@@ -63,7 +63,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx-domain.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       server:
         condition: service_healthy
