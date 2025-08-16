@@ -28,7 +28,7 @@ class PerformanceMonitor {
       },
       uptime: 0
     };
-    
+
     this.startTime = Date.now();
     this.startMonitoring();
   }
@@ -58,7 +58,7 @@ class PerformanceMonitor {
    */
   trackRequest(endpoint, method, responseTime, statusCode) {
     this.metrics.requests.total++;
-    
+
     // Track by endpoint
     const key = `${method} ${endpoint}`;
     if (!this.metrics.requests.byEndpoint[key]) {
@@ -69,17 +69,17 @@ class PerformanceMonitor {
         errors: 0
       };
     }
-    
+
     const endpointStats = this.metrics.requests.byEndpoint[key];
     endpointStats.count++;
     endpointStats.totalTime += responseTime;
     endpointStats.avgTime = endpointStats.totalTime / endpointStats.count;
-    
+
     if (statusCode >= 400) {
       endpointStats.errors++;
       this.metrics.requests.errors++;
     }
-    
+
     // Track response times for percentile calculations
     this.metrics.requests.responseTimes.push(responseTime);
     if (this.metrics.requests.responseTimes.length > 1000) {
@@ -110,21 +110,21 @@ class PerformanceMonitor {
   getSummary() {
     const responseTimes = this.metrics.requests.responseTimes;
     const sortedTimes = responseTimes.slice().sort((a, b) => a - b);
-    
+
     return {
       ...this.metrics,
       performance: {
-        avgResponseTime: responseTimes.length > 0 
+        avgResponseTime: responseTimes.length > 0
           ? Math.round(responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length)
           : 0,
-        p95ResponseTime: responseTimes.length > 0 
+        p95ResponseTime: responseTimes.length > 0
           ? sortedTimes[Math.floor(responseTimes.length * 0.95)]
           : 0,
-        p99ResponseTime: responseTimes.length > 0 
+        p99ResponseTime: responseTimes.length > 0
           ? sortedTimes[Math.floor(responseTimes.length * 0.99)]
           : 0,
         requestsPerMinute: this.calculateRequestsPerMinute(),
-        errorRate: this.metrics.requests.total > 0 
+        errorRate: this.metrics.requests.total > 0
           ? (this.metrics.requests.errors / this.metrics.requests.total * 100).toFixed(2)
           : 0
       }

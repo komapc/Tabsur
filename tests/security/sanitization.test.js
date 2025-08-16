@@ -12,13 +12,13 @@ describe('Input Sanitization Middleware', () => {
     app = express();
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
-    
+
     // Test endpoint
     app.post('/test', sanitizeInput, validateInput, (req, res) => {
-      res.json({ 
-        body: req.body, 
-        query: req.query, 
-        params: req.params 
+      res.json({
+        body: req.body,
+        query: req.query,
+        params: req.params
       });
     });
   });
@@ -174,7 +174,7 @@ describe('Input Sanitization Middleware', () => {
       // Should sanitize nested strings - DOMPurify removes all HTML tags
       expect(response.body.body.user.name).toBe('alert("xss")'); // Only text content remains
       expect(response.body.body.user.profile.bio).toBe(''); // Empty string after sanitization
-      
+
       // Should preserve non-string values
       expect(response.body.body.settings.theme).toBe('dark');
       expect(response.body.body.settings.notifications).toBe(true);
