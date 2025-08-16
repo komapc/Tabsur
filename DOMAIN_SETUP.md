@@ -7,7 +7,7 @@ This guide explains how to set up your Tabsur application with the domain `bemyg
 - **Main Domain**: `bemyguest.dedyn.io` (Frontend)
 - **API Domain**: `api.bemyguest.dedyn.io` (Backend)
 - **DNS Provider**: deSEC.io
-- **Authorization Token**: `yNoJQUBJAsodeSJ2pJRAZyM5fTSv`
+- **Authorization Token**: `your_desec_auth_token_here`
 
 ## 🚀 Quick Start
 

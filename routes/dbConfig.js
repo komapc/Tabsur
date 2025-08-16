@@ -20,7 +20,7 @@ module.exports = {
     port: 5432,
     database: process.env.PG_DATABASE || 'coolanu',
     user: process.env.PG_USER || 'coolanu_user',
-    password: process.env.PG_PASSWORD || 'coolanu123',
+    password: process.env.PG_PASSWORD || 'your_database_password_here',
     ssl: false
   },
   pgConfigSelfManaged : {
@@ -28,7 +28,7 @@ module.exports = {
     port: 5432,
     database: 'coolanu',
     user: 'coolanu_user',
-    password: 'coolanu123',
+    password: process.env.PG_PASSWORD || 'your_database_password_here',
     ssl: false
   }
 };

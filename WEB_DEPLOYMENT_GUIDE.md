@@ -111,7 +111,7 @@ PG_HOST=localhost
 PG_PORT=5432
 PG_DATABASE=coolanu
 PG_USER=coolanu_user
-PG_PASSWORD=coolanu123
+PG_PASSWORD=your_database_password_here
 JWT_SECRET=your-production-jwt-secret
 EOF
 ```
@@ -237,7 +237,7 @@ sudo kill -9 <PID>
 sudo docker ps | grep postgres
 
 # Test connection
-PGPASSWORD=coolanu123 psql -h localhost -U coolanu_user -d coolanu
+PGPASSWORD=your_database_password_here psql -h localhost -U coolanu_user -d coolanu
 ```
 
 #### **3. Nginx Configuration Errors**

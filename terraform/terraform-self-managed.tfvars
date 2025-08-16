@@ -5,7 +5,7 @@ aws_region = "eu-west-1"
 # Database Configuration
 db_name = "coolanu"
 db_user = "coolanu_user"
-db_password = "coolanu123"  # Update this with your actual RDS password
+db_password = "your_secure_rds_password_here"  # Update this with your actual RDS password
 
 # SSH Configuration
 ssh_public_key_path = "~/.ssh/coolanu-postgres.pub"

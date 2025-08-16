@@ -79,7 +79,7 @@ const testEnvironment = {
                 DB_NAME: 'coolanu',
                 DB_USER: 'coolanu_user',
                 DB_PASSWORD: 'koolanu',
-                JWT_SECRET: 'QqjLQPGsAmE0suGWbKBqcdGuDeX237kPRJCO/aIzoaA='
+                JWT_SECRET: 'test_jwt_secret_for_testing_only'
               }
 };
 
