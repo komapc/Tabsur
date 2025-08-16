@@ -45,7 +45,7 @@ const sanitizeInput = (req, res, next) => {
     next();
   } catch (error) {
     console.error('Sanitization error:', error);
-    res.status(400).json({ 
+    res.status(400).json({
       error: 'Invalid input detected',
       message: 'Input contains potentially harmful content'
     });
@@ -70,7 +70,7 @@ const validateInput = (req, res, next) => {
             message: `${key} exceeds maximum length of ${maxLength} characters`
           });
         }
-        
+
         if (Array.isArray(value) && value.length > maxArrayLength) {
           return res.status(400).json({
             error: 'Array too large',
@@ -95,7 +95,7 @@ const validateInput = (req, res, next) => {
     next();
   } catch (error) {
     console.error('Validation error:', error);
-    res.status(400).json({ 
+    res.status(400).json({
       error: 'Input validation failed',
       message: 'Invalid input format detected'
     });

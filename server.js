@@ -9,18 +9,18 @@ const compression = require('compression');
 // Import security middleware
 const { securityMiddleware, additionalSecurityHeaders, sqlInjectionProtection } = require('./middleware/security');
 const { sanitizeInput, validateInput } = require('./middleware/sanitization');
-const { 
-  apiLimiter, 
-  authLimiter, 
-  uploadLimiter, 
-  mealCreationLimiter, 
-  searchLimiter 
+const {
+  apiLimiter,
+  authLimiter,
+  uploadLimiter,
+  mealCreationLimiter,
+  searchLimiter
 } = require('./middleware/rate-limiting');
-const { 
-  performanceTracking, 
-  databasePerformanceTracking, 
+const {
+  performanceTracking,
+  databasePerformanceTracking,
   performanceHeaders,
-  getPerformanceMetrics 
+  getPerformanceMetrics
 } = require('./middleware/performance');
 // Import routes
 const users = require('./routes/api/users');

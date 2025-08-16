@@ -114,12 +114,11 @@ describe('Rate Limiting Middleware', () => {
   beforeEach(() => {
     app = express();
     app.use(bodyParser.json());
-    
+
     // Set trust proxy to handle X-Forwarded-For headers in tests
     app.set('trust proxy', true);
-    
 
-    
+
     // Test endpoints for different rate limiters
     app.post('/api/test', createApiLimiter(), (req, res) => {
       res.json({ message: 'API endpoint' });
