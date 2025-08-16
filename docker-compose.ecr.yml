@@ -19,7 +19,7 @@ services:
       - DB_SSL=false
       - JWT_SECRET=\${JWT_SECRET}
       - GOOGLE_MAPS_API_KEY=\${GOOGLE_MAPS_API_KEY}
-      - CORS_ORIGIN=http://3.72.76.56
+      - CORS_ORIGIN=https://bemyguest.dedyn.io
     ports:
       - "5000:5000"
     networks:
@@ -40,7 +40,7 @@ services:
     container_name: tabsur-client
     restart: unless-stopped
     environment:
-      - REACT_APP_SERVER_HOST=http://3.72.76.56:8080
+      - REACT_APP_SERVER_HOST=https://api.bemyguest.dedyn.io
       - REACT_APP_GOOGLE_MAPS_API_KEY=\${GOOGLE_MAPS_API_KEY}
     ports:
       - "80:80"
