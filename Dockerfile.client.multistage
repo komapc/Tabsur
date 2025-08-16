@@ -19,6 +19,7 @@ RUN npm ci --cache .npm --prefer-offline --no-audit --no-fund
 # Build stage
 FROM base AS build
 COPY --from=deps /app/node_modules ./node_modules
+COPY client/package*.json ./
 COPY client/ ./
 
 # Build the app
