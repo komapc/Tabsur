@@ -40,7 +40,7 @@ module.exports = function validateMealInput(data) {
 
   // Address is optional for now - can be empty string
   data.address = !isEmpty(data.address) ? data.address : '';
-  
+
   // Add missing required fields with defaults
   data.type = !isEmpty(data.type) ? data.type : 'dinner';
   data.visibility = !isEmpty(data.visibility) ? data.visibility : 'public';
@@ -56,7 +56,7 @@ module.exports = function validateMealInput(data) {
       errors.guest_count = 'Number of invited guests should be a positive number';
     }
   }
-  
+
   console.log(`Validate: ${JSON.stringify(errors)}`);
   return {
     errors,
@@ -117,7 +117,7 @@ module.exports.validateMealUpdate = function validateMealUpdate(data) {
       }
     }
   }
-  
+
   console.log(`Validate Update: ${JSON.stringify(errors)}`);
   return {
     errors,

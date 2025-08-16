@@ -55,32 +55,32 @@ const testDatabase = {
 };
 
 const testEnvironment = {
-                test: {
-                NODE_ENV: 'test',
-                DB_HOST: 'localhost',
-                DB_PORT: 5433,
-                DB_NAME: 'coolanu_test',
-                DB_USER: 'coolanu',
-                DB_PASSWORD: 'koolanu',
-                JWT_SECRET: 'test-jwt-secret-key'
-              },
-                debug: {
-                NODE_ENV: 'debug',
-                DB_HOST: 'database',
-                DB_PORT: 5432,
-                DB_NAME: 'coolanu',
-                DB_USER: 'postgres',
-                DB_PASSWORD: 'koolanu'
-              },
-                release: {
-                NODE_ENV: 'production',
-                DB_HOST: '3.249.94.227',
-                DB_PORT: 5432,
-                DB_NAME: 'coolanu',
-                DB_USER: 'coolanu_user',
-                DB_PASSWORD: 'koolanu',
-                JWT_SECRET: 'test_jwt_secret_for_testing_only'
-              }
+  test: {
+    NODE_ENV: 'test',
+    DB_HOST: 'localhost',
+    DB_PORT: 5433,
+    DB_NAME: 'coolanu_test',
+    DB_USER: 'coolanu',
+    DB_PASSWORD: 'koolanu',
+    JWT_SECRET: 'test-jwt-secret-key'
+  },
+  debug: {
+    NODE_ENV: 'debug',
+    DB_HOST: 'database',
+    DB_PORT: 5432,
+    DB_NAME: 'coolanu',
+    DB_USER: 'postgres',
+    DB_PASSWORD: 'koolanu'
+  },
+  release: {
+    NODE_ENV: 'production',
+    DB_HOST: '3.249.94.227',
+    DB_PORT: 5432,
+    DB_NAME: 'coolanu',
+    DB_USER: 'coolanu_user',
+    DB_PASSWORD: 'koolanu',
+    JWT_SECRET: 'test_jwt_secret_for_testing_only'
+  }
 };
 
 module.exports = {
