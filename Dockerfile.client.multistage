@@ -14,7 +14,7 @@ COPY client/package*.json ./
 
 # Install dependencies
 FROM base AS deps
-RUN npm ci --cache .npm --prefer-offline --no-audit --no-fund
+RUN npm ci --cache .npm --prefer-offline --no-audit --no-fund --include=dev
 
 # Build stage
 FROM base AS build
