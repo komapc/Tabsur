@@ -125,7 +125,7 @@ Tabsur/
 ### Common Debugging
 - **Port Conflicts**: Kill processes with `lsof -ti:3000 | xargs kill -9` and `lsof -ti:5000 | xargs kill -9`
 - **Database Connection**: Ensure Docker container is running with `docker ps | grep coolanu`
-- **Migration Errors**: Run migrations with explicit password: `cd db && PGPASSWORD=coolanu bash ./migrate.sh`
+- **Migration Errors**: Run migrations with explicit password: `cd db && PGPASSWORD=your_db_password bash ./migrate.sh`
 - **Test Database**: Tests require separate database instance on port 5433
 
 ### Code Quality Standards
