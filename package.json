@@ -19,7 +19,7 @@
     "test-setup": "./test-mode.sh",
     "test-server": "export NODE_ENV=test && export DB_PORT=5433 && export DB_NAME=coolanu_test && nodemon server.js",
     "test-client": "cd client && REACT_APP_SERVER_HOST_DEV=http://localhost:5000 npm start",
-    "test-dev": "concurrently \"npm run test-server\" \"npm run test-client\"",
+    "test-dev": "concurrently \"npm run test-server\" \"npm run client\"",
     "test-cleanup": "./stop-test-mode.sh",
     "test": "cross-env NODE_ENV=test jest --testTimeout=30000",
     "test:watch": "cross-env NODE_ENV=test jest --watch",
@@ -53,7 +53,8 @@
     "ci:lint": "npm run lint",
     "ci:security": "npm run security:audit",
     "ci:build": "npm run build",
-    "ci:full": "npm run ci:lint && npm run ci:test && npm run ci:security && npm run ci:build"
+    "ci:full": "npm run ci:lint && npm run ci:test && npm run ci:security && npm run ci:build",
+    "ci:install": "node scripts/suppress-security-warnings.js"
   },
   "author": "Mark&Yana",
   "license": "MIT",
