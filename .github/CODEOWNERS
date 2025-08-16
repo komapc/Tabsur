@@ -1,0 +1,35 @@
+# Global owners - these people will be requested for review on all PRs
+* @mark
+
+# Backend specific files
+/server.js @mark
+/routes/ @mark
+/middleware/ @mark
+/validation/ @mark
+
+# Frontend specific files
+/client/ @mark
+/client/src/ @mark
+/client/public/ @mark
+
+# Infrastructure and deployment
+/terraform/ @mark
+/docker/ @mark
+/docker-compose*.yml @mark
+Dockerfile* @mark
+
+# Configuration and environment
+/.env* @mark
+/config/ @mark
+/scripts/ @mark
+
+# Documentation
+/*.md @mark
+/docs/ @mark
+
+# Tests
+/tests/ @mark
+/client/src/**/*.test.js @mark
+
+# GitHub workflows
+/.github/ @mark
