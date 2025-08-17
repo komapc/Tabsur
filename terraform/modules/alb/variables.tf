@@ -1,26 +1,27 @@
 variable "environment" {
-  description = "Environment name"
+  description = "Environment name (e.g., dev, staging, prod)"
   type        = string
 }
 
 variable "vpc_id" {
-  description = "VPC ID"
+  description = "VPC ID where the ALB will be created"
   type        = string
 }
 
 variable "subnet_ids" {
-  description = "Subnet IDs for the ALB"
+  description = "List of subnet IDs where the ALB will be created"
   type        = list(string)
 }
 
-variable "security_group_id" {
-  description = "Security group ID for the ALB"
-  type        = string
-}
-
 variable "certificate_arn" {
-  description = "ARN of SSL certificate"
+  description = "ARN of the SSL certificate for HTTPS"
   type        = string
   default     = ""
+}
+
+variable "enable_https" {
+  description = "Whether to enable HTTPS (requires certificate_arn)"
+  type        = bool
+  default     = true
 }
 

@@ -82,6 +82,18 @@ variable "db_password" {
   sensitive   = true
 }
 
+variable "db_host" {
+  description = "PostgreSQL database host"
+  type        = string
+  default     = "localhost"
+}
+
+variable "db_port" {
+  description = "PostgreSQL database port"
+  type        = number
+  default     = 5432
+}
+
 variable "root_volume_size" {
   description = "Size of the root EBS volume in GB"
   type        = number
@@ -97,24 +109,74 @@ variable "data_volume_size" {
 variable "allowed_ssh_cidrs" {
   description = "CIDR blocks allowed to SSH to the instance"
   type        = list(string)
-  default     = ["0.0.0.0/0"] # Restrict this in production
+  default     = ["0.0.0.0/0"]
 }
 
 variable "allowed_db_cidrs" {
   description = "CIDR blocks allowed to connect to PostgreSQL"
   type        = list(string)
-  default     = ["0.0.0.0/0"] # Restrict this in production
+  default     = ["0.0.0.0/0"]
 }
 
 variable "allowed_pgadmin_cidrs" {
   description = "CIDR blocks allowed to access PgAdmin"
   type        = list(string)
-  default     = ["0.0.0.0/0"] # Restrict this in production
+  default     = ["0.0.0.0/0"]
 }
 
 variable "backup_retention_days" {
   description = "Number of days to retain backups"
   type        = number
   default     = 7
+}
+
+# ALB Configuration
+variable "certificate_arn" {
+  description = "ARN of the SSL certificate for HTTPS"
+  type        = string
+  default     = ""
+}
+
+variable "enable_https" {
+  description = "Whether to enable HTTPS (requires certificate_arn)"
+  type        = bool
+  default     = true
+}
+
+# Application Instance Configuration
+variable "app_instance_type" {
+  description = "EC2 instance type for application instances"
+  type        = string
+  default     = "t3.small"
+}
+
+variable "app_root_volume_size" {
+  description = "Size of the root EBS volume in GB for application instances"
+  type        = number
+  default     = 30
+}
+
+variable "app_instance_count" {
+  description = "Number of application instances to create initially"
+  type        = number
+  default     = 1
+}
+
+variable "app_desired_capacity" {
+  description = "Desired capacity for the application Auto Scaling Group"
+  type        = number
+  default     = 1
+}
+
+variable "app_max_size" {
+  description = "Maximum size for the application Auto Scaling Group"
+  type        = number
+  default     = 3
+}
+
+variable "app_min_size" {
+  description = "Minimum size for the application Auto Scaling Group"
+  type        = number
+  default     = 1
 }
 

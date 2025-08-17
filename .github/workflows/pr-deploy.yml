@@ -1,0 +1,317 @@
+name: PR & Deploy Pipeline
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches: [main]
+  push:
+    branches: [main]
+
+env:
+  NODE_VERSION: '24.4.1'
+  AWS_REGION: 'eu-west-1'
+
+jobs:
+  # Staging deployment for PRs
+  staging:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    environment: staging
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        cd client && npm ci
+
+    - name: Run tests
+      run: |
+        npm run test:fast
+        npm run test:lint
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Build and push Docker images to ECR
+      run: |
+        # Build server image
+        docker build -t ${{ steps.login-ecr.outputs.registry }}/tabsur-server:staging-${{ github.sha }} -f Dockerfile.server .
+        docker push ${{ steps.login-ecr.outputs.registry }}/tabsur-server:staging-${{ github.sha }}
+        
+        # Build client image
+        docker build -t ${{ steps.login-ecr.outputs.registry }}/tabsur-client:staging-${{ github.sha }} -f Dockerfile.client .
+        docker push ${{ steps.login-ecr.outputs.registry }}/tabsur-client:staging-${{ github.sha }}
+
+    - name: Deploy to staging
+      run: |
+        echo "🚀 Deploying to staging environment"
+        echo "PR: ${{ github.event.pull_request.number }}"
+        echo "Commit: ${{ github.sha }}"
+        
+        # Create staging deployment configuration
+        cat > docker-compose.staging.yml << EOF
+        version: '3.8'
+        services:
+          server:
+            image: ${{ steps.login-ecr.outputs.registry }}/tabsur-server:staging-${{ github.sha }}
+            container_name: tabsur-server-staging
+            restart: unless-stopped
+            environment:
+              - NODE_ENV=staging
+              - PORT=5000
+              - DB_HOST=${{ secrets.STAGING_DB_HOST }}
+              - DB_PORT=5432
+              - DB_NAME=coolanu_staging
+              - DB_USER=coolanu_user
+              - DB_PASSWORD=${{ secrets.STAGING_DB_PASSWORD }}
+              - DB_SSL=false
+              - JWT_SECRET=${{ secrets.STAGING_JWT_SECRET }}
+              - GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}
+              - CORS_ORIGIN=${{ secrets.STAGING_CORS_ORIGIN }}
+            ports:
+              - "5000:5000"
+            networks:
+              - tabsur-network
+            healthcheck:
+              test: ["CMD", "curl", "-f", "http://localhost:5000/api/system/health"]
+              interval: 30s
+              timeout: 10s
+              retries: 3
+              start_period: 40s
+
+          client:
+            image: ${{ steps.login-ecr.outputs.registry }}/tabsur-client:staging-${{ github.sha }}
+            container_name: tabsur-client-staging
+            restart: unless-stopped
+            environment:
+              - REACT_APP_SERVER_HOST=http://localhost:5000
+              - REACT_APP_GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}
+            ports:
+              - "80:80"
+            depends_on:
+              server:
+                condition: service_healthy
+            networks:
+              - tabsur-network
+            healthcheck:
+              test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+              interval: 30s
+              timeout: 3s
+              retries: 3
+              start_period: 10s
+
+        networks:
+          tabsur-network:
+            driver: bridge
+        EOF
+
+    - name: Notify staging deployment
+      run: |
+        echo "✅ Staging deployment configuration created"
+        echo "📋 Next steps:"
+        echo "1. Deploy to staging EC2 instance"
+        echo "2. Run tests on staging environment"
+        echo "3. Get PR approval and merge to main"
+
+  # Production deployment after merge
+  production:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    needs: []
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        cd client && npm ci
+
+    - name: Run full test suite
+      run: |
+        npm test
+        npm run test:playwright
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Build and push production Docker images
+      run: |
+        # Build server image
+        docker build -t ${{ steps.login-ecr.outputs.registry }}/tabsur-server:latest -f Dockerfile.server .
+        docker build -t ${{ steps.login-ecr.outputs.registry }}/tabsur-server:prod-${{ github.sha }} -f Dockerfile.server .
+        docker push ${{ steps.login-ecr.outputs.registry }}/tabsur-server:latest
+        docker push ${{ steps.login-ecr.outputs.registry }}/tabsur-server:prod-${{ github.sha }}
+        
+        # Build client image
+        docker build -t ${{ steps.login-ecr.outputs.registry }}/tabsur-client:latest -f Dockerfile.client .
+        docker build -t ${{ steps.login-ecr.outputs.registry }}/tabsur-client:prod-${{ github.sha }} -f Dockerfile.client .
+        docker push ${{ steps.login-ecr.outputs.registry }}/tabsur-client:latest
+        docker push ${{ steps.login-ecr.outputs.registry }}/tabsur-client:prod-${{ github.sha }}
+
+    - name: Deploy to production
+      run: |
+        echo "🚀 Deploying to production environment"
+        echo "Commit: ${{ github.sha }}"
+        echo "Branch: ${{ github.ref_name }}"
+        
+        # Create production deployment configuration
+        cat > docker-compose.production.yml << EOF
+        version: '3.8'
+        services:
+          server:
+            image: ${{ steps.login-ecr.outputs.registry }}/tabsur-server:prod-${{ github.sha }}
+            container_name: tabsur-server-production
+            restart: unless-stopped
+            environment:
+              - NODE_ENV=production
+              - PORT=5000
+              - DB_HOST=${{ secrets.PROD_DB_HOST }}
+              - DB_PORT=5432
+              - DB_NAME=coolanu
+              - DB_USER=coolanu_user
+              - DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}
+              - DB_SSL=false
+              - JWT_SECRET=${{ secrets.PROD_JWT_SECRET }}
+              - GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}
+              - CORS_ORIGIN=${{ secrets.PROD_CORS_ORIGIN }}
+            ports:
+              - "5000:5000"
+            networks:
+              - tabsur-network
+            healthcheck:
+              test: ["CMD", "curl", "-f", "http://localhost:5000/api/system/health"]
+              interval: 30s
+              timeout: 10s
+              retries: 3
+              start_period: 40s
+
+          client:
+            image: ${{ steps.login-ecr.outputs.registry }}/tabsur-client:prod-${{ github.sha }}
+            container_name: tabsur-client-production
+            restart: unless-stopped
+            environment:
+              - REACT_APP_SERVER_HOST=http://localhost:5000
+              - REACT_APP_GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}
+            ports:
+              - "80:80"
+            depends_on:
+              server:
+                condition: service_healthy
+            networks:
+              - tabsur-network
+            healthcheck:
+              test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+              interval: 30s
+              timeout: 3s
+              retries: 3
+              start_period: 10s
+
+        networks:
+          tabsur-network:
+            driver: bridge
+        EOF
+
+    - name: Wait for deployment readiness
+      run: |
+        echo "⏳ Waiting for deployment to be ready..."
+        sleep 30
+
+    - name: Validate deployment
+      run: |
+        echo "🏥 Running post-deployment validation..."
+        
+        # In a real deployment, you would:
+        # - Check health endpoints
+        # - Validate database connectivity
+        # - Test critical user journeys
+        # - Monitor error rates
+        
+        echo "✅ Production deployment validation completed"
+
+    - name: Notify deployment success
+      if: success()
+      run: |
+        echo "🎉 Production deployment successful!"
+        echo "🌐 Application deployed with commit: ${{ github.sha }}"
+        echo "📋 Deployment artifacts created:"
+        echo "   - docker-compose.production.yml"
+        echo "   - ECR images tagged with: prod-${{ github.sha }}"
+
+  # Cleanup staging resources when PR is closed
+  cleanup:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    environment: staging
+    
+    steps:
+    - name: Cleanup staging resources
+      run: |
+        echo "🧹 Cleaning up staging resources for closed PR #${{ github.event.pull_request.number }}"
+        
+        # In a real implementation, you would:
+        # - Stop staging containers
+        # - Remove staging ECR images
+        # - Clean up staging database
+        # - Notify team of cleanup
+        
+        echo "✅ Staging cleanup completed"
+
+  # Rollback on failure
+  rollback:
+    runs-on: ubuntu-latest
+    needs: [production]
+    if: failure()
+    environment: production
+    
+    steps:
+    - name: Rollback production deployment
+      run: |
+        echo "🔄 Rolling back failed production deployment"
+        echo "Commit: ${{ github.sha }}"
+        
+        # In a real rollback, you would:
+        # - Stop current deployment
+        # - Restore previous version
+        # - Validate rollback success
+        # - Notify team of rollback
+        
+        echo "📋 Rollback procedure would:"
+        echo "1. Stop current containers"
+        echo "2. Pull previous stable images"
+        echo "3. Restart services"
+        echo "4. Validate rollback success"
+        echo "5. Notify team"

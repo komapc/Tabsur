@@ -109,9 +109,41 @@ resource "aws_key_pair" "postgres_key" {
   }
 }
 
+# EC2 Key Pair for Application
+resource "aws_key_pair" "app_key" {
+  key_name   = "${var.environment}-app-key"
+  public_key = file(var.ssh_public_key_path)
+
+  tags = {
+    Environment = var.environment
+  }
+}
+
 # IAM Role for EC2 instances
 resource "aws_iam_role" "postgres_role" {
   name = "${var.environment}-postgres-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      }
+    ]
+  })
+
+  tags = {
+    Environment = var.environment
+  }
+}
+
+# IAM Role for Application instances
+resource "aws_iam_role" "app_role" {
+  name = "${var.environment}-app-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -156,16 +188,48 @@ resource "aws_iam_policy" "postgres_policy" {
   })
 }
 
-# Attach policy to role
+# IAM Policy for Application instances
+resource "aws_iam_policy" "app_policy" {
+  name        = "${var.environment}-app-policy"
+  description = "Policy for Application EC2 instances"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+# Attach policies to roles
 resource "aws_iam_role_policy_attachment" "postgres_policy_attachment" {
   role       = aws_iam_role.postgres_role.name
   policy_arn = aws_iam_policy.postgres_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "app_policy_attachment" {
+  role       = aws_iam_role.app_role.name
+  policy_arn = aws_iam_policy.app_policy.arn
 }
 
 # IAM Instance Profile
 resource "aws_iam_instance_profile" "postgres_profile" {
   name = "${var.environment}-postgres-profile"
   role = aws_iam_role.postgres_role.name
+}
+
+resource "aws_iam_instance_profile" "app_profile" {
+  name = "${var.environment}-app-profile"
+  role = aws_iam_role.app_role.name
 }
 
 # S3 Bucket for PostgreSQL backups
@@ -344,6 +408,39 @@ resource "aws_volume_attachment" "postgres_data" {
   instance_id = aws_instance.postgres.id
 }
 
+# Application Load Balancer
+module "alb" {
+  source = "./modules/alb"
+
+  environment      = var.environment
+  vpc_id          = local.vpc_id
+  subnet_ids      = [local.subnet_id]
+  certificate_arn = var.certificate_arn
+  enable_https    = var.enable_https
+}
+
+# Application EC2 instances with Auto Scaling
+module "app" {
+  source = "./modules/ec2-app"
+
+  environment              = var.environment
+  app_name                = "tabsur"
+  vpc_id                  = local.vpc_id
+  subnet_id               = local.subnet_id
+  ami_id                  = var.ami_id
+  instance_type           = var.app_instance_type
+  key_name                = aws_key_pair.app_key.key_name
+  iam_instance_profile_name = aws_iam_instance_profile.app_profile.name
+  root_volume_size        = var.app_root_volume_size
+  allowed_ssh_cidrs       = var.allowed_ssh_cidrs
+  alb_security_group_id   = module.alb.alb_security_group_id
+  instance_count          = var.app_instance_count
+  desired_capacity        = var.app_desired_capacity
+  max_size                = var.app_max_size
+  min_size                = var.app_min_size
+  target_group_arns       = [module.alb.server_target_group_arn, module.alb.client_target_group_arn]
+}
+
 # Outputs
 output "postgres_endpoint" {
   description = "PostgreSQL connection endpoint"
@@ -378,5 +475,32 @@ output "cost_estimate" {
 output "ssh_command" {
   description = "SSH command to connect to the instance"
   value       = "ssh -i ~/.ssh/coolanu-postgres ubuntu@${aws_instance.postgres.public_ip}"
+}
+
+# ALB Outputs
+output "alb_dns_name" {
+  description = "DNS name of the Application Load Balancer"
+  value       = module.alb.alb_dns_name
+}
+
+output "alb_zone_id" {
+  description = "Zone ID of the Application Load Balancer"
+  value       = module.alb.alb_zone_id
+}
+
+# Application Outputs
+output "app_instance_ids" {
+  description = "IDs of the application EC2 instances"
+  value       = module.app.instance_ids
+}
+
+output "app_public_ips" {
+  description = "Public IP addresses of the application EC2 instances"
+  value       = module.app.instance_public_ips
+}
+
+output "app_auto_scaling_group_name" {
+  description = "Name of the application Auto Scaling Group"
+  value       = module.app.auto_scaling_group_name
 }
 

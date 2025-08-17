@@ -4,9 +4,6 @@ services:
     image: 272007598366.dkr.ecr.eu-central-1.amazonaws.com/tabsur-server:latest
     container_name: tabsur-server
     restart: unless-stopped
-    privileged: true
-    extra_hosts:
-      - "3.249.94.227:3.249.94.227"
     environment:
       - NODE_ENV=production
       - PORT=5000
