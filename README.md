@@ -7,14 +7,16 @@ Tabsur is a social meal planning application that connects people through shared
 ## 🚀 Tech Stack
 
 ### Frontend
-- **React** - Modern UI framework with Material-UI components
-- **Redux** - State management
+- **React 18.3.1** - Modern UI framework with Material-UI v7 components
+- **Redux 4.0.1** - State management with Redux Thunk
+- **Material-UI v7.2.0** - Latest Material Design components
 - **Google Maps API** - Location services and geolocation
-- **Firebase** - Push notifications (when supported)
+- **Firebase 12.0.0** - Push notifications and cloud services
 
 ### Backend
-- **Node.js/Express** - RESTful API server
-- **PostgreSQL** - Primary database
+- **Node.js 24.4+** - Latest LTS version
+- **Express 4.17.1** - RESTful API server
+- **PostgreSQL** - Primary database with connection pooling
 - **JWT** - Authentication and session management
 - **Nginx** - Load balancer and reverse proxy
 
@@ -23,6 +25,7 @@ Tabsur is a social meal planning application that connects people through shared
 - **AWS EC2** - Production hosting
 - **AWS ECR** - Container registry
 - **Docker Compose** - Local development environment
+- **Terraform** - Infrastructure as Code
 
 ## 🏗️ Architecture
 
@@ -41,7 +44,7 @@ Tabsur is a social meal planning application that connects people through shared
 
 ### Prerequisites
 - Docker and Docker Compose
-- Node.js 18+ (for local development)
+- Node.js 24.4+ (for local development)
 - PostgreSQL client tools
 
 ### Local Development
@@ -94,9 +97,10 @@ Tabsur/
 - **Meal Creation** - Multi-step wizard for creating meals
 - **Location Services** - Google Maps integration for meal locations
 - **Social Features** - Follow users, attend meals, chat
-- **Real-time Updates** - Push notifications (when supported)
-- **Responsive Design** - Mobile-first UI with Material-UI v2
+- **Real-time Updates** - Push notifications via Firebase
+- **Responsive Design** - Mobile-first UI with Material-UI v7
 - **Admin Panel** - User and meal management dashboard
+- **Advanced Testing** - Jest + Playwright with optimized configurations
 
 ## 🚀 Deployment Status
 
@@ -108,26 +112,30 @@ Tabsur/
 - **Last Deployed**: August 17, 2025
 - **Version**: 2.0.0
 
-### 🔧 Recent Fixes Deployed
-- ✅ **Redux Runtime Errors** - Fixed undefined state returns
-- ✅ **Authentication Issues** - Resolved user ID undefined errors
-- ✅ **MUI Grid Warnings** - Updated to v2 syntax
-- ✅ **React Lifecycle Warnings** - Replaced deprecated methods
-- ✅ **Google OAuth Provider** - Fixed provider wrapper issues
-- ✅ **Error Handling** - Comprehensive error payload validation
+### 🔧 Recent Critical Fixes Deployed
+- ✅ **Redux Runtime Errors** - Fixed undefined state returns in errorReducer
+- ✅ **Authentication Issues** - Resolved user ID undefined errors across components
+- ✅ **MUI Grid Warnings** - Updated all Grid components to v7 syntax
+- ✅ **React Lifecycle Warnings** - Replaced deprecated methods with modern alternatives
+- ✅ **Google OAuth Provider** - Fixed provider wrapper implementation
+- ✅ **Error Handling** - Comprehensive error payload validation in all actions
+- ✅ **Performance Optimization** - 4-6x faster test execution with optimized configurations
 
-### 🧪 Testing
+### 🧪 Testing Infrastructure
 - **Fast Test Suite**: 4-6x faster execution with `jest.config.fast.js`
-- **E2E Tests**: Optimized Playwright configuration
+- **E2E Tests**: Optimized Playwright configuration with `playwright.config.fast.js`
 - **Coverage**: Full test coverage available with `npm run test:coverage`
+- **Performance Testing**: Comprehensive performance monitoring and optimization
 
 ## 🔒 Security
 
 - JWT authentication with secure tokens
-- Input validation and sanitization
+- Input validation and sanitization using Joi
 - CORS protection via Nginx
 - Environment-based configuration
 - No hardcoded secrets
+- Security headers via Helmet
+- Rate limiting and request sanitization
 
 ## 📊 Performance
 
@@ -135,6 +143,8 @@ Tabsur/
 - Nginx load balancing and caching
 - Database connection pooling
 - Optimized React bundle with code splitting
+- Performance monitoring and optimization tools
+- Fast test execution for development efficiency
 
 ## 🧪 Testing
 
@@ -142,9 +152,16 @@ Tabsur/
 # Run all tests
 npm test
 
+# Run fast test suite (4-6x faster)
+npm run test:fast
+
 # Run specific test suites
+npm run test:unit
 npm run test:server
 npm run test:client
+
+# E2E testing with Playwright
+npm run test:playwright
 
 # Test setup and cleanup
 ./test-mode.sh
@@ -157,6 +174,8 @@ npm run test:client
 - [Deployment Guide](DEPLOYMENT.md) - Production deployment
 - [Database Schema](DATABASE_SCHEMA.md) - Database structure
 - [CI/CD Setup](CI_CD_SETUP.md) - GitHub Actions workflow
+- [Performance Guide](TEST_PERFORMANCE_GUIDE.md) - Testing optimization
+- [Security Guide](SECURITY_VULNERABILITIES.md) - Security best practices
 
 ## 🤝 Contributing
 
@@ -176,3 +195,10 @@ For issues or questions:
 1. Check the documentation
 2. Review existing issues
 3. Create a new issue with detailed information
+
+## 🔄 Recent Updates
+
+- **August 2025**: Major performance improvements and testing optimization
+- **August 2025**: Security enhancements and vulnerability fixes
+- **August 2025**: Material-UI v7 upgrade and React 18 compatibility
+- **August 2025**: Comprehensive error handling and validation improvements

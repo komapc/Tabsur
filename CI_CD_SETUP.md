@@ -44,7 +44,7 @@ GitHub PR → GitHub Actions → Build & Test → Docker Images → ECR → ECS 
 - [Terraform](https://www.terraform.io/downloads.html) (>= 1.0)
 - [AWS CLI](https://aws.amazon.com/cli/)
 - [Docker](https://docs.docker.com/get-docker/)
-- [Node.js](https://nodejs.org/) (24.4.1)
+- [Node.js](https://nodejs.org/) (24.4+)
 - [Git](https://git-scm.com/)
 
 ### Required AWS Services:
@@ -324,12 +324,37 @@ If deployment fails:
    docker push <ecr-url>:latest
    ```
 
+## 🚀 Current Deployment Status
+
+### ✅ Production Environment
+- **Status**: 🟢 **LIVE & RUNNING**
+- **URL**: https://bemyguest.dedyn.io
+- **API**: https://api.bemyguest.dedyn.io
+- **Direct IP**: http://3.72.76.56:80
+- **Last Deployed**: August 17, 2025
+- **Version**: 2.0.0
+
+### 🔧 Recent Improvements
+- **Performance Optimization**: 4-6x faster test execution
+- **Security Enhancements**: Updated dependencies and security headers
+- **Material-UI v7**: Latest Material Design components
+- **React 18 Compatibility**: Modern React features and optimizations
+- **Testing Infrastructure**: Comprehensive test suite with Playwright E2E
+
+### 🧪 Testing Infrastructure
+- **Fast Test Suite**: Optimized Jest configuration for development speed
+- **E2E Testing**: Playwright with optimized configurations
+- **Coverage**: Full test coverage with performance monitoring
+- **CI/CD Integration**: Automated testing in GitHub Actions
+
 ## 📚 Additional Resources
 
 - [AWS ECS Documentation](https://docs.aws.amazon.com/ecs/)
 - [Terraform Documentation](https://www.terraform.io/docs)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [Docker Best Practices](https://docs.docker.com/develop/dev-best-practices/)
+- [Tabsur Performance Guide](TEST_PERFORMANCE_GUIDE.md)
+- [Tabsur Deployment Guide](DEPLOYMENT.md)
 
 ## 🆘 Support
 
@@ -344,6 +369,8 @@ If you encounter issues:
 ---
 
 **🎉 Congratulations!** You now have a production-ready CI/CD pipeline for Tabsur running on AWS with full automation, monitoring, and scalability.
+
+**Current Status**: Production deployed and running successfully with version 2.0.0, featuring major performance improvements and security enhancements.
 
 
 

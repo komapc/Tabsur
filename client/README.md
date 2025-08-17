@@ -1,44 +1,147 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Tabsur Client - React Frontend
 
-## Available Scripts
+This is the React frontend for the Tabsur social meal planning application, built with modern React 18 and Material-UI v7.
 
-In the project directory, you can run:
+## 🚀 Tech Stack
 
-### `npm start`
+- **React 18.3.1** - Latest React with modern features
+- **Material-UI v7.2.0** - Latest Material Design components
+- **Redux 7.2.1** - State management with Redux Thunk
+- **React Router 5.2.0** - Client-side routing
+- **Google Maps API** - Location services and geolocation
+- **Firebase 12.0.0** - Push notifications and cloud services
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🏗️ Project Structure
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+```
+src/
+├── components/          # React components
+│   ├── about/          # About page components
+│   ├── admin/          # Admin panel components
+│   ├── auth/           # Authentication components
+│   ├── chat/           # Chat functionality
+│   ├── common/         # Shared/common components
+│   ├── layout/         # Layout and navigation
+│   ├── meals/          # Meal-related components
+│   ├── notifications/  # Notification components
+│   ├── private-route/  # Route protection
+│   └── users/          # User profile components
+├── actions/            # Redux actions
+├── reducers/           # Redux reducers
+├── config.js           # Frontend configuration
+└── index.js            # Application entry point
+```
 
-### `npm test`
+## 🚀 Available Scripts
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Development
+```bash
+# Start development server
+npm start
 
-### `npm run build`
+# Run tests
+npm test
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Run linting
+npm run lint
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+# Fix linting issues
+npm run lint:fix
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Production
+```bash
+# Build for production
+npm run build
 
-### `npm run eject`
+# Stop development server
+npm run stop
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 🔧 Key Features
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **User Authentication** - JWT-based login/registration with Google OAuth
+- **Meal Creation** - Multi-step wizard for creating meals
+- **Location Services** - Google Maps integration for meal locations
+- **Social Features** - Follow users, attend meals, chat functionality
+- **Real-time Updates** - Push notifications via Firebase
+- **Responsive Design** - Mobile-first UI with Material-UI v7
+- **Admin Panel** - User and meal management dashboard
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 🧪 Testing
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```bash
+# Run tests with coverage
+npm test
 
-## Learn More
+# Run tests in watch mode
+npm test -- --watch
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Run specific test file
+npm test -- src/components/auth/Login.test.js
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🔒 Security Features
+
+- **JWT Authentication** - Secure token-based authentication
+- **Input Validation** - Client-side form validation
+- **XSS Protection** - Content sanitization
+- **CORS Handling** - Secure cross-origin requests
+
+## 📱 Responsive Design
+
+- **Mobile-First** - Optimized for mobile devices
+- **Progressive Web App** - Offline capabilities
+- **Touch-Friendly** - Optimized touch interactions
+- **Cross-Browser** - Compatible with modern browsers
+
+## 🌐 Browser Support
+
+- **Chrome** 90+
+- **Firefox** 88+
+- **Safari** 14+
+- **Edge** 90+
+
+## 🔧 Configuration
+
+### Environment Variables
+```bash
+REACT_APP_SERVER_HOST=http://localhost:5000
+REACT_APP_GOOGLE_MAPS_API_KEY=your_api_key
+REACT_APP_FIREBASE_CONFIG='{"apiKey":"...","authDomain":"..."}'
+```
+
+### Google Maps Setup
+See [GOOGLE_MAPS_SETUP.md](GOOGLE_MAPS_SETUP.md) for detailed setup instructions.
+
+## 🚀 Performance Features
+
+- **Code Splitting** - Lazy loading of components
+- **Bundle Optimization** - Optimized production builds
+- **Image Optimization** - Compressed and optimized images
+- **Caching** - Browser caching strategies
+
+## 🔄 Recent Updates
+
+- **August 2025**: Material-UI v7 upgrade
+- **August 2025**: React 18 compatibility improvements
+- **August 2025**: Performance optimizations
+- **August 2025**: Security enhancements
+
+## 📚 Learn More
+
+- [React Documentation](https://reactjs.org/)
+- [Material-UI Documentation](https://mui.com/)
+- [Redux Documentation](https://redux.js.org/)
+- [Create React App Documentation](https://facebook.github.io/create-react-app/)
+
+## 🆘 Support
+
+For issues or questions:
+1. Check the main [README.md](../README.md)
+2. Review existing issues
+3. Create a new issue with detailed information
+
+---
+
+**Current Status**: Production deployed and running with version 2.0.0, featuring Material-UI v7 and React 18 optimizations.
