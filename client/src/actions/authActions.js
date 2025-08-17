@@ -16,12 +16,15 @@ export const registerUser = (userData, history) => dispatch => {
   axios
     .post(`${config.SERVER_HOST}/api/users/register`, userData)
     .then(res => history.push("/login"))
-    .catch(err =>
+    .catch(err => {
+      console.error('Registration error:', err);
+      const errorPayload = err.response?.data || { general: "Registration failed" };
+      // Ensure we always dispatch a valid error object
       dispatch({
         type: GET_ERRORS,
-        payload: err.response?.data || { general: "Registration failed" }
-      })
-    );
+        payload: errorPayload
+      });
+    });
 };
 
 // Login - get user token
@@ -44,15 +47,15 @@ export const loginUser = userData => dispatch => {
       // Set current user
       dispatch(setCurrentUser(decoded));
     })
-    .catch(err =>
-    {
+    .catch(err => {
       console.warn(`Login failed: ${JSON.stringify(err)}`);
+      const errorPayload = err.response?.data || { general: "Login failed" };
+      // Ensure we always dispatch a valid error object
       dispatch({
         type: GET_ERRORS,
-        payload: err.response?.data || { general: "Login failed" }
-      })
-    }
-    );
+        payload: errorPayload
+      });
+    });
 };
 
 export const loginUserFB = userData => dispatch => {
@@ -73,15 +76,15 @@ export const loginUserFB = userData => dispatch => {
       // Set current user
       dispatch(setCurrentUser(merged));
     })
-    .catch(err =>
-    {
+    .catch(err => {
       console.error(`loginFB failed: ${JSON.stringify(err)}`);
+      const errorPayload = err.response?.data || { general: "Facebook login failed" };
+      // Ensure we always dispatch a valid error object
       dispatch({
         type: GET_ERRORS,
-        payload: err.response?.data || { general: "Facebook login failed" }
-      })
-      }
-    );
+        payload: errorPayload
+      });
+    });
 }
 // Set logged in user
 export const setCurrentUser = decoded => {

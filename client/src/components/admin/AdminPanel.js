@@ -199,7 +199,7 @@ class AdminPanel extends Component {
 
   renderDashboard = () => (
     <Grid container spacing={3}>
-      <Grid item xs={12} md={4}>
+      <Grid xs={12} md={4}>
         <Card>
           <CardContent>
             <Typography color="textSecondary" gutterBottom>
@@ -211,7 +211,7 @@ class AdminPanel extends Component {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} md={4}>
+      <Grid xs={12} md={4}>
         <Card>
           <CardContent>
             <Typography color="textSecondary" gutterBottom>
@@ -223,7 +223,7 @@ class AdminPanel extends Component {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} md={4}>
+      <Grid xs={12} md={4}>
         <Card>
           <CardContent>
             <Typography color="textSecondary" gutterBottom>
@@ -392,7 +392,7 @@ class AdminPanel extends Component {
     <Box>
       <Typography variant="h6" gutterBottom>Security Overview</Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
+        <Grid xs={12} md={6}>
           <Card>
             <CardContent>
               <Typography variant="h6" color="primary">
@@ -410,7 +410,7 @@ class AdminPanel extends Component {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid xs={12} md={6}>
           <Card>
             <CardContent>
               <Typography variant="h6" color="primary">
@@ -508,7 +508,7 @@ class AdminPanel extends Component {
               <Grid container spacing={2} sx={{ mt: 1 }}>
                 {editDialog.type === 'user' ? (
                   <>
-                    <Grid item xs={12} md={6}>
+                    <Grid xs={12} md={6}>
                       <TextField
                         fullWidth
                         label="Name"
@@ -521,7 +521,7 @@ class AdminPanel extends Component {
                         }))}
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid xs={12} md={6}>
                       <TextField
                         fullWidth
                         label="Email"
@@ -537,7 +537,7 @@ class AdminPanel extends Component {
                   </>
                 ) : (
                   <>
-                    <Grid item xs={12} md={6}>
+                    <Grid xs={12} md={6}>
                       <TextField
                         fullWidth
                         label="Title"
@@ -550,7 +550,7 @@ class AdminPanel extends Component {
                         }))}
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid xs={12} md={6}>
                       <TextField
                         fullWidth
                         label="Location"

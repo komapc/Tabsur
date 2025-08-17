@@ -25,12 +25,12 @@ export const addMeal = (userData, onDone) => dispatch => {
     })
     .catch(err => {
       console.error(`Error in addMeal: ${JSON.stringify(err)}`);
+      const errorPayload = err.response?.data || { general: "Failed to add meal" };
       dispatch({
         type: GET_ERRORS,
-        //payload: err.response.data
-      })
-    }
-    );
+        payload: errorPayload
+      });
+    });
 };
 
 // add a meal and image
@@ -90,13 +90,13 @@ export const joinMeal = (attendData, id) => dispatch => {
   console.log("joinMeal: " + JSON.stringify(attendData));
   axios
     .post(`${config.SERVER_HOST}/api/attends/${id}`, attendData)
-    .catch(err =>
+    .catch(err => {
+      const errorPayload = err.response?.data || { general: "Failed to join meal" };
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data
-      })
-      //.then(res => dispatch(res))
-    );
+        payload: errorPayload
+      });
+    });
 };
 
 //get attends by meal (?)

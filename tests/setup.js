@@ -3,6 +3,10 @@
 
 import '@testing-library/jest-dom';
 
+// Polyfill TextEncoder for Node.js environment
+global.TextEncoder = global.TextEncoder || require('util').TextEncoder;
+global.TextDecoder = global.TextDecoder || require('util').TextDecoder;
+
 // Mock console methods to reduce noise
 global.console = {
   ...console,

@@ -50,29 +50,48 @@ class ChatList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: [],
+      users: [],
       loading: true,
-      id: this.props.auth.user.id || -1,
+      notificationsCount: 0
     };
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.active) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.active !== this.props.active && this.props.active) {
       this.props.setFabVisibility(false);
       this.props.setSwipability(true);
     }
 
-    this.setState({ notificationsCount: this.props.notificationsCount });
+    if (prevProps.notificationsCount !== this.props.notificationsCount) {
+      this.setState({ notificationsCount: this.props.notificationsCount });
+    }
+
+    // Reload chat users if user ID changes (e.g., after login)
+    if (prevProps.auth?.user?.id !== this.props.auth?.user?.id && this.props.auth?.user?.id) {
+      this.loadChatUsers();
+    }
   }
 
   componentDidMount() {
+    if (this.props.auth?.user?.id) {
+      this.loadChatUsers();
+    }
+  }
+
+  loadChatUsers = () => {
+    if (!this.props.auth?.user?.id) {
+      console.log('ChatList: No user ID available');
+      this.setState({ loading: false });
+      return;
+    }
+
     getChatUsers(this.props.auth.user.id)
       .then(res => {
-        console.log(res.data);
+        console.log('Chat users loaded:', res.data);
         this.setState({ users: res.data, loading: false });
       })
       .catch((err) => {
-        this.setState({ loading: false });
-        console.error(err);
+        console.error('Failed to load chat users:', err);
+        this.setState({ loading: false, users: [] });
       });
   };
 

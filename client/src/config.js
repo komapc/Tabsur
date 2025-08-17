@@ -14,7 +14,10 @@ switch (env) {
     case 'production':
     default:
         config.SERVER_HOST = process.env.REACT_APP_SERVER_HOST || host;
-
 }
+
+// Google Maps configuration
+config.GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+config.GOOGLE_OAUTH_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 export default config;

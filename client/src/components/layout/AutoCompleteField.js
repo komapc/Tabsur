@@ -132,7 +132,7 @@ export default function GoogleMaps(props) {
             <Grid item>
               <LocationOnIcon className={classes.icon} />
             </Grid>
-            <Grid item xs>
+            <Grid xs>
               {parts.map((part, index) => (
                 <span key={index} style={{ fontWeight: part.highlight ? 700 : 400 }}>
                   {part.text}

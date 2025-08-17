@@ -329,7 +329,7 @@ const Settings = ({ auth, errors }) => {
             </Box>
 
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
+              <Grid xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label="Name"
@@ -341,7 +341,7 @@ const Settings = ({ auth, errors }) => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label="Email"
@@ -354,7 +354,7 @@ const Settings = ({ auth, errors }) => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid xs={12}>
                 <TextField
                   fullWidth
                   label="Address"

@@ -56,8 +56,8 @@ class Notifications extends Component {
       });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.visible !== this.state.visible) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.visible !== this.props.visible && this.props.visible) {
       this.getNotifications();
     }
   }

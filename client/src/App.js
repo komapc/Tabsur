@@ -58,38 +58,50 @@ const theme = createTheme({
   },
 });
 
-try {
-  // Check for token to keep user logged in
-  if (localStorage.jwtToken) {
-    // Clean up any malformed tokens first
-    const token = cleanupToken();
-    console.log("Found JWT token in localStorage, length:", token.length);
-    setAuthToken(token);
-    // Decode token and get user info and exp
-    const decoded = jwt_decode(token);
-    console.log("Decoded token user ID:", decoded.id, "exp:", decoded.exp);
-    // Set user and isAuthenticated
-    store.dispatch(setCurrentUser(decoded));
-    // Check for expired token
-    const currentTime = Date.now() / 1000; // to get in milliseconds
-    console.log("Current time:", currentTime);
-    if (decoded.exp < currentTime) {
-      console.log("Token expired, logging out user");
-      // Logout user
-      store.dispatch(logoutUser());
-
-      // Redirect to login
-      window.location.href = "./login";
+// Authentication initialization function
+const initializeAuth = () => {
+  console.log('🔐 Initializing authentication...');
+  try {
+    // Check for token to keep user logged in
+    if (localStorage.jwtToken) {
+      // Clean up any malformed tokens first
+      const token = cleanupToken();
+      console.log("Found JWT token in localStorage, length:", token.length);
+      setAuthToken(token);
+      // Decode token and get user info and exp
+      const decoded = jwt_decode(token);
+      console.log("Decoded token user ID:", decoded.id, "exp:", decoded.exp);
+      
+      // Check for expired token
+      const currentTime = Date.now() / 1000; // to get in milliseconds
+      console.log("Current time:", currentTime);
+      if (decoded.exp < currentTime) {
+        console.log("Token expired, logging out user");
+        // Logout user
+        store.dispatch(logoutUser());
+        // Redirect to login
+        window.location.href = "./login";
+      } else {
+        console.log("Token is valid, user authenticated");
+        // Set user and isAuthenticated
+        store.dispatch(setCurrentUser(decoded));
+        console.log('✅ Authentication state set successfully');
+        
+        // Force a re-render by dispatching a dummy action
+        setTimeout(() => {
+          store.dispatch({ type: 'FORCE_UPDATE' });
+        }, 100);
+      }
     } else {
-      console.log("Token is valid, user authenticated");
+      console.log("No JWT token found in localStorage.");
     }
+  } catch (e) {
+    console.error(`Local storage init failed: ${JSON.stringify(e)}`);
+    // Clear invalid token
+    localStorage.removeItem("jwtToken");
+    setAuthToken(false);
   }
-  else {
-    console.log("No JWT token found in localStorage.");
-  }
-} catch (e) {
-  console.error(`Local storage init failed: ${JSON.stringify(e)}`);
-}
+};
 
 const googleKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const googleOAuthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -163,6 +175,11 @@ class App extends Component {
 
 
   async componentDidMount() {
+    // Initialize authentication first with a small delay to ensure store is ready
+    setTimeout(() => {
+      initializeAuth();
+    }, 100);
+
     if (enableMessaging) {
       try {
         const userId = this.state.id;
@@ -203,48 +220,13 @@ class App extends Component {
     navigator.serviceWorker.removeEventListener("message", this.handleMessage);
   }
 
-  render() {
+    render() {
     try {
       return (
         <ErrorBoundary>
           <Provider store={store}>
             <ThemeProvider theme={theme}>
-              {googleOAuthClientId ? (
-                <GoogleOAuthProvider clientId={googleOAuthClientId}>  
-                  <GoogleMapsProvider>
-                    <Router>
-                      <Helmet>
-                        <meta charSet="utf-8" />
-                        <title>
-                          BeMyGuest - food sharing app or food sharing and social
-                          dinning
-                        </title>
-                        <link rel="canonical" href="https://www.tabsur.app" />
-                      </Helmet>
-                      {/* <AppFab visible={true} /> */}
-                      <Switch>
-                        <Route exact path="/register" component={Register} />
-                        <Route exact path="/login/:extend?" component={Login} />
-                        <Route exact path="/about" component={About} />
-                        <PrivateRoute exact path="/user/:id" component={ShowUser} />
-                        <Route exact path="/meal/:id" component={ShowMeal} />
-                        <PrivateRoute exact path="/profile/:id" component={Profile} />
-                        <PrivateRoute exact path="/Stats/:id" component={Stats} />
-<PrivateRoute exact path="/admin" component={AdminPanel} />
-<PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
-                        <PrivateRoute exact path="/settings" component={Settings} />
-                        <PrivateRoute exact path="/EditMeal/:id" component={EditMeal} />
-                        <PrivateRoute
-                          exact
-                          path="/createMealWizard"
-                          component={CreateMealWizard}
-                        />
-                        <Route path="/" component={Main} />
-                      </Switch>
-                    </Router>
-                  </GoogleMapsProvider>
-                </GoogleOAuthProvider>
-              ) : (
+              <GoogleOAuthProvider clientId={googleOAuthClientId || 'dummy-client-id'}>  
                 <GoogleMapsProvider>
                   <Router>
                     <Helmet>
@@ -264,8 +246,8 @@ class App extends Component {
                       <Route exact path="/meal/:id" component={ShowMeal} />
                       <PrivateRoute exact path="/profile/:id" component={Profile} />
                       <PrivateRoute exact path="/Stats/:id" component={Stats} />
-<PrivateRoute exact path="/admin" component={AdminPanel} />
-<PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
+                      <PrivateRoute exact path="/admin" component={AdminPanel} />
+                      <PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
                       <PrivateRoute exact path="/settings" component={Settings} />
                       <PrivateRoute exact path="/EditMeal/:id" component={EditMeal} />
                       <PrivateRoute
@@ -277,7 +259,7 @@ class App extends Component {
                     </Switch>
                   </Router>
                 </GoogleMapsProvider>
-              )}
+              </GoogleOAuthProvider>
             </ThemeProvider>
           </Provider>
         </ErrorBoundary>
@@ -288,11 +270,14 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  notificationsCount: state.notificationsCount,
-  profileNotificationsCount: state.profileNotificationsCount,
-  messagesCount: state.messagesCount,
-});
+const mapStateToProps = (state) => {
+  console.log('App mapStateToProps - auth state:', state.auth);
+  return {
+    auth: state.auth,
+    notificationsCount: state.notificationsCount,
+    profileNotificationsCount: state.profileNotificationsCount,
+    messagesCount: state.messagesCount,
+  };
+};
 
 export default connect(mapStateToProps)(App);

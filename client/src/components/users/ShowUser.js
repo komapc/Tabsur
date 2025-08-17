@@ -99,11 +99,11 @@ const ProfileStats = (props) => {
       <h5 className={classes.header}>{props.name}</h5>
     </div>
     <div className={classes.headerContainer}>
-      <Grid container >
-        <Grid item xs={6}><span className={classes.stat}>Followers  {userStats.followers}</span></Grid>
-        <Grid item xs={6}><span className={classes.stat}>Active meals  {userStats.active_meals}</span></Grid>
-        <Grid item xs={6}><span className={classes.stat}>Following  {userStats.following}</span></Grid>
-        <Grid item xs={6}><span className={classes.stat}>Meals Created {userStats.meals_created}</span></Grid>
+      <Grid container spacing={2}>
+        <Grid xs={6}><span className={classes.stat}>Followers  {userStats.followers || 0}</span></Grid>
+        <Grid xs={6}><span className={classes.stat}>Active meals  {userStats.active_meals || 0}</span></Grid>
+        <Grid xs={6}><span className={classes.stat}>Following  {userStats.following || 0}</span></Grid>
+        <Grid xs={6}><span className={classes.stat}>Meals Created {userStats.meals_created || 0}</span></Grid>
       </Grid>
     </div>
   </React.Fragment>

@@ -9,17 +9,26 @@ const initialState = {
 };
 
 const authReducer = (state = initialState, action) => {
+  console.log('🔐 Auth reducer - action:', action.type, 'payload:', action.payload);
+  
   switch (action.type) {
     case SET_CURRENT_USER:
-      return {
+      const newState = {
         ...state,
         isAuthenticated: !isEmpty(action.payload),
         user: action.payload
       };
+      console.log('🔐 Auth reducer - new state:', newState);
+      return newState;
     case USER_LOADING:
       return {
         ...state,
         loading: true
+      };
+    case 'FORCE_UPDATE':
+      // Force a re-render by returning a new state object
+      return {
+        ...state
       };
     default:
       return state;

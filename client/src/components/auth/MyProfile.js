@@ -89,11 +89,11 @@ const MyProfileStats = (params) => {
       <h5 className={classes.header}>{params.name}</h5>
     </div>
     <div className={classes.headerContainer}>
-      <Grid container >
-        <Grid item xs={6}><span className={classes.stat}>Followers {userStats.followers}</span></Grid>
-        <Grid item xs={6}><span className={classes.stat}>Active meals {userStats.active_meals}</span></Grid>
-        <Grid item xs={6}><span className={classes.stat}>Following {userStats.following}</span></Grid>
-        <Grid item xs={6}><span className={classes.stat}>Meals Created {userStats.meals_created}</span></Grid>
+      <Grid container spacing={2}>
+        <Grid xs={6}><span className={classes.stat}>Followers {userStats.followers || 0}</span></Grid>
+        <Grid xs={6}><span className={classes.stat}>Active meals {userStats.active_meals || 0}</span></Grid>
+        <Grid xs={6}><span className={classes.stat}>Following {userStats.following || 0}</span></Grid>
+        <Grid xs={6}><span className={classes.stat}>Meals Created {userStats.meals_created || 0}</span></Grid>
       </Grid>
     </div>
   </React.Fragment>
@@ -206,36 +206,66 @@ class MyProfile extends Component {
     super(props);
 
     this.state = {
-      name: this.props.auth.user.name,
-      userId: this.props.auth.user.id,
-      email: this.props.auth.user.email,
+      name: this.props.auth.user?.name || '',
+      userId: this.props.auth.user?.id || null,
+      email: this.props.auth.user?.email || '',
       address: "",
-      errors: {}
+      errors: {},
+      userStats: null
     };
-    console.log(`user id: ${JSON.stringify(this.state.userId)}`);
+  }
+
+  componentDidMount() {
+    if (this.state.userId && !isNaN(this.state.userId)) {
+      this.loadUserInfo();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    // Check if user ID changed (e.g., after login)
+    if (prevProps.auth.user?.id !== this.props.auth.user?.id && this.props.auth.user?.id) {
+      this.setState({
+        userId: this.props.auth.user.id,
+        name: this.props.auth.user.name || '',
+        email: this.props.auth.user.email || ''
+      }, () => {
+        if (this.state.userId && !isNaN(this.state.userId)) {
+          this.loadUserInfo();
+        }
+      });
+    }
+
+    // Handle errors
+    if (prevProps.errors !== this.props.errors && this.props.errors) {
+      this.setState({
+        errors: this.props.errors
+      });
+    }
+
+    // Handle active state
+    if (prevProps.active !== this.props.active && this.props.active) {
+      this.props.setFabVisibility(true);
+      this.props.setSwipability(true);
+    }
+  }
+
+  loadUserInfo = () => {
+    if (!this.state.userId || isNaN(this.state.userId)) {
+      console.log('Cannot load user info: invalid user ID');
+      return;
+    }
+
+    console.log(`Loading user info for ID: ${this.state.userId}`);
     getUserInfo(this.state.userId)
       .then(res => {
-        console.log(res.data);
-        //setUserStats(res.data);
+        console.log('User info loaded:', res.data);
         this.setState({
           userStats: res.data
         });
       })
       .catch(err => {
-        console.error(err);
+        console.error('Failed to load user info:', err);
       });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors
-      });
-    }
-    if (nextProps.active) {
-      this.props.setFabVisibility(true);
-      this.props.setSwipability(true);
-    }
   }
 
   onChange = e => {
@@ -255,6 +285,23 @@ class MyProfile extends Component {
   };
 
   render() {
+    console.log('MyProfile render - auth state:', {
+      isAuthenticated: this.props.auth.isAuthenticated,
+      userId: this.state.userId,
+      authUser: this.props.auth.user
+    });
+
+    // Don't render if user is not authenticated
+    if (!this.props.auth.isAuthenticated || !this.state.userId) {
+      return (
+        <div style={{ textAlign: 'center', padding: '20px' }}>
+          <p>Please log in to view your profile</p>
+          <p>Authentication status: {this.props.auth.isAuthenticated ? 'Authenticated' : 'Not authenticated'}</p>
+          <p>User ID: {this.state.userId || 'Not available'}</p>
+        </div>
+      );
+    }
+
     return (
       <React.Fragment>
         <MyProfileHeader user={{ id: this.state.userId, name: this.state.name }} />

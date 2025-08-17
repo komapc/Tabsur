@@ -41,6 +41,7 @@ const Main = ({ auth, theme }) => {
 
   // Sanity tests for Main component
   console.log(`Main render - index: ${index}, authenticated: ${auth?.isAuthenticated}`);
+  console.log(`Main render - auth state:`, auth);
   console.log(`Main render - isFabFabVisible: ${isFabFabVisible}, isSwipable: ${isSwipable}`);
 
   return (

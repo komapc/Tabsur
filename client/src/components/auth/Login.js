@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser, loginUserFB } from "../../actions/authActions";
 import classnames from "classnames";
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
 
 const Login = (props) => {
@@ -52,31 +52,9 @@ const Login = (props) => {
     props.loginUser(userData);
   };
 
-  // Use the useGoogleLogin hook only if Google OAuth is available
+  // Use the useGoogleLogin hook - must be called unconditionally
   const googleLogin = useGoogleLogin({
-    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-    onSuccess: credentialResponse => {
-      console.log(credentialResponse);
-      // Send credentialResponse to your server
-      // You'll likely want to extract user info from credentialResponse
-      // and call your loginUserFB action here
-      // Example:
-      // const userData = {
-      //   email: extractedEmail,
-      //   name: extractedName,
-      //   picture: extractedPicture
-      // };
-      // props.loginUserFB(userData);
-    },
-    onError: (error) => {
-      console.log('Google Login Failed', error);
-      setErrors({ ...errors, googleLogin: "Google login failed" });
-    },
-  });
-
-  // Always call useGoogleLogin to follow React hooks rules
-  const googleLoginHook = useGoogleLogin({
-    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || 'placeholder',
+    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || 'dummy-client-id',
     onSuccess: credentialResponse => {
       console.log(credentialResponse);
       // Send credentialResponse to your server
@@ -98,7 +76,8 @@ const Login = (props) => {
 
   // Check if Google OAuth is available
   const isGoogleOAuthAvailable = process.env.REACT_APP_GOOGLE_CLIENT_ID && 
-    process.env.REACT_APP_GOOGLE_CLIENT_ID !== 'your_google_oauth_client_id_here';
+    process.env.REACT_APP_GOOGLE_CLIENT_ID !== 'your_google_oauth_client_id_here' &&
+    process.env.REACT_APP_GOOGLE_CLIENT_ID !== 'dummy-client-id';
 
   return (
     <div style={{
@@ -173,11 +152,11 @@ const Login = (props) => {
             Login
           </Button>
           
-          {extend && isGoogleOAuthAvailable && googleLoginHook && (
+          {extend && isGoogleOAuthAvailable && (
             <Button
               variant="contained"
               color="primary"
-              onClick={() => googleLoginHook()}
+              onClick={() => googleLogin()}
               style={{ marginTop: '10px' }}
             >
               Sign in with Google 🚀
