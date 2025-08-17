@@ -9,6 +9,11 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=5000
+      - DB_HOST=localhost
+      - DB_PORT=5432
+      - DB_NAME=coolanu
+      - DB_USER=coolanu_user
+      - DB_PASSWORD=koolanu
       - DB_SSL=false
       - JWT_SECRET=${JWT_SECRET:-your_jwt_secret}
       - GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY:-your_google_maps_key}
