@@ -27,6 +27,7 @@ import ShowUser from "./components/users/ShowUser";
 import CreateMealWizard from "./components/meals/CreateMeal/CreateMealWizard";
 import About from "./components/about/About";
 import Stats from "./components/users/Stats";
+import AdminPanel from "./components/admin/AdminPanel";
 import ChatUser from "./components/chat/ChatUser";
 import { Helmet } from "react-helmet";
 import "./App.css";
@@ -227,7 +228,8 @@ class App extends Component {
                       <Route exact path="/meal/:id" component={ShowMeal} />
                       <PrivateRoute exact path="/profile/:id" component={Profile} />
                       <PrivateRoute exact path="/Stats/:id" component={Stats} />
-                      <PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
+<PrivateRoute exact path="/admin" component={AdminPanel} />
+<PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
                       <PrivateRoute exact path="/settings" component={Settings} />
                       <PrivateRoute exact path="/EditMeal/:id" component={EditMeal} />
                       <PrivateRoute

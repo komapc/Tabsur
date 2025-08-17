@@ -1,40 +1,72 @@
 module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/tests/setup.js'],
-  moduleNameMapper: {
-    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
-    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '<rootDir>/tests/__mocks__/fileMock.js'
-  },
-  transform: {
-    '^.+\\.(js|jsx)$': ['babel-jest', {
-      presets: [
-        ['@babel/preset-env', {
-          targets: { node: 'current' },
-          modules: 'commonjs'
-        }],
-        ['@babel/preset-react', { runtime: 'automatic' }]
-      ]
-    }]
-  },
-  transformIgnorePatterns: [
-    'node_modules/(?!(react-swipeable-views-react-18-fix|react-swipeable-views|react-swipeable-views-utils)/)'
-  ],
-  testMatch: [
-    '**/tests/**/*.test.js',
-    '**/tests/**/*.test.jsx',
-    '**/client/src/**/*.test.js',
-    '**/client/src/**/*.test.jsx'
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/build/',
+    '/dist/',
+    '/coverage/',
+    '/.git/',
+    '/client/build/',
+    '/client/dist/'
   ],
   collectCoverageFrom: [
+    'src/**/*.{js,jsx}',
     'client/src/**/*.{js,jsx}',
-    '!client/src/index.js',
-    '!client/src/serviceWorker.js',
-    '!client/src/reportWebVitals.js'
+    'routes/**/*.js',
+    '!**/*.test.{js,jsx}',
+    '!**/__tests__/**',
+    '!**/node_modules/**'
   ],
-  coverageDirectory: 'coverage',
-  coverageReporters: ['text', 'lcov', 'html'],
-  testTimeout: 30000,
-  moduleDirectories: ['node_modules', 'client/src'],
-  roots: ['<rootDir>', '<rootDir>/client']
+  coverageThreshold: {
+    global: {
+      branches: 70,
+      functions: 70,
+      lines: 70,
+      statements: 70
+    }
+  },
+  // Speed optimizations
+  maxWorkers: '50%', // Use 50% of CPU cores for parallel execution
+  testTimeout: 5000, // 5 seconds max per test
+  bail: 0, // Don't bail on first failure
+  verbose: false, // Reduce output noise
+  
+  // Fast test execution
+  testRunner: 'jest-circus/runner',
+  testSequencer: '@jest/test-sequencer',
+  
+  // Module name mapping for faster imports
+  moduleNameMapping: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^@client/(.*)$': '<rootDir>/client/src/$1'
+  },
+  
+  // Transform only what's needed
+  transform: {
+    '^.+\\.(js|jsx)$': ['babel-jest', { 
+      presets: [
+        ['@babel/preset-env', { targets: { node: 'current' } }],
+        ['@babel/preset-react', { runtime: 'automatic' }]
+      ],
+      plugins: ['@babel/plugin-transform-runtime']
+    }]
+  },
+  
+  // Fast file watching
+  watchPathIgnorePatterns: [
+    '/node_modules/',
+    '/build/',
+    '/dist/',
+    '/coverage/'
+  ],
+  
+  // Cache for faster subsequent runs
+  cache: true,
+  cacheDirectory: '.jest-cache',
+  
+  // Environment setup
+  testEnvironmentOptions: {
+    url: 'http://localhost'
+  }
 };

@@ -1,0 +1,107 @@
+version: '3.8'
+services:
+  # Local PostgreSQL for testing
+  postgres-local:
+    image: postgres:15-alpine
+    container_name: tabsur-postgres-local
+    environment:
+      POSTGRES_DB: coolanu_test
+      POSTGRES_USER: coolanu_user
+      POSTGRES_PASSWORD: test_password_123
+    ports:
+      - "5433:5432"  # Different port to avoid conflicts
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tabsur-test-network
+
+  # Backend Server (local config)
+  server-local:
+    build:
+      context: .
+      dockerfile: Dockerfile.server.multistage
+      target: production
+    container_name: tabsur-server-local
+    environment:
+      NODE_ENV: test
+      PORT: 5001  # Different port
+      DB_HOST: postgres-local
+      DB_PORT: 5432
+      DB_NAME: coolanu_test
+      DB_USER: coolanu_user
+      DB_PASSWORD: test_password_123
+      DB_SSL: false
+      JWT_SECRET: test-jwt-secret-key
+      GOOGLE_MAPS_API_KEY: test-key
+      CORS_ORIGIN: http://localhost:3001
+    ports:
+      - "5001:5000"
+    depends_on:
+      postgres-local:
+        condition: service_healthy
+    networks:
+      - tabsur-test-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/system/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend Client (local config)
+  client-local:
+    build:
+      context: .
+      dockerfile: Dockerfile.client.multistage
+      target: production
+    container_name: tabsur-client-local
+    environment:
+      REACT_APP_SERVER_HOST: http://localhost:5001
+      REACT_APP_GOOGLE_MAPS_API_KEY: test-key
+    ports:
+      - "3001:80"  # Different port
+    depends_on:
+      server-local:
+        condition: service_healthy
+    networks:
+      - tabsur-test-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  # Load Balancer (local config)
+  loadbalancer-local:
+    image: nginx:alpine
+    container_name: tabsur-lb-local
+    ports:
+      - "8080:80"  # Different port
+      - "8443:443"  # Different port
+    volumes:
+      - ./nginx-https-full-working.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl-test:/etc/nginx/ssl:ro  # Test SSL certificates
+    depends_on:
+      server-local:
+        condition: service_healthy
+      client-local:
+        condition: service_healthy
+    networks:
+      - tabsur-test-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  postgres_data:
+
+networks:
+  tabsur-test-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16

@@ -1,0 +1,104 @@
+# Always Run Fast Local Tests Before Push
+
+## 🚨 Critical Rule: Test Before Push
+
+**NEVER push code without running fast local tests first.** This rule is mandatory for all development work.
+
+## 🧪 Required Test Commands
+
+### 1. **Fast Test Suite (MANDATORY before every push)**
+```bash
+npm run test:fast
+```
+- Runs Jest tests with 3-second timeout
+- Uses 75% max workers for speed
+- Fails fast on first error (`--bail=1`)
+- **Must pass before any push**
+
+### 2. **Linting Check (MANDATORY before every push)**
+```bash
+npm run lint
+```
+- Checks both server and client code
+- Must pass without errors
+- Fix issues before pushing
+
+### 3. **Security Audit (MANDATORY before every push)**
+```bash
+npm run security:audit
+```
+- Checks for security vulnerabilities
+- Must pass moderate level or higher
+- Fix security issues before pushing
+
+## 📋 Pre-Push Checklist
+
+Before every `git push`, ensure:
+
+- [ ] `npm run test:fast` passes ✅
+- [ ] `npm run lint` passes ✅  
+- [ ] `npm run security:audit` passes ✅
+- [ ] No hardcoded secrets in code ✅
+- [ ] All conflicts resolved ✅
+
+## 🚀 Quick Test Workflow
+
+```bash
+# 1. Run fast tests
+npm run test:fast
+
+# 2. Check linting
+npm run lint
+
+# 3. Security audit
+npm run security:audit
+
+# 4. If all pass, then push
+git push
+```
+
+## 🔧 Test Scripts Reference
+
+- **Fast Tests**: `npm run test:fast` - 3s timeout, 75% workers
+- **Full Tests**: `npm run test` - 5s timeout, 50% workers  
+- **Coverage**: `npm run test:coverage` - 30s timeout, 50% workers
+- **Watch Mode**: `npm run test:watch` - Continuous testing
+- **E2E Tests**: `npm run test:playwright` - End-to-end testing
+
+## ⚠️ Failure Handling
+
+If any test fails:
+1. **STOP** - Do not push
+2. **Fix** the failing tests
+3. **Re-run** the test suite
+4. **Verify** all tests pass
+5. **Then** push
+
+## 🎯 Why This Rule Exists
+
+- **Prevents broken code** from reaching production
+- **Maintains code quality** standards
+- **Catches issues early** when they're easier to fix
+- **Protects team productivity** by avoiding broken builds
+- **Ensures security** by catching vulnerabilities
+
+## 📁 Related Files
+
+- [package.json](mdc:package.json) - Test script definitions
+- [jest.config.js](mdc:jest.config.js) - Jest configuration
+- [tests/](mdc:tests/) - Test directory structure
+- [scripts/test-local-before-deploy.sh](mdc:scripts/test-local-before-deploy.sh) - Local testing script
+
+## 🚫 Never Skip Tests
+
+**Exceptions are NOT allowed.** Even for:
+- "Quick fixes"
+- "Minor changes" 
+- "Urgent deployments"
+- "Just documentation updates"
+
+**ALL code changes require testing before push.**
+
+---
+
+*This rule is enforced by the development team and applies to all contributors.*

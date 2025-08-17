@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  # Node.js Backend Server (connects to EC2 database)
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server.multistage
+      target: production
+    container_name: tabsur-server
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      DB_HOST: ${DB_HOST:-3.249.94.227}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-coolanu}
+      DB_USER: ${DB_USER:-coolanu_user}
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      CORS_ORIGIN: ${CORS_ORIGIN:-https://localhost:3000}
+      FORCE_HTTPS: "true"
+    ports:
+      - "5000:5000"
+    networks:
+      - tabsur-admin-network
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # React Frontend Client
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client.multistage
+      target: production
+    container_name: tabsur-client
+    environment:
+      REACT_APP_SERVER_HOST: https://localhost:5000
+      REACT_APP_GOOGLE_MAPS_API_KEY: ${REACT_APP_GOOGLE_MAPS_API_KEY}
+      REACT_APP_FIREBASE_AUTH_DOMAIN: ${REACT_APP_FIREBASE_AUTH_DOMAIN}
+      REACT_APP_FIREBASE_PROJECT_ID: ${REACT_APP_FIREBASE_PROJECT_ID}
+      REACT_APP_FIREBASE_STORAGE_BUCKET: ${REACT_APP_FIREBASE_STORAGE_BUCKET}
+      REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${REACT_APP_FIREBASE_MESSAGING_SENDER_ID}
+      REACT_APP_FIREBASE_APP_ID: ${REACT_APP_FIREBASE_APP_ID}
+      REACT_APP_FIREBASE_MEASUREMENT_ID: ${REACT_APP_FIREBASE_MEASUREMENT_ID}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    networks:
+      - tabsur-admin-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx Load Balancer with HTTPS
+  nginx:
+    image: nginx:alpine
+    container_name: tabsur-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx-admin-https.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      - server
+      - client
+    networks:
+      - tabsur-admin-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  tabsur-admin-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16

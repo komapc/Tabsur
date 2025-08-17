@@ -32,6 +32,7 @@ const notifications = require('./routes/api/notifications');
 const images = require('./routes/api/images');
 const chat = require('./routes/api/chat');
 const system = require('./routes/api/system');
+const admin = require('./routes/api/admin');
 
 const app = express();
 
@@ -59,7 +60,17 @@ app.use(securityMiddleware);
 app.use(additionalSecurityHeaders);
 app.use(sqlInjectionProtection);
 
-// CORS is handled by nginx proxy
+// CORS middleware for local development
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production'
+    ? process.env.CORS_ORIGIN || 'https://localhost:3000'
+    : ['http://localhost:3000', 'https://localhost:3000'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
+}));
+
+// CORS is handled by nginx proxy in production
 
 // Body parser middleware with optimized limits
 app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }));
@@ -115,6 +126,7 @@ app.use('/api/notifications', apiLimiter, notifications);
 app.use('/api/chat', apiLimiter, chat);
 app.use('/api/images', uploadLimiter, images);
 app.use('/api/system', apiLimiter, system);
+app.use('/api/admin', apiLimiter, admin);
 
 // Serve static assets in production
 console.log('server.js, env =', process.env.NODE_ENV);

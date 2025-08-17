@@ -34,15 +34,13 @@ services:
     environment:
       - REACT_APP_SERVER_HOST=https://api.bemyguest.dedyn.io
       - REACT_APP_GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY:-your_google_maps_key}
-    ports:
-      - "80:80"
     depends_on:
       server:
         condition: service_healthy
     networks:
       - tabsur-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
       interval: 30s
       timeout: 3s
       retries: 3

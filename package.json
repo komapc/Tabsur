@@ -22,6 +22,7 @@
     "test-dev": "concurrently \"npm run test-server\" \"npm run test-client\"",
     "test-cleanup": "./stop-test-mode.sh",
     "test": "cross-env NODE_ENV=test jest --testTimeout=30000",
+    "test:fast": "cross-env NODE_ENV=test jest --testTimeout=3000 --maxWorkers=75% --bail=1",
     "test:watch": "cross-env NODE_ENV=test jest --watch",
     "test:full": "./run-tests.sh",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage --testTimeout=30000",

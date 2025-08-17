@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { GoogleMap, Marker } from '@react-google-maps/api';
-import { Box, Typography, Chip, Avatar, Button } from '@mui/material';
+import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api';
+import { Box, Typography, Chip, Avatar, Button, Alert, Paper } from '@mui/material';
 import { useHistory } from "react-router-dom";
 
 import Geocode from "react-geocode";
@@ -24,10 +24,21 @@ const available = [available_u, available_t];
 
 export const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
-Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
+// Only set Geocode API key if it exists
+if (GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== 'your_google_maps_api_key_here') {
+    Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
+}
+
 const MealMapShow =
     React.memo(
         ({ meals, defaultLocation, onMarkerClick, onMapClick, userId, selectedMeal }) => {
+            const [mapError, setMapError] = useState(null);
+
+            // Check if API key is properly configured
+            const isApiKeyValid = GOOGLE_MAPS_API_KEY && 
+                                GOOGLE_MAPS_API_KEY !== 'your_google_maps_api_key_here' && 
+                                GOOGLE_MAPS_API_KEY !== '';
+
             const getMealIcon = (meal, userId, isSelected) => {
                 const selectedIndex = isSelected ? 1 : 0;
                 console.log(`meal: ${JSON.stringify(meal)}`);
@@ -46,22 +57,49 @@ const MealMapShow =
                 return available[selectedIndex];
             };
 
+            // Fallback component when API key is missing
+            const MapFallback = () => (
+                <Paper elevation={3} sx={{ p: 3, m: 2, textAlign: 'center' }}>
+                    <Alert severity="warning" sx={{ mb: 2 }}>
+                        <Typography variant="h6" component="div">
+                            🗺️ Map View Unavailable
+                        </Typography>
+                        <Typography variant="body2">
+                            Google Maps API key is not configured. Please set the REACT_APP_GOOGLE_MAPS_API_KEY environment variable.
+                        </Typography>
+                    </Alert>
+                    <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+                        To enable the map view:
+                    </Typography>
+                    <Box component="ul" sx={{ textAlign: 'left', display: 'inline-block' }}>
+                        <li>Create a <code>.env</code> file in the client directory</li>
+                        <li>Add: <code>REACT_APP_GOOGLE_MAPS_API_KEY=your_actual_api_key</code></li>
+                        <li>Restart the development server</li>
+                    </Box>
+                    <Button 
+                        variant="outlined" 
+                        sx={{ mt: 2 }}
+                        onClick={() => window.open('https://developers.google.com/maps/documentation/javascript/get-api-key', '_blank')}
+                    >
+                        Get Google Maps API Key
+                    </Button>
+                </Paper>
+            );
+
             const MyGoogleMap = (props) => {
                 const google = window.google;
                 const [position, setPosition] = useState(defaultLocation);
+                const [mapLoadError, setMapLoadError] = useState(null);
+
                 const myOptions = {
                     zoom: 8,
                     mapTypeControlOptions: {
-                        //style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-                        //position: google.maps.ControlPosition.TOP_CENTER,
-
                         mapTypeIds: []
-                    }, // here´s the array of controls
-                    disableDefaultUI: true, // a way to quickly hide all controls
+                    },
+                    disableDefaultUI: true,
                     mapTypeControl: true,
                     scaleControl: true,
                     zoomControl: true,
-
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
 
@@ -70,44 +108,73 @@ const MealMapShow =
                     console.log(position);
                 }
 
+                const handleMapLoadError = (error) => {
+                    console.error('Map load error:', error);
+                    setMapLoadError(error);
+                    setMapError('Failed to load Google Maps');
+                };
 
-                return <GoogleMap
-                    defaultZoom={8}
-                    defaultCenter={{ lat: defaultLocation.lat, lng: defaultLocation.lng }}
-                    onClick={() => onMapClick(this)}
-                    center={{ lat: position.lat, lng: position.lng }}
-                    options={myOptions}
-                >
+                if (mapLoadError) {
+                    return (
+                        <Paper elevation={3} sx={{ p: 3, m: 2, textAlign: 'center' }}>
+                            <Alert severity="error">
+                                <Typography variant="h6">Map Loading Error</Typography>
+                                <Typography variant="body2">
+                                    Failed to load Google Maps. Please check your internet connection and API key.
+                                </Typography>
+                            </Alert>
+                        </Paper>
+                    );
+                }
 
-                    {meals.map(meal => {
-                        const isSelected = selectedMeal === meal.id;
-                        const icon = getMealIcon(meal, userId, isSelected);
-                        const markerSize = isSelected ? 40 : 30;
-                        return <div name="marker" key={meal.id} className="marker-style" title="meal marker">
-                            <Marker
-                                position={{ lat: meal.location.y, lng: meal.location.x }}
-                                onClick={() => onMarkerClick(meal)}
-                                icon={
-                                    {
-                                        url: icon,
-                                        scaledSize: { width: markerSize, height: markerSize, widthUnit: "px" }
-                                    }}
-                            />
-                        </div>
-                    }
-                    )}
+                return (
+                    <GoogleMap
+                        defaultZoom={8}
+                        defaultCenter={{ lat: defaultLocation.lat, lng: defaultLocation.lng }}
+                        onClick={() => onMapClick(this)}
+                        center={{ lat: position.lat, lng: position.lng }}
+                        options={myOptions}
+                        onError={handleMapLoadError}
+                    >
+                        {meals.map(meal => {
+                            const isSelected = selectedMeal === meal.id;
+                            const icon = getMealIcon(meal, userId, isSelected);
+                            const markerSize = isSelected ? 40 : 30;
+                            return (
+                                <div name="marker" key={meal.id} className="marker-style" title="meal marker">
+                                    <Marker
+                                        position={{ lat: meal.location.y, lng: meal.location.x }}
+                                        onClick={() => onMarkerClick(meal)}
+                                        icon={{
+                                            url: icon,
+                                            scaledSize: { width: markerSize, height: markerSize, widthUnit: "px" }
+                                        }}
+                                    />
+                                </div>
+                            );
+                        })}
 
-                    <Marker
-                        icon={blueCircle}
-                        position={defaultLocation} />
-                    <img src={myLocation} alt='here'
-                        onClick={() => { findMe() }} style={{ position: "fixed", right: "33px", top: "55px" }} />
+                        <Marker
+                            position={{ lat: position.lat, lng: position.lng }}
+                            icon={{
+                                url: myLocation,
+                                scaledSize: { width: 30, height: 30, widthUnit: "px" }
+                            }}
+                        />
+                    </GoogleMap>
+                );
+            };
 
-                </GoogleMap>;
+            // If API key is not valid, show fallback
+            if (!isApiKeyValid) {
+                return <MapFallback />;
             }
+
             return (
-                <MyGoogleMap />
-            )
+                <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
+                    <MyGoogleMap />
+                </LoadScript>
+            );
         }
     );
 

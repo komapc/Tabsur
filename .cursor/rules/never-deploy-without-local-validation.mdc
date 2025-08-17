@@ -1,0 +1,120 @@
+# 🚨 NEVER Deploy Without Local Validation
+
+## **CRITICAL RULE: Local Testing is MANDATORY**
+
+**Every configuration change, Docker image update, or deployment modification MUST be tested locally before touching production.**
+
+## **Why This Rule Exists**
+
+Based on production outages caused by:
+- Nginx configuration syntax errors
+- Docker image caching issues with old configs
+- Port conflicts between services
+- Health check misconfigurations
+- SSL certificate path mismatches
+
+## **What Must Be Tested Locally**
+
+### 1. **Configuration Files**
+- [nginx-domain.conf](mdc:nginx-domain.conf) - Validate syntax with `nginx -t`
+- [nginx-https-full-working.conf](mdc:nginx-https-full-working.conf) - Test SSL configuration
+- [nginx-client-simple.conf](mdc:nginx-client-simple.conf) - Verify client container config
+- [docker-compose-https.yml](mdc:docker-compose-https.yml) - Validate production compose
+- [docker-compose-local-test.yml](mdc:docker-compose-local-test.yml) - Test local environment
+
+### 2. **Docker Images**
+- [Dockerfile.server.multistage](mdc:Dockerfile.server.multistage) - Build and test locally
+- [Dockerfile.client.multistage](mdc:Dockerfile.client.multistage) - Build and test locally
+- Verify no old configurations are cached in images
+
+### 3. **Service Health**
+- All health endpoints must respond correctly
+- Services must start without conflicts
+- Port availability must be confirmed
+- Network connectivity must be verified
+
+## **Local Testing Process**
+
+### **Step 1: Use the Testing Script**
+```bash
+# ALWAYS run this before deployment
+./scripts/test-local-before-deploy.sh
+```
+
+### **Step 2: Manual Validation**
+```bash
+# Test Nginx configs
+nginx -t nginx-domain.conf
+nginx -t nginx-https-full-working.conf
+nginx -t nginx-client-simple.conf
+
+# Test Docker Compose
+docker-compose -f docker-compose-https.yml config
+docker-compose -f docker-compose-local-test.yml config
+
+# Check for port conflicts
+netstat -tulpn | grep ":80\|:443\|:5000\|:3000"
+```
+
+### **Step 3: Local Environment Test**
+```bash
+# Start local test environment
+docker-compose -f docker-compose-local-test.yml up -d
+
+# Verify all services are healthy
+docker-compose -f docker-compose-local-test.yml ps
+
+# Test endpoints
+curl -f http://localhost:8080/health
+curl -f http://localhost:5001/api/system/health
+curl -f http://localhost:3001/health
+```
+
+## **Deployment Checklist**
+
+**🚨 DEPLOYMENT IS ONLY ALLOWED WHEN:**
+
+1. ✅ Local testing script passes completely
+2. ✅ All Nginx configurations validate
+3. ✅ Docker Compose files are valid
+4. ✅ No port conflicts detected
+5. ✅ All services start and are healthy locally
+6. ✅ Health endpoints respond correctly
+7. ✅ Main application is accessible locally
+8. ✅ SSL certificates (if applicable) are valid
+
+## **What Happens If You Skip Local Testing**
+
+- **Production outage** (as experienced with bemyguest.dedyn.io)
+- **Bad Gateway errors** (504 timeouts)
+- **Service conflicts** and port binding issues
+- **Configuration syntax errors** causing Nginx failures
+- **Docker image caching** with old, broken configs
+
+## **Files to Reference**
+
+- [scripts/test-local-before-deploy.sh](mdc:scripts/test-local-before-deploy.sh) - Comprehensive testing script
+- [DEPLOYMENT_PREVENTION_GUIDE.md](mdc:DEPLOYMENT_PREVENTION_GUIDE.md) - Detailed prevention strategies
+- [scripts/diagnose-and-fix.sh](mdc:scripts/diagnose-and-fix.sh) - Emergency diagnostics
+
+## **Emergency Recovery**
+
+If production breaks due to skipping local testing:
+
+1. **Immediate**: Rollback to last known working configuration
+2. **Investigation**: Use [scripts/diagnose-and-fix.sh](mdc:scripts/diagnose-and-fix.sh)
+3. **Fix Locally**: Test the fix in local environment
+4. **Validate**: Run [scripts/test-local-before-deploy.sh](mdc:scripts/test-local-before-deploy.sh)
+5. **Deploy**: Only after local validation passes
+
+## **Remember**
+
+**90% testing is NOT enough for production sites.**
+**100% local validation is REQUIRED before deployment.**
+**This rule prevents the exact issues that caused your production outage.**
+
+**NEVER deploy without running the local testing script first!**
+description:
+globs:
+alwaysApply: false
+---
