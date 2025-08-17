@@ -4,8 +4,6 @@ services:
     image: 272007598366.dkr.ecr.eu-central-1.amazonaws.com/tabsur-server:latest
     container_name: tabsur-server
     restart: unless-stopped
-    env_file:
-      - ec2-config.env
     environment:
       - NODE_ENV=production
       - PORT=5000
