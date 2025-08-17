@@ -92,6 +92,7 @@ try {
 }
 
 const googleKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+const googleOAuthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const enableMessaging = false;
 if (enableMessaging) {
   try {
@@ -208,7 +209,42 @@ class App extends Component {
         <ErrorBoundary>
           <Provider store={store}>
             <ThemeProvider theme={theme}>
-              <GoogleOAuthProvider clientId={googleKey}>  
+              {googleOAuthClientId ? (
+                <GoogleOAuthProvider clientId={googleOAuthClientId}>  
+                  <GoogleMapsProvider>
+                    <Router>
+                      <Helmet>
+                        <meta charSet="utf-8" />
+                        <title>
+                          BeMyGuest - food sharing app or food sharing and social
+                          dinning
+                        </title>
+                        <link rel="canonical" href="https://www.tabsur.app" />
+                      </Helmet>
+                      {/* <AppFab visible={true} /> */}
+                      <Switch>
+                        <Route exact path="/register" component={Register} />
+                        <Route exact path="/login/:extend?" component={Login} />
+                        <Route exact path="/about" component={About} />
+                        <PrivateRoute exact path="/user/:id" component={ShowUser} />
+                        <Route exact path="/meal/:id" component={ShowMeal} />
+                        <PrivateRoute exact path="/profile/:id" component={Profile} />
+                        <PrivateRoute exact path="/Stats/:id" component={Stats} />
+<PrivateRoute exact path="/admin" component={AdminPanel} />
+<PrivateRoute exact path="/chatUser/:id" component={ChatUser} />
+                        <PrivateRoute exact path="/settings" component={Settings} />
+                        <PrivateRoute exact path="/EditMeal/:id" component={EditMeal} />
+                        <PrivateRoute
+                          exact
+                          path="/createMealWizard"
+                          component={CreateMealWizard}
+                        />
+                        <Route path="/" component={Main} />
+                      </Switch>
+                    </Router>
+                  </GoogleMapsProvider>
+                </GoogleOAuthProvider>
+              ) : (
                 <GoogleMapsProvider>
                   <Router>
                     <Helmet>
@@ -241,7 +277,7 @@ class App extends Component {
                     </Switch>
                   </Router>
                 </GoogleMapsProvider>
-              </GoogleOAuthProvider>
+              )}
             </ThemeProvider>
           </Provider>
         </ErrorBoundary>
