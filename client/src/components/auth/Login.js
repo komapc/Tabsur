@@ -74,13 +74,9 @@ const Login = (props) => {
     },
   });
 
-  // Check if Google OAuth is available
-  const isGoogleOAuthAvailable = process.env.REACT_APP_GOOGLE_CLIENT_ID && 
-    process.env.REACT_APP_GOOGLE_CLIENT_ID !== 'your_google_oauth_client_id_here';
-
-  // Only call useGoogleLogin if Google OAuth is available
-  const googleLoginHook = isGoogleOAuthAvailable ? useGoogleLogin({
-    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+  // Always call useGoogleLogin to follow React hooks rules
+  const googleLoginHook = useGoogleLogin({
+    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || 'placeholder',
     onSuccess: credentialResponse => {
       console.log(credentialResponse);
       // Send credentialResponse to your server
@@ -98,7 +94,11 @@ const Login = (props) => {
       console.log('Google Login Failed', error);
       setErrors({ ...errors, googleLogin: "Google login failed" });
     },
-  }) : null;
+  });
+
+  // Check if Google OAuth is available
+  const isGoogleOAuthAvailable = process.env.REACT_APP_GOOGLE_CLIENT_ID && 
+    process.env.REACT_APP_GOOGLE_CLIENT_ID !== 'your_google_oauth_client_id_here';
 
   return (
     <div style={{
