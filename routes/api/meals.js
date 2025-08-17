@@ -41,6 +41,7 @@ router.get('/public', async (req, response) => {
 router.get('/:id', async (req, response) => {
   const userId = req.params.id;
   console.log(`get meals for user ${userId}`);
+  
   if (isNaN(userId)) {
     console.error('Invalid user ID provided');
     return response.status(400).json('Invalid user ID');
