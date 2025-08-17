@@ -41,11 +41,11 @@ aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --
 echo "🏗️ Building Docker images locally..."
 
 echo "Building server image..."
-docker build -t tabsur-server -f Dockerfile.server .
+docker build -t tabsur-server -f Dockerfile.server.multistage .
 docker tag tabsur-server:latest $SERVER_ECR_URI:latest
 
 echo "Building client image..."
-docker build -t tabsur-client -f Dockerfile.client .
+docker build -t tabsur-client -f Dockerfile.client.multistage .
 docker tag tabsur-client:latest $CLIENT_ECR_URI:latest
 
 echo "📤 Pushing images to ECR..."

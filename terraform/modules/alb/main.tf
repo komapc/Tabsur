@@ -102,25 +102,36 @@ resource "aws_lb_target_group" "client" {
   }
 }
 
-# HTTP Listener (redirects to HTTPS)
+# HTTP Listener (redirects to HTTPS if enabled, otherwise forwards to client)
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.main.arn
   port              = "80"
   protocol          = "HTTP"
 
-  default_action {
-    type = "redirect"
+  dynamic "default_action" {
+    for_each = var.enable_https ? [1] : []
+    content {
+      type = "redirect"
+      redirect {
+        port        = "443"
+        protocol    = "HTTPS"
+        status_code = "HTTP_301"
+      }
+    }
+  }
 
-    redirect {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
+  dynamic "default_action" {
+    for_each = var.enable_https ? [] : [1]
+    content {
+      type             = "forward"
+      target_group_arn = aws_lb_target_group.client.arn
     }
   }
 }
 
-# HTTPS Listener for Frontend
+# HTTPS Listener for Frontend (only if HTTPS enabled)
 resource "aws_lb_listener" "https_frontend" {
+  count             = var.enable_https ? 1 : 0
   load_balancer_arn = aws_lb.main.arn
   port              = "443"
   protocol          = "HTTPS"
@@ -133,9 +144,10 @@ resource "aws_lb_listener" "https_frontend" {
   }
 }
 
-# HTTPS Listener Rule for API
+# HTTPS Listener Rule for API (only if HTTPS enabled)
 resource "aws_lb_listener_rule" "api" {
-  listener_arn = aws_lb_listener.https_frontend.arn
+  count        = var.enable_https ? 1 : 0
+  listener_arn = aws_lb_listener.https_frontend[0].arn
   priority     = 100
 
   action {

@@ -57,19 +57,24 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
-# Public Subnet
+# Public Subnets (2 for ALB requirement)
 resource "aws_subnet" "public" {
-  count             = var.use_existing_vpc ? 0 : 1
+  count             = var.use_existing_vpc ? 0 : 2
   vpc_id            = local.vpc_id
-  cidr_block        = var.public_subnet_cidr
-  availability_zone = var.availability_zone
+  cidr_block        = var.use_existing_vpc ? var.existing_subnet_cidr : cidrsubnet(var.public_subnet_cidr, 1, count.index)
+  availability_zone = var.use_existing_vpc ? var.availability_zone : data.aws_availability_zones.available.names[count.index]
 
   map_public_ip_on_launch = true
 
   tags = {
-    Name        = "${var.environment}-postgres-public-subnet"
+    Name        = "${var.environment}-postgres-public-subnet-${count.index + 1}"
     Environment = var.environment
   }
+}
+
+# Get available availability zones
+data "aws_availability_zones" "available" {
+  state = "available"
 }
 
 # Route Table
@@ -90,13 +95,14 @@ resource "aws_route_table" "public" {
 
 # Route Table Association
 resource "aws_route_table_association" "public" {
-  count          = var.use_existing_vpc ? 0 : 1
-  subnet_id      = aws_subnet.public[0].id
+  count          = var.use_existing_vpc ? 0 : 2
+  subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.public[0].id
 }
 
 locals {
-  subnet_id = var.use_existing_vpc ? var.existing_subnet_id : aws_subnet.public[0].id
+  subnet_ids = var.use_existing_vpc ? [var.existing_subnet_id] : aws_subnet.public[*].id
+  subnet_id  = var.use_existing_vpc ? var.existing_subnet_id : aws_subnet.public[0].id
 }
 
 # EC2 Key Pair
@@ -414,7 +420,7 @@ module "alb" {
 
   environment      = var.environment
   vpc_id          = local.vpc_id
-  subnet_ids      = [local.subnet_id]
+  subnet_ids      = local.subnet_ids
   certificate_arn = var.certificate_arn
   enable_https    = var.enable_https
 }

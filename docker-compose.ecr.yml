@@ -1,10 +1,6 @@
 version: '3.8'
 services:
   server:
-    build:
-      context: .
-      dockerfile: Dockerfile.server.multistage
-      target: production
     image: 272007598366.dkr.ecr.eu-central-1.amazonaws.com/tabsur-server:latest
     container_name: tabsur-server
     restart: unless-stopped
@@ -15,46 +11,28 @@ services:
       - DB_PORT=5432
       - DB_NAME=coolanu
       - DB_USER=coolanu_user
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=koolanu
       - DB_SSL=false
-      - JWT_SECRET=${JWT_SECRET}
-      - GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
-      - CORS_ORIGIN=https://bemyguest.dedyn.io
+      - JWT_SECRET=your_jwt_secret_here
+      - GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
     ports:
       - "5000:5000"
     networks:
       - tabsur-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/api/system/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
 
   client:
-    build:
-      context: .
-      dockerfile: Dockerfile.client.multistage
-      target: production
     image: 272007598366.dkr.ecr.eu-central-1.amazonaws.com/tabsur-client:latest
     container_name: tabsur-client
     restart: unless-stopped
     environment:
-      - REACT_APP_SERVER_HOST=https://api.bemyguest.dedyn.io
-      - REACT_APP_GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
+      - REACT_APP_SERVER_HOST=http://localhost:5000
+      - REACT_APP_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
     ports:
       - "80:80"
     depends_on:
-      server:
-        condition: service_healthy
+      - server
     networks:
       - tabsur-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80/"]
-      interval: 30s
-      timeout: 3s
-      retries: 3
-      start_period: 10s
 
   loadbalancer:
     image: nginx:alpine
@@ -62,27 +40,14 @@ services:
     restart: unless-stopped
     ports:
       - "8080:80"
-      - "8443:443"
     volumes:
-      - ./nginx-https.conf:/etc/nginx/nginx.conf:ro
-      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      server:
-        condition: service_healthy
-      client:
-        condition: service_healthy
+      - server
+      - client
     networks:
       - tabsur-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
-      interval: 30s
-      timeout: 3s
-      retries: 3
-      start_period: 10s
 
 networks:
   tabsur-network:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16
