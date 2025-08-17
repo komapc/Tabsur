@@ -2,6 +2,30 @@
 
 This guide covers deploying Tabsur using Docker in both development and production environments.
 
+## 🚀 Current Deployment Status
+
+### ✅ Production Environment - LIVE
+- **Status**: 🟢 **DEPLOYED & RUNNING**
+- **URL**: https://bemyguest.dedyn.io
+- **API**: https://api.bemyguest.dedyn.io
+- **Direct IP**: http://3.72.76.56:80
+- **Last Deployed**: August 17, 2025
+- **Deployment Method**: `./scripts/deploy-everything.sh`
+
+### 🔧 Recent Critical Fixes Deployed
+- ✅ **Redux Runtime Errors** - Fixed undefined state returns in errorReducer
+- ✅ **Authentication Issues** - Resolved user ID undefined errors across components
+- ✅ **MUI Grid Warnings** - Updated all Grid components to v2 syntax
+- ✅ **React Lifecycle Warnings** - Replaced componentWillReceiveProps with componentDidUpdate
+- ✅ **Google OAuth Provider** - Fixed provider wrapper implementation
+- ✅ **Error Handling** - Comprehensive error payload validation in all actions
+
+### 🧪 Testing Infrastructure
+- **Fast Test Suite**: 4-6x faster execution with optimized configurations
+- **Jest Fast Config**: `jest.config.fast.js` for development speed
+- **Playwright Fast Config**: `playwright.config.fast.js` for E2E testing
+- **Performance Guide**: `TEST_PERFORMANCE_GUIDE.md` for optimization details
+
 ## 🏗️ Architecture Overview
 
 ### Development (Debug) Environment

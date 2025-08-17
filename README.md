@@ -90,12 +90,36 @@ Tabsur/
 
 ## 🚀 Key Features
 
-- **User Authentication** - JWT-based login/registration
+- **User Authentication** - JWT-based login/registration with Google OAuth support
 - **Meal Creation** - Multi-step wizard for creating meals
 - **Location Services** - Google Maps integration for meal locations
 - **Social Features** - Follow users, attend meals, chat
 - **Real-time Updates** - Push notifications (when supported)
-- **Responsive Design** - Mobile-first UI with Material-UI
+- **Responsive Design** - Mobile-first UI with Material-UI v2
+- **Admin Panel** - User and meal management dashboard
+
+## 🚀 Deployment Status
+
+### ✅ Production Environment
+- **Status**: 🟢 **LIVE & RUNNING**
+- **URL**: https://bemyguest.dedyn.io
+- **API**: https://api.bemyguest.dedyn.io
+- **Direct IP**: http://3.72.76.56:80
+- **Last Deployed**: August 17, 2025
+- **Version**: 2.0.0
+
+### 🔧 Recent Fixes Deployed
+- ✅ **Redux Runtime Errors** - Fixed undefined state returns
+- ✅ **Authentication Issues** - Resolved user ID undefined errors
+- ✅ **MUI Grid Warnings** - Updated to v2 syntax
+- ✅ **React Lifecycle Warnings** - Replaced deprecated methods
+- ✅ **Google OAuth Provider** - Fixed provider wrapper issues
+- ✅ **Error Handling** - Comprehensive error payload validation
+
+### 🧪 Testing
+- **Fast Test Suite**: 4-6x faster execution with `jest.config.fast.js`
+- **E2E Tests**: Optimized Playwright configuration
+- **Coverage**: Full test coverage available with `npm run test:coverage`
 
 ## 🔒 Security
 

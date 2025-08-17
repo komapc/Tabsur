@@ -1,5 +1,11 @@
 # 🍽️ **Tabsur - Food Sharing App - Complete User Experience Specification**
 
+## **🚀 Deployment Status**
+- **Status**: 🟢 **PRODUCTION LIVE**
+- **URL**: https://bemyguest.dedyn.io
+- **Last Updated**: August 17, 2025
+- **Version**: 2.0.0
+
 ## **App Overview**
 Tabsur is a social dining and food sharing application that connects people through shared meals. Users can create, discover, and join food events in their area, fostering community through culinary experiences.
 
