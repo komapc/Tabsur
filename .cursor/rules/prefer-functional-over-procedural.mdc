@@ -1,0 +1,68 @@
+# Functional: Prefer functional code over procedural
+
+## 🎯 **Rule**: Always prefer functional programming patterns over procedural code
+
+### **What This Means:**
+- Use pure functions that don't have side effects
+- Prefer `map`, `filter`, `reduce` over loops
+- Use immutable data structures when possible
+- Avoid mutating variables and objects
+- Use function composition over imperative statements
+
+### **Examples of Functional vs Procedural:**
+
+#### ✅ **Functional (Preferred):**
+```javascript
+// Pure function - no side effects
+const doubleNumbers = numbers => numbers.map(n => n * 2);
+
+// Immutable operations
+const addUser = (users, newUser) => [...users, newUser];
+
+// Function composition
+const processData = pipe(
+  filterValid,
+  transformData,
+  sortResults
+);
+```
+
+#### ❌ **Procedural (Avoid):**
+```javascript
+// Mutating variables
+let result = [];
+for (let i = 0; i < numbers.length; i++) {
+  result.push(numbers[i] * 2);
+}
+
+// Mutating objects
+users.push(newUser);
+
+// Imperative statements
+let processed = [];
+for (let item of data) {
+  if (isValid(item)) {
+    processed.push(transform(item));
+  }
+}
+processed.sort();
+```
+
+### **When to Apply:**
+- **Always**: Array operations, data transformations
+- **Always**: State updates, object modifications
+- **Always**: Event handlers, data processing
+- **Consider**: Performance-critical loops (measure first)
+
+### **Benefits:**
+- More predictable and testable code
+- Easier to reason about and debug
+- Better for concurrent operations
+- Reduces bugs from shared state
+
+### **Remember:**
+> "Functions should be pure, small, and focused on a single responsibility"
+description:
+globs:
+alwaysApply: false
+---

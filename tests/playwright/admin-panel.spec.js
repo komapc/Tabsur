@@ -8,7 +8,7 @@ test.describe('🔐 Admin Panel E2E Tests', () => {
 
   test('✅ Admin panel loads successfully', async ({ page }) => {
     // Check if the page loads
-    await expect(page).toHaveTitle(/Tabsur/);
+    await expect(page).toHaveTitle(/BeMyGuest/);
     
     // Check if admin content is visible
     await expect(page.locator('h1, h2, h3')).toBeVisible();
@@ -59,7 +59,7 @@ test.describe('🔐 Admin Panel E2E Tests', () => {
     // Check for important meta tags
     const metaDescription = page.locator('meta[name="description"]');
     if (await metaDescription.count() > 0) {
-      await expect(metaDescription.first()).toHaveAttribute('content');
+      await expect(metaDescription.first()).toAttribute('content');
     }
   });
 });

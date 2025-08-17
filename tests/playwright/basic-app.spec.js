@@ -9,7 +9,7 @@ test.describe('🌐 Basic App E2E Tests', () => {
     await page.waitForLoadState('networkidle');
     
     // Check if the page loads
-    await expect(page).toHaveTitle(/Tabsur/);
+    await expect(page).toHaveTitle(/BeMyGuest/);
     
     // Check if basic content is visible
     await expect(page.locator('body')).toBeVisible();

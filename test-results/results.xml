@@ -1,0 +1,666 @@
+<testsuites id="" name="" tests="28" failures="22" skipped="0" errors="0" time="77.971779">
+<testsuite name="basic-app.spec.js" timestamp="2025-08-17T10:23:56.785Z" hostname="chromium" tests="4" failures="3" skipped="0" time="50.547" errors="0">
+<testcase name="🌐 Basic App E2E Tests › ✅ App loads successfully" classname="basic-app.spec.js" time="10.945">
+<failure message="basic-app.spec.js:4:3 ✅ App loads successfully" type="FAILURE">
+<![CDATA[  [chromium] › basic-app.spec.js:4:3 › 🌐 Basic App E2E Tests › ✅ App loads successfully ───────────
+
+    Error: Timed out 5000ms waiting for expect(page).toHaveTitle(expected)
+
+    Expected pattern: /Tabsur/
+    Received string:  "Coolanu"
+    Call log:
+      - Expect "toHaveTitle" with timeout 5000ms
+        8 × unexpected value "Coolanu"
+
+
+      10 |     
+      11 |     // Check if the page loads
+    > 12 |     await expect(page).toHaveTitle(/Tabsur/);
+         |                        ^
+      13 |     
+      14 |     // Check if basic content is visible
+      15 |     await expect(page.locator('body')).toBeVisible();
+        at /home/mark/Tabsur/tests/playwright/basic-app.spec.js:12:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-chromium/video.webm]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ Login page is accessible" classname="basic-app.spec.js" time="16.271">
+<failure message="basic-app.spec.js:18:3 ✅ Login page is accessible" type="FAILURE">
+<![CDATA[  [chromium] › basic-app.spec.js:18:3 › 🌐 Basic App E2E Tests › ✅ Login page is accessible ────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: locator('input[type="email"]')
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('input[type="email"]')
+
+
+      24 |     
+      25 |     // Check if login form elements are present
+    > 26 |     await expect(page.locator('input[type="email"]')).toBeVisible();
+         |                                                       ^
+      27 |     await expect(page.locator('input[type="password"]')).toBeVisible();
+      28 |     await expect(page.locator('button[type="submit"]')).toBeVisible();
+      29 |   });
+        at /home/mark/Tabsur/tests/playwright/basic-app.spec.js:26:55
+
+    attachment #1: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-chromium/video.webm]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ Register page is accessible" classname="basic-app.spec.js" time="17.384">
+<failure message="basic-app.spec.js:31:3 ✅ Register page is accessible" type="FAILURE">
+<![CDATA[  [chromium] › basic-app.spec.js:31:3 › 🌐 Basic App E2E Tests › ✅ Register page is accessible ─────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: locator('input[type="email"]')
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('input[type="email"]')
+
+
+      37 |     
+      38 |     // Check if register form elements are present
+    > 39 |     await expect(page.locator('input[type="email"]')).toBeVisible();
+         |                                                       ^
+      40 |     await expect(page.locator('input[type="password"]')).toBeVisible();
+      41 |     await expect(page.locator('button[type="submit"]')).toBeVisible();
+      42 |   });
+        at /home/mark/Tabsur/tests/playwright/basic-app.spec.js:39:55
+
+    attachment #1: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-chromium/video.webm]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ App is responsive" classname="basic-app.spec.js" time="5.947">
+</testcase>
+</testsuite>
+<testsuite name="basic-app.spec.js" timestamp="2025-08-17T10:23:56.785Z" hostname="firefox" tests="4" failures="3" skipped="0" time="68.452" errors="0">
+<testcase name="🌐 Basic App E2E Tests › ✅ App loads successfully" classname="basic-app.spec.js" time="30.437">
+<failure message="basic-app.spec.js:4:3 ✅ App loads successfully" type="FAILURE">
+<![CDATA[  [firefox] › basic-app.spec.js:4:3 › 🌐 Basic App E2E Tests › ✅ App loads successfully ────────────
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForLoadState: Test timeout of 30000ms exceeded.
+
+       7 |     
+       8 |     // Wait for the page to load
+    >  9 |     await page.waitForLoadState('networkidle');
+         |                ^
+      10 |     
+      11 |     // Check if the page loads
+      12 |     await expect(page).toHaveTitle(/Tabsur/);
+        at /home/mark/Tabsur/tests/playwright/basic-app.spec.js:9:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-firefox/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-firefox/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-firefox/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-firefox/test-failed-1.png]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-firefox/video.webm]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-firefox/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ Login page is accessible" classname="basic-app.spec.js" time="16.936">
+<failure message="basic-app.spec.js:18:3 ✅ Login page is accessible" type="FAILURE">
+<![CDATA[  [firefox] › basic-app.spec.js:18:3 › 🌐 Basic App E2E Tests › ✅ Login page is accessible ─────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: locator('input[type="email"]')
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('input[type="email"]')
+
+
+      24 |     
+      25 |     // Check if login form elements are present
+    > 26 |     await expect(page.locator('input[type="email"]')).toBeVisible();
+         |                                                       ^
+      27 |     await expect(page.locator('input[type="password"]')).toBeVisible();
+      28 |     await expect(page.locator('button[type="submit"]')).toBeVisible();
+      29 |   });
+        at /home/mark/Tabsur/tests/playwright/basic-app.spec.js:26:55
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-firefox/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-firefox/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-firefox/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-firefox/test-failed-1.png]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-firefox/video.webm]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-firefox/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ Register page is accessible" classname="basic-app.spec.js" time="10.807">
+<failure message="basic-app.spec.js:31:3 ✅ Register page is accessible" type="FAILURE">
+<![CDATA[  [firefox] › basic-app.spec.js:31:3 › 🌐 Basic App E2E Tests › ✅ Register page is accessible ──────
+
+    Error: expect.toBeVisible: Error: strict mode violation: locator('input[type="password"]') resolved to 2 elements:
+        1) <input value="" id="password" type="password" aria-invalid="false" class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"/> aka getByRole('textbox', { name: 'Password', exact: true })
+        2) <input value="" id="password2" type="password" aria-invalid="false" class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"/> aka getByRole('textbox', { name: 'Confirm Password' })
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('input[type="password"]')
+
+
+      38 |     // Check if register form elements are present
+      39 |     await expect(page.locator('input[type="email"]')).toBeVisible();
+    > 40 |     await expect(page.locator('input[type="password"]')).toBeVisible();
+         |                                                          ^
+      41 |     await expect(page.locator('button[type="submit"]')).toBeVisible();
+      42 |   });
+      43 |
+        at /home/mark/Tabsur/tests/playwright/basic-app.spec.js:40:58
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-firefox/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-firefox/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-firefox/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-firefox/test-failed-1.png]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-firefox/video.webm]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-firefox/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ App is responsive" classname="basic-app.spec.js" time="10.272">
+</testcase>
+</testsuite>
+<testsuite name="basic-app.spec.js" timestamp="2025-08-17T10:23:56.785Z" hostname="webkit" tests="4" failures="4" skipped="0" time="0.053" errors="0">
+<testcase name="🌐 Basic App E2E Tests › ✅ App loads successfully" classname="basic-app.spec.js" time="0.01">
+<failure message="basic-app.spec.js:4:3 ✅ App loads successfully" type="FAILURE">
+<![CDATA[  [webkit] › basic-app.spec.js:4:3 › 🌐 Basic App E2E Tests › ✅ App loads successfully ─────────────
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libevent-2.1-7t64\          ║
+    ║         libgstreamer-plugins-bad1.0-0\               ║
+    ║         libflite1\                                   ║
+    ║         libavif16\                                   ║
+    ║         gstreamer1.0-libav                           ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ Login page is accessible" classname="basic-app.spec.js" time="0.011">
+<failure message="basic-app.spec.js:18:3 ✅ Login page is accessible" type="FAILURE">
+<![CDATA[  [webkit] › basic-app.spec.js:18:3 › 🌐 Basic App E2E Tests › ✅ Login page is accessible ──────────
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libevent-2.1-7t64\          ║
+    ║         libgstreamer-plugins-bad1.0-0\               ║
+    ║         libflite1\                                   ║
+    ║         libavif16\                                   ║
+    ║         gstreamer1.0-libav                           ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ Register page is accessible" classname="basic-app.spec.js" time="0.01">
+<failure message="basic-app.spec.js:31:3 ✅ Register page is accessible" type="FAILURE">
+<![CDATA[  [webkit] › basic-app.spec.js:31:3 › 🌐 Basic App E2E Tests › ✅ Register page is accessible ───────
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libevent-2.1-7t64\          ║
+    ║         libgstreamer-plugins-bad1.0-0\               ║
+    ║         libflite1\                                   ║
+    ║         libavif16\                                   ║
+    ║         gstreamer1.0-libav                           ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ App is responsive" classname="basic-app.spec.js" time="0.022">
+<failure message="basic-app.spec.js:44:3 ✅ App is responsive" type="FAILURE">
+<![CDATA[  [webkit] › basic-app.spec.js:44:3 › 🌐 Basic App E2E Tests › ✅ App is responsive ─────────────────
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libevent-2.1-7t64\          ║
+    ║         libgstreamer-plugins-bad1.0-0\               ║
+    ║         libflite1\                                   ║
+    ║         libavif16\                                   ║
+    ║         gstreamer1.0-libav                           ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="basic-app.spec.js" timestamp="2025-08-17T10:23:56.785Z" hostname="Mobile Chrome" tests="4" failures="3" skipped="0" time="39.408" errors="0">
+<testcase name="🌐 Basic App E2E Tests › ✅ App loads successfully" classname="basic-app.spec.js" time="12.853">
+<failure message="basic-app.spec.js:4:3 ✅ App loads successfully" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › basic-app.spec.js:4:3 › 🌐 Basic App E2E Tests › ✅ App loads successfully ──────
+
+    Error: Timed out 5000ms waiting for expect(page).toHaveTitle(expected)
+
+    Expected pattern: /Tabsur/
+    Received string:  "Coolanu"
+    Call log:
+      - Expect "toHaveTitle" with timeout 5000ms
+        8 × unexpected value "Coolanu"
+
+
+      10 |     
+      11 |     // Check if the page loads
+    > 12 |     await expect(page).toHaveTitle(/Tabsur/);
+         |                        ^
+      13 |     
+      14 |     // Check if basic content is visible
+      15 |     await expect(page.locator('body')).toBeVisible();
+        at /home/mark/Tabsur/tests/playwright/basic-app.spec.js:12:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-App-loads-successfully-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ Login page is accessible" classname="basic-app.spec.js" time="10.32">
+<failure message="basic-app.spec.js:18:3 ✅ Login page is accessible" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › basic-app.spec.js:18:3 › 🌐 Basic App E2E Tests › ✅ Login page is accessible ───
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: locator('input[type="email"]')
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('input[type="email"]')
+
+
+      24 |     
+      25 |     // Check if login form elements are present
+    > 26 |     await expect(page.locator('input[type="email"]')).toBeVisible();
+         |                                                       ^
+      27 |     await expect(page.locator('input[type="password"]')).toBeVisible();
+      28 |     await expect(page.locator('button[type="submit"]')).toBeVisible();
+      29 |   });
+        at /home/mark/Tabsur/tests/playwright/basic-app.spec.js:26:55
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-Tests-✅-Login-page-is-accessible-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ Register page is accessible" classname="basic-app.spec.js" time="12.579">
+<failure message="basic-app.spec.js:31:3 ✅ Register page is accessible" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › basic-app.spec.js:31:3 › 🌐 Basic App E2E Tests › ✅ Register page is accessible 
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: locator('input[type="email"]')
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('input[type="email"]')
+
+
+      37 |     
+      38 |     // Check if register form elements are present
+    > 39 |     await expect(page.locator('input[type="email"]')).toBeVisible();
+         |                                                       ^
+      40 |     await expect(page.locator('input[type="password"]')).toBeVisible();
+      41 |     await expect(page.locator('button[type="submit"]')).toBeVisible();
+      42 |   });
+        at /home/mark/Tabsur/tests/playwright/basic-app.spec.js:39:55
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ App is responsive" classname="basic-app.spec.js" time="3.656">
+</testcase>
+</testsuite>
+<testsuite name="basic-app.spec.js" timestamp="2025-08-17T10:23:56.785Z" hostname="Mobile Safari" tests="4" failures="4" skipped="0" time="0.036" errors="0">
+<testcase name="🌐 Basic App E2E Tests › ✅ App loads successfully" classname="basic-app.spec.js" time="0.007">
+<failure message="basic-app.spec.js:4:3 ✅ App loads successfully" type="FAILURE">
+<![CDATA[  [Mobile Safari] › basic-app.spec.js:4:3 › 🌐 Basic App E2E Tests › ✅ App loads successfully ──────
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libevent-2.1-7t64\          ║
+    ║         libgstreamer-plugins-bad1.0-0\               ║
+    ║         libflite1\                                   ║
+    ║         libavif16\                                   ║
+    ║         gstreamer1.0-libav                           ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ Login page is accessible" classname="basic-app.spec.js" time="0.009">
+<failure message="basic-app.spec.js:18:3 ✅ Login page is accessible" type="FAILURE">
+<![CDATA[  [Mobile Safari] › basic-app.spec.js:18:3 › 🌐 Basic App E2E Tests › ✅ Login page is accessible ───
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libevent-2.1-7t64\          ║
+    ║         libgstreamer-plugins-bad1.0-0\               ║
+    ║         libflite1\                                   ║
+    ║         libavif16\                                   ║
+    ║         gstreamer1.0-libav                           ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ Register page is accessible" classname="basic-app.spec.js" time="0.011">
+<failure message="basic-app.spec.js:31:3 ✅ Register page is accessible" type="FAILURE">
+<![CDATA[  [Mobile Safari] › basic-app.spec.js:31:3 › 🌐 Basic App E2E Tests › ✅ Register page is accessible 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libevent-2.1-7t64\          ║
+    ║         libgstreamer-plugins-bad1.0-0\               ║
+    ║         libflite1\                                   ║
+    ║         libavif16\                                   ║
+    ║         gstreamer1.0-libav                           ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ App is responsive" classname="basic-app.spec.js" time="0.009">
+<failure message="basic-app.spec.js:44:3 ✅ App is responsive" type="FAILURE">
+<![CDATA[  [Mobile Safari] › basic-app.spec.js:44:3 › 🌐 Basic App E2E Tests › ✅ App is responsive ──────────
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libevent-2.1-7t64\          ║
+    ║         libgstreamer-plugins-bad1.0-0\               ║
+    ║         libflite1\                                   ║
+    ║         libavif16\                                   ║
+    ║         gstreamer1.0-libav                           ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="basic-app.spec.js" timestamp="2025-08-17T10:23:56.785Z" hostname="Microsoft Edge" tests="4" failures="4" skipped="0" time="0.047" errors="0">
+<testcase name="🌐 Basic App E2E Tests › ✅ App loads successfully" classname="basic-app.spec.js" time="0.008">
+<failure message="basic-app.spec.js:4:3 ✅ App loads successfully" type="FAILURE">
+<![CDATA[  [Microsoft Edge] › basic-app.spec.js:4:3 › 🌐 Basic App E2E Tests › ✅ App loads successfully ─────
+
+    Error: browserType.launch: Chromium distribution 'msedge' is not found at /opt/microsoft/msedge/msedge
+    Run "npx playwright install msedge"
+]]>
+</failure>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ Login page is accessible" classname="basic-app.spec.js" time="0.008">
+<failure message="basic-app.spec.js:18:3 ✅ Login page is accessible" type="FAILURE">
+<![CDATA[  [Microsoft Edge] › basic-app.spec.js:18:3 › 🌐 Basic App E2E Tests › ✅ Login page is accessible ──
+
+    Error: browserType.launch: Chromium distribution 'msedge' is not found at /opt/microsoft/msedge/msedge
+    Run "npx playwright install msedge"
+]]>
+</failure>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ Register page is accessible" classname="basic-app.spec.js" time="0.01">
+<failure message="basic-app.spec.js:31:3 ✅ Register page is accessible" type="FAILURE">
+<![CDATA[  [Microsoft Edge] › basic-app.spec.js:31:3 › 🌐 Basic App E2E Tests › ✅ Register page is accessible 
+
+    Error: browserType.launch: Chromium distribution 'msedge' is not found at /opt/microsoft/msedge/msedge
+    Run "npx playwright install msedge"
+]]>
+</failure>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ App is responsive" classname="basic-app.spec.js" time="0.021">
+<failure message="basic-app.spec.js:44:3 ✅ App is responsive" type="FAILURE">
+<![CDATA[  [Microsoft Edge] › basic-app.spec.js:44:3 › 🌐 Basic App E2E Tests › ✅ App is responsive ─────────
+
+    Error: browserType.launch: Chromium distribution 'msedge' is not found at /opt/microsoft/msedge/msedge
+    Run "npx playwright install msedge"
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="basic-app.spec.js" timestamp="2025-08-17T10:23:56.785Z" hostname="Google Chrome" tests="4" failures="1" skipped="0" time="28.782" errors="0">
+<testcase name="🌐 Basic App E2E Tests › ✅ App loads successfully" classname="basic-app.spec.js" time="6.989">
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ Login page is accessible" classname="basic-app.spec.js" time="8.758">
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ Register page is accessible" classname="basic-app.spec.js" time="7.887">
+<failure message="basic-app.spec.js:31:3 ✅ Register page is accessible" type="FAILURE">
+<![CDATA[  [Google Chrome] › basic-app.spec.js:31:3 › 🌐 Basic App E2E Tests › ✅ Register page is accessible 
+
+    Error: expect.toBeVisible: Error: strict mode violation: locator('input[type="password"]') resolved to 2 elements:
+        1) <input value="" id="password" type="password" aria-invalid="false" class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"/> aka getByRole('textbox', { name: 'Password', exact: true })
+        2) <input value="" id="password2" type="password" aria-invalid="false" class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"/> aka getByRole('textbox', { name: 'Confirm Password' })
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for locator('input[type="password"]')
+
+
+      38 |     // Check if register form elements are present
+      39 |     await expect(page.locator('input[type="email"]')).toBeVisible();
+    > 40 |     await expect(page.locator('input[type="password"]')).toBeVisible();
+         |                                                          ^
+      41 |     await expect(page.locator('button[type="submit"]')).toBeVisible();
+      42 |   });
+      43 |
+        at /home/mark/Tabsur/tests/playwright/basic-app.spec.js:40:58
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-Google-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../../test-results/basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-Google-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../test-results/basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-Google-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-Google-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-Google-Chrome/video.webm]]
+
+[[ATTACHMENT|basic-app-🌐-Basic-App-E2E-6bf12-Register-page-is-accessible-Google-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="🌐 Basic App E2E Tests › ✅ App is responsive" classname="basic-app.spec.js" time="5.148">
+</testcase>
+</testsuite>
+</testsuites>
