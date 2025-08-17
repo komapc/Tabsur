@@ -1,4 +1,6 @@
 # Multi-stage Dockerfile for Tabsur Server - Optimized for Speed
+# Build timestamp to force rebuilds when needed
+ARG BUILD_DATE=2025-08-17
 FROM node:18-alpine AS base
 
 # Install system dependencies
