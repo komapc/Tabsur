@@ -5,16 +5,45 @@ const express = require('express');
 const router = express.Router();
 // Load input validation;
 const validateMealInput = require('../../validation/meal');
-// @route GET api/meals/
-// @desc get a meal list;
+// @route GET api/meals/public
+// @desc get public meals for unauthenticated users;
+// @access Public;
+router.get('/public', async (req, response) => {
+  console.log('get public meals for unauthenticated users');
+  const SQLquery = `
+  SELECT 
+    m.*, 
+    u.name AS host_name, 
+    u.id AS host_id,
+    0 AS attend_status,
+    (SELECT COUNT(user_id) FROM attends WHERE meal_id=m.id AND status>0) AS Atendee_count
+  FROM meals AS m 
+  JOIN users AS u ON m.host_id = u.id
+  WHERE m.date > now()`;
+  console.log(`get public meals, SQLquery: [${SQLquery}]`);
+  const client = await pool.connect();
+  client.query(SQLquery, [])
+    .then(resp => {
+      response.json(resp.rows);
+    })
+    .catch(err => {
+      console.error(err);
+      response.status(500).json(err);
+    })
+    .finally(() => {
+      client.release();
+    });
+});
+
+// @route GET api/meals/:id
+// @desc get a meal list for a specific user;
 // @access Public;
 router.get('/:id', async (req, response) => {
   const userId = req.params.id;
   console.log(`get meals for user ${userId}`);
   if (isNaN(userId)) {
-  //return response.status(400).json('Error in geting  meals: wrong ID');
-  //when user is not logged-in;
-    const userId = -1;
+    console.error('Invalid user ID provided');
+    return response.status(400).json('Invalid user ID');
   }
   const SQLquery = `
   SELECT
@@ -28,7 +57,7 @@ router.get('/:id', async (req, response) => {
     WHERE meal_id=m.id AND status>0),
   m.*, u.name AS host_name, u.id AS host_id FROM meals AS m JOIN users AS u ON m.host_id = u.id
   WHERE m.date>now()`;
-  console.log(`get, SQLquery: [${SQLquery}]`);
+  console.log(`get meals for user, SQLquery: [${SQLquery}]`);
   const client = await pool.connect();
   client.query(SQLquery, [userId])
     .then(resp => {

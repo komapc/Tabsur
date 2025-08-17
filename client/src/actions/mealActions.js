@@ -67,9 +67,10 @@ export const deleteMeal = (id) => {
 }
 //get
 export const getMeals = (id) => {
-  if (isNaN(id))
+  if (isNaN(id) || id === null || id === undefined)
   {
-    id=-1;//call anyway
+    // For unauthenticated users, call the public meals endpoint
+    return axios.get(`${config.SERVER_HOST}/api/meals/public`);
   }
   return axios.get(`${config.SERVER_HOST}/api/meals/${id}`);
 };
