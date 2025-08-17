@@ -26,6 +26,7 @@ COPY routes/ ./routes/
 COPY config/ ./config/
 COPY validation/ ./validation/
 COPY middleware/ ./middleware/
+COPY utils/ ./utils/
 COPY .env* ./
 
 # Install nodemon for development
@@ -53,6 +54,7 @@ COPY routes/ ./routes/
 COPY config/ ./config/
 COPY validation/ ./validation/
 COPY middleware/ ./middleware/
+COPY utils/ ./utils/
 COPY .env* ./
 
 # Set ownership
