@@ -22,8 +22,21 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY client/package*.json ./
 COPY client/ ./
 
-# Build the app
-RUN npm run build
+# Build-time configuration
+ARG REACT_APP_SERVER_HOST
+ARG REACT_APP_API_URL
+ARG REACT_APP_GOOGLE_MAPS_API_KEY
+ARG REACT_APP_GOOGLE_CLIENT_ID
+ARG APP_BUILD_ID
+
+ENV REACT_APP_SERVER_HOST=${REACT_APP_SERVER_HOST}
+ENV REACT_APP_API_URL=${REACT_APP_API_URL}
+ENV REACT_APP_GOOGLE_MAPS_API_KEY=${REACT_APP_GOOGLE_MAPS_API_KEY}
+ENV REACT_APP_GOOGLE_CLIENT_ID=${REACT_APP_GOOGLE_CLIENT_ID}
+ENV APP_BUILD_ID=${APP_BUILD_ID}
+
+# Build the app with env baked in
+RUN echo "Building client with API host: ${REACT_APP_SERVER_HOST} (build ${APP_BUILD_ID})" && npm run build
 
 # Production stage with nginx
 FROM nginx:alpine AS production

@@ -101,8 +101,16 @@ deploy_to_ec2() {
         exit 1
     fi
     
-    # Get EC2 public IP (you may need to update this)
-    local ec2_ip="3.72.76.56"  # Update this with your actual EC2 IP
+    # Get EC2 public IP from ec2-config.env if present, else fallback
+    local ec2_ip=""
+    if [[ -f "ec2-config.env" ]]; then
+        # shellcheck disable=SC1091
+        source ec2-config.env
+        ec2_ip="$EC2_PUBLIC_IP"
+    fi
+    if [[ -z "$ec2_ip" ]]; then
+        ec2_ip="3.72.76.56"
+    fi
     
     echo -e "${BLUE}📤 Copying configuration files to EC2...${NC}"
     
