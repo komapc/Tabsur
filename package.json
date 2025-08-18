@@ -81,7 +81,8 @@
   "overrides": {
     "nth-check": "^2.1.1",
     "postcss": "^8.4.31",
-    "webpack-dev-server": "^5.2.0"
+    "webpack-dev-server": "^5.2.0",
+    "@babel/runtime": "^7.26.10"
   },
   "repository": {
     "type": "git",
