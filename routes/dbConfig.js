@@ -26,17 +26,18 @@ module.exports = {
     maxUses: 1000
   },
   pgConfigProduction : {
-    host: process.env.PG_HOST || '3.249.94.227',
-    port: 5432,
-    database: process.env.PG_DATABASE || 'coolanu',
-    user: process.env.PG_USER || 'coolanu_user',
-    password: process.env.PG_PASSWORD || 'your_database_password_here',
-    ssl: {
+    host: process.env.DB_HOST || process.env.PG_HOST || '3.249.94.227',
+    port: process.env.DB_PORT || 5432,
+    database: process.env.DB_NAME || process.env.PG_DATABASE || 'coolanu',
+    user: process.env.DB_USER || process.env.PG_USER || 'coolanu_user',
+    password: process.env.DB_PASSWORD || process.env.PG_PASSWORD || 'your_database_password_here',
+    // Disable SSL for self-managed PostgreSQL servers
+    ssl: process.env.DB_SSL === 'true' ? {
       rejectUnauthorized: false, // For self-signed certificates
       ca: process.env.PG_SSL_CA,
       cert: process.env.PG_SSL_CERT,
       key: process.env.PG_SSL_KEY
-    },
+    } : false,
     // Production pooling optimization
     max: 25, // Larger pool for production load
     idleTimeoutMillis: 60000, // Keep connections alive longer in production
@@ -47,17 +48,12 @@ module.exports = {
     query_timeout: 30000
   },
   pgConfigSelfManaged : {
-    host: '3.249.94.227',
-    port: 5432,
-    database: 'coolanu',
-    user: 'coolanu_user',
-    password: process.env.PG_PASSWORD || 'your_database_password_here',
-    ssl: {
-      rejectUnauthorized: false,
-      ca: process.env.PG_SSL_CA,
-      cert: process.env.PG_SSL_CERT,
-      key: process.env.PG_SSL_KEY
-    },
+    host: process.env.DB_HOST || '3.249.94.227',
+    port: process.env.DB_PORT || 5432,
+    database: process.env.DB_NAME || 'coolanu',
+    user: process.env.DB_USER || 'coolanu_user',
+    password: process.env.DB_PASSWORD || process.env.PG_PASSWORD || 'your_database_password_here',
+    ssl: false, // Self-managed PostgreSQL servers typically don't support SSL
     // Self-managed pooling settings
     max: 20,
     idleTimeoutMillis: 45000,
