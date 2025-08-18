@@ -15,9 +15,16 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-EC2_IP="3.72.76.56"
 SSH_KEY="$HOME/.ssh/coolanu-postgres"
 REMOTE_DIR="/opt/tabsur"
+
+# Prefer ec2-config.env for dynamic IP
+if [ -f "ec2-config.env" ]; then
+  # shellcheck disable=SC1091
+  source ec2-config.env
+  EC2_IP="$EC2_PUBLIC_IP"
+fi
+EC2_IP=${EC2_IP:-"3.72.76.56"}
 
 echo -e "${BLUE}📋 Deployment Summary:${NC}"
 echo "   Instance: $EC2_IP"
@@ -54,13 +61,10 @@ echo ""
 # Step 2: Copy configuration files to EC2
 echo -e "${YELLOW}📤 Step 2: Copying configuration files to EC2...${NC}"
 echo "Copying docker-compose-https.yml..."
-scp -i "$SSH_KEY" docker-compose-https.yml "ubuntu@$EC2_IP:$REMOTE_DIR/"
+scp -i "$SSH_KEY" docker-compose-https.yml "ubuntu@$EC2_IP:~/"
 
-echo "Copying nginx-https.conf..."
-scp -i "$SSH_KEY" nginx-https.conf "ubuntu@$EC2_IP:$REMOTE_DIR/"
-
-echo "Copying nginx-https-full.conf..."
-scp -i "$SSH_KEY" nginx-https-full.conf "ubuntu@$EC2_IP:$REMOTE_DIR/"
+echo "Copying nginx-https (full working) as active config..."
+scp -i "$SSH_KEY" nginx-https-full-working.conf "ubuntu@$EC2_IP:~/nginx-https.conf"
 
 echo -e "${GREEN}✅ Configuration files copied${NC}"
 echo ""
@@ -73,6 +77,8 @@ ssh -i "$SSH_KEY" "ubuntu@$EC2_IP" << 'EOF'
 set -e
 
 sudo mkdir -p /opt/tabsur
+sudo mv ~/docker-compose-https.yml /opt/tabsur/ 2>/dev/null || true
+sudo mv ~/nginx-https.conf /opt/tabsur/nginx-https.conf 2>/dev/null || true
 
 echo "Stopping existing services..."
 sudo docker-compose -f /opt/tabsur/docker-compose.ecr.yml down 2>/dev/null || true
