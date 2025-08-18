@@ -79,8 +79,8 @@ build_client() {
         --target production \
         --cache-from $ECR_REGISTRY/tabsur-client:latest \
         --build-arg BUILDKIT_INLINE_CACHE=1 \
-        --build-arg REACT_APP_SERVER_HOST="https://api.bemyguest.dedyn.io" \
-        --build-arg REACT_APP_API_URL="https://api.bemyguest.dedyn.io" \
+        --build-arg REACT_APP_SERVER_HOST="https://bemyguest.dedyn.io" \
+        --build-arg REACT_APP_API_URL="https://bemyguest.dedyn.io" \
         --build-arg APP_BUILD_ID="$(date +%Y%m%d%H%M%S)" \
         -t tabsur-client:latest \
         -t $ECR_REGISTRY/tabsur-client:latest \

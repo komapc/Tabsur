@@ -115,7 +115,7 @@ services:
     container_name: tabsur-client
     restart: unless-stopped
     environment:
-      - REACT_APP_SERVER_HOST=https://api.bemyguest.dedyn.io
+      - REACT_APP_SERVER_HOST=https://bemyguest.dedyn.io
       - REACT_APP_GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY:-your_google_maps_key}
     ports:
       - "80:80"
