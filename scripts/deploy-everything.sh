@@ -70,20 +70,22 @@ echo -e "${YELLOW}🚀 Step 3: Deploying services on EC2...${NC}"
 echo "SSH into EC2 and starting services..."
 
 ssh -i "$SSH_KEY" "ubuntu@$EC2_IP" << 'EOF'
-cd /opt/tabsur
+set -e
+
+sudo mkdir -p /opt/tabsur
 
 echo "Stopping existing services..."
-docker-compose -f docker-compose.ecr.yml down 2>/dev/null || true
-docker-compose -f docker-compose-https.yml down 2>/dev/null || true
+sudo docker-compose -f /opt/tabsur/docker-compose.ecr.yml down 2>/dev/null || true
+sudo docker-compose -f /opt/tabsur/docker-compose-https.yml down 2>/dev/null || true
 
 echo "Starting new services..."
-docker-compose -f docker-compose-https.yml up -d
+sudo docker-compose -f /opt/tabsur/docker-compose-https.yml up -d
 
 echo "Waiting for services to start..."
 sleep 10
 
 echo "Checking service status..."
-docker-compose -f docker-compose-https.yml ps
+sudo docker-compose -f /opt/tabsur/docker-compose-https.yml ps
 
 echo "Testing health endpoints..."
 curl -s http://localhost:80/health || echo "Health check failed"

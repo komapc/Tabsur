@@ -115,14 +115,19 @@ deploy_to_ec2() {
     echo -e "${BLUE}📤 Copying configuration files to EC2...${NC}"
     
     # Copy files to EC2
-    scp -i ~/.ssh/coolanu-postgres docker-compose.ecr.yml ubuntu@$ec2_ip:/opt/tabsur/
-    scp -i ~/.ssh/coolanu-postgres nginx-domain.conf ubuntu@$ec2_ip:/opt/tabsur/
-    scp -i ~/.ssh/coolanu-postgres env.domain ubuntu@$ec2_ip:/opt/tabsur/
+    # Copy to home first to avoid permission issues, then move with sudo on remote
+    scp -i ~/.ssh/coolanu-postgres docker-compose.ecr.yml ubuntu@$ec2_ip:~/
+    scp -i ~/.ssh/coolanu-postgres nginx-domain.conf ubuntu@$ec2_ip:~/
+    scp -i ~/.ssh/coolanu-postgres env.domain ubuntu@$ec2_ip:~/
     
     echo -e "${BLUE}🚀 Deploying on EC2...${NC}"
     
     # Deploy on EC2
     ssh -i ~/.ssh/coolanu-postgres ubuntu@$ec2_ip << 'EOF'
+        sudo mkdir -p /opt/tabsur
+        sudo mv ~/docker-compose.ecr.yml /opt/tabsur/ 2>/dev/null || true
+        sudo mv ~/nginx-domain.conf /opt/tabsur/ 2>/dev/null || true
+        sudo mv ~/env.domain /opt/tabsur/ 2>/dev/null || true
         cd /opt/tabsur
         
         # Stop existing containers
