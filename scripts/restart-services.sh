@@ -6,8 +6,21 @@
 set -e
 
 echo "🔄 Restarting Services on EC2 Instance with HTTPS"
-echo "Instance: i-0d2246fb817bb3928"
-echo "IP: 3.72.76.56"
+
+# Load dynamic configuration if available
+if [ -f "ec2-config.env" ]; then
+    # shellcheck disable=SC1091
+    source ec2-config.env
+    INSTANCE_ID=${EC2_INSTANCE_ID}
+    EC2_IP=${EC2_PUBLIC_IP}
+else
+    # Fallback values (should be overridden by ec2-config.env)
+    INSTANCE_ID=""
+    EC2_IP=""
+fi
+
+echo "Instance: ${INSTANCE_ID}"
+echo "IP: ${EC2_IP}"
 echo "Domain: bemyguest.dedyn.io"
 echo ""
 
@@ -19,17 +32,25 @@ fi
 
 # Check if instance is running
 echo "🔍 Checking instance status..."
-INSTANCE_STATUS=$(aws ec2 describe-instances --instance-ids i-0d2246fb817bb3928 --query 'Reservations[*].Instances[*].State.Name' --output text)
-
-if [[ "$INSTANCE_STATUS" != "running" ]]; then
-    echo "❌ Instance is not running. Current status: $INSTANCE_STATUS"
-    echo "🔄 Starting instance..."
-    aws ec2 start-instances --instance-ids i-0d2246fb817bb3928
-    echo "⏳ Waiting for instance to start..."
-    aws ec2 wait instance-running --instance-ids i-0d2246fb817bb3928
-    echo "✅ Instance is now running"
+if [[ -n "$INSTANCE_ID" ]]; then
+  INSTANCE_STATUS=$(aws ec2 describe-instances --instance-ids "$INSTANCE_ID" --query 'Reservations[*].Instances[*].State.Name' --output text || true)
 else
-    echo "✅ Instance is running"
+  INSTANCE_STATUS="unknown"
+fi
+
+if [[ -n "$INSTANCE_ID" ]]; then
+  if [[ "$INSTANCE_STATUS" != "running" ]]; then
+      echo "❌ Instance is not running. Current status: $INSTANCE_STATUS"
+      echo "🔄 Starting instance..."
+      aws ec2 start-instances --instance-ids "$INSTANCE_ID"
+      echo "⏳ Waiting for instance to start..."
+      aws ec2 wait instance-running --instance-ids "$INSTANCE_ID"
+      echo "✅ Instance is now running"
+  else
+      echo "✅ Instance is running"
+  fi
+else
+  echo "⚠️  INSTANCE_ID not set; skipping instance status check"
 fi
 
 # Get ECR registry

@@ -23,7 +23,6 @@ check_requirements() {
         "docker-compose.ecr.yml"
         "nginx-domain.conf"
         "env.domain"
-        "scripts/update-desec-dns.sh"
     )
     
     for file in "${required_files[@]}"; do
@@ -53,7 +52,7 @@ update_dns() {
             echo -e "${YELLOW}⚠️  Continuing with deployment...${NC}"
         fi
     else
-        echo -e "${RED}❌ DNS update script not found${NC}"
+        echo -e "${YELLOW}⚠️  DNS update script not found, skipping DNS update step${NC}"
     fi
     
     echo ""
