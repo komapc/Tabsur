@@ -35,8 +35,8 @@ backup_retention_days = 7
 ssh_public_key_path = "~/.ssh/coolanu-postgres.pub"
 
 # ALB Configuration
-certificate_arn = ""
-enable_https = false
+certificate_arn = "arn:aws:acm:eu-central-1:272007598366:certificate/61585d26-3206-4f76-a758-e759af5a6cc3"
+enable_https = true
 
 # Application Instance Configuration
 app_instance_type = "t3.medium"
