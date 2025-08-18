@@ -34,8 +34,7 @@ services:
     environment:
       - REACT_APP_SERVER_HOST=https://bemyguest.dedyn.io
       - REACT_APP_GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY:-your_google_maps_key}
-    ports:
-      - "80:80"
+    # no ports; served via load balancer
     depends_on:
       server:
         condition: service_healthy
