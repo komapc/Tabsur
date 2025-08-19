@@ -12,6 +12,7 @@ import {
   Switch,
   FormControlLabel
 } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
