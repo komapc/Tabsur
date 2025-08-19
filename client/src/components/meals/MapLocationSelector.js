@@ -103,34 +103,7 @@ const MapLocationSelector = ({ defaultLocation, address, handleLocationUpdate, h
     );
   }, [handleLocationUpdate]);
 
-  // Marker drag handler kept for future feature; currently unused
-  const handleMarkerDrag = (event) => {
-    const lat = event.latLng.lat();
-    const lng = event.latLng.lng();
-    const newLocation = { lng, lat };
-    
-    if (GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== "YOUR_API_KEY_HERE") {
-      Geocode.fromLatLng(lat, lng)
-        .then(response => {
-          const addr = response.results[0]?.formatted_address;
-          if (addr) {
-            handleLocationUpdate({ address: addr, location: newLocation });
-            setCurrentAddress(addr);
-          }
-        })
-        .catch(error => {
-          console.warn("Geocoding error:", error);
-          if (error.message && error.message.includes("billing")) {
-            setBillingError(true);
-          }
-          // Still update location even if geocoding fails
-          handleLocationUpdate({ location: newLocation });
-        });
-    } else {
-      // Update location without geocoding if API key is not available
-      handleLocationUpdate({ location: newLocation });
-    }
-  };
+  // Removed unused marker drag handler to satisfy CI lint rules
 
   const handleAddressSelect = (selected) => {
     const addr = selected.description;
