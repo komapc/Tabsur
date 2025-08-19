@@ -20,7 +20,7 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 import PeopleIcon from '@mui/icons-material/People';
 import defaultImage from "../../resources/userpic_empty.svg";
 import { joinMeal } from "../../actions/mealActions";
-import config from "../../config";
+// import config from "../../config"; // Not used here
 import "./Meals.css";
 var dateFormat = require('dateformat');
 const BUCKET = 's3.us-east-2.amazonaws.com/images.dining.philosophers.com';

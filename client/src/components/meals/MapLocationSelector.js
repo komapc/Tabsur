@@ -103,6 +103,7 @@ const MapLocationSelector = ({ defaultLocation, address, handleLocationUpdate, h
     );
   }, [handleLocationUpdate]);
 
+  // Marker drag handler kept for future feature; currently unused
   const handleMarkerDrag = (event) => {
     const lat = event.latLng.lat();
     const lng = event.latLng.lng();

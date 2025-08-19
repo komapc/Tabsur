@@ -31,7 +31,7 @@ if (GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== 'your_google_maps_api_key_her
 const MealMapShow =
     React.memo(
         ({ meals, defaultLocation, onMarkerClick, onMapClick, userId, selectedMeal }) => {
-            const [mapError, setMapError] = useState(null);
+            const [/* mapError */, setMapError] = useState(null);
 
             // Check if API key is properly configured
             const isApiKeyValid = GOOGLE_MAPS_API_KEY && 
