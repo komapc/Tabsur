@@ -66,23 +66,23 @@ const initializeAuth = () => {
     if (localStorage.jwtToken) {
       // Clean up any malformed tokens first
       const token = cleanupToken();
-      console.log("Found JWT token in localStorage, length:", token.length);
+      console.log("Found JWT token in localStorage");
       setAuthToken(token);
       // Decode token and get user info and exp
       const decoded = jwt_decode(token);
-      console.log("Decoded token user ID:", decoded.id, "exp:", decoded.exp);
+      console.log("Decoded token present");
       
       // Check for expired token
       const currentTime = Date.now() / 1000; // to get in milliseconds
-      console.log("Current time:", currentTime);
+      // omit timestamp details
       if (decoded.exp < currentTime) {
-        console.log("Token expired, logging out user");
+        console.log("Token expired");
         // Logout user
         store.dispatch(logoutUser());
         // Redirect to login
         window.location.href = "./login";
       } else {
-        console.log("Token is valid, user authenticated");
+        console.log("User authenticated");
         // Set user and isAuthenticated
         store.dispatch(setCurrentUser(decoded));
         console.log('✅ Authentication state set successfully');

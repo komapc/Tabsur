@@ -61,7 +61,7 @@ const addNotificationToDB = async (message) => {
     ])
     .then(resp => {
       console.log(`Message inserted successfully.`);
-      console.log(`tokens: ${JSON.stringify(resp.rows)}`);
+      console.log(`Fetched ${resp.rows?.length || 0} notification tokens`);
       return resp;
     })
     .catch(error => {
@@ -78,7 +78,7 @@ const addNotification = async (notification) => {
   return addNotificationToDB(notification)
     .then(resp => {
       const tokens = resp.rows[0].tokens;
-      console.log(`Resp tokens: ${JSON.stringify(tokens)}.`);
+      console.log(`Prepared ${tokens?.length || 0} tokens for push`);
       return pushNotification(notification, tokens)
         .then(answer => {
           console.log(`Answer: ${JSON.stringify(answer)}.`);

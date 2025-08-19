@@ -24,7 +24,8 @@ axios.interceptors.response.use(
     console.log("✅ Response received:", {
       status: response.status,
       url: response.config.url,
-      data: response.data
+      // Do not log full response bodies to avoid leaking data
+      size: typeof response.data === 'string' ? response.data.length : 'object'
     });
     return response;
   },
@@ -33,7 +34,8 @@ axios.interceptors.response.use(
       status: error.response?.status,
       url: error.config?.url,
       message: error.message,
-      data: error.response?.data
+      // Redact response payloads
+      data: typeof error.response?.data === 'string' ? `[redacted:${error.response?.data.length}]` : '[redacted]'
     });
     
     // Handle JWT signature errors by clearing invalid tokens

@@ -56,7 +56,7 @@ router.put('/:id', authenticateJWT, async (req, response)=> {
 router.post('/token/:id', authenticateJWT, async (req, response)=> {
   const id = req.params.id;
   const token = req.body.token;
-  console.log(`Insert Google Firebase Token ID: ${token} for ${id}`);
+  console.log(`Insert Google Firebase Token for user ${id}`);
   const query = `
   INSERT INTO user_tokens (user_id, token_type, token)
   SELECT $1, 0, $2

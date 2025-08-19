@@ -4,7 +4,7 @@ module.exports = {
     port: process.env.DB_PORT || 5432,
     database: process.env.DB_NAME || 'coolanu',
     user: process.env.DB_USER || 'coolanu',
-    password: process.env.DB_PASSWORD || 'coolanu',
+    password: process.env.DB_PASSWORD || '',
     ssl: false,
     // Connection pooling optimization
     max: 20, // Maximum number of clients in the pool
@@ -17,7 +17,7 @@ module.exports = {
     port: process.env.DB_PORT || 5433,
     database: process.env.DB_NAME || 'coolanu_test',
     user: 'coolanu',
-    password: 'coolanu',
+    password: process.env.DB_PASSWORD || 'coolanu',
     ssl: false,
     // Test environment pooling (smaller pool)
     max: 5,
@@ -30,7 +30,7 @@ module.exports = {
     port: process.env.DB_PORT || 5432,
     database: process.env.DB_NAME || process.env.PG_DATABASE || 'coolanu',
     user: process.env.DB_USER || process.env.PG_USER || 'coolanu_user',
-    password: process.env.DB_PASSWORD || process.env.PG_PASSWORD || 'your_database_password_here',
+    password: process.env.DB_PASSWORD || process.env.PG_PASSWORD || '',
     // Disable SSL for self-managed PostgreSQL servers
     ssl: process.env.DB_SSL === 'true' ? {
       rejectUnauthorized: false, // For self-signed certificates
@@ -52,7 +52,7 @@ module.exports = {
     port: process.env.DB_PORT || 5432,
     database: process.env.DB_NAME || 'coolanu',
     user: process.env.DB_USER || 'coolanu_user',
-    password: process.env.DB_PASSWORD || process.env.PG_PASSWORD || 'your_database_password_here',
+    password: process.env.DB_PASSWORD || process.env.PG_PASSWORD || '',
     ssl: false, // Self-managed PostgreSQL servers typically don't support SSL
     // Self-managed pooling settings
     max: 20,

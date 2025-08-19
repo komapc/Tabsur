@@ -589,7 +589,8 @@ const Settings = ({ auth, errors }) => {
                 color="info"
                 onClick={() => {
                   console.log("🔍 Redux Auth State:", auth);
-                  console.log("🔍 Local Storage Token:", localStorage.getItem("jwtToken"));
+                  // Avoid logging tokens
+                  console.log("🔍 Local Storage Token present");
                 }}
               >
                 Check Redux State
@@ -624,7 +625,7 @@ const Settings = ({ auth, errors }) => {
                   try {
                     // Test with axios to see if there's a difference
                     const token = localStorage.getItem("jwtToken");
-                    console.log("🔍 Testing with axios, token:", token ? `${token.substring(0, 30)}...` : 'None');
+                    console.log("🔍 Testing with axios, token present:", Boolean(token));
                     
                     // Import axios dynamically
                     const { default: axios } = await import('axios');
@@ -648,7 +649,7 @@ const Settings = ({ auth, errors }) => {
                   try {
                     // Test the failing endpoints to see what's happening
                     const token = localStorage.getItem("jwtToken");
-                    console.log("🔍 Testing failing endpoints with token:", token ? `${token.substring(0, 30)}...` : 'None');
+                    console.log("🔍 Testing failing endpoints with token present:", Boolean(token));
                     
                     const endpoints = [
                       'http://localhost:5000/api/meals/my/3',
