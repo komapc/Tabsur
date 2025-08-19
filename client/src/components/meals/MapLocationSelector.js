@@ -114,7 +114,6 @@ const MapLocationSelector = ({ defaultLocation, address, handleLocationUpdate, h
           const addr = response.results[0]?.formatted_address;
           if (addr) {
             handleLocationUpdate({ address: addr, location: newLocation });
-            setLocation(newLocation);
             setCurrentAddress(addr);
           }
         })
@@ -142,7 +141,6 @@ const MapLocationSelector = ({ defaultLocation, address, handleLocationUpdate, h
           const { lat, lng } = response.results[0].geometry.location;
           const newLocation = { lng, lat };
           handleLocationUpdate({ address: addr, location: newLocation });
-          setLocation(newLocation);
           handleExit();
         })
         .catch(error => {
