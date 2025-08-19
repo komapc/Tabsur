@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getGuestList } from "../../actions/mealActions";
 import { getUserFollowers } from "../../actions/userActions";
-import { 
-  List, 
-  ListItem, 
-  ListItemText, 
-  ListItemAvatar, 
-  Avatar, 
-  Typography,
-  Chip
-} from '@mui/material';
+// Removed unused MUI imports to satisfy linter
 import { UserList } from '../users/Friends';
 //todo: use GuestList component
 const AttenderList = (props) => {

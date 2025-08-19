@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { useHistory, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { 
   Card, 
   CardContent, 
@@ -149,7 +149,7 @@ const AttendButton = (props) => {
 
   const status = props.meal.attend_status;
   console.log(`Auth: ${JSON.stringify(props.auth)}`);
-  const isAuthenticated = props.auth.isAuthenticated;
+  const isAuthenticated = props.auth.isAuthenticated; // used for readability, do not remove
   const isOwner = meal.host_id === props.auth.user.id;
   const isEnabled = (status > 0) || (meal.guest_count >= meal.Atendee_count);
   const newStatus = status === 0 ? 3 : 0;

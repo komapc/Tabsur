@@ -103,7 +103,6 @@ const initializeAuth = () => {
   }
 };
 
-const googleKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const googleOAuthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const enableMessaging = false;
 if (enableMessaging) {

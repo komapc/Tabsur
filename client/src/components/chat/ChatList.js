@@ -2,20 +2,11 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { getChatUsers } from '../../actions/chatActions';
 import { 
-  Container, 
   Typography, 
-  List, 
-  ListItem, 
-  ListItemText, 
-  ListItemAvatar, 
-  Avatar, 
-  Box,
-  CircularProgress,
-  Alert,
   AppBar,
   Toolbar
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
+// Removed unused styled import
 import { withRouter } from "react-router-dom";
 import loadingGIF from "../../resources/animation/loading.gif";
 

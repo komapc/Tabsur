@@ -102,10 +102,10 @@ const MealMapShow =
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
 
-                const findMe = () => {
-                    setPosition({ ...defaultLocation });
-                    console.log(position);
-                }
+                // const findMe = () => {
+                //     setPosition({ ...defaultLocation });
+                //     console.log(position);
+                // }
 
                 const handleMapLoadError = (error) => {
                     console.error('Map load error:', error);

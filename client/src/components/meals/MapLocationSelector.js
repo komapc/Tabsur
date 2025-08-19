@@ -7,7 +7,7 @@ import { Alert, Box, Typography, Button } from '@mui/material';
 
 // Make API key configurable - in production this should come from environment variables
 const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-const MAPS_LIBRARIES = ['places'];
+// const MAPS_LIBRARIES = ['places'];
 const MAP_CONTAINER_STYLE = { height: '90vh', width: '100%' };
 
 // Only set API key if it's available

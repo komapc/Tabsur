@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from "react";
 import {
-  Grid,
   Paper,
   TextField,
   Button,
@@ -13,7 +12,7 @@ import { connect } from "react-redux";
 import { loginUser, loginUserFB } from "../../actions/authActions";
 import classnames from "classnames";
 import { useGoogleLogin } from '@react-oauth/google';
-import jwt_decode from 'jwt-decode';
+// Removed unused import to satisfy linter
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
