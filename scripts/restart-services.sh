@@ -115,8 +115,7 @@ services:
     restart: unless-stopped
     environment:
       - REACT_APP_SERVER_HOST=https://bemyguest.dedyn.io
-    ports:
-      - "80:80"
+    # served via load balancer, no direct port mapping
     depends_on:
       server:
         condition: service_healthy
