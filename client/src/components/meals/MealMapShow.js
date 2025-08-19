@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api';
-import { Box, Typography, Chip, Avatar, Button, Alert, Paper } from '@mui/material';
-import { useHistory } from "react-router-dom";
+import { Box, Typography, Button, Alert, Paper } from '@mui/material';
 
 import Geocode from "react-geocode";
 import attended_u from "../../resources/map/attended_meal_icon.svg";
@@ -15,7 +14,7 @@ import hosted_t from "../../resources/map/my_meal_icon_touched.svg";
 import available_t from "../../resources/map/active_meal_icon_touched.svg";
 
 import myLocation from "../../resources/map/my_location.svg";
-import blueCircle from "../../resources/map/bluecircle.png";
+// Removed unused imports to prevent linter errors
 
 const attended = [attended_u, attended_t];
 const fullUp = [fullUp_u, fullUp_t];
@@ -131,7 +130,7 @@ const MealMapShow =
                     <GoogleMap
                         defaultZoom={8}
                         defaultCenter={{ lat: defaultLocation.lat, lng: defaultLocation.lng }}
-                        onClick={() => onMapClick(this)}
+                        onClick={(e) => onMapClick && onMapClick(e)}
                         center={{ lat: position.lat, lng: position.lng }}
                         options={myOptions}
                         onError={handleMapLoadError}
@@ -147,7 +146,7 @@ const MealMapShow =
                                         onClick={() => onMarkerClick(meal)}
                                         icon={{
                                             url: icon,
-                                            scaledSize: { width: markerSize, height: markerSize, widthUnit: "px" }
+                                            scaledSize: new window.google.maps.Size(markerSize, markerSize)
                                         }}
                                     />
                                 </div>
@@ -158,7 +157,7 @@ const MealMapShow =
                             position={{ lat: position.lat, lng: position.lng }}
                             icon={{
                                 url: myLocation,
-                                scaledSize: { width: 30, height: 30, widthUnit: "px" }
+                                scaledSize: new window.google.maps.Size(30, 30)
                             }}
                         />
                     </GoogleMap>

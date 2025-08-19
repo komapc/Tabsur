@@ -13,8 +13,8 @@ const explicitApiUrl = process.env.REACT_APP_SERVER_HOST || process.env.REACT_AP
 
 switch (env) {
   case "development":
-    // Local development backend
-    config.SERVER_HOST = process.env.REACT_APP_SERVER_HOST_DEV || 'http://localhost:5000';
+    // Local development backend (force localhost if not explicitly overridden)
+    config.SERVER_HOST = process.env.REACT_APP_SERVER_HOST_DEV || process.env.REACT_APP_SERVER_HOST || 'http://localhost:5000';
     break;
   case 'production':
   default:

@@ -50,7 +50,7 @@ const MealMap = (props) => {
 
   }, [selectedMealId, isSelected, meal, meals]);
 
-  const userid = props.auth.user.id;
+  const userid = props.auth?.user?.id ?? null;
   useEffect(() => {
     getMeals(userid)
       .then(res => {
