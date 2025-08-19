@@ -5,10 +5,6 @@ import {
   Card, 
   CardContent, 
   Typography, 
-  Button, 
-  Box,
-  Chip,
-  Avatar,
   CardHeader,
   CardMedia,
   CardActions,
@@ -149,7 +145,7 @@ const AttendButton = (props) => {
 
   const status = props.meal.attend_status;
   console.log(`Auth: ${JSON.stringify(props.auth)}`);
-  const isAuthenticated = props.auth.isAuthenticated; // used for readability, do not remove
+  // const isAuthenticated = props.auth.isAuthenticated; // kept for potential future use
   const isOwner = meal.host_id === props.auth.user.id;
   const isEnabled = (status > 0) || (meal.guest_count >= meal.Atendee_count);
   const newStatus = status === 0 ? 3 : 0;
@@ -170,15 +166,7 @@ const AttendButton = (props) => {
   />
 }
 
-class MealImage extends React.Component {
-  render() {
-    var path = this.props.meal.path;
-    path = path ?
-      `${config.SERVER_HOST}/api/${path}.undefined` : defaultImage;
-    return <img src={path}
-      alt={path} className="meal-image" />
-  }
-}
+// Removed unused MealImage component
 class MealListItem extends React.Component {
   constructor(props) {
     super(props);

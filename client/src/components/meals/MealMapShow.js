@@ -87,7 +87,7 @@ const MealMapShow =
 
             const MyGoogleMap = (props) => {
                 const google = window.google;
-                const [position, setPosition] = useState(defaultLocation);
+                const [position] = useState(defaultLocation);
                 const [mapLoadError, setMapLoadError] = useState(null);
 
                 const myOptions = {

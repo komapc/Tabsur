@@ -16,10 +16,9 @@ if (GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== "YOUR_API_KEY_HERE") {
 }
 
 const MapLocationSelector = ({ defaultLocation, address, handleLocationUpdate, handleExit }) => {
-  const [location, setLocation] = useState(defaultLocation);
   const [currentAddress, setCurrentAddress] = useState(address);
   const [mapError, setMapError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
   const [billingError, setBillingError] = useState(false);
 
   useEffect(() => {
@@ -126,12 +125,10 @@ const MapLocationSelector = ({ defaultLocation, address, handleLocationUpdate, h
           }
           // Still update location even if geocoding fails
           handleLocationUpdate({ location: newLocation });
-          setLocation(newLocation);
         });
     } else {
       // Update location without geocoding if API key is not available
       handleLocationUpdate({ location: newLocation });
-      setLocation(newLocation);
     }
   };
 
@@ -168,15 +165,7 @@ const MapLocationSelector = ({ defaultLocation, address, handleLocationUpdate, h
     setBillingError(false);
   };
 
-  const onMapError = (error) => {
-    console.error("Google Maps error:", error);
-    if (error.message && error.message.includes("billing")) {
-      setBillingError(true);
-      setMapError("Google Maps API billing is not enabled. Please contact your administrator.");
-    } else {
-      setMapError("Failed to load Google Maps. Please check your internet connection.");
-    }
-  };
+  // Removed unused onMapError handler
 
   // Check if API key is properly configured
   const isApiKeyValid = GOOGLE_MAPS_API_KEY && 
