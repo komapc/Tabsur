@@ -7,7 +7,8 @@ db_host = "3.249.94.227"
 db_port = 5432
 db_name = "coolanu"
 db_user = "coolanu_user"
-db_password = "koolanu"
+# Use SSM/Secrets Manager or pass via CI; do not hardcode
+db_password = ""
 
 # Instance Configuration
 instance_type = "t3.medium"

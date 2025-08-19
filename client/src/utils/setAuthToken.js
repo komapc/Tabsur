@@ -60,13 +60,11 @@ const setAuthToken = token => {
     // Check if token already has "Bearer " prefix to avoid double prefixing
     const authHeader = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
     axios.defaults.headers.common["Authorization"] = authHeader;
-    console.log("🔑 Auth token set:", `${authHeader.substring(0, 30)}...`);
-    console.log("🔍 Current axios headers:", axios.defaults.headers.common);
+    console.log("🔑 Auth token set");
   } else {
     // Delete auth header
     delete axios.defaults.headers.common["Authorization"];
     console.log("🗑️ Auth token removed");
-    console.log("🔍 Current axios headers:", axios.defaults.headers.common);
   }
 };
 

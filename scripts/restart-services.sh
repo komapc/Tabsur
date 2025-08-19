@@ -87,6 +87,8 @@ services:
     image: 272007598366.dkr.ecr.eu-central-1.amazonaws.com/tabsur-server:latest
     container_name: tabsur-server
     restart: unless-stopped
+    env_file:
+      - /opt/tabsur/.env
     environment:
       - NODE_ENV=production
       - PORT=5000
@@ -94,10 +96,7 @@ services:
       - DB_PORT=5432
       - DB_NAME=coolanu
       - DB_USER=coolanu_user
-      - DB_PASSWORD=${DB_PASSWORD:-your_db_password}
       - DB_SSL=false
-      - JWT_SECRET=${JWT_SECRET:-your_jwt_secret}
-      - GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY:-your_google_maps_key}
       - CORS_ORIGIN=https://bemyguest.dedyn.io
     ports:
       - "5000:5000"
@@ -116,7 +115,6 @@ services:
     restart: unless-stopped
     environment:
       - REACT_APP_SERVER_HOST=https://bemyguest.dedyn.io
-      - REACT_APP_GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY:-your_google_maps_key}
     ports:
       - "80:80"
     depends_on:
