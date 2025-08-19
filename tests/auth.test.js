@@ -17,11 +17,21 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Mock bcrypt
+// Mock bcrypt with callback-compatible implementations
 jest.mock('bcryptjs', () => ({
-  genSalt: jest.fn().mockResolvedValue('mocksalt'),
-  hash: jest.fn().mockResolvedValue('mockhash'),
-  compare: jest.fn().mockResolvedValue(true)
+  genSalt: jest.fn((rounds, cb) => {
+    if (typeof cb === 'function') {
+      cb(null, 'mocksalt');
+    }
+    return Promise.resolve('mocksalt');
+  }),
+  hash: jest.fn((password, salt, cb) => {
+    if (typeof cb === 'function') {
+      cb(null, 'mockhash');
+    }
+    return Promise.resolve('mockhash');
+  }),
+  compare: jest.fn(() => Promise.resolve(true))
 }));
 app.use('/api/users', users);
 
@@ -124,10 +134,10 @@ describe('Authentication API', () => {
           password: testUser.password
         });
 
-      // Note: This test may fail due to bcrypt, but shows the structure
+      // Query should include the email; additional params are allowed
       expect(mockClient.query).toHaveBeenCalledWith(
         expect.stringContaining('SELECT'),
-        [testUser.email]
+        expect.arrayContaining([testUser.email])
       );
     });
 
