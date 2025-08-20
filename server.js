@@ -135,8 +135,12 @@ if (process.env.NODE_ENV !== 'production') {
   // Serve static files from React build
   app.use(express.static('client/build'));
 
-  // Catch all handler: send back React's index.html file
-  app.get('*', (req, res) => {
+  // Catch all handler: send back React's index.html file (but only for non-API routes)
+  app.get('*', (req, res, next) => {
+    // Skip API routes - let them be handled by their respective routers
+    if (req.path.startsWith('/api/')) {
+      return next();
+    }
     res.sendFile(path.resolve(process.env.PWD, 'client', 'build', 'index.html'));
   });
 }
