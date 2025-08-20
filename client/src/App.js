@@ -94,6 +94,20 @@ const initializeAuth = () => {
       }
     } else {
       console.log("No JWT token found in localStorage.");
+      
+      // Development mode: Auto-authenticate with test user if no token exists
+      if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'debug') {
+        console.log('🔧 Development mode: Auto-authenticating with test user...');
+        // Use the test token we created earlier
+        const testToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6IlRlc3QgVXNlciIsImlhdCI6MTc1NTcwNjAwOCwiZXhwIjoxNzg3MjYyOTM0fQ.HhDIilw02ld0N4n2uN1YVnAUrHI9UZZKZCdjkajX';
+        localStorage.setItem("jwtToken", testToken);
+        setAuthToken(testToken);
+        
+        // Decode and set user info
+        const decoded = jwt_decode(testToken);
+        store.dispatch(setCurrentUser(decoded));
+        console.log('✅ Development authentication set successfully');
+      }
     }
   } catch (e) {
     console.error(`Local storage init failed: ${JSON.stringify(e)}`);
