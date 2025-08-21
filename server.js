@@ -60,11 +60,18 @@ app.use(securityMiddleware);
 app.use(additionalSecurityHeaders);
 app.use(sqlInjectionProtection);
 
-// CORS middleware for local development
+// CORS middleware (supports multiple origins via comma-separated CORS_ORIGIN)
+const buildAllowedOrigins = () => {
+  if (process.env.NODE_ENV === 'production') {
+    const raw = process.env.CORS_ORIGIN || 'https://localhost:3000';
+    // Support comma-separated list of origins
+    return raw.split(',').map((o) => o.trim()).filter(Boolean);
+  }
+  return ['http://localhost:3000', 'https://localhost:3000'];
+};
+
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? process.env.CORS_ORIGIN || 'https://localhost:3000'
-    : ['http://localhost:3000', 'https://localhost:3000'],
+  origin: buildAllowedOrigins(),
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
