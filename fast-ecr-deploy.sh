@@ -45,7 +45,12 @@ docker build -t tabsur-server -f Dockerfile.server.multistage .
 docker tag tabsur-server:latest $SERVER_ECR_URI:latest
 
 echo "Building client image..."
-docker build -t tabsur-client -f Dockerfile.client.multistage .
+# Ensure client bundle uses the instance API endpoint
+docker build \
+  --build-arg REACT_APP_SERVER_HOST="http://$EC2_PUBLIC_IP:5000" \
+  --build-arg REACT_APP_API_URL="http://$EC2_PUBLIC_IP:5000" \
+  -t tabsur-client \
+  -f Dockerfile.client.multistage .
 docker tag tabsur-client:latest $CLIENT_ECR_URI:latest
 
 echo "📤 Pushing images to ECR..."
@@ -56,6 +61,14 @@ echo "✅ Images pushed to ECR successfully!"
 
 # Create fast deployment docker-compose.yml
 echo "📝 Creating fast deployment configuration..."
+# Resolve DB host from Terraform outputs if available
+DB_HOST_FROM_TF=$(cd terraform 2>/dev/null && terraform output -raw postgres_public_ip 2>/dev/null || true)
+DB_HOST_TO_USE=${DB_HOST_FROM_TF:-${DB_HOST:-3.249.94.227}}
+
+# Provide sane defaults for secrets only if not set (can be overridden by env)
+DB_PASSWORD_VALUE=${DB_PASSWORD:-coolanu}
+JWT_SECRET_VALUE=${JWT_SECRET:-tabsur-secret}
+GOOGLE_MAPS_API_KEY_VALUE=${GOOGLE_MAPS_API_KEY:-}
 cat > docker-compose.ecr.yml << EOF
 version: '3.8'
 services:
@@ -66,15 +79,14 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=5000
-      - DB_HOST=3.249.94.227
+      - DB_HOST=${DB_HOST_TO_USE}
       - DB_PORT=5432
       - DB_NAME=coolanu
       - DB_USER=coolanu_user
-<<<<<<< HEAD
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD_VALUE}
       - DB_SSL=false
-      - JWT_SECRET=${JWT_SECRET}
-      - GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
+      - JWT_SECRET=${JWT_SECRET_VALUE}
+      - GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY_VALUE}
     ports:
       - "5000:5000"
     networks:
@@ -157,30 +169,34 @@ http {
 }
 EOF
 
-# Copy configuration to EC2
+# Copy configuration to EC2 (home dir first to avoid permission issues)
 echo "📤 Copying configuration to EC2..."
-scp -i ~/.ssh/coolanu-postgres docker-compose.ecr.yml ubuntu@$EC2_PUBLIC_IP:/opt/tabsur/
-scp -i ~/.ssh/coolanu-postgres nginx.conf ubuntu@$EC2_PUBLIC_IP:/opt/tabsur/
+scp -i ~/.ssh/coolanu-postgres docker-compose.ecr.yml ubuntu@$EC2_PUBLIC_IP:~/
+scp -i ~/.ssh/coolanu-postgres nginx.conf ubuntu@$EC2_PUBLIC_IP:~/
 
 # Deploy on EC2 (much faster now - just pull and run!)
 echo "🚀 Deploying on EC2..."
 ssh -i ~/.ssh/coolanu-postgres ubuntu@$EC2_PUBLIC_IP << EOF
+set -e
+sudo mkdir -p /opt/tabsur
+sudo mv ~/docker-compose.ecr.yml ~/nginx.conf /opt/tabsur/
+sudo chown root:root /opt/tabsur/docker-compose.ecr.yml /opt/tabsur/nginx.conf
 cd /opt/tabsur
 
-# Login to ECR
-aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $SERVER_ECR_URI
+# Login to ECR (root docker)
+aws ecr get-login-password --region $AWS_REGION | sudo docker login --username AWS --password-stdin $SERVER_ECR_URI
 
 # Pull images (fast - no building!)
 echo "📥 Pulling images from ECR..."
-docker pull $SERVER_ECR_URI:latest
-docker pull $CLIENT_ECR_URI:latest
+sudo docker pull $SERVER_ECR_URI:latest
+sudo docker pull $CLIENT_ECR_URI:latest
 
 # Start services
 echo "🚀 Starting services..."
-docker-compose -f docker-compose.ecr.yml up -d
+(sudo docker compose -f docker-compose.ecr.yml up -d) || (sudo docker-compose -f docker-compose.ecr.yml up -d)
 
 echo "✅ Deployment complete!"
-docker-compose -f docker-compose.ecr.yml ps
+(sudo docker compose -f docker-compose.ecr.yml ps) || (sudo docker-compose -f docker-compose.ecr.yml ps)
 EOF
 
 echo ""
