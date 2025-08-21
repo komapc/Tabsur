@@ -45,10 +45,17 @@ docker build -t tabsur-server -f Dockerfile.server.multistage .
 docker tag tabsur-server:latest $SERVER_ECR_URI:latest
 
 echo "Building client image..."
-# Ensure client bundle uses the instance API endpoint
+# Prefer API domain when it resolves; fallback to instance API
+API_DOMAIN_HOST="https://api.bemyguest.dedyn.io"
+if getent hosts api.bemyguest.dedyn.io >/dev/null 2>&1; then
+  CLIENT_API_BUILD_HOST="$API_DOMAIN_HOST"
+else
+  CLIENT_API_BUILD_HOST="http://$EC2_PUBLIC_IP:5000"
+fi
+echo "Using client API host: $CLIENT_API_BUILD_HOST"
 docker build \
-  --build-arg REACT_APP_SERVER_HOST="http://$EC2_PUBLIC_IP:5000" \
-  --build-arg REACT_APP_API_URL="http://$EC2_PUBLIC_IP:5000" \
+  --build-arg REACT_APP_SERVER_HOST="$CLIENT_API_BUILD_HOST" \
+  --build-arg REACT_APP_API_URL="$CLIENT_API_BUILD_HOST" \
   -t tabsur-client \
   -f Dockerfile.client.multistage .
 docker tag tabsur-client:latest $CLIENT_ECR_URI:latest
