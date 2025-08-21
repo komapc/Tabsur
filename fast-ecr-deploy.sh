@@ -69,6 +69,9 @@ DB_HOST_TO_USE=${DB_HOST_FROM_TF:-${DB_HOST:-3.249.94.227}}
 DB_PASSWORD_VALUE=${DB_PASSWORD:-coolanu}
 JWT_SECRET_VALUE=${JWT_SECRET:-tabsur-secret}
 GOOGLE_MAPS_API_KEY_VALUE=${GOOGLE_MAPS_API_KEY:-}
+
+# CORS origins: allow instance IP and planned domains (comma-separated)
+CORS_ORIGIN_VALUE=${CORS_ORIGIN:-http://$EC2_PUBLIC_IP,https://bemyguest.dedyn.io,https://www.bemyguest.dedyn.io}
 cat > docker-compose.ecr.yml << EOF
 version: '3.8'
 services:
@@ -87,6 +90,7 @@ services:
       - DB_SSL=false
       - JWT_SECRET=${JWT_SECRET_VALUE}
       - GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY_VALUE}
+      - CORS_ORIGIN=${CORS_ORIGIN_VALUE}
     ports:
       - "5000:5000"
     networks:
