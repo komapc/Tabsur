@@ -6,18 +6,19 @@ A modern social dining platform built with React, Node.js, and PostgreSQL, featu
 
 **✅ PRODUCTION DEPLOYED AND OPERATIONAL**
 
-- **Frontend**: ✅ Working perfectly through ALB
-- **Backend API**: ✅ Working perfectly through ALB  
-- **Infrastructure**: ✅ ALB + Auto Scaling + ECR fully deployed
+- **Frontend**: ✅ Working perfectly on EC2 direct access
+- **Backend API**: ✅ Working perfectly on EC2 direct access  
+- **Infrastructure**: ✅ EC2 + Docker + Nginx load balancer fully deployed
+- **Direct Access**: ✅ Working via EC2 IP address
 - **Domain**: ⚠️ Pending DNS configuration for `bemyguest.dedyn.io`
 - **HTTPS**: ⚠️ SSL certificate created, pending domain validation
 
 ## 🌐 Access URLs
 
-### Production (Current)
-- **Frontend**: http://prod-tabsur-alb-2109180600.eu-central-1.elb.amazonaws.com/
-- **Backend API**: http://prod-tabsur-alb-2109180600.eu-central-1.elb.amazonaws.com/api/system/health
-- **Health Check**: http://prod-tabsur-alb-2109180600.eu-central-1.elb.amazonaws.com/health
+### Production (Current - Working)
+- **Frontend**: http://54.93.243.196:80
+- **Backend API**: http://54.93.243.196:5000/api/system/health
+- **Health Check**: http://54.93.243.196:80/health
 
 ### Domain (Pending DNS Configuration)
 - **Frontend**: https://bemyguest.dedyn.io/ (once configured)
@@ -25,13 +26,12 @@ A modern social dining platform built with React, Node.js, and PostgreSQL, featu
 
 ## 🏗️ Architecture
 
-### Infrastructure (AWS)
-- **Application Load Balancer (ALB)**: Routes traffic to frontend/backend
-- **Auto Scaling Group**: Automatically scales EC2 instances based on demand
-- **ECR**: Container registry for Docker images
-- **EC2**: Application servers running Docker containers
-- **VPC**: Isolated network with public subnets
-- **Security Groups**: Firewall rules for ALB and application instances
+### Infrastructure (Current)
+- **EC2 Instance**: Running Docker containers with Nginx load balancer
+- **Docker Services**: Client, Server, and Nginx load balancer
+- **Nginx Load Balancer**: Routes traffic between frontend and backend
+- **PostgreSQL**: External database (not managed by AWS)
+- **Security Groups**: Firewall rules for EC2 instance
 
 ### Application Stack
 - **Frontend**: React + Redux + Material-UI + Google Maps API
@@ -53,24 +53,18 @@ docker-compose -f docker-compose.debug.yml up -d
 # Database: localhost:5432
 ```
 
-### Production Deployment
+### Production Access
 ```bash
-# Complete production deployment
-./scripts/deploy-production.sh
-
-# Or step by step:
-# 1. Deploy infrastructure
-cd terraform && terraform apply
-
-# 2. Deploy application
-./fast-ecr-deploy.sh
+# Access the live application
+# Frontend: http://54.93.243.196:80
+# Backend: http://54.93.243.196:5000
+# Health: http://54.93.243.196:80/health
 ```
 
 ## 📋 Prerequisites
 
 - AWS CLI configured with appropriate permissions
 - Docker and Docker Compose
-- Terraform
 - Node.js 18+ (for local development)
 
 ## 🔧 Configuration
@@ -84,43 +78,45 @@ Copy `env.example` to `.env` and configure:
 
 ### AWS Configuration
 - Region: `eu-central-1`
-- VPC CIDR: `172.16.0.0/16`
-- Public Subnets: `172.16.1.0/24` (2 subnets for ALB)
+- Instance: `i-0fe51ead4f5a7d437`
+- Public IP: `54.93.243.196`
+- Private IP: `172.16.1.88`
 
 ## 📚 Documentation
 
 - [HTTPS Setup Guide](HTTPS_SETUP.md) - Configure SSL and domain
 - [Deployment Guide](DEPLOYMENT.md) - Detailed deployment instructions
-- [Infrastructure Summary](ALB_Infrastructure_Summary.md) - ALB and auto-scaling details
+- [ALB Implementation Summary](ALB_IMPLEMENTATION_SUMMARY.md) - Infrastructure details
 
 ## 🔍 Monitoring & Health Checks
 
 ### Health Endpoints
-- **Frontend**: `/health` - Returns "healthy" if React app is running
-- **Backend**: `/api/system/health` - Returns server status and database connectivity
+- **Frontend**: `http://54.93.243.196:80/health` - Returns "healthy" if React app is running
+- **Backend**: `http://54.93.243.196:5000/api/system/health` - Returns server status and database connectivity
 
-### AWS Monitoring
-- CloudWatch alarms for CPU utilization
-- Auto-scaling based on CPU metrics
-- ALB target group health checks
+### Docker Services Monitoring
+- **Client**: React frontend container
+- **Server**: Node.js backend container  
+- **Load Balancer**: Nginx routing container
 
 ## 🚨 Troubleshooting
 
 ### Common Issues
-1. **Server container restarting**: Check logs for missing modules
-2. **ALB returning 502**: Verify target group health and container status
-3. **Domain not resolving**: Check DNS configuration for `bemyguest.dedyn.io`
+1. **Port 80 not accessible**: Check Nginx load balancer container status
+2. **API returning errors**: Check server container logs
+3. **Frontend not loading**: Check client container status
 
 ### Debug Commands
 ```bash
 # Check container status
-ssh ubuntu@[INSTANCE_IP] "cd /opt/tabsur && sudo docker-compose -f docker-compose.ecr.yml ps"
+ssh -i ~/.ssh/coolanu-postgres ubuntu@54.93.243.196 "cd /opt/tabsur && sudo docker-compose -f docker-compose-https.yml ps"
 
 # Check container logs
-ssh ubuntu@[INSTANCE_IP] "cd /opt/tabsur && sudo docker-compose -f docker-compose.ecr.yml logs server"
+ssh -i ~/.ssh/coolanu-postgres ubuntu@54.93.243.196 "cd /opt/tabsur && sudo docker-compose -f docker-compose-https.yml logs server"
 
-# Test ALB health
-curl -f http://prod-tabsur-alb-2109180600.eu-central-1.elb.amazonaws.com/health
+# Test endpoints
+curl http://54.93.243.196:80/health
+curl http://54.93.243.196:5000/api/system/health
 ```
 
 ## 🔐 Security
@@ -134,9 +130,9 @@ curl -f http://prod-tabsur-alb-2109180600.eu-central-1.elb.amazonaws.com/health
 ## 📈 Performance
 
 - Multi-stage Docker builds for optimized images
-- Auto-scaling based on CPU utilization
-- Load balancer with health checks
+- Nginx load balancer with health checks
 - Containerized services for easy scaling
+- Optimized React production build
 
 ## 🤝 Contributing
 
@@ -152,6 +148,6 @@ This project is proprietary software. All rights reserved.
 
 ---
 
-**Last Updated**: August 17, 2025  
-**Deployment Status**: ✅ Production Operational  
+**Last Updated**: August 23, 2025  
+**Deployment Status**: ✅ Production Operational via EC2 Direct Access  
 **Next Steps**: Configure domain DNS and enable HTTPS

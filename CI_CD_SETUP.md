@@ -19,23 +19,23 @@ This document provides a complete guide to setting up the CI/CD pipeline for Tab
 The Tabsur CI/CD pipeline automatically:
 - Runs tests and linting on every PR
 - Builds Docker images on merge to main
-- Deploys to AWS ECS Fargate
+- Deploys to AWS EC2 with Docker Compose
 - Provides zero-downtime deployments
-- Auto-scales based on load
+- Monitors service health
 
 ## 🏗️ Architecture
 
 ```
-GitHub PR → GitHub Actions → Build & Test → Docker Images → ECR → ECS Fargate → AWS Services
+GitHub PR → GitHub Actions → Build & Test → Docker Images → ECR → EC2 + Docker Compose → Nginx Load Balancer
 ```
 
 ### Components:
 - **GitHub Actions**: CI/CD orchestration
 - **ECR**: Container registry for Docker images
-- **ECS Fargate**: Serverless container orchestration
-- **ALB**: Application Load Balancer for traffic routing
-- **RDS**: PostgreSQL database
-- **CloudWatch**: Monitoring and logging
+- **EC2**: Application server running Docker containers
+- **Nginx**: Load balancer for traffic routing
+- **PostgreSQL**: External database
+- **Docker Compose**: Container orchestration
 - **VPC**: Isolated network infrastructure
 
 ## ✅ Prerequisites
@@ -133,25 +133,24 @@ GOOGLE_MAPS_API_KEY=your_google_maps_key
 The Terraform configuration creates:
 
 1. **VPC with Public/Private Subnets**
-   - Public subnets for ALB
-   - Private subnets for ECS and RDS
+   - Public subnets for EC2 instances
+   - Private subnets for future RDS deployment
 
 2. **ECR Repositories**
    - `tabsur-client`: React frontend
    - `tabsur-server`: Node.js backend
    - `tabsur-fb`: Facebook integration
 
-3. **ECS Fargate Cluster**
-   - Auto-scaling services
+3. **EC2 Instance**
+   - Application server with Docker
+   - Auto-scaling capabilities
    - Health checks and monitoring
-   - Load balancer integration
 
-4. **RDS PostgreSQL Database**
-   - Multi-AZ deployment
-   - Automated backups
+4. **PostgreSQL Database**
+   - External database (not managed by AWS)
    - Security group isolation
 
-5. **Application Load Balancer**
+5. **Nginx Load Balancer**
    - HTTP to HTTPS redirect
    - Path-based routing (`/api/*` → server, `/` → client)
    - Health checks and failover
@@ -163,7 +162,7 @@ The Terraform configuration creates:
 
 ### Security Features
 
-- **Network Isolation**: VPC with private subnets
+- **Network Isolation**: VPC with public subnets
 - **Security Groups**: Restrictive access rules
 - **IAM Roles**: Least privilege access
 - **Encryption**: Data at rest and in transit
@@ -196,13 +195,9 @@ git push origin feature/test-pipeline
 ### 4. Verify Deployment
 
 ```bash
-# Get the ALB DNS name
-cd terraform/environments/dev
-terraform output alb_dns_name
-
-# Test the application
-curl http://<alb-dns-name>/
-curl http://<alb-dns-name>/api/system/health
+# Test the application endpoints
+curl http://54.93.243.196:80/health
+curl http://54.93.243.196:5000/api/system/health
 ```
 
 ## 🔍 Troubleshooting
@@ -221,13 +216,13 @@ curl http://<alb-dns-name>/api/system/health
    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <account-id>.dkr.ecr.us-east-1.amazonaws.com
    ```
 
-3. **ECS Service Issues**
+3. **EC2 Service Issues**
    ```bash
-   # Check service status
-   aws ecs describe-services --cluster <cluster-name> --services <service-name>
+   # Check instance status
+   aws ec2 describe-instances --instance-ids i-0fe51ead4f5a7d437
    
-   # Check task logs
-   aws logs describe-log-groups --log-group-name-prefix "/ecs/"
+   # Check container logs
+   ssh -i ~/.ssh/coolanu-postgres ubuntu@54.93.243.196 "cd /opt/tabsur && sudo docker-compose -f docker-compose-https.yml logs"
    ```
 
 4. **GitHub Actions Failures**
@@ -239,7 +234,7 @@ curl http://<alb-dns-name>/api/system/health
 
 ```bash
 # Check AWS resources
-aws ecs list-clusters
+aws ec2 describe-instances
 aws ecr describe-repositories
 aws elbv2 describe-load-balancers
 
@@ -263,9 +258,9 @@ Access the monitoring dashboard:
 
 ### Key Metrics to Monitor
 
-- **ECS**: CPU/Memory utilization, task count
-- **ALB**: Request count, response time, error rates
-- **RDS**: CPU, connections, storage
+- **EC2**: CPU/Memory utilization, instance health
+- **Nginx**: Request count, response time, error rates
+- **Database**: Connection status and performance
 - **Costs**: Monitor AWS spending
 
 ### Maintenance Tasks
@@ -276,13 +271,13 @@ Access the monitoring dashboard:
    - Update Terraform modules
 
 2. **Backup Verification**:
-   - Test RDS restore procedures
+   - Test database restore procedures
    - Verify ECR image retention policies
 
 3. **Cost Optimization**:
-   - Review and adjust auto-scaling policies
+   - Review and adjust instance sizing
    - Monitor unused resources
-   - Consider reserved instances for RDS
+   - Consider reserved instances for EC2
 
 ## 🔄 CI/CD Workflow
 
@@ -311,10 +306,10 @@ Access the monitoring dashboard:
 
 If deployment fails:
 
-1. **ECS Rollback**:
+1. **EC2 Rollback**:
    ```bash
-   # Force rollback to previous task definition
-   aws ecs update-service --cluster <cluster> --service <service> --task-definition <previous-task-def>
+   # SSH to EC2 and restart with previous image
+   ssh -i ~/.ssh/coolanu-postgres ubuntu@54.93.243.196 "cd /opt/tabsur && sudo docker-compose -f docker-compose-https.yml down && sudo docker-compose -f docker-compose-https.yml up -d"
    ```
 
 2. **Image Rollback**:
@@ -328,13 +323,16 @@ If deployment fails:
 
 ### ✅ Production Environment
 - **Status**: 🟢 **LIVE & RUNNING**
-- **URL**: https://bemyguest.dedyn.io
-- **API**: https://api.bemyguest.dedyn.io
-- **Direct IP**: http://3.72.76.56:80
-- **Last Deployed**: August 17, 2025
+- **Direct Access**: http://54.93.243.196:80
+- **API Endpoint**: http://54.93.243.196:5000
+- **Health Check**: http://54.93.243.196:80/health
+- **Last Deployed**: August 23, 2025
 - **Version**: 2.0.0
 
 ### 🔧 Recent Improvements
+- **Port 80 Access Fixed** - Resolved Nginx configuration syntax errors
+- **Load Balancer Restored** - Nginx container now running and healthy
+- **All Services Operational** - Client, Server, and Load Balancer containers healthy
 - **Performance Optimization**: 4-6x faster test execution
 - **Security Enhancements**: Updated dependencies and security headers
 - **Material-UI v7**: Latest Material Design components
@@ -349,7 +347,7 @@ If deployment fails:
 
 ## 📚 Additional Resources
 
-- [AWS ECS Documentation](https://docs.aws.amazon.com/ecs/)
+- [AWS EC2 Documentation](https://docs.aws.amazon.com/ec2/)
 - [Terraform Documentation](https://www.terraform.io/docs)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [Docker Best Practices](https://docs.docker.com/develop/dev-best-practices/)

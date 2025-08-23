@@ -6,14 +6,18 @@ This guide covers deploying Tabsur using Docker in both development and producti
 
 ### ✅ Production Environment - LIVE
 - **Status**: 🟢 **DEPLOYED & RUNNING**
-- **URL**: https://bemyguest.dedyn.io
-- **API**: https://api.bemyguest.dedyn.io
-- **Direct IP**: http://3.72.76.56:80
-- **Last Deployed**: August 17, 2025
-- **Deployment Method**: `./scripts/deploy-everything.sh`
+- **Direct Access**: http://54.93.243.196:80
+- **API Endpoint**: http://54.93.243.196:5000
+- **Health Check**: http://54.93.243.196:80/health
+- **Last Deployed**: August 23, 2025
+- **Deployment Method**: Docker Compose with Nginx load balancer
 - **Current Version**: 2.0.0
 
 ### 🔧 Recent Critical Fixes Deployed
+- ✅ **Port 80 Access Fixed** - Resolved Nginx configuration syntax errors
+- ✅ **Load Balancer Restored** - Nginx container now running and healthy
+- ✅ **All Services Operational** - Client, Server, and Load Balancer containers healthy
+- ✅ **Direct EC2 Access** - Application accessible via EC2 IP address
 - ✅ **Redux Runtime Errors** - Fixed undefined state returns in errorReducer
 - ✅ **Authentication Issues** - Resolved user ID undefined errors across components
 - ✅ **MUI Grid Warnings** - Updated all Grid components to v7 syntax
@@ -38,11 +42,11 @@ This guide covers deploying Tabsur using Docker in both development and producti
 - **Database**: PostgreSQL (port 5432)
 - **All services**: Run locally with Docker Compose
 
-### Production (Release) Environment
+### Production (Current) Environment
 - **Client**: Optimized React build with Nginx (port 80)
 - **Server**: Node.js/Express with production optimizations (port 5000)
-- **Database**: External PostgreSQL (AWS RDS, etc.)
-- **Load Balancer**: Nginx (port 8080)
+- **Database**: External PostgreSQL (not managed by AWS)
+- **Load Balancer**: Nginx (port 80, 443)
 
 ## 🚀 Quick Start
 
@@ -65,7 +69,7 @@ cp .env.example .env
 # Development environment
 ./deploy.sh debug
 
-# Production environment
+# Production environment (current)
 ./deploy.sh release
 ```
 
@@ -133,7 +137,7 @@ docker-compose -f docker-compose.debug.yml down
 ./deploy.sh release
 
 # Manual Docker Compose
-docker-compose -f docker-compose.release.yml up -d
+docker-compose -f docker-compose.https.yml up -d
 ```
 
 ### Utility Commands
@@ -154,18 +158,18 @@ docker-compose -f docker-compose.release.yml up -d
 ## 🏥 Health Checks
 
 ### Service Health Endpoints
-- **Server**: `http://localhost:5000/api/system/health`
-- **Client**: `http://localhost:3000/health` (debug only)
+- **Server**: `http://54.93.243.196:5000/api/system/health`
+- **Client**: `http://54.93.243.196:80/health`
 
 ### Health Check Response
 ```json
 {
-  "DB": true,
+  "DB": "checking",
   "server": true,
-  "mealsCreatedToday": 5,
-  "users": 150,
-  "onlineUsers": 45,
-  "activeMeals": 12
+  "mealsCreatedToday": 0,
+  "users": 0,
+  "onlineUsers": 0,
+  "activeMeals": 0
 }
 ```
 
@@ -199,7 +203,7 @@ docker logs -f tabsur-server-debug
 
 ### Production
 - Strong JWT secrets
-- HTTPS only
+- HTTPS ready (SSL certificates configured)
 - Database SSL enabled
 - Limited container resources
 - Security headers in Nginx
@@ -243,7 +247,7 @@ docker-compose build --no-cache
 #### 4. Service Not Healthy
 ```bash
 # Check specific service
-curl -f http://localhost:5000/api/system/health
+curl -f http://54.93.243.196:5000/api/system/health
 
 # Check all container statuses
 docker ps
@@ -256,7 +260,7 @@ docker inspect tabsur-server-debug
 1. Check container status: `docker ps`
 2. View logs: `./deploy.sh logs`
 3. Check environment variables: `docker exec <container> env`
-4. Test endpoints manually: `curl http://localhost:5000/api/system/health`
+4. Test endpoints manually: `curl http://54.93.243.196:5000/api/system/health`
 5. Connect to database: `docker exec -it tabsur-db-debug psql -U postgres`
 
 ## 📈 Performance Tuning
@@ -303,7 +307,7 @@ docker inspect tabsur-server-debug
 ### Useful Commands Reference
 ```bash
 # Quick health check
-curl http://localhost:5000/api/system/health
+curl http://54.93.243.196:5000/api/system/health
 
 # Database backup
 docker exec tabsur-db-debug pg_dump -U postgres coolanu_dev > backup.sql
@@ -326,6 +330,7 @@ npm run test:playwright
 
 ## 🔄 Recent Updates
 
+- **August 23, 2025**: Fixed port 80 access and restored load balancer functionality
 - **August 2025**: Major performance improvements and testing optimization
 - **August 2025**: Security enhancements and vulnerability fixes
 - **August 2025**: Material-UI v7 upgrade and React 18 compatibility
