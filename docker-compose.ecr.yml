@@ -15,7 +15,7 @@ services:
       - DB_SSL=false
       - JWT_SECRET=your_jwt_secret_here
       - GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
-      - CORS_ORIGIN=http://54.93.174.16,https://bemyguest.dedyn.io,https://www.bemyguest.dedyn.io
+      - CORS_ORIGIN=http://54.93.243.196,https://bemyguest.dedyn.io,https://www.bemyguest.dedyn.io
     ports:
       - "5000:5000"
     networks:
