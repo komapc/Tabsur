@@ -13,10 +13,7 @@ services:
       - DB_PORT=5432
       - DB_NAME=coolanu
       - DB_USER=coolanu_user
-      # DB_PASSWORD is loaded from env_file above
       - DB_SSL=false
-      # JWT_SECRET is loaded from env_file above
-      - GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY:-your_google_maps_key}
       - CORS_ORIGIN=https://bemyguest.dedyn.io
     ports:
       - "5000:5000"
@@ -35,8 +32,7 @@ services:
     restart: unless-stopped
     environment:
       - REACT_APP_SERVER_HOST=https://bemyguest.dedyn.io
-      - REACT_APP_GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY:-your_google_maps_key}
-    # no ports; served via load balancer
+    # served via load balancer, no direct port mapping
     depends_on:
       server:
         condition: service_healthy
