@@ -14,7 +14,7 @@ services:
       - DB_NAME=coolanu
       - DB_USER=coolanu_user
       - DB_SSL=false
-      - CORS_ORIGIN=https://bemyguest.dedyn.io
+      - CORS_ORIGIN=https://bemyguest.dedyn.io,https://api.bemyguest.dedyn.io,http://54.93.243.196,https://54.93.243.196,http://3.72.76.56,https://3.72.76.56
     ports:
       - "5000:5000"
     networks:

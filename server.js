@@ -65,7 +65,13 @@ const buildAllowedOrigins = () => {
   if (process.env.NODE_ENV === 'production') {
     const raw = process.env.CORS_ORIGIN || 'https://localhost:3000';
     // Support comma-separated list of origins
-    return raw.split(',').map((o) => o.trim()).filter(Boolean);
+    const origins = raw.split(',').map((o) => o.trim()).filter(Boolean);
+    
+    // Add EC2 IP addresses for development/testing
+    origins.push('http://54.93.243.196', 'https://54.93.243.196');
+    origins.push('http://3.72.76.56', 'https://3.72.76.56');
+    
+    return origins;
   }
   return ['http://localhost:3000', 'https://localhost:3000'];
 };
