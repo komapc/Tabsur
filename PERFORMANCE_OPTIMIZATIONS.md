@@ -84,7 +84,7 @@ Comprehensive performance tracking:
 ### 1. Database Migration
 ```bash
 # Run the performance indexes migration
-cd db && PGPASSWORD=coolanu bash ./migrate.sh
+cd db && PGPASSWORD=koolanu bash ./migrate.sh
 ```
 
 ### 2. Environment Configuration

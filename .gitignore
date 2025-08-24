@@ -64,3 +64,11 @@ ec2-config.env
 *.pfx
 secrets/
 config/secrets.json
+
+# Secure environment files
+.env.secure
+.env.production
+.env.secrets
+
+# Database password notes
+DATABASE_PASSWORD_NOTES.md

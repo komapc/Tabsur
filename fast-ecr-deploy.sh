@@ -73,7 +73,7 @@ DB_HOST_FROM_TF=$(cd terraform 2>/dev/null && terraform output -raw postgres_pub
 DB_HOST_TO_USE=${DB_HOST_FROM_TF:-${DB_HOST:-3.249.94.227}}
 
 # Provide sane defaults for secrets only if not set (can be overridden by env)
-DB_PASSWORD_VALUE=${DB_PASSWORD:-coolanu}
+DB_PASSWORD_VALUE=${DB_PASSWORD:-koolanu}
 JWT_SECRET_VALUE=${JWT_SECRET:-tabsur-secret}
 GOOGLE_MAPS_API_KEY_VALUE=${GOOGLE_MAPS_API_KEY:-}
 

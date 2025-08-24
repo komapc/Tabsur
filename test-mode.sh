@@ -7,7 +7,7 @@ echo "================================="
 export NODE_ENV=test
 export DB_NAME=coolanu_test
 export DB_USER=coolanu
-export DB_PASSWORD=coolanu
+export DB_PASSWORD=koolanu
 export DB_HOST=localhost
 export DB_PORT=5432
 
@@ -22,7 +22,7 @@ services:
       - "5433:5432"
     environment:
       POSTGRES_USER: coolanu
-      POSTGRES_PASSWORD: coolanu
+      POSTGRES_PASSWORD: koolanu
       POSTGRES_DB: coolanu_test
     volumes:
       - test_db_data:/var/lib/postgresql/data
@@ -39,7 +39,7 @@ sleep 5
 
 echo "🗄️  Running database migrations for test..."
 cd db
-PGPASSWORD=coolanu DB_HOST=localhost DB_PORT=5433 DB_NAME=coolanu_test bash ./migrate.sh
+PGPASSWORD=koolanu DB_HOST=localhost DB_PORT=5433 DB_NAME=coolanu_test bash ./migrate.sh
 cd ..
 
 echo "📦 Installing dependencies..."

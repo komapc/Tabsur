@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Quick setup for development
 npm run start-db                # Start PostgreSQL database with Docker
 npm install && npm run client-install  # Install dependencies
-cd db && PGPASSWORD=coolanu bash ./migrate.sh && cd ..  # Run database migrations
+cd db && PGPASSWORD=koolanu bash ./migrate.sh && cd ..  # Run database migrations
 npm run debug                   # Start both server (5000) and client (3000)
 ```
 
@@ -119,7 +119,7 @@ Tabsur/
 ### Database Migration System
 - **Migration Files**: Follow `V{number}__{description}.sql` pattern
 - **Execution**: Migrations run sequentially and are tracked in database
-- **Local Development**: Use `PGPASSWORD=coolanu bash ./migrate.sh` in `/db/` directory
+- **Local Development**: Use `PGPASSWORD=koolanu bash ./migrate.sh` in `/db/` directory
 - **Schema Documentation**: See `DATABASE_SCHEMA.md` for complete ER diagram
 
 ### Common Debugging

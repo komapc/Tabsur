@@ -12,7 +12,7 @@ npm install
 npm run client-install
 
 # Run migrations
-cd db && PGPASSWORD=coolanu bash ./migrate.sh && cd ..
+cd db && PGPASSWORD=koolanu bash ./migrate.sh && cd ..
 ```
 
 ### 2. Environment Configuration
@@ -74,7 +74,7 @@ curl -X POST http://localhost:5000/api/users/login \
 # Reset database
 npm run stop-db
 npm run start-db
-cd db && PGPASSWORD=coolanu bash ./migrate.sh && cd ..
+cd db && PGPASSWORD=koolanu bash ./migrate.sh && cd ..
 
 # Check database status
 docker ps | grep coolanu
@@ -157,7 +157,7 @@ pkill -f "react-scripts\|nodemon"
 ### Migration Errors
 ```bash
 # Run migrations with explicit password
-cd db && PGPASSWORD=coolanu bash ./migrate.sh
+cd db && PGPASSWORD=koolanu bash ./migrate.sh
 ```
 
 ### Environment Variables Not Loading
