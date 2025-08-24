@@ -11,10 +11,10 @@ jest.mock('@react-google-maps/api', () => ({
   ),
   Marker: (props) => <div data-testid="map-marker" {...props} />,
   LoadScript: ({ children, onLoad, ...props }) => {
-    // Simulate loading success
-    React.useEffect(() => {
-      if (onLoad) onLoad();
-    }, [onLoad]);
+    // Simulate loading success without React hooks
+    if (onLoad) {
+      setTimeout(onLoad, 0);
+    }
     
     return <div data-testid="load-script" {...props}>{children}</div>;
   }
@@ -55,7 +55,7 @@ jest.mock('../../resources/back_arrow.svg', () => 'back-arrow-icon');
 const originalEnv = process.env;
 beforeAll(() => {
   process.env = { ...originalEnv };
-  process.env.REACT_APP_GOOGLE_MAPS_API_KEY = 'test-api-key';
+  process.env.REACT_APP_GOOGLE_MAPS_API_KEY = 'test-api-key-that-is-long-enough-to-pass-validation-12345';
 });
 
 afterAll(() => {

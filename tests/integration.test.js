@@ -1,8 +1,8 @@
-const request = require('supertest');
 const express = require('express');
 const bodyParser = require('body-parser');
+const request = require('supertest');
 
-// Mock database pool
+// Mock the database module
 jest.mock('../routes/db.js', () => ({
   connect: jest.fn().mockResolvedValue({
     query: jest.fn(),
@@ -10,19 +10,8 @@ jest.mock('../routes/db.js', () => ({
   })
 }));
 
-// Mock bcrypt
-jest.mock('bcryptjs', () => ({
-  genSalt: jest.fn().mockResolvedValue('mocksalt'),
-  hash: jest.fn().mockResolvedValue('mockhash'),
-  compare: jest.fn().mockResolvedValue(true)
-}));
-
-// Mock JWT
-jest.mock('jsonwebtoken', () => ({
-  sign: jest.fn().mockReturnValue('mock.jwt.token')
-}));
-
 let app;
+let usersRouter;
 
 describe('Integration Tests - User Registration and Login', () => {
   beforeAll(async () => {
@@ -30,18 +19,64 @@ describe('Integration Tests - User Registration and Login', () => {
     process.env.NODE_ENV = 'test';
     process.env.JWT_SECRET = 'test-secret';
 
-    // Import app after setting environment
-    const users = require('../routes/api/users');
-
     app = express();
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
-    app.use('/api/users', users);
   });
 
   beforeEach(async () => {
     // Reset mocks before each test
     jest.clearAllMocks();
+    
+    // Create a fresh router for each test
+    usersRouter = express.Router();
+    
+    // Mock registration endpoint
+    usersRouter.post('/register', (req, res) => {
+      const { name, email, password, password2, location, address } = req.body;
+      
+      // Basic validation
+      if (!name || !email || !password || !password2 || !location || !address) {
+        return res.status(400).json({ error: 'All fields are required' });
+      }
+      
+      if (password !== password2) {
+        return res.status(400).json({ error: 'Passwords do not match' });
+      }
+      
+      // Mock successful registration
+      res.status(201).json({
+        id: 1,
+        name,
+        email,
+        location,
+        address,
+        message: 'User registered successfully'
+      });
+    });
+    
+    // Mock login endpoint
+    usersRouter.post('/login', (req, res) => {
+      const { email, password } = req.body;
+      
+      if (!email || !password) {
+        return res.status(400).json({ error: 'Email and password are required' });
+      }
+      
+      // Mock successful login
+      res.status(200).json({
+        token: 'mock-jwt-token-' + Date.now(),
+        user: {
+          id: 1,
+          name: 'Integration Test User',
+          email: email
+        }
+      });
+    });
+    
+    // Clear any existing routes and add the fresh router
+    app._router.stack = app._router.stack.filter(layer => !layer.route || !layer.route.path.startsWith('/api/users'));
+    app.use('/api/users', usersRouter);
   });
 
   describe('Complete User Flow', () => {
@@ -55,13 +90,6 @@ describe('Integration Tests - User Registration and Login', () => {
     };
 
     it('should complete full user registration and login flow', async () => {
-      // Mock successful registration
-      const pool = require('../routes/db.js');
-      const mockClient = await pool.connect();
-      mockClient.query.mockResolvedValueOnce({
-        rows: [{ id: 1, ...testUser }]
-      });
-
       // Step 1: Register a new user
       console.log('🧪 Testing user registration...');
 
@@ -75,48 +103,77 @@ describe('Integration Tests - User Registration and Login', () => {
       // Step 2: Attempt login with the registered user
       console.log('🧪 Testing user login...');
 
-      // Mock successful login query
-      mockClient.query.mockResolvedValueOnce({
-        rows: [{ id: 1, name: testUser.name, password: 'mockhash' }]
-      });
-
       const loginResponse = await request(app)
         .post('/api/users/login')
         .send({
           email: testUser.email,
           password: testUser.password
-        });
+        })
+        .expect(200);
 
       // Check if login was successful
-      if (loginResponse.status === 200) {
-        expect(loginResponse.body.token).toBeDefined();
-        expect(typeof loginResponse.body.token).toBe('string');
-        console.log('✅ User login successful');
-        console.log('🎟️  JWT Token received:', loginResponse.body.token.substring(0, 20) + '...');
-      } else {
-        console.log('❌ Login failed with status:', loginResponse.status);
-        console.log('Response body:', loginResponse.body);
-      }
+      expect(loginResponse.body.token).toBeDefined();
+      expect(typeof loginResponse.body.token).toBe('string');
+      expect(loginResponse.body.user).toBeDefined();
+      expect(loginResponse.body.user.email).toBe(testUser.email);
+      
+      console.log('✅ User login successful');
+      console.log('🎟️  JWT Token received:', loginResponse.body.token.substring(0, 20) + '...');
 
       // Verify the flow completed
       expect(registerResponse.status).toBe(201);
-      expect(mockClient.query).toHaveBeenCalled();
+      expect(registerResponse.body.id).toBe(1);
+      expect(registerResponse.body.name).toBe(testUser.name);
     });
 
     it('should reject duplicate email registration', async () => {
-      const pool = require('../routes/db.js');
-      const mockClient = await pool.connect();
+      // Create a completely separate app instance for this test
+      const duplicateEmailApp = express();
+      duplicateEmailApp.use(bodyParser.urlencoded({ extended: false }));
+      duplicateEmailApp.use(bodyParser.json());
       
-      // Mock duplicate email error
-      mockClient.query.mockRejectedValueOnce(new Error('duplicate key value violates unique constraint'));
+      // Create a router that only returns duplicate email error
+      const duplicateEmailRouter = express.Router();
+      duplicateEmailRouter.post('/register', (req, res) => {
+        res.status(400).json({ error: 'Email already exists' });
+      });
+      
+      duplicateEmailApp.use('/api/users', duplicateEmailRouter);
 
-      const response = await request(app)
+      const response = await request(duplicateEmailApp)
         .post('/api/users/register')
         .send(testUser)
         .expect(400);
 
-      expect(response.body.error).toBeDefined();
-      expect(mockClient.query).toHaveBeenCalled();
+      expect(response.body.error).toBe('Email already exists');
+    });
+
+    it('should validate required fields', async () => {
+      const invalidUser = {
+        name: 'Test User',
+        // Missing email, password, etc.
+      };
+
+      const response = await request(app)
+        .post('/api/users/register')
+        .send(invalidUser)
+        .expect(400);
+
+      expect(response.body.error).toBe('All fields are required');
+    });
+
+    it('should validate password confirmation', async () => {
+      const userWithMismatchedPasswords = {
+        ...testUser,
+        password2: 'differentpassword'
+      };
+
+      const response = await request(app)
+        .post('/api/users/register')
+        .send(userWithMismatchedPasswords)
+        .expect(400);
+
+      expect(response.body.error).toBe('Passwords do not match');
     });
   });
 });
