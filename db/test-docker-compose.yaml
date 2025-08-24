@@ -1,16 +1,18 @@
 version: '3.8'
 
 services:
-  coolanu-test-db:
-    image: postgres:12.2
+  test-db:
+    image: postgres:15
+    container_name: test-db
+    environment:
+      POSTGRES_DB: test_db
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: ${TEST_DB_PASSWORD:-}
     ports:
       - "5433:5432"
-    environment:
-      POSTGRES_USER: coolanu
-      POSTGRES_PASSWORD: coolanu
-      POSTGRES_DB: coolanu_test
     volumes:
-      - test_db_data:/var/lib/postgresql/data
+      - test_postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
 volumes:
-  test_db_data:
+  test_postgres_data:

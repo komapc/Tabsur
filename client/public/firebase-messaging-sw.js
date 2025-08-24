@@ -3,9 +3,12 @@ importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-messaging.js");
 
 try
 {
-  firebase.initializeApp({
-    messagingSenderId: "156567484209"
-  });
+  // Firebase config should be injected during build time
+  const firebaseConfig = {
+    messagingSenderId: self.FIREBASE_MESSAGING_SENDER_ID || "default-sender-id"
+  };
+  
+  firebase.initializeApp(firebaseConfig);
 }
 catch (e)
 {

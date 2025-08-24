@@ -7,9 +7,9 @@ const firebaseConfig = {
   databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL || "https://tabsur.firebaseio.com",
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "tabsur",
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || "tabsur.appspot.com",
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || "156567484209",
-  appId: process.env.REACT_APP_FIREBASE_APP_ID || "1:156567484209:web:811366754f1a296b482210",
-  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID || "G-TWDTEWH15M"
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
 let messaging = null;
@@ -17,6 +17,12 @@ let messaging = null;
 // Check if Firebase messaging is supported in this browser
 const initializeFirebase = async () => {
   try {
+    // Only initialize if required credentials are present
+    if (!firebaseConfig.apiKey || !firebaseConfig.messagingSenderId || !firebaseConfig.appId) {
+      console.warn('Firebase credentials not configured - notifications will be disabled');
+      return;
+    }
+    
     const app = initializeApp(firebaseConfig);
     
     // Check if messaging is supported before initializing
