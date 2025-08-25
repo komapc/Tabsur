@@ -1,4 +1,11 @@
-const config = {};
+const config = {
+  development: {
+    SERVER_HOST: 'http://localhost:5000/api'
+  },
+  production: {
+    SERVER_HOST: 'https://54.93.243.196/api'
+  }
+};
 
 export const env = process.env.NODE_ENV || 'development';
 
@@ -29,9 +36,9 @@ switch (env) {
       const localPref = explicitApiUrl || 'http://localhost:5000';
       config.SERVER_HOST = localPref;
     } else {
-      // In production we MUST talk to the API subdomain, not the frontend origin
-      // Priority: REACT_APP_SERVER_HOST > REACT_APP_API_URL > default api domain
-      config.SERVER_HOST = explicitApiUrl || 'https://api.bemyguest.dedyn.io';
+      // In production, use the local domain proxy to avoid CORS issues
+      // Priority: REACT_APP_SERVER_HOST > REACT_APP_API_URL > local domain proxy
+      config.SERVER_HOST = explicitApiUrl || 'http://54.93.243.196:8080';
     }
   }
 }

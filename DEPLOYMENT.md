@@ -137,7 +137,7 @@ docker-compose -f docker-compose.debug.yml down
 ./deploy.sh release
 
 # Manual Docker Compose
-docker-compose -f docker-compose.https.yml up -d
+docker-compose -f docker-compose-https.yml up -d
 ```
 
 ### Utility Commands
