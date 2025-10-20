@@ -115,6 +115,6 @@
     "redux-mock-store": "^1.5.5",
     "redux-thunk": "^3.1.0",
     "supertest": "^7.1.4",
-    "@playwright/test": "^1.54.2"
+    "@playwright/test": "^1.56.1"
   }
 }
