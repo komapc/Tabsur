@@ -33,9 +33,12 @@ router.post('/register', async (req, response) => {
           console.error(`bcrypt failed: ${JSON.stringify(err)}.`);
           throw err;
         }
+        const locationStr = newUser.location
+          ? `(${newUser.location.lng}, ${newUser.location.lat})`
+          : '(0, 0)';
         client.query(`INSERT INTO users (name, email, password, location, address)
         VALUES ($1, $2, $3, $4, $5)`,
-        [newUser.name, newUser.email, hash, newUser.location, newUser.address])
+        [newUser.name, newUser.email, hash, locationStr, newUser.address])
           .then(user => {
             return response.status(201).json(user);
           })

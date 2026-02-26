@@ -1,6 +1,5 @@
 const pool = require('../db.js');
 const { authenticateJWT, tryAuthenticateJWT } = require('../authenticateJWT.js');
-const addNotification = require('./notificationsPush');
 const express = require('express');
 const router = express.Router();
 // Load input validation;
@@ -41,7 +40,7 @@ router.get('/public', async (req, response) => {
 router.get('/:id', async (req, response) => {
   const userId = req.params.id;
   console.log(`get meals for user ${userId}`);
-  
+
   if (isNaN(userId)) {
     console.error('Invalid user ID provided');
     return response.status(400).json('Invalid user ID');
@@ -212,7 +211,7 @@ router.post('/image', authenticateJWT, async (req, response) => {
     return response.status(500).json(`Empty input.`);
   }
   const meal_id = req.body.meal_id;
-  let image_path = req.body.image_path;
+  let _image_path = req.body.image_path;
   const image_id = req.body.image_id;
   const client = await pool.connect();
   if (isNaN(image_id) || isNaN(meal_id)) {
@@ -222,7 +221,7 @@ router.post('/image', authenticateJWT, async (req, response) => {
   client.query(query, [meal_id, image_id])
     .then((res) => {
       console.log(`insert query done: ${JSON.stringify(res.rows)}`);
-      image_path = res.rows[0].path;
+      _image_path = res.rows[0].path;
       return response.status(200).json(res.rows);
     })
     .catch(err => {
@@ -254,15 +253,7 @@ router.post('/', authenticateJWT, async (req, response) => {
       meal.address, meal.guest_count, meal.host_id, meal.date, meal.visibility, meal.description])
     .then(res => {
       console.log(`query done.`);
-      const message =
-      {
-        title: 'New meal',
-        body: 'A new meal in your areas',
-        icon: 'resources/Message-Bubble-icon.png',
-        click_action: '/Meals/',
-        sender: -1,
-        type: 5
-      };
+      // TODO: add notification to all followers + people in the area
       return response.json(res.rows[0]);
       //TODO: add notification to all followers + people in the area;
     })
@@ -312,7 +303,6 @@ router.put('/', authenticateJWT, async (req, response) => {
 // @desc delete a meal;
 // @access Public (?);
 router.delete('/:meal_id', authenticateJWT, async (req, response) => {
-  const meal = req.body;
   const mealId = req.params.meal_id;
   if (isNaN(mealId)) {
     return response.status(400).json(`mealId: wrong meal id format: ${mealId}.`);

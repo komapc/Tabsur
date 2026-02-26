@@ -104,7 +104,7 @@ const sqlInjectionProtection = (req, res, next) => {
 
   // Check body
   if (req.body) {
-    for (const [key, value] of Object.entries(req.body)) {
+    for (const [_key, value] of Object.entries(req.body)) {
       if (checkValue(value)) {
         return res.status(400).json({
           error: 'Invalid input detected',
@@ -116,7 +116,7 @@ const sqlInjectionProtection = (req, res, next) => {
 
   // Check query parameters
   if (req.query) {
-    for (const [key, value] of Object.entries(req.query)) {
+    for (const [_key, value] of Object.entries(req.query)) {
       if (checkValue(value)) {
         return res.status(400).json({
           error: 'Invalid query parameter',
@@ -128,7 +128,7 @@ const sqlInjectionProtection = (req, res, next) => {
 
   // Check URL parameters
   if (req.params) {
-    for (const [key, value] of Object.entries(req.params)) {
+    for (const [_key, value] of Object.entries(req.params)) {
       if (checkValue(value)) {
         return res.status(400).json({
           error: 'Invalid URL parameter',

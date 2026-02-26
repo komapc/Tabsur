@@ -16,6 +16,25 @@ COPY client/package*.json ./
 FROM base AS deps
 RUN npm ci --cache .npm --prefer-offline --no-audit --no-fund --include=dev
 
+# Debug stage for development
+FROM base AS debug
+COPY --from=deps /app/node_modules ./node_modules
+COPY client/package*.json ./
+COPY client/ ./
+
+# Install nodemon for development
+RUN npm install -g nodemon
+
+# Set ownership
+RUN chown -R nodejs:nodejs /app
+USER nodejs
+
+# Expose port
+EXPOSE 3000
+
+# Development command with hot reloading
+CMD ["npm", "start"]
+
 # Build stage
 FROM base AS build
 COPY --from=deps /app/node_modules ./node_modules
