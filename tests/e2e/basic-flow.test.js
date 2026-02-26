@@ -129,7 +129,7 @@ describe('🧪 Basic Tabsur App Flow Tests', () => {
       const validateMealDate = (dateString) => {
         const mealDate = new Date(dateString);
         const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        today.setUTCHours(0, 0, 0, 0);
 
         return mealDate >= today;
       };
