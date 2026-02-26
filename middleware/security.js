@@ -12,8 +12,8 @@ const securityMiddleware = helmet({
       styleSrc: ['\'self\'', '\'unsafe-inline\'', 'https://fonts.googleapis.com'],
       fontSrc: ['\'self\'', 'https://fonts.gstatic.com'],
       imgSrc: ['\'self\'', 'data:', 'https:'],
-      scriptSrc: ['\'self\'', 'https://maps.googleapis.com'],
-      connectSrc: ['\'self\'', 'https://maps.googleapis.com'],
+      scriptSrc: ['\'self\'', 'https://maps.googleapis.com', 'https://accounts.google.com'],
+      connectSrc: ['\'self\'', 'https://maps.googleapis.com', 'https://accounts.google.com'],
       frameSrc: ['\'none\''],
       objectSrc: ['\'none\''],
       upgradeInsecureRequests: []
