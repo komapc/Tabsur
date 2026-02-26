@@ -11,24 +11,56 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_DB: coolanu
+          POSTGRES_USER: coolanu
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    env:
+      NODE_ENV: debug
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: 📦 Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: 18
         cache: 'npm'
-    
-    - name: 🔒 Install dependencies
+
+    - name: 🔒 Install server dependencies
       run: npm run ci:install
-    
+
+    - name: 🔒 Install client dependencies
+      run: cd client && npm ci
+
+    - name: 🗄️ Run database migrations
+      run: |
+        chmod +x ./db/migrate.sh
+        cd db && DB_PASSWORD=${{ secrets.DB_PASSWORD }} bash ./migrate.sh
+
+    - name: 🏗️ Build React client
+      run: cd client && npm run build
+
     - name: 🎭 Install Playwright Browsers
-      run: npx playwright install --with-deps
-    
+      run: npx playwright install --with-deps chromium
+
     - name: 🧪 Run Playwright tests
-      run: npx playwright test
-    
+      run: npx playwright test --config=playwright.config.fast.js
+
     - name: 📊 Upload test results
       if: always()
       uses: actions/upload-artifact@v4
@@ -37,12 +69,4 @@ jobs:
         path: |
           playwright-report/
           test-results/
-        retention-days: 30
-    
-    - name: 📋 Upload test results to GitHub
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: playwright-results
-        path: test-results/
         retention-days: 30

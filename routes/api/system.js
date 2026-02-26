@@ -7,20 +7,20 @@ const pool = require('../db');
 // @access Public
 router.get('/health', async (req, response) => {
   console.log('Get system health.');
-  
+
   let dbStatus = 'checking';
   let mealsCreatedToday = 0;
   let users = 0;
-  let onlineUsers = 0;
+  const onlineUsers = 0;
   let activeMeals = 0;
-  
+
   try {
     // Test database connection
     const client = await pool.connect();
     await client.query('SELECT 1');
     client.release();
     dbStatus = 'connected';
-    
+
     // Get basic stats if database is connected
     try {
       const statsResult = await pool.query(`
@@ -29,7 +29,7 @@ router.get('/health', async (req, response) => {
           (SELECT COUNT(*) FROM meals WHERE DATE(created_at) = CURRENT_DATE) as meals_today,
           (SELECT COUNT(*) FROM meals WHERE date > NOW()) as active_meals
       `);
-      
+
       if (statsResult.rows.length > 0) {
         users = parseInt(statsResult.rows[0].user_count) || 0;
         mealsCreatedToday = parseInt(statsResult.rows[0].meals_today) || 0;
@@ -39,12 +39,12 @@ router.get('/health', async (req, response) => {
       console.warn('Could not fetch stats:', statsError.message);
       // Continue with default values
     }
-    
+
   } catch (error) {
     console.error('Database connection failed:', error.message);
     dbStatus = 'disconnected';
   }
-  
+
   const resp = {
     DB: dbStatus,
     server: true,
@@ -53,7 +53,7 @@ router.get('/health', async (req, response) => {
     onlineUsers,
     activeMeals
   };
-  
+
   response.json(resp);
 });
 

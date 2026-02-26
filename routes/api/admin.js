@@ -8,13 +8,13 @@ const requireAdmin = async (req, res, next) => {
     // For now, allow all requests - in production you'd check admin role
     // const token = req.headers.authorization?.split(' ')[1];
     // if (!token) return res.status(401).json({ error: 'No token provided' });
-    
+
     // const decoded = jwt.verify(token, process.env.JWT_SECRET);
     // const user = await pool.query('SELECT role FROM users WHERE id = $1', [decoded.id]);
     // if (user.rows[0]?.role !== 'admin') {
     //   return res.status(403).json({ error: 'Admin access required' });
     // }
-    
+
     next();
   } catch (error) {
     console.error('Admin auth error:', error);
@@ -31,19 +31,19 @@ router.use(requireAdmin);
 router.get('/stats', async (req, res) => {
   try {
     const client = await pool.connect();
-    
+
     try {
       // Get total users
       const usersResult = await client.query('SELECT COUNT(*) as count FROM users');
       const totalUsers = parseInt(usersResult.rows[0].count);
-      
+
       // Get total meals
       const mealsResult = await client.query('SELECT COUNT(*) as count FROM meals');
       const totalMeals = parseInt(mealsResult.rows[0].count);
-      
+
       // Get active sessions (simplified - could be enhanced with actual session tracking)
       const activeSessions = Math.floor(Math.random() * 50) + 10; // Placeholder
-      
+
       res.json({
         totalUsers,
         totalMeals,
@@ -65,7 +65,7 @@ router.get('/stats', async (req, res) => {
 router.get('/users', async (req, res) => {
   try {
     const client = await pool.connect();
-    
+
     try {
       const query = `
         SELECT 
@@ -85,7 +85,7 @@ router.get('/users', async (req, res) => {
         GROUP BY u.id, u.name, u.email, u.location, u.address, u.created_at
         ORDER BY u.created_at DESC
       `;
-      
+
       const result = await client.query(query);
       res.json(result.rows);
     } finally {
@@ -104,7 +104,7 @@ router.get('/users/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const client = await pool.connect();
-    
+
     try {
       const query = `
         SELECT 
@@ -121,13 +121,13 @@ router.get('/users/:id', async (req, res) => {
         WHERE u.id = $1
         GROUP BY u.id, u.name, u.email, u.location, u.address, u.created_at
       `;
-      
+
       const result = await client.query(query, [id]);
-      
+
       if (result.rows.length === 0) {
         return res.status(404).json({ error: 'User not found' });
       }
-      
+
       res.json(result.rows[0]);
     } finally {
       client.release();
@@ -145,9 +145,9 @@ router.put('/users/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { name, email, location, address } = req.body;
-    
+
     const client = await pool.connect();
-    
+
     try {
       const query = `
         UPDATE users 
@@ -159,13 +159,13 @@ router.put('/users/:id', async (req, res) => {
         WHERE id = $5
         RETURNING *
       `;
-      
+
       const result = await client.query(query, [name, email, location, address, id]);
-      
+
       if (result.rows.length === 0) {
         return res.status(404).json({ error: 'User not found' });
       }
-      
+
       res.json(result.rows[0]);
     } finally {
       client.release();
@@ -183,24 +183,24 @@ router.delete('/users/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const client = await pool.connect();
-    
+
     try {
       // Start transaction
       await client.query('BEGIN');
-      
+
       // Delete related records first
       await client.query('DELETE FROM attends WHERE user_id = $1', [id]);
       await client.query('DELETE FROM follows WHERE follower_id = $1 OR following_id = $1', [id]);
       await client.query('DELETE FROM meals WHERE host_id = $1', [id]);
-      
+
       // Finally delete the user
       const result = await client.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
-      
+
       if (result.rows.length === 0) {
         await client.query('ROLLBACK');
         return res.status(404).json({ error: 'User not found' });
       }
-      
+
       await client.query('COMMIT');
       res.json({ message: 'User deleted successfully', user: result.rows[0] });
     } catch (error) {
@@ -221,7 +221,7 @@ router.delete('/users/:id', async (req, res) => {
 router.get('/meals', async (req, res) => {
   try {
     const client = await pool.connect();
-    
+
     try {
       const query = `
         SELECT 
@@ -246,7 +246,7 @@ router.get('/meals', async (req, res) => {
         GROUP BY m.id, m.title, m.description, m.date, m.location, m.max_attendees, m.created_at, u.name, u.email
         ORDER BY m.date DESC
       `;
-      
+
       const result = await client.query(query);
       res.json(result.rows);
     } finally {
@@ -265,7 +265,7 @@ router.get('/meals/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const client = await pool.connect();
-    
+
     try {
       const query = `
         SELECT 
@@ -281,13 +281,13 @@ router.get('/meals/:id', async (req, res) => {
         WHERE m.id = $1
         GROUP BY m.id, m.title, m.description, m.date, m.location, m.max_attendees, m.created_at, u.name, u.email
       `;
-      
+
       const result = await client.query(query, [id]);
-      
+
       if (result.rows.length === 0) {
         return res.status(404).json({ error: 'Meal not found' });
       }
-      
+
       res.json(result.rows[0]);
     } finally {
       client.release();
@@ -305,9 +305,9 @@ router.put('/meals/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, date, location, max_attendees } = req.body;
-    
+
     const client = await pool.connect();
-    
+
     try {
       const query = `
         UPDATE meals 
@@ -320,13 +320,13 @@ router.put('/meals/:id', async (req, res) => {
         WHERE id = $6
         RETURNING *
       `;
-      
+
       const result = await client.query(query, [title, description, date, location, max_attendees, id]);
-      
+
       if (result.rows.length === 0) {
         return res.status(404).json({ error: 'Meal not found' });
       }
-      
+
       res.json(result.rows[0]);
     } finally {
       client.release();
@@ -344,22 +344,22 @@ router.delete('/meals/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const client = await pool.connect();
-    
+
     try {
       // Start transaction
       await client.query('BEGIN');
-      
+
       // Delete related records first
       await client.query('DELETE FROM attends WHERE meal_id = $1', [id]);
-      
+
       // Finally delete the meal
       const result = await client.query('DELETE FROM meals WHERE id = $1 RETURNING *', [id]);
-      
+
       if (result.rows.length === 0) {
         await client.query('ROLLBACK');
         return res.status(404).json({ error: 'Meal not found' });
       }
-      
+
       await client.query('COMMIT');
       res.json({ message: 'Meal deleted successfully', meal: result.rows[0] });
     } catch (error) {
@@ -380,13 +380,13 @@ router.delete('/meals/:id', async (req, res) => {
 router.get('/system', async (req, res) => {
   try {
     const client = await pool.connect();
-    
+
     try {
       // Get database size
       const dbSizeResult = await client.query(`
         SELECT pg_size_pretty(pg_database_size(current_database())) as db_size
       `);
-      
+
       // Get table counts
       const tableCountsResult = await client.query(`
         SELECT 
@@ -397,7 +397,7 @@ router.get('/system', async (req, res) => {
         WHERE schemaname = 'public'
         ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC
       `);
-      
+
       res.json({
         database: {
           name: process.env.DB_NAME || 'tabsur',

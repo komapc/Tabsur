@@ -1,4 +1,3 @@
-const express = require('express');
 const pool = require('../db.js');
 
 /// utils

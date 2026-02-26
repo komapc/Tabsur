@@ -46,5 +46,19 @@ module.exports = {
     'build/',
     'dist/',
     '*.min.js'
+  ],
+  overrides: [
+    {
+      files: ['tests/**/*.js', 'tests/**/*.test.js'],
+      env: {
+        browser: true,
+        jest: true
+      },
+      parserOptions: {
+        ecmaVersion: 2020,
+        ecmaFeatures: { jsx: true },
+        sourceType: 'module'
+      }
+    }
   ]
 };

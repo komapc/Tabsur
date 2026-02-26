@@ -6,8 +6,8 @@
 # Set default values (should be overridden by environment variables)
 DB_HOST="${DB_HOST:-localhost}"
 DB_PORT="${DB_PORT:-5432}"
-DB_NAME="${DB_NAME:-tabsur}"
-DB_USER="${DB_USER:-tabsur_user}"
+DB_NAME="${DB_NAME:-coolanu}"
+DB_USER="${DB_USER:-coolanu}"
 DB_PASSWORD="${DB_PASSWORD:-}"
 
 # Check if required environment variables are set
@@ -26,8 +26,8 @@ echo "   User: $DB_USER"
 # Create migrations directory if it doesn't exist
 mkdir -p migrations
 
-# Find all SQL files in the migrations directory
-sql_files=$(find migrations -name "*.sql" | sort)
+# Find all SQL files in the migrations directory, sorted numerically by version number
+sql_files=$(find migrations -name "*.sql" | sort -t'V' -k2 -V)
 
 if [[ -z "$sql_files" ]]; then
     echo "⚠️  No SQL migration files found in migrations/ directory"

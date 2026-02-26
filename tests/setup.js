@@ -50,14 +50,14 @@ Object.defineProperty(window, 'matchMedia', {
     removeListener: jest.fn(),
     addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  })),
+    dispatchEvent: jest.fn()
+  }))
 });
 
 // Mock window.scrollTo
 Object.defineProperty(window, 'scrollTo', {
   writable: true,
-  value: jest.fn(),
+  value: jest.fn()
 });
 
 // Mock fetch
@@ -65,7 +65,7 @@ global.fetch = jest.fn(() =>
   Promise.resolve({
     ok: true,
     json: () => Promise.resolve({}),
-    text: () => Promise.resolve(''),
+    text: () => Promise.resolve('')
   })
 );
 
@@ -84,13 +84,13 @@ global.WebSocket = class WebSocket {
 beforeEach(() => {
   // Clear all mocks
   jest.clearAllMocks();
-  
+
   // Reset DOM
   document.body.innerHTML = '';
-  
+
   // Reset localStorage
   localStorage.clear();
-  
+
   // Reset sessionStorage
   sessionStorage.clear();
 });

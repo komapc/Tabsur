@@ -27,23 +27,23 @@ describe('Integration Tests - User Registration and Login', () => {
   beforeEach(async () => {
     // Reset mocks before each test
     jest.clearAllMocks();
-    
+
     // Create a fresh router for each test
     usersRouter = express.Router();
-    
+
     // Mock registration endpoint
     usersRouter.post('/register', (req, res) => {
       const { name, email, password, password2, location, address } = req.body;
-      
+
       // Basic validation
       if (!name || !email || !password || !password2 || !location || !address) {
         return res.status(400).json({ error: 'All fields are required' });
       }
-      
+
       if (password !== password2) {
         return res.status(400).json({ error: 'Passwords do not match' });
       }
-      
+
       // Mock successful registration
       res.status(201).json({
         id: 1,
@@ -54,15 +54,15 @@ describe('Integration Tests - User Registration and Login', () => {
         message: 'User registered successfully'
       });
     });
-    
+
     // Mock login endpoint
     usersRouter.post('/login', (req, res) => {
       const { email, password } = req.body;
-      
+
       if (!email || !password) {
         return res.status(400).json({ error: 'Email and password are required' });
       }
-      
+
       // Mock successful login
       res.status(200).json({
         token: 'mock-jwt-token-' + Date.now(),
@@ -73,7 +73,7 @@ describe('Integration Tests - User Registration and Login', () => {
         }
       });
     });
-    
+
     // Clear any existing routes and add the fresh router
     app._router.stack = app._router.stack.filter(layer => !layer.route || !layer.route.path.startsWith('/api/users'));
     app.use('/api/users', usersRouter);
@@ -116,7 +116,7 @@ describe('Integration Tests - User Registration and Login', () => {
       expect(typeof loginResponse.body.token).toBe('string');
       expect(loginResponse.body.user).toBeDefined();
       expect(loginResponse.body.user.email).toBe(testUser.email);
-      
+
       console.log('✅ User login successful');
       console.log('🎟️  JWT Token received:', loginResponse.body.token.substring(0, 20) + '...');
 
@@ -131,13 +131,13 @@ describe('Integration Tests - User Registration and Login', () => {
       const duplicateEmailApp = express();
       duplicateEmailApp.use(bodyParser.urlencoded({ extended: false }));
       duplicateEmailApp.use(bodyParser.json());
-      
+
       // Create a router that only returns duplicate email error
       const duplicateEmailRouter = express.Router();
       duplicateEmailRouter.post('/register', (req, res) => {
         res.status(400).json({ error: 'Email already exists' });
       });
-      
+
       duplicateEmailApp.use('/api/users', duplicateEmailRouter);
 
       const response = await request(duplicateEmailApp)
@@ -150,7 +150,7 @@ describe('Integration Tests - User Registration and Login', () => {
 
     it('should validate required fields', async () => {
       const invalidUser = {
-        name: 'Test User',
+        name: 'Test User'
         // Missing email, password, etc.
       };
 

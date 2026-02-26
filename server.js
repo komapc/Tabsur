@@ -60,18 +60,11 @@ app.use(securityMiddleware);
 app.use(additionalSecurityHeaders);
 app.use(sqlInjectionProtection);
 
-// CORS middleware (supports multiple origins via comma-separated CORS_ORIGIN)
+// CORS middleware (supports multiple origins via comma-separated CORS_ORIGIN env var)
 const buildAllowedOrigins = () => {
   if (process.env.NODE_ENV === 'production') {
     const raw = process.env.CORS_ORIGIN || 'https://localhost:3000';
-    // Support comma-separated list of origins
-    const origins = raw.split(',').map((o) => o.trim()).filter(Boolean);
-    
-    // Add EC2 IP addresses for development/testing
-    origins.push('http://54.93.243.196', 'https://54.93.243.196');
-    origins.push('http://3.72.76.56', 'https://3.72.76.56');
-    
-    return origins;
+    return raw.split(',').map((o) => o.trim()).filter(Boolean);
   }
   return ['http://localhost:3000', 'https://localhost:3000'];
 };
@@ -82,8 +75,6 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
 }));
-
-// CORS is handled by nginx proxy in production
 
 // Body parser middleware with optimized limits
 app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }));
@@ -108,7 +99,7 @@ app.get('/performance', getPerformanceMetrics);
 
 // Sanity check endpoint for JWT configuration
 app.get('/sanity-check', (req, res) => {
-  const jwtSecret = process.env.SECRET_OR_KEY;
+  const jwtSecret = process.env.JWT_SECRET;
   const hasJwtSecret = !!jwtSecret && jwtSecret !== 'your-super-secret-jwt-key-change-this';
   res.status(200).json({
     status: 'OK',
@@ -141,11 +132,11 @@ app.use('/api/images', uploadLimiter, images);
 app.use('/api/system', apiLimiter, system);
 app.use('/api/admin', apiLimiter, admin);
 
-// Serve static assets in production
 console.log('server.js, env =', process.env.NODE_ENV);
 
+// In non-production mode, serve the React build as a fallback.
+// In production, nginx serves static files directly.
 if (process.env.NODE_ENV !== 'production') {
-  // Serve static files from React build
   app.use(express.static('client/build'));
 
   // Catch all handler: send back React's index.html file (but only for non-API routes)
@@ -159,7 +150,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Error handling middleware
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   console.error('Error:', err);
 
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'debug') {
@@ -183,7 +174,6 @@ const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`);
   console.log(`Environment: ${process.env.NODE_ENV}`);
-  console.log(`CORS handled by nginx proxy`);
 });
 
 // Graceful shutdown

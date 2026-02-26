@@ -71,34 +71,34 @@ const MockErrorComponent = ({ shouldThrow }) => {
 const MockComponents = {
   // Error handling
   ErrorComponent: MockErrorComponent,
-  
+
   // Navigation
   Navigation: () => React.createElement('nav', { role: 'navigation' }, 'Navigation'),
-  
+
   // Forms
   FormWithLabels: () => React.createElement('form', {}, [
     React.createElement('label', { htmlFor: 'test-input' }, 'Test Label'),
     React.createElement('input', { id: 'test-input' })
   ]),
-  
+
   // Error messages
   ErrorMessage: () => React.createElement('div', { 'data-testid': 'error-message' }, 'Error occurred'),
   NetworkError: () => React.createElement('div', { 'data-testid': 'network-error' }, 'Network error'),
   ServerError: () => React.createElement('div', { 'data-testid': 'server-error' }, 'Server error'),
-  
+
   // Success messages
   SuccessMessage: () => React.createElement('div', { 'data-testid': 'success-message' }, 'Success!'),
-  
+
   // Loading states
   LoadingSpinner: () => React.createElement('div', { 'data-testid': 'loading' }, 'Loading...'),
-  
+
   // Meal components
   MealCard: () => React.createElement('div', { 'data-testid': 'meal-card' }, [
     React.createElement('h3', { key: 'title' }, 'Test Meal'),
     React.createElement('p', { key: 'description' }, 'A delicious test meal'),
     React.createElement('button', { key: 'join', 'data-testid': 'join-button' }, 'Join Meal')
   ]),
-  
+
   // Profile components
   ProfileInfo: () => React.createElement('div', { 'data-testid': 'profile' }, [
     React.createElement('h2', { key: 'name' }, 'Test User'),

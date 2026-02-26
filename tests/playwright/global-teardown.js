@@ -4,7 +4,7 @@
  */
 async function globalTeardown(config) {
   console.log('🧹 Starting global teardown for Playwright tests...');
-  
+
   // Clean up any test artifacts or resources
   console.log('✅ Global teardown completed successfully!');
 }
