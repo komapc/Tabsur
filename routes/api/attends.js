@@ -69,7 +69,7 @@ router.post('/:id', authenticateJWT, async (req, response) => {
 });
 /* UPDATE attend */
 router.put('/:id', authenticateJWT, function (req, response) {
-  return response.status(500).json('failed to update - not implemented');
+  return response.status(501).json({ error: 'Not implemented' });
 });
 /* DELETE attend */
 router.delete('/:id', authenticateJWT, async (req, response) => {
@@ -80,8 +80,8 @@ router.delete('/:id', authenticateJWT, async (req, response) => {
   client.query(`DELETE FROM attends WHERE
   meal_id = $1 AND user_id=$2`,
   [attend.meal_id, attend.user_id])
-    .catch(err => { console.error(err); return response.status(500).json('failed to delete'); })
-    .then(answer => { return response.status(201).json(answer); })
+    .then(() => { return response.status(200).json({ deleted: true }); })
+    .catch(err => { console.error(err); return response.status(500).json({ error: 'Failed to delete' }); })
     .finally(() => client.release());
 });
 module.exports = router;

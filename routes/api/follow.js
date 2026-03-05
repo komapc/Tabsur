@@ -67,7 +67,7 @@ router.post('/:id', authenticateJWT, async (req, response) => {
   VALUES ($1, $2, $3)
   ON CONFLICT (follower, followie)
   DO UPDATE SET
-  status = $3 WHERE follow.follower=$2 AND follow.followie = $1
+  status = $3 WHERE follow.follower=$1 AND follow.followie = $2
   RETURNING follower`;
   console.log(JSON.stringify(SQLquery));
   const client = await pool.connect();

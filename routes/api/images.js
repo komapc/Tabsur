@@ -2,7 +2,6 @@ const express = require('express');
 const { S3Client, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
 const fs = require('fs');
 const keys = require('../../config/keys');
-// const fileType = require('file-type');
 const multiparty = require('multiparty');
 const insertImageIntoDB = require('./utility.js');
 const router = express.Router();
@@ -42,7 +41,7 @@ router.post('/upload', authenticateJWT, async (request, response) => {
     console.log(`Uploading file: ${JSON.stringify(files)}`);
     const path = files.file[0].path;
     const buffer = fs.readFileSync(path);
-    const type = 'jpeg'; //await fileType(buffer);
+    const type = 'jpeg';
     const timestamp = Date.now().toString();
     const fileName = `images/${timestamp}-lg`;
     const uploader = fields.uploader;

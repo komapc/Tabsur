@@ -77,18 +77,7 @@ router.post('/', authenticateJWT, async (req, response) => {
     [hungry.user, hungry.name, hungry.type, `(${hungry.location.lng}, ${hungry.location.lat})`,
       hungry.address, hungry.date, hungry.until, hungry.visibility])
     .then((res) => {
-      console.log(`query done: ${JSON.stringify(res.rows)}`);
-      // const message = {
-      //   title: 'Somebody is hungry here',
-      //   body:  `A hungry user in your area!`,
-      //   icon: 'resources/Message-Bubble-icon.png',
-      //   click_action: `/User/${hungry.user}`,
-      //   receiver: hungry.user,
-      //   meal_id:  -1,
-      //   sender: -1,
-      //   type: 7
-      // };
-      // addNotification(message);
+      return response.status(201).json(res.rows[0]);
     })
     .catch((e) => {
       console.error('exception catched: ' + e);
@@ -113,8 +102,7 @@ router.delete('/:hungry_id', authenticateJWT, async (req, response) => {
   client.query('DELETE FROM hungry WHERE id=$1',
     [hungry_id])
     .then(() => {
-      console.log('deleted.');
-      return response.status(201).json(req.body);
+      return response.status(200).json({ deleted: hungry_id });
     })
     .catch((e) => {
       console.error('exception catched: ' + e);

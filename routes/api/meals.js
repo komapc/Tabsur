@@ -2,8 +2,8 @@ const pool = require('../db.js');
 const { authenticateJWT, tryAuthenticateJWT } = require('../authenticateJWT.js');
 const express = require('express');
 const router = express.Router();
-// Load input validation;
 const validateMealInput = require('../../validation/meal');
+const { validateMealUpdate } = require('../../validation/meal');
 // @route GET api/meals/public
 // @desc get public meals for unauthenticated users;
 // @access Public;
@@ -266,11 +266,7 @@ router.post('/', authenticateJWT, async (req, response) => {
     });
 });
 router.put('/', authenticateJWT, async (req, response) => {
-  // console.error(`Editing meal is not implemented yet ${JSON.stringify(req.body)}`);
   const meal = req.body;
-
-  // Use the flexible update validation
-  const { validateMealUpdate } = require('../../validation/meal');
   const { errors, isValid } = validateMealUpdate(meal);
 
   // Check validation;
@@ -312,12 +308,11 @@ router.delete('/:meal_id', authenticateJWT, async (req, response) => {
   client.query('DELETE FROM meals WHERE id=$1',
     [mealId])
     .then(() => {
-      console.log('deleted.');
-      return response.status(201).json(req.body);
+      return response.status(200).json({ deleted: mealId });
     })
     .catch(e => {
-      console.error(`Exception catched: ${JSON.stringfy(e)}`);
-      response.status(500).json(e);
+      console.error(`Exception in deleting meal: ${JSON.stringify(e)}`);
+      response.status(500).json({ error: 'Failed to delete meal' });
     })
     .finally(() => {
       client.release();
