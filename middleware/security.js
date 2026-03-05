@@ -59,25 +59,16 @@ const securityMiddleware = helmet({
 
 /**
  * Additional security headers middleware
+ * (X-Frame-Options, X-Content-Type-Options, X-XSS-Protection are already set by helmet above)
  */
 const additionalSecurityHeaders = (req, res, next) => {
-  // Prevent clickjacking
-  res.setHeader('X-Frame-Options', 'DENY');
-
-  // Prevent MIME type sniffing
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-
-  // XSS Protection
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-
-  // Prevent caching of sensitive data
+  // Prevent caching of API responses
   if (req.path.includes('/api/')) {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
   }
 
-  // Remove server information
   res.removeHeader('Server');
 
   next();
