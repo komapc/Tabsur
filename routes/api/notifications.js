@@ -61,7 +61,7 @@ router.post('/token/:id', authenticateJWT, async (req, response)=> {
   INSERT INTO user_tokens (user_id, token_type, token)
   SELECT $1, 0, $2
   WHERE NOT EXISTS (
-    SELECT 1 FROM user_tokens WHERE user_id=$3 AND token=$4;
+    SELECT 1 FROM user_tokens WHERE user_id=$3 AND token=$4
   )
   RETURNING token`;
   const client = await pool.connect();

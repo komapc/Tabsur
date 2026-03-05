@@ -3,14 +3,10 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
-//const passport = require('passport');
 const insertImageIntoDB = require('./utility.js');
 const pool = require('../db.js');
-// Load input validation;
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
-// Load User model;
-//const User = require('../../models/User');
 // @route POST api/users/register;
 // @desc Register user;
 // @access Public;
@@ -57,8 +53,8 @@ router.post('/register', async (req, response) => {
     });
   }
   catch (e) {
-    console.log('exception catched: ' + e);
-    return response.status(500).json(req.body);
+    console.error('register exception: ' + e);
+    return response.status(500).json({ error: 'Registration failed' });
   }
 });
 // @route POST api/users/login;
@@ -77,50 +73,28 @@ router.post('/login', async (req, response) => {
   client.query('SELECT id, name, password FROM users WHERE email = $1 OR id = $2 LIMIT 1',
     [newReq.email, newReq.id])
     .then(res => {
-    // no record found
       if (res.rows === undefined || res.rows.length === 0) {
         console.error(`error: user [${newReq.email}] doesn't exist.`);
         errors.email = 'email not found';
-        return response.status(500).json(errors);
+        return response.status(404).json(errors);
       }
-      // Check password;
       const row = res.rows[0];
-      console.log('res: ' + JSON.stringify(res));
-      console.log('row: ' + JSON.stringify(row));
-      bcrypt.compare(newReq.password, row.password).then(isMatch => {
+      return bcrypt.compare(newReq.password, row.password).then(isMatch => {
         if (isMatch) {
-        // User matched;
-        // Create JWT Payload;
-          const payload = {
-            id: row.id,
-            name: row.name
-          };
-          // Sign token;
-          jwt.sign(
-            payload,
-            keys.secretOrKey,
-            {
-              expiresIn: 31556926 // 1 year in seconds
-            },
-            (err, token) => {
-              response.json({
-                success: true,
-                token: 'Bearer ' + token
-              });
-            }
-          );
+          const payload = { id: row.id, name: row.name };
+          jwt.sign(payload, keys.secretOrKey, { expiresIn: 31556926 }, (err, token) => {
+            response.json({ success: true, token: 'Bearer ' + token });
+          });
         } else {
-          return response
-            .status(400)
-            .json({ passwordincorrect: 'Password incorrect' });
+          return response.status(400).json({ passwordincorrect: 'Password incorrect' });
         }
-      })
-        .catch(err => {
-          console.error('bcrypt error:' + err);
-          return response.status(500).json(newReq);
-        })
-        .finally(() => client.release());
-    });
+      });
+    })
+    .catch(err => {
+      console.error('login error:' + err);
+      return response.status(500).json({ error: 'Login failed' });
+    })
+    .finally(() => client.release());
 });
 //add avatar path to images and update user_images table;
 const addAvatar = async (client, userId, picture) => {
@@ -158,7 +132,7 @@ router.post('/loginFB', async (req, response) => {
   const newReq = req.body;
   if (!newReq || !newReq.name) {
     console.error(`Bad request to login with facebook: ${JSON.stringify(newReq)}`);
-    return response.status(403);
+    return response.status(400).json({ error: 'Invalid Facebook login request' });
   }
   let newUserId = -1;
   const newUserName = newReq.name;
