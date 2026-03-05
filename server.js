@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 const sslRedirect = require('heroku-ssl-redirect');
@@ -77,8 +76,8 @@ app.use(cors({
 }));
 
 // Body parser middleware with optimized limits
-app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }));
-app.use(bodyParser.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: false, limit: '10mb' }));
+app.use(express.json({ limit: '10mb' }));
 
 // Input sanitization and validation middleware
 app.use(sanitizeInput);

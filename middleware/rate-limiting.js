@@ -7,20 +7,20 @@ const { ipKeyGenerator } = require('express-rate-limit');
  */
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: 100,
   message: {
     error: 'Too many requests',
     message: 'Rate limit exceeded. Please try again later.',
-    retryAfter: Math.ceil(15 * 60 / 1000) // seconds
+    retryAfter: 15 * 60
   },
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  standardHeaders: true,
+  legacyHeaders: false,
   keyGenerator: ipKeyGenerator,
   handler: (req, res) => {
     res.status(429).json({
       error: 'Too many requests',
       message: 'Rate limit exceeded. Please try again later.',
-      retryAfter: Math.ceil(15 * 60 / 1000)
+      retryAfter: 15 * 60
     });
   }
 });
@@ -31,11 +31,11 @@ const apiLimiter = rateLimit({
  */
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // limit each IP to 5 requests per windowMs
+  max: 5,
   message: {
     error: 'Too many authentication attempts',
     message: 'Too many login attempts. Please try again later.',
-    retryAfter: Math.ceil(15 * 60 / 1000)
+    retryAfter: 15 * 60
   },
   standardHeaders: true,
   legacyHeaders: false,
@@ -43,7 +43,7 @@ const authLimiter = rateLimit({
     res.status(429).json({
       error: 'Too many authentication attempts',
       message: 'Too many login attempts. Please try again later.',
-      retryAfter: Math.ceil(15 * 60 / 1000)
+      retryAfter: 15 * 60
     });
   }
 });
@@ -54,23 +54,20 @@ const authLimiter = rateLimit({
  */
 const uploadLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 10, // limit each user to 10 uploads per hour
+  max: 10,
   message: {
     error: 'Too many file uploads',
     message: 'Upload limit exceeded. Please try again later.',
-    retryAfter: Math.ceil(60 * 60 / 1000)
+    retryAfter: 60 * 60
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => {
-    // Use user ID if authenticated, IP if not
-    return req.user ? req.user.id : ipKeyGenerator(req);
-  },
+  keyGenerator: (req) => req.user ? req.user.id : ipKeyGenerator(req),
   handler: (req, res) => {
     res.status(429).json({
       error: 'Too many file uploads',
       message: 'Upload limit exceeded. Please try again later.',
-      retryAfter: Math.ceil(60 * 60 / 1000)
+      retryAfter: 60 * 60
     });
   }
 });
@@ -81,22 +78,20 @@ const uploadLimiter = rateLimit({
  */
 const mealCreationLimiter = rateLimit({
   windowMs: 24 * 60 * 60 * 1000, // 24 hours
-  max: 20, // limit each user to 20 meals per day
+  max: 20,
   message: {
     error: 'Too many meal creations',
     message: 'Daily meal creation limit exceeded. Please try again tomorrow.',
-    retryAfter: Math.ceil(24 * 60 * 60 / 1000)
+    retryAfter: 24 * 60 * 60
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => {
-    return req.user ? req.user.id : ipKeyGenerator(req);
-  },
+  keyGenerator: (req) => req.user ? req.user.id : ipKeyGenerator(req),
   handler: (req, res) => {
     res.status(429).json({
       error: 'Too many meal creations',
       message: 'Daily meal creation limit exceeded. Please try again tomorrow.',
-      retryAfter: Math.ceil(24 * 60 * 60 / 1000)
+      retryAfter: 24 * 60 * 60
     });
   }
 });
@@ -107,11 +102,11 @@ const mealCreationLimiter = rateLimit({
  */
 const searchLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 50, // limit each IP to 50 searches per hour
+  max: 50,
   message: {
     error: 'Too many searches',
     message: 'Search limit exceeded. Please try again later.',
-    retryAfter: Math.ceil(60 * 60 / 1000)
+    retryAfter: 60 * 60
   },
   standardHeaders: true,
   legacyHeaders: false,
@@ -119,7 +114,7 @@ const searchLimiter = rateLimit({
     res.status(429).json({
       error: 'Too many searches',
       message: 'Search limit exceeded. Please try again later.',
-      retryAfter: Math.ceil(60 * 60 / 1000)
+      retryAfter: 60 * 60
     });
   }
 });
