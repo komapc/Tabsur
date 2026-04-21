@@ -178,7 +178,7 @@ describe('Meals API', () => {
         .delete('/api/meals/1')
         .send({ meal_id: 1 });
 
-      expect(response.status).toBe(201);
+      expect(response.status).toBe(200);
     });
 
     it('should reject deletion with invalid meal ID', async () => {

@@ -1,4 +1,7 @@
-const DOMPurify = require('isomorphic-dompurify');
+const { JSDOM } = require('jsdom');
+const createDOMPurify = require('dompurify');
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
 
 /**
  * Recursively sanitize nested objects and arrays

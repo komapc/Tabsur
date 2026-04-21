@@ -59,9 +59,10 @@ module.exports = {
   // Coverage settings
   collectCoverage: false, // Disable coverage collection for faster tests
 
+  moduleFileExtensions: ['js', 'jsx', 'json', 'node', 'mjs'],
   // Transform settings - explicitly use Babel
   transform: {
-    '^.+\\.(js|jsx)$': ['babel-jest', {
+    '^.+\\.(js|jsx|mjs)$': ['babel-jest', {
       presets: [
         ['@babel/preset-env', { targets: { node: 'current' } }],
         ['@babel/preset-react', { runtime: 'automatic' }]
@@ -69,8 +70,8 @@ module.exports = {
     }]
   },
 
-  // Allow transforming ESM packages in node_modules (e.g. axios v1.x)
+  // Allow transforming all packages in node_modules (slow but safe for ESM)
   transformIgnorePatterns: [
-    'node_modules/(?!(axios)/)'
+    '/node_modules/(?!(axios|isomorphic-dompurify|dompurify|jsdom|undici|@exodus|@asamuzakjp|@bramus|@csstools|whatwg-url|webidl2js|rrweb-cssom)/)'
   ]
 };

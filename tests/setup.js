@@ -3,9 +3,24 @@
 
 import '@testing-library/jest-dom';
 
-// Polyfill TextEncoder for Node.js environment
+// Polyfill TextEncoder and Web Streams for Node.js environment
 global.TextEncoder = global.TextEncoder || require('util').TextEncoder;
 global.TextDecoder = global.TextDecoder || require('util').TextDecoder;
+
+const { ReadableStream, WritableStream, TransformStream } = require('node:stream/web');
+global.ReadableStream = global.ReadableStream || ReadableStream;
+global.WritableStream = global.WritableStream || WritableStream;
+global.TransformStream = global.TransformStream || TransformStream;
+
+const { MessageChannel, MessagePort } = require('node:worker_threads');
+global.MessageChannel = global.MessageChannel || MessageChannel;
+global.MessagePort = global.MessagePort || MessagePort;
+
+const { Blob } = require('node:buffer');
+global.Blob = global.Blob || Blob;
+
+const { File } = require('node:buffer');
+global.File = global.File || File;
 
 // Mock console methods to reduce noise
 global.console = {
