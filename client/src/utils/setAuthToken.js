@@ -1,16 +1,27 @@
 import axios from "axios";
+import config from "../config";
+
+// Queue for requests that failed with 401 while a refresh is in flight
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach(({ resolve, reject }) => {
+    if (error) reject(error);
+    else resolve(token);
+  });
+  failedQueue = [];
+};
 
 // Add request interceptor to log all outgoing requests
 axios.interceptors.request.use(
-  (config) => {
+  (cfg) => {
     console.log("🚀 Outgoing request:", {
-      method: config.method?.toUpperCase(),
-      url: config.url,
-      headers: config.headers,
-      auth: config.headers?.Authorization ? `${config.headers.Authorization.substring(0, 20)}...` : 'None',
-      fullAuth: config.headers?.Authorization || 'None'
+      method: cfg.method?.toUpperCase(),
+      url: cfg.url,
+      auth: cfg.headers?.Authorization ? `${cfg.headers.Authorization.substring(0, 20)}...` : 'None',
     });
-    return config;
+    return cfg;
   },
   (error) => {
     console.error("❌ Request interceptor error:", error);
@@ -18,67 +29,99 @@ axios.interceptors.request.use(
   }
 );
 
-// Add response interceptor to log all responses
+// Add response interceptor — handles 401 (expired) and 403 (bad signature)
 axios.interceptors.response.use(
   (response) => {
     console.log("✅ Response received:", {
       status: response.status,
       url: response.config.url,
-      // Do not log full response bodies to avoid leaking data
       size: typeof response.data === 'string' ? response.data.length : 'object'
     });
     return response;
   },
   (error) => {
-    console.error("❌ Response error:", {
-      status: error.response?.status,
-      url: error.config?.url,
-      message: error.message,
-      // Redact response payloads
-      data: typeof error.response?.data === 'string' ? `[redacted:${error.response?.data.length}]` : '[redacted]'
-    });
-    
-    // Handle JWT signature errors by clearing invalid tokens
+    const originalRequest = error.config;
+
+    // 401 = token expired — attempt silent refresh
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url?.includes('/api/users/refresh') &&
+      !originalRequest.url?.includes('/api/users/login')
+    ) {
+      if (isRefreshing) {
+        // Queue this request until refresh finishes
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        }).then(token => {
+          originalRequest.headers['Authorization'] = token;
+          return axios(originalRequest);
+        }).catch(err => Promise.reject(err));
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      return new Promise((resolve, reject) => {
+        axios
+          .post(`${config.SERVER_HOST}/api/users/refresh`, {}, { withCredentials: true })
+          .then(res => {
+            const { token } = res.data;
+            localStorage.setItem('jwtToken', token);
+            axios.defaults.headers.common['Authorization'] = token;
+            originalRequest.headers['Authorization'] = token;
+            processQueue(null, token);
+            resolve(axios(originalRequest));
+          })
+          .catch(refreshError => {
+            processQueue(refreshError, null);
+            // Refresh failed — clear session
+            localStorage.removeItem('jwtToken');
+            delete axios.defaults.headers.common['Authorization'];
+            if (window.location.pathname !== '/login' && window.location.pathname !== '/') {
+              window.location.href = '/login';
+            }
+            reject(refreshError);
+          })
+          .finally(() => {
+            isRefreshing = false;
+          });
+      });
+    }
+
+    // 403 = invalid token signature — clear and redirect
     if (error.response?.status === 403 && error.response?.data?.name === 'JsonWebTokenError') {
       console.warn("🔐 JWT signature error detected - clearing invalid token");
       localStorage.removeItem("jwtToken");
       delete axios.defaults.headers.common["Authorization"];
-      
-      // Redirect to login if we're not already there
       if (window.location.pathname !== '/login' && window.location.pathname !== '/') {
         window.location.href = '/login';
       }
     }
-    
+
+    console.error("❌ Response error:", {
+      status: error.response?.status,
+      url: error.config?.url,
+      message: error.message,
+    });
     return Promise.reject(error);
   }
 );
 
 const setAuthToken = token => {
   if (token) {
-    // Apply authorization token to every request if logged in
-    // Check if token already has "Bearer " prefix to avoid double prefixing
     const authHeader = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
     axios.defaults.headers.common["Authorization"] = authHeader;
     console.log("🔑 Auth token set");
   } else {
-    // Delete auth header
     delete axios.defaults.headers.common["Authorization"];
     console.log("🗑️ Auth token removed");
   }
 };
 
-// Function to check current auth state
 export const checkAuthState = () => {
   const token = localStorage.getItem("jwtToken");
   const headers = axios.defaults.headers.common;
-  
-  console.log("🔍 Auth State Check:", {
-    localStorageToken: token ? `${token.substring(0, 20)}...` : 'None',
-    axiosHeaders: headers,
-    authorizationHeader: headers.Authorization || 'None'
-  });
-  
   return {
     hasToken: !!token,
     hasHeader: !!headers.Authorization,
@@ -87,10 +130,9 @@ export const checkAuthState = () => {
   };
 };
 
-// Function to run sanity check on server
 export const runServerSanityCheck = async () => {
   try {
-    const response = await axios.get('http://localhost:5000/sanity-check');
+    const response = await axios.get(`${config.SERVER_HOST}/sanity-check`);
     console.log("🔍 Server Sanity Check:", response.data);
     return response.data;
   } catch (error) {
@@ -99,7 +141,6 @@ export const runServerSanityCheck = async () => {
   }
 };
 
-// Function to clear invalid authentication
 export const clearInvalidAuth = () => {
   console.log("🧹 Clearing invalid authentication");
   localStorage.removeItem("jwtToken");
@@ -107,11 +148,9 @@ export const clearInvalidAuth = () => {
   window.location.href = '/login';
 };
 
-// Function to clean up malformed tokens
 export const cleanupToken = () => {
   const token = localStorage.getItem("jwtToken");
   if (token && token.startsWith('Bearer ')) {
-    // Remove the "Bearer " prefix if it exists
     const cleanToken = token.replace('Bearer ', '');
     localStorage.setItem("jwtToken", cleanToken);
     console.log("🧹 Cleaned up malformed token, removed 'Bearer ' prefix");
