@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import useHistory from "../../utils/useHistory";
 import { connect } from "react-redux";
 import SwipeableViews from "react-swipeable-views-react-18-fix"; // Keep this import
 import MealsListMapSwitcher from "../meals/MealsListMapSwitcher";

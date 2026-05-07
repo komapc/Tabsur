@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from '@mui/styles';
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+import useHistory from "../../utils/useHistory";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Zoom from '@mui/material/Zoom';

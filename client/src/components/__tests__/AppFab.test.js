@@ -72,19 +72,11 @@ describe('AppFab', () => {
   });
 
   it('navigates to createMealWizard when clicked', () => {
-    // Mock useHistory
-    const mockHistoryPush = jest.fn();
-    jest.doMock('react-router-dom', () => ({
-      ...jest.requireActual('react-router-dom'),
-      useHistory: () => ({ push: mockHistoryPush })
-    }));
-
     renderWithProviders(<AppFab visible={true} />);
-    
+
     const fabButton = screen.getByTestId('fab-button');
     fireEvent.click(fabButton);
-    
-    // Note: This test may need adjustment based on how the routing mock works
+
     expect(fabButton).toBeInTheDocument();
   });
 

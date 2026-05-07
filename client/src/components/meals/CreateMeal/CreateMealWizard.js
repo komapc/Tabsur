@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from "react-router-dom";
+import useHistory from "../../../utils/useHistory";
 import NameStep from './NameStep';
 import LocationStep from './LocationStep';
 import DescriptionStep from './DescriptionStep';

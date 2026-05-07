@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from "react-router-dom";
+import withRouter from "../../utils/withRouter";
 import { connect } from "react-redux";
 import MealListItem from "./MealListItem";
 import { deleteMeal, getMealInfo } from "../../actions/mealActions";

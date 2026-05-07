@@ -7,7 +7,7 @@ import {
   Toolbar
 } from '@mui/material';
 // Removed unused styled import
-import { withRouter } from "react-router-dom";
+import withRouter from "../../utils/withRouter";
 import loadingGIF from "../../resources/animation/loading.gif";
 
 const TheList = (props) => {

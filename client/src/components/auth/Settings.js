@@ -47,7 +47,7 @@ import {
   deleteAccount
 } from "../../actions/userActions";
 import store from "../../store";
-import { useHistory } from "react-router-dom";
+import useHistory from "../../utils/useHistory";
 import BackBarMui from "../layout/BackBarMui";
 import setAuthToken, { checkAuthState, cleanupToken, runServerSanityCheck, clearInvalidAuth } from "../../utils/setAuthToken";
 

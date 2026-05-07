@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Button from '@mui/material/Button';
-import { withRouter } from "react-router-dom";
+import withRouter from "../../utils/withRouter";
 import { connect } from "react-redux";
 
 import Gallery from "./Gallery";
