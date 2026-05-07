@@ -6,7 +6,8 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import useHistory from "../../utils/useHistory";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser, loginUserFB } from "../../actions/authActions";

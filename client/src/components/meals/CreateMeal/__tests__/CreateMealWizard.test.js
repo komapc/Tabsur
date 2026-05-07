@@ -84,13 +84,10 @@ const createMockStore = (initialState = {}) => {
   };
 };
 
-// Mock useHistory
+// Mock useHistory (now a local util)
 const mockPush = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    push: mockPush
-  })
+jest.mock('../../../../utils/useHistory', () => () => ({
+  push: mockPush
 }));
 
 const renderWithProviders = (component, initialState = {}) => {
@@ -132,10 +129,6 @@ describe('CreateMealWizard', () => {
     // The actual component has a bug where it tries to access auth.user.name before checking authentication
     const mockHistory = { push: mockPush };
     
-    // Mock the useHistory hook to return our mock
-    const originalUseHistory = require('react-router-dom').useHistory;
-    jest.spyOn(require('react-router-dom'), 'useHistory').mockReturnValue(mockHistory);
-
     // Since the component has a bug with null user access, we'll test the authentication logic differently
     // by checking that the component doesn't render when not authenticated
     try {
@@ -146,9 +139,6 @@ describe('CreateMealWizard', () => {
       // Expected error due to the component bug
       expect(error.message).toContain('Cannot read properties of null');
     }
-
-    // Restore the original useHistory
-    jest.spyOn(require('react-router-dom'), 'useHistory').mockRestore();
   });
 
   it('initializes form with user name', () => {

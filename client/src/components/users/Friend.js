@@ -1,6 +1,6 @@
 import React from "react";
 import Avatar from "../layout/Avatar"
-import { useHistory } from 'react-router-dom';
+import useHistory from '../../utils/useHistory';
 import CardHeader from '@mui/material/CardHeader';
 
 //one item of the list

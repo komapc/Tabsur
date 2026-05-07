@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import withRouter from "../../utils/withRouter";
 import { connect } from "react-redux";
 import Avatar from "../layout/Avatar";
 import CardHeader from "@mui/material/CardHeader";

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import useHistory from '../../utils/useHistory';
 import { 
   AppBar, 
   Toolbar, 

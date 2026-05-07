@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { withRouter, useHistory } from "react-router-dom";
+import withRouter from "../../utils/withRouter";
+import useHistory from "../../utils/useHistory";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import withRouter from "../../utils/withRouter";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getUserInfo } from "../../actions/userActions";

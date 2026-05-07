@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import withRouter from "../../utils/withRouter";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getMealInfo, editMeal } from "../../actions/mealActions";

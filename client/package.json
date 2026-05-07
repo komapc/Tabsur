@@ -37,7 +37,7 @@
     "react-google-places-autocomplete": "^4.1.0",
     "react-helmet": "^6.1.0",
     "react-redux": "^7.2.1",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^7.15.0",
     "react-step-wizard": "^5.3.5",
     "react-swipeable-views-react-18-fix": "^0.14.1",
     "redux": "^4.0.1",

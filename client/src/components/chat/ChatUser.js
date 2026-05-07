@@ -1,4 +1,5 @@
-import { withRouter, useHistory } from "react-router-dom";
+import withRouter from "../../utils/withRouter";
+import useHistory from "../../utils/useHistory";
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { connect } from "react-redux";
 import { getChatMessages } from "../../actions/chatActions";
