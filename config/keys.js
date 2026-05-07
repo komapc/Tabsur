@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 
 module.exports = {
   google: process.env.GOOGLE_API_KEY,

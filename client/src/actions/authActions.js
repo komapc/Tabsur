@@ -110,14 +110,15 @@ export const clearErrors = () => {
 
 // Log user out
 export const logoutUser = () => dispatch => {
-  // Remove token from local storage
-  localStorage.removeItem("jwtToken");
-  // Remove auth header for future requests
-  setAuthToken(false);
-  // Set current user to empty object {} which will set isAuthenticated to false
-  dispatch(setCurrentUser({}));
-  //todo: logout from FB!
-  dispatch({ type: CLEAR_ERRORS });
+  axios
+    .post(`${config.SERVER_HOST}/api/users/logout`, {}, { withCredentials: true })
+    .catch(() => {}) // best-effort — always clear client state
+    .finally(() => {
+      localStorage.removeItem("jwtToken");
+      setAuthToken(false);
+      dispatch(setCurrentUser({}));
+      dispatch({ type: CLEAR_ERRORS });
+    });
 };
 
 

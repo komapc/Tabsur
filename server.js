@@ -1,7 +1,8 @@
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const sslRedirect = require('heroku-ssl-redirect');
 const compression = require('compression');
 
@@ -74,6 +75,9 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
 }));
+
+// Cookie parser (needed for httpOnly refresh token)
+app.use(cookieParser());
 
 // Body parser middleware with optimized limits
 app.use(express.urlencoded({ extended: false, limit: '10mb' }));
