@@ -68,8 +68,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "lint": "eslint src --ext .js,.jsx",
-    "lint:fix": "eslint src --ext .js,.jsx --fix",
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint src --ext .js,.jsx",
+    "lint:fix": "ESLINT_USE_FLAT_CONFIG=false eslint src --ext .js,.jsx --fix",
     "eject": "react-scripts eject",
     "stop": "node server.stop.js"
   },
