@@ -1,5 +1,3 @@
-const fetch = require('node-fetch');
-
 function sendNotification(body) {
   return fetch('https://fcm.googleapis.com/fcm/send', {
     method: 'POST',

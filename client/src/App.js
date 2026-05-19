@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { Route, Routes } from "react-router-dom";
-import jwt_decode from "jwt-decode";
+import { jwtDecode as jwt_decode } from "jwt-decode";
 import setAuthToken, { cleanupToken } from "./utils/setAuthToken";
 
 import { setCurrentUser, logoutUser } from "./actions/authActions";

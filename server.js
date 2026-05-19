@@ -143,7 +143,7 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(express.static('client/build'));
 
   // Catch all handler: send back React's index.html file (but only for non-API routes)
-  app.get('*', (req, res, next) => {
+  app.get('/{*splat}', (req, res, next) => {
     // Skip API routes - let them be handled by their respective routers
     if (req.path.startsWith('/api/')) {
       return next();
@@ -168,7 +168,7 @@ app.use((err, req, res, _next) => {
 });
 
 // 404 handler
-app.use('*', (req, res) => {
+app.use('/{*splat}', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
