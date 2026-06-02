@@ -7,13 +7,12 @@ module.exports = {
     '/dist/',
     '/coverage/',
     '/.git/',
-    '/client/build/',
-    '/client/dist/',
+    // Client tests run in their own CI job (cd client && npm test) where client
+    // deps are installed; the root/server jest run does not install them, so
+    // skip all client tests here to keep server CI self-contained.
+    '/client/',
     '/tests/playwright/',
-    '/playwright-report/',
-    '/client/src/components/meals/__tests__/', // Skip complex meal tests
-    '/client/src/components/meals/CreateMeal/__tests__/', // Skip complex meal wizard tests (React 18/19 mismatch)
-    '/client/src/components/__tests__/MapLocationSelector.test.js' // Skip complex map tests
+    '/playwright-report/'
   ],
   collectCoverageFrom: [
     'src/**/*.{js,jsx}',
