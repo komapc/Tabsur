@@ -45,7 +45,7 @@ module.exports = {
     '^react-dom$': '<rootDir>/node_modules/react-dom',
     '^react-dom/(.*)$': '<rootDir>/node_modules/react-dom/$1',
     '^react-redux$': '<rootDir>/node_modules/react-redux',
-    '^react-router-dom$': '<rootDir>/node_modules/react-router-dom',
+    '^react-router-dom$': '<rootDir>/node_modules/react-router-dom/dist/index.js',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/tests/__mocks__/fileMock.js',
     '\\.(svg)$': '<rootDir>/tests/__mocks__/fileMock.js'
@@ -72,6 +72,6 @@ module.exports = {
 
   // Allow transforming all packages in node_modules (slow but safe for ESM)
   transformIgnorePatterns: [
-    '/node_modules/(?!(axios|isomorphic-dompurify|dompurify|jsdom|undici|@exodus|@asamuzakjp|@bramus|@csstools|whatwg-url|webidl2js|rrweb-cssom)/)'
+    '/node_modules/(?!(axios|isomorphic-dompurify|dompurify|jsdom|undici|@exodus|@asamuzakjp|@bramus|@csstools|whatwg-url|webidl2js|rrweb-cssom|uuid)/)'
   ]
 };

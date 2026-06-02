@@ -35,9 +35,17 @@ const sanitizeInput = (req, res, next) => {
       req.body = sanitizeValue(req.body);
     }
 
-    // Sanitize query parameters
+    // Sanitize query parameters. Express 5 exposes req.query via a getter-only
+    // property, so a plain assignment throws in strict mode and silently no-ops
+    // otherwise (leaving query strings unsanitized). Redefine it as a data
+    // property to actually apply the sanitized values.
     if (req.query) {
-      req.query = sanitizeValue(req.query);
+      Object.defineProperty(req, 'query', {
+        value: sanitizeValue(req.query),
+        writable: true,
+        configurable: true,
+        enumerable: true
+      });
     }
 
     // Sanitize URL parameters

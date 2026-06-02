@@ -18,15 +18,17 @@ describe('Integration Tests - User Registration and Login', () => {
     // Set test environment
     process.env.NODE_ENV = 'test';
     process.env.JWT_SECRET = 'test-secret';
-
-    app = express();
-    app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(bodyParser.json());
   });
 
   beforeEach(async () => {
     // Reset mocks before each test
     jest.clearAllMocks();
+
+    // Build a fresh app per test (Express 5 no longer exposes app._router,
+    // so re-create the app instead of mutating its internal router stack)
+    app = express();
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json());
 
     // Create a fresh router for each test
     usersRouter = express.Router();
@@ -74,8 +76,7 @@ describe('Integration Tests - User Registration and Login', () => {
       });
     });
 
-    // Clear any existing routes and add the fresh router
-    app._router.stack = app._router.stack.filter(layer => !layer.route || !layer.route.path.startsWith('/api/users'));
+    // Mount the fresh router
     app.use('/api/users', usersRouter);
   });
 

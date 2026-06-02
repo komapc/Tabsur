@@ -1,3 +1,6 @@
+// Ensure a deterministic JWT secret before keys.js (loaded via the route) reads it
+process.env.JWT_SECRET = process.env.JWT_SECRET || 'test-secret';
+
 const request = require('supertest');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -116,15 +119,19 @@ describe('Authentication API', () => {
       const pool = require('../routes/db.js');
       const mockClient = await pool.connect();
 
-      // Mock user found in database
-      mockClient.query.mockResolvedValueOnce({
-        rows: [{
-          id: 1,
-          email: testUser.email,
-          password: '$2a$10$mockHashedPassword', // This would be a real bcrypt hash
-          name: testUser.name
-        }]
-      });
+      // First query is the user lookup (SELECT); subsequent queries (e.g. the
+      // refresh-token INSERT in issueTokens) resolve to an empty result so the
+      // login flow can complete instead of hanging on an unmocked query.
+      mockClient.query
+        .mockResolvedValueOnce({
+          rows: [{
+            id: 1,
+            email: testUser.email,
+            password: '$2a$10$mockHashedPassword', // This would be a real bcrypt hash
+            name: testUser.name
+          }]
+        })
+        .mockResolvedValue({ rows: [] });
 
       // Mock bcrypt comparison (would need to mock bcrypt module)
       const response = await request(app)
