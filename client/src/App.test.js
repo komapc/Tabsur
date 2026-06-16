@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { act } from 'react';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import App from './App';
@@ -20,11 +21,15 @@ Object.defineProperty(navigator, 'serviceWorker', {
 it('renders without crashing', () => {
   const store = createStore(rootReducer);
   const div = document.createElement('div');
-  render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    div
-  );
-  unmountComponentAtNode(div);
+  const root = createRoot(div);
+  act(() => {
+    root.render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+  });
+  act(() => {
+    root.unmount();
+  });
 });

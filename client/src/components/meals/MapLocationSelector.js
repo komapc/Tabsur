@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { GoogleMap } from '@react-google-maps/api';
-import Geocode from "react-geocode";
+import { setDefaults, fromLatLng, fromAddress } from "react-geocode";
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import backArrowIcon from "../../resources/back_arrow.svg";
 import { Alert, Box, Typography, Button } from '@mui/material';
@@ -12,7 +12,7 @@ const MAP_CONTAINER_STYLE = { height: '90vh', width: '100%' };
 
 // Only set API key if it's available
 if (GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== "YOUR_API_KEY_HERE") {
-  Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
+  setDefaults({ key: GOOGLE_MAPS_API_KEY });
 }
 
 const MapLocationSelector = ({ defaultLocation, address, handleLocationUpdate, handleExit }) => {
@@ -61,7 +61,7 @@ const MapLocationSelector = ({ defaultLocation, address, handleLocationUpdate, h
         };
         
         if (GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== "YOUR_API_KEY_HERE") {
-          Geocode.fromLatLng(coords.lat, coords.lng)
+          fromLatLng(coords.lat, coords.lng)
             .then(response => {
               const addr = response.results[0]?.formatted_address;
               if (addr) {
@@ -110,7 +110,7 @@ const MapLocationSelector = ({ defaultLocation, address, handleLocationUpdate, h
     setCurrentAddress(addr);
     
     if (GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== "YOUR_API_KEY_HERE") {
-      Geocode.fromAddress(addr)
+      fromAddress(addr)
         .then(response => {
           const { lat, lng } = response.results[0].geometry.location;
           const newLocation = { lng, lat };

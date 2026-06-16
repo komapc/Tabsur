@@ -22,7 +22,7 @@ import defaultImage from "../../resources/userpic_empty.svg";
 import { joinMeal } from "../../actions/mealActions";
 // import config from "../../config"; // Not used here
 import "./Meals.css";
-var dateFormat = require('dateformat');
+import dateFormat from 'dateformat';
 const BUCKET = 's3.us-east-2.amazonaws.com/images.dining.philosophers.com';
 
 const useStyles = makeStyles((theme) => ({

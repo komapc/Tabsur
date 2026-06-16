@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const sslRedirect = require('heroku-ssl-redirect');
+const sslRedirect = require('heroku-ssl-redirect').default;
 const compression = require('compression');
 
 // Import security middleware
