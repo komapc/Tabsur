@@ -7,7 +7,7 @@ import ImageStep from './ImageStep';
 
 import PropTypes from "prop-types";
 import Navigator from "./Navigator";
-import StepWizard from 'react-step-wizard';
+import StepWizardImport from 'react-step-wizard';
 import { connect } from "react-redux";
 import { addMeal } from "../../../actions/mealActions";
 import BackBarMui from "../../layout/BackBarMui";
@@ -16,6 +16,10 @@ import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+
+// react-step-wizard is CJS; under Vite the default import can resolve to the
+// module namespace object instead of the component, so unwrap .default.
+const StepWizard = StepWizardImport.default || StepWizardImport;
 
 
 const CreateMealWizard = ({ auth, addMeal }) => {
