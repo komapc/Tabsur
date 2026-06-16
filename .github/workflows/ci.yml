@@ -68,7 +68,7 @@ jobs:
       if: matrix.component == 'client'
       run: |
         cd client
-        npm test -- --coverage --watchAll=false
+        npm test -- --coverage
 
     - name: Upload client coverage
       if: matrix.component == 'client'

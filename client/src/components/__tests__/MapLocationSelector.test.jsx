@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 // Simplified mock for Google Maps components
-jest.mock('@react-google-maps/api', () => ({
+vi.mock('@react-google-maps/api', () => ({
   GoogleMap: ({ children, ...props }) => (
     <div data-testid="google-map" {...props}>
       {children}
@@ -14,12 +14,12 @@ jest.mock('@react-google-maps/api', () => ({
 }));
 
 // Mock react-geocode
-jest.mock('react-geocode', () => ({
-  setDefaults: jest.fn(),
-  fromLatLng: jest.fn().mockResolvedValue({
+vi.mock('react-geocode', () => ({
+  setDefaults: vi.fn(),
+  fromLatLng: vi.fn().mockResolvedValue({
     results: [{ formatted_address: 'Test Address' }]
   }),
-  fromAddress: jest.fn().mockResolvedValue({
+  fromAddress: vi.fn().mockResolvedValue({
     results: [{ geometry: { location: { lat: 0, lng: 0 } } }]
   })
 }));
@@ -28,7 +28,7 @@ jest.mock('react-geocode', () => ({
 const originalEnv = process.env;
 beforeAll(() => {
   process.env = { ...originalEnv };
-  process.env.REACT_APP_GOOGLE_MAPS_API_KEY = 'test-api-key-that-is-long-enough-to-pass-validation-12345';
+  import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY = 'test-api-key-that-is-long-enough-to-pass-validation-12345';
 });
 
 afterAll(() => {

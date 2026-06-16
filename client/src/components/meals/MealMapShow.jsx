@@ -21,7 +21,7 @@ const fullUp = [fullUp_u, fullUp_t];
 const hosted = [hosted_u, hosted_t];
 const available = [available_u, available_t];
 
-export const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+export const GOOGLE_MAPS_API_KEY = import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 // Only set Geocode API key if it exists
 if (GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== 'your_google_maps_api_key_here') {

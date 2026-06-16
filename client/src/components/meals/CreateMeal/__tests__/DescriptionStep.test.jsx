@@ -3,13 +3,13 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import DescriptionStep from '../DescriptionStep';
 
 describe('DescriptionStep', () => {
-  const mockUpdate = jest.fn();
+  const mockUpdate = vi.fn();
   const mockForm = {
     description: 'Test description'
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders without crashing', () => {

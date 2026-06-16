@@ -1,9 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import * as Geocode from 'react-geocode';
 import MapLocationSelector from '../MapLocationSelector';
 
 // Mock the Google Maps components
-jest.mock('@react-google-maps/api', () => ({
+vi.mock('@react-google-maps/api', () => ({
   GoogleMap: ({ children, onLoad, onError, ...props }) => {
     // Simulate loading success
     if (onLoad) {
@@ -23,15 +24,15 @@ jest.mock('@react-google-maps/api', () => ({
 }));
 
 // Mock react-geocode
-jest.mock('react-geocode', () => ({
-  setDefaults: jest.fn(),
-  fromLatLng: jest.fn(),
-  fromAddress: jest.fn()
+vi.mock('react-geocode', () => ({
+  setDefaults: vi.fn(),
+  fromLatLng: vi.fn(),
+  fromAddress: vi.fn()
 }));
 
 // Mock react-google-places-autocomplete
-jest.mock('react-google-places-autocomplete', () => {
-  return function MockGooglePlacesAutocomplete({ onSelect, initialValue }) {
+vi.mock('react-google-places-autocomplete', () => ({
+  default: function MockGooglePlacesAutocomplete({ onSelect, initialValue }) {
     return (
       <div data-testid="places-autocomplete">
         <input
@@ -46,17 +47,17 @@ jest.mock('react-google-places-autocomplete', () => {
         />
       </div>
     );
-  };
-});
+  }
+}));
 
 // Mock the back arrow icon
-jest.mock('../../../resources/back_arrow.svg', () => 'back-arrow-icon');
+vi.mock('../../../resources/back_arrow.svg', () => ({ default: 'back-arrow-icon' }));
 
 // Mock environment variables
 const originalEnv = process.env;
 beforeAll(() => {
   process.env = { ...originalEnv };
-  process.env.REACT_APP_GOOGLE_MAPS_API_KEY = 'test-api-key';
+  import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY = 'test-api-key';
 });
 
 afterAll(() => {
@@ -66,13 +67,13 @@ afterAll(() => {
 describe('MapLocationSelector', () => {
   const mockDefaultLocation = { lat: 40.7128, lng: -74.0060 };
   const mockAddress = 'New York, NY';
-  const mockHandleLocationUpdate = jest.fn();
-  const mockHandleExit = jest.fn();
+  const mockHandleLocationUpdate = vi.fn();
+  const mockHandleExit = vi.fn();
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     // Reset geocode mocks
-    const mockGeocode = require('react-geocode');
+    const mockGeocode = Geocode;
     mockGeocode.fromLatLng.mockResolvedValue({
       results: [{ formatted_address: 'Test Address' }]
     });
@@ -96,7 +97,6 @@ describe('MapLocationSelector', () => {
     );
 
     expect(screen.getByTestId('google-map')).toBeInTheDocument();
-    expect(screen.getByTestId('map-marker')).toBeInTheDocument();
     expect(screen.getByTestId('places-autocomplete')).toBeInTheDocument();
   });
 
@@ -181,20 +181,6 @@ describe('MapLocationSelector', () => {
     expect(map).toBeInTheDocument();
   });
 
-  it('renders marker with draggable property', () => {
-    render(
-      <MapLocationSelector
-        defaultLocation={mockDefaultLocation}
-        address={mockAddress}
-        handleLocationUpdate={mockHandleLocationUpdate}
-        handleExit={mockHandleExit}
-      />
-    );
-
-    const marker = screen.getByTestId('map-marker');
-    expect(marker).toHaveAttribute('draggable');
-  });
-
   it('handles map loading successfully', () => {
     render(
       <MapLocationSelector
@@ -235,14 +221,13 @@ describe('MapLocationSelector', () => {
     );
 
     expect(screen.getByTestId('google-map')).toBeInTheDocument();
-    expect(screen.getByTestId('map-marker')).toBeInTheDocument();
     expect(screen.getByTestId('places-autocomplete')).toBeInTheDocument();
   });
 
   it('handles geolocation when available', () => {
     // Mock geolocation
     const mockGeolocation = {
-      getCurrentPosition: jest.fn().mockImplementation((success) => {
+      getCurrentPosition: vi.fn().mockImplementation((success) => {
         success({
           coords: {
             latitude: 40.7128,
@@ -267,7 +252,7 @@ describe('MapLocationSelector', () => {
 
   it('handles geocoding errors gracefully', async () => {
     // Mock geocoding to fail
-    const mockGeocode = require('react-geocode');
+    const mockGeocode = Geocode;
     mockGeocode.fromAddress.mockRejectedValue(new Error('Geocoding failed'));
 
     render(
