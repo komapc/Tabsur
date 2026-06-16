@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import useHistory from "../../../utils/useHistory";
 import NameStep from './NameStep';
 import LocationStep from './LocationStep';
@@ -61,17 +61,18 @@ const CreateMealWizard = ({ auth, addMeal }) => {
     uploadingState: false
   });
 
-  const setInstance = SW => updateState({
-    ...state,
-    SW,
-  });
+  // Stable callbacks: react-step-wizard re-invokes `instance`, and the location
+  // step's map effect depends on `update`'s identity — if these change every
+  // render they cause an infinite update loop ("Maximum update depth exceeded").
+  // useCallback + functional updates keep their identity stable; setInstance
+  // also bails when the SW reference is unchanged.
+  const setInstance = useCallback((SW) => {
+    updateState(prev => (prev.SW === SW ? prev : { ...prev, SW }));
+  }, []);
 
-  const onStepChange = (stats) => {
-    updateState({
-      ...state,
-      stats
-    });
-  };
+  const onStepChange = useCallback((stats) => {
+    updateState(prev => ({ ...prev, stats }));
+  }, []);
 
   const submit = (e) => {
     e.preventDefault();
@@ -97,19 +98,13 @@ const CreateMealWizard = ({ auth, addMeal }) => {
       history.push({ pathname: '/', hash: '#2' });
     });
   }
-  const update = (e) => {
-    const { form } = state;
+  const update = useCallback((e) => {
+    updateState(prev => ({ ...prev, form: { ...prev.form, [e.id]: e.value } }));
+  }, []);
 
-    form[e.id] = e.value;
-    updateState({
-      ...state,
-      form,
-    });
-  };
-
-  const setUploadingState = (newUploadingState) => {
-    updateState({ ...state, uploadingState: newUploadingState });
-  }
+  const setUploadingState = useCallback((newUploadingState) => {
+    updateState(prev => ({ ...prev, uploadingState: newUploadingState }));
+  }, []);
   const { SW } = state;
 
   return (

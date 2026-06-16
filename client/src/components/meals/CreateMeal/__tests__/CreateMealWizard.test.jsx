@@ -17,6 +17,20 @@ vi.mock('axios', () => ({
   }
 }));
 
+// The wizard deep-renders the location step's map; stub the Google Maps layer
+// so jsdom doesn't hit `google is not defined`.
+vi.mock('@react-google-maps/api', () => ({
+  GoogleMap: ({ children }) => <div data-testid="google-map">{children}</div>,
+  Marker: (props) => <div data-testid="map-marker" {...props} />,
+  LoadScript: ({ children }) => <div>{children}</div>,
+  Autocomplete: ({ children }) => <div data-testid="places-autocomplete">{children}</div>
+}));
+vi.mock('react-geocode', () => ({
+  setDefaults: vi.fn(),
+  fromLatLng: vi.fn(),
+  fromAddress: vi.fn()
+}));
+
 
 // Mock the StepWizard component
 vi.mock('react-step-wizard', () => ({
@@ -102,12 +116,7 @@ const renderWithProviders = (component, initialState = {}) => {
   );
 };
 
-// TODO(vite-migration): this suite renders the full multi-step wizard, whose
-// deep map dependencies (GoogleMap / Google Places) either throw in jsdom or, when
-// stubbed, trigger an infinite render loop in the step logic. It was already
-// non-running under the old CRA jest setup. Skipped until the wizard is given a
-// properly isolated harness (mock LocationStep / the step components directly).
-describe.skip('CreateMealWizard', () => {
+describe('CreateMealWizard', () => {
   const mockAuthState = {
     isAuthenticated: true,
     user: {
