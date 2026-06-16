@@ -19,9 +19,12 @@ export default defineConfig({
       reporter: ['text', 'lcov'],
       reportsDirectory: './coverage'
     },
-    // react-geocode's `main` is a UMD bundle with no ESM named exports; Node's
-    // resolution (used by Vitest for externalized deps) picks it and yields an
-    // empty module. Inline it so Vitest transforms it via Vite's `module` field.
-    server: { deps: { inline: ['react-geocode'] } }
+    // Inline deps that Node's ESM resolver (used by Vitest for externalized
+    // node_modules) can't load, but Vite/Rolldown can:
+    //  - react-geocode: `main` is a UMD bundle with no ESM named exports.
+    //  - @mui/*: their ESM does directory imports (e.g. Transition.mjs ->
+    //    react-transition-group/TransitionGroupContext) that strict Node ESM
+    //    rejects. Inlining lets Vite resolve them.
+    server: { deps: { inline: ['react-geocode', /@mui\//, 'react-transition-group'] } }
   }
 });

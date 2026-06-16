@@ -9,7 +9,7 @@ import Avatar from "../layout/Avatar";
 import Gallery from "../../components/users/Gallery";
 import { Friends } from "../../components/users/Friends";
 import MyMeals from "../../components/meals/MyMeals";
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from 'tss-react/mui';
 import Grid from '@mui/material/Grid';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -17,7 +17,7 @@ import Box from '@mui/material/Box';
 import { IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 //#region MyProfileHeader
-const useStylesHeader = makeStyles(theme => ({
+const useStylesHeader = makeStyles()(theme => ({
   alignItemsAndJustifyContent: {
     width: "100vw",
     marginTop: "64px",
@@ -29,7 +29,7 @@ const useStylesHeader = makeStyles(theme => ({
   }
 }));
 const MyProfileHeader = (props) => {
-  const classes = useStylesHeader();
+  const { classes } = useStylesHeader();
   const openSettings = (history) => {
     history.push('/settings');
   };
@@ -53,7 +53,7 @@ const MyProfileHeader = (props) => {
 
 
 //#region MyProfileStats
-const useStylesStats = makeStyles(theme => ({
+const useStylesStats = makeStyles()(theme => ({
   headerContainer: {
     width: "100vw",
     display: 'flex',
@@ -80,7 +80,7 @@ const useStylesStats = makeStyles(theme => ({
 }))
 
 const MyProfileStats = (params) => {
-  const classes = useStylesStats();
+  const { classes } = useStylesStats();
   const userStats = (params.userStats && params.userStats[0]) ? params.userStats[0] : {};
 
   try {
@@ -137,7 +137,7 @@ function a11yProps(index) {
     'aria-controls': `tabpanel-${index}`,
   };
 }
-const useStylesTabs = makeStyles(theme => ({
+const useStylesTabs = makeStyles()(theme => ({
   root: {
     flexGrow: 1, // ?
 
@@ -157,7 +157,7 @@ const useStylesTabs = makeStyles(theme => ({
 }));
 const MyProfileTabs = (props) => {
   console.log(`MyProfileTabs props: ${JSON.stringify(props)}`);
-  const classes = useStylesTabs();
+  const { classes } = useStylesTabs();
   // const handleLogout = (event) => {
   //   store.dispatch(logoutUser());
   // }

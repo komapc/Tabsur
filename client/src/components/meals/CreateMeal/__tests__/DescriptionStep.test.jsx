@@ -103,7 +103,8 @@ describe('DescriptionStep', () => {
     render(<DescriptionStep update={mockUpdate} form={mockForm} />);
     
     const textarea = screen.getByLabelText('Description');
-    // Check that the textarea has the multiline class
-    expect(textarea).toHaveClass('MuiInputBase-inputMultiline');
+    // multiline renders a real <textarea>; asserting the element type is more
+    // robust than MUI-internal class names, which change across major versions.
+    expect(textarea.tagName).toBe('TEXTAREA');
   });
 });

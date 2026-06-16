@@ -117,7 +117,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@eslint/js": "^10.0.1",
-    "@mui/material": "^7.3.11",
+    "@mui/material": "^9.1.1",
     "@playwright/test": "^1.61.0",
     "@testing-library/jest-dom": "^6.7.0",
     "@testing-library/react": "^16.3.0",

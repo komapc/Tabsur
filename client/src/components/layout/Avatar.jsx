@@ -1,11 +1,11 @@
 import { React, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import MaterialUiAvatar from '@mui/material/Avatar';
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from 'tss-react/mui';
 import { connect } from "react-redux";
 import config from "../../../src/config.js";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles()(theme => ({
     root: {
         display: 'flex',
         '& > *': {
@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Avatar = (props) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const [img, setImg] = useState(null);
     
     useEffect(() => {
