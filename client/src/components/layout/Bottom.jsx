@@ -48,9 +48,11 @@ const Bottom = (props) => {
             onChange={props.onChange}
             centered
             indicatorColor='primary'
-            TabIndicatorProps={{
-              style: {
-                backgroundColor: "primary"
+            slotProps={{
+              indicator: {
+                style: {
+                  backgroundColor: "primary"
+                }
               }
             }}>
             <Tab icon={<img className="footer-icons"

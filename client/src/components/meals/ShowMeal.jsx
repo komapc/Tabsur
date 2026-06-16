@@ -64,10 +64,10 @@ const ShowMeal = (props) => {
     <>
       <BackBarMui history={props.history} />
       <Grid container spacing={2}
-        justify="space-around"
+        justifyContent="space-around"
         alignItems="flex-start"
         direction="column">
-        <Box style={{ width: "80vw" }} m={2} xs={12} >
+        <Box sx={{ width: "80vw", m: 2 }} >
           {meal ? <MealListItem meal={meal} /> : <></>}
           <h3>Description</h3>
           <div >{meal ? meal.description : ""}</div>

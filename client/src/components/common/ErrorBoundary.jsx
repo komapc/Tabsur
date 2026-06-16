@@ -37,12 +37,14 @@ class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return (
         <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          minHeight="50vh"
-          p={3}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '50vh',
+            p: 3
+          }}
         >
           <Paper
             elevation={3}
@@ -65,7 +67,7 @@ class ErrorBoundary extends React.Component {
               Something went wrong
             </Typography>
             
-            <Typography variant="body1" color="text.secondary" paragraph>
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
               We're sorry, but something unexpected happened. Please refresh the page or try again.
             </Typography>
             
