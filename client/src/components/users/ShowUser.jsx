@@ -222,7 +222,7 @@ const ProfileTabs = (props) => {
           onChange={handleChange}
           centered
           indicatorColor='primary'
-          TabIndicatorProps={{ style: { backgroundColor: "primary" } }}>
+          slotProps={{ indicator: { style: { backgroundColor: "primary" } } }}>
           <Tab label="Kitchen" {...a11yProps(0)} />
           <Tab label="Gallery" {...a11yProps(1)} />
         </Tabs>

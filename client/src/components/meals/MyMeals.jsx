@@ -78,9 +78,11 @@ const MyMeals = (props) => {
           onChange={(e, newValue) => { setValue(newValue) }}
           centered
           indicatorColor='primary'
-          TabIndicatorProps={{
-            style: {
-              backgroundColor: "primary"
+          slotProps={{
+            indicator: {
+              style: {
+                backgroundColor: "primary"
+              }
             }
           }}>
           <Tab label="Created" />

@@ -8,7 +8,7 @@ import Friend from './Friend';
 const UserList = (props) => {
   console.log(`FL props: ${JSON.stringify(props)}`);
 
-  return <Box borderRadius="17px" borderColor="black" border="solid 1px">
+  return <Box sx={{ borderRadius: "17px", borderColor: "black", border: "solid 1px" }}>
     {props.list.map(friend => {
       return <span key={friend.name}> <Friend  {...friend} /></span>
     })
