@@ -15,7 +15,7 @@ describe('ErrorBoundary', () => {
   // Suppress console.error for these tests
   const originalError = console.error;
   beforeAll(() => {
-    console.error = jest.fn();
+    console.error = vi.fn();
   });
   
   afterAll(() => {

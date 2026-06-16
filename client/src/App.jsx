@@ -96,7 +96,7 @@ const initializeAuth = () => {
       console.log("No JWT token found in localStorage.");
       
       // Development mode: Auto-authenticate with test user if no token exists
-      if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'debug') {
+      if (import.meta.env.MODE === 'development' || import.meta.env.MODE === 'debug') {
         console.log('🔧 Development mode: Auto-authenticating with test user...');
         // Use the test token we created earlier
         const testToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6IlRlc3QgVXNlciIsImlhdCI6MTc1NTcwNjAwOCwiZXhwIjoxNzg3MjYyOTM0fQ.HhDIilw02ld0N4n2uN1YVnAUrHI9UZZKZCdjkajX';
@@ -117,7 +117,7 @@ const initializeAuth = () => {
   }
 };
 
-const googleOAuthClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const googleOAuthClientId = import.meta.env.REACT_APP_GOOGLE_CLIENT_ID;
 const enableMessaging = false;
 if (enableMessaging) {
   try {

@@ -84,7 +84,7 @@ class ErrorBoundary extends React.Component {
               Try Again
             </Button>
             
-            {process.env.NODE_ENV === 'development' && this.state.error && (
+            {import.meta.env.MODE === 'development' && this.state.error && (
               <Box mt={3} textAlign="left">
                 <Typography variant="subtitle2" color="error">
                   Error Details (Development Only):

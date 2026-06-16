@@ -6,26 +6,30 @@ import { BrowserRouter } from 'react-router-dom';
 import { createStore } from 'redux';
 import AppFab from '../layout/AppFab';
 
-// Mock MUI components
-jest.mock('@mui/material/Fab', () => ({ children, onClick, className }) => (
-  <button 
-    data-testid="fab-button" 
-    onClick={onClick}
-    className={className}
-  >
-    {children}
-  </button>
-));
+// Mock MUI components (default exports -> { default: ... } for Vitest)
+vi.mock('@mui/material/Fab', () => ({
+  default: ({ children, onClick, className }) => (
+    <button
+      data-testid="fab-button"
+      onClick={onClick}
+      className={className}
+    >
+      {children}
+    </button>
+  )
+}));
 
-jest.mock('@mui/material/Zoom', () => ({ children, in: isVisible }) => (
-  <div data-testid="zoom-container" data-visible={isVisible}>
-    {children}
-  </div>
-));
+vi.mock('@mui/material/Zoom', () => ({
+  default: ({ children, in: isVisible }) => (
+    <div data-testid="zoom-container" data-visible={isVisible}>
+      {children}
+    </div>
+  )
+}));
 
-jest.mock('@mui/icons-material/Add', () => () => (
-  <span data-testid="add-icon">+</span>
-));
+vi.mock('@mui/icons-material/Add', () => ({
+  default: () => <span data-testid="add-icon">+</span>
+}));
 
 // Create a mock store
 const createMockStore = (initialState = {}) => {

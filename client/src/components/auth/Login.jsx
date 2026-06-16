@@ -54,7 +54,7 @@ const Login = (props) => {
 
   // Use the useGoogleLogin hook - must be called unconditionally
   const googleLogin = useGoogleLogin({
-    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || 'dummy-client-id',
+    clientId: import.meta.env.REACT_APP_GOOGLE_CLIENT_ID || 'dummy-client-id',
     onSuccess: credentialResponse => {
       console.log(credentialResponse);
       // Send credentialResponse to your server
@@ -75,9 +75,9 @@ const Login = (props) => {
   });
 
   // Check if Google OAuth is available
-  const isGoogleOAuthAvailable = process.env.REACT_APP_GOOGLE_CLIENT_ID && 
-    process.env.REACT_APP_GOOGLE_CLIENT_ID !== 'your_google_oauth_client_id_here' &&
-    process.env.REACT_APP_GOOGLE_CLIENT_ID !== 'dummy-client-id';
+  const isGoogleOAuthAvailable = import.meta.env.REACT_APP_GOOGLE_CLIENT_ID && 
+    import.meta.env.REACT_APP_GOOGLE_CLIENT_ID !== 'your_google_oauth_client_id_here' &&
+    import.meta.env.REACT_APP_GOOGLE_CLIENT_ID !== 'dummy-client-id';
 
   return (
     <div style={{

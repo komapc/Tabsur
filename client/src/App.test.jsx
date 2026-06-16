@@ -10,10 +10,10 @@ const rootReducer = (state = { auth: { isAuthenticated: false, user: null }, err
 // Mock navigator.serviceWorker which App uses for push notifications
 Object.defineProperty(navigator, 'serviceWorker', {
   value: {
-    register: jest.fn(),
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    ready: Promise.resolve({ pushManager: { subscribe: jest.fn() } })
+    register: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    ready: Promise.resolve({ pushManager: { subscribe: vi.fn() } })
   },
   writable: true
 });
