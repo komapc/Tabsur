@@ -10,7 +10,7 @@ vi.mock('@react-google-maps/api', () => ({
     if (onLoad) {
       setTimeout(onLoad, 0);
     }
-    
+
     return (
       <div data-testid="google-map" {...props}>
         {children}
@@ -20,6 +20,20 @@ vi.mock('@react-google-maps/api', () => ({
   Marker: (props) => <div data-testid="map-marker" {...props} />,
   LoadScript: ({ children, onError, ...props }) => {
     return <div data-testid="load-script" {...props}>{children}</div>;
+  },
+  // Places Autocomplete: provide a selectable instance via onLoad and fire
+  // onPlaceChanged when the wrapper is clicked (simulating a suggestion pick).
+  Autocomplete: ({ children, onLoad, onPlaceChanged }) => {
+    React.useEffect(() => {
+      if (onLoad) {
+        onLoad({ getPlace: () => ({ formatted_address: 'Test Address' }) });
+      }
+    }, [onLoad]);
+    return (
+      <div data-testid="places-autocomplete" onClick={() => onPlaceChanged && onPlaceChanged()}>
+        {children}
+      </div>
+    );
   }
 }));
 
@@ -28,26 +42,6 @@ vi.mock('react-geocode', () => ({
   setDefaults: vi.fn(),
   fromLatLng: vi.fn(),
   fromAddress: vi.fn()
-}));
-
-// Mock react-google-places-autocomplete
-vi.mock('react-google-places-autocomplete', () => ({
-  default: function MockGooglePlacesAutocomplete({ onSelect, initialValue }) {
-    return (
-      <div data-testid="places-autocomplete">
-        <input
-          data-testid="places-input"
-          defaultValue={initialValue}
-          onChange={(e) => {
-            if (e.target.value === 'Test Address') {
-              onSelect({ description: 'Test Address' });
-            }
-          }}
-          placeholder="Enter address"
-        />
-      </div>
-    );
-  }
 }));
 
 // Mock the back arrow icon
@@ -156,8 +150,9 @@ describe('MapLocationSelector', () => {
       />
     );
 
-    const input = screen.getByTestId('places-input');
-    fireEvent.change(input, { target: { value: 'Test Address' } });
+    // Clicking the autocomplete wrapper fires onPlaceChanged (mock returns
+    // a place with formatted_address 'Test Address').
+    fireEvent.click(screen.getByTestId('places-autocomplete'));
 
     await waitFor(() => {
       expect(mockHandleLocationUpdate).toHaveBeenCalledWith({
@@ -264,8 +259,7 @@ describe('MapLocationSelector', () => {
       />
     );
 
-    const input = screen.getByTestId('places-input');
-    fireEvent.change(input, { target: { value: 'Test Address' } });
+    fireEvent.click(screen.getByTestId('places-autocomplete'));
 
     await waitFor(() => {
       expect(screen.getByText(/Could not get coordinates for this address/)).toBeInTheDocument();
