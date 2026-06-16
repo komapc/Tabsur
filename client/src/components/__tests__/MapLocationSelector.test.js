@@ -15,7 +15,7 @@ jest.mock('@react-google-maps/api', () => ({
 
 // Mock react-geocode
 jest.mock('react-geocode', () => ({
-  setApiKey: jest.fn(),
+  setDefaults: jest.fn(),
   fromLatLng: jest.fn().mockResolvedValue({
     results: [{ formatted_address: 'Test Address' }]
   }),

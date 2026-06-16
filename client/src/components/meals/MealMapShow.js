@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api';
 import { Box, Typography, Button, Alert, Paper } from '@mui/material';
 
-import Geocode from "react-geocode";
+import { setDefaults } from "react-geocode";
 import attended_u from "../../resources/map/attended_meal_icon.svg";
 import fullUp_u from "../../resources/map/full_meal_icon.svg";
 import hosted_u from "../../resources/map/my_meal_icon.svg"
@@ -25,7 +25,7 @@ export const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 // Only set Geocode API key if it exists
 if (GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== 'your_google_maps_api_key_here') {
-    Geocode.setApiKey(GOOGLE_MAPS_API_KEY);
+    setDefaults({ key: GOOGLE_MAPS_API_KEY });
 }
 
 const MealMapShow =
