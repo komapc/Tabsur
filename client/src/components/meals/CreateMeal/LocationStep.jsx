@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import MapLocationSelector from "./../MapLocationSelector";
 import { TextField, Grid, Box } from '@mui/material';
 const LocationStep = props => {
@@ -7,13 +7,16 @@ const LocationStep = props => {
   const defaultLocationConst = { lng: 34.808, lat: 32.09 };
 
   const [defaultLocation, updateDefaultLocation] = useState(defaultLocationConst);
-  const onLocationUpdate = ({ address, location }) => {
-    props.update({ "id": "address", "value": address });
-    props.update({ "id": "location", "value": location });
+  // Stable identity so MapLocationSelector's mount effect (which depends on
+  // this callback) doesn't re-run every render -> infinite update loop.
+  const { update } = props;
+  const onLocationUpdate = useCallback(({ address, location }) => {
+    update({ "id": "address", "value": address });
+    update({ "id": "location", "value": location });
     console.log(`onLocationUpdate: ${address}; location: ${JSON.stringify(location)}`);
     setAddress(address);
     updateDefaultLocation(location);
-  };
+  }, [update]);
 
   const onMapExit = (e) => {
     console.log(`Exit map clicked: ${showMap}.`);
