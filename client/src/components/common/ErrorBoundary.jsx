@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography, Button, Box, Paper } from '@mui/material';
-import { ErrorOutline } from '@mui/icons-material';
+// MUI icons v9 dropped the base `ErrorOutline`; use the outlined variant.
+import { ErrorOutlineOutlined as ErrorOutline } from '@mui/icons-material';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {

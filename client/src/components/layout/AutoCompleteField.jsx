@@ -4,7 +4,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from 'tss-react/mui';
 import parse from "autosuggest-highlight/umd/parse";
 
 import throttle from 'lodash/throttle';
@@ -21,7 +21,7 @@ function loadScript(src, position, id) {
   position.appendChild(script);
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   icon: {
     color: theme?.palette?.text?.secondary || '#757575',
     marginRight: theme?.spacing ? theme.spacing(2) : '16px',
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GoogleMaps(props) {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const [value, setValue] = React.useState(props.InitialValue);
   const [inputValue, setInputValue] = React.useState(props.InitialValue);
   const [options, setOptions] = React.useState([]);

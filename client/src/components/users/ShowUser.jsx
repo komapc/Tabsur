@@ -13,7 +13,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from 'tss-react/mui';
 
 import CreateIcon from '@mui/icons-material/Create';
 import NotInterestedIcon from  '@mui/icons-material/NotInterested';
@@ -22,7 +22,7 @@ import BackBarMui from "../layout/BackBarMui";
 import InfoIcon from  '@mui/icons-material/Info';
 
 //#region ProfileHeader
-const useStylesHeader = makeStyles(theme => ({
+const useStylesHeader = makeStyles()(theme => ({
   alignItemsAndJustifyContent: {
     width: "100%",
     height: theme?.spacing ? theme.spacing(25) : '200px',
@@ -45,7 +45,7 @@ const useStylesHeader = makeStyles(theme => ({
   }
 }));
 const ProfileHeader = (props) => {
-  const classes = useStylesHeader();
+  const { classes } = useStylesHeader();
   return (
     <React.Fragment>
       <div className={classes.alignItemsAndJustifyContent}>
@@ -61,7 +61,7 @@ const ProfileHeader = (props) => {
 
 
 //#region ProfileStats
-const useStylesStats = makeStyles(theme => ({
+const useStylesStats = makeStyles()(theme => ({
   headerContainer: {
     width: "100%",
     display: 'flex',
@@ -89,7 +89,7 @@ const useStylesStats = makeStyles(theme => ({
 
 const ProfileStats = (props) => {
 
-  const classes = useStylesStats();
+  const { classes } = useStylesStats();
   const userStats = props.user;// ? props.userStats[0] : {}; ???
   //const user = props.user;
   console.log(`ProfileStats's props: ${JSON.stringify(props)}`);
@@ -143,7 +143,7 @@ function a11yProps(index) {
     'aria-controls': `tabpanel-${index}`,
   };
 }
-const useStylesTabs = makeStyles(theme => ({
+const useStylesTabs = makeStyles()(theme => ({
   root: {
     flexGrow: 1, // ?
 
@@ -164,7 +164,7 @@ const useStylesTabs = makeStyles(theme => ({
 
 
 const ProfileTabs = (props) => {
-  const classes = useStylesTabs();
+  const { classes } = useStylesTabs();
 
   const [value, setValue] = useState(0);
 

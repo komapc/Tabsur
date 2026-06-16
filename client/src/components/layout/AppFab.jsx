@@ -1,12 +1,12 @@
 import React from "react";
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from 'tss-react/mui';
 import { connect } from "react-redux";
 import useHistory from "../../utils/useHistory";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Zoom from '@mui/material/Zoom';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles()(theme => ({
     root: {
         display: 'flex',
         '& > *': {
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AppFab = React.memo((props) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const history = useHistory();
     
     const handleClick = () => {

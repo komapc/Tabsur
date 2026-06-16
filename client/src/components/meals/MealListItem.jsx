@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from 'tss-react/mui';
 import clsx from 'clsx';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import PeopleIcon from '@mui/icons-material/People';
@@ -25,7 +25,7 @@ import "./Meals.css";
 import dateFormat from 'dateformat';
 const BUCKET = 's3.us-east-2.amazonaws.com/images.dining.philosophers.com';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   palette: {
     primary: {
       main: '#000000',
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 function MealViewCard(props) {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
