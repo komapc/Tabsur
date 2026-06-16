@@ -29,7 +29,7 @@ import About from "./components/about/About";
 import Stats from "./components/users/Stats";
 import AdminPanel from "./components/admin/AdminPanel";
 import ChatUser from "./components/chat/ChatUser";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import "./App.css";
 import { messaging } from "../src/init-fcm";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -237,6 +237,7 @@ class App extends Component {
     try {
       return (
         <ErrorBoundary>
+          <HelmetProvider>
           <Provider store={store}>
             <ThemeProvider theme={theme}>
               <GoogleOAuthProvider clientId={googleOAuthClientId || 'dummy-client-id'}>  
@@ -269,6 +270,7 @@ class App extends Component {
               </GoogleOAuthProvider>
             </ThemeProvider>
           </Provider>
+          </HelmetProvider>
         </ErrorBoundary>
       );
     } catch (e) {

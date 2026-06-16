@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { GoogleMap } from '@react-google-maps/api';
+import { GoogleMap, Autocomplete } from '@react-google-maps/api';
 import { setDefaults, fromLatLng, fromAddress } from "react-geocode";
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import backArrowIcon from "../../resources/back_arrow.svg";
 import { Alert, Box, Typography, Button } from '@mui/material';
 
@@ -20,6 +19,18 @@ const MapLocationSelector = ({ defaultLocation, address, handleLocationUpdate, h
   const [mapError, setMapError] = useState(null);
   const [, setIsLoading] = useState(false);
   const [billingError, setBillingError] = useState(false);
+  const [placesAutocomplete, setPlacesAutocomplete] = useState(null);
+
+  // Google Places Autocomplete (via @react-google-maps/api) fires this when the
+  // user picks a suggestion; we forward the chosen address to handleAddressSelect.
+  const onPlaceChanged = () => {
+    if (!placesAutocomplete) return;
+    const place = placesAutocomplete.getPlace();
+    const addr = (place && (place.formatted_address || place.name)) || '';
+    if (addr) {
+      handleAddressSelect({ description: addr });
+    }
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -207,12 +218,14 @@ const MapLocationSelector = ({ defaultLocation, address, handleLocationUpdate, h
       )}
   
       <div className="autocomplete-bar">
-        <GooglePlacesAutocomplete 
-          className="autocomplete-span"
-          onSelect={handleAddressSelect}
-          initialValue={currentAddress}
-          query={{ language: 'en' }}
-        />
+        <Autocomplete onLoad={setPlacesAutocomplete} onPlaceChanged={onPlaceChanged}>
+          <input
+            type="text"
+            className="autocomplete-span"
+            placeholder="Enter address"
+            defaultValue={currentAddress}
+          />
+        </Autocomplete>
       </div>
       <GoogleMap
         zoom={10}

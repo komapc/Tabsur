@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import useHistory from "../../utils/useHistory";
 import { connect } from "react-redux";
-import SwipeableViews from "react-swipeable-views-react-18-fix"; // Keep this import
+import SwipeableViews from "./SwipeableViews";
 import MealsListMapSwitcher from "../meals/MealsListMapSwitcher";
 
 import AppFab from "./AppFab";
