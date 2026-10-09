@@ -45,7 +45,7 @@
 ## 📋 Ongoing Maintenance
 
 - [ ] Monitor for new security advisories weekly.
-- [ ] Plan migration from `react-scripts` to Vite for better long-term dependency management.
+- [x] Migrated from `react-scripts` to Vite; `react-scripts` removed from root devDependencies.
 - [ ] Keep `overrides` updated as new patches are released.
 
 ## 🎯 Success Metrics
