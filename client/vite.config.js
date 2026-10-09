@@ -14,6 +14,8 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/setupTests.js',
     css: false,
+    // First test in a file pays the cold MUI/Emotion import cost; 5s default is flaky.
+    testTimeout: 15000,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov'],

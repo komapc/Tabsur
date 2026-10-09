@@ -48,6 +48,14 @@ jobs:
     - name: 🔒 Install client dependencies
       run: cd client && npm ci
 
+    - name: 🧪 Server unit tests (jest)
+      run: npm test
+      env:
+        NODE_ENV: test
+
+    - name: 🧪 Client unit tests (vitest)
+      run: cd client && npm test
+
     - name: 🗄️ Run database migrations
       run: |
         chmod +x ./db/migrate.sh
