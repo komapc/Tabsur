@@ -71,6 +71,6 @@ module.exports = {
 
   // Allow transforming all packages in node_modules (slow but safe for ESM)
   transformIgnorePatterns: [
-    '/node_modules/(?!(axios|isomorphic-dompurify|dompurify|jsdom|undici|@exodus|@asamuzakjp|@bramus|@csstools|whatwg-url|webidl2js|rrweb-cssom|uuid)/)'
+    '/node_modules/(?!(axios|isomorphic-dompurify|dompurify|jsdom|undici|@exodus|@asamuzakjp|@bramus|@csstools|whatwg-url|webidl2js|rrweb-cssom|uuid|css-tree|parse5|tough-cookie|entities|lru-cache)/)'
   ]
 };
