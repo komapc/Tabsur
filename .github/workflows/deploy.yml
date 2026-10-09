@@ -20,7 +20,7 @@ on:
     types: [published]
 
 env:
-  NODE_VERSION: '24.4.1'
+  NODE_VERSION: '24'
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
