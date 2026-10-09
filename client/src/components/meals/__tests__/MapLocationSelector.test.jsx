@@ -47,15 +47,10 @@ vi.mock('react-geocode', () => ({
 // Mock the back arrow icon
 vi.mock('../../../resources/back_arrow.svg', () => ({ default: 'back-arrow-icon' }));
 
-// Mock environment variables
-const originalEnv = process.env;
-beforeAll(() => {
-  process.env = { ...originalEnv };
-  import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY = 'test-api-key';
-});
-
-afterAll(() => {
-  process.env = originalEnv;
+// The component reads the key into a module-level const at import time and
+// requires length > 20, so it must be set before the (hoisted) imports run.
+vi.hoisted(() => {
+  import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY = 'test-api-key-0123456789abcdef';
 });
 
 describe('MapLocationSelector', () => {
