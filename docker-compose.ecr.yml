@@ -11,9 +11,9 @@ services:
       - DB_PORT=5432
       - DB_NAME=coolanu
       - DB_USER=coolanu_user
-      - DB_PASSWORD=koolanu
+      - DB_PASSWORD=${DB_PASSWORD:?DB_PASSWORD must be set}
       - DB_SSL=false
-      - JWT_SECRET=your_jwt_secret_here
+      - JWT_SECRET=${JWT_SECRET:?JWT_SECRET must be set}
       - GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
       - CORS_ORIGIN=http://54.93.243.196,https://bemyguest.dedyn.io,https://www.bemyguest.dedyn.io
     ports:

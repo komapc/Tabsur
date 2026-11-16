@@ -1,4 +1,17 @@
 require('dotenv').config({ quiet: true });
+
+// Refuse to start with a missing or placeholder JWT secret: anyone could forge tokens.
+const PLACEHOLDER_JWT_SECRETS = new Set([
+  'tabsur-secret', 'your_jwt_secret', 'your_jwt_secret_here', 'your-secret-key-change-in-production',
+  'your-super-secret-jwt-key-change-this', 'your_super_secret_jwt_key_change_this_in_production'
+]);
+if (process.env.NODE_ENV !== 'test') {
+  const secret = process.env.JWT_SECRET || '';
+  if (secret.length < 16 || PLACEHOLDER_JWT_SECRETS.has(secret)) {
+    console.error('FATAL: JWT_SECRET is missing, too short or a known placeholder. Set a strong random value.');
+    process.exit(1);
+  }
+}
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -100,23 +113,14 @@ app.get('/health', (req, res) => {
 // Performance metrics endpoint
 app.get('/performance', getPerformanceMetrics);
 
-// Sanity check endpoint for JWT configuration
+// Sanity check endpoint for JWT configuration (no config details exposed)
 app.get('/sanity-check', (req, res) => {
   const jwtSecret = process.env.JWT_SECRET;
   const hasJwtSecret = !!jwtSecret && jwtSecret !== 'your-super-secret-jwt-key-change-this';
   res.status(200).json({
     status: 'OK',
     timestamp: new Date().toISOString(),
-    jwt: {
-      hasSecret: hasJwtSecret,
-      secretLength: jwtSecret ? jwtSecret.length : 0,
-      isDefault: !hasJwtSecret,
-      environment: process.env.NODE_ENV
-    },
-    server: {
-      port: process.env.PORT || 5000,
-      corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:3000'
-    }
+    jwt: { hasSecret: hasJwtSecret }
   });
 });
 

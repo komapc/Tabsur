@@ -72,9 +72,9 @@ echo "📝 Creating fast deployment configuration..."
 DB_HOST_FROM_TF=$(cd terraform 2>/dev/null && terraform output -raw postgres_public_ip 2>/dev/null || true)
 DB_HOST_TO_USE=${DB_HOST_FROM_TF:-${DB_HOST:-3.249.94.227}}
 
-# Provide sane defaults for secrets only if not set (can be overridden by env)
-DB_PASSWORD_VALUE=${DB_PASSWORD:-koolanu}
-JWT_SECRET_VALUE=${JWT_SECRET:-tabsur-secret}
+# Secrets must come from the environment; never fall back to guessable defaults
+DB_PASSWORD_VALUE=${DB_PASSWORD:?DB_PASSWORD must be set}
+JWT_SECRET_VALUE=${JWT_SECRET:?JWT_SECRET must be set}
 GOOGLE_MAPS_API_KEY_VALUE=${GOOGLE_MAPS_API_KEY:-}
 
 # CORS origins: allow instance IP and planned domains (comma-separated)
