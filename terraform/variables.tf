@@ -115,19 +115,28 @@ variable "data_volume_size" {
 variable "allowed_ssh_cidrs" {
   description = "CIDR blocks allowed to SSH to the instance"
   type        = list(string)
-  default     = ["0.0.0.0/0"]
+  validation {
+    condition     = !contains(var.allowed_ssh_cidrs, "0.0.0.0/0")
+    error_message = "Do not open this port to the whole internet; use specific CIDRs."
+  }
 }
 
 variable "allowed_db_cidrs" {
   description = "CIDR blocks allowed to connect to PostgreSQL"
   type        = list(string)
-  default     = ["0.0.0.0/0"]
+  validation {
+    condition     = !contains(var.allowed_db_cidrs, "0.0.0.0/0")
+    error_message = "Do not open this port to the whole internet; use specific CIDRs."
+  }
 }
 
 variable "allowed_pgadmin_cidrs" {
   description = "CIDR blocks allowed to access PgAdmin"
   type        = list(string)
-  default     = ["0.0.0.0/0"]
+  validation {
+    condition     = !contains(var.allowed_pgadmin_cidrs, "0.0.0.0/0")
+    error_message = "Do not open this port to the whole internet; use specific CIDRs."
+  }
 }
 
 variable "backup_retention_days" {

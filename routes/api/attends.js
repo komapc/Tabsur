@@ -1,5 +1,6 @@
 const pool = require('../db.js');
 const { authenticateJWT } = require('../authenticateJWT.js');
+const { currentUserId } = require('../authz.js');
 const addNotification = require('./notificationsPush');
 const express = require('express');
 const router = express.Router();
@@ -23,7 +24,7 @@ router.post('/:id', authenticateJWT, async (req, response) => {
   const attend = req.body;
   console.log('Attend, request: ' + JSON.stringify(attend));
   const meal_id = attend.meal_id;
-  const user_id = attend.user_id;
+  const user_id = currentUserId(req);
   const status = attend.status;
   if (isNaN(meal_id) || isNaN(user_id) || isNaN(status)) {
     return response.status(500).json('Bad input, one of the parameters is not numeric.');
@@ -79,7 +80,7 @@ router.delete('/:id', authenticateJWT, async (req, response) => {
   console.log('connected');
   client.query(`DELETE FROM attends WHERE
   meal_id = $1 AND user_id=$2`,
-  [attend.meal_id, attend.user_id])
+  [attend.meal_id, currentUserId(req)])
     .then(() => { return response.status(200).json({ deleted: true }); })
     .catch(err => { console.error(err); return response.status(500).json({ error: 'Failed to delete' }); })
     .finally(() => client.release());

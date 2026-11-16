@@ -362,22 +362,7 @@ resource "aws_security_group" "postgres" {
     description = "PgAdmin web interface"
   }
 
-  # HTTP/HTTPS for updates
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "HTTP for package updates"
-  }
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "HTTPS for package updates"
-  }
+  # No inbound HTTP/HTTPS: package updates use outbound traffic (egress below).
 
   # All outbound traffic
   egress {

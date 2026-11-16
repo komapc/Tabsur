@@ -134,8 +134,10 @@ router.post('/login', async (req, response) => {
 });
 
 //add avatar path to images and update user_images table;
-const addAvatar = async (client, userId, picture) => {
-  console.log(`Add avatar: ${JSON.stringify(picture)}`);
+const addAvatar = async (userId, picture) => {
+  if (!picture || !picture.data || !picture.data.url) {
+    return;
+  }
   const query = `
   INSERT INTO user_images
   (image_id, user_id)
@@ -146,68 +148,87 @@ const addAvatar = async (client, userId, picture) => {
   )`;
   const url = picture.data.url;
   return insertImageIntoDB(url, userId)
-    .then((newImageId) => {
-      console.log(`Add avatar got a image id ${newImageId}.`);
+    .then(async (newImageId) => {
       if (newImageId > 0) {
+        const client = await pool.connect();
         return client.query(query, [newImageId, userId]).finally(() => {
           client.release();
         });
       }
-      else {
-        console.error(`Add avatar got a negative image id ${newImageId}.`);
-      }
+      console.error(`Add avatar got a negative image id ${newImageId}.`);
     })
     .catch((err) => {
       console.error(`Add avatar error: ${err}.`);
     });
 };
 
+// Verify a Facebook user access token server-side and return the Graph profile
+// ({id, name, email, picture}) or null. Never trust identity fields from the client.
+const verifyFacebookToken = async accessToken => {
+  const appId = process.env.FACEBOOK_APP_ID;
+  const appSecret = process.env.FACEBOOK_APP_SECRET;
+  if (!appId || !appSecret || typeof accessToken !== 'string' || !accessToken) {
+    return null;
+  }
+  const graph = 'https://graph.facebook.com';
+  const appToken = encodeURIComponent(`${appId}|${appSecret}`);
+  const debug = await fetch(`${graph}/debug_token?input_token=${encodeURIComponent(accessToken)}&access_token=${appToken}`)
+    .then(r => r.json());
+  const data = debug && debug.data;
+  if (!data || data.is_valid !== true || String(data.app_id) !== String(appId)) {
+    return null;
+  }
+  const me = await fetch(`${graph}/me?fields=id,name,email,picture&access_token=${encodeURIComponent(accessToken)}`)
+    .then(r => r.json());
+  if (!me || !me.email || String(me.id) !== String(data.user_id)) {
+    return null;
+  }
+  return me;
+};
+
 // @route POST api/users/loginFB;
-// @desc Login user and return JWT token;
+// @desc Login user with a Facebook access token and return JWT token;
 // @access Public;
 router.post('/loginFB', async (req, response) => {
-  const newReq = req.body;
-  if (!newReq || !newReq.name) {
-    console.error(`Bad request to login with facebook: ${JSON.stringify(newReq)}`);
-    return response.status(400).json({ error: 'Invalid Facebook login request' });
+  if (!process.env.FACEBOOK_APP_ID || !process.env.FACEBOOK_APP_SECRET) {
+    return response.status(503).json({ error: 'Facebook login is not configured' });
   }
-  let newUserId = -1;
-  const newUserName = newReq.name;
-  console.log(`Login with facebook: ${JSON.stringify(newReq)}`);
+  const accessToken = req.body && req.body.accessToken;
+  let profile;
+  try {
+    profile = await verifyFacebookToken(accessToken);
+  } catch (err) {
+    console.error(`Facebook token verification failed: ${err}`);
+    return response.status(502).json({ error: 'Facebook verification failed' });
+  }
+  if (!profile) {
+    return response.status(401).json({ error: 'Invalid Facebook token' });
+  }
   const client = await pool.connect();
-  client.query('SELECT * FROM users WHERE email = $1 LIMIT 1', [newReq.email])
-    .then(res => {
-      if (res.rows === undefined || res.rows.length === 0) {
-        console.log(`fb user doesn't exist (${newReq.email}), adding to the DB`);
-        const addUserQuery = `INSERT INTO users (name, email, password, location, address)
-      VALUES ($1, $2, $3, $4, $5) RETURNING id`;
-        return client.query(addUserQuery,
-          [newReq.name, newReq.email, newReq.accessToken, '(0,0)', ''])
-          .then(user => {
-            console.log(`New record created: ${JSON.stringify(user)}`);
-            newUserId = user;
-          })
-          .catch(err => {
-            console.error(`Inserting user failed:  ${err}`);
-            return response.status(500).json(err);
-          });
+  let userId = -1;
+  client.query('SELECT id, name FROM users WHERE email = $1 LIMIT 1', [profile.email])
+    .then(async res => {
+      if (res.rows && res.rows.length > 0) {
+        userId = res.rows[0].id;
+        return;
       }
-      else {
-        newUserId = res.rows[0].id;
-        console.log(`Known user logged-in via fb: ${newReq.email}`);
-      }
-      return issueTokens(response, newUserId, newUserName).then(token => {
-        response.json({ success: true, token });
-      });
+      // No usable password for Facebook-only accounts: store a hash of random bytes.
+      const unusable = await bcrypt.hash(crypto.randomBytes(32).toString('hex'), 10);
+      const inserted = await client.query(`INSERT INTO users (name, email, password, location, address)
+      VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+      [profile.name, profile.email, unusable, '(0,0)', '']);
+      userId = inserted.rows[0].id;
+    })
+    .then(() => issueTokens(response, userId, profile.name))
+    .then(token => {
+      response.json({ success: true, token });
+      addAvatar(userId, profile.picture);
     })
     .catch(err => {
-      console.error('fb user error:' + err);
-      return response.status(500).json(newReq);
+      console.error('fb login error:' + err);
+      return response.status(500).json({ error: 'Facebook login failed' });
     })
-    .finally(async () => {
-      await addAvatar(client, newUserId, newReq.picture);
-      client.release();
-    });
+    .finally(() => client.release());
 });
 
 // @route POST api/users/refresh

@@ -1,5 +1,6 @@
 const pool = require('../db.js');
 const { authenticateJWT } = require('../authenticateJWT.js');
+const { currentUserId } = require('../authz.js');
 const express = require('express');
 const router = express.Router();
 // Load input validation;
@@ -74,7 +75,7 @@ router.post('/', authenticateJWT, async (req, response) => {
   RETURNING id`;
   console.log(`connected running [${query}]`);
   client.query(query,
-    [hungry.user, hungry.name, hungry.type, `(${hungry.location.lng}, ${hungry.location.lat})`,
+    [currentUserId(req), hungry.name, hungry.type, `(${hungry.location.lng}, ${hungry.location.lat})`,
       hungry.address, hungry.date, hungry.until, hungry.visibility])
     .then((res) => {
       return response.status(201).json(res.rows[0]);
@@ -99,9 +100,12 @@ router.delete('/:hungry_id', authenticateJWT, async (req, response) => {
   console.log(`delete - start, ${hungry_id}`);
   const client = await pool.connect();
   console.log('connected');
-  client.query('DELETE FROM hungry WHERE id=$1',
-    [hungry_id])
-    .then(() => {
+  client.query('DELETE FROM hungry WHERE id=$1 AND user_id=$2',
+    [hungry_id, currentUserId(req)])
+    .then((res) => {
+      if (res.rowCount === 0) {
+        return response.status(404).json({ error: 'Not found' });
+      }
       return response.status(200).json({ deleted: hungry_id });
     })
     .catch((e) => {
