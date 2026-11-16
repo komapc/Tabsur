@@ -1,6 +1,7 @@
 const addNotification = require('./notificationsPush');
 const pool = require('../db.js');
 const { authenticateJWT } = require('../authenticateJWT.js');
+const { requireSelfParam } = require('../authz.js');
 const express = require('express');
 const router = express.Router();
 // @route GET api/follow;
@@ -55,7 +56,7 @@ router.get('/followies/:id', async (req, response) => {
     .finally(() => client.release());
 });
 // @route POST follow/unfollow;
-router.post('/:id', authenticateJWT, async (req, response) => {
+router.post('/:id', authenticateJWT, requireSelfParam('id'), async (req, response) => {
   const follower = req.params.id;
   const followie = req.body.followie;
   const status = req.body.status;

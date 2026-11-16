@@ -7,6 +7,7 @@ const insertImageIntoDB = require('./utility.js');
 const router = express.Router();
 const pool = require('../db.js');
 const { authenticateJWT } = require('../authenticateJWT.js');
+const { currentUserId } = require('../authz.js');
 // create S3 instance with v3 SDK;
 const s3Client = new S3Client({
   region: process.env.AWS_REGION || 'us-east-1',
@@ -44,7 +45,7 @@ router.post('/upload', authenticateJWT, async (request, response) => {
     const type = 'jpeg';
     const timestamp = Date.now().toString();
     const fileName = `images/${timestamp}-lg`;
-    const uploader = fields.uploader;
+    const uploader = currentUserId(request);
     return await uploadFile(buffer, fileName, type)
       .then(async res => {
         console.log('uploadFile result: ' + JSON.stringify(res));

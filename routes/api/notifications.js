@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const { authenticateJWT } = require('../authenticateJWT');
+const { currentUserId, requireSelfParam } = require('../authz.js');
 const pool = require('../db');
 const addNotification = require('./notificationsPush');
 // @route GET api/notifications;
 // @desc get list og user's notifications;
 // @access Public;
-router.get('/:id', authenticateJWT, async (req, response)=> {
+router.get('/:id', authenticateJWT, requireSelfParam('id'), async (req, response)=> {
   const id = req.params.id;
   if (isNaN(id)) {
     console.error('error, empty id');
@@ -37,10 +38,10 @@ router.put('/:id', authenticateJWT, async (req, response)=> {
   }
   const note=req.body;
   console.log(`change notification's status ${id} for ${JSON.stringify(note)}`);
-  const query=`UPDATE notifications SET status=$1 WHERE id=$2 RETURNING id`;
+  const query=`UPDATE notifications SET status=$1 WHERE id=$2 AND receiver=$3 RETURNING id`;
   console.log(query);
   const client = await pool.connect();
-  client.query(query, [note.status, id])
+  client.query(query, [note.status, id, currentUserId(req)])
     .then(resp => {
       console.log('notification status done.');
       return response.json(resp.rows);
@@ -53,7 +54,7 @@ router.put('/:id', authenticateJWT, async (req, response)=> {
       client.release();
     });
 });
-router.post('/token/:id', authenticateJWT, async (req, response)=> {
+router.post('/token/:id', authenticateJWT, requireSelfParam('id'), async (req, response)=> {
   const id = req.params.id;
   const token = req.body.token;
   console.log(`Insert Google Firebase Token for user ${id}`);
@@ -88,7 +89,7 @@ router.post('/send-message', authenticateJWT, async (req, response)=> {
     click_action: `/User/${req.body.receiver}`,
     receiver: req.body.receiver,
     meal_id:  -1,
-    sender: req.body.sender,
+    sender: currentUserId(req),
     type: 0
   };
   const result = await addNotification(message);

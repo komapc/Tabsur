@@ -1,29 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../db.js');
+const { authenticateJWT } = require('../authenticateJWT.js');
+const { isAdmin } = require('../authz.js');
 
-// Middleware to check if user is admin
-const requireAdmin = async (req, res, next) => {
-  try {
-    // For now, allow all requests - in production you'd check admin role
-    // const token = req.headers.authorization?.split(' ')[1];
-    // if (!token) return res.status(401).json({ error: 'No token provided' });
-
-    // const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    // const user = await pool.query('SELECT role FROM users WHERE id = $1', [decoded.id]);
-    // if (user.rows[0]?.role !== 'admin') {
-    //   return res.status(403).json({ error: 'Admin access required' });
-    // }
-
-    next();
-  } catch (error) {
-    console.error('Admin auth error:', error);
-    res.status(401).json({ error: 'Authentication failed' });
+// Admin access: valid JWT + user id listed in ADMIN_USER_IDS (fails closed when unset).
+const requireAdmin = (req, res, next) => {
+  if (!isAdmin(req)) {
+    return res.status(403).json({ error: 'Admin access required' });
   }
+  next();
 };
 
 // Apply admin middleware to all routes
-router.use(requireAdmin);
+router.use(authenticateJWT, requireAdmin);
 
 // @route   GET /api/admin/stats
 // @desc    Get admin dashboard statistics
@@ -108,7 +98,7 @@ router.get('/users/:id', async (req, res) => {
     try {
       const query = `
         SELECT 
-          u.*,
+          u.id, u.name, u.email, u.location, u.address, u.created_at,
           COUNT(DISTINCT f1.follower_id) as followers,
           COUNT(DISTINCT f2.following_id) as following,
           COUNT(DISTINCT m.id) as meals_hosted,
@@ -157,7 +147,7 @@ router.put('/users/:id', async (req, res) => {
             address = COALESCE($4, address),
             updated_at = NOW()
         WHERE id = $5
-        RETURNING *
+        RETURNING id
       `;
 
       const result = await client.query(query, [name, email, location, address, id]);
@@ -194,7 +184,7 @@ router.delete('/users/:id', async (req, res) => {
       await client.query('DELETE FROM meals WHERE host_id = $1', [id]);
 
       // Finally delete the user
-      const result = await client.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
+      const result = await client.query('DELETE FROM users WHERE id = $1 RETURNING id', [id]);
 
       if (result.rows.length === 0) {
         await client.query('ROLLBACK');
@@ -318,7 +308,7 @@ router.put('/meals/:id', async (req, res) => {
             max_attendees = COALESCE($5, max_attendees),
             updated_at = NOW()
         WHERE id = $6
-        RETURNING *
+        RETURNING id
       `;
 
       const result = await client.query(query, [title, description, date, location, max_attendees, id]);
@@ -353,7 +343,7 @@ router.delete('/meals/:id', async (req, res) => {
       await client.query('DELETE FROM attends WHERE meal_id = $1', [id]);
 
       // Finally delete the meal
-      const result = await client.query('DELETE FROM meals WHERE id = $1 RETURNING *', [id]);
+      const result = await client.query('DELETE FROM meals WHERE id = $1 RETURNING id', [id]);
 
       if (result.rows.length === 0) {
         await client.query('ROLLBACK');

@@ -1,5 +1,6 @@
 const pool = require('../db.js');
 const { authenticateJWT, tryAuthenticateJWT } = require('../authenticateJWT.js');
+const { currentUserId, requireSelfParam } = require('../authz.js');
 const express = require('express');
 const router = express.Router();
 const validateMealInput = require('../../validation/meal');
@@ -112,7 +113,7 @@ router.get('/info/:id/:userId', tryAuthenticateJWT, async (req, response) => {
 // @route GET api/meals/my;
 // @desc get a list of meals created by me;
 // @access Public;
-router.get('/my/:id', authenticateJWT, async (req, response) => {
+router.get('/my/:id', authenticateJWT, requireSelfParam('id'), async (req, response) => {
   console.log('get my meals by user id: ' + JSON.stringify(req.params));
   const userId = req.params.id;
   if (isNaN(userId)) {
@@ -144,7 +145,7 @@ router.get('/my/:id', authenticateJWT, async (req, response) => {
 // @route GET api/meals/attends;
 // @desc get a list of meals where the user attends;
 // @access Public;
-router.get('/attends/:id', authenticateJWT, async (req, response) => {
+router.get('/attends/:id', authenticateJWT, requireSelfParam('id'), async (req, response) => {
   console.log('get meals where user attends: ' + JSON.stringify(req.params));
   if (isNaN(req.params.id)) {
     console.log('error, empty id');
@@ -217,9 +218,15 @@ router.post('/image', authenticateJWT, async (req, response) => {
   if (isNaN(image_id) || isNaN(meal_id)) {
     return response.status(500).json('Bad params: image_id');
   }
-  const query = `INSERT INTO meal_images (meal_id, image_id) VALUES ($1, $2) RETURNING id`;
-  client.query(query, [meal_id, image_id])
+  // Only the meal's host may attach images to it.
+  const query = `INSERT INTO meal_images (meal_id, image_id)
+  SELECT $1, $2 WHERE EXISTS (SELECT 1 FROM meals WHERE id=$1 AND host_id=$3)
+  RETURNING id`;
+  client.query(query, [meal_id, image_id, currentUserId(req)])
     .then((res) => {
+      if (res.rowCount === 0) {
+        return response.status(403).json({ error: 'Forbidden' });
+      }
       console.log(`insert query done: ${JSON.stringify(res.rows)}`);
       _image_path = res.rows[0].path;
       return response.status(200).json(res.rows);
@@ -250,7 +257,7 @@ router.post('/', authenticateJWT, async (req, response) => {
   console.log(`connected running [${query}]`);
   return client.query(query,
     [meal.name, meal.type, `(${meal.location.lng}, ${meal.location.lat})`,
-      meal.address, meal.guest_count, meal.host_id, meal.date, meal.visibility, meal.description])
+      meal.address, meal.guest_count, currentUserId(req), meal.date, meal.visibility, meal.description])
     .then(res => {
       console.log(`query done.`);
       // TODO: add notification to all followers + people in the area
@@ -278,11 +285,14 @@ router.put('/', authenticateJWT, async (req, response) => {
   //todo: insert image;
   const query = `UPDATE meals
  SET name=$1,  guest_count=$2
- WHERE id=$3`;
+ WHERE id=$3 AND host_id=$4`;
   console.log(`connected running [${query}]`);
   return client.query(query,
-    [meal.name, meal.guest_count, meal.id])
+    [meal.name, meal.guest_count, meal.id, currentUserId(req)])
     .then(res => {
+      if (res.rowCount === 0) {
+        return response.status(404).json({ error: 'Meal not found' });
+      }
       console.log(`query done.`);
       return response.json(res.rows[0]);
       //TODO: add notification to all followers + people in the area;
@@ -305,9 +315,12 @@ router.delete('/:meal_id', authenticateJWT, async (req, response) => {
   }
   console.log(`delete ${mealId}`);
   const client = await pool.connect();
-  client.query('DELETE FROM meals WHERE id=$1',
-    [mealId])
-    .then(() => {
+  client.query('DELETE FROM meals WHERE id=$1 AND host_id=$2',
+    [mealId, currentUserId(req)])
+    .then((res) => {
+      if (res.rowCount === 0) {
+        return response.status(404).json({ error: 'Meal not found' });
+      }
       return response.status(200).json({ deleted: mealId });
     })
     .catch(e => {

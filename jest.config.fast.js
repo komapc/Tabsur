@@ -63,6 +63,7 @@ module.exports = {
   testMatch: [
     '<rootDir>/tests/unit/**/*.test.js',
     '<rootDir>/tests/auth.test.js',
-    '<rootDir>/tests/meals.test.js'
+    '<rootDir>/tests/meals.test.js',
+    '<rootDir>/tests/authz.test.js'
   ]
 };
