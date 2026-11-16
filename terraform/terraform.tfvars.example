@@ -3,7 +3,7 @@ aws_region = "eu-central-1"
 environment = "prod"
 
 # Database Configuration (these will be used for the app instance)
-db_host = "3.249.94.227"
+db_host = "10.0.1.10"  # private IP of the DB instance
 db_port = 5432
 db_name = "coolanu"
 db_user = "coolanu_user"
@@ -12,7 +12,7 @@ db_password = ""
 
 # Instance Configuration
 instance_type = "t3.medium"
-ami_id = "ami-0857b63eb9da0783d"  # Latest Ubuntu 22.04 LTS in eu-central-1
+ami_id = "ami-xxxxxxxxxxxxxxxxx"  # Ubuntu 22.04 LTS in your region
 availability_zone = "eu-central-1a"
 use_existing_vpc = false
 
@@ -25,9 +25,9 @@ root_volume_size = 30
 data_volume_size = 20
 
 # Security Configuration
-allowed_ssh_cidrs = ["0.0.0.0/0"]  # Restrict this in production
-allowed_db_cidrs = ["0.0.0.0/0"]   # Restrict this in production
-allowed_pgadmin_cidrs = ["0.0.0.0/0"]  # Restrict this in production
+allowed_ssh_cidrs = ["203.0.113.10/32"]      # your IP only; 0.0.0.0/0 is rejected
+allowed_db_cidrs = ["172.16.0.0/16"]        # VPC only; 0.0.0.0/0 is rejected
+allowed_pgadmin_cidrs = ["203.0.113.10/32"]  # your IP only; 0.0.0.0/0 is rejected
 
 # Backup Configuration
 backup_retention_days = 7
@@ -36,7 +36,7 @@ backup_retention_days = 7
 ssh_public_key_path = "~/.ssh/coolanu-postgres.pub"
 
 # ALB Configuration
-certificate_arn = "arn:aws:acm:eu-central-1:272007598366:certificate/61585d26-3206-4f76-a758-e759af5a6cc3"
+certificate_arn = "arn:aws:acm:REGION:ACCOUNT_ID:certificate/CERT_ID"
 enable_https = true
 
 # Application Instance Configuration

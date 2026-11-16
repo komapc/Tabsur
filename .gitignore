@@ -72,3 +72,10 @@ config/secrets.json
 
 # Database password notes
 DATABASE_PASSWORD_NOTES.md
+
+# Security audit 2026-11: never track env files, terraform plans/vars or caches
+.env.remote
+*.tfplan
+*.tfvars
+!*.tfvars.example
+.jest-cache/

@@ -48,7 +48,10 @@ variable "root_volume_size" {
 variable "allowed_ssh_cidrs" {
   description = "CIDR blocks allowed to SSH to the instances"
   type        = list(string)
-  default     = ["0.0.0.0/0"]
+  validation {
+    condition     = !contains(var.allowed_ssh_cidrs, "0.0.0.0/0")
+    error_message = "Do not open this port to the whole internet; use specific CIDRs."
+  }
 }
 
 variable "alb_security_group_id" {
